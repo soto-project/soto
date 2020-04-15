@@ -392,7 +392,7 @@ extension CloudSearchDomain {
 
     public struct UploadDocumentsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "documents"
+        public static let payloadPath: String = "documents"
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "documents", encoding: .blob)

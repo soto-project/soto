@@ -1606,7 +1606,7 @@ extension Lambda {
 
     public struct InvocationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "clientContext", location: .header(locationName: "X-Amz-Client-Context")), 
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
@@ -1652,7 +1652,7 @@ extension Lambda {
 
     public struct InvocationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "executedVersion", location: .header(locationName: "X-Amz-Executed-Version")), 
             AWSMemberEncoding(label: "functionError", location: .header(locationName: "X-Amz-Function-Error")), 
@@ -1691,7 +1691,7 @@ extension Lambda {
 
     public struct InvokeAsyncRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "invokeArgs"
+        public static let payloadPath: String = "invokeArgs"
         public static var _encoding = [
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "invokeArgs", location: .body(locationName: "InvokeArgs"), encoding: .blob)

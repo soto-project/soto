@@ -1811,7 +1811,7 @@ extension APIGateway {
 
     public struct ExportResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
@@ -2949,7 +2949,7 @@ extension APIGateway {
 
     public struct ImportApiKeysRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
@@ -2974,7 +2974,7 @@ extension APIGateway {
 
     public struct ImportDocumentationPartsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
@@ -3003,7 +3003,7 @@ extension APIGateway {
 
     public struct ImportRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
@@ -3601,7 +3601,7 @@ extension APIGateway {
 
     public struct PutRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
@@ -3860,7 +3860,7 @@ extension APIGateway {
 
     public struct SdkResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 

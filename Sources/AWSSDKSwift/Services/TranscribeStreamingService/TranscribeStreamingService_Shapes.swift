@@ -199,7 +199,7 @@ extension TranscribeStreamingService {
 
     public struct StartStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "audioStream"
+        public static let payloadPath: String = "audioStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")), 
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")), 
@@ -246,7 +246,7 @@ extension TranscribeStreamingService {
 
     public struct StartStreamTranscriptionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "transcriptResultStream"
+        public static let payloadPath: String = "transcriptResultStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")), 
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")), 

@@ -3570,7 +3570,7 @@ extension IoT {
 
     public struct CreateTopicRuleRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "topicRulePayload"
+        public static let payloadPath: String = "topicRulePayload"
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName")), 
             AWSMemberEncoding(label: "tags", location: .header(locationName: "x-amz-tagging"))
@@ -10828,7 +10828,7 @@ extension IoT {
 
     public struct ReplaceTopicRuleRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "topicRulePayload"
+        public static let payloadPath: String = "topicRulePayload"
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
@@ -11307,7 +11307,7 @@ extension IoT {
 
     public struct SetLoggingOptionsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "loggingOptionsPayload"
+        public static let payloadPath: String = "loggingOptionsPayload"
 
         /// The logging options payload.
         public let loggingOptionsPayload: LoggingOptionsPayload

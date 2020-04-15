@@ -118,7 +118,7 @@ extension AppConfig {
 
     public struct Configuration: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "content"
+        public static let payloadPath: String = "content"
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationVersion", location: .header(locationName: "Configuration-Version")), 
             AWSMemberEncoding(label: "content", location: .body(locationName: "Content"), encoding: .blob), 

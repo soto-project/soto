@@ -1255,7 +1255,7 @@ extension AppSync {
 
     public struct GetIntrospectionSchemaResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "schema"
+        public static let payloadPath: String = "schema"
         public static var _encoding = [
             AWSMemberEncoding(label: "schema", encoding: .blob)
         ]

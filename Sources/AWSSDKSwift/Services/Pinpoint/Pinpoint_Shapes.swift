@@ -1748,7 +1748,7 @@ extension Pinpoint {
 
     public struct CreateAppRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createApplicationRequest"
+        public static let payloadPath: String = "createApplicationRequest"
 
         public let createApplicationRequest: CreateApplicationRequest
 
@@ -1763,7 +1763,7 @@ extension Pinpoint {
 
     public struct CreateAppResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationResponse"
+        public static let payloadPath: String = "applicationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
         ]
@@ -1799,7 +1799,7 @@ extension Pinpoint {
 
     public struct CreateCampaignRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeCampaignRequest"
+        public static let payloadPath: String = "writeCampaignRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -1819,7 +1819,7 @@ extension Pinpoint {
 
     public struct CreateCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignResponse"
+        public static let payloadPath: String = "campaignResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
         ]
@@ -1837,7 +1837,7 @@ extension Pinpoint {
 
     public struct CreateEmailTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailTemplateRequest"
+        public static let payloadPath: String = "emailTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
@@ -1857,7 +1857,7 @@ extension Pinpoint {
 
     public struct CreateEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createTemplateMessageBody"
+        public static let payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
         ]
@@ -1875,7 +1875,7 @@ extension Pinpoint {
 
     public struct CreateExportJobRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "exportJobRequest"
+        public static let payloadPath: String = "exportJobRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -1895,7 +1895,7 @@ extension Pinpoint {
 
     public struct CreateExportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "exportJobResponse"
+        public static let payloadPath: String = "exportJobResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "exportJobResponse", location: .body(locationName: "ExportJobResponse"))
         ]
@@ -1913,7 +1913,7 @@ extension Pinpoint {
 
     public struct CreateImportJobRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "importJobRequest"
+        public static let payloadPath: String = "importJobRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -1933,7 +1933,7 @@ extension Pinpoint {
 
     public struct CreateImportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "importJobResponse"
+        public static let payloadPath: String = "importJobResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "importJobResponse", location: .body(locationName: "ImportJobResponse"))
         ]
@@ -1951,7 +1951,7 @@ extension Pinpoint {
 
     public struct CreateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeJourneyRequest"
+        public static let payloadPath: String = "writeJourneyRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -1971,7 +1971,7 @@ extension Pinpoint {
 
     public struct CreateJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyResponse"
+        public static let payloadPath: String = "journeyResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
         ]
@@ -1989,7 +1989,7 @@ extension Pinpoint {
 
     public struct CreatePushTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "pushNotificationTemplateRequest"
+        public static let payloadPath: String = "pushNotificationTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
@@ -2009,7 +2009,7 @@ extension Pinpoint {
 
     public struct CreatePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createTemplateMessageBody"
+        public static let payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
         ]
@@ -2073,7 +2073,7 @@ extension Pinpoint {
 
     public struct CreateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createRecommenderConfiguration"
+        public static let payloadPath: String = "createRecommenderConfiguration"
 
         public let createRecommenderConfiguration: CreateRecommenderConfiguration
 
@@ -2088,7 +2088,7 @@ extension Pinpoint {
 
     public struct CreateRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "recommenderConfigurationResponse"
+        public static let payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
         ]
@@ -2106,7 +2106,7 @@ extension Pinpoint {
 
     public struct CreateSegmentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeSegmentRequest"
+        public static let payloadPath: String = "writeSegmentRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -2126,7 +2126,7 @@ extension Pinpoint {
 
     public struct CreateSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentResponse"
+        public static let payloadPath: String = "segmentResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
         ]
@@ -2144,7 +2144,7 @@ extension Pinpoint {
 
     public struct CreateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSTemplateRequest"
+        public static let payloadPath: String = "sMSTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
@@ -2164,7 +2164,7 @@ extension Pinpoint {
 
     public struct CreateSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createTemplateMessageBody"
+        public static let payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
         ]
@@ -2204,7 +2204,7 @@ extension Pinpoint {
 
     public struct CreateVoiceTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceTemplateRequest"
+        public static let payloadPath: String = "voiceTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
@@ -2224,7 +2224,7 @@ extension Pinpoint {
 
     public struct CreateVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createTemplateMessageBody"
+        public static let payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
         ]
@@ -2342,7 +2342,7 @@ extension Pinpoint {
 
     public struct DeleteAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aDMChannelResponse"
+        public static let payloadPath: String = "aDMChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
         ]
@@ -2374,7 +2374,7 @@ extension Pinpoint {
 
     public struct DeleteApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSChannelResponse"
+        public static let payloadPath: String = "aPNSChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
         ]
@@ -2406,7 +2406,7 @@ extension Pinpoint {
 
     public struct DeleteApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSSandboxChannelResponse"
+        public static let payloadPath: String = "aPNSSandboxChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
         ]
@@ -2438,7 +2438,7 @@ extension Pinpoint {
 
     public struct DeleteApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipChannelResponse"
+        public static let payloadPath: String = "aPNSVoipChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
         ]
@@ -2470,7 +2470,7 @@ extension Pinpoint {
 
     public struct DeleteApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipSandboxChannelResponse"
+        public static let payloadPath: String = "aPNSVoipSandboxChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
         ]
@@ -2502,7 +2502,7 @@ extension Pinpoint {
 
     public struct DeleteAppResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationResponse"
+        public static let payloadPath: String = "applicationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
         ]
@@ -2534,7 +2534,7 @@ extension Pinpoint {
 
     public struct DeleteBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "baiduChannelResponse"
+        public static let payloadPath: String = "baiduChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
         ]
@@ -2569,7 +2569,7 @@ extension Pinpoint {
 
     public struct DeleteCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignResponse"
+        public static let payloadPath: String = "campaignResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
         ]
@@ -2601,7 +2601,7 @@ extension Pinpoint {
 
     public struct DeleteEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailChannelResponse"
+        public static let payloadPath: String = "emailChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
         ]
@@ -2636,7 +2636,7 @@ extension Pinpoint {
 
     public struct DeleteEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -2671,7 +2671,7 @@ extension Pinpoint {
 
     public struct DeleteEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "endpointResponse"
+        public static let payloadPath: String = "endpointResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "endpointResponse", location: .body(locationName: "EndpointResponse"))
         ]
@@ -2703,7 +2703,7 @@ extension Pinpoint {
 
     public struct DeleteEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "eventStream"
+        public static let payloadPath: String = "eventStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
         ]
@@ -2735,7 +2735,7 @@ extension Pinpoint {
 
     public struct DeleteGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "gCMChannelResponse"
+        public static let payloadPath: String = "gCMChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
         ]
@@ -2770,7 +2770,7 @@ extension Pinpoint {
 
     public struct DeleteJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyResponse"
+        public static let payloadPath: String = "journeyResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
         ]
@@ -2805,7 +2805,7 @@ extension Pinpoint {
 
     public struct DeletePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -2837,7 +2837,7 @@ extension Pinpoint {
 
     public struct DeleteRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "recommenderConfigurationResponse"
+        public static let payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
         ]
@@ -2872,7 +2872,7 @@ extension Pinpoint {
 
     public struct DeleteSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentResponse"
+        public static let payloadPath: String = "segmentResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
         ]
@@ -2904,7 +2904,7 @@ extension Pinpoint {
 
     public struct DeleteSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSChannelResponse"
+        public static let payloadPath: String = "sMSChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
         ]
@@ -2939,7 +2939,7 @@ extension Pinpoint {
 
     public struct DeleteSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -2974,7 +2974,7 @@ extension Pinpoint {
 
     public struct DeleteUserEndpointsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "endpointsResponse"
+        public static let payloadPath: String = "endpointsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "endpointsResponse", location: .body(locationName: "EndpointsResponse"))
         ]
@@ -3006,7 +3006,7 @@ extension Pinpoint {
 
     public struct DeleteVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceChannelResponse"
+        public static let payloadPath: String = "voiceChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
         ]
@@ -3041,7 +3041,7 @@ extension Pinpoint {
 
     public struct DeleteVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -4277,7 +4277,7 @@ extension Pinpoint {
 
     public struct GetAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aDMChannelResponse"
+        public static let payloadPath: String = "aDMChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
         ]
@@ -4309,7 +4309,7 @@ extension Pinpoint {
 
     public struct GetApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSChannelResponse"
+        public static let payloadPath: String = "aPNSChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
         ]
@@ -4341,7 +4341,7 @@ extension Pinpoint {
 
     public struct GetApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSSandboxChannelResponse"
+        public static let payloadPath: String = "aPNSSandboxChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
         ]
@@ -4373,7 +4373,7 @@ extension Pinpoint {
 
     public struct GetApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipChannelResponse"
+        public static let payloadPath: String = "aPNSVoipChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
         ]
@@ -4405,7 +4405,7 @@ extension Pinpoint {
 
     public struct GetApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipSandboxChannelResponse"
+        public static let payloadPath: String = "aPNSVoipSandboxChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
         ]
@@ -4437,7 +4437,7 @@ extension Pinpoint {
 
     public struct GetAppResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationResponse"
+        public static let payloadPath: String = "applicationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
         ]
@@ -4484,7 +4484,7 @@ extension Pinpoint {
 
     public struct GetApplicationDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationDateRangeKpiResponse"
+        public static let payloadPath: String = "applicationDateRangeKpiResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationDateRangeKpiResponse", location: .body(locationName: "ApplicationDateRangeKpiResponse"))
         ]
@@ -4516,7 +4516,7 @@ extension Pinpoint {
 
     public struct GetApplicationSettingsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationSettingsResource"
+        public static let payloadPath: String = "applicationSettingsResource"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationSettingsResource", location: .body(locationName: "ApplicationSettingsResource"))
         ]
@@ -4551,7 +4551,7 @@ extension Pinpoint {
 
     public struct GetAppsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationsResponse"
+        public static let payloadPath: String = "applicationsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationsResponse", location: .body(locationName: "ApplicationsResponse"))
         ]
@@ -4583,7 +4583,7 @@ extension Pinpoint {
 
     public struct GetBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "baiduChannelResponse"
+        public static let payloadPath: String = "baiduChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
         ]
@@ -4624,7 +4624,7 @@ extension Pinpoint {
 
     public struct GetCampaignActivitiesResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "activitiesResponse"
+        public static let payloadPath: String = "activitiesResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "activitiesResponse", location: .body(locationName: "ActivitiesResponse"))
         ]
@@ -4674,7 +4674,7 @@ extension Pinpoint {
 
     public struct GetCampaignDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignDateRangeKpiResponse"
+        public static let payloadPath: String = "campaignDateRangeKpiResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignDateRangeKpiResponse", location: .body(locationName: "CampaignDateRangeKpiResponse"))
         ]
@@ -4709,7 +4709,7 @@ extension Pinpoint {
 
     public struct GetCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignResponse"
+        public static let payloadPath: String = "campaignResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
         ]
@@ -4747,7 +4747,7 @@ extension Pinpoint {
 
     public struct GetCampaignVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignResponse"
+        public static let payloadPath: String = "campaignResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
         ]
@@ -4788,7 +4788,7 @@ extension Pinpoint {
 
     public struct GetCampaignVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignsResponse"
+        public static let payloadPath: String = "campaignsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignsResponse", location: .body(locationName: "CampaignsResponse"))
         ]
@@ -4826,7 +4826,7 @@ extension Pinpoint {
 
     public struct GetCampaignsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignsResponse"
+        public static let payloadPath: String = "campaignsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignsResponse", location: .body(locationName: "CampaignsResponse"))
         ]
@@ -4858,7 +4858,7 @@ extension Pinpoint {
 
     public struct GetChannelsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "channelsResponse"
+        public static let payloadPath: String = "channelsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "channelsResponse", location: .body(locationName: "ChannelsResponse"))
         ]
@@ -4890,7 +4890,7 @@ extension Pinpoint {
 
     public struct GetEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailChannelResponse"
+        public static let payloadPath: String = "emailChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
         ]
@@ -4925,7 +4925,7 @@ extension Pinpoint {
 
     public struct GetEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailTemplateResponse"
+        public static let payloadPath: String = "emailTemplateResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "emailTemplateResponse", location: .body(locationName: "EmailTemplateResponse"))
         ]
@@ -4960,7 +4960,7 @@ extension Pinpoint {
 
     public struct GetEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "endpointResponse"
+        public static let payloadPath: String = "endpointResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "endpointResponse", location: .body(locationName: "EndpointResponse"))
         ]
@@ -4992,7 +4992,7 @@ extension Pinpoint {
 
     public struct GetEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "eventStream"
+        public static let payloadPath: String = "eventStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
         ]
@@ -5027,7 +5027,7 @@ extension Pinpoint {
 
     public struct GetExportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "exportJobResponse"
+        public static let payloadPath: String = "exportJobResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "exportJobResponse", location: .body(locationName: "ExportJobResponse"))
         ]
@@ -5065,7 +5065,7 @@ extension Pinpoint {
 
     public struct GetExportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "exportJobsResponse"
+        public static let payloadPath: String = "exportJobsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "exportJobsResponse", location: .body(locationName: "ExportJobsResponse"))
         ]
@@ -5097,7 +5097,7 @@ extension Pinpoint {
 
     public struct GetGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "gCMChannelResponse"
+        public static let payloadPath: String = "gCMChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
         ]
@@ -5132,7 +5132,7 @@ extension Pinpoint {
 
     public struct GetImportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "importJobResponse"
+        public static let payloadPath: String = "importJobResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "importJobResponse", location: .body(locationName: "ImportJobResponse"))
         ]
@@ -5170,7 +5170,7 @@ extension Pinpoint {
 
     public struct GetImportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "importJobsResponse"
+        public static let payloadPath: String = "importJobsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "importJobsResponse", location: .body(locationName: "ImportJobsResponse"))
         ]
@@ -5220,7 +5220,7 @@ extension Pinpoint {
 
     public struct GetJourneyDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyDateRangeKpiResponse"
+        public static let payloadPath: String = "journeyDateRangeKpiResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyDateRangeKpiResponse", location: .body(locationName: "JourneyDateRangeKpiResponse"))
         ]
@@ -5264,7 +5264,7 @@ extension Pinpoint {
 
     public struct GetJourneyExecutionActivityMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyExecutionActivityMetricsResponse"
+        public static let payloadPath: String = "journeyExecutionActivityMetricsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyExecutionActivityMetricsResponse", location: .body(locationName: "JourneyExecutionActivityMetricsResponse"))
         ]
@@ -5305,7 +5305,7 @@ extension Pinpoint {
 
     public struct GetJourneyExecutionMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyExecutionMetricsResponse"
+        public static let payloadPath: String = "journeyExecutionMetricsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyExecutionMetricsResponse", location: .body(locationName: "JourneyExecutionMetricsResponse"))
         ]
@@ -5340,7 +5340,7 @@ extension Pinpoint {
 
     public struct GetJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyResponse"
+        public static let payloadPath: String = "journeyResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
         ]
@@ -5375,7 +5375,7 @@ extension Pinpoint {
 
     public struct GetPushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "pushNotificationTemplateResponse"
+        public static let payloadPath: String = "pushNotificationTemplateResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "pushNotificationTemplateResponse", location: .body(locationName: "PushNotificationTemplateResponse"))
         ]
@@ -5407,7 +5407,7 @@ extension Pinpoint {
 
     public struct GetRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "recommenderConfigurationResponse"
+        public static let payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
         ]
@@ -5442,7 +5442,7 @@ extension Pinpoint {
 
     public struct GetRecommenderConfigurationsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "listRecommenderConfigurationsResponse"
+        public static let payloadPath: String = "listRecommenderConfigurationsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "listRecommenderConfigurationsResponse", location: .body(locationName: "ListRecommenderConfigurationsResponse"))
         ]
@@ -5483,7 +5483,7 @@ extension Pinpoint {
 
     public struct GetSegmentExportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "exportJobsResponse"
+        public static let payloadPath: String = "exportJobsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "exportJobsResponse", location: .body(locationName: "ExportJobsResponse"))
         ]
@@ -5524,7 +5524,7 @@ extension Pinpoint {
 
     public struct GetSegmentImportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "importJobsResponse"
+        public static let payloadPath: String = "importJobsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "importJobsResponse", location: .body(locationName: "ImportJobsResponse"))
         ]
@@ -5559,7 +5559,7 @@ extension Pinpoint {
 
     public struct GetSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentResponse"
+        public static let payloadPath: String = "segmentResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
         ]
@@ -5597,7 +5597,7 @@ extension Pinpoint {
 
     public struct GetSegmentVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentResponse"
+        public static let payloadPath: String = "segmentResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
         ]
@@ -5638,7 +5638,7 @@ extension Pinpoint {
 
     public struct GetSegmentVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentsResponse"
+        public static let payloadPath: String = "segmentsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentsResponse", location: .body(locationName: "SegmentsResponse"))
         ]
@@ -5676,7 +5676,7 @@ extension Pinpoint {
 
     public struct GetSegmentsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentsResponse"
+        public static let payloadPath: String = "segmentsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentsResponse", location: .body(locationName: "SegmentsResponse"))
         ]
@@ -5708,7 +5708,7 @@ extension Pinpoint {
 
     public struct GetSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSChannelResponse"
+        public static let payloadPath: String = "sMSChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
         ]
@@ -5743,7 +5743,7 @@ extension Pinpoint {
 
     public struct GetSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSTemplateResponse"
+        public static let payloadPath: String = "sMSTemplateResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "sMSTemplateResponse", location: .body(locationName: "SMSTemplateResponse"))
         ]
@@ -5778,7 +5778,7 @@ extension Pinpoint {
 
     public struct GetUserEndpointsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "endpointsResponse"
+        public static let payloadPath: String = "endpointsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "endpointsResponse", location: .body(locationName: "EndpointsResponse"))
         ]
@@ -5810,7 +5810,7 @@ extension Pinpoint {
 
     public struct GetVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceChannelResponse"
+        public static let payloadPath: String = "voiceChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
         ]
@@ -5845,7 +5845,7 @@ extension Pinpoint {
 
     public struct GetVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceTemplateResponse"
+        public static let payloadPath: String = "voiceTemplateResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceTemplateResponse", location: .body(locationName: "VoiceTemplateResponse"))
         ]
@@ -6346,7 +6346,7 @@ extension Pinpoint {
 
     public struct ListJourneysResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeysResponse"
+        public static let payloadPath: String = "journeysResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeysResponse", location: .body(locationName: "JourneysResponse"))
         ]
@@ -6396,7 +6396,7 @@ extension Pinpoint {
 
     public struct ListTagsForResourceResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tagsModel"
+        public static let payloadPath: String = "tagsModel"
         public static var _encoding = [
             AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
         ]
@@ -6437,7 +6437,7 @@ extension Pinpoint {
 
     public struct ListTemplateVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "templateVersionsResponse"
+        public static let payloadPath: String = "templateVersionsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "templateVersionsResponse", location: .body(locationName: "TemplateVersionsResponse"))
         ]
@@ -6478,7 +6478,7 @@ extension Pinpoint {
 
     public struct ListTemplatesResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "templatesResponse"
+        public static let payloadPath: String = "templatesResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "templatesResponse", location: .body(locationName: "TemplatesResponse"))
         ]
@@ -6843,7 +6843,7 @@ extension Pinpoint {
 
     public struct PhoneNumberValidateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "numberValidateRequest"
+        public static let payloadPath: String = "numberValidateRequest"
 
         public let numberValidateRequest: NumberValidateRequest
 
@@ -6858,7 +6858,7 @@ extension Pinpoint {
 
     public struct PhoneNumberValidateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "numberValidateResponse"
+        public static let payloadPath: String = "numberValidateResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "numberValidateResponse", location: .body(locationName: "NumberValidateResponse"))
         ]
@@ -7046,7 +7046,7 @@ extension Pinpoint {
 
     public struct PutEventStreamRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeEventStream"
+        public static let payloadPath: String = "writeEventStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -7066,7 +7066,7 @@ extension Pinpoint {
 
     public struct PutEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "eventStream"
+        public static let payloadPath: String = "eventStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
         ]
@@ -7084,7 +7084,7 @@ extension Pinpoint {
 
     public struct PutEventsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "eventsRequest"
+        public static let payloadPath: String = "eventsRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -7104,7 +7104,7 @@ extension Pinpoint {
 
     public struct PutEventsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "eventsResponse"
+        public static let payloadPath: String = "eventsResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "eventsResponse", location: .body(locationName: "EventsResponse"))
         ]
@@ -7262,7 +7262,7 @@ extension Pinpoint {
 
     public struct RemoveAttributesRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "updateAttributesRequest"
+        public static let payloadPath: String = "updateAttributesRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type"))
@@ -7285,7 +7285,7 @@ extension Pinpoint {
 
     public struct RemoveAttributesResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "attributesResource"
+        public static let payloadPath: String = "attributesResource"
         public static var _encoding = [
             AWSMemberEncoding(label: "attributesResource", location: .body(locationName: "AttributesResource"))
         ]
@@ -7880,7 +7880,7 @@ extension Pinpoint {
 
     public struct SendMessagesRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageRequest"
+        public static let payloadPath: String = "messageRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -7900,7 +7900,7 @@ extension Pinpoint {
 
     public struct SendMessagesResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageResponse"
+        public static let payloadPath: String = "messageResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageResponse", location: .body(locationName: "MessageResponse"))
         ]
@@ -7970,7 +7970,7 @@ extension Pinpoint {
 
     public struct SendUsersMessagesRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sendUsersMessageRequest"
+        public static let payloadPath: String = "sendUsersMessageRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -7990,7 +7990,7 @@ extension Pinpoint {
 
     public struct SendUsersMessagesResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sendUsersMessageResponse"
+        public static let payloadPath: String = "sendUsersMessageResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "sendUsersMessageResponse", location: .body(locationName: "SendUsersMessageResponse"))
         ]
@@ -8132,7 +8132,7 @@ extension Pinpoint {
 
     public struct TagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tagsModel"
+        public static let payloadPath: String = "tagsModel"
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -8411,7 +8411,7 @@ extension Pinpoint {
 
     public struct UpdateAdmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aDMChannelRequest"
+        public static let payloadPath: String = "aDMChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8431,7 +8431,7 @@ extension Pinpoint {
 
     public struct UpdateAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aDMChannelResponse"
+        public static let payloadPath: String = "aDMChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
         ]
@@ -8449,7 +8449,7 @@ extension Pinpoint {
 
     public struct UpdateApnsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSChannelRequest"
+        public static let payloadPath: String = "aPNSChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8469,7 +8469,7 @@ extension Pinpoint {
 
     public struct UpdateApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSChannelResponse"
+        public static let payloadPath: String = "aPNSChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
         ]
@@ -8487,7 +8487,7 @@ extension Pinpoint {
 
     public struct UpdateApnsSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSSandboxChannelRequest"
+        public static let payloadPath: String = "aPNSSandboxChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8507,7 +8507,7 @@ extension Pinpoint {
 
     public struct UpdateApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSSandboxChannelResponse"
+        public static let payloadPath: String = "aPNSSandboxChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
         ]
@@ -8525,7 +8525,7 @@ extension Pinpoint {
 
     public struct UpdateApnsVoipChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipChannelRequest"
+        public static let payloadPath: String = "aPNSVoipChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8545,7 +8545,7 @@ extension Pinpoint {
 
     public struct UpdateApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipChannelResponse"
+        public static let payloadPath: String = "aPNSVoipChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
         ]
@@ -8563,7 +8563,7 @@ extension Pinpoint {
 
     public struct UpdateApnsVoipSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipSandboxChannelRequest"
+        public static let payloadPath: String = "aPNSVoipSandboxChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8583,7 +8583,7 @@ extension Pinpoint {
 
     public struct UpdateApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "aPNSVoipSandboxChannelResponse"
+        public static let payloadPath: String = "aPNSVoipSandboxChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
         ]
@@ -8601,7 +8601,7 @@ extension Pinpoint {
 
     public struct UpdateApplicationSettingsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeApplicationSettingsRequest"
+        public static let payloadPath: String = "writeApplicationSettingsRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8621,7 +8621,7 @@ extension Pinpoint {
 
     public struct UpdateApplicationSettingsResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "applicationSettingsResource"
+        public static let payloadPath: String = "applicationSettingsResource"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationSettingsResource", location: .body(locationName: "ApplicationSettingsResource"))
         ]
@@ -8653,7 +8653,7 @@ extension Pinpoint {
 
     public struct UpdateBaiduChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "baiduChannelRequest"
+        public static let payloadPath: String = "baiduChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8673,7 +8673,7 @@ extension Pinpoint {
 
     public struct UpdateBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "baiduChannelResponse"
+        public static let payloadPath: String = "baiduChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
         ]
@@ -8691,7 +8691,7 @@ extension Pinpoint {
 
     public struct UpdateCampaignRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeCampaignRequest"
+        public static let payloadPath: String = "writeCampaignRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id"))
@@ -8714,7 +8714,7 @@ extension Pinpoint {
 
     public struct UpdateCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "campaignResponse"
+        public static let payloadPath: String = "campaignResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
         ]
@@ -8732,7 +8732,7 @@ extension Pinpoint {
 
     public struct UpdateEmailChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailChannelRequest"
+        public static let payloadPath: String = "emailChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8752,7 +8752,7 @@ extension Pinpoint {
 
     public struct UpdateEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailChannelResponse"
+        public static let payloadPath: String = "emailChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
         ]
@@ -8770,7 +8770,7 @@ extension Pinpoint {
 
     public struct UpdateEmailTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "emailTemplateRequest"
+        public static let payloadPath: String = "emailTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
@@ -8796,7 +8796,7 @@ extension Pinpoint {
 
     public struct UpdateEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -8814,7 +8814,7 @@ extension Pinpoint {
 
     public struct UpdateEndpointRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "endpointRequest"
+        public static let payloadPath: String = "endpointRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id"))
@@ -8837,7 +8837,7 @@ extension Pinpoint {
 
     public struct UpdateEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -8855,7 +8855,7 @@ extension Pinpoint {
 
     public struct UpdateEndpointsBatchRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "endpointBatchRequest"
+        public static let payloadPath: String = "endpointBatchRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8875,7 +8875,7 @@ extension Pinpoint {
 
     public struct UpdateEndpointsBatchResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -8893,7 +8893,7 @@ extension Pinpoint {
 
     public struct UpdateGcmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "gCMChannelRequest"
+        public static let payloadPath: String = "gCMChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -8913,7 +8913,7 @@ extension Pinpoint {
 
     public struct UpdateGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "gCMChannelResponse"
+        public static let payloadPath: String = "gCMChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
         ]
@@ -8931,7 +8931,7 @@ extension Pinpoint {
 
     public struct UpdateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeJourneyRequest"
+        public static let payloadPath: String = "writeJourneyRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
@@ -8954,7 +8954,7 @@ extension Pinpoint {
 
     public struct UpdateJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyResponse"
+        public static let payloadPath: String = "journeyResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
         ]
@@ -8972,7 +8972,7 @@ extension Pinpoint {
 
     public struct UpdateJourneyStateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyStateRequest"
+        public static let payloadPath: String = "journeyStateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
@@ -8995,7 +8995,7 @@ extension Pinpoint {
 
     public struct UpdateJourneyStateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "journeyResponse"
+        public static let payloadPath: String = "journeyResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
         ]
@@ -9013,7 +9013,7 @@ extension Pinpoint {
 
     public struct UpdatePushTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "pushNotificationTemplateRequest"
+        public static let payloadPath: String = "pushNotificationTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
@@ -9039,7 +9039,7 @@ extension Pinpoint {
 
     public struct UpdatePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -9103,7 +9103,7 @@ extension Pinpoint {
 
     public struct UpdateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "updateRecommenderConfiguration"
+        public static let payloadPath: String = "updateRecommenderConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "recommender-id"))
         ]
@@ -9123,7 +9123,7 @@ extension Pinpoint {
 
     public struct UpdateRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "recommenderConfigurationResponse"
+        public static let payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
         ]
@@ -9141,7 +9141,7 @@ extension Pinpoint {
 
     public struct UpdateSegmentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "writeSegmentRequest"
+        public static let payloadPath: String = "writeSegmentRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id"))
@@ -9164,7 +9164,7 @@ extension Pinpoint {
 
     public struct UpdateSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "segmentResponse"
+        public static let payloadPath: String = "segmentResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
         ]
@@ -9182,7 +9182,7 @@ extension Pinpoint {
 
     public struct UpdateSmsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSChannelRequest"
+        public static let payloadPath: String = "sMSChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -9202,7 +9202,7 @@ extension Pinpoint {
 
     public struct UpdateSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSChannelResponse"
+        public static let payloadPath: String = "sMSChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
         ]
@@ -9220,7 +9220,7 @@ extension Pinpoint {
 
     public struct UpdateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "sMSTemplateRequest"
+        public static let payloadPath: String = "sMSTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
@@ -9246,7 +9246,7 @@ extension Pinpoint {
 
     public struct UpdateSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -9264,7 +9264,7 @@ extension Pinpoint {
 
     public struct UpdateTemplateActiveVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "templateActiveVersionRequest"
+        public static let payloadPath: String = "templateActiveVersionRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "templateType", location: .uri(locationName: "template-type"))
@@ -9287,7 +9287,7 @@ extension Pinpoint {
 
     public struct UpdateTemplateActiveVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]
@@ -9305,7 +9305,7 @@ extension Pinpoint {
 
     public struct UpdateVoiceChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceChannelRequest"
+        public static let payloadPath: String = "voiceChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
@@ -9325,7 +9325,7 @@ extension Pinpoint {
 
     public struct UpdateVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceChannelResponse"
+        public static let payloadPath: String = "voiceChannelResponse"
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
         ]
@@ -9343,7 +9343,7 @@ extension Pinpoint {
 
     public struct UpdateVoiceTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "voiceTemplateRequest"
+        public static let payloadPath: String = "voiceTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
@@ -9369,7 +9369,7 @@ extension Pinpoint {
 
     public struct UpdateVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "messageBody"
+        public static let payloadPath: String = "messageBody"
         public static var _encoding = [
             AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
         ]

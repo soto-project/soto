@@ -111,7 +111,7 @@ extension CodeGuruProfiler {
 
     public struct ConfigureAgentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "configuration"
+        public static let payloadPath: String = "configuration"
 
         public let configuration: AgentConfiguration
 
@@ -159,7 +159,7 @@ extension CodeGuruProfiler {
 
     public struct CreateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "profilingGroup"
+        public static let payloadPath: String = "profilingGroup"
 
         /// Information about the new profiling group
         public let profilingGroup: ProfilingGroupDescription
@@ -225,7 +225,7 @@ extension CodeGuruProfiler {
 
     public struct DescribeProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "profilingGroup"
+        public static let payloadPath: String = "profilingGroup"
 
         /// Information about a profiling group.
         public let profilingGroup: ProfilingGroupDescription
@@ -286,7 +286,7 @@ extension CodeGuruProfiler {
 
     public struct GetProfileResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "profile"
+        public static let payloadPath: String = "profile"
         public static var _encoding = [
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
@@ -436,7 +436,7 @@ extension CodeGuruProfiler {
 
     public struct PostAgentProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "agentProfile"
+        public static let payloadPath: String = "agentProfile"
         public static var _encoding = [
             AWSMemberEncoding(label: "agentProfile", encoding: .blob), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
@@ -572,7 +572,7 @@ extension CodeGuruProfiler {
 
     public struct UpdateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "profilingGroup"
+        public static let payloadPath: String = "profilingGroup"
 
         /// Updated information about the profiling group.
         public let profilingGroup: ProfilingGroupDescription

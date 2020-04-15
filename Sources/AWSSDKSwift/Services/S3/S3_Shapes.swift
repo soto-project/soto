@@ -892,7 +892,7 @@ extension S3 {
 
     public struct CompleteMultipartUploadRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "multipartUpload"
+        public static let payloadPath: String = "multipartUpload"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -992,7 +992,7 @@ extension S3 {
 
     public struct CopyObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "copyObjectResult"
+        public static let payloadPath: String = "copyObjectResult"
         public static var _encoding = [
             AWSMemberEncoding(label: "copyObjectResult", location: .body(locationName: "CopyObjectResult")), 
             AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")), 
@@ -1286,7 +1286,7 @@ extension S3 {
 
     public struct CreateBucketRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "createBucketConfiguration"
+        public static let payloadPath: String = "createBucketConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -1928,7 +1928,7 @@ extension S3 {
 
     public struct DeleteObjectsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "delete"
+        public static let payloadPath: String = "delete"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
@@ -2229,7 +2229,7 @@ extension S3 {
 
     public struct GetBucketAnalyticsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "analyticsConfiguration"
+        public static let payloadPath: String = "analyticsConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"))
         ]
@@ -2299,7 +2299,7 @@ extension S3 {
 
     public struct GetBucketEncryptionOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "serverSideEncryptionConfiguration"
+        public static let payloadPath: String = "serverSideEncryptionConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"))
         ]
@@ -2332,7 +2332,7 @@ extension S3 {
 
     public struct GetBucketInventoryConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "inventoryConfiguration"
+        public static let payloadPath: String = "inventoryConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "inventoryConfiguration", location: .body(locationName: "InventoryConfiguration"))
         ]
@@ -2491,7 +2491,7 @@ extension S3 {
 
     public struct GetBucketMetricsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "metricsConfiguration"
+        public static let payloadPath: String = "metricsConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "metricsConfiguration", location: .body(locationName: "MetricsConfiguration"))
         ]
@@ -2544,7 +2544,7 @@ extension S3 {
 
     public struct GetBucketPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "policy"
+        public static let payloadPath: String = "policy"
         public static var _encoding = [
             AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
         ]
@@ -2578,7 +2578,7 @@ extension S3 {
 
     public struct GetBucketPolicyStatusOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "policyStatus"
+        public static let payloadPath: String = "policyStatus"
         public static var _encoding = [
             AWSMemberEncoding(label: "policyStatus", location: .body(locationName: "PolicyStatus"))
         ]
@@ -2612,7 +2612,7 @@ extension S3 {
 
     public struct GetBucketReplicationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "replicationConfiguration"
+        public static let payloadPath: String = "replicationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "replicationConfiguration", location: .body(locationName: "ReplicationConfiguration"))
         ]
@@ -2841,7 +2841,7 @@ extension S3 {
 
     public struct GetObjectLegalHoldOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "legalHold"
+        public static let payloadPath: String = "legalHold"
         public static var _encoding = [
             AWSMemberEncoding(label: "legalHold", location: .body(locationName: "LegalHold"))
         ]
@@ -2890,7 +2890,7 @@ extension S3 {
 
     public struct GetObjectLockConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "objectLockConfiguration"
+        public static let payloadPath: String = "objectLockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "objectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration"))
         ]
@@ -2924,7 +2924,7 @@ extension S3 {
 
     public struct GetObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")), 
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
@@ -3182,7 +3182,7 @@ extension S3 {
 
     public struct GetObjectRetentionOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "retention"
+        public static let payloadPath: String = "retention"
         public static var _encoding = [
             AWSMemberEncoding(label: "retention", location: .body(locationName: "Retention"))
         ]
@@ -3280,7 +3280,7 @@ extension S3 {
 
     public struct GetObjectTorrentOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
@@ -3329,7 +3329,7 @@ extension S3 {
 
     public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicAccessBlockConfiguration"
+        public static let payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
@@ -5341,7 +5341,7 @@ extension S3 {
 
     public struct PutBucketAccelerateConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "accelerateConfiguration"
+        public static let payloadPath: String = "accelerateConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "accelerateConfiguration", location: .body(locationName: "AccelerateConfiguration")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
@@ -5364,7 +5364,7 @@ extension S3 {
 
     public struct PutBucketAclRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "accessControlPolicy"
+        public static let payloadPath: String = "accessControlPolicy"
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
@@ -5415,7 +5415,7 @@ extension S3 {
 
     public struct PutBucketAnalyticsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "analyticsConfiguration"
+        public static let payloadPath: String = "analyticsConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -5446,7 +5446,7 @@ extension S3 {
 
     public struct PutBucketCorsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cORSConfiguration"
+        public static let payloadPath: String = "cORSConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5473,7 +5473,7 @@ extension S3 {
 
     public struct PutBucketEncryptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "serverSideEncryptionConfiguration"
+        public static let payloadPath: String = "serverSideEncryptionConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5499,7 +5499,7 @@ extension S3 {
 
     public struct PutBucketInventoryConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "inventoryConfiguration"
+        public static let payloadPath: String = "inventoryConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
@@ -5526,7 +5526,7 @@ extension S3 {
 
     public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "lifecycleConfiguration"
+        public static let payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
@@ -5553,7 +5553,7 @@ extension S3 {
 
     public struct PutBucketLifecycleRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "lifecycleConfiguration"
+        public static let payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5577,7 +5577,7 @@ extension S3 {
 
     public struct PutBucketLoggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "bucketLoggingStatus"
+        public static let payloadPath: String = "bucketLoggingStatus"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus")), 
@@ -5604,7 +5604,7 @@ extension S3 {
 
     public struct PutBucketMetricsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "metricsConfiguration"
+        public static let payloadPath: String = "metricsConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
@@ -5635,7 +5635,7 @@ extension S3 {
 
     public struct PutBucketNotificationConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "notificationConfiguration"
+        public static let payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
@@ -5657,7 +5657,7 @@ extension S3 {
 
     public struct PutBucketNotificationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "notificationConfiguration"
+        public static let payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5684,7 +5684,7 @@ extension S3 {
 
     public struct PutBucketPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "policy"
+        public static let payloadPath: String = "policy"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
@@ -5714,7 +5714,7 @@ extension S3 {
 
     public struct PutBucketReplicationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "replicationConfiguration"
+        public static let payloadPath: String = "replicationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5747,7 +5747,7 @@ extension S3 {
 
     public struct PutBucketRequestPaymentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "requestPaymentConfiguration"
+        public static let payloadPath: String = "requestPaymentConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5774,7 +5774,7 @@ extension S3 {
 
     public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tagging"
+        public static let payloadPath: String = "tagging"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5805,7 +5805,7 @@ extension S3 {
 
     public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "versioningConfiguration"
+        public static let payloadPath: String = "versioningConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5836,7 +5836,7 @@ extension S3 {
 
     public struct PutBucketWebsiteRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "websiteConfiguration"
+        public static let payloadPath: String = "websiteConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5883,7 +5883,7 @@ extension S3 {
 
     public struct PutObjectAclRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "accessControlPolicy"
+        public static let payloadPath: String = "accessControlPolicy"
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
@@ -5965,7 +5965,7 @@ extension S3 {
 
     public struct PutObjectLegalHoldRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "legalHold"
+        public static let payloadPath: String = "legalHold"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6023,7 +6023,7 @@ extension S3 {
 
     public struct PutObjectLockConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "objectLockConfiguration"
+        public static let payloadPath: String = "objectLockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6113,7 +6113,7 @@ extension S3 {
 
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
@@ -6265,7 +6265,7 @@ extension S3 {
 
     public struct PutObjectRetentionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "retention"
+        public static let payloadPath: String = "retention"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
@@ -6328,7 +6328,7 @@ extension S3 {
 
     public struct PutObjectTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tagging"
+        public static let payloadPath: String = "tagging"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6368,7 +6368,7 @@ extension S3 {
 
     public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicAccessBlockConfiguration"
+        public static let payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6716,7 +6716,7 @@ extension S3 {
 
     public struct RestoreObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "restoreRequest"
+        public static let payloadPath: String = "restoreRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -6989,7 +6989,7 @@ extension S3 {
 
     public struct SelectObjectContentOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"))
         ]
@@ -7379,7 +7379,7 @@ extension S3 {
 
     public struct UploadPartCopyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "copyPartResult"
+        public static let payloadPath: String = "copyPartResult"
         public static var _encoding = [
             AWSMemberEncoding(label: "copyPartResult", location: .body(locationName: "CopyPartResult")), 
             AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")), 
@@ -7551,7 +7551,7 @@ extension S3 {
 
     public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 

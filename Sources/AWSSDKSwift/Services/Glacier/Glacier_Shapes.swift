@@ -609,7 +609,7 @@ extension Glacier {
 
     public struct GetJobOutputOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "Accept-Ranges")), 
             AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
@@ -677,7 +677,7 @@ extension Glacier {
 
     public struct GetVaultAccessPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "policy"
+        public static let payloadPath: String = "policy"
 
         /// Contains the returned vault access policy as a JSON string.
         public let policy: VaultAccessPolicy?
@@ -757,7 +757,7 @@ extension Glacier {
 
     public struct GetVaultNotificationsOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "vaultNotificationConfig"
+        public static let payloadPath: String = "vaultNotificationConfig"
 
         /// Returns the notification configuration set on the vault.
         public let vaultNotificationConfig: VaultNotificationConfig?
@@ -915,7 +915,7 @@ extension Glacier {
 
     public struct InitiateJobInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "jobParameters"
+        public static let payloadPath: String = "jobParameters"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -1017,7 +1017,7 @@ extension Glacier {
 
     public struct InitiateVaultLockInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "policy"
+        public static let payloadPath: String = "policy"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -1662,7 +1662,7 @@ extension Glacier {
 
     public struct SetVaultAccessPolicyInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "policy"
+        public static let payloadPath: String = "policy"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -1688,7 +1688,7 @@ extension Glacier {
 
     public struct SetVaultNotificationsInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "vaultNotificationConfig"
+        public static let payloadPath: String = "vaultNotificationConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -1714,7 +1714,7 @@ extension Glacier {
 
     public struct UploadArchiveInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
@@ -1777,7 +1777,7 @@ extension Glacier {
 
     public struct UploadMultipartPartInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "body", encoding: .blob), 

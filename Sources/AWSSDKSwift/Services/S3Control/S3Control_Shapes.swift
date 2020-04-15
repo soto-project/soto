@@ -624,7 +624,7 @@ extension S3Control {
 
     public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicAccessBlockConfiguration"
+        public static let payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
@@ -1225,7 +1225,7 @@ extension S3Control {
 
     public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicAccessBlockConfiguration"
+        public static let payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))

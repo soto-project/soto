@@ -89,7 +89,7 @@ extension ApiGatewayManagementApi {
 
     public struct PostToConnectionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "data"
+        public static let payloadPath: String = "data"
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")), 
             AWSMemberEncoding(label: "data", location: .body(locationName: "Data"), encoding: .blob)

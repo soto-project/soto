@@ -510,7 +510,7 @@ extension CloudFront {
 
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"))
         ]
@@ -529,7 +529,7 @@ extension CloudFront {
 
     public struct CreateCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body(locationName: "CloudFrontOriginAccessIdentity")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
@@ -558,7 +558,7 @@ extension CloudFront {
 
     public struct CreateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distributionConfig"
+        public static let payloadPath: String = "distributionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionConfig", location: .body(locationName: "DistributionConfig"))
         ]
@@ -581,7 +581,7 @@ extension CloudFront {
 
     public struct CreateDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distribution"
+        public static let payloadPath: String = "distribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
@@ -610,7 +610,7 @@ extension CloudFront {
 
     public struct CreateDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distributionConfigWithTags"
+        public static let payloadPath: String = "distributionConfigWithTags"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"))
         ]
@@ -633,7 +633,7 @@ extension CloudFront {
 
     public struct CreateDistributionWithTagsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distribution"
+        public static let payloadPath: String = "distribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
@@ -662,7 +662,7 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionConfig"
+        public static let payloadPath: String = "fieldLevelEncryptionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"))
         ]
@@ -681,7 +681,7 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryption"
+        public static let payloadPath: String = "fieldLevelEncryption"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryption", location: .body(locationName: "FieldLevelEncryption")), 
@@ -710,7 +710,7 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
+        public static let payloadPath: String = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"))
         ]
@@ -729,7 +729,7 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfile"
+        public static let payloadPath: String = "fieldLevelEncryptionProfile"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body(locationName: "FieldLevelEncryptionProfile")), 
@@ -758,7 +758,7 @@ extension CloudFront {
 
     public struct CreateInvalidationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "invalidationBatch"
+        public static let payloadPath: String = "invalidationBatch"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
             AWSMemberEncoding(label: "invalidationBatch", location: .body(locationName: "InvalidationBatch"))
@@ -781,7 +781,7 @@ extension CloudFront {
 
     public struct CreateInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "invalidation"
+        public static let payloadPath: String = "invalidation"
         public static var _encoding = [
             AWSMemberEncoding(label: "invalidation", location: .body(locationName: "Invalidation")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
@@ -805,7 +805,7 @@ extension CloudFront {
 
     public struct CreatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKeyConfig"
+        public static let payloadPath: String = "publicKeyConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "publicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
         ]
@@ -824,7 +824,7 @@ extension CloudFront {
 
     public struct CreatePublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKey"
+        public static let payloadPath: String = "publicKey"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
@@ -853,7 +853,7 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistributionConfig"
+        public static let payloadPath: String = "streamingDistributionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "streamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
         ]
@@ -872,7 +872,7 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistribution"
+        public static let payloadPath: String = "streamingDistribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
@@ -901,7 +901,7 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistributionConfigWithTags"
+        public static let payloadPath: String = "streamingDistributionConfigWithTags"
         public static var _encoding = [
             AWSMemberEncoding(label: "streamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"))
         ]
@@ -924,7 +924,7 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionWithTagsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistribution"
+        public static let payloadPath: String = "streamingDistribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
@@ -1859,7 +1859,7 @@ extension CloudFront {
 
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
@@ -1898,7 +1898,7 @@ extension CloudFront {
 
     public struct GetCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body(locationName: "CloudFrontOriginAccessIdentity")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
@@ -1937,7 +1937,7 @@ extension CloudFront {
 
     public struct GetDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distributionConfig"
+        public static let payloadPath: String = "distributionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionConfig", location: .body(locationName: "DistributionConfig")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
@@ -1976,7 +1976,7 @@ extension CloudFront {
 
     public struct GetDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distribution"
+        public static let payloadPath: String = "distribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
@@ -2015,7 +2015,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionConfig"
+        public static let payloadPath: String = "fieldLevelEncryptionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"))
@@ -2054,7 +2054,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionProfileConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
+        public static let payloadPath: String = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"))
@@ -2093,7 +2093,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfile"
+        public static let payloadPath: String = "fieldLevelEncryptionProfile"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body(locationName: "FieldLevelEncryptionProfile"))
@@ -2132,7 +2132,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryption"
+        public static let payloadPath: String = "fieldLevelEncryption"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryption", location: .body(locationName: "FieldLevelEncryption"))
@@ -2175,7 +2175,7 @@ extension CloudFront {
 
     public struct GetInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "invalidation"
+        public static let payloadPath: String = "invalidation"
         public static var _encoding = [
             AWSMemberEncoding(label: "invalidation", location: .body(locationName: "Invalidation"))
         ]
@@ -2209,7 +2209,7 @@ extension CloudFront {
 
     public struct GetPublicKeyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKeyConfig"
+        public static let payloadPath: String = "publicKeyConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "publicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
@@ -2248,7 +2248,7 @@ extension CloudFront {
 
     public struct GetPublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKey"
+        public static let payloadPath: String = "publicKey"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "publicKey", location: .body(locationName: "PublicKey"))
@@ -2287,7 +2287,7 @@ extension CloudFront {
 
     public struct GetStreamingDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistributionConfig"
+        public static let payloadPath: String = "streamingDistributionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "streamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
@@ -2326,7 +2326,7 @@ extension CloudFront {
 
     public struct GetStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistribution"
+        public static let payloadPath: String = "streamingDistribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "streamingDistribution", location: .body(locationName: "StreamingDistribution"))
@@ -2558,7 +2558,7 @@ extension CloudFront {
 
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityList"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentityList"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityList", location: .body(locationName: "CloudFrontOriginAccessIdentityList"))
         ]
@@ -2600,7 +2600,7 @@ extension CloudFront {
 
     public struct ListDistributionsByWebACLIdResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distributionList"
+        public static let payloadPath: String = "distributionList"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionList", location: .body(locationName: "DistributionList"))
         ]
@@ -2638,7 +2638,7 @@ extension CloudFront {
 
     public struct ListDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distributionList"
+        public static let payloadPath: String = "distributionList"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionList", location: .body(locationName: "DistributionList"))
         ]
@@ -2676,7 +2676,7 @@ extension CloudFront {
 
     public struct ListFieldLevelEncryptionConfigsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionList"
+        public static let payloadPath: String = "fieldLevelEncryptionList"
         public static var _encoding = [
             AWSMemberEncoding(label: "fieldLevelEncryptionList", location: .body(locationName: "FieldLevelEncryptionList"))
         ]
@@ -2714,7 +2714,7 @@ extension CloudFront {
 
     public struct ListFieldLevelEncryptionProfilesResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfileList"
+        public static let payloadPath: String = "fieldLevelEncryptionProfileList"
         public static var _encoding = [
             AWSMemberEncoding(label: "fieldLevelEncryptionProfileList", location: .body(locationName: "FieldLevelEncryptionProfileList"))
         ]
@@ -2756,7 +2756,7 @@ extension CloudFront {
 
     public struct ListInvalidationsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "invalidationList"
+        public static let payloadPath: String = "invalidationList"
         public static var _encoding = [
             AWSMemberEncoding(label: "invalidationList", location: .body(locationName: "InvalidationList"))
         ]
@@ -2794,7 +2794,7 @@ extension CloudFront {
 
     public struct ListPublicKeysResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKeyList"
+        public static let payloadPath: String = "publicKeyList"
         public static var _encoding = [
             AWSMemberEncoding(label: "publicKeyList", location: .body(locationName: "PublicKeyList"))
         ]
@@ -2832,7 +2832,7 @@ extension CloudFront {
 
     public struct ListStreamingDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistributionList"
+        public static let payloadPath: String = "streamingDistributionList"
         public static var _encoding = [
             AWSMemberEncoding(label: "streamingDistributionList", location: .body(locationName: "StreamingDistributionList"))
         ]
@@ -2870,7 +2870,7 @@ extension CloudFront {
 
     public struct ListTagsForResourceResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tags"
+        public static let payloadPath: String = "tags"
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"))
         ]
@@ -3691,7 +3691,7 @@ extension CloudFront {
 
     public struct TagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tags"
+        public static let payloadPath: String = "tags"
         public static var _encoding = [
             AWSMemberEncoding(label: "resource", location: .querystring(locationName: "Resource")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"))
@@ -3768,7 +3768,7 @@ extension CloudFront {
 
     public struct UntagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "tagKeys"
+        public static let payloadPath: String = "tagKeys"
         public static var _encoding = [
             AWSMemberEncoding(label: "resource", location: .querystring(locationName: "Resource")), 
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"))
@@ -3796,7 +3796,7 @@ extension CloudFront {
 
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
@@ -3823,7 +3823,7 @@ extension CloudFront {
 
     public struct UpdateCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
+        public static let payloadPath: String = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
             AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body(locationName: "CloudFrontOriginAccessIdentity")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
@@ -3847,7 +3847,7 @@ extension CloudFront {
 
     public struct UpdateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distributionConfig"
+        public static let payloadPath: String = "distributionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionConfig", location: .body(locationName: "DistributionConfig")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
@@ -3878,7 +3878,7 @@ extension CloudFront {
 
     public struct UpdateDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "distribution"
+        public static let payloadPath: String = "distribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
@@ -3902,7 +3902,7 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionConfig"
+        public static let payloadPath: String = "fieldLevelEncryptionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
@@ -3929,7 +3929,7 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryption"
+        public static let payloadPath: String = "fieldLevelEncryption"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryption", location: .body(locationName: "FieldLevelEncryption"))
@@ -3953,7 +3953,7 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
+        public static let payloadPath: String = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
@@ -3980,7 +3980,7 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "fieldLevelEncryptionProfile"
+        public static let payloadPath: String = "fieldLevelEncryptionProfile"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body(locationName: "FieldLevelEncryptionProfile"))
@@ -4004,7 +4004,7 @@ extension CloudFront {
 
     public struct UpdatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKeyConfig"
+        public static let payloadPath: String = "publicKeyConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
@@ -4031,7 +4031,7 @@ extension CloudFront {
 
     public struct UpdatePublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "publicKey"
+        public static let payloadPath: String = "publicKey"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "publicKey", location: .body(locationName: "PublicKey"))
@@ -4055,7 +4055,7 @@ extension CloudFront {
 
     public struct UpdateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistributionConfig"
+        public static let payloadPath: String = "streamingDistributionConfig"
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
@@ -4082,7 +4082,7 @@ extension CloudFront {
 
     public struct UpdateStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "streamingDistribution"
+        public static let payloadPath: String = "streamingDistribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "streamingDistribution", location: .body(locationName: "StreamingDistribution"))

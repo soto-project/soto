@@ -322,7 +322,7 @@ extension LexRuntimeService {
 
     public struct PostContentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "inputStream"
+        public static let payloadPath: String = "inputStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
@@ -373,7 +373,7 @@ extension LexRuntimeService {
 
     public struct PostContentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "audioStream"
+        public static let payloadPath: String = "audioStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "audioStream", encoding: .blob), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
@@ -593,7 +593,7 @@ extension LexRuntimeService {
 
     public struct PutSessionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "audioStream"
+        public static let payloadPath: String = "audioStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "audioStream", encoding: .blob), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 

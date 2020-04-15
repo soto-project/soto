@@ -24,7 +24,7 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
@@ -76,7 +76,7 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 

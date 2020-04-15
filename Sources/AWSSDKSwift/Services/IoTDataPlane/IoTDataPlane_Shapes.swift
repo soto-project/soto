@@ -45,7 +45,7 @@ extension IoTDataPlane {
 
     public struct DeleteThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "payload", encoding: .blob)
         ]
@@ -85,7 +85,7 @@ extension IoTDataPlane {
 
     public struct GetThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "payload", encoding: .blob)
         ]
@@ -104,7 +104,7 @@ extension IoTDataPlane {
 
     public struct PublishRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "payload", encoding: .blob), 
             AWSMemberEncoding(label: "qos", location: .querystring(locationName: "qos")), 
@@ -134,7 +134,7 @@ extension IoTDataPlane {
 
     public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "payload", encoding: .blob), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
@@ -161,7 +161,7 @@ extension IoTDataPlane {
 
     public struct UpdateThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "payload", encoding: .blob)
         ]

@@ -344,7 +344,7 @@ extension KinesisVideoArchivedMedia {
 
     public struct GetMediaForFragmentListOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "payload"
+        public static let payloadPath: String = "payload"
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob)

@@ -512,7 +512,7 @@ extension Schemas {
 
     public struct GetCodeBindingSourceResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String? = "body"
+        public static let payloadPath: String = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob)
         ]
