@@ -41,6 +41,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 1
+    - run: git fetch origin gh-pages:gh-pages
     - name: Install
       run: |
         gem install jazzy
