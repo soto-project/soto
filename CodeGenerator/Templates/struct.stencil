@@ -29,7 +29,10 @@
 {%for comment in member.comment %}
         /// {{comment}}
 {%endfor %}
-        {%if member.propertyWrapper %}{{member.propertyWrapper}} {%endif %}public {%if member.propertyWrapper %}var{%else %}let{%endif %} {{member.variable}}: {{member.type}}
+{%if member.propertyWrapper %}
+        {{member.propertyWrapper}}
+{%endif %}
+        public {%if member.propertyWrapper %}var{%else %}let{%endif %} {{member.variable}}: {{member.type}}
 {%endfor %}
 
 {# init() function #}

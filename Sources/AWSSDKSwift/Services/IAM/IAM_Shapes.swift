@@ -525,7 +525,8 @@ extension IAM {
         /// The data type of the value (or values) specified in the ContextKeyValues parameter.
         public let contextKeyType: ContextKeyTypeEnum?
         /// The value (or values, if the condition context key supports multiple values) to provide to the simulation when the key is referenced by a Condition element in an input policy.
-        @OptionalCoding<DefaultArrayCoder> public var contextKeyValues: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var contextKeyValues: [String]?
 
         public init(contextKeyName: String? = nil, contextKeyType: ContextKeyTypeEnum? = nil, contextKeyValues: [String]? = nil) {
             self.contextKeyName = contextKeyName
@@ -729,9 +730,11 @@ extension IAM {
     public struct CreateOpenIDConnectProviderRequest: AWSEncodableShape {
 
         /// A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.) You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
-        @OptionalCoding<DefaultArrayCoder> public var clientIDList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var clientIDList: [String]?
         /// A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificates. Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates. The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string. You must provide at least one thumbprint when creating an IAM OIDC provider. For example, assume that the OIDC provider is server.example.com and the provider stores its keys at https://keys.server.example.com/openid-connect. In that case, the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com. For more information about obtaining the OIDC provider's thumbprint, see Obtaining the Thumbprint for an OpenID Connect Provider in the IAM User Guide.
-        @Coding<DefaultArrayCoder> public var thumbprintList: [String]
+        @Coding<DefaultArrayCoder>
+        public var thumbprintList: [String]
         /// The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com. You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
         public let url: String
 
@@ -887,7 +890,8 @@ extension IAM {
         /// The name of the role to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
         public let roleName: String
         /// A list of tags that you want to attach to the newly created role. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per role, then the entire request fails and the role is not created. 
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(assumeRolePolicyDocument: String, description: String? = nil, maxSessionDuration: Int? = nil, path: String? = nil, permissionsBoundary: String? = nil, roleName: String, tags: [Tag]? = nil) {
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
@@ -1078,7 +1082,8 @@ extension IAM {
         /// The ARN of the policy that is used to set the permissions boundary for the user.
         public let permissionsBoundary: String?
         /// A list of tags that you want to attach to the newly created user. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per user, then the entire request fails and the user is not created. 
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
         /// The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
         public let userName: String
 
@@ -1702,7 +1707,8 @@ extension IAM {
         /// A short description of the reason that the service-linked role deletion failed.
         public let reason: String?
         /// A list of objects that contains details about the service-linked role deletion failure, if that information is returned by the service. If the service-linked role has active sessions or if any resources that were used by the role have not been deleted from the linked service, the role can't be deleted. This parameter includes a list of the resources that are associated with the role and the Region in which the resources are being used.
-        @OptionalCoding<DefaultArrayCoder> public var roleUsageList: [RoleUsageType]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var roleUsageList: [RoleUsageType]?
 
         public init(reason: String? = nil, roleUsageList: [RoleUsageType]? = nil) {
             self.reason = reason
@@ -1906,19 +1912,23 @@ extension IAM {
         /// The result of the simulation.
         public let evalDecision: PolicyEvaluationDecisionType
         /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, AWS evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see Evaluating Policies Within a Single Account. If an AWS Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
-        @OptionalCoding<DefaultDictionaryCoder> public var evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The ARN of the resource that the indicated API operation was tested on.
         public let evalResourceName: String?
         /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
-        @OptionalCoding<DefaultArrayCoder> public var matchedStatements: [Statement]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var matchedStatements: [Statement]?
         /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
-        @OptionalCoding<DefaultArrayCoder> public var missingContextValues: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var missingContextValues: [String]?
         /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
         public let organizationsDecisionDetail: OrganizationsDecisionDetail?
         /// Contains information about the effect that a permissions boundary has on a policy simulation when the boundary is applied to an IAM entity.
         public let permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail?
         /// The individual results of the simulation of the API operation specified in EvalActionName on each resource.
-        @OptionalCoding<DefaultArrayCoder> public var resourceSpecificResults: [ResourceSpecificResult]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var resourceSpecificResults: [ResourceSpecificResult]?
 
         public init(evalActionName: String, evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
             self.evalActionName = evalActionName
@@ -2076,7 +2086,8 @@ extension IAM {
     public struct GetAccountAuthorizationDetailsRequest: AWSEncodableShape {
 
         /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
-        @OptionalCoding<DefaultArrayCoder> public var filter: [EntityType]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var filter: [EntityType]?
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -2106,17 +2117,21 @@ extension IAM {
     public struct GetAccountAuthorizationDetailsResponse: AWSDecodableShape {
 
         /// A list containing information about IAM groups.
-        @OptionalCoding<DefaultArrayCoder> public var groupDetailList: [GroupDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var groupDetailList: [GroupDetail]?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list containing information about managed policies.
-        @OptionalCoding<DefaultArrayCoder> public var policies: [ManagedPolicyDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policies: [ManagedPolicyDetail]?
         /// A list containing information about IAM roles.
-        @OptionalCoding<DefaultArrayCoder> public var roleDetailList: [RoleDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var roleDetailList: [RoleDetail]?
         /// A list containing information about IAM users.
-        @OptionalCoding<DefaultArrayCoder> public var userDetailList: [UserDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var userDetailList: [UserDetail]?
 
         public init(groupDetailList: [GroupDetail]? = nil, isTruncated: Bool? = nil, marker: String? = nil, policies: [ManagedPolicyDetail]? = nil, roleDetailList: [RoleDetail]? = nil, userDetailList: [UserDetail]? = nil) {
             self.groupDetailList = groupDetailList
@@ -2154,7 +2169,8 @@ extension IAM {
     public struct GetAccountSummaryResponse: AWSDecodableShape {
 
         /// A set of key–value pairs containing information about IAM entity usage and IAM quotas.
-        @OptionalCoding<DefaultDictionaryCoder> public var summaryMap: [SummaryKeyType: Int]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var summaryMap: [SummaryKeyType: Int]?
 
         public init(summaryMap: [SummaryKeyType: Int]? = nil) {
             self.summaryMap = summaryMap
@@ -2168,7 +2184,8 @@ extension IAM {
     public struct GetContextKeysForCustomPolicyRequest: AWSEncodableShape {
 
         /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
-        @Coding<DefaultArrayCoder> public var policyInputList: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyInputList: [String]
 
         public init(policyInputList: [String]) {
             self.policyInputList = policyInputList
@@ -2190,7 +2207,8 @@ extension IAM {
     public struct GetContextKeysForPolicyResponse: AWSDecodableShape {
 
         /// The list of context keys that are referenced in the input policies.
-        @OptionalCoding<DefaultArrayCoder> public var contextKeyNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var contextKeyNames: [String]?
 
         public init(contextKeyNames: [String]? = nil) {
             self.contextKeyNames = contextKeyNames
@@ -2204,7 +2222,8 @@ extension IAM {
     public struct GetContextKeysForPrincipalPolicyRequest: AWSEncodableShape {
 
         /// An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
-        @OptionalCoding<DefaultArrayCoder> public var policyInputList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyInputList: [String]?
         /// The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policySourceArn: String
 
@@ -2342,7 +2361,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of users in the group.
-        @Coding<DefaultArrayCoder> public var users: [User]
+        @Coding<DefaultArrayCoder>
+        public var users: [User]
 
         public init(group: Group, isTruncated: Bool? = nil, marker: String? = nil, users: [User]) {
             self.group = group
@@ -2449,11 +2469,13 @@ extension IAM {
     public struct GetOpenIDConnectProviderResponse: AWSDecodableShape {
 
         /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
-        @OptionalCoding<DefaultArrayCoder> public var clientIDList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var clientIDList: [String]?
         /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
         public let createDate: TimeStamp?
         /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider. 
-        @OptionalCoding<DefaultArrayCoder> public var thumbprintList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var thumbprintList: [String]?
         /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
         public let url: String?
 
@@ -2511,7 +2533,8 @@ extension IAM {
     public struct GetOrganizationsAccessReportResponse: AWSDecodableShape {
 
         /// An object that contains details about the most recent attempt to access the service.
-        @OptionalCoding<DefaultArrayCoder> public var accessDetails: [AccessDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var accessDetails: [AccessDetail]?
         public let errorDetails: ErrorDetails?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
@@ -2874,7 +2897,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         ///  A ServiceLastAccessed object that contains details about the most recent attempt to access the service.
-        @Coding<DefaultArrayCoder> public var servicesLastAccessed: [ServiceLastAccessed]
+        @Coding<DefaultArrayCoder>
+        public var servicesLastAccessed: [ServiceLastAccessed]
 
         public init(error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil, servicesLastAccessed: [ServiceLastAccessed]) {
             self.error = error
@@ -2939,7 +2963,8 @@ extension IAM {
     public struct GetServiceLastAccessedDetailsWithEntitiesResponse: AWSDecodableShape {
 
         /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified AWS service.
-        @Coding<DefaultArrayCoder> public var entityDetailsList: [EntityDetails]
+        @Coding<DefaultArrayCoder>
+        public var entityDetailsList: [EntityDetails]
         /// An object that contains details about the reason the operation failed.
         public let error: ErrorDetails?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -3128,7 +3153,8 @@ extension IAM {
 
         public let arn: String?
         /// A list of the managed policies attached to the group.
-        @OptionalCoding<DefaultArrayCoder> public var attachedManagedPolicies: [AttachedPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the group was created.
         public let createDate: TimeStamp?
         /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the IAM User Guide.
@@ -3136,7 +3162,8 @@ extension IAM {
         /// The friendly name that identifies the group.
         public let groupName: String?
         /// A list of the inline policies embedded in the group.
-        @OptionalCoding<DefaultArrayCoder> public var groupPolicyList: [PolicyDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var groupPolicyList: [PolicyDetail]?
         /// The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
 
@@ -3174,7 +3201,8 @@ extension IAM {
         ///  The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide. 
         public let path: String
         /// The role associated with the instance profile.
-        @Coding<DefaultArrayCoder> public var roles: [Role]
+        @Coding<DefaultArrayCoder>
+        public var roles: [Role]
 
         public init(arn: String, createDate: TimeStamp, instanceProfileId: String, instanceProfileName: String, path: String, roles: [Role]) {
             self.arn = arn
@@ -3231,7 +3259,8 @@ extension IAM {
     public struct ListAccessKeysResponse: AWSDecodableShape {
 
         /// A list of objects containing metadata about the access keys.
-        @Coding<DefaultArrayCoder> public var accessKeyMetadata: [AccessKeyMetadata]
+        @Coding<DefaultArrayCoder>
+        public var accessKeyMetadata: [AccessKeyMetadata]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3279,7 +3308,8 @@ extension IAM {
     public struct ListAccountAliasesResponse: AWSDecodableShape {
 
         /// A list of aliases associated with the account. AWS supports only one alias per account.
-        @Coding<DefaultArrayCoder> public var accountAliases: [String]
+        @Coding<DefaultArrayCoder>
+        public var accountAliases: [String]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3341,7 +3371,8 @@ extension IAM {
     public struct ListAttachedGroupPoliciesResponse: AWSDecodableShape {
 
         /// A list of the attached policies.
-        @OptionalCoding<DefaultArrayCoder> public var attachedPolicies: [AttachedPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attachedPolicies: [AttachedPolicy]?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3403,7 +3434,8 @@ extension IAM {
     public struct ListAttachedRolePoliciesResponse: AWSDecodableShape {
 
         /// A list of the attached policies.
-        @OptionalCoding<DefaultArrayCoder> public var attachedPolicies: [AttachedPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attachedPolicies: [AttachedPolicy]?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3465,7 +3497,8 @@ extension IAM {
     public struct ListAttachedUserPoliciesResponse: AWSDecodableShape {
 
         /// A list of the attached policies.
-        @OptionalCoding<DefaultArrayCoder> public var attachedPolicies: [AttachedPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attachedPolicies: [AttachedPolicy]?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3538,11 +3571,14 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of IAM groups that the policy is attached to.
-        @OptionalCoding<DefaultArrayCoder> public var policyGroups: [PolicyGroup]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyGroups: [PolicyGroup]?
         /// A list of IAM roles that the policy is attached to.
-        @OptionalCoding<DefaultArrayCoder> public var policyRoles: [PolicyRole]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyRoles: [PolicyRole]?
         /// A list of IAM users that the policy is attached to.
-        @OptionalCoding<DefaultArrayCoder> public var policyUsers: [PolicyUser]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyUsers: [PolicyUser]?
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyGroups: [PolicyGroup]? = nil, policyRoles: [PolicyRole]? = nil, policyUsers: [PolicyUser]? = nil) {
             self.isTruncated = isTruncated
@@ -3601,7 +3637,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of policy names. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyNames: [String]) {
             self.isTruncated = isTruncated
@@ -3652,7 +3689,8 @@ extension IAM {
     public struct ListGroupsForUserResponse: AWSDecodableShape {
 
         /// A list of groups.
-        @Coding<DefaultArrayCoder> public var groups: [Group]
+        @Coding<DefaultArrayCoder>
+        public var groups: [Group]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3707,7 +3745,8 @@ extension IAM {
     public struct ListGroupsResponse: AWSDecodableShape {
 
         /// A list of groups.
-        @Coding<DefaultArrayCoder> public var groups: [Group]
+        @Coding<DefaultArrayCoder>
+        public var groups: [Group]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3762,7 +3801,8 @@ extension IAM {
     public struct ListInstanceProfilesForRoleResponse: AWSDecodableShape {
 
         /// A list of instance profiles.
-        @Coding<DefaultArrayCoder> public var instanceProfiles: [InstanceProfile]
+        @Coding<DefaultArrayCoder>
+        public var instanceProfiles: [InstanceProfile]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3817,7 +3857,8 @@ extension IAM {
     public struct ListInstanceProfilesResponse: AWSDecodableShape {
 
         /// A list of instance profiles.
-        @Coding<DefaultArrayCoder> public var instanceProfiles: [InstanceProfile]
+        @Coding<DefaultArrayCoder>
+        public var instanceProfiles: [InstanceProfile]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -3876,7 +3917,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of MFA devices.
-        @Coding<DefaultArrayCoder> public var mFADevices: [MFADevice]
+        @Coding<DefaultArrayCoder>
+        public var mFADevices: [MFADevice]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, mFADevices: [MFADevice]) {
             self.isTruncated = isTruncated
@@ -3902,7 +3944,8 @@ extension IAM {
     public struct ListOpenIDConnectProvidersResponse: AWSDecodableShape {
 
         /// The list of IAM OIDC provider resource objects defined in the AWS account.
-        @OptionalCoding<DefaultArrayCoder> public var openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
 
         public init(openIDConnectProviderList: [OpenIDConnectProviderListEntry]? = nil) {
             self.openIDConnectProviderList = openIDConnectProviderList
@@ -3916,7 +3959,8 @@ extension IAM {
     public struct ListPoliciesGrantingServiceAccessEntry: AWSDecodableShape {
 
         /// The PoliciesGrantingServiceAccess object that contains details about the policy.
-        @OptionalCoding<DefaultArrayCoder> public var policies: [PolicyGrantingServiceAccess]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policies: [PolicyGrantingServiceAccess]?
         /// The namespace of the service that was accessed. To learn the service namespace of a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
         public let serviceNamespace: String?
 
@@ -3938,7 +3982,8 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// The service namespace for the AWS services whose policies you want to list. To learn the service namespace for a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
-        @Coding<DefaultArrayCoder> public var serviceNamespaces: [String]
+        @Coding<DefaultArrayCoder>
+        public var serviceNamespaces: [String]
 
         public init(arn: String, marker: String? = nil, serviceNamespaces: [String]) {
             self.arn = arn
@@ -3975,7 +4020,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A ListPoliciesGrantingServiceAccess object that contains details about the permissions policies attached to the specified identity (user, group, or role).
-        @Coding<DefaultArrayCoder> public var policiesGrantingServiceAccess: [ListPoliciesGrantingServiceAccessEntry]
+        @Coding<DefaultArrayCoder>
+        public var policiesGrantingServiceAccess: [ListPoliciesGrantingServiceAccessEntry]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, policiesGrantingServiceAccess: [ListPoliciesGrantingServiceAccessEntry]) {
             self.isTruncated = isTruncated
@@ -4042,7 +4088,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of policies.
-        @OptionalCoding<DefaultArrayCoder> public var policies: [Policy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policies: [Policy]?
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, policies: [Policy]? = nil) {
             self.isTruncated = isTruncated
@@ -4096,7 +4143,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of policy versions. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
-        @OptionalCoding<DefaultArrayCoder> public var versions: [PolicyVersion]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var versions: [PolicyVersion]?
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, versions: [PolicyVersion]? = nil) {
             self.isTruncated = isTruncated
@@ -4151,7 +4199,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of policy names.
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyNames: [String]) {
             self.isTruncated = isTruncated
@@ -4206,7 +4255,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// The list of tags currently that is attached to the role. Each tag consists of a key name and an associated value. If no tags are attached to the specified role, the response contains an empty list.
-        @Coding<DefaultArrayCoder> public var tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
@@ -4261,7 +4311,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of roles.
-        @Coding<DefaultArrayCoder> public var roles: [Role]
+        @Coding<DefaultArrayCoder>
+        public var roles: [Role]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, roles: [Role]) {
             self.isTruncated = isTruncated
@@ -4287,7 +4338,8 @@ extension IAM {
     public struct ListSAMLProvidersResponse: AWSDecodableShape {
 
         /// The list of SAML provider resource objects defined in IAM for this AWS account.
-        @OptionalCoding<DefaultArrayCoder> public var sAMLProviderList: [SAMLProviderListEntry]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var sAMLProviderList: [SAMLProviderListEntry]?
 
         public init(sAMLProviderList: [SAMLProviderListEntry]? = nil) {
             self.sAMLProviderList = sAMLProviderList
@@ -4338,7 +4390,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of the SSH public keys assigned to IAM user.
-        @OptionalCoding<DefaultArrayCoder> public var sSHPublicKeys: [SSHPublicKeyMetadata]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var sSHPublicKeys: [SSHPublicKeyMetadata]?
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, sSHPublicKeys: [SSHPublicKeyMetadata]? = nil) {
             self.isTruncated = isTruncated
@@ -4393,7 +4446,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of server certificates.
-        @Coding<DefaultArrayCoder> public var serverCertificateMetadataList: [ServerCertificateMetadata]
+        @Coding<DefaultArrayCoder>
+        public var serverCertificateMetadataList: [ServerCertificateMetadata]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, serverCertificateMetadataList: [ServerCertificateMetadata]) {
             self.isTruncated = isTruncated
@@ -4435,7 +4489,8 @@ extension IAM {
     public struct ListServiceSpecificCredentialsResponse: AWSDecodableShape {
 
         /// A list of structures that each contain details about a service-specific credential.
-        @OptionalCoding<DefaultArrayCoder> public var serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]?
 
         public init(serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]? = nil) {
             self.serviceSpecificCredentials = serviceSpecificCredentials
@@ -4482,7 +4537,8 @@ extension IAM {
     public struct ListSigningCertificatesResponse: AWSDecodableShape {
 
         /// A list of the user's signing certificate information.
-        @Coding<DefaultArrayCoder> public var certificates: [SigningCertificate]
+        @Coding<DefaultArrayCoder>
+        public var certificates: [SigningCertificate]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -4541,7 +4597,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of policy names.
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyNames: [String]) {
             self.isTruncated = isTruncated
@@ -4596,7 +4653,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// The list of tags that are currently attached to the user. Each tag consists of a key name and an associated value. If no tags are attached to the specified user, the response contains an empty list.
-        @Coding<DefaultArrayCoder> public var tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
@@ -4651,7 +4709,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// A list of users.
-        @Coding<DefaultArrayCoder> public var users: [User]
+        @Coding<DefaultArrayCoder>
+        public var users: [User]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, users: [User]) {
             self.isTruncated = isTruncated
@@ -4703,7 +4762,8 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         ///  The list of virtual MFA devices in the current account that match the AssignmentStatus value that was passed in the request.
-        @Coding<DefaultArrayCoder> public var virtualMFADevices: [VirtualMFADevice]
+        @Coding<DefaultArrayCoder>
+        public var virtualMFADevices: [VirtualMFADevice]
 
         public init(isTruncated: Bool? = nil, marker: String? = nil, virtualMFADevices: [VirtualMFADevice]) {
             self.isTruncated = isTruncated
@@ -4784,7 +4844,8 @@ extension IAM {
         /// The friendly name (not ARN) identifying the policy.
         public let policyName: String?
         /// A list containing information about the versions of the policy.
-        @OptionalCoding<DefaultArrayCoder> public var policyVersionList: [PolicyVersion]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyVersionList: [PolicyVersion]?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
         public let updateDate: TimeStamp?
 
@@ -5385,15 +5446,18 @@ extension IAM {
     public struct ResourceSpecificResult: AWSDecodableShape {
 
         /// Additional details about the results of the evaluation decision on a single resource. This parameter is returned only for cross-account simulations. This parameter explains how each policy type contributes to the resource-specific evaluation decision.
-        @OptionalCoding<DefaultDictionaryCoder> public var evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The result of the simulation of the simulated API operation on the resource specified in EvalResourceName.
         public let evalResourceDecision: PolicyEvaluationDecisionType
         /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
         public let evalResourceName: String
         /// A list of the statements in the input policies that determine the result for this part of the simulation. Remember that even if multiple statements allow the operation on the resource, if any statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
-        @OptionalCoding<DefaultArrayCoder> public var matchedStatements: [Statement]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var matchedStatements: [Statement]?
         /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
-        @OptionalCoding<DefaultArrayCoder> public var missingContextValues: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var missingContextValues: [String]?
         /// Contains information about the effect that a permissions boundary has on a policy simulation when that boundary is applied to an IAM entity.
         public let permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail?
 
@@ -5480,7 +5544,8 @@ extension IAM {
         /// The friendly name that identifies the role.
         public let roleName: String
         /// A list of tags that are attached to the specified role. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: TimeStamp, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, tags: [Tag]? = nil) {
             self.arn = arn
@@ -5517,11 +5582,13 @@ extension IAM {
         /// The trust policy that grants permission to assume the role.
         public let assumeRolePolicyDocument: String?
         /// A list of managed policies attached to the role. These policies are the role's access (permissions) policies.
-        @OptionalCoding<DefaultArrayCoder> public var attachedManagedPolicies: [AttachedPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the role was created.
         public let createDate: TimeStamp?
         /// A list of instance profiles that contain this role.
-        @OptionalCoding<DefaultArrayCoder> public var instanceProfileList: [InstanceProfile]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceProfileList: [InstanceProfile]?
         /// The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The ARN of the policy used to set the permissions boundary for the role. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
@@ -5533,9 +5600,11 @@ extension IAM {
         /// The friendly name that identifies the role.
         public let roleName: String?
         /// A list of inline policies embedded in the role. These policies are the role's access (permissions) policies.
-        @OptionalCoding<DefaultArrayCoder> public var rolePolicyList: [PolicyDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var rolePolicyList: [PolicyDetail]?
         /// A list of tags that are attached to the specified role. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, instanceProfileList: [InstanceProfile]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String? = nil, roleLastUsed: RoleLastUsed? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
@@ -5591,7 +5660,8 @@ extension IAM {
         /// The name of the Region where the service-linked role is being used.
         public let region: String?
         /// The name of the resource that is using the service-linked role.
-        @OptionalCoding<DefaultArrayCoder> public var resources: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var resources: [String]?
 
         public init(region: String? = nil, resources: [String]? = nil) {
             self.region = region
@@ -5915,21 +5985,26 @@ extension IAM {
     public struct SimulateCustomPolicyRequest: AWSEncodableShape {
 
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
-        @Coding<DefaultArrayCoder> public var actionNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var actionNames: [String]
         /// The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
         public let callerArn: String?
         /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
-        @OptionalCoding<DefaultArrayCoder> public var contextEntries: [ContextEntry]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var contextEntries: [ContextEntry]?
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
         /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
-        @OptionalCoding<DefaultArrayCoder> public var permissionsBoundaryPolicyInputList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var permissionsBoundaryPolicyInputList: [String]?
         /// A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
-        @Coding<DefaultArrayCoder> public var policyInputList: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyInputList: [String]
         /// A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        @OptionalCoding<DefaultArrayCoder> public var resourceArns: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var resourceArns: [String]?
         /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security-group    EC2-Classic-EBS  instance, image, security-group, volume    EC2-VPC-InstanceStore  instance, image, security-group, network-interface    EC2-VPC-InstanceStore-Subnet  instance, image, security-group, network-interface, subnet    EC2-VPC-EBS  instance, image, security-group, network-interface, volume    EC2-VPC-EBS-Subnet  instance, image, security-group, network-interface, subnet, volume  
         public let resourceHandlingOption: String?
         /// An ARN representing the AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn. The ARN for an account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to represent the account with the 112233445566 ID, use the following ARN: arn:aws:iam::112233445566-ID:root. 
@@ -6007,7 +6082,8 @@ extension IAM {
     public struct SimulatePolicyResponse: AWSDecodableShape {
 
         /// The results of the simulation.
-        @OptionalCoding<DefaultArrayCoder> public var evaluationResults: [EvaluationResult]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var evaluationResults: [EvaluationResult]?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -6029,23 +6105,28 @@ extension IAM {
     public struct SimulatePrincipalPolicyRequest: AWSEncodableShape {
 
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
-        @Coding<DefaultArrayCoder> public var actionNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var actionNames: [String]
         /// The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let callerArn: String?
         /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
-        @OptionalCoding<DefaultArrayCoder> public var contextEntries: [ContextEntry]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var contextEntries: [ContextEntry]?
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
         /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permission boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
-        @OptionalCoding<DefaultArrayCoder> public var permissionsBoundaryPolicyInputList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var permissionsBoundaryPolicyInputList: [String]?
         /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
-        @OptionalCoding<DefaultArrayCoder> public var policyInputList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyInputList: [String]?
         /// The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policySourceArn: String
         /// A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        @OptionalCoding<DefaultArrayCoder> public var resourceArns: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var resourceArns: [String]?
         /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security group    EC2-Classic-EBS  instance, image, security group, volume    EC2-VPC-InstanceStore  instance, image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group, network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume  
         public let resourceHandlingOption: String?
         /// An AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn.
@@ -6182,7 +6263,8 @@ extension IAM {
         /// The name of the role that you want to add tags to. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
         /// The list of tags that you want to attach to the role. Each tag consists of a key name and an associated value. You can specify this with a JSON string.
-        @Coding<DefaultArrayCoder> public var tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(roleName: String, tags: [Tag]) {
             self.roleName = roleName
@@ -6208,7 +6290,8 @@ extension IAM {
     public struct TagUserRequest: AWSEncodableShape {
 
         /// The list of tags that you want to attach to the user. Each tag consists of a key name and an associated value.
-        @Coding<DefaultArrayCoder> public var tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
         /// The name of the user that you want to add tags to. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
 
@@ -6238,7 +6321,8 @@ extension IAM {
         /// The name of the IAM role from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified role.
-        @Coding<DefaultArrayCoder> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder>
+        public var tagKeys: [String]
 
         public init(roleName: String, tagKeys: [String]) {
             self.roleName = roleName
@@ -6266,7 +6350,8 @@ extension IAM {
     public struct UntagUserRequest: AWSEncodableShape {
 
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified user.
-        @Coding<DefaultArrayCoder> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder>
+        public var tagKeys: [String]
         /// The name of the IAM user from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
 
@@ -6476,7 +6561,8 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let openIDConnectProviderArn: String
         /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
-        @Coding<DefaultArrayCoder> public var thumbprintList: [String]
+        @Coding<DefaultArrayCoder>
+        public var thumbprintList: [String]
 
         public init(openIDConnectProviderArn: String, thumbprintList: [String]) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
@@ -6935,7 +7021,8 @@ extension IAM {
         /// The ARN of the policy used to set the permissions boundary for the user. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundary: AttachedPermissionsBoundary?
         /// A list of tags that are associated with the specified user. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
         /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let userId: String
         /// The friendly name identifying the user.
@@ -6968,23 +7055,27 @@ extension IAM {
 
         public let arn: String?
         /// A list of the managed policies attached to the user.
-        @OptionalCoding<DefaultArrayCoder> public var attachedManagedPolicies: [AttachedPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the user was created.
         public let createDate: TimeStamp?
         /// A list of IAM groups that the user is in.
-        @OptionalCoding<DefaultArrayCoder> public var groupList: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var groupList: [String]?
         /// The path to the user. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The ARN of the policy used to set the permissions boundary for the user. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundary: AttachedPermissionsBoundary?
         /// A list of tags that are associated with the specified user. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
         /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let userId: String?
         /// The friendly name identifying the user.
         public let userName: String?
         /// A list of the inline policies embedded in the user.
-        @OptionalCoding<DefaultArrayCoder> public var userPolicyList: [PolicyDetail]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var userPolicyList: [PolicyDetail]?
 
         public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, groupList: [String]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String? = nil, userName: String? = nil, userPolicyList: [PolicyDetail]? = nil) {
             self.arn = arn

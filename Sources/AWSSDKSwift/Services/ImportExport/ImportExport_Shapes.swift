@@ -100,7 +100,8 @@ extension ImportExport {
 
     public struct CreateJobOutput: AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var artifactList: [Artifact]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var artifactList: [Artifact]?
         public let jobId: String?
         public let jobType: JobType?
         public let signature: String?
@@ -132,7 +133,8 @@ extension ImportExport {
         public let city: String?
         public let company: String?
         public let country: String?
-        @Coding<DefaultArrayCoder> public var jobIds: [String]
+        @Coding<DefaultArrayCoder>
+        public var jobIds: [String]
         public let name: String?
         public let phoneNumber: String?
         public let postalCode: String?
@@ -206,7 +208,8 @@ extension ImportExport {
 
     public struct GetStatusOutput: AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var artifactList: [Artifact]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var artifactList: [Artifact]?
         public let carrier: String?
         public let creationDate: TimeStamp?
         public let currentManifest: String?
@@ -306,7 +309,8 @@ extension ImportExport {
     public struct ListJobsOutput: AWSDecodableShape {
 
         public let isTruncated: Bool?
-        @OptionalCoding<DefaultArrayCoder> public var jobs: [Job]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var jobs: [Job]?
 
         public init(isTruncated: Bool? = nil, jobs: [Job]? = nil) {
             self.isTruncated = isTruncated
@@ -346,7 +350,8 @@ extension ImportExport {
 
     public struct UpdateJobOutput: AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var artifactList: [Artifact]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var artifactList: [Artifact]?
         public let success: Bool?
         public let warningMessage: String?
 

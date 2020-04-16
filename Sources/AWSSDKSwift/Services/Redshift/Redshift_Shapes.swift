@@ -160,7 +160,8 @@ extension Redshift {
         /// The name of the attribute.
         public let attributeName: String?
         /// A list of attribute values.
-        @OptionalCoding<ArrayCoder<_AttributeValuesEncoding, AttributeValueTarget>> public var attributeValues: [AttributeValueTarget]?
+        @OptionalCoding<ArrayCoder<_AttributeValuesEncoding, AttributeValueTarget>>
+        public var attributeValues: [AttributeValueTarget]?
 
         public init(attributeName: String? = nil, attributeValues: [AttributeValueTarget]? = nil) {
             self.attributeName = attributeName
@@ -177,7 +178,8 @@ extension Redshift {
         public struct _AccountAttributesEncoding: ArrayCoderProperties { static public let member = "AccountAttribute" }
 
         /// A list of attributes assigned to an account.
-        @OptionalCoding<ArrayCoder<_AccountAttributesEncoding, AccountAttribute>> public var accountAttributes: [AccountAttribute]?
+        @OptionalCoding<ArrayCoder<_AccountAttributesEncoding, AccountAttribute>>
+        public var accountAttributes: [AccountAttribute]?
 
         public init(accountAttributes: [AccountAttribute]? = nil) {
             self.accountAttributes = accountAttributes
@@ -299,7 +301,8 @@ extension Redshift {
 
         /// The name of the availability zone.
         public let name: String?
-        @OptionalCoding<ArrayCoder<_SupportedPlatformsEncoding, SupportedPlatform>> public var supportedPlatforms: [SupportedPlatform]?
+        @OptionalCoding<ArrayCoder<_SupportedPlatformsEncoding, SupportedPlatform>>
+        public var supportedPlatforms: [SupportedPlatform]?
 
         public init(name: String? = nil, supportedPlatforms: [SupportedPlatform]? = nil) {
             self.name = name
@@ -316,7 +319,8 @@ extension Redshift {
         public struct _IdentifiersEncoding: ArrayCoderProperties { static public let member = "DeleteClusterSnapshotMessage" }
 
         /// A list of identifiers for the snapshots that you want to delete.
-        @Coding<ArrayCoder<_IdentifiersEncoding, DeleteClusterSnapshotMessage>> public var identifiers: [DeleteClusterSnapshotMessage]
+        @Coding<ArrayCoder<_IdentifiersEncoding, DeleteClusterSnapshotMessage>>
+        public var identifiers: [DeleteClusterSnapshotMessage]
 
         public init(identifiers: [DeleteClusterSnapshotMessage]) {
             self.identifiers = identifiers
@@ -332,9 +336,11 @@ extension Redshift {
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "String" }
 
         /// A list of any errors returned.
-        @OptionalCoding<ArrayCoder<_ErrorsEncoding, SnapshotErrorMessage>> public var errors: [SnapshotErrorMessage]?
+        @OptionalCoding<ArrayCoder<_ErrorsEncoding, SnapshotErrorMessage>>
+        public var errors: [SnapshotErrorMessage]?
         /// A list of the snapshot identifiers that were deleted. 
-        @OptionalCoding<ArrayCoder<_ResourcesEncoding, String>> public var resources: [String]?
+        @OptionalCoding<ArrayCoder<_ResourcesEncoding, String>>
+        public var resources: [String]?
 
         public init(errors: [SnapshotErrorMessage]? = nil, resources: [String]? = nil) {
             self.errors = errors
@@ -355,7 +361,8 @@ extension Redshift {
         /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option. 
         public let manualSnapshotRetentionPeriod: Int?
         /// A list of snapshot identifiers you want to modify.
-        @Coding<ArrayCoder<_SnapshotIdentifierListEncoding, String>> public var snapshotIdentifierList: [String]
+        @Coding<ArrayCoder<_SnapshotIdentifierListEncoding, String>>
+        public var snapshotIdentifierList: [String]
 
         public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifierList: [String]) {
             self.force = force
@@ -375,9 +382,11 @@ extension Redshift {
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "String" }
 
         /// A list of any errors returned.
-        @OptionalCoding<ArrayCoder<_ErrorsEncoding, SnapshotErrorMessage>> public var errors: [SnapshotErrorMessage]?
+        @OptionalCoding<ArrayCoder<_ErrorsEncoding, SnapshotErrorMessage>>
+        public var errors: [SnapshotErrorMessage]?
         /// A list of the snapshots that were modified.
-        @OptionalCoding<ArrayCoder<_ResourcesEncoding, String>> public var resources: [String]?
+        @OptionalCoding<ArrayCoder<_ResourcesEncoding, String>>
+        public var resources: [String]?
 
         public init(errors: [SnapshotErrorMessage]? = nil, resources: [String]? = nil) {
             self.errors = errors
@@ -425,15 +434,18 @@ extension Redshift {
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
         /// The nodes in the cluster.
-        @OptionalCoding<DefaultArrayCoder> public var clusterNodes: [ClusterNode]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var clusterNodes: [ClusterNode]?
         /// The list of cluster parameter groups that are associated with this cluster. Each parameter group in the list is returned with its status.
-        @OptionalCoding<ArrayCoder<_ClusterParameterGroupsEncoding, ClusterParameterGroupStatus>> public var clusterParameterGroups: [ClusterParameterGroupStatus]?
+        @OptionalCoding<ArrayCoder<_ClusterParameterGroupsEncoding, ClusterParameterGroupStatus>>
+        public var clusterParameterGroups: [ClusterParameterGroupStatus]?
         /// The public key for the cluster.
         public let clusterPublicKey: String?
         /// The specific revision number of the database in the cluster.
         public let clusterRevisionNumber: String?
         /// A list of cluster security group that are associated with the cluster. Each security group is represented by an element that contains ClusterSecurityGroup.Name and ClusterSecurityGroup.Status subelements.  Cluster security groups are used when the cluster is not created in an Amazon Virtual Private Cloud (VPC). Clusters that are created in a VPC use VPC security groups, which are listed by the VpcSecurityGroups parameter. 
-        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, ClusterSecurityGroupMembership>> public var clusterSecurityGroups: [ClusterSecurityGroupMembership]?
+        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, ClusterSecurityGroupMembership>>
+        public var clusterSecurityGroups: [ClusterSecurityGroupMembership]?
         /// A value that returns the destination region and retention period that are configured for cross-region snapshot copy.
         public let clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus?
         ///  The current state of the cluster. Possible values are the following:    available     available, prep-for-resize     available, resize-cleanup     cancelling-resize     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     paused     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
@@ -446,7 +458,8 @@ extension Redshift {
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default. 
         public let dBName: String?
         /// Describes a group of DeferredMaintenanceWindow objects.
-        @OptionalCoding<ArrayCoder<_DeferredMaintenanceWindowsEncoding, DeferredMaintenanceWindow>> public var deferredMaintenanceWindows: [DeferredMaintenanceWindow]?
+        @OptionalCoding<ArrayCoder<_DeferredMaintenanceWindowsEncoding, DeferredMaintenanceWindow>>
+        public var deferredMaintenanceWindows: [DeferredMaintenanceWindow]?
         /// The status of the elastic IP (EIP) address.
         public let elasticIpStatus: ElasticIpStatus?
         /// The number of nodes that you can resize the cluster to with the elastic resize method. 
@@ -464,7 +477,8 @@ extension Redshift {
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public let hsmStatus: HsmStatus?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services.
-        @OptionalCoding<ArrayCoder<_IamRolesEncoding, ClusterIamRole>> public var iamRoles: [ClusterIamRole]?
+        @OptionalCoding<ArrayCoder<_IamRolesEncoding, ClusterIamRole>>
+        public var iamRoles: [ClusterIamRole]?
         /// The AWS Key Management Service (AWS KMS) key ID of the encryption key used to encrypt data in the cluster.
         public let kmsKeyId: String?
         /// The name of the maintenance track for the cluster.
@@ -482,7 +496,8 @@ extension Redshift {
         /// The number of compute nodes in the cluster.
         public let numberOfNodes: Int?
         /// Cluster operations that are waiting to be started.
-        @OptionalCoding<DefaultArrayCoder> public var pendingActions: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var pendingActions: [String]?
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur.
@@ -498,11 +513,13 @@ extension Redshift {
         /// The current state of the cluster snapshot schedule.
         public let snapshotScheduleState: ScheduleState?
         /// The list of tags for the cluster.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
         public let vpcId: String?
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>> public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: TimeStamp? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: TimeStamp? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
@@ -651,7 +668,8 @@ extension Redshift {
         /// The date on which the database revision was released.
         public let databaseRevisionReleaseDate: TimeStamp?
         /// A list of RevisionTarget objects, where each object describes the database revision that a cluster can be updated to.
-        @OptionalCoding<ArrayCoder<_RevisionTargetsEncoding, RevisionTarget>> public var revisionTargets: [RevisionTarget]?
+        @OptionalCoding<ArrayCoder<_RevisionTargetsEncoding, RevisionTarget>>
+        public var revisionTargets: [RevisionTarget]?
 
         public init(clusterIdentifier: String? = nil, currentDatabaseRevision: String? = nil, databaseRevisionReleaseDate: TimeStamp? = nil, revisionTargets: [RevisionTarget]? = nil) {
             self.clusterIdentifier = clusterIdentifier
@@ -672,7 +690,8 @@ extension Redshift {
         public struct _ClusterDbRevisionsEncoding: ArrayCoderProperties { static public let member = "ClusterDbRevision" }
 
         /// A list of revisions.
-        @OptionalCoding<ArrayCoder<_ClusterDbRevisionsEncoding, ClusterDbRevision>> public var clusterDbRevisions: [ClusterDbRevision]?
+        @OptionalCoding<ArrayCoder<_ClusterDbRevisionsEncoding, ClusterDbRevision>>
+        public var clusterDbRevisions: [ClusterDbRevision]?
         /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
         public let marker: String?
 
@@ -737,7 +756,8 @@ extension Redshift {
         /// The name of the cluster parameter group.
         public let parameterGroupName: String?
         /// The list of tags for the cluster parameter group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(description: String? = nil, parameterGroupFamily: String? = nil, parameterGroupName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
@@ -760,7 +780,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Parameter instances. Each instance lists the parameters of one cluster parameter group. 
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
 
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
@@ -794,7 +815,8 @@ extension Redshift {
     public struct ClusterParameterGroupStatus: AWSDecodableShape {
 
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
-        @OptionalCoding<DefaultArrayCoder> public var clusterParameterStatusList: [ClusterParameterStatus]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var clusterParameterStatusList: [ClusterParameterStatus]?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
         /// The name of the cluster parameter group.
@@ -819,7 +841,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ClusterParameterGroup instances. Each instance describes one cluster parameter group. 
-        @OptionalCoding<ArrayCoder<_ParameterGroupsEncoding, ClusterParameterGroup>> public var parameterGroups: [ClusterParameterGroup]?
+        @OptionalCoding<ArrayCoder<_ParameterGroupsEncoding, ClusterParameterGroup>>
+        public var parameterGroups: [ClusterParameterGroup]?
 
         public init(marker: String? = nil, parameterGroups: [ClusterParameterGroup]? = nil) {
             self.marker = marker
@@ -864,11 +887,14 @@ extension Redshift {
         /// A description of the security group.
         public let description: String?
         /// A list of EC2 security groups that are permitted to access clusters associated with this cluster security group.
-        @OptionalCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>> public var eC2SecurityGroups: [EC2SecurityGroup]?
+        @OptionalCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
+        public var eC2SecurityGroups: [EC2SecurityGroup]?
         /// A list of IP ranges (CIDR blocks) that are permitted to access clusters associated with this cluster security group.
-        @OptionalCoding<ArrayCoder<_IPRangesEncoding, IPRange>> public var iPRanges: [IPRange]?
+        @OptionalCoding<ArrayCoder<_IPRangesEncoding, IPRange>>
+        public var iPRanges: [IPRange]?
         /// The list of tags for the cluster security group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(clusterSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, iPRanges: [IPRange]? = nil, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -909,7 +935,8 @@ extension Redshift {
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroup" }
 
         /// A list of ClusterSecurityGroup instances. 
-        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, ClusterSecurityGroup>> public var clusterSecurityGroups: [ClusterSecurityGroup]?
+        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, ClusterSecurityGroup>>
+        public var clusterSecurityGroups: [ClusterSecurityGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -961,9 +988,11 @@ extension Redshift {
         /// The status of the cluster subnet group. Possible values are Complete, Incomplete and Invalid. 
         public let subnetGroupStatus: String?
         /// A list of the VPC Subnet elements. 
-        @OptionalCoding<ArrayCoder<_SubnetsEncoding, Subnet>> public var subnets: [Subnet]?
+        @OptionalCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
+        public var subnets: [Subnet]?
         /// The list of tags for the cluster subnet group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The VPC ID of the cluster subnet group.
         public let vpcId: String?
 
@@ -990,7 +1019,8 @@ extension Redshift {
         public struct _ClusterSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSubnetGroup" }
 
         /// A list of ClusterSubnetGroup instances. 
-        @OptionalCoding<ArrayCoder<_ClusterSubnetGroupsEncoding, ClusterSubnetGroup>> public var clusterSubnetGroups: [ClusterSubnetGroup]?
+        @OptionalCoding<ArrayCoder<_ClusterSubnetGroupsEncoding, ClusterSubnetGroup>>
+        public var clusterSubnetGroups: [ClusterSubnetGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -1031,7 +1061,8 @@ extension Redshift {
         public struct _ClusterVersionsEncoding: ArrayCoderProperties { static public let member = "ClusterVersion" }
 
         /// A list of Version elements. 
-        @OptionalCoding<ArrayCoder<_ClusterVersionsEncoding, ClusterVersion>> public var clusterVersions: [ClusterVersion]?
+        @OptionalCoding<ArrayCoder<_ClusterVersionsEncoding, ClusterVersion>>
+        public var clusterVersions: [ClusterVersion]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -1050,7 +1081,8 @@ extension Redshift {
         public struct _ClustersEncoding: ArrayCoderProperties { static public let member = "Cluster" }
 
         /// A list of Cluster objects, where each object describes one cluster. 
-        @OptionalCoding<ArrayCoder<_ClustersEncoding, Cluster>> public var clusters: [Cluster]?
+        @OptionalCoding<ArrayCoder<_ClustersEncoding, Cluster>>
+        public var clusters: [Cluster]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -1123,7 +1155,8 @@ extension Redshift {
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups  Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterParameterGroupName: String?
         /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift.
-        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, String>> public var clusterSecurityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, String>>
+        public var clusterSecurityGroups: [String]?
         /// The name of a cluster subnet group to be associated with this cluster. If this parameter is not provided the resulting cluster will be deployed outside virtual private cloud (VPC).
         public let clusterSubnetGroupName: String?
         /// The type of the cluster. When cluster type is specified as    single-node, the NumberOfNodes parameter is not required.    multi-node, the NumberOfNodes parameter is required.   Valid Values: multi-node | single-node  Default: multi-node 
@@ -1143,7 +1176,8 @@ extension Redshift {
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated with it at any time.
-        @OptionalCoding<ArrayCoder<_IamRolesEncoding, String>> public var iamRoles: [String]?
+        @OptionalCoding<ArrayCoder<_IamRolesEncoding, String>>
+        public var iamRoles: [String]?
         /// The AWS Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster.
         public let kmsKeyId: String?
         /// An optional parameter for the name of the maintenance track for the cluster. If you don't provide a maintenance track name, the cluster is assigned to the current track.
@@ -1167,9 +1201,11 @@ extension Redshift {
         /// A unique identifier for the snapshot schedule.
         public let snapshotScheduleIdentifier: String?
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
@@ -1248,7 +1284,8 @@ extension Redshift {
         /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS account.    This value is stored as a lower-case string. 
         public let parameterGroupName: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(description: String, parameterGroupFamily: String, parameterGroupName: String, tags: [Tag]? = nil) {
             self.description = description
@@ -1299,7 +1336,8 @@ extension Redshift {
         /// A description for the security group.
         public let description: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(clusterSecurityGroupName: String, description: String, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -1337,7 +1375,8 @@ extension Redshift {
         /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the AWS account. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
         public let snapshotIdentifier: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(clusterIdentifier: String, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil) {
             self.clusterIdentifier = clusterIdentifier
@@ -1376,9 +1415,11 @@ extension Redshift {
         /// A description for the subnet group.
         public let description: String
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
-        @Coding<ArrayCoder<_SubnetIdsEncoding, String>> public var subnetIds: [String]
+        @Coding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(clusterSubnetGroupName: String, description: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
@@ -1416,19 +1457,22 @@ extension Redshift {
         /// A boolean value; set to true to activate the subscription, and set to false to create the subscription but not activate it. 
         public let enabled: Bool?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
         public let severity: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic used to transmit the event notifications. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
-        @OptionalCoding<ArrayCoder<_SourceIdsEncoding, String>> public var sourceIds: [String]?
+        @OptionalCoding<ArrayCoder<_SourceIdsEncoding, String>>
+        public var sourceIds: [String]?
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
         public let sourceType: String?
         /// The name of the event subscription to be created. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let subscriptionName: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, severity: String? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
             self.enabled = enabled
@@ -1472,7 +1516,8 @@ extension Redshift {
         /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
         public let hsmClientCertificateIdentifier: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(hsmClientCertificateIdentifier: String, tags: [Tag]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
@@ -1514,7 +1559,8 @@ extension Redshift {
         /// The HSMs public certificate file. When using Cloud HSM, the file name is server.pem.
         public let hsmServerPublicCertificate: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(description: String, hsmConfigurationIdentifier: String, hsmIpAddress: String, hsmPartitionName: String, hsmPartitionPassword: String, hsmServerPublicCertificate: String, tags: [Tag]? = nil) {
             self.description = description
@@ -1600,7 +1646,8 @@ extension Redshift {
         /// The name of the snapshot copy grant. This name must be unique in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public let snapshotCopyGrantName: String
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(kmsKeyId: String? = nil, snapshotCopyGrantName: String, tags: [Tag]? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -1635,13 +1682,15 @@ extension Redshift {
         public let dryRun: Bool?
         public let nextInvocations: Int?
         /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 *)" or "rate(12 hours)". 
-        @OptionalCoding<ArrayCoder<_ScheduleDefinitionsEncoding, String>> public var scheduleDefinitions: [String]?
+        @OptionalCoding<ArrayCoder<_ScheduleDefinitionsEncoding, String>>
+        public var scheduleDefinitions: [String]?
         /// The description of the snapshot schedule.
         public let scheduleDescription: String?
         /// A unique identifier for a snapshot schedule. Only alphanumeric characters are allowed for the identifier.
         public let scheduleIdentifier: String?
         /// An optional set of tags you can use to search for the schedule.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(dryRun: Bool? = nil, nextInvocations: Int? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
@@ -1668,7 +1717,8 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
-        @Coding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]
+        @Coding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]
 
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
@@ -1741,7 +1791,8 @@ extension Redshift {
         /// The name of the cluster parameter group family to which the engine default parameters apply.
         public let parameterGroupFamily: String?
         /// The list of cluster default parameters.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
 
         public init(marker: String? = nil, parameterGroupFamily: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
@@ -1980,7 +2031,8 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String
         /// The tag key that you want to delete.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -1997,7 +2049,8 @@ extension Redshift {
         public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "AttributeName" }
 
         /// A list of attribute names.
-        @OptionalCoding<ArrayCoder<_AttributeNamesEncoding, String>> public var attributeNames: [String]?
+        @OptionalCoding<ArrayCoder<_AttributeNamesEncoding, String>>
+        public var attributeNames: [String]?
 
         public init(attributeNames: [String]? = nil) {
             self.attributeNames = attributeNames
@@ -2041,9 +2094,11 @@ extension Redshift {
         /// The name of a specific parameter group for which to return details. By default, details about all parameter groups and the default parameter group are returned.
         public let parameterGroupName: String?
         /// A tag key or keys for which you want to return all matching cluster parameter groups that are associated with the specified key or keys. For example, suppose that you have parameter groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster parameter groups that are associated with the specified tag value or values. For example, suppose that you have parameter groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
@@ -2099,9 +2154,11 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching cluster security groups that are associated with the specified key or keys. For example, suppose that you have security groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster security groups that are associated with the specified tag value or values. For example, suppose that you have security groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(clusterSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -2141,13 +2198,16 @@ extension Redshift {
         public let snapshotIdentifier: String?
         /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual 
         public let snapshotType: String?
-        @OptionalCoding<ArrayCoder<_SortingEntitiesEncoding, SnapshotSortingEntity>> public var sortingEntities: [SnapshotSortingEntity]?
+        @OptionalCoding<ArrayCoder<_SortingEntitiesEncoding, SnapshotSortingEntity>>
+        public var sortingEntities: [SnapshotSortingEntity]?
         /// A value that requests only snapshots created at or after the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
         public let startTime: TimeStamp?
         /// A tag key or keys for which you want to return all matching cluster snapshots that are associated with the specified key or keys. For example, suppose that you have snapshots that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: TimeStamp? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterExists = clusterExists
@@ -2191,9 +2251,11 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching cluster subnet groups that are associated with the specified key or keys. For example, suppose that you have subnet groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster subnet groups that are associated with the specified tag value or values. For example, suppose that you have subnet groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(clusterSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
@@ -2271,9 +2333,11 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching clusters that are associated with the specified key or keys. For example, suppose that you have clusters that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching clusters that are associated with the specified tag value or values. For example, suppose that you have clusters that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
@@ -2352,9 +2416,11 @@ extension Redshift {
         /// The name of the Amazon Redshift event notification subscription to be described.
         public let subscriptionName: String?
         /// A tag key or keys for which you want to return all matching event notification subscriptions that are associated with the specified key or keys. For example, suppose that you have subscriptions that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching event notification subscriptions that are associated with the specified tag value or values. For example, suppose that you have subscriptions that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, subscriptionName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
@@ -2422,9 +2488,11 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching HSM client certificates that are associated with the specified key or keys. For example, suppose that you have HSM client certificates that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching HSM client certificates that are associated with the specified tag value or values. For example, suppose that you have HSM client certificates that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
@@ -2454,9 +2522,11 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching HSM configurations that are associated with the specified key or keys. For example, suppose that you have HSM configurations that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching HSM configurations that are associated with the specified tag value or values. For example, suppose that you have HSM configurations that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(hsmConfigurationIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -2497,7 +2567,8 @@ extension Redshift {
         /// The identifier of the cluster to evaluate for possible node configurations.
         public let clusterIdentifier: String?
         /// A set of name, operator, and value items to filter the results.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, NodeConfigurationOptionsFilter>> public var filters: [NodeConfigurationOptionsFilter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, NodeConfigurationOptionsFilter>>
+        public var filters: [NodeConfigurationOptionsFilter]?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeNodeConfigurationOptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 500  Constraints: minimum 100, maximum 500.
@@ -2620,7 +2691,8 @@ extension Redshift {
         /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are retrieved.
         public let endTime: TimeStamp?
         /// List of scheduled action filters. 
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, ScheduledActionFilter>> public var filters: [ScheduledActionFilter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, ScheduledActionFilter>>
+        public var filters: [ScheduledActionFilter]?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeScheduledActions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2666,9 +2738,11 @@ extension Redshift {
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, snapshotCopyGrantName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
@@ -2700,9 +2774,11 @@ extension Redshift {
         /// A unique identifier for a snapshot schedule.
         public let scheduleIdentifier: String?
         /// The key value for a snapshot schedule tag.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// The value corresponding to the key of the snapshot schedule tag.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduleIdentifier: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
@@ -2729,7 +2805,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
         /// A list of SnapshotSchedules.
-        @OptionalCoding<ArrayCoder<_SnapshotSchedulesEncoding, SnapshotSchedule>> public var snapshotSchedules: [SnapshotSchedule]?
+        @OptionalCoding<ArrayCoder<_SnapshotSchedulesEncoding, SnapshotSchedule>>
+        public var snapshotSchedules: [SnapshotSchedule]?
 
         public init(marker: String? = nil, snapshotSchedules: [SnapshotSchedule]? = nil) {
             self.marker = marker
@@ -2781,9 +2858,11 @@ extension Redshift {
         /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide. 
         public let resourceType: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
-        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
-        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>> public var tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, resourceName: String? = nil, resourceType: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
@@ -2855,7 +2934,8 @@ extension Redshift {
         /// The status of the EC2 security group.
         public let status: String?
         /// The list of tags for the EC2 security group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.eC2SecurityGroupName = eC2SecurityGroupName
@@ -2979,7 +3059,8 @@ extension Redshift {
         /// The date and time of the event.
         public let date: TimeStamp?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// The identifier of the event.
         public let eventId: String?
         /// The text of this event.
@@ -3016,7 +3097,8 @@ extension Redshift {
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "EventInfoMap" }
 
         /// The events in the event category.
-        @OptionalCoding<ArrayCoder<_EventsEncoding, EventInfoMap>> public var events: [EventInfoMap]?
+        @OptionalCoding<ArrayCoder<_EventsEncoding, EventInfoMap>>
+        public var events: [EventInfoMap]?
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
         public let sourceType: String?
 
@@ -3035,7 +3117,8 @@ extension Redshift {
         public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
 
         /// A list of event categories descriptions.
-        @OptionalCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>> public var eventCategoriesMapList: [EventCategoriesMap]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
+        public var eventCategoriesMapList: [EventCategoriesMap]?
 
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
@@ -3050,7 +3133,8 @@ extension Redshift {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// The category of an Amazon Redshift event.
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// The description of an Amazon Redshift event.
         public let eventDescription: String?
         /// The identifier of an Amazon Redshift event.
@@ -3085,13 +3169,15 @@ extension Redshift {
         /// A boolean value indicating whether the subscription is enabled; true indicates that the subscription is enabled.
         public let enabled: Bool?
         /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security
-        @OptionalCoding<ArrayCoder<_EventCategoriesListEncoding, String>> public var eventCategoriesList: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesListEncoding, String>>
+        public var eventCategoriesList: [String]?
         /// The event severity specified in the Amazon Redshift event notification subscription. Values: ERROR, INFO
         public let severity: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic used by the event notification subscription.
         public let snsTopicArn: String?
         /// A list of the sources that publish events to the Amazon Redshift event notification subscription.
-        @OptionalCoding<ArrayCoder<_SourceIdsListEncoding, String>> public var sourceIdsList: [String]?
+        @OptionalCoding<ArrayCoder<_SourceIdsListEncoding, String>>
+        public var sourceIdsList: [String]?
         /// The source type of the events returned by the Amazon Redshift event notification, such as cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, or scheduled-action. 
         public let sourceType: String?
         /// The status of the Amazon Redshift event notification subscription. Constraints:   Can be one of the following: active | no-permission | topic-not-exist   The status "no-permission" indicates that Amazon Redshift no longer has permission to post to the Amazon SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.  
@@ -3099,7 +3185,8 @@ extension Redshift {
         /// The date and time the Amazon Redshift event notification subscription was created.
         public let subscriptionCreationTime: TimeStamp?
         /// The list of tags for the event subscription.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: TimeStamp? = nil, tags: [Tag]? = nil) {
             self.customerAwsId = customerAwsId
@@ -3134,7 +3221,8 @@ extension Redshift {
         public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
 
         /// A list of event subscriptions.
-        @OptionalCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>> public var eventSubscriptionsList: [EventSubscription]?
+        @OptionalCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>>
+        public var eventSubscriptionsList: [EventSubscription]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -3153,7 +3241,8 @@ extension Redshift {
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
 
         /// A list of Event instances. 
-        @OptionalCoding<ArrayCoder<_EventsEncoding, Event>> public var events: [Event]?
+        @OptionalCoding<ArrayCoder<_EventsEncoding, Event>>
+        public var events: [Event]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -3176,7 +3265,8 @@ extension Redshift {
         /// The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
         public let clusterIdentifier: String
         /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
-        @OptionalCoding<ArrayCoder<_DbGroupsEncoding, String>> public var dbGroups: [String]?
+        @OptionalCoding<ArrayCoder<_DbGroupsEncoding, String>>
+        public var dbGroups: [String]?
         /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
         public let dbName: String?
         /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
@@ -3231,7 +3321,8 @@ extension Redshift {
         /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a GetReservedNodeExchangeOfferings request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request. 
         public let marker: String?
         /// Returns an array of ReservedNodeOffering objects.
-        @OptionalCoding<ArrayCoder<_ReservedNodeOfferingsEncoding, ReservedNodeOffering>> public var reservedNodeOfferings: [ReservedNodeOffering]?
+        @OptionalCoding<ArrayCoder<_ReservedNodeOfferingsEncoding, ReservedNodeOffering>>
+        public var reservedNodeOfferings: [ReservedNodeOffering]?
 
         public init(marker: String? = nil, reservedNodeOfferings: [ReservedNodeOffering]? = nil) {
             self.marker = marker
@@ -3252,7 +3343,8 @@ extension Redshift {
         /// The public key that the Amazon Redshift cluster will use to connect to the HSM. You must register the public key in the HSM.
         public let hsmClientCertificatePublicKey: String?
         /// The list of tags for the HSM client certificate.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(hsmClientCertificateIdentifier: String? = nil, hsmClientCertificatePublicKey: String? = nil, tags: [Tag]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
@@ -3271,7 +3363,8 @@ extension Redshift {
         public struct _HsmClientCertificatesEncoding: ArrayCoderProperties { static public let member = "HsmClientCertificate" }
 
         /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
-        @OptionalCoding<ArrayCoder<_HsmClientCertificatesEncoding, HsmClientCertificate>> public var hsmClientCertificates: [HsmClientCertificate]?
+        @OptionalCoding<ArrayCoder<_HsmClientCertificatesEncoding, HsmClientCertificate>>
+        public var hsmClientCertificates: [HsmClientCertificate]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -3298,7 +3391,8 @@ extension Redshift {
         /// The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys.
         public let hsmPartitionName: String?
         /// The list of tags for the HSM configuration.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(description: String? = nil, hsmConfigurationIdentifier: String? = nil, hsmIpAddress: String? = nil, hsmPartitionName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
@@ -3321,7 +3415,8 @@ extension Redshift {
         public struct _HsmConfigurationsEncoding: ArrayCoderProperties { static public let member = "HsmConfiguration" }
 
         /// A list of HsmConfiguration objects.
-        @OptionalCoding<ArrayCoder<_HsmConfigurationsEncoding, HsmConfiguration>> public var hsmConfigurations: [HsmConfiguration]?
+        @OptionalCoding<ArrayCoder<_HsmConfigurationsEncoding, HsmConfiguration>>
+        public var hsmConfigurations: [HsmConfiguration]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
@@ -3366,7 +3461,8 @@ extension Redshift {
         /// The status of the IP range, for example, "authorized".
         public let status: String?
         /// The list of tags for the IP range.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(cidrip: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.cidrip = cidrip
@@ -3423,7 +3519,8 @@ extension Redshift {
         /// The name of the maintenance track. Possible values are current and trailing.
         public let maintenanceTrackName: String?
         /// An array of UpdateTarget objects to update with the maintenance track. 
-        @OptionalCoding<ArrayCoder<_UpdateTargetsEncoding, UpdateTarget>> public var updateTargets: [UpdateTarget]?
+        @OptionalCoding<ArrayCoder<_UpdateTargetsEncoding, UpdateTarget>>
+        public var updateTargets: [UpdateTarget]?
 
         public init(databaseVersion: String? = nil, maintenanceTrackName: String? = nil, updateTargets: [UpdateTarget]? = nil) {
             self.databaseVersion = databaseVersion
@@ -3474,11 +3571,13 @@ extension Redshift {
         public struct _RemoveIamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
 
         /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a single cluster in a single request.
-        @OptionalCoding<ArrayCoder<_AddIamRolesEncoding, String>> public var addIamRoles: [String]?
+        @OptionalCoding<ArrayCoder<_AddIamRolesEncoding, String>>
+        public var addIamRoles: [String]?
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
         public let clusterIdentifier: String
         /// Zero or more IAM roles in ARN format to disassociate from the cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
-        @OptionalCoding<ArrayCoder<_RemoveIamRolesEncoding, String>> public var removeIamRoles: [String]?
+        @OptionalCoding<ArrayCoder<_RemoveIamRolesEncoding, String>>
+        public var removeIamRoles: [String]?
 
         public init(addIamRoles: [String]? = nil, clusterIdentifier: String, removeIamRoles: [String]? = nil) {
             self.addIamRoles = addIamRoles
@@ -3566,7 +3665,8 @@ extension Redshift {
         /// The name of the cluster parameter group to apply to this cluster. This change is applied only after the cluster is rebooted. To reboot a cluster use RebootCluster.  Default: Uses existing setting. Constraints: The cluster parameter group must be in the same parameter group family that matches the cluster version.
         public let clusterParameterGroupName: String?
         /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, String>> public var clusterSecurityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, String>>
+        public var clusterSecurityGroups: [String]?
         /// The new cluster type. When you submit your cluster resize request, your existing cluster goes into a read-only mode. After Amazon Redshift provisions a new cluster based on your resize requirements, there will be outage for a period while the old cluster is deleted and your connection is switched to the new cluster. You can use DescribeResize to track the progress of the resize request.  Valid Values:  multi-node | single-node  
         public let clusterType: String?
         /// The new version number of the Amazon Redshift engine to upgrade to. For major version upgrades, if a non-default cluster parameter group is currently in use, a new cluster parameter group in the cluster parameter group family for the new version must be specified. The new cluster parameter group can be the default for that cluster parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide. Example: 1.0 
@@ -3600,7 +3700,8 @@ extension Redshift {
         /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available.
         public let publiclyAccessible: Bool?
         /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUserPassword: String? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
@@ -3659,7 +3760,8 @@ extension Redshift {
         /// The name of the parameter group to be modified.
         public let parameterGroupName: String
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
-        @Coding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]
+        @Coding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]
 
         public init(parameterGroupName: String, parameters: [Parameter]) {
             self.parameterGroupName = parameterGroupName
@@ -3750,7 +3852,8 @@ extension Redshift {
         /// A text description of the subnet group to be modified.
         public let description: String?
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
-        @Coding<ArrayCoder<_SubnetIdsEncoding, String>> public var subnetIds: [String]
+        @Coding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]
 
         public init(clusterSubnetGroupName: String, description: String? = nil, subnetIds: [String]) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
@@ -3785,13 +3888,15 @@ extension Redshift {
         /// A Boolean value indicating if the subscription is enabled. true indicates the subscription is enabled 
         public let enabled: Bool?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
         public let severity: String?
         /// The Amazon Resource Name (ARN) of the SNS topic to be used by the event notification subscription.
         public let snsTopicArn: String?
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
-        @OptionalCoding<ArrayCoder<_SourceIdsEncoding, String>> public var sourceIds: [String]?
+        @OptionalCoding<ArrayCoder<_SourceIdsEncoding, String>>
+        public var sourceIds: [String]?
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
         public let sourceType: String?
         /// The name of the modified Amazon Redshift event notification subscription.
@@ -3912,7 +4017,8 @@ extension Redshift {
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
 
         /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 *)" or "rate(12 hours)".
-        @Coding<ArrayCoder<_ScheduleDefinitionsEncoding, String>> public var scheduleDefinitions: [String]
+        @Coding<ArrayCoder<_ScheduleDefinitionsEncoding, String>>
+        public var scheduleDefinitions: [String]
         /// A unique alphanumeric identifier of the schedule to modify.
         public let scheduleIdentifier: String
 
@@ -3961,7 +4067,8 @@ extension Redshift {
         /// The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to evaluate for 'between'. Provide a list of values for 'in'.
         public let `operator`: OperatorType?
         /// List of values. Compare Name using Operator to Values. If filter Name is NumberOfNodes, then values can range from 0 to 200. If filter Name is EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For example, filter NumberOfNodes (name) GT (operator) 3 (values).
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>>
+        public var values: [String]?
 
         public init(name: NodeConfigurationOptionsFilterName? = nil, operator: OperatorType? = nil, values: [String]? = nil) {
             self.name = name
@@ -3982,7 +4089,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of valid node configurations.
-        @OptionalCoding<ArrayCoder<_NodeConfigurationOptionListEncoding, NodeConfigurationOption>> public var nodeConfigurationOptionList: [NodeConfigurationOption]?
+        @OptionalCoding<ArrayCoder<_NodeConfigurationOptionListEncoding, NodeConfigurationOption>>
+        public var nodeConfigurationOptionList: [NodeConfigurationOption]?
 
         public init(marker: String? = nil, nodeConfigurationOptionList: [NodeConfigurationOption]? = nil) {
             self.marker = marker
@@ -3999,7 +4107,8 @@ extension Redshift {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
 
         /// A list of availability zones for the orderable cluster.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>>
+        public var availabilityZones: [AvailabilityZone]?
         /// The cluster type, for example multi-node. 
         public let clusterType: String?
         /// The version of the orderable cluster.
@@ -4028,7 +4137,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// An OrderableClusterOption structure containing information about orderable options for the cluster.
-        @OptionalCoding<ArrayCoder<_OrderableClusterOptionsEncoding, OrderableClusterOption>> public var orderableClusterOptions: [OrderableClusterOption]?
+        @OptionalCoding<ArrayCoder<_OrderableClusterOptionsEncoding, OrderableClusterOption>>
+        public var orderableClusterOptions: [OrderableClusterOption]?
 
         public init(marker: String? = nil, orderableClusterOptions: [OrderableClusterOption]? = nil) {
             self.marker = marker
@@ -4260,7 +4370,8 @@ extension Redshift {
         /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
         public let offeringType: String?
         /// The recurring charges for the reserved node.
-        @OptionalCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>> public var recurringCharges: [RecurringCharge]?
+        @OptionalCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>>
+        public var recurringCharges: [RecurringCharge]?
         /// The unique identifier for the reservation.
         public let reservedNodeId: String?
         /// The identifier for the reserved node offering.
@@ -4320,7 +4431,8 @@ extension Redshift {
         /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
         public let offeringType: String?
         /// The charge to your account regardless of whether you are creating any clusters using the node offering. Recurring charges are only in effect for heavy-utilization reserved nodes.
-        @OptionalCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>> public var recurringCharges: [RecurringCharge]?
+        @OptionalCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>>
+        public var recurringCharges: [RecurringCharge]?
         /// The offering identifier.
         public let reservedNodeOfferingId: String?
         public let reservedNodeOfferingType: ReservedNodeOfferingType?
@@ -4358,7 +4470,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ReservedNodeOffering objects.
-        @OptionalCoding<ArrayCoder<_ReservedNodeOfferingsEncoding, ReservedNodeOffering>> public var reservedNodeOfferings: [ReservedNodeOffering]?
+        @OptionalCoding<ArrayCoder<_ReservedNodeOfferingsEncoding, ReservedNodeOffering>>
+        public var reservedNodeOfferings: [ReservedNodeOffering]?
 
         public init(marker: String? = nil, reservedNodeOfferings: [ReservedNodeOffering]? = nil) {
             self.marker = marker
@@ -4377,7 +4490,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The list of ReservedNode objects.
-        @OptionalCoding<ArrayCoder<_ReservedNodesEncoding, ReservedNode>> public var reservedNodes: [ReservedNode]?
+        @OptionalCoding<ArrayCoder<_ReservedNodesEncoding, ReservedNode>>
+        public var reservedNodes: [ReservedNode]?
 
         public init(marker: String? = nil, reservedNodes: [ReservedNode]? = nil) {
             self.marker = marker
@@ -4396,7 +4510,8 @@ extension Redshift {
         /// The name of the cluster parameter group to be reset.
         public let parameterGroupName: String
         /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied.  Constraints: A maximum of 20 parameters can be reset in a single request.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
         /// If true, all parameters in the specified parameter group will be reset to their default values.  Default: true 
         public let resetAllParameters: Bool?
 
@@ -4485,11 +4600,14 @@ extension Redshift {
         /// The estimated time remaining, in seconds, until the resize operation is complete. This value is calculated based on the average resize rate and the estimated amount of data remaining to be processed. Once the resize operation is complete, this value will be 0.
         public let estimatedTimeToCompletionInSeconds: Int64?
         /// The names of tables that have been completely imported . Valid Values: List of table names.
-        @OptionalCoding<DefaultArrayCoder> public var importTablesCompleted: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var importTablesCompleted: [String]?
         /// The names of tables that are being currently imported. Valid Values: List of table names.
-        @OptionalCoding<DefaultArrayCoder> public var importTablesInProgress: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var importTablesInProgress: [String]?
         /// The names of tables that have not been yet imported. Valid Values: List of table names
-        @OptionalCoding<DefaultArrayCoder> public var importTablesNotStarted: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var importTablesNotStarted: [String]?
         /// An optional string to provide additional details about the resize action.
         public let message: String?
         /// While the resize operation is in progress, this value shows the current amount of data, in megabytes, that has been processed so far. When the resize operation is complete, this value shows the total amount of data, in megabytes, on the cluster, which may be more or less than TotalResizeDataInMegaBytes (the estimated total amount of data before resize).
@@ -4566,7 +4684,8 @@ extension Redshift {
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterParameterGroupName: String?
         /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs.
-        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, String>> public var clusterSecurityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, String>>
+        public var clusterSecurityGroups: [String]?
         /// The name of the subnet group where you want to cluster restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must provide subnet group name where you want the cluster restored.
         public let clusterSubnetGroupName: String?
         /// The elastic IP (EIP) address for the cluster.
@@ -4578,7 +4697,8 @@ extension Redshift {
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated at any time.
-        @OptionalCoding<ArrayCoder<_IamRolesEncoding, String>> public var iamRoles: [String]?
+        @OptionalCoding<ArrayCoder<_IamRolesEncoding, String>>
+        public var iamRoles: [String]?
         /// The AWS Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster that you restore from a shared snapshot.
         public let kmsKeyId: String?
         /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks.
@@ -4604,7 +4724,8 @@ extension Redshift {
         /// A unique identifier for the snapshot schedule.
         public let snapshotScheduleIdentifier: String?
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
@@ -4925,7 +5046,8 @@ extension Redshift {
         /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster Management Guide. 
         public let iamRole: String?
         /// List of times when the scheduled action will run. 
-        @OptionalCoding<ArrayCoder<_NextInvocationsEncoding, TimeStamp>> public var nextInvocations: [TimeStamp]?
+        @OptionalCoding<ArrayCoder<_NextInvocationsEncoding, TimeStamp>>
+        public var nextInvocations: [TimeStamp]?
         /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: String?
         /// The description of the scheduled action. 
@@ -4970,7 +5092,8 @@ extension Redshift {
         /// The type of element to filter. 
         public let name: ScheduledActionFilterName
         /// List of values. Compare if the value (of type defined by Name) equals an item in the list of scheduled actions. 
-        @Coding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]
+        @Coding<ArrayCoder<_ValuesEncoding, String>>
+        public var values: [String]
 
         public init(name: ScheduledActionFilterName, values: [String]) {
             self.name = name
@@ -5011,7 +5134,8 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeScheduledActions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// List of retrieved scheduled actions. 
-        @OptionalCoding<ArrayCoder<_ScheduledActionsEncoding, ScheduledAction>> public var scheduledActions: [ScheduledAction]?
+        @OptionalCoding<ArrayCoder<_ScheduledActionsEncoding, ScheduledAction>>
+        public var scheduledActions: [ScheduledAction]?
 
         public init(marker: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
             self.marker = marker
@@ -5030,7 +5154,8 @@ extension Redshift {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A list of the AWS customer accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner. 
-        @OptionalCoding<ArrayCoder<_AccountsWithRestoreAccessEncoding, AccountWithRestoreAccess>> public var accountsWithRestoreAccess: [AccountWithRestoreAccess]?
+        @OptionalCoding<ArrayCoder<_AccountsWithRestoreAccessEncoding, AccountWithRestoreAccess>>
+        public var accountsWithRestoreAccess: [AccountWithRestoreAccess]?
         /// The size of the incremental backup.
         public let actualIncrementalBackupSizeInMegaBytes: Double?
         /// The Availability Zone in which the cluster was created.
@@ -5076,7 +5201,8 @@ extension Redshift {
         /// The port that the cluster is listening on.
         public let port: Int?
         /// The list of node types that this cluster snapshot is able to restore into.
-        @OptionalCoding<ArrayCoder<_RestorableNodeTypesEncoding, String>> public var restorableNodeTypes: [String]?
+        @OptionalCoding<ArrayCoder<_RestorableNodeTypesEncoding, String>>
+        public var restorableNodeTypes: [String]?
         /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
         public let snapshotCreateTime: TimeStamp?
         /// The snapshot identifier that is provided in the request.
@@ -5090,7 +5216,8 @@ extension Redshift {
         /// The snapshot status. The value of the status depends on the API operation used:     CreateClusterSnapshot and CopyClusterSnapshot returns status as "creating".     DescribeClusterSnapshots returns status as "creating", "available", "final snapshot", or "failed".    DeleteClusterSnapshot returns status as "deleted".  
         public let status: String?
         /// The list of tags for the cluster snapshot.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The size of the complete set of backup data that would be used to restore the cluster.
         public let totalBackupSizeInMegaBytes: Double?
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
@@ -5177,7 +5304,8 @@ extension Redshift {
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
         /// A list of tag instances.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(kmsKeyId: String? = nil, snapshotCopyGrantName: String? = nil, tags: [Tag]? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -5198,7 +5326,8 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The list of SnapshotCopyGrant objects.
-        @OptionalCoding<ArrayCoder<_SnapshotCopyGrantsEncoding, SnapshotCopyGrant>> public var snapshotCopyGrants: [SnapshotCopyGrant]?
+        @OptionalCoding<ArrayCoder<_SnapshotCopyGrantsEncoding, SnapshotCopyGrant>>
+        public var snapshotCopyGrants: [SnapshotCopyGrant]?
 
         public init(marker: String? = nil, snapshotCopyGrants: [SnapshotCopyGrant]? = nil) {
             self.marker = marker
@@ -5243,7 +5372,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Snapshot instances. 
-        @OptionalCoding<ArrayCoder<_SnapshotsEncoding, Snapshot>> public var snapshots: [Snapshot]?
+        @OptionalCoding<ArrayCoder<_SnapshotsEncoding, Snapshot>>
+        public var snapshots: [Snapshot]?
 
         public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
             self.marker = marker
@@ -5265,16 +5395,20 @@ extension Redshift {
         /// The number of clusters associated with the schedule.
         public let associatedClusterCount: Int?
         /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
-        @OptionalCoding<ArrayCoder<_AssociatedClustersEncoding, ClusterAssociatedToSchedule>> public var associatedClusters: [ClusterAssociatedToSchedule]?
-        @OptionalCoding<ArrayCoder<_NextInvocationsEncoding, TimeStamp>> public var nextInvocations: [TimeStamp]?
+        @OptionalCoding<ArrayCoder<_AssociatedClustersEncoding, ClusterAssociatedToSchedule>>
+        public var associatedClusters: [ClusterAssociatedToSchedule]?
+        @OptionalCoding<ArrayCoder<_NextInvocationsEncoding, TimeStamp>>
+        public var nextInvocations: [TimeStamp]?
         /// A list of ScheduleDefinitions.
-        @OptionalCoding<ArrayCoder<_ScheduleDefinitionsEncoding, String>> public var scheduleDefinitions: [String]?
+        @OptionalCoding<ArrayCoder<_ScheduleDefinitionsEncoding, String>>
+        public var scheduleDefinitions: [String]?
         /// The description of the schedule.
         public let scheduleDescription: String?
         /// A unique identifier for the schedule.
         public let scheduleIdentifier: String?
         /// An optional set of tags describing the schedule.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(associatedClusterCount: Int? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [TimeStamp]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.associatedClusterCount = associatedClusterCount
@@ -5435,7 +5569,8 @@ extension Redshift {
         /// A pagination token that can be used in a subsequent DescribeTableRestoreStatus request.
         public let marker: String?
         /// A list of status details for one or more table restore requests.
-        @OptionalCoding<ArrayCoder<_TableRestoreStatusDetailsEncoding, TableRestoreStatus>> public var tableRestoreStatusDetails: [TableRestoreStatus]?
+        @OptionalCoding<ArrayCoder<_TableRestoreStatusDetailsEncoding, TableRestoreStatus>>
+        public var tableRestoreStatusDetails: [TableRestoreStatus]?
 
         public init(marker: String? = nil, tableRestoreStatusDetails: [TableRestoreStatus]? = nil) {
             self.marker = marker
@@ -5494,7 +5629,8 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of tags with their associated resources.
-        @OptionalCoding<ArrayCoder<_TaggedResourcesEncoding, TaggedResource>> public var taggedResources: [TaggedResource]?
+        @OptionalCoding<ArrayCoder<_TaggedResourcesEncoding, TaggedResource>>
+        public var taggedResources: [TaggedResource]?
 
         public init(marker: String? = nil, taggedResources: [TaggedResource]? = nil) {
             self.marker = marker
@@ -5511,7 +5647,8 @@ extension Redshift {
         public struct _MaintenanceTracksEncoding: ArrayCoderProperties { static public let member = "MaintenanceTrack" }
 
         /// A list of maintenance tracks output by the DescribeClusterTracks operation. 
-        @OptionalCoding<ArrayCoder<_MaintenanceTracksEncoding, MaintenanceTrack>> public var maintenanceTracks: [MaintenanceTrack]?
+        @OptionalCoding<ArrayCoder<_MaintenanceTracksEncoding, MaintenanceTrack>>
+        public var maintenanceTracks: [MaintenanceTrack]?
         /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
@@ -5534,7 +5671,8 @@ extension Redshift {
         /// The name of the new maintenance track.
         public let maintenanceTrackName: String?
         /// A list of operations supported by the maintenance track.
-        @OptionalCoding<ArrayCoder<_SupportedOperationsEncoding, SupportedOperation>> public var supportedOperations: [SupportedOperation]?
+        @OptionalCoding<ArrayCoder<_SupportedOperationsEncoding, SupportedOperation>>
+        public var supportedOperations: [SupportedOperation]?
 
         public init(databaseVersion: String? = nil, maintenanceTrackName: String? = nil, supportedOperations: [SupportedOperation]? = nil) {
             self.databaseVersion = databaseVersion

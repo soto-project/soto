@@ -93,7 +93,8 @@ extension Neptune {
         /// The Amazon Neptune resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tags to be assigned to the Amazon Neptune resource.
-        @Coding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]
+        @Coding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]
 
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
@@ -176,9 +177,11 @@ extension Neptune {
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
 
         /// The list of log types to disable.
-        @OptionalCoding<DefaultArrayCoder> public var disableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCoding<DefaultArrayCoder> public var enableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
@@ -197,7 +200,8 @@ extension Neptune {
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
         public let sourceDBClusterParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB cluster parameter group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// A description for the copied DB cluster parameter group.
         public let targetDBClusterParameterGroupDescription: String
         /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
@@ -243,7 +247,8 @@ extension Neptune {
         /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. You can't copy from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1 
         public let sourceDBClusterSnapshotIdentifier: String
         /// The tags to assign to the new DB cluster snapshot copy.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
         public let targetDBClusterSnapshotIdentifier: String
 
@@ -285,7 +290,8 @@ extension Neptune {
         /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
         public let sourceDBParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB parameter group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// A description for the copied DB parameter group.
         public let targetDBParameterGroupDescription: String
         /// The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-db-parameter-group 
@@ -325,7 +331,8 @@ extension Neptune {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
         public let backupRetentionPeriod: Int?
         ///  (Not supported by Neptune) 
@@ -341,7 +348,8 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: neptune 
@@ -369,9 +377,11 @@ extension Neptune {
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
         /// The tags to assign to the new DB cluster.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// A list of EC2 VPC security groups to associate with this DB cluster.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
@@ -438,7 +448,8 @@ extension Neptune {
         /// The description for the DB cluster parameter group.
         public let description: String
         /// The tags to be assigned to the new DB cluster parameter group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(dBClusterParameterGroupName: String, dBParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -489,7 +500,8 @@ extension Neptune {
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
         public let dBClusterSnapshotIdentifier: String
         /// The tags to be assigned to the DB cluster snapshot.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(dBClusterIdentifier: String, dBClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -545,7 +557,8 @@ extension Neptune {
         /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let dBParameterGroupName: String?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
-        @OptionalCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>> public var dBSecurityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
+        public var dBSecurityGroups: [String]?
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance. DB instances in a DB cluster can be deleted even when deletion protection is enabled in their parent DB cluster.
@@ -555,7 +568,8 @@ extension Neptune {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enableCloudwatchLogsExports: [String]?
         /// True to enable AWS Identity and Access Management (IAM) authentication for Neptune. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         ///  (Not supported by Neptune) 
@@ -597,7 +611,8 @@ extension Neptune {
         /// Specifies the storage type to be associated with the DB instance. Not applicable. Storage is managed by the DB Cluster.
         public let storageType: String?
         /// The tags to assign to the new instance.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
         /// The password for the given ARN from the key store in order to access the device.
@@ -605,7 +620,8 @@ extension Neptune {
         /// The time zone of the DB instance.
         public let timezone: String?
         /// A list of EC2 VPC security groups to associate with this DB instance. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBCluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
@@ -721,7 +737,8 @@ extension Neptune {
         /// The description for the DB parameter group.
         public let description: String
         /// The tags to be assigned to the new DB parameter group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(dBParameterGroupFamily: String, dBParameterGroupName: String, description: String, tags: [Tag]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -760,9 +777,11 @@ extension Neptune {
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
         /// The EC2 Subnet IDs for the DB subnet group.
-        @Coding<ArrayCoder<_SubnetIdsEncoding, String>> public var subnetIds: [String]
+        @Coding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]
         /// The tags to be assigned to the new DB subnet group.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(dBSubnetGroupDescription: String, dBSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
@@ -800,17 +819,20 @@ extension Neptune {
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String
         /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        @OptionalCoding<ArrayCoder<_SourceIdsEncoding, String>> public var sourceIds: [String]?
+        @OptionalCoding<ArrayCoder<_SourceIdsEncoding, String>>
+        public var sourceIds: [String]?
         /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
         public let sourceType: String?
         /// The name of the subscription. Constraints: The name must be less than 255 characters.
         public let subscriptionName: String
         /// The tags to be applied to the new event subscription.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
             self.enabled = enabled
@@ -857,9 +879,11 @@ extension Neptune {
         ///  AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
         public let allocatedStorage: Int?
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
-        @OptionalCoding<ArrayCoder<_AssociatedRolesEncoding, DBClusterRole>> public var associatedRoles: [DBClusterRole]?
+        @OptionalCoding<ArrayCoder<_AssociatedRolesEncoding, DBClusterRole>>
+        public var associatedRoles: [DBClusterRole]?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be created in.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
         /// Specifies the number of days for which automatic DB snapshots are retained.
         public let backupRetentionPeriod: Int?
         ///  (Not supported by Neptune) 
@@ -875,9 +899,11 @@ extension Neptune {
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
         public let dBClusterIdentifier: String?
         /// Provides the list of instances that make up the DB cluster.
-        @OptionalCoding<ArrayCoder<_DBClusterMembersEncoding, DBClusterMember>> public var dBClusterMembers: [DBClusterMember]?
+        @OptionalCoding<ArrayCoder<_DBClusterMembersEncoding, DBClusterMember>>
+        public var dBClusterMembers: [DBClusterMember]?
         ///  (Not supported by Neptune) 
-        @OptionalCoding<ArrayCoder<_DBClusterOptionGroupMembershipsEncoding, DBClusterOptionGroupStatus>> public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
+        @OptionalCoding<ArrayCoder<_DBClusterOptionGroupMembershipsEncoding, DBClusterOptionGroupStatus>>
+        public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
         /// Specifies the name of the DB cluster parameter group for the DB cluster.
         public let dBClusterParameterGroup: String?
         /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
@@ -889,7 +915,8 @@ extension Neptune {
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
         /// Provides the name of the database engine to be used for this DB cluster.
@@ -919,7 +946,8 @@ extension Neptune {
         /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Read Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Neptune distributes the connection requests among the Read Replicas in the DB cluster. This functionality can help balance your read workload across multiple Read Replicas in your DB cluster. If a failover occurs, and the Read Replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Read Replicas in the cluster, you can then reconnect to the reader endpoint.
         public let readerEndpoint: String?
         /// Contains one or more identifiers of the Read Replicas associated with this DB cluster.
-        @OptionalCoding<ArrayCoder<_ReadReplicaIdentifiersEncoding, String>> public var readReplicaIdentifiers: [String]?
+        @OptionalCoding<ArrayCoder<_ReadReplicaIdentifiersEncoding, String>>
+        public var readReplicaIdentifiers: [String]?
         /// Not supported by Neptune.
         public let replicationSourceIdentifier: String?
         /// Specifies the current state of this DB cluster.
@@ -927,7 +955,8 @@ extension Neptune {
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>> public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
@@ -1040,7 +1069,8 @@ extension Neptune {
         public struct _DBClustersEncoding: ArrayCoderProperties { static public let member = "DBCluster" }
 
         /// Contains a list of DB clusters for the user.
-        @OptionalCoding<ArrayCoder<_DBClustersEncoding, DBCluster>> public var dBClusters: [DBCluster]?
+        @OptionalCoding<ArrayCoder<_DBClustersEncoding, DBCluster>>
+        public var dBClusters: [DBCluster]?
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
         public let marker: String?
 
@@ -1105,7 +1135,8 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
 
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
@@ -1136,7 +1167,8 @@ extension Neptune {
         public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBClusterParameterGroup" }
 
         /// A list of DB cluster parameter groups.
-        @OptionalCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>> public var dBClusterParameterGroups: [DBClusterParameterGroup]?
+        @OptionalCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>>
+        public var dBClusterParameterGroups: [DBClusterParameterGroup]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
@@ -1175,7 +1207,8 @@ extension Neptune {
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: TimeStamp?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
@@ -1266,7 +1299,8 @@ extension Neptune {
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
         public let attributeName: String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
-        @OptionalCoding<ArrayCoder<_AttributeValuesEncoding, String>> public var attributeValues: [String]?
+        @OptionalCoding<ArrayCoder<_AttributeValuesEncoding, String>>
+        public var attributeValues: [String]?
 
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
@@ -1283,7 +1317,8 @@ extension Neptune {
         public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshotAttribute" }
 
         /// The list of attributes and values for the manual DB cluster snapshot.
-        @OptionalCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>> public var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
+        @OptionalCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>>
+        public var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
         public let dBClusterSnapshotIdentifier: String?
 
@@ -1302,7 +1337,8 @@ extension Neptune {
         public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshot" }
 
         /// Provides a list of DB cluster snapshots for the user.
-        @OptionalCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>> public var dBClusterSnapshots: [DBClusterSnapshot]?
+        @OptionalCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>>
+        public var dBClusterSnapshots: [DBClusterSnapshot]?
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
@@ -1335,17 +1371,21 @@ extension Neptune {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var exportableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var exportableLogTypes: [String]?
         ///  (Not supported by Neptune) 
-        @OptionalCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>> public var supportedCharacterSets: [CharacterSet]?
+        @OptionalCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>>
+        public var supportedCharacterSets: [CharacterSet]?
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
-        @OptionalCoding<ArrayCoder<_SupportedTimezonesEncoding, Timezone>> public var supportedTimezones: [Timezone]?
+        @OptionalCoding<ArrayCoder<_SupportedTimezonesEncoding, Timezone>>
+        public var supportedTimezones: [Timezone]?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public let supportsLogExportsToCloudwatchLogs: Bool?
         /// Indicates whether the database engine version supports read replicas.
         public let supportsReadReplica: Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
-        @OptionalCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>> public var validUpgradeTarget: [UpgradeTarget]?
+        @OptionalCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
+        public var validUpgradeTarget: [UpgradeTarget]?
 
         public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dBEngineDescription = dBEngineDescription
@@ -1382,7 +1422,8 @@ extension Neptune {
         public struct _DBEngineVersionsEncoding: ArrayCoderProperties { static public let member = "DBEngineVersion" }
 
         ///  A list of DBEngineVersion elements.
-        @OptionalCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>> public var dBEngineVersions: [DBEngineVersion]?
+        @OptionalCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>>
+        public var dBEngineVersions: [DBEngineVersion]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
@@ -1438,17 +1479,21 @@ extension Neptune {
         /// The database name.
         public let dBName: String?
         /// Provides the list of DB parameter groups applied to this DB instance.
-        @OptionalCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroupStatus>> public var dBParameterGroups: [DBParameterGroupStatus]?
+        @OptionalCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroupStatus>>
+        public var dBParameterGroups: [DBParameterGroupStatus]?
         ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements.
-        @OptionalCoding<ArrayCoder<_DBSecurityGroupsEncoding, DBSecurityGroupMembership>> public var dBSecurityGroups: [DBSecurityGroupMembership]?
+        @OptionalCoding<ArrayCoder<_DBSecurityGroupsEncoding, DBSecurityGroupMembership>>
+        public var dBSecurityGroups: [DBSecurityGroupMembership]?
         /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: DBSubnetGroup?
         /// Indicates whether or not the DB instance has deletion protection enabled. The instance can't be deleted when deletion protection is enabled. See Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// Not supported
-        @OptionalCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>> public var domainMemberships: [DomainMembership]?
+        @OptionalCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>>
+        public var domainMemberships: [DomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
         /// Provides the name of the database engine to be used for this DB instance.
@@ -1478,7 +1523,8 @@ extension Neptune {
         /// Specifies if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
         ///  (Not supported by Neptune) 
-        @OptionalCoding<ArrayCoder<_OptionGroupMembershipsEncoding, OptionGroupMembership>> public var optionGroupMemberships: [OptionGroupMembership]?
+        @OptionalCoding<ArrayCoder<_OptionGroupMembershipsEncoding, OptionGroupMembership>>
+        public var optionGroupMemberships: [OptionGroupMembership]?
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         ///  (Not supported by Neptune) 
@@ -1492,15 +1538,18 @@ extension Neptune {
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. 
         public let promotionTier: Int?
         /// Contains one or more identifiers of DB clusters that are Read Replicas of this DB instance.
-        @OptionalCoding<ArrayCoder<_ReadReplicaDBClusterIdentifiersEncoding, String>> public var readReplicaDBClusterIdentifiers: [String]?
+        @OptionalCoding<ArrayCoder<_ReadReplicaDBClusterIdentifiersEncoding, String>>
+        public var readReplicaDBClusterIdentifiers: [String]?
         /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
-        @OptionalCoding<ArrayCoder<_ReadReplicaDBInstanceIdentifiersEncoding, String>> public var readReplicaDBInstanceIdentifiers: [String]?
+        @OptionalCoding<ArrayCoder<_ReadReplicaDBInstanceIdentifiersEncoding, String>>
+        public var readReplicaDBInstanceIdentifiers: [String]?
         /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
         public let readReplicaSourceDBInstanceIdentifier: String?
         /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
         public let secondaryAvailabilityZone: String?
         /// The status of a Read Replica. If the instance is not a Read Replica, this is blank.
-        @OptionalCoding<ArrayCoder<_StatusInfosEncoding, DBInstanceStatusInfo>> public var statusInfos: [DBInstanceStatusInfo]?
+        @OptionalCoding<ArrayCoder<_StatusInfosEncoding, DBInstanceStatusInfo>>
+        public var statusInfos: [DBInstanceStatusInfo]?
         /// Not supported: The encryption for DB instances is managed by the DB cluster.
         public let storageEncrypted: Bool?
         /// Specifies the storage type associated with DB instance.
@@ -1510,7 +1559,8 @@ extension Neptune {
         /// Not supported.
         public let timezone: String?
         /// Provides a list of VPC security group elements that the DB instance belongs to.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>> public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
@@ -1627,7 +1677,8 @@ extension Neptune {
         public struct _DBInstancesEncoding: ArrayCoderProperties { static public let member = "DBInstance" }
 
         ///  A list of DBInstance instances.
-        @OptionalCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>> public var dBInstances: [DBInstance]?
+        @OptionalCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>>
+        public var dBInstances: [DBInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
@@ -1700,7 +1751,8 @@ extension Neptune {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of Parameter values.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
 
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
@@ -1749,7 +1801,8 @@ extension Neptune {
         public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
 
         /// A list of DBParameterGroup instances.
-        @OptionalCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroup>> public var dBParameterGroups: [DBParameterGroup]?
+        @OptionalCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroup>>
+        public var dBParameterGroups: [DBParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
@@ -1794,7 +1847,8 @@ extension Neptune {
         /// Provides the status of the DB subnet group.
         public let subnetGroupStatus: String?
         ///  Contains a list of Subnet elements.
-        @OptionalCoding<ArrayCoder<_SubnetsEncoding, Subnet>> public var subnets: [Subnet]?
+        @OptionalCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
+        public var subnets: [Subnet]?
         /// Provides the VpcId of the DB subnet group.
         public let vpcId: String?
 
@@ -1821,7 +1875,8 @@ extension Neptune {
         public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "DBSubnetGroup" }
 
         ///  A list of DBSubnetGroup instances.
-        @OptionalCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>> public var dBSubnetGroups: [DBSubnetGroup]?
+        @OptionalCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>>
+        public var dBSubnetGroups: [DBSubnetGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
@@ -2008,7 +2063,8 @@ extension Neptune {
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2035,7 +2091,8 @@ extension Neptune {
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2095,7 +2152,8 @@ extension Neptune {
         /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string. Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
         public let dBClusterSnapshotIdentifier: String?
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// True to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, and otherwise false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
         public let includePublic: Bool?
         /// True to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
@@ -2136,7 +2194,8 @@ extension Neptune {
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB clusters created by that engine.   For example, to invoke this API from the AWS CLI and filter so that only Neptune DB clusters are returned, you could use the following command:
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2169,7 +2228,8 @@ extension Neptune {
         /// The database engine version to return. Example: 5.1.49 
         public let engineVersion: String?
         /// Not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// If this parameter is specified and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version.
         public let listSupportedCharacterSets: Bool?
         /// If this parameter is specified and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version.
@@ -2210,7 +2270,8 @@ extension Neptune {
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB instances created by that engine.   For example, to invoke this API from the AWS CLI and filter so that only Neptune DB instances are returned, you could use the following command:
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2237,7 +2298,8 @@ extension Neptune {
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBParameterGroupName: String?
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2264,7 +2326,8 @@ extension Neptune {
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2295,7 +2358,8 @@ extension Neptune {
         /// The name of the DB subnet group to return details for.
         public let dBSubnetGroupName: String?
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2322,7 +2386,8 @@ extension Neptune {
         /// The name of the DB cluster parameter group family to return engine parameter information for.
         public let dBParameterGroupFamily: String
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2362,7 +2427,8 @@ extension Neptune {
         /// The name of the DB parameter group family.
         public let dBParameterGroupFamily: String
         /// Not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2400,7 +2466,8 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
         public let sourceType: String?
 
@@ -2419,7 +2486,8 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2451,9 +2519,11 @@ extension Neptune {
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
         public let endTime: TimeStamp?
         /// A list of event categories that trigger notifications for a event notification subscription.
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2500,7 +2570,8 @@ extension Neptune {
         /// The engine version filter value. Specify this parameter to show only the available offerings matching the specified engine version.
         public let engineVersion: String?
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// The license model filter value. Specify this parameter to show only the available offerings matching the specified license model.
         public let licenseModel: String?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -2537,7 +2608,8 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -2661,7 +2733,8 @@ extension Neptune {
         ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Contains a list of engine default parameters.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
 
         public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -2682,7 +2755,8 @@ extension Neptune {
         /// Specifies the date and time of the event.
         public let date: TimeStamp?
         /// Specifies the category for the event.
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// Provides the text of this event.
         public let message: String?
         /// The Amazon Resource Name (ARN) for the event.
@@ -2715,7 +2789,8 @@ extension Neptune {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// The event categories for the specified source type
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// The source type that the returned categories belong to
         public let sourceType: String?
 
@@ -2734,7 +2809,8 @@ extension Neptune {
         public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
 
         /// A list of EventCategoriesMap data types.
-        @OptionalCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>> public var eventCategoriesMapList: [EventCategoriesMap]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
+        public var eventCategoriesMapList: [EventCategoriesMap]?
 
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
@@ -2756,13 +2832,15 @@ extension Neptune {
         /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
         public let enabled: Bool?
         /// A list of event categories for the event notification subscription.
-        @OptionalCoding<ArrayCoder<_EventCategoriesListEncoding, String>> public var eventCategoriesList: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesListEncoding, String>>
+        public var eventCategoriesList: [String]?
         /// The Amazon Resource Name (ARN) for the event subscription.
         public let eventSubscriptionArn: String?
         /// The topic ARN of the event notification subscription.
         public let snsTopicArn: String?
         /// A list of source IDs for the event notification subscription.
-        @OptionalCoding<ArrayCoder<_SourceIdsListEncoding, String>> public var sourceIdsList: [String]?
+        @OptionalCoding<ArrayCoder<_SourceIdsListEncoding, String>>
+        public var sourceIdsList: [String]?
         /// The source type for the event notification subscription.
         public let sourceType: String?
         /// The status of the event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that Neptune no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
@@ -2801,7 +2879,8 @@ extension Neptune {
         public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
 
         /// A list of EventSubscriptions data types.
-        @OptionalCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>> public var eventSubscriptionsList: [EventSubscription]?
+        @OptionalCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>>
+        public var eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
@@ -2820,7 +2899,8 @@ extension Neptune {
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
 
         ///  A list of Event instances.
-        @OptionalCoding<ArrayCoder<_EventsEncoding, Event>> public var events: [Event]?
+        @OptionalCoding<ArrayCoder<_EventsEncoding, Event>>
+        public var events: [Event]?
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
@@ -2872,7 +2952,8 @@ extension Neptune {
         /// This parameter is not currently supported.
         public let name: String
         /// This parameter is not currently supported.
-        @Coding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]
+        @Coding<ArrayCoder<_ValuesEncoding, String>>
+        public var values: [String]
 
         public init(name: String, values: [String]) {
             self.name = name
@@ -2889,7 +2970,8 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter is not currently supported.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// The Amazon Neptune resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
 
@@ -2936,7 +3018,8 @@ extension Neptune {
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// A list of VPC security groups that the DB cluster will belong to.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
@@ -2981,7 +3064,8 @@ extension Neptune {
         /// The name of the DB cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
-        @Coding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]
+        @Coding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]
 
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -3016,9 +3100,11 @@ extension Neptune {
         /// The identifier for the DB cluster snapshot to modify the attributes for.
         public let dBClusterSnapshotIdentifier: String
         /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
-        @OptionalCoding<ArrayCoder<_ValuesToAddEncoding, String>> public var valuesToAdd: [String]?
+        @OptionalCoding<ArrayCoder<_ValuesToAddEncoding, String>>
+        public var valuesToAdd: [String]?
         /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
-        @OptionalCoding<ArrayCoder<_ValuesToRemoveEncoding, String>> public var valuesToRemove: [String]?
+        @OptionalCoding<ArrayCoder<_ValuesToRemoveEncoding, String>>
+        public var valuesToRemove: [String]?
 
         public init(attributeName: String, dBClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
@@ -3077,7 +3163,8 @@ extension Neptune {
         /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  Default: 8182 
         public let dBPortNumber: Int?
         /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.  
-        @OptionalCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>> public var dBSecurityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
+        public var dBSecurityGroups: [String]?
         /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup 
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance.
@@ -3123,7 +3210,8 @@ extension Neptune {
         /// The password for the given ARN from the key store in order to access the device.
         public let tdeCredentialPassword: String?
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
@@ -3223,7 +3311,8 @@ extension Neptune {
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
-        @Coding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]
+        @Coding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]
 
         public init(dBParameterGroupName: String, parameters: [Parameter]) {
             self.dBParameterGroupName = dBParameterGroupName
@@ -3244,7 +3333,8 @@ extension Neptune {
         /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
         /// The EC2 subnet IDs for the DB subnet group.
-        @Coding<ArrayCoder<_SubnetIdsEncoding, String>> public var subnetIds: [String]
+        @Coding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]
 
         public init(dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String, subnetIds: [String]) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
@@ -3278,7 +3368,8 @@ extension Neptune {
         ///  A Boolean value; set to true to activate the subscription.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
-        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
+        @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>>
+        public var eventCategories: [String]?
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String?
         /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
@@ -3338,7 +3429,8 @@ extension Neptune {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
 
         /// A list of Availability Zones for a DB instance.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>>
+        public var availabilityZones: [AvailabilityZone]?
         /// The DB instance class for a DB instance.
         public let dBInstanceClass: String?
         /// The engine type of a DB instance.
@@ -3431,7 +3523,8 @@ extension Neptune {
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
-        @OptionalCoding<ArrayCoder<_OrderableDBInstanceOptionsEncoding, OrderableDBInstanceOption>> public var orderableDBInstanceOptions: [OrderableDBInstanceOption]?
+        @OptionalCoding<ArrayCoder<_OrderableDBInstanceOptionsEncoding, OrderableDBInstanceOption>>
+        public var orderableDBInstanceOptions: [OrderableDBInstanceOption]?
 
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
             self.marker = marker
@@ -3497,9 +3590,11 @@ extension Neptune {
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
 
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var logTypesToDisable: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var logTypesToEnable: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
@@ -3552,7 +3647,8 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         /// A list of the pending maintenance actions for the resource.
-        @OptionalCoding<ArrayCoder<_PendingMaintenanceActionsEncoding, ResourcePendingMaintenanceActions>> public var pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
+        @OptionalCoding<ArrayCoder<_PendingMaintenanceActionsEncoding, ResourcePendingMaintenanceActions>>
+        public var pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
 
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
@@ -3765,7 +3861,8 @@ extension Neptune {
         /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @Coding<DefaultArrayCoder> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder>
+        public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -3784,7 +3881,8 @@ extension Neptune {
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
         /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
 
@@ -3807,7 +3905,8 @@ extension Neptune {
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot 
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>> public var parameters: [Parameter]?
+        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
         /// Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values. Default: true 
         public let resetAllParameters: Bool?
 
@@ -3828,7 +3927,8 @@ extension Neptune {
         public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { static public let member = "PendingMaintenanceAction" }
 
         /// A list that provides details about the pending maintenance actions for the resource.
-        @OptionalCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>> public var pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
+        @OptionalCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>>
+        public var pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The ARN of the resource that has pending maintenance actions.
         public let resourceIdentifier: String?
 
@@ -3849,7 +3949,8 @@ extension Neptune {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
         /// Not supported.
         public let databaseName: String?
         /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
@@ -3861,7 +3962,8 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
@@ -3877,9 +3979,11 @@ extension Neptune {
         /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.  
         public let snapshotIdentifier: String
         /// The tags to be assigned to the restored DB cluster.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// A list of VPC security groups that the new DB cluster will belong to.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(availabilityZones: [String]? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
@@ -3946,7 +4050,8 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
-        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
@@ -3962,11 +4067,13 @@ extension Neptune {
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
         public let sourceDBClusterIdentifier: String
         /// The tags to be applied to the restored DB cluster.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise. Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
         public let useLatestRestorableTime: Bool?
         /// A list of VPC security groups that the new DB cluster belongs to.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
 
         public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -4116,7 +4223,8 @@ extension Neptune {
         public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// List of tags returned by the ListTagsForResource operation.
-        @OptionalCoding<ArrayCoder<_TagListEncoding, Tag>> public var tagList: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
@@ -4175,7 +4283,8 @@ extension Neptune {
         public struct _StorageEncoding: ArrayCoderProperties { static public let member = "ValidStorageOptions" }
 
         /// Valid storage options for your DB instance.
-        @OptionalCoding<ArrayCoder<_StorageEncoding, ValidStorageOptions>> public var storage: [ValidStorageOptions]?
+        @OptionalCoding<ArrayCoder<_StorageEncoding, ValidStorageOptions>>
+        public var storage: [ValidStorageOptions]?
 
         public init(storage: [ValidStorageOptions]? = nil) {
             self.storage = storage
@@ -4192,11 +4301,14 @@ extension Neptune {
         public struct _StorageSizeEncoding: ArrayCoderProperties { static public let member = "Range" }
 
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
-        @OptionalCoding<ArrayCoder<_IopsToStorageRatioEncoding, DoubleRange>> public var iopsToStorageRatio: [DoubleRange]?
+        @OptionalCoding<ArrayCoder<_IopsToStorageRatioEncoding, DoubleRange>>
+        public var iopsToStorageRatio: [DoubleRange]?
         /// The valid range of provisioned IOPS. For example, 1000-20000.
-        @OptionalCoding<ArrayCoder<_ProvisionedIopsEncoding, Range>> public var provisionedIops: [Range]?
+        @OptionalCoding<ArrayCoder<_ProvisionedIopsEncoding, Range>>
+        public var provisionedIops: [Range]?
         /// The valid range of storage in gibibytes. For example, 100 to 16384.
-        @OptionalCoding<ArrayCoder<_StorageSizeEncoding, Range>> public var storageSize: [Range]?
+        @OptionalCoding<ArrayCoder<_StorageSizeEncoding, Range>>
+        public var storageSize: [Range]?
         /// The valid storage types for your DB instance. For example, gp2, io1.
         public let storageType: String?
 

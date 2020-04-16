@@ -243,7 +243,8 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
         /// An optional set of tags to associate with the job when it is created.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [S3Tag]?
 
         public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
@@ -607,7 +608,8 @@ extension S3Control {
     public struct GetJobTaggingResult: AWSDecodableShape {
 
         /// The set of tags associated with the job.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [S3Tag]?
 
         public init(tags: [S3Tag]? = nil) {
             self.tags = tags
@@ -665,7 +667,8 @@ extension S3Control {
         /// The description for this job, if one was provided in this job's Create Job request.
         public let description: String?
         /// If the specified job failed, this field contains information describing the failure.
-        @OptionalCoding<DefaultArrayCoder> public var failureReasons: [JobFailure]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var failureReasons: [JobFailure]?
         /// The Amazon Resource Name (ARN) for this job.
         public let jobArn: String?
         /// The ID for the specified job.
@@ -849,7 +852,8 @@ extension S3Control {
     public struct JobManifestSpec: AWSEncodableShape & AWSDecodableShape {
 
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
-        @OptionalCoding<DefaultArrayCoder> public var fields: [JobManifestFieldName]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
 
@@ -1018,7 +1022,8 @@ extension S3Control {
         public struct _AccessPointListEncoding: ArrayCoderProperties { static public let member = "AccessPoint" }
 
         /// Contains identification and configuration information for one or more access points associated with the specified bucket.
-        @OptionalCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>> public var accessPointList: [AccessPoint]?
+        @OptionalCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>>
+        public var accessPointList: [AccessPoint]?
         /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
@@ -1070,7 +1075,8 @@ extension S3Control {
     public struct ListJobsResult: AWSDecodableShape {
 
         /// The list of current jobs and jobs that have ended within the last 30 days.
-        @OptionalCoding<DefaultArrayCoder> public var jobs: [JobListDescriptor]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
 
@@ -1168,7 +1174,8 @@ extension S3Control {
         /// The ID for the job whose tags you want to replace.
         public let jobId: String
         /// The set of tags to associate with the job.
-        @Coding<DefaultArrayCoder> public var tags: [S3Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [S3Tag]
 
         public init(accountId: String, jobId: String, tags: [S3Tag]) {
             self.accountId = accountId
@@ -1227,7 +1234,8 @@ extension S3Control {
 
     public struct S3AccessControlList: AWSEncodableShape & AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var grants: [S3Grant]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
 
         public init(grants: [S3Grant]? = nil, owner: S3ObjectOwner) {
@@ -1270,12 +1278,14 @@ extension S3Control {
 
     public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var accessControlGrants: [S3Grant]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
         public let metadataDirective: S3MetadataDirective?
         public let modifiedSinceConstraint: TimeStamp?
         public let newObjectMetadata: S3ObjectMetadata?
-        @OptionalCoding<DefaultArrayCoder> public var newObjectTagging: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var newObjectTagging: [S3Tag]?
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
         public let objectLockMode: S3ObjectLockMode?
         public let objectLockRetainUntilDate: TimeStamp?
@@ -1422,7 +1432,8 @@ extension S3Control {
         public let httpExpiresDate: TimeStamp?
         public let requesterCharged: Bool?
         public let sSEAlgorithm: S3SSEAlgorithm?
-        @OptionalCoding<DefaultDictionaryCoder> public var userMetadata: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var userMetadata: [String: String]?
 
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
@@ -1516,7 +1527,8 @@ extension S3Control {
 
     public struct S3SetObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var tagSet: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tagSet: [S3Tag]?
 
         public init(tagSet: [S3Tag]? = nil) {
             self.tagSet = tagSet

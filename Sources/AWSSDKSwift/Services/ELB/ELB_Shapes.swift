@@ -51,7 +51,8 @@ extension ELB {
     public struct AddAvailabilityZonesInput: AWSEncodableShape {
 
         /// The Availability Zones. These must be in the same region as the load balancer.
-        @Coding<DefaultArrayCoder> public var availabilityZones: [String]
+        @Coding<DefaultArrayCoder>
+        public var availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -69,7 +70,8 @@ extension ELB {
     public struct AddAvailabilityZonesOutput: AWSDecodableShape {
 
         /// The updated list of Availability Zones for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var availabilityZones: [String]?
 
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
@@ -83,9 +85,11 @@ extension ELB {
     public struct AddTagsInput: AWSEncodableShape {
 
         /// The name of the load balancer. You can specify one load balancer only.
-        @Coding<DefaultArrayCoder> public var loadBalancerNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]
         /// The tags.
-        @Coding<DefaultArrayCoder> public var tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(loadBalancerNames: [String], tags: [Tag]) {
             self.loadBalancerNames = loadBalancerNames
@@ -161,7 +165,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
-        @Coding<DefaultArrayCoder> public var securityGroups: [String]
+        @Coding<DefaultArrayCoder>
+        public var securityGroups: [String]
 
         public init(loadBalancerName: String, securityGroups: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -177,7 +182,8 @@ extension ELB {
     public struct ApplySecurityGroupsToLoadBalancerOutput: AWSDecodableShape {
 
         /// The IDs of the security groups associated with the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var securityGroups: [String]?
 
         public init(securityGroups: [String]? = nil) {
             self.securityGroups = securityGroups
@@ -193,7 +199,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
-        @Coding<DefaultArrayCoder> public var subnets: [String]
+        @Coding<DefaultArrayCoder>
+        public var subnets: [String]
 
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -209,7 +216,8 @@ extension ELB {
     public struct AttachLoadBalancerToSubnetsOutput: AWSDecodableShape {
 
         /// The IDs of the subnets attached to the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var subnets: [String]?
 
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
@@ -225,7 +233,8 @@ extension ELB {
         /// The port on which the EC2 instance is listening.
         public let instancePort: Int?
         /// The names of the policies enabled for the EC2 instance.
-        @OptionalCoding<DefaultArrayCoder> public var policyNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyNames: [String]?
 
         public init(instancePort: Int? = nil, policyNames: [String]? = nil) {
             self.instancePort = instancePort
@@ -314,19 +323,24 @@ extension ELB {
     public struct CreateAccessPointInput: AWSEncodableShape {
 
         /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
-        @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var availabilityZones: [String]?
         /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
-        @Coding<DefaultArrayCoder> public var listeners: [Listener]
+        @Coding<DefaultArrayCoder>
+        public var listeners: [Listener]
         /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
         public let loadBalancerName: String
         /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide. Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
         public let scheme: String?
         /// The IDs of the security groups to assign to the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var securityGroups: [String]?
         /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones.
-        @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var subnets: [String]?
         /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(availabilityZones: [String]? = nil, listeners: [Listener], loadBalancerName: String, scheme: String? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
@@ -436,7 +450,8 @@ extension ELB {
     public struct CreateLoadBalancerListenerInput: AWSEncodableShape {
 
         /// The listeners.
-        @Coding<DefaultArrayCoder> public var listeners: [Listener]
+        @Coding<DefaultArrayCoder>
+        public var listeners: [Listener]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -470,7 +485,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The policy attributes.
-        @OptionalCoding<DefaultArrayCoder> public var policyAttributes: [PolicyAttribute]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyAttributes: [PolicyAttribute]?
         /// The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
         public let policyName: String
         /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
@@ -540,7 +556,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The client port numbers of the listeners.
-        @Coding<DefaultArrayCoder> public var loadBalancerPorts: [Int]
+        @Coding<DefaultArrayCoder>
+        public var loadBalancerPorts: [Int]
 
         public init(loadBalancerName: String, loadBalancerPorts: [Int]) {
             self.loadBalancerName = loadBalancerName
@@ -590,7 +607,8 @@ extension ELB {
     public struct DeregisterEndPointsInput: AWSEncodableShape {
 
         /// The IDs of the instances.
-        @Coding<DefaultArrayCoder> public var instances: [Instance]
+        @Coding<DefaultArrayCoder>
+        public var instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -608,7 +626,8 @@ extension ELB {
     public struct DeregisterEndPointsOutput: AWSDecodableShape {
 
         /// The remaining instances registered with the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instances: [Instance]?
 
         public init(instances: [Instance]? = nil) {
             self.instances = instances
@@ -622,7 +641,8 @@ extension ELB {
     public struct DescribeAccessPointsInput: AWSEncodableShape {
 
         /// The names of the load balancers.
-        @OptionalCoding<DefaultArrayCoder> public var loadBalancerNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
@@ -649,7 +669,8 @@ extension ELB {
     public struct DescribeAccessPointsOutput: AWSDecodableShape {
 
         /// Information about the load balancers.
-        @OptionalCoding<DefaultArrayCoder> public var loadBalancerDescriptions: [LoadBalancerDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var loadBalancerDescriptions: [LoadBalancerDescription]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
 
@@ -690,7 +711,8 @@ extension ELB {
     public struct DescribeAccountLimitsOutput: AWSDecodableShape {
 
         /// Information about the limits.
-        @OptionalCoding<DefaultArrayCoder> public var limits: [Limit]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var limits: [Limit]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
 
@@ -708,7 +730,8 @@ extension ELB {
     public struct DescribeEndPointStateInput: AWSEncodableShape {
 
         /// The IDs of the instances.
-        @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instances: [Instance]?
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -726,7 +749,8 @@ extension ELB {
     public struct DescribeEndPointStateOutput: AWSDecodableShape {
 
         /// Information about the health of the instances.
-        @OptionalCoding<DefaultArrayCoder> public var instanceStates: [InstanceState]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceStates: [InstanceState]?
 
         public init(instanceStates: [InstanceState]? = nil) {
             self.instanceStates = instanceStates
@@ -770,7 +794,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The names of the policies.
-        @OptionalCoding<DefaultArrayCoder> public var policyNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyNames: [String]?
 
         public init(loadBalancerName: String? = nil, policyNames: [String]? = nil) {
             self.loadBalancerName = loadBalancerName
@@ -786,7 +811,8 @@ extension ELB {
     public struct DescribeLoadBalancerPoliciesOutput: AWSDecodableShape {
 
         /// Information about the policies.
-        @OptionalCoding<DefaultArrayCoder> public var policyDescriptions: [PolicyDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyDescriptions: [PolicyDescription]?
 
         public init(policyDescriptions: [PolicyDescription]? = nil) {
             self.policyDescriptions = policyDescriptions
@@ -800,7 +826,8 @@ extension ELB {
     public struct DescribeLoadBalancerPolicyTypesInput: AWSEncodableShape {
 
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
-        @OptionalCoding<DefaultArrayCoder> public var policyTypeNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyTypeNames: [String]?
 
         public init(policyTypeNames: [String]? = nil) {
             self.policyTypeNames = policyTypeNames
@@ -814,7 +841,8 @@ extension ELB {
     public struct DescribeLoadBalancerPolicyTypesOutput: AWSDecodableShape {
 
         /// Information about the policy types.
-        @OptionalCoding<DefaultArrayCoder> public var policyTypeDescriptions: [PolicyTypeDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyTypeDescriptions: [PolicyTypeDescription]?
 
         public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
             self.policyTypeDescriptions = policyTypeDescriptions
@@ -828,7 +856,8 @@ extension ELB {
     public struct DescribeTagsInput: AWSEncodableShape {
 
         /// The names of the load balancers.
-        @Coding<DefaultArrayCoder> public var loadBalancerNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]
 
         public init(loadBalancerNames: [String]) {
             self.loadBalancerNames = loadBalancerNames
@@ -847,7 +876,8 @@ extension ELB {
     public struct DescribeTagsOutput: AWSDecodableShape {
 
         /// Information about the tags.
-        @OptionalCoding<DefaultArrayCoder> public var tagDescriptions: [TagDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tagDescriptions: [TagDescription]?
 
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
@@ -863,7 +893,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the subnets.
-        @Coding<DefaultArrayCoder> public var subnets: [String]
+        @Coding<DefaultArrayCoder>
+        public var subnets: [String]
 
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -879,7 +910,8 @@ extension ELB {
     public struct DetachLoadBalancerFromSubnetsOutput: AWSDecodableShape {
 
         /// The IDs of the remaining subnets for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var subnets: [String]?
 
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
@@ -1047,7 +1079,8 @@ extension ELB {
         /// The listener.
         public let listener: Listener?
         /// The policies. If there are no policies enabled, the list is empty.
-        @OptionalCoding<DefaultArrayCoder> public var policyNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyNames: [String]?
 
         public init(listener: Listener? = nil, policyNames: [String]? = nil) {
             self.listener = listener
@@ -1065,7 +1098,8 @@ extension ELB {
         /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
         public let accessLog: AccessLog?
         /// This parameter is reserved.
-        @OptionalCoding<DefaultArrayCoder> public var additionalAttributes: [AdditionalAttribute]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var additionalAttributes: [AdditionalAttribute]?
         /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide.
         public let connectionDraining: ConnectionDraining?
         /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide.
@@ -1101,9 +1135,11 @@ extension ELB {
     public struct LoadBalancerDescription: AWSDecodableShape {
 
         /// The Availability Zones for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var availabilityZones: [String]?
         /// Information about your EC2 instances.
-        @OptionalCoding<DefaultArrayCoder> public var backendServerDescriptions: [BackendServerDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var backendServerDescriptions: [BackendServerDescription]?
         /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancers Guide.
         public let canonicalHostedZoneName: String?
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
@@ -1115,9 +1151,11 @@ extension ELB {
         /// Information about the health checks conducted on the load balancer.
         public let healthCheck: HealthCheck?
         /// The IDs of the instances for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instances: [Instance]?
         /// The listeners for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var listenerDescriptions: [ListenerDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var listenerDescriptions: [ListenerDescription]?
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The policies defined for the load balancer.
@@ -1125,11 +1163,13 @@ extension ELB {
         /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
         public let scheme: String?
         /// The security groups for the load balancer. Valid only for load balancers in a VPC.
-        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var securityGroups: [String]?
         /// The security group for the load balancer, which you can use as part of your inbound rules for your registered instances. To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
         public let sourceSecurityGroup: SourceSecurityGroup?
         /// The IDs of the subnets for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var subnets: [String]?
         /// The ID of the VPC for the load balancer.
         public let vPCId: String?
 
@@ -1215,11 +1255,14 @@ extension ELB {
     public struct Policies: AWSDecodableShape {
 
         /// The stickiness policies created using CreateAppCookieStickinessPolicy.
-        @OptionalCoding<DefaultArrayCoder> public var appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
         /// The stickiness policies created using CreateLBCookieStickinessPolicy.
-        @OptionalCoding<DefaultArrayCoder> public var lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
         /// The policies other than the stickiness policies.
-        @OptionalCoding<DefaultArrayCoder> public var otherPolicies: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var otherPolicies: [String]?
 
         public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
@@ -1303,7 +1346,8 @@ extension ELB {
     public struct PolicyDescription: AWSDecodableShape {
 
         /// The policy attributes.
-        @OptionalCoding<DefaultArrayCoder> public var policyAttributeDescriptions: [PolicyAttributeDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyAttributeDescriptions: [PolicyAttributeDescription]?
         /// The name of the policy.
         public let policyName: String?
         /// The name of the policy type.
@@ -1327,7 +1371,8 @@ extension ELB {
         /// A description of the policy type.
         public let description: String?
         /// The description of the policy attributes associated with the policies defined by Elastic Load Balancing.
-        @OptionalCoding<DefaultArrayCoder> public var policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]?
         /// The name of the policy type.
         public let policyTypeName: String?
 
@@ -1347,7 +1392,8 @@ extension ELB {
     public struct RegisterEndPointsInput: AWSEncodableShape {
 
         /// The IDs of the instances.
-        @Coding<DefaultArrayCoder> public var instances: [Instance]
+        @Coding<DefaultArrayCoder>
+        public var instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -1365,7 +1411,8 @@ extension ELB {
     public struct RegisterEndPointsOutput: AWSDecodableShape {
 
         /// The updated list of instances for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instances: [Instance]?
 
         public init(instances: [Instance]? = nil) {
             self.instances = instances
@@ -1379,7 +1426,8 @@ extension ELB {
     public struct RemoveAvailabilityZonesInput: AWSEncodableShape {
 
         /// The Availability Zones.
-        @Coding<DefaultArrayCoder> public var availabilityZones: [String]
+        @Coding<DefaultArrayCoder>
+        public var availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -1397,7 +1445,8 @@ extension ELB {
     public struct RemoveAvailabilityZonesOutput: AWSDecodableShape {
 
         /// The remaining Availability Zones for the load balancer.
-        @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var availabilityZones: [String]?
 
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
@@ -1411,9 +1460,11 @@ extension ELB {
     public struct RemoveTagsInput: AWSEncodableShape {
 
         /// The name of the load balancer. You can specify a maximum of one load balancer name.
-        @Coding<DefaultArrayCoder> public var loadBalancerNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]
         /// The list of tag keys to remove.
-        @Coding<DefaultArrayCoder> public var tags: [TagKeyOnly]
+        @Coding<DefaultArrayCoder>
+        public var tags: [TagKeyOnly]
 
         public init(loadBalancerNames: [String], tags: [TagKeyOnly]) {
             self.loadBalancerNames = loadBalancerNames
@@ -1478,7 +1529,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(instancePort: Int, loadBalancerName: String, policyNames: [String]) {
             self.instancePort = instancePort
@@ -1508,7 +1560,8 @@ extension ELB {
         /// The external port of the load balancer.
         public let loadBalancerPort: Int
         /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(loadBalancerName: String, loadBalancerPort: Int, policyNames: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -1581,7 +1634,8 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The tags.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(loadBalancerName: String? = nil, tags: [Tag]? = nil) {
             self.loadBalancerName = loadBalancerName

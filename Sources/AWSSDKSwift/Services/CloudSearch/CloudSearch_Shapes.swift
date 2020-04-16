@@ -242,7 +242,8 @@ extension CloudSearch {
 
     public struct BuildSuggestersResponse: AWSDecodableShape {
 
-        @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
@@ -704,7 +705,8 @@ extension CloudSearch {
     public struct DescribeAnalysisSchemesRequest: AWSEncodableShape {
 
         /// The analysis schemes you want to describe.
-        @OptionalCoding<DefaultArrayCoder> public var analysisSchemeNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var analysisSchemeNames: [String]?
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
         /// The name of the domain you want to describe.
@@ -737,7 +739,8 @@ extension CloudSearch {
     public struct DescribeAnalysisSchemesResponse: AWSDecodableShape {
 
         /// The analysis scheme descriptions.
-        @Coding<DefaultArrayCoder> public var analysisSchemes: [AnalysisSchemeStatus]
+        @Coding<DefaultArrayCoder>
+        public var analysisSchemes: [AnalysisSchemeStatus]
 
         public init(analysisSchemes: [AnalysisSchemeStatus]) {
             self.analysisSchemes = analysisSchemes
@@ -827,7 +830,8 @@ extension CloudSearch {
     public struct DescribeDomainsRequest: AWSEncodableShape {
 
         /// The names of the domains you want to include in the response.
-        @OptionalCoding<DefaultArrayCoder> public var domainNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var domainNames: [String]?
 
         public init(domainNames: [String]? = nil) {
             self.domainNames = domainNames
@@ -848,7 +852,8 @@ extension CloudSearch {
 
     public struct DescribeDomainsResponse: AWSDecodableShape {
 
-        @Coding<DefaultArrayCoder> public var domainStatusList: [DomainStatus]
+        @Coding<DefaultArrayCoder>
+        public var domainStatusList: [DomainStatus]
 
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
@@ -866,7 +871,8 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
-        @OptionalCoding<DefaultArrayCoder> public var expressionNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var expressionNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, expressionNames: [String]? = nil) {
             self.deployed = deployed
@@ -895,7 +901,8 @@ extension CloudSearch {
     public struct DescribeExpressionsResponse: AWSDecodableShape {
 
         /// The expressions configured for the domain.
-        @Coding<DefaultArrayCoder> public var expressions: [ExpressionStatus]
+        @Coding<DefaultArrayCoder>
+        public var expressions: [ExpressionStatus]
 
         public init(expressions: [ExpressionStatus]) {
             self.expressions = expressions
@@ -913,7 +920,8 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
-        @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var fieldNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, fieldNames: [String]? = nil) {
             self.deployed = deployed
@@ -942,7 +950,8 @@ extension CloudSearch {
     public struct DescribeIndexFieldsResponse: AWSDecodableShape {
 
         /// The index fields configured for the domain.
-        @Coding<DefaultArrayCoder> public var indexFields: [IndexFieldStatus]
+        @Coding<DefaultArrayCoder>
+        public var indexFields: [IndexFieldStatus]
 
         public init(indexFields: [IndexFieldStatus]) {
             self.indexFields = indexFields
@@ -1030,7 +1039,8 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
         /// The suggesters you want to describe.
-        @OptionalCoding<DefaultArrayCoder> public var suggesterNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var suggesterNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, suggesterNames: [String]? = nil) {
             self.deployed = deployed
@@ -1059,7 +1069,8 @@ extension CloudSearch {
     public struct DescribeSuggestersResponse: AWSDecodableShape {
 
         /// The suggesters configured for the domain specified in the request.
-        @Coding<DefaultArrayCoder> public var suggesters: [SuggesterStatus]
+        @Coding<DefaultArrayCoder>
+        public var suggesters: [SuggesterStatus]
 
         public init(suggesters: [SuggesterStatus]) {
             self.suggesters = suggesters
@@ -1329,7 +1340,8 @@ extension CloudSearch {
     public struct IndexDocumentsResponse: AWSDecodableShape {
 
         /// The names of the fields that are currently being indexed.
-        @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
@@ -1557,7 +1569,8 @@ extension CloudSearch {
     public struct ListDomainNamesResponse: AWSDecodableShape {
 
         /// The names of the search domains owned by an account.
-        @OptionalCoding<DefaultDictionaryCoder> public var domainNames: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var domainNames: [String: String]?
 
         public init(domainNames: [String: String]? = nil) {
             self.domainNames = domainNames

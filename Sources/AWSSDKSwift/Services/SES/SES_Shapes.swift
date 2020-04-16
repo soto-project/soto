@@ -247,7 +247,8 @@ extension SES {
 
         public let destination: Destination
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendBulkTemplatedEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-        @OptionalCoding<DefaultArrayCoder> public var replacementTags: [MessageTag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var replacementTags: [MessageTag]?
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let replacementTemplateData: String?
 
@@ -319,7 +320,8 @@ extension SES {
     public struct CloudWatchDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
-        @Coding<DefaultArrayCoder> public var dimensionConfigurations: [CloudWatchDimensionConfiguration]
+        @Coding<DefaultArrayCoder>
+        public var dimensionConfigurations: [CloudWatchDimensionConfiguration]
 
         public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
             self.dimensionConfigurations = dimensionConfigurations
@@ -887,7 +889,8 @@ extension SES {
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
         /// The receipt rules that belong to the active rule set.
-        @OptionalCoding<DefaultArrayCoder> public var rules: [ReceiptRule]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var rules: [ReceiptRule]?
 
         public init(metadata: ReceiptRuleSetMetadata? = nil, rules: [ReceiptRule]? = nil) {
             self.metadata = metadata
@@ -903,7 +906,8 @@ extension SES {
     public struct DescribeConfigurationSetRequest: AWSEncodableShape {
 
         /// A list of configuration set attributes to return.
-        @OptionalCoding<DefaultArrayCoder> public var configurationSetAttributeNames: [ConfigurationSetAttribute]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var configurationSetAttributeNames: [ConfigurationSetAttribute]?
         /// The name of the configuration set to describe.
         public let configurationSetName: String
 
@@ -924,7 +928,8 @@ extension SES {
         public let configurationSet: ConfigurationSet?
         public let deliveryOptions: DeliveryOptions?
         /// A list of event destinations associated with the configuration set. 
-        @OptionalCoding<DefaultArrayCoder> public var eventDestinations: [EventDestination]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var eventDestinations: [EventDestination]?
         /// An object that represents the reputation settings for the configuration set. 
         public let reputationOptions: ReputationOptions?
         /// The name of the custom open and click tracking domain associated with the configuration set.
@@ -998,7 +1003,8 @@ extension SES {
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
         /// A list of the receipt rules that belong to the specified receipt rule set.
-        @OptionalCoding<DefaultArrayCoder> public var rules: [ReceiptRule]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var rules: [ReceiptRule]?
 
         public init(metadata: ReceiptRuleSetMetadata? = nil, rules: [ReceiptRule]? = nil) {
             self.metadata = metadata
@@ -1014,11 +1020,14 @@ extension SES {
     public struct Destination: AWSEncodableShape {
 
         /// The recipients to place on the BCC: line of the message.
-        @OptionalCoding<DefaultArrayCoder> public var bccAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var bccAddresses: [String]?
         /// The recipients to place on the CC: line of the message.
-        @OptionalCoding<DefaultArrayCoder> public var ccAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var ccAddresses: [String]?
         /// The recipients to place on the To: line of the message.
-        @OptionalCoding<DefaultArrayCoder> public var toAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var toAddresses: [String]?
 
         public init(bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
             self.bccAddresses = bccAddresses
@@ -1042,7 +1051,8 @@ extension SES {
         /// An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// The type of email sending events to publish to the event destination.
-        @Coding<DefaultArrayCoder> public var matchingEventTypes: [EventType]
+        @Coding<DefaultArrayCoder>
+        public var matchingEventTypes: [EventType]
         /// The name of the event destination. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
         public let name: String
         /// An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
@@ -1150,7 +1160,8 @@ extension SES {
     public struct GetIdentityDkimAttributesRequest: AWSEncodableShape {
 
         /// A list of one or more verified identities - email addresses, domains, or both.
-        @Coding<DefaultArrayCoder> public var identities: [String]
+        @Coding<DefaultArrayCoder>
+        public var identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -1164,7 +1175,8 @@ extension SES {
     public struct GetIdentityDkimAttributesResponse: AWSDecodableShape {
 
         /// The DKIM attributes for an email address or a domain.
-        @Coding<DefaultDictionaryCoder> public var dkimAttributes: [String: IdentityDkimAttributes]
+        @Coding<DefaultDictionaryCoder>
+        public var dkimAttributes: [String: IdentityDkimAttributes]
 
         public init(dkimAttributes: [String: IdentityDkimAttributes]) {
             self.dkimAttributes = dkimAttributes
@@ -1178,7 +1190,8 @@ extension SES {
     public struct GetIdentityMailFromDomainAttributesRequest: AWSEncodableShape {
 
         /// A list of one or more identities.
-        @Coding<DefaultArrayCoder> public var identities: [String]
+        @Coding<DefaultArrayCoder>
+        public var identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -1192,7 +1205,8 @@ extension SES {
     public struct GetIdentityMailFromDomainAttributesResponse: AWSDecodableShape {
 
         /// A map of identities to custom MAIL FROM attributes.
-        @Coding<DefaultDictionaryCoder> public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
+        @Coding<DefaultDictionaryCoder>
+        public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
 
         public init(mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]) {
             self.mailFromDomainAttributes = mailFromDomainAttributes
@@ -1206,7 +1220,8 @@ extension SES {
     public struct GetIdentityNotificationAttributesRequest: AWSEncodableShape {
 
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
-        @Coding<DefaultArrayCoder> public var identities: [String]
+        @Coding<DefaultArrayCoder>
+        public var identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -1220,7 +1235,8 @@ extension SES {
     public struct GetIdentityNotificationAttributesResponse: AWSDecodableShape {
 
         /// A map of Identity to IdentityNotificationAttributes.
-        @Coding<DefaultDictionaryCoder> public var notificationAttributes: [String: IdentityNotificationAttributes]
+        @Coding<DefaultDictionaryCoder>
+        public var notificationAttributes: [String: IdentityNotificationAttributes]
 
         public init(notificationAttributes: [String: IdentityNotificationAttributes]) {
             self.notificationAttributes = notificationAttributes
@@ -1236,7 +1252,8 @@ extension SES {
         /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
         /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(identity: String, policyNames: [String]) {
             self.identity = identity
@@ -1259,7 +1276,8 @@ extension SES {
     public struct GetIdentityPoliciesResponse: AWSDecodableShape {
 
         /// A map of policy names to policies.
-        @Coding<DefaultDictionaryCoder> public var policies: [String: String]
+        @Coding<DefaultDictionaryCoder>
+        public var policies: [String: String]
 
         public init(policies: [String: String]) {
             self.policies = policies
@@ -1273,7 +1291,8 @@ extension SES {
     public struct GetIdentityVerificationAttributesRequest: AWSEncodableShape {
 
         /// A list of identities.
-        @Coding<DefaultArrayCoder> public var identities: [String]
+        @Coding<DefaultArrayCoder>
+        public var identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -1287,7 +1306,8 @@ extension SES {
     public struct GetIdentityVerificationAttributesResponse: AWSDecodableShape {
 
         /// A map of Identities to IdentityVerificationAttributes objects.
-        @Coding<DefaultDictionaryCoder> public var verificationAttributes: [String: IdentityVerificationAttributes]
+        @Coding<DefaultDictionaryCoder>
+        public var verificationAttributes: [String: IdentityVerificationAttributes]
 
         public init(verificationAttributes: [String: IdentityVerificationAttributes]) {
             self.verificationAttributes = verificationAttributes
@@ -1323,7 +1343,8 @@ extension SES {
     public struct GetSendStatisticsResponse: AWSDecodableShape {
 
         /// A list of data points, each of which represents 15 minutes of activity.
-        @OptionalCoding<DefaultArrayCoder> public var sendDataPoints: [SendDataPoint]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var sendDataPoints: [SendDataPoint]?
 
         public init(sendDataPoints: [SendDataPoint]? = nil) {
             self.sendDataPoints = sendDataPoints
@@ -1366,7 +1387,8 @@ extension SES {
         /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
         public let dkimEnabled: Bool
         /// A set of character strings that represent the domain's identity. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
-        @OptionalCoding<DefaultArrayCoder> public var dkimTokens: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var dkimTokens: [String]?
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
         public let dkimVerificationStatus: VerificationStatus
 
@@ -1522,7 +1544,8 @@ extension SES {
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
 
         /// A list of configuration sets.
-        @OptionalCoding<DefaultArrayCoder> public var configurationSets: [ConfigurationSet]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var configurationSets: [ConfigurationSet]?
         /// A token indicating that there are additional configuration sets available to be listed. Pass this token to successive calls of ListConfigurationSets. 
         public let nextToken: String?
 
@@ -1563,7 +1586,8 @@ extension SES {
     public struct ListCustomVerificationEmailTemplatesResponse: AWSDecodableShape {
 
         /// A list of the custom verification email templates that exist in your account.
-        @OptionalCoding<DefaultArrayCoder> public var customVerificationEmailTemplates: [CustomVerificationEmailTemplate]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var customVerificationEmailTemplates: [CustomVerificationEmailTemplate]?
         /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 custom verification email templates.
         public let nextToken: String?
 
@@ -1603,7 +1627,8 @@ extension SES {
     public struct ListIdentitiesResponse: AWSDecodableShape {
 
         /// A list of identities.
-        @Coding<DefaultArrayCoder> public var identities: [String]
+        @Coding<DefaultArrayCoder>
+        public var identities: [String]
         /// The token used for pagination.
         public let nextToken: String?
 
@@ -1635,7 +1660,8 @@ extension SES {
     public struct ListIdentityPoliciesResponse: AWSDecodableShape {
 
         /// A list of names of policies that apply to the specified identity.
-        @Coding<DefaultArrayCoder> public var policyNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var policyNames: [String]
 
         public init(policyNames: [String]) {
             self.policyNames = policyNames
@@ -1657,7 +1683,8 @@ extension SES {
     public struct ListReceiptFiltersResponse: AWSDecodableShape {
 
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
-        @OptionalCoding<DefaultArrayCoder> public var filters: [ReceiptFilter]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var filters: [ReceiptFilter]?
 
         public init(filters: [ReceiptFilter]? = nil) {
             self.filters = filters
@@ -1687,7 +1714,8 @@ extension SES {
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
         public let nextToken: String?
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and the timestamp of when the rule set was created.
-        @OptionalCoding<DefaultArrayCoder> public var ruleSets: [ReceiptRuleSetMetadata]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var ruleSets: [ReceiptRuleSetMetadata]?
 
         public init(nextToken: String? = nil, ruleSets: [ReceiptRuleSetMetadata]? = nil) {
             self.nextToken = nextToken
@@ -1723,7 +1751,8 @@ extension SES {
         /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
         public let nextToken: String?
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
-        @OptionalCoding<DefaultArrayCoder> public var templatesMetadata: [TemplateMetadata]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var templatesMetadata: [TemplateMetadata]?
 
         public init(nextToken: String? = nil, templatesMetadata: [TemplateMetadata]? = nil) {
             self.nextToken = nextToken
@@ -1739,7 +1768,8 @@ extension SES {
     public struct ListVerifiedEmailAddressesResponse: AWSDecodableShape {
 
         /// A list of email addresses that have been verified.
-        @OptionalCoding<DefaultArrayCoder> public var verifiedEmailAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var verifiedEmailAddresses: [String]?
 
         public init(verifiedEmailAddresses: [String]? = nil) {
             self.verifiedEmailAddresses = verifiedEmailAddresses
@@ -1773,7 +1803,8 @@ extension SES {
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
         public let arrivalDate: TimeStamp?
         /// Additional X-headers to include in the DSN.
-        @OptionalCoding<DefaultArrayCoder> public var extensionFields: [ExtensionField]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var extensionFields: [ExtensionField]?
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
         public let reportingMta: String
 
@@ -1961,13 +1992,15 @@ extension SES {
     public struct ReceiptRule: AWSEncodableShape & AWSDecodableShape {
 
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
-        @OptionalCoding<DefaultArrayCoder> public var actions: [ReceiptAction]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var actions: [ReceiptAction]?
         /// If true, the receipt rule is active. The default value is false.
         public let enabled: Bool?
         /// The name of the receipt rule. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String
         /// The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule will match all recipients under all verified domains.
-        @OptionalCoding<DefaultArrayCoder> public var recipients: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var recipients: [String]?
         /// If true, then messages that this receipt rule applies to are scanned for spam and viruses. The default value is false.
         public let scanEnabled: Bool?
         /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
@@ -2017,7 +2050,8 @@ extension SES {
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
         public let diagnosticCode: String?
         /// Additional X-headers to include in the DSN.
-        @OptionalCoding<DefaultArrayCoder> public var extensionFields: [ExtensionField]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var extensionFields: [ExtensionField]?
         /// The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.  Do not prepend the FinalRecipient email address with rfc 822;, as described in RFC 3798. 
         public let finalRecipient: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
@@ -2051,7 +2085,8 @@ extension SES {
     public struct ReorderReceiptRuleSetRequest: AWSEncodableShape {
 
         /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
-        @Coding<DefaultArrayCoder> public var ruleNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var ruleNames: [String]
         /// The name of the receipt rule set to reorder.
         public let ruleSetName: String
 
@@ -2157,7 +2192,8 @@ extension SES {
     public struct SendBounceRequest: AWSEncodableShape {
 
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
-        @Coding<DefaultArrayCoder> public var bouncedRecipientInfoList: [BouncedRecipientInfo]
+        @Coding<DefaultArrayCoder>
+        public var bouncedRecipientInfoList: [BouncedRecipientInfo]
         /// The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.
         public let bounceSender: String
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide.
@@ -2207,13 +2243,16 @@ extension SES {
         /// The name of the configuration set to use when you send an email using SendBulkTemplatedEmail.
         public let configurationSetName: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail.
-        @OptionalCoding<DefaultArrayCoder> public var defaultTags: [MessageTag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var defaultTags: [MessageTag]?
         /// A list of replacement values to apply to the template when replacement data is not specified in a Destination object. These values act as a default or fallback option when no other data is available. The template data is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let defaultTemplateData: String?
         /// One or more Destination objects. All of the recipients in a Destination will receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
-        @Coding<DefaultArrayCoder> public var destinations: [BulkEmailDestination]
+        @Coding<DefaultArrayCoder>
+        public var destinations: [BulkEmailDestination]
         /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
-        @OptionalCoding<DefaultArrayCoder> public var replyToAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var replyToAddresses: [String]?
         /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. 
         public let returnPath: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
@@ -2266,7 +2305,8 @@ extension SES {
     public struct SendBulkTemplatedEmailResponse: AWSDecodableShape {
 
         /// The unique message identifier returned from the SendBulkTemplatedEmail action.
-        @Coding<DefaultArrayCoder> public var status: [BulkEmailDestinationStatus]
+        @Coding<DefaultArrayCoder>
+        public var status: [BulkEmailDestinationStatus]
 
         public init(status: [BulkEmailDestinationStatus]) {
             self.status = status
@@ -2352,7 +2392,8 @@ extension SES {
         /// The message to be sent.
         public let message: Message
         /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
-        @OptionalCoding<DefaultArrayCoder> public var replyToAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var replyToAddresses: [String]?
         /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. 
         public let returnPath: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
@@ -2362,7 +2403,8 @@ extension SES {
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let sourceArn: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [MessageTag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [MessageTag]?
 
         public init(configurationSetName: String? = nil, destination: Destination, message: Message, replyToAddresses: [String]? = nil, returnPath: String? = nil, returnPathArn: String? = nil, source: String, sourceArn: String? = nil, tags: [MessageTag]? = nil) {
             self.configurationSetName = configurationSetName
@@ -2408,7 +2450,8 @@ extension SES {
         /// The name of the configuration set to use when you send an email using SendRawEmail.
         public let configurationSetName: String?
         /// A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
-        @OptionalCoding<DefaultArrayCoder> public var destinations: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var destinations: [String]?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email. Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide. 
         public let fromArn: String?
         /// The raw email message itself. The message has to meet the following criteria:   The message has to contain a header and a body, separated by a blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be of a content type that Amazon SES supports. For a list on unsupported content types, see Unsupported Attachment Types in the Amazon SES Developer Guide.   The entire message must be base64-encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, we highly recommend that you encode that content. For more information, see Sending Raw Email in the Amazon SES Developer Guide.   Per RFC 5321, the maximum length of each line of text, including the &lt;CRLF&gt;, must not exceed 1,000 characters.  
@@ -2420,7 +2463,8 @@ extension SES {
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide. 
         public let sourceArn: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendRawEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [MessageTag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [MessageTag]?
 
         public init(configurationSetName: String? = nil, destinations: [String]? = nil, fromArn: String? = nil, rawMessage: RawMessage, returnPathArn: String? = nil, source: String? = nil, sourceArn: String? = nil, tags: [MessageTag]? = nil) {
             self.configurationSetName = configurationSetName
@@ -2466,7 +2510,8 @@ extension SES {
         /// The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
         public let destination: Destination
         /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
-        @OptionalCoding<DefaultArrayCoder> public var replyToAddresses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var replyToAddresses: [String]?
         /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. 
         public let returnPath: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
@@ -2476,7 +2521,8 @@ extension SES {
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let sourceArn: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendTemplatedEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-        @OptionalCoding<DefaultArrayCoder> public var tags: [MessageTag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [MessageTag]?
         /// The template to use when sending this email.
         public let template: String
         /// The ARN of the template to use when sending this email.
@@ -3036,7 +3082,8 @@ extension SES {
     public struct VerifyDomainDkimResponse: AWSDecodableShape {
 
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
-        @Coding<DefaultArrayCoder> public var dkimTokens: [String]
+        @Coding<DefaultArrayCoder>
+        public var dkimTokens: [String]
 
         public init(dkimTokens: [String]) {
             self.dkimTokens = dkimTokens
