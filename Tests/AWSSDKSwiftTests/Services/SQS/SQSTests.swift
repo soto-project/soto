@@ -12,11 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
 import Foundation
+import XCTest
+
 @testable import AWSSQS
 
-enum SQSTestsError : Error {
+enum SQSTestsError: Error {
     case noQueueUrl
 }
 
@@ -45,11 +46,11 @@ class SQSTests: XCTestCase {
             let request = SQS.CreateQueueRequest(queueName: self.queueName)
             let response = try client.createQueue(request).wait()
             XCTAssertNotNil(response.queueUrl)
-            guard let queueUrl = response.queueUrl else {throw SQSTestsError.noQueueUrl}
-            
+            guard let queueUrl = response.queueUrl else { throw SQSTestsError.noQueueUrl }
+
             self.queueUrl = queueUrl
         }
-        
+
         deinit {
             attempt {
                 let request = SQS.DeleteQueueRequest(queueUrl: self.queueUrl)
@@ -59,7 +60,7 @@ class SQSTests: XCTestCase {
     }
 
     //MARK: TESTS
-    
+
     func testSendReceiveAndDelete() {
         attempt {
             let testData = try TestData(#function, client: client)
@@ -67,11 +68,11 @@ class SQSTests: XCTestCase {
             let messageBody = "Testing, testing,1,2,1,2"
             let sendMessageRequest = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: testData.queueUrl)
             let messageId = try client.sendMessage(sendMessageRequest).wait().messageId
-            
+
             // receive message tests the flattened arrays in XML response
             let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
             let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
-            
+
             guard let message = messages.first else {
                 XCTFail("Expected to get first message")
                 return
@@ -90,17 +91,17 @@ class SQSTests: XCTestCase {
             try client.deleteMessage(deleteRequest).wait()
         }
     }
-    
+
     func testGetQueueAttributes() {
         attempt {
             let testData = try TestData(#function, client: client)
 
-            let request = SQS.GetQueueAttributesRequest(attributeNames:[.queuearn], queueUrl: testData.queueUrl)
+            let request = SQS.GetQueueAttributesRequest(attributeNames: [.queuearn], queueUrl: testData.queueUrl)
             let result = try client.getQueueAttributes(request).wait()
             XCTAssertNotNil(result.attributes?[.queuearn])
         }
     }
-    
+
     func testTestPercentEncodedCharacters() {
         attempt {
             let testData = try TestData(#function, client: client)
@@ -108,10 +109,10 @@ class SQSTests: XCTestCase {
             let messageBody = "!@#$%^&*()-=_+[]{};':\",.<>\\|`~éñà"
             let sendMessageRequest = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: testData.queueUrl)
             let messageId = try client.sendMessage(sendMessageRequest).wait().messageId
-            
+
             let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
             let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
-            
+
             guard let message = messages.first else {
                 XCTFail("Expected to get first message")
                 return
@@ -131,7 +132,7 @@ class SQSTests: XCTestCase {
         }
     }
 
-    static var allTests : [(String, (SQSTests) -> () throws -> Void)] {
+    static var allTests: [(String, (SQSTests) -> () throws -> Void)] {
         return [
             ("testSendReceiveAndDelete", testSendReceiveAndDelete),
             ("testGetQueueAttributes", testGetQueueAttributes),
@@ -139,4 +140,3 @@ class SQSTests: XCTestCase {
         ]
     }
 }
-

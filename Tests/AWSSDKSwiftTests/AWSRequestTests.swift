@@ -14,13 +14,14 @@
 
 import Foundation
 import XCTest
-@testable import AWSSDKSwiftCore
+
 @testable import AWSACM
 @testable import AWSCloudFront
 @testable import AWSEC2
 @testable import AWSIAM
 @testable import AWSRoute53
 @testable import AWSS3
+@testable import AWSSDKSwiftCore
 @testable import AWSSES
 @testable import AWSSNS
 
@@ -35,7 +36,14 @@ class AWSRequestTests: XCTestCase {
     }
 
     /// test
-    func testAWSShapeRequest<Input: AWSEncodableShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input, expected: String) {
+    func testAWSShapeRequest<Input: AWSEncodableShape>(
+        client: AWSClient,
+        operation: String,
+        path: String = "/",
+        httpMethod: String = "POST",
+        input: Input,
+        expected: String
+    ) {
         do {
             let awsRequest = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
             var expected2 = expected
@@ -53,7 +61,13 @@ class AWSRequestTests: XCTestCase {
     }
 
     /// test validation
-    func testAWSValidationFail<Input: AWSEncodableShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
+    func testAWSValidationFail<Input: AWSEncodableShape>(
+        client: AWSClient,
+        operation: String,
+        path: String = "/",
+        httpMethod: String = "POST",
+        input: Input
+    ) {
         do {
             _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
             XCTFail()
@@ -64,7 +78,13 @@ class AWSRequestTests: XCTestCase {
         }
     }
 
-    func testAWSValidationSuccess<Input: AWSEncodableShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
+    func testAWSValidationSuccess<Input: AWSEncodableShape>(
+        client: AWSClient,
+        operation: String,
+        path: String = "/",
+        httpMethod: String = "POST",
+        input: Input
+    ) {
         do {
             _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
         } catch {
@@ -73,57 +93,105 @@ class AWSRequestTests: XCTestCase {
     }
 
     func testS3PutBucketLifecycleConfigurationRequest() {
-        let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
+        let expectedResult =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
 
-        let abortRule = S3.LifecycleRule(abortIncompleteMultipartUpload: S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7), status:.enabled)
-        let tempFileRule = S3.LifecycleRule(expiration: S3.LifecycleExpiration(days:30, expiredObjectDeleteMarker:true), filter:S3.LifecycleRuleFilter(prefix:"temp"), status:.enabled)
-        let glacierRule = S3.LifecycleRule(status:.enabled, transitions: [S3.Transition(days:20, storageClass:.glacier), S3.Transition(days:180, storageClass:.deepArchive)])
-        let versionsRule = S3.LifecycleRule(noncurrentVersionExpiration:S3.NoncurrentVersionExpiration(noncurrentDays: 90), status:.disabled)
+        let abortRule = S3.LifecycleRule(abortIncompleteMultipartUpload: S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7), status: .enabled)
+        let tempFileRule = S3.LifecycleRule(
+            expiration: S3.LifecycleExpiration(days: 30, expiredObjectDeleteMarker: true),
+            filter: S3.LifecycleRuleFilter(prefix: "temp"),
+            status: .enabled
+        )
+        let glacierRule = S3.LifecycleRule(
+            status: .enabled,
+            transitions: [S3.Transition(days: 20, storageClass: .glacier), S3.Transition(days: 180, storageClass: .deepArchive)]
+        )
+        let versionsRule = S3.LifecycleRule(noncurrentVersionExpiration: S3.NoncurrentVersionExpiration(noncurrentDays: 90), status: .disabled)
         let rules = [abortRule, tempFileRule, glacierRule, versionsRule]
         let lifecycleConfiguration = S3.BucketLifecycleConfiguration(rules: rules)
         let request = S3.PutBucketLifecycleConfigurationRequest(bucket: "bucket", lifecycleConfiguration: lifecycleConfiguration)
 
-        testAWSShapeRequest(client:S3().client, operation: "PutBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: request, expected: expectedResult)
+        testAWSShapeRequest(
+            client: S3().client,
+            operation: "PutBucketLifecycleConfiguration",
+            path: "/{Bucket}?lifecycle",
+            httpMethod: "PUT",
+            input: request,
+            expected: expectedResult
+        )
     }
 
     func testSNSCreateTopic() {
-        let expectedResult = "Action=CreateTopic&Attributes.entry.1.key=TestAttribute&Attributes.entry.1.value=TestValue&Name=TestTopic&Tags.member.1.Key=tag1&Tags.member.1.Value=23&Tags.member.2.Key=tag2&Tags.member.2.Value=true&Version=2010-03-31"
-        let request = SNS.CreateTopicInput(attributes: ["TestAttribute":"TestValue"], name: "TestTopic", tags: [SNS.Tag(key:"tag1", value:"23"), SNS.Tag(key:"tag2", value:"true")])
+        let expectedResult =
+            "Action=CreateTopic&Attributes.entry.1.key=TestAttribute&Attributes.entry.1.value=TestValue&Name=TestTopic&Tags.member.1.Key=tag1&Tags.member.1.Value=23&Tags.member.2.Key=tag2&Tags.member.2.Value=true&Version=2010-03-31"
+        let request = SNS.CreateTopicInput(
+            attributes: ["TestAttribute": "TestValue"],
+            name: "TestTopic",
+            tags: [SNS.Tag(key: "tag1", value: "23"), SNS.Tag(key: "tag2", value: "true")]
+        )
 
         testAWSShapeRequest(client: SNS().client, operation: "CreateTopic", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
     }
 
     func testCloudFrontCreateDistribution() {
-        let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2019-03-26/\"><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><ForwardedValues><Cookies><Forward>all</Forward></Cookies><QueryString>true</QueryString></ForwardedValues><MinTTL>1024</MinTTL><TargetOriginId>AWSRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
+        let expectedResult =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2019-03-26/\"><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><ForwardedValues><Cookies><Forward>all</Forward></Cookies><QueryString>true</QueryString></ForwardedValues><MinTTL>1024</MinTTL><TargetOriginId>AWSRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
 
-        let cookiePreference = CloudFront.CookiePreference(forward:.all)
+        let cookiePreference = CloudFront.CookiePreference(forward: .all)
         let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
         let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
-        let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(forwardedValues: forwardedValues, minTTL:1024, targetOriginId: "AWSRequestTests", trustedSigners: trustedSigners, viewerProtocolPolicy: .httpsOnly)
-        let origins = CloudFront.Origins(items:[CloudFront.Origin(domainName:"aws.sdk.swift.com", id:"1234")], quantity:1)
-        let distribution = CloudFront.DistributionConfig(callerReference:"test", comment:"", defaultCacheBehavior: defaultCacheBehavior, enabled:true, origins: origins)
+        let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(
+            forwardedValues: forwardedValues,
+            minTTL: 1024,
+            targetOriginId: "AWSRequestTests",
+            trustedSigners: trustedSigners,
+            viewerProtocolPolicy: .httpsOnly
+        )
+        let origins = CloudFront.Origins(items: [CloudFront.Origin(domainName: "aws.sdk.swift.com", id: "1234")], quantity: 1)
+        let distribution = CloudFront.DistributionConfig(
+            callerReference: "test",
+            comment: "",
+            defaultCacheBehavior: defaultCacheBehavior,
+            enabled: true,
+            origins: origins
+        )
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
 
-        testAWSShapeRequest(client: CloudFront().client, operation: "CreateDistribution2019_03_26", path: "/2019-03-26/distribution", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(
+            client: CloudFront().client,
+            operation: "CreateDistribution2019_03_26",
+            path: "/2019-03-26/distribution",
+            httpMethod: "POST",
+            input: request,
+            expected: expectedResult
+        )
     }
 
     func testEC2CreateImage() {
         let expectedResult = "Action=CreateImage&Version=2016-11-15&instanceId=i-123123&name=TestInstance"
-        let request = EC2.CreateImageRequest(instanceId:"i-123123", name:"TestInstance")
+        let request = EC2.CreateImageRequest(instanceId: "i-123123", name: "TestInstance")
 
         testAWSShapeRequest(client: EC2().client, operation: "CreateImage", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
     }
 
     func testEC2CreateInstanceExportTask() {
         let expectedResult = "Action=CreateInstanceExportTask&Version=2016-11-15&exportToS3.s3Bucket=testBucket&instanceId=i-123123"
-        let exportToS3Task = EC2.ExportToS3TaskSpecification(s3Bucket:"testBucket")
+        let exportToS3Task = EC2.ExportToS3TaskSpecification(s3Bucket: "testBucket")
         let request = EC2.CreateInstanceExportTaskRequest(exportToS3Task: exportToS3Task, instanceId: "i-123123")
 
-        testAWSShapeRequest(client: EC2().client, operation: "CreateInstanceExportTask", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(
+            client: EC2().client,
+            operation: "CreateInstanceExportTask",
+            path: "/",
+            httpMethod: "POST",
+            input: request,
+            expected: expectedResult
+        )
     }
 
     func testIAMSimulateCustomPolicy() {
-        let expectedResult = "Action=SimulateCustomPolicy&ActionNames.member.1=s3%2A&ActionNames.member.2=iam%2A&PolicyInputList.member.1=testPolicy&Version=2010-05-08"
+        let expectedResult =
+            "Action=SimulateCustomPolicy&ActionNames.member.1=s3%2A&ActionNames.member.2=iam%2A&PolicyInputList.member.1=testPolicy&Version=2010-05-08"
         let request = IAM.SimulateCustomPolicyRequest(actionNames: ["s3*", "iam*"], policyInputList: ["testPolicy"])
 
         testAWSShapeRequest(client: IAM().client, operation: "SimulateCustomPolicy", input: request, expected: expectedResult)
@@ -135,7 +203,7 @@ class AWSRequestTests: XCTestCase {
             """
         let changes: [Route53.Change] = [
             .init(action: .create, resourceRecordSet: .init(name: "www", type: .cname)),
-            .init(action: .upsert, resourceRecordSet: .init(name: "dev", type: .cname))
+            .init(action: .upsert, resourceRecordSet: .init(name: "dev", type: .cname)),
         ]
         let changeBatch = Route53.ChangeBatch(changes: changes)
         let request = Route53.ChangeResourceRecordSetsRequest(changeBatch: changeBatch, hostedZoneId: "Zone")
@@ -144,9 +212,10 @@ class AWSRequestTests: XCTestCase {
     }
 
     func testSESSendEmail() {
-        let expectedResult = "Action=SendEmail&Destination.ToAddresses.member.1=them%40gmail.com&Message.Body.Text.Data=Testing%201%2C2%2C1%2C2&Message.Subject.Data=Testing&Source=me%40gmail.com&Version=2010-12-01"
+        let expectedResult =
+            "Action=SendEmail&Destination.ToAddresses.member.1=them%40gmail.com&Message.Body.Text.Data=Testing%201%2C2%2C1%2C2&Message.Subject.Data=Testing&Source=me%40gmail.com&Version=2010-12-01"
         let destination = SES.Destination(toAddresses: ["them@gmail.com"])
-        let message = SES.Message(body:SES.Body(text:SES.Content(data:"Testing 1,2,1,2")), subject:SES.Content(data:"Testing"))
+        let message = SES.Message(body: SES.Body(text: SES.Content(data: "Testing 1,2,1,2")), subject: SES.Content(data: "Testing"))
         let request = SES.SendEmailRequest(destination: destination, message: message, source: "me@gmail.com")
 
         testAWSShapeRequest(client: SES().client, operation: "SendEmail", input: request, expected: expectedResult)
@@ -156,7 +225,7 @@ class AWSRequestTests: XCTestCase {
 
     func testS3GetObjectAclValidate() {
         // string length
-        let request = S3.GetObjectAclRequest(bucket:"testbucket", key:"")
+        let request = S3.GetObjectAclRequest(bucket: "testbucket", key: "")
         testAWSValidationFail(client: S3().client, operation: "GetObjectAcl", input: request)
     }
 
@@ -186,22 +255,37 @@ class AWSRequestTests: XCTestCase {
 
     func testACMAddTagsToCertificateValidate() {
         // test validating array members
-        let request = ACM.AddTagsToCertificateRequest(certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012", tags: [ACM.Tag(key:"hello", value:"1"), ACM.Tag(key:"?hello?", value:"1")])
+        let request = ACM.AddTagsToCertificateRequest(
+            certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012",
+            tags: [ACM.Tag(key: "hello", value: "1"), ACM.Tag(key: "?hello?", value: "1")]
+        )
         testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
     }
 
     func testCloudFrontCreateDistributionValidate() {
-        let cookiePreference = CloudFront.CookiePreference(forward:.all)
+        let cookiePreference = CloudFront.CookiePreference(forward: .all)
         let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
         let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
-        let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(forwardedValues: forwardedValues, minTTL:1024, targetOriginId: "AWSRequestTests", trustedSigners: trustedSigners, viewerProtocolPolicy: .httpsOnly)
-        let origins = CloudFront.Origins(items:[], quantity:0)
-        let distribution = CloudFront.DistributionConfig(callerReference:"test", comment:"", defaultCacheBehavior: defaultCacheBehavior, enabled:true, origins: origins)
+        let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(
+            forwardedValues: forwardedValues,
+            minTTL: 1024,
+            targetOriginId: "AWSRequestTests",
+            trustedSigners: trustedSigners,
+            viewerProtocolPolicy: .httpsOnly
+        )
+        let origins = CloudFront.Origins(items: [], quantity: 0)
+        let distribution = CloudFront.DistributionConfig(
+            callerReference: "test",
+            comment: "",
+            defaultCacheBehavior: defaultCacheBehavior,
+            enabled: true,
+            origins: origins
+        )
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
         testAWSValidationFail(client: CloudFront().client, operation: "CreateDistribution", input: request)
     }
 
-    static var allTests : [(String, (AWSRequestTests) -> () throws -> Void)] {
+    static var allTests: [(String, (AWSRequestTests) -> () throws -> Void)] {
         return [
             ("testS3PutBucketLifecycleConfigurationRequest", testS3PutBucketLifecycleConfigurationRequest),
             ("testSNSCreateTopic", testSNSCreateTopic),
@@ -214,7 +298,7 @@ class AWSRequestTests: XCTestCase {
             ("testIAMAttachGroupPolicyValidate", testIAMAttachGroupPolicyValidate),
             ("testCloudFrontListTagsForResourceValidate", testCloudFrontListTagsForResourceValidate),
             ("testACMAddTagsToCertificateValidate", testACMAddTagsToCertificateValidate),
-            ("testCloudFrontCreateDistributionValidate", testCloudFrontCreateDistributionValidate)
+            ("testCloudFrontCreateDistributionValidate", testCloudFrontCreateDistributionValidate),
         ]
     }
 }

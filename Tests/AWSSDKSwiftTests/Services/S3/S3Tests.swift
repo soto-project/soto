@@ -13,10 +13,11 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import XCTest
 import NIO
-@testable import AWSSDKSwiftCore
+import XCTest
+
 @testable import AWSS3
+@testable import AWSSDKSwiftCore
 
 // testing S3 service
 enum S3TestErrors: Error {
@@ -35,9 +36,9 @@ class S3Tests: XCTestCase {
 
     class TestData {
         let client: S3
-        let bucket : String
-        let bodyData : Data
-        let key : String
+        let bucket: String
+        let bodyData: Data
+        let key: String
 
         init(_ testName: String, client: S3) throws {
             let testName = testName.lowercased().filter { return $0.isLetter }
@@ -91,7 +92,6 @@ class S3Tests: XCTestCase {
             XCTAssertNotNil(output.eTag)
         }
     }
-
 
     func testGetObject() {
         attempt {
@@ -165,16 +165,16 @@ class S3Tests: XCTestCase {
             )
 
             // create buffer
-            let dataSize = 16*1024*1024
+            let dataSize = 16 * 1024 * 1024
             var data = Data(count: dataSize)
             for i in 0..<dataSize {
-                data[i] = UInt8.random(in:0...255)
+                data[i] = UInt8.random(in: 0...255)
             }
 
             let filename = testData.key
             try data.write(to: URL(fileURLWithPath: filename))
 
-            _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: filename).wait()
+            _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: filename).wait()
             let object = try client.getObject(S3.GetObjectRequest(bucket: testData.bucket, key: filename)).wait()
 
             XCTAssertEqual(object.body, data)
@@ -186,12 +186,11 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = try TestData(#function, client: client)
 
-
             // create buffer
             let dataSize = 16
             var data = Data(count: dataSize)
             for i in 0..<dataSize {
-                data[i] = UInt8.random(in:0...255)
+                data[i] = UInt8.random(in: 0...255)
             }
 
             let filename = testData.key
@@ -204,7 +203,7 @@ class S3Tests: XCTestCase {
                     bucket: testData.bucket,
                     key: testData.key
                 )
-                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: "doesntexist").wait()
+                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: "doesntexist").wait()
                 XCTFail("testMultiPartUploadFailure: should have failed")
             } catch {
                 // expected case
@@ -215,12 +214,12 @@ class S3Tests: XCTestCase {
             do {
                 let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
                     acl: .publicRead,
-                    bucket: testData.bucket+"doesntexist",
+                    bucket: testData.bucket + "doesntexist",
                     key: testData.key
                 )
-                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: filename).wait()
+                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: filename).wait()
                 XCTFail("testMultiPartUploadFailure: should have failed")
-            } catch S3ErrorType.noSuchBucket(_){
+            } catch S3ErrorType.noSuchBucket(_) {
                 // expected case
             } catch {
                 XCTFail("testMultiPartUploadFailure: Unexpected error")
@@ -268,11 +267,20 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // set lifecycle rules
-            let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
-            let filter = S3.LifecycleRuleFilter(prefix:"") // everything
-            let transitions = [S3.Transition(days: 14, storageClass: .glacier)] // transition objects to glacier after 14 days
-            let lifecycleRules = S3.LifecycleRule(abortIncompleteMultipartUpload: incompleteMultipartUploads, filter: filter, id: "aws-test", status:.enabled, transitions: transitions)
-            let putBucketLifecycleRequest = S3.PutBucketLifecycleConfigurationRequest(bucket: testData.bucket, lifecycleConfiguration:S3.BucketLifecycleConfiguration(rules:[lifecycleRules]))
+            let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7)  // clear incomplete multipart uploads after 7 days
+            let filter = S3.LifecycleRuleFilter(prefix: "")  // everything
+            let transitions = [S3.Transition(days: 14, storageClass: .glacier)]  // transition objects to glacier after 14 days
+            let lifecycleRules = S3.LifecycleRule(
+                abortIncompleteMultipartUpload: incompleteMultipartUploads,
+                filter: filter,
+                id: "aws-test",
+                status: .enabled,
+                transitions: transitions
+            )
+            let putBucketLifecycleRequest = S3.PutBucketLifecycleConfigurationRequest(
+                bucket: testData.bucket,
+                lifecycleConfiguration: S3.BucketLifecycleConfiguration(rules: [lifecycleRules])
+            )
             try client.putBucketLifecycleConfiguration(putBucketLifecycleRequest).wait()
 
             // get lifecycle rules
@@ -290,7 +298,12 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = try TestData(#function, client: client)
 
-            let putObjectRequest = S3.PutObjectRequest(body: .data(testData.bodyData), bucket: testData.bucket, key: testData.key, metadata: ["Test": "testing", "first" : "one"])
+            let putObjectRequest = S3.PutObjectRequest(
+                body: .data(testData.bodyData),
+                bucket: testData.bucket,
+                key: testData.key,
+                metadata: ["Test": "testing", "first": "one"]
+            )
             _ = try client.putObject(putObjectRequest).wait()
 
             let getObjectRequest = S3.GetObjectRequest(bucket: testData.bucket, key: testData.key)
@@ -305,22 +318,22 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // uploads 100 files at the same time and then downloads them to check they uploaded correctly
-            var responses : [EventLoopFuture<Void>] = []
+            var responses: [EventLoopFuture<Void>] = []
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
 
                 let request = S3.PutObjectRequest(body: .string(text), bucket: testData.bucket, key: objectName)
                 let response = client.putObject(request)
-                    .flatMap { (response)->EventLoopFuture<S3.GetObjectOutput> in
+                    .flatMap { (response) -> EventLoopFuture<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
                         return self.client.getObject(request)
                     }
                     .flatMapThrowing { response in
-                        guard let body = response.body else {throw S3TestErrors.error("Get \(objectName) failed") }
-                        guard text == String(data: body, encoding: .utf8) else {throw S3TestErrors.error("Get \(objectName) contents is incorrect") }
+                        guard let body = response.body else { throw S3TestErrors.error("Get \(objectName) failed") }
+                        guard text == String(data: body, encoding: .utf8) else { throw S3TestErrors.error("Get \(objectName) contents is incorrect") }
                         return
-                }
+                    }
                 responses.append(response)
             }
 
@@ -354,7 +367,7 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // uploads 16 files
-            var responses : [EventLoopFuture<Void>] = []
+            var responses: [EventLoopFuture<Void>] = []
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
@@ -383,21 +396,41 @@ class S3Tests: XCTestCase {
 
     func testS3VirtualAddressing(_ urlString: String) throws -> String {
         let url = URL(string: urlString)!
-        let request = try AWSRequest(region: .useast1, url: url, serviceProtocol: client.client.serviceProtocol, operation: "TestOperation", httpMethod: "GET", httpHeaders: [:], body: .empty).applyMiddlewares(client.client.middlewares)
+        let request = try AWSRequest(
+            region: .useast1,
+            url: url,
+            serviceProtocol: client.client.serviceProtocol,
+            operation: "TestOperation",
+            httpMethod: "GET",
+            httpHeaders: [:],
+            body: .empty
+        ).applyMiddlewares(client.client.middlewares)
         return request.url.relativeString
     }
 
     func testS3VirtualAddressing() {
         attempt {
             XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket"), "https://bucket.s3.us-east-1.amazonaws.com/")
-            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename"), "https://bucket.s3.us-east-1.amazonaws.com/filename")
-            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
-            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
-            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
+            XCTAssertEqual(
+                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename"),
+                "https://bucket.s3.us-east-1.amazonaws.com/filename"
+            )
+            XCTAssertEqual(
+                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"),
+                "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2"
+            )
+            XCTAssertEqual(
+                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"),
+                "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D"
+            )
+            XCTAssertEqual(
+                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"),
+                "https://bucket.s3.us-east-1.amazonaws.com/file%20name"
+            )
         }
     }
 
-    static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
+    static var allTests: [(String, (S3Tests) -> () throws -> Void)] {
         return [
             ("testPutObject", testPutObject),
             ("testListObjects", testListObjects),

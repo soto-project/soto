@@ -14,6 +14,7 @@
 
 import Foundation
 import XCTest
+
 @testable import AWSDynamoDB
 
 // testing json service
@@ -31,7 +32,7 @@ class DynamoDBTests: XCTestCase {
     class TestData {
         var client: DynamoDB
         var tableName: String
-        
+
         init(_ testName: String, client: DynamoDB) throws {
             let testName = testName.lowercased().filter { return $0.isLetter }
             self.client = client
@@ -40,11 +41,11 @@ class DynamoDBTests: XCTestCase {
             let createTableInput = DynamoDB.CreateTableInput(
                 attributeDefinitions: [
                     .init(attributeName: "hashKey", attributeType: .s),
-                    .init(attributeName: "rangeKey", attributeType: .s)
+                    .init(attributeName: "rangeKey", attributeType: .s),
                 ],
                 keySchema: [
                     DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
-                    DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
+                    DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range),
                 ],
                 provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
                 tableName: self.tableName
@@ -54,13 +55,13 @@ class DynamoDBTests: XCTestCase {
             let putItemInput = DynamoDB.PutItemInput(
                 item: [
                     "hashKey": DynamoDB.AttributeValue(s: "hello"),
-                    "rangeKey": DynamoDB.AttributeValue(s: "world")
+                    "rangeKey": DynamoDB.AttributeValue(s: "world"),
                 ],
                 tableName: self.tableName
             )
             _ = try client.putItem(putItemInput).wait()
         }
-        
+
         deinit {
             attempt {
                 let input = DynamoDB.DeleteTableInput(tableName: self.tableName)
@@ -69,18 +70,17 @@ class DynamoDBTests: XCTestCase {
         }
     }
 
-
     //MARK: TESTS
-    
+
     func testGetObject() {
         attempt {
-            
+
             let testData = try TestData(#function, client: client)
 
             let input = DynamoDB.GetItemInput(
                 key: [
                     "hashKey": DynamoDB.AttributeValue(s: "hello"),
-                    "rangeKey": DynamoDB.AttributeValue(s: "world")
+                    "rangeKey": DynamoDB.AttributeValue(s: "world"),
                 ],
                 tableName: testData.tableName
             )
@@ -91,7 +91,7 @@ class DynamoDBTests: XCTestCase {
         }
     }
 
-    static var allTests : [(String, (DynamoDBTests) -> () throws -> Void)] {
+    static var allTests: [(String, (DynamoDBTests) -> () throws -> Void)] {
         return [
             ("testGetObject", testGetObject),
         ]
