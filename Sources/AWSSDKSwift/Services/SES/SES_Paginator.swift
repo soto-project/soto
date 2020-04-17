@@ -21,12 +21,20 @@ import NIO
 extension SES {
 
     ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func listCustomVerificationEmailTemplatesPaginator(_ input: ListCustomVerificationEmailTemplatesRequest, onPage: @escaping (ListCustomVerificationEmailTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listCustomVerificationEmailTemplatesPaginator(
+        _ input: ListCustomVerificationEmailTemplatesRequest,
+        onPage: @escaping (ListCustomVerificationEmailTemplatesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCustomVerificationEmailTemplates, tokenKey: \ListCustomVerificationEmailTemplatesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list containing all of the identities (email addresses and domains) for your AWS account in the current AWS Region, regardless of verification status. You can execute this operation no more than once per second.
-    public func listIdentitiesPaginator(_ input: ListIdentitiesRequest, onPage: @escaping (ListIdentitiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listIdentitiesPaginator(
+        _ input: ListIdentitiesRequest,
+        onPage: @escaping (ListIdentitiesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIdentities, tokenKey: \ListIdentitiesResponse.nextToken, onPage: onPage)
     }
 
@@ -35,7 +43,7 @@ extension SES {
 extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SES.ListCustomVerificationEmailTemplatesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -45,8 +53,8 @@ extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateToken {
 extension SES.ListIdentitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SES.ListIdentitiesRequest {
         return .init(
-            identityType: self.identityType, 
-            maxItems: self.maxItems, 
+            identityType: self.identityType,
+            maxItems: self.maxItems,
             nextToken: token
         )
 

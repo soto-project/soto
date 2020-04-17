@@ -27,7 +27,7 @@ public enum CodeGuruReviewerErrorType: AWSErrorType {
 }
 
 extension CodeGuruReviewerErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension CodeGuruReviewerErrorType {
     }
 }
 
-extension CodeGuruReviewerErrorType : CustomStringConvertible {
-    public var description : String {
+extension CodeGuruReviewerErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .accessDeniedException(let message):
             return "AccessDeniedException: \(message ?? "")"

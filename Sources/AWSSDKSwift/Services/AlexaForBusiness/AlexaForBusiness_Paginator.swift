@@ -21,92 +21,164 @@ import NIO
 extension AlexaForBusiness {
 
     ///  Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
-    public func listBusinessReportSchedulesPaginator(_ input: ListBusinessReportSchedulesRequest, onPage: @escaping (ListBusinessReportSchedulesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listBusinessReportSchedulesPaginator(
+        _ input: ListBusinessReportSchedulesRequest,
+        onPage: @escaping (ListBusinessReportSchedulesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBusinessReportSchedules, tokenKey: \ListBusinessReportSchedulesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists conference providers under a specific AWS account.
-    public func listConferenceProvidersPaginator(_ input: ListConferenceProvidersRequest, onPage: @escaping (ListConferenceProvidersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listConferenceProvidersPaginator(
+        _ input: ListConferenceProvidersRequest,
+        onPage: @escaping (ListConferenceProvidersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConferenceProviders, tokenKey: \ListConferenceProvidersResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the device event history, including device connection status, for up to 30 days.
-    public func listDeviceEventsPaginator(_ input: ListDeviceEventsRequest, onPage: @escaping (ListDeviceEventsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeviceEventsPaginator(
+        _ input: ListDeviceEventsRequest,
+        onPage: @escaping (ListDeviceEventsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeviceEvents, tokenKey: \ListDeviceEventsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
-    public func listGatewayGroupsPaginator(_ input: ListGatewayGroupsRequest, onPage: @escaping (ListGatewayGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listGatewayGroupsPaginator(
+        _ input: ListGatewayGroupsRequest,
+        onPage: @escaping (ListGatewayGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGatewayGroups, tokenKey: \ListGatewayGroupsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
-    public func listGatewaysPaginator(_ input: ListGatewaysRequest, onPage: @escaping (ListGatewaysResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listGatewaysPaginator(
+        _ input: ListGatewaysRequest,
+        onPage: @escaping (ListGatewaysResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all enabled skills in a specific skill group.
-    public func listSkillsPaginator(_ input: ListSkillsRequest, onPage: @escaping (ListSkillsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSkillsPaginator(
+        _ input: ListSkillsRequest,
+        onPage: @escaping (ListSkillsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSkills, tokenKey: \ListSkillsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all categories in the Alexa skill store.
-    public func listSkillsStoreCategoriesPaginator(_ input: ListSkillsStoreCategoriesRequest, onPage: @escaping (ListSkillsStoreCategoriesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSkillsStoreCategoriesPaginator(
+        _ input: ListSkillsStoreCategoriesRequest,
+        onPage: @escaping (ListSkillsStoreCategoriesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSkillsStoreCategories, tokenKey: \ListSkillsStoreCategoriesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all skills in the Alexa skill store by category.
-    public func listSkillsStoreSkillsByCategoryPaginator(_ input: ListSkillsStoreSkillsByCategoryRequest, onPage: @escaping (ListSkillsStoreSkillsByCategoryResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSkillsStoreSkillsByCategoryPaginator(
+        _ input: ListSkillsStoreSkillsByCategoryRequest,
+        onPage: @escaping (ListSkillsStoreSkillsByCategoryResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSkillsStoreSkillsByCategory, tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all of the smart home appliances associated with a room.
-    public func listSmartHomeAppliancesPaginator(_ input: ListSmartHomeAppliancesRequest, onPage: @escaping (ListSmartHomeAppliancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSmartHomeAppliancesPaginator(
+        _ input: ListSmartHomeAppliancesRequest,
+        onPage: @escaping (ListSmartHomeAppliancesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSmartHomeAppliances, tokenKey: \ListSmartHomeAppliancesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all tags for the specified resource.
-    public func listTagsPaginator(_ input: ListTagsRequest, onPage: @escaping (ListTagsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTagsPaginator(
+        _ input: ListTagsRequest,
+        onPage: @escaping (ListTagsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches address books and lists the ones that meet a set of filter and sort criteria.
-    public func searchAddressBooksPaginator(_ input: SearchAddressBooksRequest, onPage: @escaping (SearchAddressBooksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchAddressBooksPaginator(
+        _ input: SearchAddressBooksRequest,
+        onPage: @escaping (SearchAddressBooksResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchAddressBooks, tokenKey: \SearchAddressBooksResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches contacts and lists the ones that meet a set of filter and sort criteria.
-    public func searchContactsPaginator(_ input: SearchContactsRequest, onPage: @escaping (SearchContactsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchContactsPaginator(
+        _ input: SearchContactsRequest,
+        onPage: @escaping (SearchContactsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchContacts, tokenKey: \SearchContactsResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches devices and lists the ones that meet a set of filter criteria.
-    public func searchDevicesPaginator(_ input: SearchDevicesRequest, onPage: @escaping (SearchDevicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchDevicesPaginator(
+        _ input: SearchDevicesRequest,
+        onPage: @escaping (SearchDevicesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchDevices, tokenKey: \SearchDevicesResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches network profiles and lists the ones that meet a set of filter and sort criteria.
-    public func searchNetworkProfilesPaginator(_ input: SearchNetworkProfilesRequest, onPage: @escaping (SearchNetworkProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchNetworkProfilesPaginator(
+        _ input: SearchNetworkProfilesRequest,
+        onPage: @escaping (SearchNetworkProfilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchNetworkProfiles, tokenKey: \SearchNetworkProfilesResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches room profiles and lists the ones that meet a set of filter criteria.
-    public func searchProfilesPaginator(_ input: SearchProfilesRequest, onPage: @escaping (SearchProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchProfilesPaginator(
+        _ input: SearchProfilesRequest,
+        onPage: @escaping (SearchProfilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchProfiles, tokenKey: \SearchProfilesResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches rooms and lists the ones that meet a set of filter and sort criteria.
-    public func searchRoomsPaginator(_ input: SearchRoomsRequest, onPage: @escaping (SearchRoomsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchRoomsPaginator(
+        _ input: SearchRoomsRequest,
+        onPage: @escaping (SearchRoomsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchRooms, tokenKey: \SearchRoomsResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches skill groups and lists the ones that meet a set of filter and sort criteria.
-    public func searchSkillGroupsPaginator(_ input: SearchSkillGroupsRequest, onPage: @escaping (SearchSkillGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchSkillGroupsPaginator(
+        _ input: SearchSkillGroupsRequest,
+        onPage: @escaping (SearchSkillGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchSkillGroups, tokenKey: \SearchSkillGroupsResponse.nextToken, onPage: onPage)
     }
 
     ///  Searches users and lists the ones that meet a set of filter and sort criteria.
-    public func searchUsersPaginator(_ input: SearchUsersRequest, onPage: @escaping (SearchUsersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchUsersPaginator(
+        _ input: SearchUsersRequest,
+        onPage: @escaping (SearchUsersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchUsers, tokenKey: \SearchUsersResponse.nextToken, onPage: onPage)
     }
 
@@ -115,7 +187,7 @@ extension AlexaForBusiness {
 extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListBusinessReportSchedulesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -125,7 +197,7 @@ extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateToken 
 extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListConferenceProvidersRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -135,9 +207,9 @@ extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListDeviceEventsRequest {
         return .init(
-            deviceArn: self.deviceArn, 
-            eventType: self.eventType, 
-            maxResults: self.maxResults, 
+            deviceArn: self.deviceArn,
+            eventType: self.eventType,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -147,7 +219,7 @@ extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListGatewayGroupsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -157,8 +229,8 @@ extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListGatewaysRequest {
         return .init(
-            gatewayGroupArn: self.gatewayGroupArn, 
-            maxResults: self.maxResults, 
+            gatewayGroupArn: self.gatewayGroupArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -168,10 +240,10 @@ extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListSkillsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsRequest {
         return .init(
-            enablementType: self.enablementType, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            skillGroupArn: self.skillGroupArn, 
+            enablementType: self.enablementType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            skillGroupArn: self.skillGroupArn,
             skillType: self.skillType
         )
 
@@ -181,7 +253,7 @@ extension AlexaForBusiness.ListSkillsRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsStoreCategoriesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -191,8 +263,8 @@ extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest {
         return .init(
-            categoryId: self.categoryId, 
-            maxResults: self.maxResults, 
+            categoryId: self.categoryId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -202,8 +274,8 @@ extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateTo
 extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSmartHomeAppliancesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             roomArn: self.roomArn
         )
 
@@ -213,8 +285,8 @@ extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateToken {
 extension AlexaForBusiness.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListTagsRequest {
         return .init(
-            arn: self.arn, 
-            maxResults: self.maxResults, 
+            arn: self.arn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -224,9 +296,9 @@ extension AlexaForBusiness.ListTagsRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchAddressBooksRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -236,9 +308,9 @@ extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchContactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchContactsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -248,9 +320,9 @@ extension AlexaForBusiness.SearchContactsRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchDevicesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -260,9 +332,9 @@ extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchNetworkProfilesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -272,9 +344,9 @@ extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchProfilesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -284,9 +356,9 @@ extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchRoomsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -296,9 +368,9 @@ extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchSkillGroupsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 
@@ -308,9 +380,9 @@ extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateToken {
 extension AlexaForBusiness.SearchUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchUsersRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortCriteria: self.sortCriteria
         )
 

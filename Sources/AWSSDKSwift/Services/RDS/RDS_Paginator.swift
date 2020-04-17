@@ -21,132 +21,236 @@ import NIO
 extension RDS {
 
     ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
-    public func describeCustomAvailabilityZonesPaginator(_ input: DescribeCustomAvailabilityZonesMessage, onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeCustomAvailabilityZonesPaginator(
+        _ input: DescribeCustomAvailabilityZonesMessage,
+        onPage: @escaping (CustomAvailabilityZoneMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCustomAvailabilityZones, tokenKey: \CustomAvailabilityZoneMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
-    public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage, onPage: @escaping (DBClusterMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBClustersPaginator(
+        _ input: DescribeDBClustersMessage,
+        onPage: @escaping (DBClusterMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, onPage: onPage)
     }
 
     ///  Returns a list of the available DB engines.
-    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage, onPage: @escaping (DBEngineVersionMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBEngineVersionsPaginator(
+        _ input: DescribeDBEngineVersionsMessage,
+        onPage: @escaping (DBEngineVersionMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
     }
 
     ///  Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
-    public func describeDBInstanceAutomatedBackupsPaginator(_ input: DescribeDBInstanceAutomatedBackupsMessage, onPage: @escaping (DBInstanceAutomatedBackupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBInstanceAutomatedBackupsPaginator(
+        _ input: DescribeDBInstanceAutomatedBackupsMessage,
+        onPage: @escaping (DBInstanceAutomatedBackupMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstanceAutomatedBackups, tokenKey: \DBInstanceAutomatedBackupMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
-    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage, onPage: @escaping (DBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBInstancesPaginator(
+        _ input: DescribeDBInstancesMessage,
+        onPage: @escaping (DBInstanceMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
     }
 
     ///  Returns a list of DB log files for the DB instance.
-    public func describeDBLogFilesPaginator(_ input: DescribeDBLogFilesMessage, onPage: @escaping (DescribeDBLogFilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBLogFilesPaginator(
+        _ input: DescribeDBLogFilesMessage,
+        onPage: @escaping (DescribeDBLogFilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBLogFiles, tokenKey: \DescribeDBLogFilesResponse.marker, onPage: onPage)
     }
 
     ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. 
-    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage, onPage: @escaping (DBParameterGroupsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBParameterGroupsPaginator(
+        _ input: DescribeDBParameterGroupsMessage,
+        onPage: @escaping (DBParameterGroupsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, onPage: onPage)
     }
 
     ///  Returns the detailed parameter list for a particular DB parameter group.
-    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage, onPage: @escaping (DBParameterGroupDetails, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBParametersPaginator(
+        _ input: DescribeDBParametersMessage,
+        onPage: @escaping (DBParameterGroupDetails,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, onPage: onPage)
     }
 
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
-    public func describeDBProxiesPaginator(_ input: DescribeDBProxiesRequest, onPage: @escaping (DescribeDBProxiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBProxiesPaginator(
+        _ input: DescribeDBProxiesRequest,
+        onPage: @escaping (DescribeDBProxiesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxies, tokenKey: \DescribeDBProxiesResponse.marker, onPage: onPage)
     }
 
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
-    public func describeDBProxyTargetGroupsPaginator(_ input: DescribeDBProxyTargetGroupsRequest, onPage: @escaping (DescribeDBProxyTargetGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBProxyTargetGroupsPaginator(
+        _ input: DescribeDBProxyTargetGroupsRequest,
+        onPage: @escaping (DescribeDBProxyTargetGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxyTargetGroups, tokenKey: \DescribeDBProxyTargetGroupsResponse.marker, onPage: onPage)
     }
 
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
-    public func describeDBProxyTargetsPaginator(_ input: DescribeDBProxyTargetsRequest, onPage: @escaping (DescribeDBProxyTargetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBProxyTargetsPaginator(
+        _ input: DescribeDBProxyTargetsRequest,
+        onPage: @escaping (DescribeDBProxyTargetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxyTargets, tokenKey: \DescribeDBProxyTargetsResponse.marker, onPage: onPage)
     }
 
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. 
-    public func describeDBSecurityGroupsPaginator(_ input: DescribeDBSecurityGroupsMessage, onPage: @escaping (DBSecurityGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBSecurityGroupsPaginator(
+        _ input: DescribeDBSecurityGroupsMessage,
+        onPage: @escaping (DBSecurityGroupMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSecurityGroups, tokenKey: \DBSecurityGroupMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about DB snapshots. This API action supports pagination.
-    public func describeDBSnapshotsPaginator(_ input: DescribeDBSnapshotsMessage, onPage: @escaping (DBSnapshotMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBSnapshotsPaginator(
+        _ input: DescribeDBSnapshotsMessage,
+        onPage: @escaping (DBSnapshotMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSnapshots, tokenKey: \DBSnapshotMessage.marker, onPage: onPage)
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial. 
-    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage, onPage: @escaping (DBSubnetGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBSubnetGroupsPaginator(
+        _ input: DescribeDBSubnetGroupsMessage,
+        onPage: @escaping (DBSubnetGroupMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
     }
 
     ///  Returns the default engine and system parameter information for the specified database engine.
-    public func describeEngineDefaultParametersPaginator(_ input: DescribeEngineDefaultParametersMessage, onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeEngineDefaultParametersPaginator(
+        _ input: DescribeEngineDefaultParametersMessage,
+        onPage: @escaping (DescribeEngineDefaultParametersResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, onPage: onPage)
     }
 
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
-    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage, onPage: @escaping (EventSubscriptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeEventSubscriptionsPaginator(
+        _ input: DescribeEventSubscriptionsMessage,
+        onPage: @escaping (EventSubscriptionsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
     }
 
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeEventsPaginator(
+        _ input: DescribeEventsMessage,
+        onPage: @escaping (EventsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about a snapshot export to Amazon S3. This API operation supports pagination. 
-    public func describeExportTasksPaginator(_ input: DescribeExportTasksMessage, onPage: @escaping (ExportTasksMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeExportTasksPaginator(
+        _ input: DescribeExportTasksMessage,
+        onPage: @escaping (ExportTasksMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeExportTasks, tokenKey: \ExportTasksMessage.marker, onPage: onPage)
     }
 
     ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
-    public func describeGlobalClustersPaginator(_ input: DescribeGlobalClustersMessage, onPage: @escaping (GlobalClustersMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeGlobalClustersPaginator(
+        _ input: DescribeGlobalClustersMessage,
+        onPage: @escaping (GlobalClustersMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeGlobalClusters, tokenKey: \GlobalClustersMessage.marker, onPage: onPage)
     }
 
     ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
-    public func describeInstallationMediaPaginator(_ input: DescribeInstallationMediaMessage, onPage: @escaping (InstallationMediaMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeInstallationMediaPaginator(
+        _ input: DescribeInstallationMediaMessage,
+        onPage: @escaping (InstallationMediaMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstallationMedia, tokenKey: \InstallationMediaMessage.marker, onPage: onPage)
     }
 
     ///  Describes all available options.
-    public func describeOptionGroupOptionsPaginator(_ input: DescribeOptionGroupOptionsMessage, onPage: @escaping (OptionGroupOptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeOptionGroupOptionsPaginator(
+        _ input: DescribeOptionGroupOptionsMessage,
+        onPage: @escaping (OptionGroupOptionsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOptionGroupOptions, tokenKey: \OptionGroupOptionsMessage.marker, onPage: onPage)
     }
 
     ///  Describes the available option groups.
-    public func describeOptionGroupsPaginator(_ input: DescribeOptionGroupsMessage, onPage: @escaping (OptionGroups, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeOptionGroupsPaginator(
+        _ input: DescribeOptionGroupsMessage,
+        onPage: @escaping (OptionGroups,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOptionGroups, tokenKey: \OptionGroups.marker, onPage: onPage)
     }
 
     ///  Returns a list of orderable DB instance options for the specified engine.
-    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage, onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeOrderableDBInstanceOptionsPaginator(
+        _ input: DescribeOrderableDBInstanceOptionsMessage,
+        onPage: @escaping (OrderableDBInstanceOptionsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
-    public func describeReservedDBInstancesPaginator(_ input: DescribeReservedDBInstancesMessage, onPage: @escaping (ReservedDBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeReservedDBInstancesPaginator(
+        _ input: DescribeReservedDBInstancesMessage,
+        onPage: @escaping (ReservedDBInstanceMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedDBInstances, tokenKey: \ReservedDBInstanceMessage.marker, onPage: onPage)
     }
 
     ///  Lists available reserved DB instance offerings.
-    public func describeReservedDBInstancesOfferingsPaginator(_ input: DescribeReservedDBInstancesOfferingsMessage, onPage: @escaping (ReservedDBInstancesOfferingMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeReservedDBInstancesOfferingsPaginator(
+        _ input: DescribeReservedDBInstancesOfferingsMessage,
+        onPage: @escaping (ReservedDBInstancesOfferingMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedDBInstancesOfferings, tokenKey: \ReservedDBInstancesOfferingMessage.marker, onPage: onPage)
     }
 
     ///  Downloads all or a portion of the specified log file, up to 1 MB in size.
-    public func downloadDBLogFilePortionPaginator(_ input: DownloadDBLogFilePortionMessage, onPage: @escaping (DownloadDBLogFilePortionDetails, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func downloadDBLogFilePortionPaginator(
+        _ input: DownloadDBLogFilePortionMessage,
+        onPage: @escaping (DownloadDBLogFilePortionDetails,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: downloadDBLogFilePortion, tokenKey: \DownloadDBLogFilePortionDetails.marker, onPage: onPage)
     }
 
@@ -155,9 +259,9 @@ extension RDS {
 extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeCustomAvailabilityZonesMessage {
         return .init(
-            customAvailabilityZoneId: self.customAvailabilityZoneId, 
-            filters: self.filters, 
-            marker: token, 
+            customAvailabilityZoneId: self.customAvailabilityZoneId,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -167,10 +271,10 @@ extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateToken {
 extension RDS.DescribeDBClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClustersMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier, 
-            filters: self.filters, 
-            includeShared: self.includeShared, 
-            marker: token, 
+            dBClusterIdentifier: self.dBClusterIdentifier,
+            filters: self.filters,
+            includeShared: self.includeShared,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -180,15 +284,15 @@ extension RDS.DescribeDBClustersMessage: AWSPaginateToken {
 extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBEngineVersionsMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily, 
-            defaultOnly: self.defaultOnly, 
-            engine: self.engine, 
-            engineVersion: self.engineVersion, 
-            filters: self.filters, 
-            includeAll: self.includeAll, 
-            listSupportedCharacterSets: self.listSupportedCharacterSets, 
-            listSupportedTimezones: self.listSupportedTimezones, 
-            marker: token, 
+            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            defaultOnly: self.defaultOnly,
+            engine: self.engine,
+            engineVersion: self.engineVersion,
+            filters: self.filters,
+            includeAll: self.includeAll,
+            listSupportedCharacterSets: self.listSupportedCharacterSets,
+            listSupportedTimezones: self.listSupportedTimezones,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -198,10 +302,10 @@ extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateToken {
 extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBInstanceAutomatedBackupsMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier, 
-            dbiResourceId: self.dbiResourceId, 
-            filters: self.filters, 
-            marker: token, 
+            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbiResourceId: self.dbiResourceId,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -211,9 +315,9 @@ extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBInstancesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier, 
-            filters: self.filters, 
-            marker: token, 
+            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -223,12 +327,12 @@ extension RDS.DescribeDBInstancesMessage: AWSPaginateToken {
 extension RDS.DescribeDBLogFilesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBLogFilesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier, 
-            fileLastWritten: self.fileLastWritten, 
-            filenameContains: self.filenameContains, 
-            fileSize: self.fileSize, 
-            filters: self.filters, 
-            marker: token, 
+            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            fileLastWritten: self.fileLastWritten,
+            filenameContains: self.filenameContains,
+            fileSize: self.fileSize,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -238,9 +342,9 @@ extension RDS.DescribeDBLogFilesMessage: AWSPaginateToken {
 extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBParameterGroupsMessage {
         return .init(
-            dBParameterGroupName: self.dBParameterGroupName, 
-            filters: self.filters, 
-            marker: token, 
+            dBParameterGroupName: self.dBParameterGroupName,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -250,10 +354,10 @@ extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBParametersMessage {
         return .init(
-            dBParameterGroupName: self.dBParameterGroupName, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            dBParameterGroupName: self.dBParameterGroupName,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
             source: self.source
         )
 
@@ -263,9 +367,9 @@ extension RDS.DescribeDBParametersMessage: AWSPaginateToken {
 extension RDS.DescribeDBProxiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxiesRequest {
         return .init(
-            dBProxyName: self.dBProxyName, 
-            filters: self.filters, 
-            marker: token, 
+            dBProxyName: self.dBProxyName,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -275,10 +379,10 @@ extension RDS.DescribeDBProxiesRequest: AWSPaginateToken {
 extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxyTargetGroupsRequest {
         return .init(
-            dBProxyName: self.dBProxyName, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            dBProxyName: self.dBProxyName,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
             targetGroupName: self.targetGroupName
         )
 
@@ -288,10 +392,10 @@ extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateToken {
 extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxyTargetsRequest {
         return .init(
-            dBProxyName: self.dBProxyName, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            dBProxyName: self.dBProxyName,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
             targetGroupName: self.targetGroupName
         )
 
@@ -301,9 +405,9 @@ extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateToken {
 extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSecurityGroupsMessage {
         return .init(
-            dBSecurityGroupName: self.dBSecurityGroupName, 
-            filters: self.filters, 
-            marker: token, 
+            dBSecurityGroupName: self.dBSecurityGroupName,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -313,14 +417,14 @@ extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSnapshotsMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier, 
-            dbiResourceId: self.dbiResourceId, 
-            dBSnapshotIdentifier: self.dBSnapshotIdentifier, 
-            filters: self.filters, 
-            includePublic: self.includePublic, 
-            includeShared: self.includeShared, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbiResourceId: self.dbiResourceId,
+            dBSnapshotIdentifier: self.dBSnapshotIdentifier,
+            filters: self.filters,
+            includePublic: self.includePublic,
+            includeShared: self.includeShared,
+            marker: token,
+            maxRecords: self.maxRecords,
             snapshotType: self.snapshotType
         )
 
@@ -330,9 +434,9 @@ extension RDS.DescribeDBSnapshotsMessage: AWSPaginateToken {
 extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSubnetGroupsMessage {
         return .init(
-            dBSubnetGroupName: self.dBSubnetGroupName, 
-            filters: self.filters, 
-            marker: token, 
+            dBSubnetGroupName: self.dBSubnetGroupName,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -342,9 +446,9 @@ extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeEngineDefaultParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeEngineDefaultParametersMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily, 
-            filters: self.filters, 
-            marker: token, 
+            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -354,9 +458,9 @@ extension RDS.DescribeEngineDefaultParametersMessage: AWSPaginateToken {
 extension RDS.DescribeEventSubscriptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeEventSubscriptionsMessage {
         return .init(
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
             subscriptionName: self.subscriptionName
         )
 
@@ -366,14 +470,14 @@ extension RDS.DescribeEventSubscriptionsMessage: AWSPaginateToken {
 extension RDS.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeEventsMessage {
         return .init(
-            duration: self.duration, 
-            endTime: self.endTime, 
-            eventCategories: self.eventCategories, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
-            sourceIdentifier: self.sourceIdentifier, 
-            sourceType: self.sourceType, 
+            duration: self.duration,
+            endTime: self.endTime,
+            eventCategories: self.eventCategories,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            sourceIdentifier: self.sourceIdentifier,
+            sourceType: self.sourceType,
             startTime: self.startTime
         )
 
@@ -383,10 +487,10 @@ extension RDS.DescribeEventsMessage: AWSPaginateToken {
 extension RDS.DescribeExportTasksMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeExportTasksMessage {
         return .init(
-            exportTaskIdentifier: self.exportTaskIdentifier, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            exportTaskIdentifier: self.exportTaskIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
             sourceArn: self.sourceArn
         )
 
@@ -396,9 +500,9 @@ extension RDS.DescribeExportTasksMessage: AWSPaginateToken {
 extension RDS.DescribeGlobalClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeGlobalClustersMessage {
         return .init(
-            filters: self.filters, 
-            globalClusterIdentifier: self.globalClusterIdentifier, 
-            marker: token, 
+            filters: self.filters,
+            globalClusterIdentifier: self.globalClusterIdentifier,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -408,9 +512,9 @@ extension RDS.DescribeGlobalClustersMessage: AWSPaginateToken {
 extension RDS.DescribeInstallationMediaMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeInstallationMediaMessage {
         return .init(
-            filters: self.filters, 
-            installationMediaId: self.installationMediaId, 
-            marker: token, 
+            filters: self.filters,
+            installationMediaId: self.installationMediaId,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -420,10 +524,10 @@ extension RDS.DescribeInstallationMediaMessage: AWSPaginateToken {
 extension RDS.DescribeOptionGroupOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeOptionGroupOptionsMessage {
         return .init(
-            engineName: self.engineName, 
-            filters: self.filters, 
-            majorEngineVersion: self.majorEngineVersion, 
-            marker: token, 
+            engineName: self.engineName,
+            filters: self.filters,
+            majorEngineVersion: self.majorEngineVersion,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -433,11 +537,11 @@ extension RDS.DescribeOptionGroupOptionsMessage: AWSPaginateToken {
 extension RDS.DescribeOptionGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeOptionGroupsMessage {
         return .init(
-            engineName: self.engineName, 
-            filters: self.filters, 
-            majorEngineVersion: self.majorEngineVersion, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            engineName: self.engineName,
+            filters: self.filters,
+            majorEngineVersion: self.majorEngineVersion,
+            marker: token,
+            maxRecords: self.maxRecords,
             optionGroupName: self.optionGroupName
         )
 
@@ -447,13 +551,13 @@ extension RDS.DescribeOptionGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass, 
-            engine: self.engine, 
-            engineVersion: self.engineVersion, 
-            filters: self.filters, 
-            licenseModel: self.licenseModel, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            dBInstanceClass: self.dBInstanceClass,
+            engine: self.engine,
+            engineVersion: self.engineVersion,
+            filters: self.filters,
+            licenseModel: self.licenseModel,
+            marker: token,
+            maxRecords: self.maxRecords,
             vpc: self.vpc
         )
 
@@ -463,16 +567,16 @@ extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
 extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeReservedDBInstancesMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass, 
-            duration: self.duration, 
-            filters: self.filters, 
-            leaseId: self.leaseId, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
-            multiAZ: self.multiAZ, 
-            offeringType: self.offeringType, 
-            productDescription: self.productDescription, 
-            reservedDBInstanceId: self.reservedDBInstanceId, 
+            dBInstanceClass: self.dBInstanceClass,
+            duration: self.duration,
+            filters: self.filters,
+            leaseId: self.leaseId,
+            marker: token,
+            maxRecords: self.maxRecords,
+            multiAZ: self.multiAZ,
+            offeringType: self.offeringType,
+            productDescription: self.productDescription,
+            reservedDBInstanceId: self.reservedDBInstanceId,
             reservedDBInstancesOfferingId: self.reservedDBInstancesOfferingId
         )
 
@@ -482,14 +586,14 @@ extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateToken {
 extension RDS.DescribeReservedDBInstancesOfferingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeReservedDBInstancesOfferingsMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass, 
-            duration: self.duration, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
-            multiAZ: self.multiAZ, 
-            offeringType: self.offeringType, 
-            productDescription: self.productDescription, 
+            dBInstanceClass: self.dBInstanceClass,
+            duration: self.duration,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            multiAZ: self.multiAZ,
+            offeringType: self.offeringType,
+            productDescription: self.productDescription,
             reservedDBInstancesOfferingId: self.reservedDBInstancesOfferingId
         )
 
@@ -499,9 +603,9 @@ extension RDS.DescribeReservedDBInstancesOfferingsMessage: AWSPaginateToken {
 extension RDS.DownloadDBLogFilePortionMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DownloadDBLogFilePortionMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier, 
-            logFileName: self.logFileName, 
-            marker: token, 
+            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            logFileName: self.logFileName,
+            marker: token,
             numberOfLines: self.numberOfLines
         )
 

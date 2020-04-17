@@ -43,7 +43,7 @@ public enum GlueErrorType: AWSErrorType {
 }
 
 extension GlueErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -99,8 +99,8 @@ extension GlueErrorType {
     }
 }
 
-extension GlueErrorType : CustomStringConvertible {
-    public var description : String {
+extension GlueErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .accessDeniedException(let message):
             return "AccessDeniedException: \(message ?? "")"

@@ -33,7 +33,7 @@ public enum DeviceFarmErrorType: AWSErrorType {
 }
 
 extension DeviceFarmErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -69,8 +69,8 @@ extension DeviceFarmErrorType {
     }
 }
 
-extension DeviceFarmErrorType : CustomStringConvertible {
-    public var description : String {
+extension DeviceFarmErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .argumentException(let message):
             return "ArgumentException: \(message ?? "")"

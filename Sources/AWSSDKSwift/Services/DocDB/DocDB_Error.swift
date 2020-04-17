@@ -65,7 +65,7 @@ public enum DocDBErrorType: AWSErrorType {
 }
 
 extension DocDBErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -165,8 +165,8 @@ extension DocDBErrorType {
     }
 }
 
-extension DocDBErrorType : CustomStringConvertible {
-    public var description : String {
+extension DocDBErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .authorizationNotFoundFault(let message):
             return "AuthorizationNotFound: \(message ?? "")"

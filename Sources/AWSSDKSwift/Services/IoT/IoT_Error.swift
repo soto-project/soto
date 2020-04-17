@@ -50,7 +50,7 @@ public enum IoTErrorType: AWSErrorType {
 }
 
 extension IoTErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -120,8 +120,8 @@ extension IoTErrorType {
     }
 }
 
-extension IoTErrorType : CustomStringConvertible {
-    public var description : String {
+extension IoTErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .certificateConflictException(let message):
             return "CertificateConflictException: \(message ?? "")"

@@ -21,17 +21,29 @@ import NIO
 extension ELBV2 {
 
     ///  Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners. For an HTTPS or TLS listener, the output includes the default certificate for the listener. To describe the certificate list for the listener, use DescribeListenerCertificates.
-    public func describeListenersPaginator(_ input: DescribeListenersInput, onPage: @escaping (DescribeListenersOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeListenersPaginator(
+        _ input: DescribeListenersInput,
+        onPage: @escaping (DescribeListenersOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeListeners, tokenKey: \DescribeListenersOutput.nextMarker, onPage: onPage)
     }
 
     ///  Describes the specified load balancers or all of your load balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.
-    public func describeLoadBalancersPaginator(_ input: DescribeLoadBalancersInput, onPage: @escaping (DescribeLoadBalancersOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeLoadBalancersPaginator(
+        _ input: DescribeLoadBalancersInput,
+        onPage: @escaping (DescribeLoadBalancersOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeLoadBalancersOutput.nextMarker, onPage: onPage)
     }
 
     ///  Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups. To describe the targets for a target group, use DescribeTargetHealth. To describe the attributes of a target group, use DescribeTargetGroupAttributes.
-    public func describeTargetGroupsPaginator(_ input: DescribeTargetGroupsInput, onPage: @escaping (DescribeTargetGroupsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeTargetGroupsPaginator(
+        _ input: DescribeTargetGroupsInput,
+        onPage: @escaping (DescribeTargetGroupsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTargetGroups, tokenKey: \DescribeTargetGroupsOutput.nextMarker, onPage: onPage)
     }
 
@@ -40,9 +52,9 @@ extension ELBV2 {
 extension ELBV2.DescribeListenersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELBV2.DescribeListenersInput {
         return .init(
-            listenerArns: self.listenerArns, 
-            loadBalancerArn: self.loadBalancerArn, 
-            marker: token, 
+            listenerArns: self.listenerArns,
+            loadBalancerArn: self.loadBalancerArn,
+            marker: token,
             pageSize: self.pageSize
         )
 
@@ -52,9 +64,9 @@ extension ELBV2.DescribeListenersInput: AWSPaginateToken {
 extension ELBV2.DescribeLoadBalancersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELBV2.DescribeLoadBalancersInput {
         return .init(
-            loadBalancerArns: self.loadBalancerArns, 
-            marker: token, 
-            names: self.names, 
+            loadBalancerArns: self.loadBalancerArns,
+            marker: token,
+            names: self.names,
             pageSize: self.pageSize
         )
 
@@ -64,10 +76,10 @@ extension ELBV2.DescribeLoadBalancersInput: AWSPaginateToken {
 extension ELBV2.DescribeTargetGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELBV2.DescribeTargetGroupsInput {
         return .init(
-            loadBalancerArn: self.loadBalancerArn, 
-            marker: token, 
-            names: self.names, 
-            pageSize: self.pageSize, 
+            loadBalancerArn: self.loadBalancerArn,
+            marker: token,
+            names: self.names,
+            pageSize: self.pageSize,
             targetGroupArns: self.targetGroupArns
         )
 

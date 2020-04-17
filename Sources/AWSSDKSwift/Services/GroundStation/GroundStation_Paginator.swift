@@ -21,32 +21,56 @@ import NIO
 extension GroundStation {
 
     ///  Returns a list of Config objects.
-    public func listConfigsPaginator(_ input: ListConfigsRequest, onPage: @escaping (ListConfigsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listConfigsPaginator(
+        _ input: ListConfigsRequest,
+        onPage: @escaping (ListConfigsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigs, tokenKey: \ListConfigsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
-    public func listContactsPaginator(_ input: ListContactsRequest, onPage: @escaping (ListContactsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listContactsPaginator(
+        _ input: ListContactsRequest,
+        onPage: @escaping (ListContactsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContacts, tokenKey: \ListContactsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of DataflowEndpoint groups.
-    public func listDataflowEndpointGroupsPaginator(_ input: ListDataflowEndpointGroupsRequest, onPage: @escaping (ListDataflowEndpointGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataflowEndpointGroupsPaginator(
+        _ input: ListDataflowEndpointGroupsRequest,
+        onPage: @escaping (ListDataflowEndpointGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataflowEndpointGroups, tokenKey: \ListDataflowEndpointGroupsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of ground stations. 
-    public func listGroundStationsPaginator(_ input: ListGroundStationsRequest, onPage: @escaping (ListGroundStationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listGroundStationsPaginator(
+        _ input: ListGroundStationsRequest,
+        onPage: @escaping (ListGroundStationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroundStations, tokenKey: \ListGroundStationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of mission profiles.
-    public func listMissionProfilesPaginator(_ input: ListMissionProfilesRequest, onPage: @escaping (ListMissionProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listMissionProfilesPaginator(
+        _ input: ListMissionProfilesRequest,
+        onPage: @escaping (ListMissionProfilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMissionProfiles, tokenKey: \ListMissionProfilesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of satellites.
-    public func listSatellitesPaginator(_ input: ListSatellitesRequest, onPage: @escaping (ListSatellitesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSatellitesPaginator(
+        _ input: ListSatellitesRequest,
+        onPage: @escaping (ListSatellitesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSatellites, tokenKey: \ListSatellitesResponse.nextToken, onPage: onPage)
     }
 
@@ -55,7 +79,7 @@ extension GroundStation {
 extension GroundStation.ListConfigsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListConfigsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -65,13 +89,13 @@ extension GroundStation.ListConfigsRequest: AWSPaginateToken {
 extension GroundStation.ListContactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListContactsRequest {
         return .init(
-            endTime: self.endTime, 
-            groundStation: self.groundStation, 
-            maxResults: self.maxResults, 
-            missionProfileArn: self.missionProfileArn, 
-            nextToken: token, 
-            satelliteArn: self.satelliteArn, 
-            startTime: self.startTime, 
+            endTime: self.endTime,
+            groundStation: self.groundStation,
+            maxResults: self.maxResults,
+            missionProfileArn: self.missionProfileArn,
+            nextToken: token,
+            satelliteArn: self.satelliteArn,
+            startTime: self.startTime,
             statusList: self.statusList
         )
 
@@ -81,7 +105,7 @@ extension GroundStation.ListContactsRequest: AWSPaginateToken {
 extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListDataflowEndpointGroupsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -91,8 +115,8 @@ extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateToken {
 extension GroundStation.ListGroundStationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListGroundStationsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             satelliteId: self.satelliteId
         )
 
@@ -102,7 +126,7 @@ extension GroundStation.ListGroundStationsRequest: AWSPaginateToken {
 extension GroundStation.ListMissionProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListMissionProfilesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -112,7 +136,7 @@ extension GroundStation.ListMissionProfilesRequest: AWSPaginateToken {
 extension GroundStation.ListSatellitesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListSatellitesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

@@ -24,7 +24,7 @@ public enum MarketplaceEntitlementServiceErrorType: AWSErrorType {
 }
 
 extension MarketplaceEntitlementServiceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -42,8 +42,8 @@ extension MarketplaceEntitlementServiceErrorType {
     }
 }
 
-extension MarketplaceEntitlementServiceErrorType : CustomStringConvertible {
-    public var description : String {
+extension MarketplaceEntitlementServiceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalServiceErrorException(let message):
             return "InternalServiceErrorException: \(message ?? "")"

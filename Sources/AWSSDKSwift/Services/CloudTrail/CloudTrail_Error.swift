@@ -63,7 +63,7 @@ public enum CloudTrailErrorType: AWSErrorType {
 }
 
 extension CloudTrailErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -159,8 +159,8 @@ extension CloudTrailErrorType {
     }
 }
 
-extension CloudTrailErrorType : CustomStringConvertible {
-    public var description : String {
+extension CloudTrailErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .cloudTrailARNInvalidException(let message):
             return "CloudTrailARNInvalidException: \(message ?? "")"

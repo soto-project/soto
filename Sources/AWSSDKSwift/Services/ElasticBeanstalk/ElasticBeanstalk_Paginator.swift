@@ -21,7 +21,11 @@ import NIO
 extension ElasticBeanstalk {
 
     ///  Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken. 
-    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventDescriptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeEventsPaginator(
+        _ input: DescribeEventsMessage,
+        onPage: @escaping (EventDescriptionsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventDescriptionsMessage.nextToken, onPage: onPage)
     }
 
@@ -30,17 +34,17 @@ extension ElasticBeanstalk {
 extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.DescribeEventsMessage {
         return .init(
-            applicationName: self.applicationName, 
-            endTime: self.endTime, 
-            environmentId: self.environmentId, 
-            environmentName: self.environmentName, 
-            maxRecords: self.maxRecords, 
-            nextToken: token, 
-            platformArn: self.platformArn, 
-            requestId: self.requestId, 
-            severity: self.severity, 
-            startTime: self.startTime, 
-            templateName: self.templateName, 
+            applicationName: self.applicationName,
+            endTime: self.endTime,
+            environmentId: self.environmentId,
+            environmentName: self.environmentName,
+            maxRecords: self.maxRecords,
+            nextToken: token,
+            platformArn: self.platformArn,
+            requestId: self.requestId,
+            severity: self.severity,
+            startTime: self.startTime,
+            templateName: self.templateName,
             versionLabel: self.versionLabel
         )
 

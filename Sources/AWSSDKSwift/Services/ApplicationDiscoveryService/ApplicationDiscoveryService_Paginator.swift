@@ -21,12 +21,20 @@ import NIO
 extension ApplicationDiscoveryService {
 
     ///  Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
-    public func describeContinuousExportsPaginator(_ input: DescribeContinuousExportsRequest, onPage: @escaping (DescribeContinuousExportsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeContinuousExportsPaginator(
+        _ input: DescribeContinuousExportsRequest,
+        onPage: @escaping (DescribeContinuousExportsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeContinuousExports, tokenKey: \DescribeContinuousExportsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
-    public func describeImportTasksPaginator(_ input: DescribeImportTasksRequest, onPage: @escaping (DescribeImportTasksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeImportTasksPaginator(
+        _ input: DescribeImportTasksRequest,
+        onPage: @escaping (DescribeImportTasksResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImportTasks, tokenKey: \DescribeImportTasksResponse.nextToken, onPage: onPage)
     }
 
@@ -35,8 +43,8 @@ extension ApplicationDiscoveryService {
 extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeContinuousExportsRequest {
         return .init(
-            exportIds: self.exportIds, 
-            maxResults: self.maxResults, 
+            exportIds: self.exportIds,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -46,8 +54,8 @@ extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPagin
 extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeImportTasksRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

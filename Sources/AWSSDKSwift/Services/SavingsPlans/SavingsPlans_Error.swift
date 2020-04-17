@@ -25,7 +25,7 @@ public enum SavingsPlansErrorType: AWSErrorType {
 }
 
 extension SavingsPlansErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -45,8 +45,8 @@ extension SavingsPlansErrorType {
     }
 }
 
-extension SavingsPlansErrorType : CustomStringConvertible {
-    public var description : String {
+extension SavingsPlansErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalServerException(let message):
             return "InternalServerException: \(message ?? "")"

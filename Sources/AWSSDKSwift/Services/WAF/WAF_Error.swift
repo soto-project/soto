@@ -39,7 +39,7 @@ public enum WAFErrorType: AWSErrorType {
 }
 
 extension WAFErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -87,8 +87,8 @@ extension WAFErrorType {
     }
 }
 
-extension WAFErrorType : CustomStringConvertible {
-    public var description : String {
+extension WAFErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .wAFBadRequestException(let message):
             return "WAFBadRequestException: \(message ?? "")"

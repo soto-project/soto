@@ -55,7 +55,7 @@ public enum SESErrorType: AWSErrorType {
 }
 
 extension SESErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -135,8 +135,8 @@ extension SESErrorType {
     }
 }
 
-extension SESErrorType : CustomStringConvertible {
-    public var description : String {
+extension SESErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .accountSendingPausedException(let message):
             return "AccountSendingPausedException: \(message ?? "")"

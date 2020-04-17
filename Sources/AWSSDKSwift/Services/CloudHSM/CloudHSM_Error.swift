@@ -24,7 +24,7 @@ public enum CloudHSMErrorType: AWSErrorType {
 }
 
 extension CloudHSMErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -42,8 +42,8 @@ extension CloudHSMErrorType {
     }
 }
 
-extension CloudHSMErrorType : CustomStringConvertible {
-    public var description : String {
+extension CloudHSMErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .cloudHsmInternalException(let message):
             return "CloudHsmInternalException: \(message ?? "")"

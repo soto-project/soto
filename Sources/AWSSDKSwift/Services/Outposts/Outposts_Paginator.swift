@@ -21,12 +21,20 @@ import NIO
 extension Outposts {
 
     ///  List the Outposts for your AWS account.
-    public func listOutpostsPaginator(_ input: ListOutpostsInput, onPage: @escaping (ListOutpostsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listOutpostsPaginator(
+        _ input: ListOutpostsInput,
+        onPage: @escaping (ListOutpostsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOutposts, tokenKey: \ListOutpostsOutput.nextToken, onPage: onPage)
     }
 
     ///  Lists the sites for the specified AWS account.
-    public func listSitesPaginator(_ input: ListSitesInput, onPage: @escaping (ListSitesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSitesPaginator(
+        _ input: ListSitesInput,
+        onPage: @escaping (ListSitesOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSites, tokenKey: \ListSitesOutput.nextToken, onPage: onPage)
     }
 
@@ -35,7 +43,7 @@ extension Outposts {
 extension Outposts.ListOutpostsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListOutpostsInput {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -45,7 +53,7 @@ extension Outposts.ListOutpostsInput: AWSPaginateToken {
 extension Outposts.ListSitesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListSitesInput {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

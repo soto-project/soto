@@ -72,7 +72,7 @@ public enum ConfigServiceErrorType: AWSErrorType {
 }
 
 extension ConfigServiceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -186,8 +186,8 @@ extension ConfigServiceErrorType {
     }
 }
 
-extension ConfigServiceErrorType : CustomStringConvertible {
-    public var description : String {
+extension ConfigServiceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .conformancePackTemplateValidationException(let message):
             return "ConformancePackTemplateValidationException: \(message ?? "")"

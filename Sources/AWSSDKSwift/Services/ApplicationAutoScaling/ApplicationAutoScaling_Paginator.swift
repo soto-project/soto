@@ -21,22 +21,38 @@ import NIO
 extension ApplicationAutoScaling {
 
     ///  Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension. To create a scalable target or update an existing one, see RegisterScalableTarget. If you are no longer using a scalable target, you can deregister it using DeregisterScalableTarget.
-    public func describeScalableTargetsPaginator(_ input: DescribeScalableTargetsRequest, onPage: @escaping (DescribeScalableTargetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeScalableTargetsPaginator(
+        _ input: DescribeScalableTargetsRequest,
+        onPage: @escaping (DescribeScalableTargetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalableTargets, tokenKey: \DescribeScalableTargetsResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension. Scaling activities are triggered by CloudWatch alarms that are associated with scaling policies. To view the scaling policies for a service namespace, see DescribeScalingPolicies. To create a scaling policy or update an existing one, see PutScalingPolicy.
-    public func describeScalingActivitiesPaginator(_ input: DescribeScalingActivitiesRequest, onPage: @escaping (DescribeScalingActivitiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeScalingActivitiesPaginator(
+        _ input: DescribeScalingActivitiesRequest,
+        onPage: @escaping (DescribeScalingActivitiesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalingActivities, tokenKey: \DescribeScalingActivitiesResponse.nextToken, onPage: onPage)
     }
 
     ///  Describes the Application Auto Scaling scaling policies for the specified service namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames. To create a scaling policy or update an existing one, see PutScalingPolicy. If you are no longer using a scaling policy, you can delete it using DeleteScalingPolicy.
-    public func describeScalingPoliciesPaginator(_ input: DescribeScalingPoliciesRequest, onPage: @escaping (DescribeScalingPoliciesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeScalingPoliciesPaginator(
+        _ input: DescribeScalingPoliciesRequest,
+        onPage: @escaping (DescribeScalingPoliciesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalingPolicies, tokenKey: \DescribeScalingPoliciesResponse.nextToken, onPage: onPage)
     }
 
     ///  Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. To create a scheduled action or update an existing one, see PutScheduledAction. If you are no longer using a scheduled action, you can delete it using DeleteScheduledAction.
-    public func describeScheduledActionsPaginator(_ input: DescribeScheduledActionsRequest, onPage: @escaping (DescribeScheduledActionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeScheduledActionsPaginator(
+        _ input: DescribeScheduledActionsRequest,
+        onPage: @escaping (DescribeScheduledActionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledActions, tokenKey: \DescribeScheduledActionsResponse.nextToken, onPage: onPage)
     }
 
@@ -45,10 +61,10 @@ extension ApplicationAutoScaling {
 extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalableTargetsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            resourceIds: self.resourceIds, 
-            scalableDimension: self.scalableDimension, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIds: self.resourceIds,
+            scalableDimension: self.scalableDimension,
             serviceNamespace: self.serviceNamespace
         )
 
@@ -58,10 +74,10 @@ extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateToke
 extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalingActivitiesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            resourceId: self.resourceId, 
-            scalableDimension: self.scalableDimension, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            scalableDimension: self.scalableDimension,
             serviceNamespace: self.serviceNamespace
         )
 
@@ -71,11 +87,11 @@ extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateTo
 extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalingPoliciesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            policyNames: self.policyNames, 
-            resourceId: self.resourceId, 
-            scalableDimension: self.scalableDimension, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyNames: self.policyNames,
+            resourceId: self.resourceId,
+            scalableDimension: self.scalableDimension,
             serviceNamespace: self.serviceNamespace
         )
 
@@ -85,11 +101,11 @@ extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateToke
 extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScheduledActionsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            resourceId: self.resourceId, 
-            scalableDimension: self.scalableDimension, 
-            scheduledActionNames: self.scheduledActionNames, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            scalableDimension: self.scalableDimension,
+            scheduledActionNames: self.scheduledActionNames,
             serviceNamespace: self.serviceNamespace
         )
 

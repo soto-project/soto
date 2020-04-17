@@ -21,97 +21,173 @@ import NIO
 extension CloudDirectory {
 
     ///  Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
-    public func listAppliedSchemaArnsPaginator(_ input: ListAppliedSchemaArnsRequest, onPage: @escaping (ListAppliedSchemaArnsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAppliedSchemaArnsPaginator(
+        _ input: ListAppliedSchemaArnsRequest,
+        onPage: @escaping (ListAppliedSchemaArnsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAppliedSchemaArns, tokenKey: \ListAppliedSchemaArnsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists indices attached to the specified object.
-    public func listAttachedIndicesPaginator(_ input: ListAttachedIndicesRequest, onPage: @escaping (ListAttachedIndicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAttachedIndicesPaginator(
+        _ input: ListAttachedIndicesRequest,
+        onPage: @escaping (ListAttachedIndicesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttachedIndices, tokenKey: \ListAttachedIndicesResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
-    public func listDevelopmentSchemaArnsPaginator(_ input: ListDevelopmentSchemaArnsRequest, onPage: @escaping (ListDevelopmentSchemaArnsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDevelopmentSchemaArnsPaginator(
+        _ input: ListDevelopmentSchemaArnsRequest,
+        onPage: @escaping (ListDevelopmentSchemaArnsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDevelopmentSchemaArns, tokenKey: \ListDevelopmentSchemaArnsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists directories created within an account.
-    public func listDirectoriesPaginator(_ input: ListDirectoriesRequest, onPage: @escaping (ListDirectoriesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDirectoriesPaginator(
+        _ input: ListDirectoriesRequest,
+        onPage: @escaping (ListDirectoriesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDirectories, tokenKey: \ListDirectoriesResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves attributes attached to the facet.
-    public func listFacetAttributesPaginator(_ input: ListFacetAttributesRequest, onPage: @escaping (ListFacetAttributesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listFacetAttributesPaginator(
+        _ input: ListFacetAttributesRequest,
+        onPage: @escaping (ListFacetAttributesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFacetAttributes, tokenKey: \ListFacetAttributesResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves the names of facets that exist in a schema.
-    public func listFacetNamesPaginator(_ input: ListFacetNamesRequest, onPage: @escaping (ListFacetNamesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listFacetNamesPaginator(
+        _ input: ListFacetNamesRequest,
+        onPage: @escaping (ListFacetNamesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFacetNames, tokenKey: \ListFacetNamesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists objects attached to the specified index.
-    public func listIndexPaginator(_ input: ListIndexRequest, onPage: @escaping (ListIndexResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listIndexPaginator(
+        _ input: ListIndexRequest,
+        onPage: @escaping (ListIndexResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIndex, tokenKey: \ListIndexResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
-    public func listManagedSchemaArnsPaginator(_ input: ListManagedSchemaArnsRequest, onPage: @escaping (ListManagedSchemaArnsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listManagedSchemaArnsPaginator(
+        _ input: ListManagedSchemaArnsRequest,
+        onPage: @escaping (ListManagedSchemaArnsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listManagedSchemaArns, tokenKey: \ListManagedSchemaArnsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all attributes that are associated with an object. 
-    public func listObjectAttributesPaginator(_ input: ListObjectAttributesRequest, onPage: @escaping (ListObjectAttributesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listObjectAttributesPaginator(
+        _ input: ListObjectAttributesRequest,
+        onPage: @escaping (ListObjectAttributesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectAttributes, tokenKey: \ListObjectAttributesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a paginated list of child objects that are associated with a given object.
-    public func listObjectChildrenPaginator(_ input: ListObjectChildrenRequest, onPage: @escaping (ListObjectChildrenResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listObjectChildrenPaginator(
+        _ input: ListObjectChildrenRequest,
+        onPage: @escaping (ListObjectChildrenResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectChildren, tokenKey: \ListObjectChildrenResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
-    public func listObjectParentPathsPaginator(_ input: ListObjectParentPathsRequest, onPage: @escaping (ListObjectParentPathsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listObjectParentPathsPaginator(
+        _ input: ListObjectParentPathsRequest,
+        onPage: @escaping (ListObjectParentPathsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectParentPaths, tokenKey: \ListObjectParentPathsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists parent objects that are associated with a given object in pagination fashion.
-    public func listObjectParentsPaginator(_ input: ListObjectParentsRequest, onPage: @escaping (ListObjectParentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listObjectParentsPaginator(
+        _ input: ListObjectParentsRequest,
+        onPage: @escaping (ListObjectParentsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectParents, tokenKey: \ListObjectParentsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns policies attached to an object in pagination fashion.
-    public func listObjectPoliciesPaginator(_ input: ListObjectPoliciesRequest, onPage: @escaping (ListObjectPoliciesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listObjectPoliciesPaginator(
+        _ input: ListObjectPoliciesRequest,
+        onPage: @escaping (ListObjectPoliciesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectPolicies, tokenKey: \ListObjectPoliciesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns all of the ObjectIdentifiers to which a given policy is attached.
-    public func listPolicyAttachmentsPaginator(_ input: ListPolicyAttachmentsRequest, onPage: @escaping (ListPolicyAttachmentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPolicyAttachmentsPaginator(
+        _ input: ListPolicyAttachmentsRequest,
+        onPage: @escaping (ListPolicyAttachmentsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicyAttachments, tokenKey: \ListPolicyAttachmentsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
-    public func listPublishedSchemaArnsPaginator(_ input: ListPublishedSchemaArnsRequest, onPage: @escaping (ListPublishedSchemaArnsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPublishedSchemaArnsPaginator(
+        _ input: ListPublishedSchemaArnsRequest,
+        onPage: @escaping (ListPublishedSchemaArnsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPublishedSchemaArns, tokenKey: \ListPublishedSchemaArnsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest, onPage: @escaping (ListTagsForResourceResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTagsForResourcePaginator(
+        _ input: ListTagsForResourceRequest,
+        onPage: @escaping (ListTagsForResourceResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
-    public func listTypedLinkFacetAttributesPaginator(_ input: ListTypedLinkFacetAttributesRequest, onPage: @escaping (ListTypedLinkFacetAttributesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTypedLinkFacetAttributesPaginator(
+        _ input: ListTypedLinkFacetAttributesRequest,
+        onPage: @escaping (ListTypedLinkFacetAttributesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypedLinkFacetAttributes, tokenKey: \ListTypedLinkFacetAttributesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links.
-    public func listTypedLinkFacetNamesPaginator(_ input: ListTypedLinkFacetNamesRequest, onPage: @escaping (ListTypedLinkFacetNamesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTypedLinkFacetNamesPaginator(
+        _ input: ListTypedLinkFacetNamesRequest,
+        onPage: @escaping (ListTypedLinkFacetNamesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypedLinkFacetNames, tokenKey: \ListTypedLinkFacetNamesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
-    public func lookupPolicyPaginator(_ input: LookupPolicyRequest, onPage: @escaping (LookupPolicyResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func lookupPolicyPaginator(
+        _ input: LookupPolicyRequest,
+        onPage: @escaping (LookupPolicyResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: lookupPolicy, tokenKey: \LookupPolicyResponse.nextToken, onPage: onPage)
     }
 
@@ -120,9 +196,9 @@ extension CloudDirectory {
 extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListAppliedSchemaArnsRequest {
         return .init(
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -132,10 +208,10 @@ extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateToken {
 extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListAttachedIndicesRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             targetReference: self.targetReference
         )
 
@@ -145,7 +221,7 @@ extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateToken {
 extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListDevelopmentSchemaArnsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -155,8 +231,8 @@ extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateToken {
 extension CloudDirectory.ListDirectoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListDirectoriesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             state: self.state
         )
 
@@ -166,9 +242,9 @@ extension CloudDirectory.ListDirectoriesRequest: AWSPaginateToken {
 extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListFacetAttributesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            name: self.name, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -178,8 +254,8 @@ extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateToken {
 extension CloudDirectory.ListFacetNamesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListFacetNamesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -189,11 +265,11 @@ extension CloudDirectory.ListFacetNamesRequest: AWSPaginateToken {
 extension CloudDirectory.ListIndexRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListIndexRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            indexReference: self.indexReference, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            indexReference: self.indexReference,
+            maxResults: self.maxResults,
+            nextToken: token,
             rangesOnIndexedValues: self.rangesOnIndexedValues
         )
 
@@ -203,8 +279,8 @@ extension CloudDirectory.ListIndexRequest: AWSPaginateToken {
 extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListManagedSchemaArnsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -214,11 +290,11 @@ extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateToken {
 extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectAttributesRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            facetFilter: self.facetFilter, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            facetFilter: self.facetFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
             objectReference: self.objectReference
         )
 
@@ -228,10 +304,10 @@ extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateToken {
 extension CloudDirectory.ListObjectChildrenRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectChildrenRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             objectReference: self.objectReference
         )
 
@@ -241,9 +317,9 @@ extension CloudDirectory.ListObjectChildrenRequest: AWSPaginateToken {
 extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectParentPathsRequest {
         return .init(
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             objectReference: self.objectReference
         )
 
@@ -253,11 +329,11 @@ extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateToken {
 extension CloudDirectory.ListObjectParentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectParentsRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            includeAllLinksToEachParent: self.includeAllLinksToEachParent, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            includeAllLinksToEachParent: self.includeAllLinksToEachParent,
+            maxResults: self.maxResults,
+            nextToken: token,
             objectReference: self.objectReference
         )
 
@@ -267,10 +343,10 @@ extension CloudDirectory.ListObjectParentsRequest: AWSPaginateToken {
 extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectPoliciesRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             objectReference: self.objectReference
         )
 
@@ -280,10 +356,10 @@ extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateToken {
 extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListPolicyAttachmentsRequest {
         return .init(
-            consistencyLevel: self.consistencyLevel, 
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            consistencyLevel: self.consistencyLevel,
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             policyReference: self.policyReference
         )
 
@@ -293,8 +369,8 @@ extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateToken {
 extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListPublishedSchemaArnsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -304,8 +380,8 @@ extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateToken {
 extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTagsForResourceRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             resourceArn: self.resourceArn
         )
 
@@ -315,9 +391,9 @@ extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateToken {
 extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTypedLinkFacetAttributesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            name: self.name, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -327,8 +403,8 @@ extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateToken {
 extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTypedLinkFacetNamesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             schemaArn: self.schemaArn
         )
 
@@ -338,9 +414,9 @@ extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateToken {
 extension CloudDirectory.LookupPolicyRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.LookupPolicyRequest {
         return .init(
-            directoryArn: self.directoryArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            directoryArn: self.directoryArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             objectReference: self.objectReference
         )
 

@@ -34,7 +34,7 @@ public enum CognitoSyncErrorType: AWSErrorType {
 }
 
 extension CognitoSyncErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -72,8 +72,8 @@ extension CognitoSyncErrorType {
     }
 }
 
-extension CognitoSyncErrorType : CustomStringConvertible {
-    public var description : String {
+extension CognitoSyncErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .alreadyStreamedException(let message):
             return "AlreadyStreamed: \(message ?? "")"

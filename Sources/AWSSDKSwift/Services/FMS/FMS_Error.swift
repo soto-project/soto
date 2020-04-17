@@ -27,7 +27,7 @@ public enum FMSErrorType: AWSErrorType {
 }
 
 extension FMSErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension FMSErrorType {
     }
 }
 
-extension FMSErrorType : CustomStringConvertible {
-    public var description : String {
+extension FMSErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalErrorException(let message):
             return "InternalErrorException: \(message ?? "")"

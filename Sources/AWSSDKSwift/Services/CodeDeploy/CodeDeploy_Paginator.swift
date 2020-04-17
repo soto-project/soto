@@ -21,33 +21,57 @@ import NIO
 extension CodeDeploy {
 
     ///  Lists information about revisions for an application.
-    public func listApplicationRevisionsPaginator(_ input: ListApplicationRevisionsInput, onPage: @escaping (ListApplicationRevisionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listApplicationRevisionsPaginator(
+        _ input: ListApplicationRevisionsInput,
+        onPage: @escaping (ListApplicationRevisionsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplicationRevisions, tokenKey: \ListApplicationRevisionsOutput.nextToken, onPage: onPage)
     }
 
     ///  Lists the applications registered with the IAM user or AWS account.
-    public func listApplicationsPaginator(_ input: ListApplicationsInput, onPage: @escaping (ListApplicationsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listApplicationsPaginator(
+        _ input: ListApplicationsInput,
+        onPage: @escaping (ListApplicationsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsOutput.nextToken, onPage: onPage)
     }
 
     ///  Lists the deployment configurations with the IAM user or AWS account.
-    public func listDeploymentConfigsPaginator(_ input: ListDeploymentConfigsInput, onPage: @escaping (ListDeploymentConfigsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeploymentConfigsPaginator(
+        _ input: ListDeploymentConfigsInput,
+        onPage: @escaping (ListDeploymentConfigsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentConfigs, tokenKey: \ListDeploymentConfigsOutput.nextToken, onPage: onPage)
     }
 
     ///  Lists the deployment groups for an application registered with the IAM user or AWS account.
-    public func listDeploymentGroupsPaginator(_ input: ListDeploymentGroupsInput, onPage: @escaping (ListDeploymentGroupsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeploymentGroupsPaginator(
+        _ input: ListDeploymentGroupsInput,
+        onPage: @escaping (ListDeploymentGroupsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentGroups, tokenKey: \ListDeploymentGroupsOutput.nextToken, onPage: onPage)
     }
 
     ///    The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the IAM user or AWS account. 
     @available(*, deprecated, message:"This operation is deprecated, use ListDeploymentTargets instead.")
-    public func listDeploymentInstancesPaginator(_ input: ListDeploymentInstancesInput, onPage: @escaping (ListDeploymentInstancesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeploymentInstancesPaginator(
+        _ input: ListDeploymentInstancesInput,
+        onPage: @escaping (ListDeploymentInstancesOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentInstances, tokenKey: \ListDeploymentInstancesOutput.nextToken, onPage: onPage)
     }
 
     ///  Lists the deployments in a deployment group for an application registered with the IAM user or AWS account.
-    public func listDeploymentsPaginator(_ input: ListDeploymentsInput, onPage: @escaping (ListDeploymentsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeploymentsPaginator(
+        _ input: ListDeploymentsInput,
+        onPage: @escaping (ListDeploymentsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeployments, tokenKey: \ListDeploymentsOutput.nextToken, onPage: onPage)
     }
 
@@ -56,12 +80,12 @@ extension CodeDeploy {
 extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListApplicationRevisionsInput {
         return .init(
-            applicationName: self.applicationName, 
-            deployed: self.deployed, 
-            nextToken: token, 
-            s3Bucket: self.s3Bucket, 
-            s3KeyPrefix: self.s3KeyPrefix, 
-            sortBy: self.sortBy, 
+            applicationName: self.applicationName,
+            deployed: self.deployed,
+            nextToken: token,
+            s3Bucket: self.s3Bucket,
+            s3KeyPrefix: self.s3KeyPrefix,
+            sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )
 
@@ -89,7 +113,7 @@ extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateToken {
 extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentGroupsInput {
         return .init(
-            applicationName: self.applicationName, 
+            applicationName: self.applicationName,
             nextToken: token
         )
 
@@ -99,9 +123,9 @@ extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateToken {
 extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentInstancesInput {
         return .init(
-            deploymentId: self.deploymentId, 
-            instanceStatusFilter: self.instanceStatusFilter, 
-            instanceTypeFilter: self.instanceTypeFilter, 
+            deploymentId: self.deploymentId,
+            instanceStatusFilter: self.instanceStatusFilter,
+            instanceTypeFilter: self.instanceTypeFilter,
             nextToken: token
         )
 
@@ -111,10 +135,10 @@ extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateToken {
 extension CodeDeploy.ListDeploymentsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentsInput {
         return .init(
-            applicationName: self.applicationName, 
-            createTimeRange: self.createTimeRange, 
-            deploymentGroupName: self.deploymentGroupName, 
-            includeOnlyStatuses: self.includeOnlyStatuses, 
+            applicationName: self.applicationName,
+            createTimeRange: self.createTimeRange,
+            deploymentGroupName: self.deploymentGroupName,
+            includeOnlyStatuses: self.includeOnlyStatuses,
             nextToken: token
         )
 

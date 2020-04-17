@@ -28,7 +28,7 @@ public enum IoTAnalyticsErrorType: AWSErrorType {
 }
 
 extension IoTAnalyticsErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -54,8 +54,8 @@ extension IoTAnalyticsErrorType {
     }
 }
 
-extension IoTAnalyticsErrorType : CustomStringConvertible {
-    public var description : String {
+extension IoTAnalyticsErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalFailureException(let message):
             return "InternalFailureException: \(message ?? "")"

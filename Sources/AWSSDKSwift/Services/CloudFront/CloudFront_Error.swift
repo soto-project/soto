@@ -102,7 +102,7 @@ public enum CloudFrontErrorType: AWSErrorType {
 }
 
 extension CloudFrontErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -276,8 +276,8 @@ extension CloudFrontErrorType {
     }
 }
 
-extension CloudFrontErrorType : CustomStringConvertible {
-    public var description : String {
+extension CloudFrontErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .accessDenied(let message):
             return "AccessDenied: \(message ?? "")"

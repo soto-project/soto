@@ -1,7 +1,7 @@
 {%include "header.stencil" %}
 
-import Foundation
 import AWSSDKSwiftCore
+import Foundation
 
 extension {{name}} {
     //MARK: Enums

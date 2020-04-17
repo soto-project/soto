@@ -21,7 +21,11 @@ import NIO
 extension DirectoryService {
 
     ///  Provides information about any domain controllers in your directory.
-    public func describeDomainControllersPaginator(_ input: DescribeDomainControllersRequest, onPage: @escaping (DescribeDomainControllersResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDomainControllersPaginator(
+        _ input: DescribeDomainControllersRequest,
+        onPage: @escaping (DescribeDomainControllersResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDomainControllers, tokenKey: \DescribeDomainControllersResult.nextToken, onPage: onPage)
     }
 
@@ -30,9 +34,9 @@ extension DirectoryService {
 extension DirectoryService.DescribeDomainControllersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DirectoryService.DescribeDomainControllersRequest {
         return .init(
-            directoryId: self.directoryId, 
-            domainControllerIds: self.domainControllerIds, 
-            limit: self.limit, 
+            directoryId: self.directoryId,
+            domainControllerIds: self.domainControllerIds,
+            limit: self.limit,
             nextToken: token
         )
 

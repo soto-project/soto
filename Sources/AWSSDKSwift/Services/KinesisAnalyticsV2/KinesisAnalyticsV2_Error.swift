@@ -34,7 +34,7 @@ public enum KinesisAnalyticsV2ErrorType: AWSErrorType {
 }
 
 extension KinesisAnalyticsV2ErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -72,8 +72,8 @@ extension KinesisAnalyticsV2ErrorType {
     }
 }
 
-extension KinesisAnalyticsV2ErrorType : CustomStringConvertible {
-    public var description : String {
+extension KinesisAnalyticsV2ErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .codeValidationException(let message):
             return "CodeValidationException: \(message ?? "")"

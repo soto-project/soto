@@ -21,27 +21,47 @@ import NIO
 extension ServiceDiscovery {
 
     ///  Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service.  There is a brief delay between when you register an instance and when the health status for the instance is available.  
-    public func getInstancesHealthStatusPaginator(_ input: GetInstancesHealthStatusRequest, onPage: @escaping (GetInstancesHealthStatusResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getInstancesHealthStatusPaginator(
+        _ input: GetInstancesHealthStatusRequest,
+        onPage: @escaping (GetInstancesHealthStatusResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getInstancesHealthStatus, tokenKey: \GetInstancesHealthStatusResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists summary information about the instances that you registered by using a specified service.
-    public func listInstancesPaginator(_ input: ListInstancesRequest, onPage: @escaping (ListInstancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listInstancesPaginator(
+        _ input: ListInstancesRequest,
+        onPage: @escaping (ListInstancesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists summary information about the namespaces that were created by the current AWS account.
-    public func listNamespacesPaginator(_ input: ListNamespacesRequest, onPage: @escaping (ListNamespacesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listNamespacesPaginator(
+        _ input: ListNamespacesRequest,
+        onPage: @escaping (ListNamespacesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNamespaces, tokenKey: \ListNamespacesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists operations that match the criteria that you specify.
-    public func listOperationsPaginator(_ input: ListOperationsRequest, onPage: @escaping (ListOperationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listOperationsPaginator(
+        _ input: ListOperationsRequest,
+        onPage: @escaping (ListOperationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists summary information for all the services that are associated with one or more specified namespaces.
-    public func listServicesPaginator(_ input: ListServicesRequest, onPage: @escaping (ListServicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listServicesPaginator(
+        _ input: ListServicesRequest,
+        onPage: @escaping (ListServicesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, onPage: onPage)
     }
 
@@ -50,9 +70,9 @@ extension ServiceDiscovery {
 extension ServiceDiscovery.GetInstancesHealthStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.GetInstancesHealthStatusRequest {
         return .init(
-            instances: self.instances, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            instances: self.instances,
+            maxResults: self.maxResults,
+            nextToken: token,
             serviceId: self.serviceId
         )
 
@@ -62,8 +82,8 @@ extension ServiceDiscovery.GetInstancesHealthStatusRequest: AWSPaginateToken {
 extension ServiceDiscovery.ListInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListInstancesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             serviceId: self.serviceId
         )
 
@@ -73,8 +93,8 @@ extension ServiceDiscovery.ListInstancesRequest: AWSPaginateToken {
 extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListNamespacesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -84,8 +104,8 @@ extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateToken {
 extension ServiceDiscovery.ListOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListOperationsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -95,8 +115,8 @@ extension ServiceDiscovery.ListOperationsRequest: AWSPaginateToken {
 extension ServiceDiscovery.ListServicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListServicesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

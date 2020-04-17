@@ -21,7 +21,11 @@ import NIO
 extension ELB {
 
     ///  Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
-    public func describeLoadBalancersPaginator(_ input: DescribeAccessPointsInput, onPage: @escaping (DescribeAccessPointsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeLoadBalancersPaginator(
+        _ input: DescribeAccessPointsInput,
+        onPage: @escaping (DescribeAccessPointsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeAccessPointsOutput.nextMarker, onPage: onPage)
     }
 
@@ -30,8 +34,8 @@ extension ELB {
 extension ELB.DescribeAccessPointsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELB.DescribeAccessPointsInput {
         return .init(
-            loadBalancerNames: self.loadBalancerNames, 
-            marker: token, 
+            loadBalancerNames: self.loadBalancerNames,
+            marker: token,
             pageSize: self.pageSize
         )
 

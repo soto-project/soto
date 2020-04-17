@@ -21,42 +21,74 @@ import NIO
 extension AutoScaling {
 
     ///  Describes one or more Auto Scaling groups.
-    public func describeAutoScalingGroupsPaginator(_ input: AutoScalingGroupNamesType, onPage: @escaping (AutoScalingGroupsType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeAutoScalingGroupsPaginator(
+        _ input: AutoScalingGroupNamesType,
+        onPage: @escaping (AutoScalingGroupsType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAutoScalingGroups, tokenKey: \AutoScalingGroupsType.nextToken, onPage: onPage)
     }
 
     ///  Describes one or more Auto Scaling instances.
-    public func describeAutoScalingInstancesPaginator(_ input: DescribeAutoScalingInstancesType, onPage: @escaping (AutoScalingInstancesType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeAutoScalingInstancesPaginator(
+        _ input: DescribeAutoScalingInstancesType,
+        onPage: @escaping (AutoScalingInstancesType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAutoScalingInstances, tokenKey: \AutoScalingInstancesType.nextToken, onPage: onPage)
     }
 
     ///  Describes one or more launch configurations.
-    public func describeLaunchConfigurationsPaginator(_ input: LaunchConfigurationNamesType, onPage: @escaping (LaunchConfigurationsType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeLaunchConfigurationsPaginator(
+        _ input: LaunchConfigurationNamesType,
+        onPage: @escaping (LaunchConfigurationsType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLaunchConfigurations, tokenKey: \LaunchConfigurationsType.nextToken, onPage: onPage)
     }
 
     ///  Describes the notification actions associated with the specified Auto Scaling group.
-    public func describeNotificationConfigurationsPaginator(_ input: DescribeNotificationConfigurationsType, onPage: @escaping (DescribeNotificationConfigurationsAnswer, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeNotificationConfigurationsPaginator(
+        _ input: DescribeNotificationConfigurationsType,
+        onPage: @escaping (DescribeNotificationConfigurationsAnswer,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNotificationConfigurations, tokenKey: \DescribeNotificationConfigurationsAnswer.nextToken, onPage: onPage)
     }
 
     ///  Describes the policies for the specified Auto Scaling group.
-    public func describePoliciesPaginator(_ input: DescribePoliciesType, onPage: @escaping (PoliciesType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describePoliciesPaginator(
+        _ input: DescribePoliciesType,
+        onPage: @escaping (PoliciesType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePolicies, tokenKey: \PoliciesType.nextToken, onPage: onPage)
     }
 
     ///  Describes one or more scaling activities for the specified Auto Scaling group.
-    public func describeScalingActivitiesPaginator(_ input: DescribeScalingActivitiesType, onPage: @escaping (ActivitiesType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeScalingActivitiesPaginator(
+        _ input: DescribeScalingActivitiesType,
+        onPage: @escaping (ActivitiesType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalingActivities, tokenKey: \ActivitiesType.nextToken, onPage: onPage)
     }
 
     ///  Describes the actions scheduled for your Auto Scaling group that haven't run or that have not reached their end time. To describe the actions that have already run, use DescribeScalingActivities.
-    public func describeScheduledActionsPaginator(_ input: DescribeScheduledActionsType, onPage: @escaping (ScheduledActionsType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeScheduledActionsPaginator(
+        _ input: DescribeScheduledActionsType,
+        onPage: @escaping (ScheduledActionsType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledActions, tokenKey: \ScheduledActionsType.nextToken, onPage: onPage)
     }
 
     ///  Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multiple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned.
-    public func describeTagsPaginator(_ input: DescribeTagsType, onPage: @escaping (TagsType, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeTagsPaginator(
+        _ input: DescribeTagsType,
+        onPage: @escaping (TagsType,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTags, tokenKey: \TagsType.nextToken, onPage: onPage)
     }
 
@@ -65,8 +97,8 @@ extension AutoScaling {
 extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.AutoScalingGroupNamesType {
         return .init(
-            autoScalingGroupNames: self.autoScalingGroupNames, 
-            maxRecords: self.maxRecords, 
+            autoScalingGroupNames: self.autoScalingGroupNames,
+            maxRecords: self.maxRecords,
             nextToken: token
         )
 
@@ -76,8 +108,8 @@ extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateToken {
 extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeAutoScalingInstancesType {
         return .init(
-            instanceIds: self.instanceIds, 
-            maxRecords: self.maxRecords, 
+            instanceIds: self.instanceIds,
+            maxRecords: self.maxRecords,
             nextToken: token
         )
 
@@ -87,8 +119,8 @@ extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateToken {
 extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.LaunchConfigurationNamesType {
         return .init(
-            launchConfigurationNames: self.launchConfigurationNames, 
-            maxRecords: self.maxRecords, 
+            launchConfigurationNames: self.launchConfigurationNames,
+            maxRecords: self.maxRecords,
             nextToken: token
         )
 
@@ -98,8 +130,8 @@ extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateToken {
 extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeNotificationConfigurationsType {
         return .init(
-            autoScalingGroupNames: self.autoScalingGroupNames, 
-            maxRecords: self.maxRecords, 
+            autoScalingGroupNames: self.autoScalingGroupNames,
+            maxRecords: self.maxRecords,
             nextToken: token
         )
 
@@ -109,10 +141,10 @@ extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateToken {
 extension AutoScaling.DescribePoliciesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribePoliciesType {
         return .init(
-            autoScalingGroupName: self.autoScalingGroupName, 
-            maxRecords: self.maxRecords, 
-            nextToken: token, 
-            policyNames: self.policyNames, 
+            autoScalingGroupName: self.autoScalingGroupName,
+            maxRecords: self.maxRecords,
+            nextToken: token,
+            policyNames: self.policyNames,
             policyTypes: self.policyTypes
         )
 
@@ -122,9 +154,9 @@ extension AutoScaling.DescribePoliciesType: AWSPaginateToken {
 extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeScalingActivitiesType {
         return .init(
-            activityIds: self.activityIds, 
-            autoScalingGroupName: self.autoScalingGroupName, 
-            maxRecords: self.maxRecords, 
+            activityIds: self.activityIds,
+            autoScalingGroupName: self.autoScalingGroupName,
+            maxRecords: self.maxRecords,
             nextToken: token
         )
 
@@ -134,11 +166,11 @@ extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateToken {
 extension AutoScaling.DescribeScheduledActionsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeScheduledActionsType {
         return .init(
-            autoScalingGroupName: self.autoScalingGroupName, 
-            endTime: self.endTime, 
-            maxRecords: self.maxRecords, 
-            nextToken: token, 
-            scheduledActionNames: self.scheduledActionNames, 
+            autoScalingGroupName: self.autoScalingGroupName,
+            endTime: self.endTime,
+            maxRecords: self.maxRecords,
+            nextToken: token,
+            scheduledActionNames: self.scheduledActionNames,
             startTime: self.startTime
         )
 
@@ -148,8 +180,8 @@ extension AutoScaling.DescribeScheduledActionsType: AWSPaginateToken {
 extension AutoScaling.DescribeTagsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeTagsType {
         return .init(
-            filters: self.filters, 
-            maxRecords: self.maxRecords, 
+            filters: self.filters,
+            maxRecords: self.maxRecords,
             nextToken: token
         )
 

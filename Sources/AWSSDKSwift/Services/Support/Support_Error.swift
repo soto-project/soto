@@ -30,7 +30,7 @@ public enum SupportErrorType: AWSErrorType {
 }
 
 extension SupportErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -60,8 +60,8 @@ extension SupportErrorType {
     }
 }
 
-extension SupportErrorType : CustomStringConvertible {
-    public var description : String {
+extension SupportErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .attachmentIdNotFound(let message):
             return "AttachmentIdNotFound: \(message ?? "")"

@@ -21,42 +21,74 @@ import NIO
 extension ECS {
 
     ///  Lists the account settings for a specified principal.
-    public func listAccountSettingsPaginator(_ input: ListAccountSettingsRequest, onPage: @escaping (ListAccountSettingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAccountSettingsPaginator(
+        _ input: ListAccountSettingsRequest,
+        onPage: @escaping (ListAccountSettingsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccountSettings, tokenKey: \ListAccountSettingsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux). 
-    public func listAttributesPaginator(_ input: ListAttributesRequest, onPage: @escaping (ListAttributesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAttributesPaginator(
+        _ input: ListAttributesRequest,
+        onPage: @escaping (ListAttributesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttributes, tokenKey: \ListAttributesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of existing clusters.
-    public func listClustersPaginator(_ input: ListClustersRequest, onPage: @escaping (ListClustersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listClustersPaginator(
+        _ input: ListClustersRequest,
+        onPage: @escaping (ListClustersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
-    public func listContainerInstancesPaginator(_ input: ListContainerInstancesRequest, onPage: @escaping (ListContainerInstancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listContainerInstancesPaginator(
+        _ input: ListContainerInstancesRequest,
+        onPage: @escaping (ListContainerInstancesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContainerInstances, tokenKey: \ListContainerInstancesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the services that are running in a specified cluster.
-    public func listServicesPaginator(_ input: ListServicesRequest, onPage: @escaping (ListServicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listServicesPaginator(
+        _ input: ListServicesRequest,
+        onPage: @escaping (ListServicesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of task definition families that are registered to your account (which may include task definition families that no longer have any ACTIVE task definition revisions). You can filter out task definition families that do not contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE. You can also filter the results with the familyPrefix parameter.
-    public func listTaskDefinitionFamiliesPaginator(_ input: ListTaskDefinitionFamiliesRequest, onPage: @escaping (ListTaskDefinitionFamiliesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTaskDefinitionFamiliesPaginator(
+        _ input: ListTaskDefinitionFamiliesRequest,
+        onPage: @escaping (ListTaskDefinitionFamiliesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTaskDefinitionFamilies, tokenKey: \ListTaskDefinitionFamiliesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
-    public func listTaskDefinitionsPaginator(_ input: ListTaskDefinitionsRequest, onPage: @escaping (ListTaskDefinitionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTaskDefinitionsPaginator(
+        _ input: ListTaskDefinitionsRequest,
+        onPage: @escaping (ListTaskDefinitionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTaskDefinitions, tokenKey: \ListTaskDefinitionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of tasks for a specified cluster. You can filter the results by family name, by a particular container instance, or by the desired status of the task with the family, containerInstance, and desiredStatus parameters. Recently stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour. 
-    public func listTasksPaginator(_ input: ListTasksRequest, onPage: @escaping (ListTasksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTasksPaginator(
+        _ input: ListTasksRequest,
+        onPage: @escaping (ListTasksResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTasks, tokenKey: \ListTasksResponse.nextToken, onPage: onPage)
     }
 
@@ -65,11 +97,11 @@ extension ECS {
 extension ECS.ListAccountSettingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListAccountSettingsRequest {
         return .init(
-            effectiveSettings: self.effectiveSettings, 
-            maxResults: self.maxResults, 
-            name: self.name, 
-            nextToken: token, 
-            principalArn: self.principalArn, 
+            effectiveSettings: self.effectiveSettings,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            principalArn: self.principalArn,
             value: self.value
         )
 
@@ -79,11 +111,11 @@ extension ECS.ListAccountSettingsRequest: AWSPaginateToken {
 extension ECS.ListAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListAttributesRequest {
         return .init(
-            attributeName: self.attributeName, 
-            attributeValue: self.attributeValue, 
-            cluster: self.cluster, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            attributeName: self.attributeName,
+            attributeValue: self.attributeValue,
+            cluster: self.cluster,
+            maxResults: self.maxResults,
+            nextToken: token,
             targetType: self.targetType
         )
 
@@ -93,7 +125,7 @@ extension ECS.ListAttributesRequest: AWSPaginateToken {
 extension ECS.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListClustersRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -103,10 +135,10 @@ extension ECS.ListClustersRequest: AWSPaginateToken {
 extension ECS.ListContainerInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListContainerInstancesRequest {
         return .init(
-            cluster: self.cluster, 
-            filter: self.filter, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            cluster: self.cluster,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
             status: self.status
         )
 
@@ -116,10 +148,10 @@ extension ECS.ListContainerInstancesRequest: AWSPaginateToken {
 extension ECS.ListServicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListServicesRequest {
         return .init(
-            cluster: self.cluster, 
-            launchType: self.launchType, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            cluster: self.cluster,
+            launchType: self.launchType,
+            maxResults: self.maxResults,
+            nextToken: token,
             schedulingStrategy: self.schedulingStrategy
         )
 
@@ -129,9 +161,9 @@ extension ECS.ListServicesRequest: AWSPaginateToken {
 extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListTaskDefinitionFamiliesRequest {
         return .init(
-            familyPrefix: self.familyPrefix, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            familyPrefix: self.familyPrefix,
+            maxResults: self.maxResults,
+            nextToken: token,
             status: self.status
         )
 
@@ -141,10 +173,10 @@ extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateToken {
 extension ECS.ListTaskDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListTaskDefinitionsRequest {
         return .init(
-            familyPrefix: self.familyPrefix, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            sort: self.sort, 
+            familyPrefix: self.familyPrefix,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort,
             status: self.status
         )
 
@@ -154,14 +186,14 @@ extension ECS.ListTaskDefinitionsRequest: AWSPaginateToken {
 extension ECS.ListTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListTasksRequest {
         return .init(
-            cluster: self.cluster, 
-            containerInstance: self.containerInstance, 
-            desiredStatus: self.desiredStatus, 
-            family: self.family, 
-            launchType: self.launchType, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            serviceName: self.serviceName, 
+            cluster: self.cluster,
+            containerInstance: self.containerInstance,
+            desiredStatus: self.desiredStatus,
+            family: self.family,
+            launchType: self.launchType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceName: self.serviceName,
             startedBy: self.startedBy
         )
 

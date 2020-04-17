@@ -21,32 +21,56 @@ import NIO
 extension DocDB {
 
     ///  Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
-    public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage, onPage: @escaping (DBClusterMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBClustersPaginator(
+        _ input: DescribeDBClustersMessage,
+        onPage: @escaping (DBClusterMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, onPage: onPage)
     }
 
     ///  Returns a list of the available engines.
-    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage, onPage: @escaping (DBEngineVersionMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBEngineVersionsPaginator(
+        _ input: DescribeDBEngineVersionsMessage,
+        onPage: @escaping (DBEngineVersionMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
-    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage, onPage: @escaping (DBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBInstancesPaginator(
+        _ input: DescribeDBInstancesMessage,
+        onPage: @escaping (DBInstanceMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
-    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage, onPage: @escaping (DBSubnetGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeDBSubnetGroupsPaginator(
+        _ input: DescribeDBSubnetGroupsMessage,
+        onPage: @escaping (DBSubnetGroupMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
     }
 
     ///  Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeEventsPaginator(
+        _ input: DescribeEventsMessage,
+        onPage: @escaping (EventsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
 
     ///  Returns a list of orderable instance options for the specified engine.
-    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage, onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeOrderableDBInstanceOptionsPaginator(
+        _ input: DescribeOrderableDBInstanceOptionsMessage,
+        onPage: @escaping (OrderableDBInstanceOptionsMessage,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
 
@@ -55,9 +79,9 @@ extension DocDB {
 extension DocDB.DescribeDBClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClustersMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier, 
-            filters: self.filters, 
-            marker: token, 
+            dBClusterIdentifier: self.dBClusterIdentifier,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -67,14 +91,14 @@ extension DocDB.DescribeDBClustersMessage: AWSPaginateToken {
 extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBEngineVersionsMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily, 
-            defaultOnly: self.defaultOnly, 
-            engine: self.engine, 
-            engineVersion: self.engineVersion, 
-            filters: self.filters, 
-            listSupportedCharacterSets: self.listSupportedCharacterSets, 
-            listSupportedTimezones: self.listSupportedTimezones, 
-            marker: token, 
+            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            defaultOnly: self.defaultOnly,
+            engine: self.engine,
+            engineVersion: self.engineVersion,
+            filters: self.filters,
+            listSupportedCharacterSets: self.listSupportedCharacterSets,
+            listSupportedTimezones: self.listSupportedTimezones,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -84,9 +108,9 @@ extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateToken {
 extension DocDB.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBInstancesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier, 
-            filters: self.filters, 
-            marker: token, 
+            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -96,9 +120,9 @@ extension DocDB.DescribeDBInstancesMessage: AWSPaginateToken {
 extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBSubnetGroupsMessage {
         return .init(
-            dBSubnetGroupName: self.dBSubnetGroupName, 
-            filters: self.filters, 
-            marker: token, 
+            dBSubnetGroupName: self.dBSubnetGroupName,
+            filters: self.filters,
+            marker: token,
             maxRecords: self.maxRecords
         )
 
@@ -108,14 +132,14 @@ extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
 extension DocDB.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeEventsMessage {
         return .init(
-            duration: self.duration, 
-            endTime: self.endTime, 
-            eventCategories: self.eventCategories, 
-            filters: self.filters, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
-            sourceIdentifier: self.sourceIdentifier, 
-            sourceType: self.sourceType, 
+            duration: self.duration,
+            endTime: self.endTime,
+            eventCategories: self.eventCategories,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            sourceIdentifier: self.sourceIdentifier,
+            sourceType: self.sourceType,
             startTime: self.startTime
         )
 
@@ -125,13 +149,13 @@ extension DocDB.DescribeEventsMessage: AWSPaginateToken {
 extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass, 
-            engine: self.engine, 
-            engineVersion: self.engineVersion, 
-            filters: self.filters, 
-            licenseModel: self.licenseModel, 
-            marker: token, 
-            maxRecords: self.maxRecords, 
+            dBInstanceClass: self.dBInstanceClass,
+            engine: self.engine,
+            engineVersion: self.engineVersion,
+            filters: self.filters,
+            licenseModel: self.licenseModel,
+            marker: token,
+            maxRecords: self.maxRecords,
             vpc: self.vpc
         )
 

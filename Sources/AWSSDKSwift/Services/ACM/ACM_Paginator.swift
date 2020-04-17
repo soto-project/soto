@@ -21,7 +21,11 @@ import NIO
 extension ACM {
 
     ///  Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.
-    public func listCertificatesPaginator(_ input: ListCertificatesRequest, onPage: @escaping (ListCertificatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listCertificatesPaginator(
+        _ input: ListCertificatesRequest,
+        onPage: @escaping (ListCertificatesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCertificates, tokenKey: \ListCertificatesResponse.nextToken, onPage: onPage)
     }
 
@@ -30,9 +34,9 @@ extension ACM {
 extension ACM.ListCertificatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACM.ListCertificatesRequest {
         return .init(
-            certificateStatuses: self.certificateStatuses, 
-            includes: self.includes, 
-            maxItems: self.maxItems, 
+            certificateStatuses: self.certificateStatuses,
+            includes: self.includes,
+            maxItems: self.maxItems,
             nextToken: token
         )
 

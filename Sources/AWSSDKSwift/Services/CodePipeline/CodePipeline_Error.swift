@@ -55,7 +55,7 @@ public enum CodePipelineErrorType: AWSErrorType {
 }
 
 extension CodePipelineErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -135,8 +135,8 @@ extension CodePipelineErrorType {
     }
 }
 
-extension CodePipelineErrorType : CustomStringConvertible {
-    public var description : String {
+extension CodePipelineErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .actionNotFoundException(let message):
             return "ActionNotFoundException: \(message ?? "")"

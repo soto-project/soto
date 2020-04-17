@@ -32,7 +32,7 @@ public enum SMSErrorType: AWSErrorType {
 }
 
 extension SMSErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -66,8 +66,8 @@ extension SMSErrorType {
     }
 }
 
-extension SMSErrorType : CustomStringConvertible {
-    public var description : String {
+extension SMSErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalError(let message):
             return "InternalError: \(message ?? "")"

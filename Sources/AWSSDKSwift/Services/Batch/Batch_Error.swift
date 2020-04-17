@@ -23,7 +23,7 @@ public enum BatchErrorType: AWSErrorType {
 }
 
 extension BatchErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -39,8 +39,8 @@ extension BatchErrorType {
     }
 }
 
-extension BatchErrorType : CustomStringConvertible {
-    public var description : String {
+extension BatchErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .clientException(let message):
             return "ClientException: \(message ?? "")"

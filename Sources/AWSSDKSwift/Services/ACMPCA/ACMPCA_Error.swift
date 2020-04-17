@@ -39,7 +39,7 @@ public enum ACMPCAErrorType: AWSErrorType {
 }
 
 extension ACMPCAErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -87,8 +87,8 @@ extension ACMPCAErrorType {
     }
 }
 
-extension ACMPCAErrorType : CustomStringConvertible {
-    public var description : String {
+extension ACMPCAErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .certificateMismatchException(let message):
             return "CertificateMismatchException: \(message ?? "")"

@@ -26,7 +26,7 @@ public enum IoT1ClickProjectsErrorType: AWSErrorType {
 }
 
 extension IoT1ClickProjectsErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -48,8 +48,8 @@ extension IoT1ClickProjectsErrorType {
     }
 }
 
-extension IoT1ClickProjectsErrorType : CustomStringConvertible {
-    public var description : String {
+extension IoT1ClickProjectsErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalFailureException(let message):
             return "InternalFailureException: \(message ?? "")"

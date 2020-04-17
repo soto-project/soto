@@ -37,7 +37,7 @@ public enum ComprehendErrorType: AWSErrorType {
 }
 
 extension ComprehendErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -81,8 +81,8 @@ extension ComprehendErrorType {
     }
 }
 
-extension ComprehendErrorType : CustomStringConvertible {
-    public var description : String {
+extension ComprehendErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .batchSizeLimitExceededException(let message):
             return "BatchSizeLimitExceededException: \(message ?? "")"

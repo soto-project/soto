@@ -33,7 +33,7 @@ public enum ACMErrorType: AWSErrorType {
 }
 
 extension ACMErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -69,8 +69,8 @@ extension ACMErrorType {
     }
 }
 
-extension ACMErrorType : CustomStringConvertible {
-    public var description : String {
+extension ACMErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .invalidArgsException(let message):
             return "InvalidArgsException: \(message ?? "")"

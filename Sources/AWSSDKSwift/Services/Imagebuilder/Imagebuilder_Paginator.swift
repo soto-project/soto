@@ -21,47 +21,83 @@ import NIO
 extension Imagebuilder {
 
     ///   Returns the list of component build versions for the specified semantic version. 
-    public func listComponentBuildVersionsPaginator(_ input: ListComponentBuildVersionsRequest, onPage: @escaping (ListComponentBuildVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listComponentBuildVersionsPaginator(
+        _ input: ListComponentBuildVersionsRequest,
+        onPage: @escaping (ListComponentBuildVersionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComponentBuildVersions, tokenKey: \ListComponentBuildVersionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns the list of component build versions for the specified semantic version. 
-    public func listComponentsPaginator(_ input: ListComponentsRequest, onPage: @escaping (ListComponentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listComponentsPaginator(
+        _ input: ListComponentsRequest,
+        onPage: @escaping (ListComponentsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, onPage: onPage)
     }
 
     ///   Returns a list of distribution configurations. 
-    public func listDistributionConfigurationsPaginator(_ input: ListDistributionConfigurationsRequest, onPage: @escaping (ListDistributionConfigurationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDistributionConfigurationsPaginator(
+        _ input: ListDistributionConfigurationsRequest,
+        onPage: @escaping (ListDistributionConfigurationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDistributionConfigurations, tokenKey: \ListDistributionConfigurationsResponse.nextToken, onPage: onPage)
     }
 
     ///   Returns a list of distribution configurations. 
-    public func listImageBuildVersionsPaginator(_ input: ListImageBuildVersionsRequest, onPage: @escaping (ListImageBuildVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listImageBuildVersionsPaginator(
+        _ input: ListImageBuildVersionsRequest,
+        onPage: @escaping (ListImageBuildVersionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImageBuildVersions, tokenKey: \ListImageBuildVersionsResponse.nextToken, onPage: onPage)
     }
 
     ///   Returns a list of images created by the specified pipeline. 
-    public func listImagePipelineImagesPaginator(_ input: ListImagePipelineImagesRequest, onPage: @escaping (ListImagePipelineImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listImagePipelineImagesPaginator(
+        _ input: ListImagePipelineImagesRequest,
+        onPage: @escaping (ListImagePipelineImagesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImagePipelineImages, tokenKey: \ListImagePipelineImagesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of image pipelines. 
-    public func listImagePipelinesPaginator(_ input: ListImagePipelinesRequest, onPage: @escaping (ListImagePipelinesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listImagePipelinesPaginator(
+        _ input: ListImagePipelinesRequest,
+        onPage: @escaping (ListImagePipelinesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImagePipelines, tokenKey: \ListImagePipelinesResponse.nextToken, onPage: onPage)
     }
 
     ///   Returns a list of image recipes. 
-    public func listImageRecipesPaginator(_ input: ListImageRecipesRequest, onPage: @escaping (ListImageRecipesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listImageRecipesPaginator(
+        _ input: ListImageRecipesRequest,
+        onPage: @escaping (ListImageRecipesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImageRecipes, tokenKey: \ListImageRecipesResponse.nextToken, onPage: onPage)
     }
 
     ///   Returns the list of image build versions for the specified semantic version. 
-    public func listImagesPaginator(_ input: ListImagesRequest, onPage: @escaping (ListImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listImagesPaginator(
+        _ input: ListImagesRequest,
+        onPage: @escaping (ListImagesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, onPage: onPage)
     }
 
     ///   Returns a list of infrastructure configurations. 
-    public func listInfrastructureConfigurationsPaginator(_ input: ListInfrastructureConfigurationsRequest, onPage: @escaping (ListInfrastructureConfigurationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listInfrastructureConfigurationsPaginator(
+        _ input: ListInfrastructureConfigurationsRequest,
+        onPage: @escaping (ListInfrastructureConfigurationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInfrastructureConfigurations, tokenKey: \ListInfrastructureConfigurationsResponse.nextToken, onPage: onPage)
     }
 
@@ -70,8 +106,8 @@ extension Imagebuilder {
 extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListComponentBuildVersionsRequest {
         return .init(
-            componentVersionArn: self.componentVersionArn, 
-            maxResults: self.maxResults, 
+            componentVersionArn: self.componentVersionArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -81,9 +117,9 @@ extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateToken {
 extension Imagebuilder.ListComponentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListComponentsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             owner: self.owner
         )
 
@@ -93,8 +129,8 @@ extension Imagebuilder.ListComponentsRequest: AWSPaginateToken {
 extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListDistributionConfigurationsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -104,9 +140,9 @@ extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateToken {
 extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImageBuildVersionsRequest {
         return .init(
-            filters: self.filters, 
-            imageVersionArn: self.imageVersionArn, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            imageVersionArn: self.imageVersionArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -116,9 +152,9 @@ extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateToken {
 extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePipelineImagesRequest {
         return .init(
-            filters: self.filters, 
-            imagePipelineArn: self.imagePipelineArn, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            imagePipelineArn: self.imagePipelineArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -128,8 +164,8 @@ extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateToken {
 extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePipelinesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -139,9 +175,9 @@ extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateToken {
 extension Imagebuilder.ListImageRecipesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImageRecipesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             owner: self.owner
         )
 
@@ -151,9 +187,9 @@ extension Imagebuilder.ListImageRecipesRequest: AWSPaginateToken {
 extension Imagebuilder.ListImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagesRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             owner: self.owner
         )
 
@@ -163,8 +199,8 @@ extension Imagebuilder.ListImagesRequest: AWSPaginateToken {
 extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListInfrastructureConfigurationsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

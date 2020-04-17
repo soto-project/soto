@@ -55,20 +55,20 @@
                 try $0.key.validate(name: "\(name).{{v.key.name}}.key")
 {%endif %}
 {%for req,var in v.key.reqs %}
-                try validate($0.key, name:"{{v.key.name}}.key", parent: name, {{req}}: {{var}})
+                try validate($0.key, name: "{{v.key.name}}.key", parent: name, {{req}}: {{var}})
 {%endfor %}
 {# validate dictionary values #}
 {%if v.value.shape %}
                 try $0.value.validate(name: "\(name).{{v.value.name}}[\"\($0.key)\"]")
 {%endif %}
 {%for req,var in v.value.reqs %}
-                try validate($0.value, name:"{{v.value.name}}[\"\($0.key)\"]", parent: name, {{req}}: {{var}})
+                try validate($0.value, name: "{{v.value.name}}[\"\($0.key)\"]", parent: name, {{req}}: {{var}})
 {%endfor %}
             }
 {%endif %}
 {# validate min,max,pattern #}
 {%for req,var in v.reqs %}
-            try validate(self.{{v.name}}, name:"{{v.name}}", parent: name, {{req}}: {{var}})
+            try validate(self.{{v.name}}, name: "{{v.name}}", parent: name, {{req}}: {{var}})
 {%endfor %}
 {%endfor %}
         }

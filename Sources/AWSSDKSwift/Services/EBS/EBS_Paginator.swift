@@ -21,12 +21,20 @@ import NIO
 extension EBS {
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
-    public func listChangedBlocksPaginator(_ input: ListChangedBlocksRequest, onPage: @escaping (ListChangedBlocksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listChangedBlocksPaginator(
+        _ input: ListChangedBlocksRequest,
+        onPage: @escaping (ListChangedBlocksResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChangedBlocks, tokenKey: \ListChangedBlocksResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
-    public func listSnapshotBlocksPaginator(_ input: ListSnapshotBlocksRequest, onPage: @escaping (ListSnapshotBlocksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSnapshotBlocksPaginator(
+        _ input: ListSnapshotBlocksRequest,
+        onPage: @escaping (ListSnapshotBlocksResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSnapshotBlocks, tokenKey: \ListSnapshotBlocksResponse.nextToken, onPage: onPage)
     }
 
@@ -35,10 +43,10 @@ extension EBS {
 extension EBS.ListChangedBlocksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EBS.ListChangedBlocksRequest {
         return .init(
-            firstSnapshotId: self.firstSnapshotId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            secondSnapshotId: self.secondSnapshotId, 
+            firstSnapshotId: self.firstSnapshotId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            secondSnapshotId: self.secondSnapshotId,
             startingBlockIndex: self.startingBlockIndex
         )
 
@@ -48,9 +56,9 @@ extension EBS.ListChangedBlocksRequest: AWSPaginateToken {
 extension EBS.ListSnapshotBlocksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EBS.ListSnapshotBlocksRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            snapshotId: self.snapshotId, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            snapshotId: self.snapshotId,
             startingBlockIndex: self.startingBlockIndex
         )
 
