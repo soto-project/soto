@@ -58,7 +58,7 @@ public enum CognitoIdentityProviderErrorType: AWSErrorType {
 }
 
 extension CognitoIdentityProviderErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -144,8 +144,8 @@ extension CognitoIdentityProviderErrorType {
     }
 }
 
-extension CognitoIdentityProviderErrorType : CustomStringConvertible {
-    public var description : String {
+extension CognitoIdentityProviderErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .aliasExistsException(let message):
             return "AliasExistsException: \(message ?? "")"

@@ -21,27 +21,47 @@ import NIO
 extension Schemas {
 
     ///  List the discoverers.
-    public func listDiscoverersPaginator(_ input: ListDiscoverersRequest, onPage: @escaping (ListDiscoverersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDiscoverersPaginator(
+        _ input: ListDiscoverersRequest,
+        onPage: @escaping (ListDiscoverersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDiscoverers, tokenKey: \ListDiscoverersResponse.nextToken, onPage: onPage)
     }
 
     ///  List the registries.
-    public func listRegistriesPaginator(_ input: ListRegistriesRequest, onPage: @escaping (ListRegistriesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listRegistriesPaginator(
+        _ input: ListRegistriesRequest,
+        onPage: @escaping (ListRegistriesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRegistries, tokenKey: \ListRegistriesResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides a list of the schema versions and related information.
-    public func listSchemaVersionsPaginator(_ input: ListSchemaVersionsRequest, onPage: @escaping (ListSchemaVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSchemaVersionsPaginator(
+        _ input: ListSchemaVersionsRequest,
+        onPage: @escaping (ListSchemaVersionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSchemaVersions, tokenKey: \ListSchemaVersionsResponse.nextToken, onPage: onPage)
     }
 
     ///  List the schemas.
-    public func listSchemasPaginator(_ input: ListSchemasRequest, onPage: @escaping (ListSchemasResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSchemasPaginator(
+        _ input: ListSchemasRequest,
+        onPage: @escaping (ListSchemasResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSchemas, tokenKey: \ListSchemasResponse.nextToken, onPage: onPage)
     }
 
     ///  Search the schemas
-    public func searchSchemasPaginator(_ input: SearchSchemasRequest, onPage: @escaping (SearchSchemasResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchSchemasPaginator(
+        _ input: SearchSchemasRequest,
+        onPage: @escaping (SearchSchemasResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchSchemas, tokenKey: \SearchSchemasResponse.nextToken, onPage: onPage)
     }
 
@@ -50,9 +70,9 @@ extension Schemas {
 extension Schemas.ListDiscoverersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListDiscoverersRequest {
         return .init(
-            discovererIdPrefix: self.discovererIdPrefix, 
-            limit: self.limit, 
-            nextToken: token, 
+            discovererIdPrefix: self.discovererIdPrefix,
+            limit: self.limit,
+            nextToken: token,
             sourceArnPrefix: self.sourceArnPrefix
         )
 
@@ -62,9 +82,9 @@ extension Schemas.ListDiscoverersRequest: AWSPaginateToken {
 extension Schemas.ListRegistriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListRegistriesRequest {
         return .init(
-            limit: self.limit, 
-            nextToken: token, 
-            registryNamePrefix: self.registryNamePrefix, 
+            limit: self.limit,
+            nextToken: token,
+            registryNamePrefix: self.registryNamePrefix,
             scope: self.scope
         )
 
@@ -74,9 +94,9 @@ extension Schemas.ListRegistriesRequest: AWSPaginateToken {
 extension Schemas.ListSchemaVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListSchemaVersionsRequest {
         return .init(
-            limit: self.limit, 
-            nextToken: token, 
-            registryName: self.registryName, 
+            limit: self.limit,
+            nextToken: token,
+            registryName: self.registryName,
             schemaName: self.schemaName
         )
 
@@ -86,9 +106,9 @@ extension Schemas.ListSchemaVersionsRequest: AWSPaginateToken {
 extension Schemas.ListSchemasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListSchemasRequest {
         return .init(
-            limit: self.limit, 
-            nextToken: token, 
-            registryName: self.registryName, 
+            limit: self.limit,
+            nextToken: token,
+            registryName: self.registryName,
             schemaNamePrefix: self.schemaNamePrefix
         )
 
@@ -98,9 +118,9 @@ extension Schemas.ListSchemasRequest: AWSPaginateToken {
 extension Schemas.SearchSchemasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.SearchSchemasRequest {
         return .init(
-            keywords: self.keywords, 
-            limit: self.limit, 
-            nextToken: token, 
+            keywords: self.keywords,
+            limit: self.limit,
+            nextToken: token,
             registryName: self.registryName
         )
 

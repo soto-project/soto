@@ -21,17 +21,29 @@ import NIO
 extension MediaPackageVod {
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
-    public func listAssetsPaginator(_ input: ListAssetsRequest, onPage: @escaping (ListAssetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAssetsPaginator(
+        _ input: ListAssetsRequest,
+        onPage: @escaping (ListAssetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
-    public func listPackagingConfigurationsPaginator(_ input: ListPackagingConfigurationsRequest, onPage: @escaping (ListPackagingConfigurationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPackagingConfigurationsPaginator(
+        _ input: ListPackagingConfigurationsRequest,
+        onPage: @escaping (ListPackagingConfigurationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
-    public func listPackagingGroupsPaginator(_ input: ListPackagingGroupsRequest, onPage: @escaping (ListPackagingGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPackagingGroupsPaginator(
+        _ input: ListPackagingGroupsRequest,
+        onPage: @escaping (ListPackagingGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken, onPage: onPage)
     }
 
@@ -40,8 +52,8 @@ extension MediaPackageVod {
 extension MediaPackageVod.ListAssetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListAssetsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             packagingGroupId: self.packagingGroupId
         )
 
@@ -51,8 +63,8 @@ extension MediaPackageVod.ListAssetsRequest: AWSPaginateToken {
 extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListPackagingConfigurationsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             packagingGroupId: self.packagingGroupId
         )
 
@@ -62,7 +74,7 @@ extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateToken {
 extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListPackagingGroupsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

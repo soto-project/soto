@@ -44,7 +44,7 @@ public enum SNSErrorType: AWSErrorType {
 }
 
 extension SNSErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -102,8 +102,8 @@ extension SNSErrorType {
     }
 }
 
-extension SNSErrorType : CustomStringConvertible {
-    public var description : String {
+extension SNSErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .authorizationErrorException(let message):
             return "AuthorizationError: \(message ?? "")"

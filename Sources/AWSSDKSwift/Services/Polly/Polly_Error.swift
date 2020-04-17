@@ -42,7 +42,7 @@ public enum PollyErrorType: AWSErrorType {
 }
 
 extension PollyErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -96,8 +96,8 @@ extension PollyErrorType {
     }
 }
 
-extension PollyErrorType : CustomStringConvertible {
-    public var description : String {
+extension PollyErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .engineNotSupportedException(let message):
             return "EngineNotSupportedException: \(message ?? "")"

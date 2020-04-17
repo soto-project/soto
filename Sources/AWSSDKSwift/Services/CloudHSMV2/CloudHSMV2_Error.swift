@@ -27,7 +27,7 @@ public enum CloudHSMV2ErrorType: AWSErrorType {
 }
 
 extension CloudHSMV2ErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension CloudHSMV2ErrorType {
     }
 }
 
-extension CloudHSMV2ErrorType : CustomStringConvertible {
-    public var description : String {
+extension CloudHSMV2ErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .cloudHsmAccessDeniedException(let message):
             return "CloudHsmAccessDeniedException: \(message ?? "")"

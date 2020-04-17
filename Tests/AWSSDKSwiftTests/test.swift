@@ -12,11 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
-import NIO
 import AWSSDKSwiftCore
+import NIO
+import XCTest
 
-func attempt(function : () throws -> ()) {
+func attempt(function: () throws -> Void) {
     do {
         try function()
     } catch let error as AWSErrorType {
@@ -30,5 +30,3 @@ func attempt(function : () throws -> ()) {
         XCTFail(error.localizedDescription)
     }
 }
-
-

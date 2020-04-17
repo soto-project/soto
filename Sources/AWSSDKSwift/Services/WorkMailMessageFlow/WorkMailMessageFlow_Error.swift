@@ -22,7 +22,7 @@ public enum WorkMailMessageFlowErrorType: AWSErrorType {
 }
 
 extension WorkMailMessageFlowErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -36,8 +36,8 @@ extension WorkMailMessageFlowErrorType {
     }
 }
 
-extension WorkMailMessageFlowErrorType : CustomStringConvertible {
-    public var description : String {
+extension WorkMailMessageFlowErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"

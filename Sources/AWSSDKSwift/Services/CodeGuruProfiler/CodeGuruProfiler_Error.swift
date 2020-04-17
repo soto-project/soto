@@ -27,7 +27,7 @@ public enum CodeGuruProfilerErrorType: AWSErrorType {
 }
 
 extension CodeGuruProfilerErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension CodeGuruProfilerErrorType {
     }
 }
 
-extension CodeGuruProfilerErrorType : CustomStringConvertible {
-    public var description : String {
+extension CodeGuruProfilerErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .conflictException(let message):
             return "ConflictException: \(message ?? "")"

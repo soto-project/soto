@@ -21,17 +21,29 @@ import NIO
 extension CloudHSMV2 {
 
     ///  Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
-    public func describeBackupsPaginator(_ input: DescribeBackupsRequest, onPage: @escaping (DescribeBackupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeBackupsPaginator(
+        _ input: DescribeBackupsRequest,
+        onPage: @escaping (DescribeBackupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeBackups, tokenKey: \DescribeBackupsResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets information about AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.
-    public func describeClustersPaginator(_ input: DescribeClustersRequest, onPage: @escaping (DescribeClustersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeClustersPaginator(
+        _ input: DescribeClustersRequest,
+        onPage: @escaping (DescribeClustersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusters, tokenKey: \DescribeClustersResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.
-    public func listTagsPaginator(_ input: ListTagsRequest, onPage: @escaping (ListTagsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTagsPaginator(
+        _ input: ListTagsRequest,
+        onPage: @escaping (ListTagsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
     }
 
@@ -40,9 +52,9 @@ extension CloudHSMV2 {
 extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudHSMV2.DescribeBackupsRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortAscending: self.sortAscending
         )
 
@@ -52,8 +64,8 @@ extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateToken {
 extension CloudHSMV2.DescribeClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudHSMV2.DescribeClustersRequest {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -63,8 +75,8 @@ extension CloudHSMV2.DescribeClustersRequest: AWSPaginateToken {
 extension CloudHSMV2.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudHSMV2.ListTagsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             resourceId: self.resourceId
         )
 

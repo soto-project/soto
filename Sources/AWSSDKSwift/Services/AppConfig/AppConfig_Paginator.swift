@@ -21,27 +21,47 @@ import NIO
 extension AppConfig {
 
     ///  List all applications in your AWS account.
-    public func listApplicationsPaginator(_ input: ListApplicationsRequest, onPage: @escaping (Applications, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listApplicationsPaginator(
+        _ input: ListApplicationsRequest,
+        onPage: @escaping (Applications,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplications, tokenKey: \Applications.nextToken, onPage: onPage)
     }
 
     ///  Lists the configuration profiles for an application.
-    public func listConfigurationProfilesPaginator(_ input: ListConfigurationProfilesRequest, onPage: @escaping (ConfigurationProfiles, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listConfigurationProfilesPaginator(
+        _ input: ListConfigurationProfilesRequest,
+        onPage: @escaping (ConfigurationProfiles,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurationProfiles, tokenKey: \ConfigurationProfiles.nextToken, onPage: onPage)
     }
 
     ///  List deployment strategies.
-    public func listDeploymentStrategiesPaginator(_ input: ListDeploymentStrategiesRequest, onPage: @escaping (DeploymentStrategies, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeploymentStrategiesPaginator(
+        _ input: ListDeploymentStrategiesRequest,
+        onPage: @escaping (DeploymentStrategies,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentStrategies, tokenKey: \DeploymentStrategies.nextToken, onPage: onPage)
     }
 
     ///  Lists the deployments for an environment.
-    public func listDeploymentsPaginator(_ input: ListDeploymentsRequest, onPage: @escaping (Deployments, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDeploymentsPaginator(
+        _ input: ListDeploymentsRequest,
+        onPage: @escaping (Deployments,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeployments, tokenKey: \Deployments.nextToken, onPage: onPage)
     }
 
     ///  List the environments for an application.
-    public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest, onPage: @escaping (Environments, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listEnvironmentsPaginator(
+        _ input: ListEnvironmentsRequest,
+        onPage: @escaping (Environments,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, onPage: onPage)
     }
 
@@ -50,7 +70,7 @@ extension AppConfig {
 extension AppConfig.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListApplicationsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -60,8 +80,8 @@ extension AppConfig.ListApplicationsRequest: AWSPaginateToken {
 extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListConfigurationProfilesRequest {
         return .init(
-            applicationId: self.applicationId, 
-            maxResults: self.maxResults, 
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -71,7 +91,7 @@ extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateToken {
 extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListDeploymentStrategiesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -81,9 +101,9 @@ extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateToken {
 extension AppConfig.ListDeploymentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListDeploymentsRequest {
         return .init(
-            applicationId: self.applicationId, 
-            environmentId: self.environmentId, 
-            maxResults: self.maxResults, 
+            applicationId: self.applicationId,
+            environmentId: self.environmentId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -93,8 +113,8 @@ extension AppConfig.ListDeploymentsRequest: AWSPaginateToken {
 extension AppConfig.ListEnvironmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListEnvironmentsRequest {
         return .init(
-            applicationId: self.applicationId, 
-            maxResults: self.maxResults, 
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

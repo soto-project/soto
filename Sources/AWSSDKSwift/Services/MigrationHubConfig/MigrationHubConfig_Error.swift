@@ -26,7 +26,7 @@ public enum MigrationHubConfigErrorType: AWSErrorType {
 }
 
 extension MigrationHubConfigErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -48,8 +48,8 @@ extension MigrationHubConfigErrorType {
     }
 }
 
-extension MigrationHubConfigErrorType : CustomStringConvertible {
-    public var description : String {
+extension MigrationHubConfigErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .accessDeniedException(let message):
             return "AccessDeniedException: \(message ?? "")"

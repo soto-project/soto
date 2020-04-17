@@ -14,17 +14,17 @@
 
 // Used to decode model doc_2.json files
 struct Docs: Decodable {
-    
+
     struct Shape: Decodable {
         var base: String?
         var refs: [String: String]
-        
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.base = try container.decodeIfPresent(String.self, forKey: .base)
             self.refs = try container.decode([String: String?].self, forKey: .refs).compactMapValues { $0 }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case base
             case refs
@@ -35,7 +35,7 @@ struct Docs: Decodable {
     var service: String
     var operations: [String: String]
     var shapes: [String: [String: String]]
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.version = try container.decode(String.self, forKey: .version)
@@ -44,14 +44,14 @@ struct Docs: Decodable {
         self.operations = operations.compactMapValues { $0 }
         // sorted shapes by key so we get consistent results when there are key clashes
         let tempShapes = try container.decode([String: Shape].self, forKey: .shapes)
-            .map({return (key:$0.key, value: $0.value)})
+            .map({ return (key: $0.key, value: $0.value) })
             .sorted(by: { $0.key < $1.key })
-        
+
         self.shapes = [:]
-        
+
         for shape in tempShapes {
             for ref in shape.value.refs {
-                let components = ref.key.split(separator: "$").map { String($0)}
+                let components = ref.key.split(separator: "$").map { String($0) }
                 guard components.count == 2 else { continue }
                 if shapes[components[0]] == nil {
                     shapes[components[0]] = [components[1]: ref.value]
@@ -61,7 +61,7 @@ struct Docs: Decodable {
             }
         }
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case version
         case service
@@ -69,4 +69,3 @@ struct Docs: Decodable {
         case shapes
     }
 }
-

@@ -21,17 +21,29 @@ import NIO
 extension FMS {
 
     ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
-    public func listComplianceStatusPaginator(_ input: ListComplianceStatusRequest, onPage: @escaping (ListComplianceStatusResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listComplianceStatusPaginator(
+        _ input: ListComplianceStatusRequest,
+        onPage: @escaping (ListComplianceStatusResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComplianceStatus, tokenKey: \ListComplianceStatusResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a MemberAccounts object that lists the member accounts in the administrator's AWS organization. The ListMemberAccounts must be submitted by the account that is set as the AWS Firewall Manager administrator.
-    public func listMemberAccountsPaginator(_ input: ListMemberAccountsRequest, onPage: @escaping (ListMemberAccountsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listMemberAccountsPaginator(
+        _ input: ListMemberAccountsRequest,
+        onPage: @escaping (ListMemberAccountsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns an array of PolicySummary objects in the response.
-    public func listPoliciesPaginator(_ input: ListPoliciesRequest, onPage: @escaping (ListPoliciesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPoliciesPaginator(
+        _ input: ListPoliciesRequest,
+        onPage: @escaping (ListPoliciesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicies, tokenKey: \ListPoliciesResponse.nextToken, onPage: onPage)
     }
 
@@ -40,8 +52,8 @@ extension FMS {
 extension FMS.ListComplianceStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FMS.ListComplianceStatusRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             policyId: self.policyId
         )
 
@@ -51,7 +63,7 @@ extension FMS.ListComplianceStatusRequest: AWSPaginateToken {
 extension FMS.ListMemberAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FMS.ListMemberAccountsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -61,7 +73,7 @@ extension FMS.ListMemberAccountsRequest: AWSPaginateToken {
 extension FMS.ListPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FMS.ListPoliciesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

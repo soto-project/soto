@@ -21,22 +21,38 @@ import NIO
 extension CloudFront {
 
     ///  Lists origin access identities.
-    public func listCloudFrontOriginAccessIdentitiesPaginator(_ input: ListCloudFrontOriginAccessIdentitiesRequest, onPage: @escaping (ListCloudFrontOriginAccessIdentitiesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listCloudFrontOriginAccessIdentitiesPaginator(
+        _ input: ListCloudFrontOriginAccessIdentitiesRequest,
+        onPage: @escaping (ListCloudFrontOriginAccessIdentitiesResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCloudFrontOriginAccessIdentities, tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker, onPage: onPage)
     }
 
     ///  List CloudFront distributions.
-    public func listDistributionsPaginator(_ input: ListDistributionsRequest, onPage: @escaping (ListDistributionsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDistributionsPaginator(
+        _ input: ListDistributionsRequest,
+        onPage: @escaping (ListDistributionsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDistributions, tokenKey: \ListDistributionsResult.distributionList?.nextMarker, onPage: onPage)
     }
 
     ///  Lists invalidation batches. 
-    public func listInvalidationsPaginator(_ input: ListInvalidationsRequest, onPage: @escaping (ListInvalidationsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listInvalidationsPaginator(
+        _ input: ListInvalidationsRequest,
+        onPage: @escaping (ListInvalidationsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInvalidations, tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker, onPage: onPage)
     }
 
     ///  List streaming distributions. 
-    public func listStreamingDistributionsPaginator(_ input: ListStreamingDistributionsRequest, onPage: @escaping (ListStreamingDistributionsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listStreamingDistributionsPaginator(
+        _ input: ListStreamingDistributionsRequest,
+        onPage: @escaping (ListStreamingDistributionsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStreamingDistributions, tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker, onPage: onPage)
     }
 
@@ -45,7 +61,7 @@ extension CloudFront {
 extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListCloudFrontOriginAccessIdentitiesRequest {
         return .init(
-            marker: token, 
+            marker: token,
             maxItems: self.maxItems
         )
 
@@ -55,7 +71,7 @@ extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateTok
 extension CloudFront.ListDistributionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsRequest {
         return .init(
-            marker: token, 
+            marker: token,
             maxItems: self.maxItems
         )
 
@@ -65,8 +81,8 @@ extension CloudFront.ListDistributionsRequest: AWSPaginateToken {
 extension CloudFront.ListInvalidationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListInvalidationsRequest {
         return .init(
-            distributionId: self.distributionId, 
-            marker: token, 
+            distributionId: self.distributionId,
+            marker: token,
             maxItems: self.maxItems
         )
 
@@ -76,7 +92,7 @@ extension CloudFront.ListInvalidationsRequest: AWSPaginateToken {
 extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListStreamingDistributionsRequest {
         return .init(
-            marker: token, 
+            marker: token,
             maxItems: self.maxItems
         )
 

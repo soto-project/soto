@@ -21,22 +21,38 @@ import NIO
 extension EKS {
 
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
-    public func listClustersPaginator(_ input: ListClustersRequest, onPage: @escaping (ListClustersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listClustersPaginator(
+        _ input: ListClustersRequest,
+        onPage: @escaping (ListClustersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in the specified Region.
-    public func listFargateProfilesPaginator(_ input: ListFargateProfilesRequest, onPage: @escaping (ListFargateProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listFargateProfilesPaginator(
+        _ input: ListFargateProfilesRequest,
+        onPage: @escaping (ListFargateProfilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFargateProfiles, tokenKey: \ListFargateProfilesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS account in the specified Region. Self-managed node groups are not listed.
-    public func listNodegroupsPaginator(_ input: ListNodegroupsRequest, onPage: @escaping (ListNodegroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listNodegroupsPaginator(
+        _ input: ListNodegroupsRequest,
+        onPage: @escaping (ListNodegroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNodegroups, tokenKey: \ListNodegroupsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS account, in the specified Region.
-    public func listUpdatesPaginator(_ input: ListUpdatesRequest, onPage: @escaping (ListUpdatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listUpdatesPaginator(
+        _ input: ListUpdatesRequest,
+        onPage: @escaping (ListUpdatesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUpdates, tokenKey: \ListUpdatesResponse.nextToken, onPage: onPage)
     }
 
@@ -45,7 +61,7 @@ extension EKS {
 extension EKS.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListClustersRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -55,8 +71,8 @@ extension EKS.ListClustersRequest: AWSPaginateToken {
 extension EKS.ListFargateProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListFargateProfilesRequest {
         return .init(
-            clusterName: self.clusterName, 
-            maxResults: self.maxResults, 
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -66,8 +82,8 @@ extension EKS.ListFargateProfilesRequest: AWSPaginateToken {
 extension EKS.ListNodegroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListNodegroupsRequest {
         return .init(
-            clusterName: self.clusterName, 
-            maxResults: self.maxResults, 
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -77,9 +93,9 @@ extension EKS.ListNodegroupsRequest: AWSPaginateToken {
 extension EKS.ListUpdatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListUpdatesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            name: self.name, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
             nodegroupName: self.nodegroupName
         )
 

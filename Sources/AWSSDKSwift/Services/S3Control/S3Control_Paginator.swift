@@ -21,12 +21,20 @@ import NIO
 extension S3Control {
 
     ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1000 access points (or the number specified in maxResults, whichever is less), then the response will include a continuation token that you can use to list the additional access points.
-    public func listAccessPointsPaginator(_ input: ListAccessPointsRequest, onPage: @escaping (ListAccessPointsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAccessPointsPaginator(
+        _ input: ListAccessPointsRequest,
+        onPage: @escaping (ListAccessPointsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccessPoints, tokenKey: \ListAccessPointsResult.nextToken, onPage: onPage)
     }
 
     ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
-    public func listJobsPaginator(_ input: ListJobsRequest, onPage: @escaping (ListJobsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listJobsPaginator(
+        _ input: ListJobsRequest,
+        onPage: @escaping (ListJobsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, onPage: onPage)
     }
 
@@ -35,9 +43,9 @@ extension S3Control {
 extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsRequest {
         return .init(
-            accountId: self.accountId, 
-            bucket: self.bucket, 
-            maxResults: self.maxResults, 
+            accountId: self.accountId,
+            bucket: self.bucket,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -47,9 +55,9 @@ extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
 extension S3Control.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3Control.ListJobsRequest {
         return .init(
-            accountId: self.accountId, 
-            jobStatuses: self.jobStatuses, 
-            maxResults: self.maxResults, 
+            accountId: self.accountId,
+            jobStatuses: self.jobStatuses,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

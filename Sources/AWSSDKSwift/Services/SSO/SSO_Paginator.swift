@@ -21,12 +21,20 @@ import NIO
 extension SSO {
 
     ///  Lists all roles that are assigned to the user for a given AWS account.
-    public func listAccountRolesPaginator(_ input: ListAccountRolesRequest, onPage: @escaping (ListAccountRolesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAccountRolesPaginator(
+        _ input: ListAccountRolesRequest,
+        onPage: @escaping (ListAccountRolesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccountRoles, tokenKey: \ListAccountRolesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the AWS SSO User Guide. This operation returns a paginated response.
-    public func listAccountsPaginator(_ input: ListAccountsRequest, onPage: @escaping (ListAccountsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listAccountsPaginator(
+        _ input: ListAccountsRequest,
+        onPage: @escaping (ListAccountsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, onPage: onPage)
     }
 
@@ -35,9 +43,9 @@ extension SSO {
 extension SSO.ListAccountRolesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSO.ListAccountRolesRequest {
         return .init(
-            accessToken: self.accessToken, 
-            accountId: self.accountId, 
-            maxResults: self.maxResults, 
+            accessToken: self.accessToken,
+            accountId: self.accountId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -47,8 +55,8 @@ extension SSO.ListAccountRolesRequest: AWSPaginateToken {
 extension SSO.ListAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSO.ListAccountsRequest {
         return .init(
-            accessToken: self.accessToken, 
-            maxResults: self.maxResults, 
+            accessToken: self.accessToken,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

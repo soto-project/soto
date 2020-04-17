@@ -21,17 +21,29 @@ import NIO
 extension Detective {
 
     ///  Returns the list of behavior graphs that the calling account is a master of. This operation can only be called by a master account. Because an account can currently only be the master of one behavior graph within a Region, the results always contain a single graph.
-    public func listGraphsPaginator(_ input: ListGraphsRequest, onPage: @escaping (ListGraphsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listGraphsPaginator(
+        _ input: ListGraphsRequest,
+        onPage: @escaping (ListGraphsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGraphs, tokenKey: \ListGraphsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves the list of open and accepted behavior graph invitations for the member account. This operation can only be called by a member account. Open invitations are invitations that the member account has not responded to. The results do not include behavior graphs for which the member account declined the invitation. The results also do not include behavior graphs that the member account resigned from or was removed from.
-    public func listInvitationsPaginator(_ input: ListInvitationsRequest, onPage: @escaping (ListInvitationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listInvitationsPaginator(
+        _ input: ListInvitationsRequest,
+        onPage: @escaping (ListInvitationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves the list of member accounts for a behavior graph. Does not return member accounts that were removed from the behavior graph.
-    public func listMembersPaginator(_ input: ListMembersRequest, onPage: @escaping (ListMembersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listMembersPaginator(
+        _ input: ListMembersRequest,
+        onPage: @escaping (ListMembersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, onPage: onPage)
     }
 
@@ -40,7 +52,7 @@ extension Detective {
 extension Detective.ListGraphsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Detective.ListGraphsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -50,7 +62,7 @@ extension Detective.ListGraphsRequest: AWSPaginateToken {
 extension Detective.ListInvitationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Detective.ListInvitationsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -60,8 +72,8 @@ extension Detective.ListInvitationsRequest: AWSPaginateToken {
 extension Detective.ListMembersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Detective.ListMembersRequest {
         return .init(
-            graphArn: self.graphArn, 
-            maxResults: self.maxResults, 
+            graphArn: self.graphArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

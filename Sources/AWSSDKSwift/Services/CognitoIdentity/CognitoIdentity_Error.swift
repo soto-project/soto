@@ -32,7 +32,7 @@ public enum CognitoIdentityErrorType: AWSErrorType {
 }
 
 extension CognitoIdentityErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -66,8 +66,8 @@ extension CognitoIdentityErrorType {
     }
 }
 
-extension CognitoIdentityErrorType : CustomStringConvertible {
-    public var description : String {
+extension CognitoIdentityErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .concurrentModificationException(let message):
             return "ConcurrentModificationException: \(message ?? "")"

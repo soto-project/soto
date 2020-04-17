@@ -29,7 +29,7 @@ public enum CostExplorerErrorType: AWSErrorType {
 }
 
 extension CostExplorerErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -57,8 +57,8 @@ extension CostExplorerErrorType {
     }
 }
 
-extension CostExplorerErrorType : CustomStringConvertible {
-    public var description : String {
+extension CostExplorerErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .billExpirationException(let message):
             return "BillExpirationException: \(message ?? "")"

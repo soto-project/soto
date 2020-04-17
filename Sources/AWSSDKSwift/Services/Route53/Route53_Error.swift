@@ -72,7 +72,7 @@ public enum Route53ErrorType: AWSErrorType {
 }
 
 extension Route53ErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -186,8 +186,8 @@ extension Route53ErrorType {
     }
 }
 
-extension Route53ErrorType : CustomStringConvertible {
-    public var description : String {
+extension Route53ErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .concurrentModification(let message):
             return "ConcurrentModification: \(message ?? "")"

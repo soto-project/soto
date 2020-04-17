@@ -21,17 +21,29 @@ import NIO
 extension WorkSpaces {
 
     ///  Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
-    public func describeWorkspaceBundlesPaginator(_ input: DescribeWorkspaceBundlesRequest, onPage: @escaping (DescribeWorkspaceBundlesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeWorkspaceBundlesPaginator(
+        _ input: DescribeWorkspaceBundlesRequest,
+        onPage: @escaping (DescribeWorkspaceBundlesResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeWorkspaceBundles, tokenKey: \DescribeWorkspaceBundlesResult.nextToken, onPage: onPage)
     }
 
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
-    public func describeWorkspaceDirectoriesPaginator(_ input: DescribeWorkspaceDirectoriesRequest, onPage: @escaping (DescribeWorkspaceDirectoriesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeWorkspaceDirectoriesPaginator(
+        _ input: DescribeWorkspaceDirectoriesRequest,
+        onPage: @escaping (DescribeWorkspaceDirectoriesResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeWorkspaceDirectories, tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken, onPage: onPage)
     }
 
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
-    public func describeWorkspacesPaginator(_ input: DescribeWorkspacesRequest, onPage: @escaping (DescribeWorkspacesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeWorkspacesPaginator(
+        _ input: DescribeWorkspacesRequest,
+        onPage: @escaping (DescribeWorkspacesResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeWorkspaces, tokenKey: \DescribeWorkspacesResult.nextToken, onPage: onPage)
     }
 
@@ -40,8 +52,8 @@ extension WorkSpaces {
 extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceBundlesRequest {
         return .init(
-            bundleIds: self.bundleIds, 
-            nextToken: token, 
+            bundleIds: self.bundleIds,
+            nextToken: token,
             owner: self.owner
         )
 
@@ -51,8 +63,8 @@ extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateToken {
 extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceDirectoriesRequest {
         return .init(
-            directoryIds: self.directoryIds, 
-            limit: self.limit, 
+            directoryIds: self.directoryIds,
+            limit: self.limit,
             nextToken: token
         )
 
@@ -62,11 +74,11 @@ extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateToken {
 extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspacesRequest {
         return .init(
-            bundleId: self.bundleId, 
-            directoryId: self.directoryId, 
-            limit: self.limit, 
-            nextToken: token, 
-            userName: self.userName, 
+            bundleId: self.bundleId,
+            directoryId: self.directoryId,
+            limit: self.limit,
+            nextToken: token,
+            userName: self.userName,
             workspaceIds: self.workspaceIds
         )
 

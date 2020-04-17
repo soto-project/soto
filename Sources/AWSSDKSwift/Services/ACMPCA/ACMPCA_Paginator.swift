@@ -21,17 +21,29 @@ import NIO
 extension ACMPCA {
 
     ///  Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
-    public func listCertificateAuthoritiesPaginator(_ input: ListCertificateAuthoritiesRequest, onPage: @escaping (ListCertificateAuthoritiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listCertificateAuthoritiesPaginator(
+        _ input: ListCertificateAuthoritiesRequest,
+        onPage: @escaping (ListCertificateAuthoritiesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCertificateAuthorities, tokenKey: \ListCertificateAuthoritiesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all the permissions, if any, that have been assigned by a private CA. Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.
-    public func listPermissionsPaginator(_ input: ListPermissionsRequest, onPage: @escaping (ListPermissionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPermissionsPaginator(
+        _ input: ListPermissionsRequest,
+        onPage: @escaping (ListPermissionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the tags, if any, that are associated with your private CA. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags. 
-    public func listTagsPaginator(_ input: ListTagsRequest, onPage: @escaping (ListTagsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTagsPaginator(
+        _ input: ListTagsRequest,
+        onPage: @escaping (ListTagsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
     }
 
@@ -40,7 +52,7 @@ extension ACMPCA {
 extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListCertificateAuthoritiesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -50,8 +62,8 @@ extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateToken {
 extension ACMPCA.ListPermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListPermissionsRequest {
         return .init(
-            certificateAuthorityArn: self.certificateAuthorityArn, 
-            maxResults: self.maxResults, 
+            certificateAuthorityArn: self.certificateAuthorityArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -61,8 +73,8 @@ extension ACMPCA.ListPermissionsRequest: AWSPaginateToken {
 extension ACMPCA.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListTagsRequest {
         return .init(
-            certificateAuthorityArn: self.certificateAuthorityArn, 
-            maxResults: self.maxResults, 
+            certificateAuthorityArn: self.certificateAuthorityArn,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

@@ -23,7 +23,7 @@ public enum CloudSearchDomainErrorType: AWSErrorType {
 }
 
 extension CloudSearchDomainErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -39,8 +39,8 @@ extension CloudSearchDomainErrorType {
     }
 }
 
-extension CloudSearchDomainErrorType : CustomStringConvertible {
-    public var description : String {
+extension CloudSearchDomainErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .documentServiceException(let message):
             return "DocumentServiceException: \(message ?? "")"

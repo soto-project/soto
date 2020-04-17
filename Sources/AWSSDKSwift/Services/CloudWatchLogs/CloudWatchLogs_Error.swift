@@ -32,7 +32,7 @@ public enum CloudWatchLogsErrorType: AWSErrorType {
 }
 
 extension CloudWatchLogsErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -66,8 +66,8 @@ extension CloudWatchLogsErrorType {
     }
 }
 
-extension CloudWatchLogsErrorType : CustomStringConvertible {
-    public var description : String {
+extension CloudWatchLogsErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .dataAlreadyAcceptedException(let message):
             return "DataAlreadyAcceptedException: \(message ?? "")"

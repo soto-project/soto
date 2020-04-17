@@ -22,7 +22,7 @@ public enum MarketplaceCommerceAnalyticsErrorType: AWSErrorType {
 }
 
 extension MarketplaceCommerceAnalyticsErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -36,8 +36,8 @@ extension MarketplaceCommerceAnalyticsErrorType {
     }
 }
 
-extension MarketplaceCommerceAnalyticsErrorType : CustomStringConvertible {
-    public var description : String {
+extension MarketplaceCommerceAnalyticsErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .marketplaceCommerceAnalyticsException(let message):
             return "MarketplaceCommerceAnalyticsException: \(message ?? "")"

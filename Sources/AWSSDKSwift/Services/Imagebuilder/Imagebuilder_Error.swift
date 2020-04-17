@@ -37,7 +37,7 @@ public enum ImagebuilderErrorType: AWSErrorType {
 }
 
 extension ImagebuilderErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -81,8 +81,8 @@ extension ImagebuilderErrorType {
     }
 }
 
-extension ImagebuilderErrorType : CustomStringConvertible {
-    public var description : String {
+extension ImagebuilderErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .callRateLimitExceededException(let message):
             return "CallRateLimitExceededException: \(message ?? "")"

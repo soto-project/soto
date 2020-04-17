@@ -36,7 +36,7 @@ public enum WAFV2ErrorType: AWSErrorType {
 }
 
 extension WAFV2ErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -78,8 +78,8 @@ extension WAFV2ErrorType {
     }
 }
 
-extension WAFV2ErrorType : CustomStringConvertible {
-    public var description : String {
+extension WAFV2ErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .wAFAssociatedItemException(let message):
             return "WAFAssociatedItemException: \(message ?? "")"

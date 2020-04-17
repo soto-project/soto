@@ -21,7 +21,11 @@ import NIO
 extension MediaStoreData {
 
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
-    public func listItemsPaginator(_ input: ListItemsRequest, onPage: @escaping (ListItemsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listItemsPaginator(
+        _ input: ListItemsRequest,
+        onPage: @escaping (ListItemsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listItems, tokenKey: \ListItemsResponse.nextToken, onPage: onPage)
     }
 
@@ -30,8 +34,8 @@ extension MediaStoreData {
 extension MediaStoreData.ListItemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaStoreData.ListItemsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             path: self.path
         )
 

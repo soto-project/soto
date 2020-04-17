@@ -24,7 +24,7 @@ public enum XRayErrorType: AWSErrorType {
 }
 
 extension XRayErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -42,8 +42,8 @@ extension XRayErrorType {
     }
 }
 
-extension XRayErrorType : CustomStringConvertible {
-    public var description : String {
+extension XRayErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .invalidRequestException(let message):
             return "InvalidRequestException: \(message ?? "")"

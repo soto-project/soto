@@ -21,7 +21,11 @@ import NIO
 extension MigrationHubConfig {
 
     ///  This API permits filtering on the ControlId, HomeRegion, and RegionControlScope fields.
-    public func describeHomeRegionControlsPaginator(_ input: DescribeHomeRegionControlsRequest, onPage: @escaping (DescribeHomeRegionControlsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeHomeRegionControlsPaginator(
+        _ input: DescribeHomeRegionControlsRequest,
+        onPage: @escaping (DescribeHomeRegionControlsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHomeRegionControls, tokenKey: \DescribeHomeRegionControlsResult.nextToken, onPage: onPage)
     }
 
@@ -30,10 +34,10 @@ extension MigrationHubConfig {
 extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHubConfig.DescribeHomeRegionControlsRequest {
         return .init(
-            controlId: self.controlId, 
-            homeRegion: self.homeRegion, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            controlId: self.controlId,
+            homeRegion: self.homeRegion,
+            maxResults: self.maxResults,
+            nextToken: token,
             target: self.target
         )
 

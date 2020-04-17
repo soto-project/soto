@@ -21,12 +21,20 @@ import NIO
 extension Translate {
 
     ///  Provides a list of custom terminologies associated with your account.
-    public func listTerminologiesPaginator(_ input: ListTerminologiesRequest, onPage: @escaping (ListTerminologiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTerminologiesPaginator(
+        _ input: ListTerminologiesRequest,
+        onPage: @escaping (ListTerminologiesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTerminologies, tokenKey: \ListTerminologiesResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets a list of the batch translation jobs that you have submitted.
-    public func listTextTranslationJobsPaginator(_ input: ListTextTranslationJobsRequest, onPage: @escaping (ListTextTranslationJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTextTranslationJobsPaginator(
+        _ input: ListTextTranslationJobsRequest,
+        onPage: @escaping (ListTextTranslationJobsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTextTranslationJobs, tokenKey: \ListTextTranslationJobsResponse.nextToken, onPage: onPage)
     }
 
@@ -35,7 +43,7 @@ extension Translate {
 extension Translate.ListTerminologiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Translate.ListTerminologiesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -45,8 +53,8 @@ extension Translate.ListTerminologiesRequest: AWSPaginateToken {
 extension Translate.ListTextTranslationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Translate.ListTextTranslationJobsRequest {
         return .init(
-            filter: self.filter, 
-            maxResults: self.maxResults, 
+            filter: self.filter,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

@@ -27,7 +27,7 @@ public enum PinpointSMSVoiceErrorType: AWSErrorType {
 }
 
 extension PinpointSMSVoiceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension PinpointSMSVoiceErrorType {
     }
 }
 
-extension PinpointSMSVoiceErrorType : CustomStringConvertible {
-    public var description : String {
+extension PinpointSMSVoiceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .alreadyExistsException(let message):
             return "AlreadyExistsException: \(message ?? "")"

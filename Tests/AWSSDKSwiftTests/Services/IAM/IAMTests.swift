@@ -12,8 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
 import Foundation
+import XCTest
+
 @testable import AWSIAM
 
 //testing query service
@@ -72,32 +73,39 @@ class IAMTests: XCTestCase {
 
             // put a policy on the user
             var policyDocument = """
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
                         {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "sns:*",
-                                        "s3:*",
-                                        "sqs:*"
-                                    ],
-                                    "Resource": "*"
-                                }
-                            ]
+                            "Effect": "Allow",
+                            "Action": [
+                                "sns:*",
+                                "s3:*",
+                                "sqs:*"
+                            ],
+                            "Resource": "*"
                         }
-                        """
+                    ]
+                }
+                """
             policyDocument = policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             let getUserRequest = IAM.GetUserRequest(userName: testData.userName)
             let getUserResponse = try client.getUser(getUserRequest).wait()
 
-            let putRequest = IAM.PutUserPolicyRequest(policyDocument: policyDocument, policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
+            let putRequest = IAM.PutUserPolicyRequest(
+                policyDocument: policyDocument,
+                policyName: "testSetGetPolicy",
+                userName: getUserResponse.user.userName
+            )
             _ = try client.putUserPolicy(putRequest).wait()
 
             let getRequest = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
             let getResponse = try client.getUserPolicy(getRequest).wait()
 
-            XCTAssertEqual(getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+            XCTAssertEqual(
+                getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
+                policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            )
             
             // make sure we remove all policies attached to user
             let listPolicyRequest = IAM.ListUserPoliciesRequest(userName: getUserResponse.user.userName)
@@ -112,7 +120,7 @@ class IAMTests: XCTestCase {
 
     }
 
-    static var allTests : [(String, (IAMTests) -> () throws -> Void)] {
+    static var allTests: [(String, (IAMTests) -> () throws -> Void)] {
         return [
             ("testCreateDeleteUser", testCreateDeleteUser),
             ("testSetGetPolicy", testSetGetPolicy),

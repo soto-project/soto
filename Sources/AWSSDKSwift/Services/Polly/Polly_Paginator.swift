@@ -21,7 +21,11 @@ import NIO
 extension Polly {
 
     ///  Returns a list of SpeechSynthesisTask objects ordered by their creation date. This operation can filter the tasks by their status, for example, allowing users to list only tasks that are completed.
-    public func listSpeechSynthesisTasksPaginator(_ input: ListSpeechSynthesisTasksInput, onPage: @escaping (ListSpeechSynthesisTasksOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSpeechSynthesisTasksPaginator(
+        _ input: ListSpeechSynthesisTasksInput,
+        onPage: @escaping (ListSpeechSynthesisTasksOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSpeechSynthesisTasks, tokenKey: \ListSpeechSynthesisTasksOutput.nextToken, onPage: onPage)
     }
 
@@ -30,8 +34,8 @@ extension Polly {
 extension Polly.ListSpeechSynthesisTasksInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Polly.ListSpeechSynthesisTasksInput {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             status: self.status
         )
 

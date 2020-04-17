@@ -21,12 +21,20 @@ import NIO
 extension MediaConnect {
 
     ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
-    public func listEntitlementsPaginator(_ input: ListEntitlementsRequest, onPage: @escaping (ListEntitlementsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listEntitlementsPaginator(
+        _ input: ListEntitlementsRequest,
+        onPage: @escaping (ListEntitlementsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEntitlements, tokenKey: \ListEntitlementsResponse.nextToken, onPage: onPage)
     }
 
     ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
-    public func listFlowsPaginator(_ input: ListFlowsRequest, onPage: @escaping (ListFlowsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listFlowsPaginator(
+        _ input: ListFlowsRequest,
+        onPage: @escaping (ListFlowsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFlows, tokenKey: \ListFlowsResponse.nextToken, onPage: onPage)
     }
 
@@ -35,7 +43,7 @@ extension MediaConnect {
 extension MediaConnect.ListEntitlementsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListEntitlementsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -45,7 +53,7 @@ extension MediaConnect.ListEntitlementsRequest: AWSPaginateToken {
 extension MediaConnect.ListFlowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListFlowsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

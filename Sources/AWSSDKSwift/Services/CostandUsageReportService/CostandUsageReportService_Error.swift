@@ -25,7 +25,7 @@ public enum CostandUsageReportServiceErrorType: AWSErrorType {
 }
 
 extension CostandUsageReportServiceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -45,8 +45,8 @@ extension CostandUsageReportServiceErrorType {
     }
 }
 
-extension CostandUsageReportServiceErrorType : CustomStringConvertible {
-    public var description : String {
+extension CostandUsageReportServiceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .duplicateReportNameException(let message):
             return "DuplicateReportNameException: \(message ?? "")"

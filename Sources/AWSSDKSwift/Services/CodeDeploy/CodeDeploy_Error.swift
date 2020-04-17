@@ -129,7 +129,7 @@ public enum CodeDeployErrorType: AWSErrorType {
 }
 
 extension CodeDeployErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -357,8 +357,8 @@ extension CodeDeployErrorType {
     }
 }
 
-extension CodeDeployErrorType : CustomStringConvertible {
-    public var description : String {
+extension CodeDeployErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .alarmsLimitExceededException(let message):
             return "AlarmsLimitExceededException: \(message ?? "")"

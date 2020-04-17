@@ -37,7 +37,7 @@ public enum SQSErrorType: AWSErrorType {
 }
 
 extension SQSErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -81,8 +81,8 @@ extension SQSErrorType {
     }
 }
 
-extension SQSErrorType : CustomStringConvertible {
-    public var description : String {
+extension SQSErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .batchEntryIdsNotDistinct(let message):
             return "AWS.SimpleQueueService.BatchEntryIdsNotDistinct: \(message ?? "")"

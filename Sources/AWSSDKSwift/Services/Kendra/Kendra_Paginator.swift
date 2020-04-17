@@ -21,17 +21,29 @@ import NIO
 extension Kendra {
 
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
-    public func listDataSourceSyncJobsPaginator(_ input: ListDataSourceSyncJobsRequest, onPage: @escaping (ListDataSourceSyncJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataSourceSyncJobsPaginator(
+        _ input: ListDataSourceSyncJobsRequest,
+        onPage: @escaping (ListDataSourceSyncJobsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSourceSyncJobs, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the data sources that you have created.
-    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping (ListDataSourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataSourcesPaginator(
+        _ input: ListDataSourcesRequest,
+        onPage: @escaping (ListDataSourcesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the Amazon Kendra indexes that you have created.
-    public func listIndicesPaginator(_ input: ListIndicesRequest, onPage: @escaping (ListIndicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listIndicesPaginator(
+        _ input: ListIndicesRequest,
+        onPage: @escaping (ListIndicesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIndices, tokenKey: \ListIndicesResponse.nextToken, onPage: onPage)
     }
 
@@ -40,11 +52,11 @@ extension Kendra {
 extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourceSyncJobsRequest {
         return .init(
-            id: self.id, 
-            indexId: self.indexId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            startTimeFilter: self.startTimeFilter, 
+            id: self.id,
+            indexId: self.indexId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTimeFilter: self.startTimeFilter,
             statusFilter: self.statusFilter
         )
 
@@ -54,8 +66,8 @@ extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateToken {
 extension Kendra.ListDataSourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourcesRequest {
         return .init(
-            indexId: self.indexId, 
-            maxResults: self.maxResults, 
+            indexId: self.indexId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -65,7 +77,7 @@ extension Kendra.ListDataSourcesRequest: AWSPaginateToken {
 extension Kendra.ListIndicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListIndicesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

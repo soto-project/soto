@@ -26,7 +26,7 @@ public enum PricingErrorType: AWSErrorType {
 }
 
 extension PricingErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -48,8 +48,8 @@ extension PricingErrorType {
     }
 }
 
-extension PricingErrorType : CustomStringConvertible {
-    public var description : String {
+extension PricingErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .expiredNextTokenException(let message):
             return "ExpiredNextTokenException: \(message ?? "")"

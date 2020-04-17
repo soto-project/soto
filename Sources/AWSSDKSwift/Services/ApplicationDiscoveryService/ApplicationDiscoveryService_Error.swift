@@ -30,7 +30,7 @@ public enum ApplicationDiscoveryServiceErrorType: AWSErrorType {
 }
 
 extension ApplicationDiscoveryServiceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -60,8 +60,8 @@ extension ApplicationDiscoveryServiceErrorType {
     }
 }
 
-extension ApplicationDiscoveryServiceErrorType : CustomStringConvertible {
-    public var description : String {
+extension ApplicationDiscoveryServiceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .authorizationErrorException(let message):
             return "AuthorizationErrorException: \(message ?? "")"

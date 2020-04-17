@@ -21,22 +21,38 @@ import NIO
 extension DataExchange {
 
     ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
-    public func listDataSetRevisionsPaginator(_ input: ListDataSetRevisionsRequest, onPage: @escaping (ListDataSetRevisionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataSetRevisionsPaginator(
+        _ input: ListDataSetRevisionsRequest,
+        onPage: @escaping (ListDataSetRevisionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSetRevisions, tokenKey: \ListDataSetRevisionsResponse.nextToken, onPage: onPage)
     }
 
     ///  This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
-    public func listDataSetsPaginator(_ input: ListDataSetsRequest, onPage: @escaping (ListDataSetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataSetsPaginator(
+        _ input: ListDataSetsRequest,
+        onPage: @escaping (ListDataSetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, onPage: onPage)
     }
 
     ///  This operation lists your jobs sorted by CreatedAt in descending order.
-    public func listJobsPaginator(_ input: ListJobsRequest, onPage: @escaping (ListJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listJobsPaginator(
+        _ input: ListJobsRequest,
+        onPage: @escaping (ListJobsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, onPage: onPage)
     }
 
     ///  This operation lists a revision's assets sorted alphabetically in descending order.
-    public func listRevisionAssetsPaginator(_ input: ListRevisionAssetsRequest, onPage: @escaping (ListRevisionAssetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listRevisionAssetsPaginator(
+        _ input: ListRevisionAssetsRequest,
+        onPage: @escaping (ListRevisionAssetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRevisionAssets, tokenKey: \ListRevisionAssetsResponse.nextToken, onPage: onPage)
     }
 
@@ -45,8 +61,8 @@ extension DataExchange {
 extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListDataSetRevisionsRequest {
         return .init(
-            dataSetId: self.dataSetId, 
-            maxResults: self.maxResults, 
+            dataSetId: self.dataSetId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -56,8 +72,8 @@ extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateToken {
 extension DataExchange.ListDataSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListDataSetsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             origin: self.origin
         )
 
@@ -67,9 +83,9 @@ extension DataExchange.ListDataSetsRequest: AWSPaginateToken {
 extension DataExchange.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListJobsRequest {
         return .init(
-            dataSetId: self.dataSetId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            dataSetId: self.dataSetId,
+            maxResults: self.maxResults,
+            nextToken: token,
             revisionId: self.revisionId
         )
 
@@ -79,9 +95,9 @@ extension DataExchange.ListJobsRequest: AWSPaginateToken {
 extension DataExchange.ListRevisionAssetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListRevisionAssetsRequest {
         return .init(
-            dataSetId: self.dataSetId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            dataSetId: self.dataSetId,
+            maxResults: self.maxResults,
+            nextToken: token,
             revisionId: self.revisionId
         )
 

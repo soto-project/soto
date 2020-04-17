@@ -21,7 +21,11 @@ import NIO
 extension CodeStarconnections {
 
     ///  Lists the connections associated with your account.
-    public func listConnectionsPaginator(_ input: ListConnectionsInput, onPage: @escaping (ListConnectionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listConnectionsPaginator(
+        _ input: ListConnectionsInput,
+        onPage: @escaping (ListConnectionsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, onPage: onPage)
     }
 
@@ -30,8 +34,8 @@ extension CodeStarconnections {
 extension CodeStarconnections.ListConnectionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeStarconnections.ListConnectionsInput {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             providerTypeFilter: self.providerTypeFilter
         )
 

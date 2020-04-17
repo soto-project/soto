@@ -21,17 +21,29 @@ import NIO
 extension ResourceGroups {
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
-    public func listGroupResourcesPaginator(_ input: ListGroupResourcesInput, onPage: @escaping (ListGroupResourcesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listGroupResourcesPaginator(
+        _ input: ListGroupResourcesInput,
+        onPage: @escaping (ListGroupResourcesOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroupResources, tokenKey: \ListGroupResourcesOutput.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of existing resource groups in your account.
-    public func listGroupsPaginator(_ input: ListGroupsInput, onPage: @escaping (ListGroupsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listGroupsPaginator(
+        _ input: ListGroupsInput,
+        onPage: @escaping (ListGroupsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
-    public func searchResourcesPaginator(_ input: SearchResourcesInput, onPage: @escaping (SearchResourcesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchResourcesPaginator(
+        _ input: SearchResourcesInput,
+        onPage: @escaping (SearchResourcesOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, onPage: onPage)
     }
 
@@ -40,9 +52,9 @@ extension ResourceGroups {
 extension ResourceGroups.ListGroupResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupResourcesInput {
         return .init(
-            filters: self.filters, 
-            groupName: self.groupName, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            groupName: self.groupName,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -52,8 +64,8 @@ extension ResourceGroups.ListGroupResourcesInput: AWSPaginateToken {
 extension ResourceGroups.ListGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupsInput {
         return .init(
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -63,8 +75,8 @@ extension ResourceGroups.ListGroupsInput: AWSPaginateToken {
 extension ResourceGroups.SearchResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.SearchResourcesInput {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             resourceQuery: self.resourceQuery
         )
 

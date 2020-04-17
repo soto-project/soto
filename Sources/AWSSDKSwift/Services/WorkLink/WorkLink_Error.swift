@@ -27,7 +27,7 @@ public enum WorkLinkErrorType: AWSErrorType {
 }
 
 extension WorkLinkErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension WorkLinkErrorType {
     }
 }
 
-extension WorkLinkErrorType : CustomStringConvertible {
-    public var description : String {
+extension WorkLinkErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalServerErrorException(let message):
             return "InternalServerErrorException: \(message ?? "")"

@@ -2,7 +2,7 @@
     public {{struct.object}} {{struct.name}}: {{struct.shapeProtocol}} {
 {%if struct.payload %}
         /// The key for the payload
-        public static let payloadPath: String? = "{{struct.payload}}"
+        public static let payloadPath: String = "{{struct.payload}}"
 {%endif %}
 {%if struct.namespace %}
         public static let _xmlNamespace: String? = "{{struct.namespace}}"
@@ -11,7 +11,7 @@
 {%if struct.awsShapeMembers.count > 0%}
         public static var _encoding = [
 {%for member in struct.awsShapeMembers %}
-            AWSMemberEncoding(label: "{{member.name}}"{%if member.locationName %}, location: {{member.location}}(locationName: "{{member.locationName}}"){%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+            AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
 {%endfor %}
         ]
 {%endif %}
@@ -66,20 +66,20 @@
                 try $0.key.validate(name: "\(name).{{v.key.name}}.key")
 {%endif %}
 {%for req,var in v.key.reqs %}
-                try validate($0.key, name:"{{v.key.name}}.key", parent: name, {{req}}: {{var}})
+                try validate($0.key, name: "{{v.key.name}}.key", parent: name, {{req}}: {{var}})
 {%endfor %}
 {# validate dictionary values #}
 {%if v.value.shape %}
                 try $0.value.validate(name: "\(name).{{v.value.name}}[\"\($0.key)\"]")
 {%endif %}
 {%for req,var in v.value.reqs %}
-                try validate($0.value, name:"{{v.value.name}}[\"\($0.key)\"]", parent: name, {{req}}: {{var}})
+                try validate($0.value, name: "{{v.value.name}}[\"\($0.key)\"]", parent: name, {{req}}: {{var}})
 {%endfor %}
             }
 {%endif %}
 {# validate min,max,pattern #}
 {%for req,var in v.reqs %}
-            try validate(self.{{v.name}}, name:"{{v.name}}", parent: name, {{req}}: {{var}})
+            try validate(self.{{v.name}}, name: "{{v.name}}", parent: name, {{req}}: {{var}})
 {%endfor %}
 {%endfor %}
         }

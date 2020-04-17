@@ -23,7 +23,7 @@ public enum MTurkErrorType: AWSErrorType {
 }
 
 extension MTurkErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -39,8 +39,8 @@ extension MTurkErrorType {
     }
 }
 
-extension MTurkErrorType : CustomStringConvertible {
-    public var description : String {
+extension MTurkErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .requestError(let message):
             return "RequestError: \(message ?? "")"

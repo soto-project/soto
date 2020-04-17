@@ -21,37 +21,65 @@ import NIO
 extension RAM {
 
     ///  Gets the policies for the specified resources that you own and have shared.
-    public func getResourcePoliciesPaginator(_ input: GetResourcePoliciesRequest, onPage: @escaping (GetResourcePoliciesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getResourcePoliciesPaginator(
+        _ input: GetResourcePoliciesRequest,
+        onPage: @escaping (GetResourcePoliciesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourcePolicies, tokenKey: \GetResourcePoliciesResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets the resources or principals for the resource shares that you own.
-    public func getResourceShareAssociationsPaginator(_ input: GetResourceShareAssociationsRequest, onPage: @escaping (GetResourceShareAssociationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getResourceShareAssociationsPaginator(
+        _ input: GetResourceShareAssociationsRequest,
+        onPage: @escaping (GetResourceShareAssociationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceShareAssociations, tokenKey: \GetResourceShareAssociationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets the invitations for resource sharing that you've received.
-    public func getResourceShareInvitationsPaginator(_ input: GetResourceShareInvitationsRequest, onPage: @escaping (GetResourceShareInvitationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getResourceShareInvitationsPaginator(
+        _ input: GetResourceShareInvitationsRequest,
+        onPage: @escaping (GetResourceShareInvitationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceShareInvitations, tokenKey: \GetResourceShareInvitationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets the resource shares that you own or the resource shares that are shared with you.
-    public func getResourceSharesPaginator(_ input: GetResourceSharesRequest, onPage: @escaping (GetResourceSharesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getResourceSharesPaginator(
+        _ input: GetResourceSharesRequest,
+        onPage: @escaping (GetResourceSharesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceShares, tokenKey: \GetResourceSharesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
-    public func listPendingInvitationResourcesPaginator(_ input: ListPendingInvitationResourcesRequest, onPage: @escaping (ListPendingInvitationResourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPendingInvitationResourcesPaginator(
+        _ input: ListPendingInvitationResourcesRequest,
+        onPage: @escaping (ListPendingInvitationResourcesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPendingInvitationResources, tokenKey: \ListPendingInvitationResourcesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the principals that you have shared resources with or that have shared resources with you.
-    public func listPrincipalsPaginator(_ input: ListPrincipalsRequest, onPage: @escaping (ListPrincipalsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPrincipalsPaginator(
+        _ input: ListPrincipalsRequest,
+        onPage: @escaping (ListPrincipalsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPrincipals, tokenKey: \ListPrincipalsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
-    public func listResourcesPaginator(_ input: ListResourcesRequest, onPage: @escaping (ListResourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listResourcesPaginator(
+        _ input: ListResourcesRequest,
+        onPage: @escaping (ListResourcesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, onPage: onPage)
     }
 
@@ -60,9 +88,9 @@ extension RAM {
 extension RAM.GetResourcePoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourcePoliciesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            principal: self.principal, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
             resourceArns: self.resourceArns
         )
 
@@ -72,12 +100,12 @@ extension RAM.GetResourcePoliciesRequest: AWSPaginateToken {
 extension RAM.GetResourceShareAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourceShareAssociationsRequest {
         return .init(
-            associationStatus: self.associationStatus, 
-            associationType: self.associationType, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            principal: self.principal, 
-            resourceArn: self.resourceArn, 
+            associationStatus: self.associationStatus,
+            associationType: self.associationType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
+            resourceArn: self.resourceArn,
             resourceShareArns: self.resourceShareArns
         )
 
@@ -87,9 +115,9 @@ extension RAM.GetResourceShareAssociationsRequest: AWSPaginateToken {
 extension RAM.GetResourceShareInvitationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourceShareInvitationsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            resourceShareArns: self.resourceShareArns, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceShareArns: self.resourceShareArns,
             resourceShareInvitationArns: self.resourceShareInvitationArns
         )
 
@@ -99,12 +127,12 @@ extension RAM.GetResourceShareInvitationsRequest: AWSPaginateToken {
 extension RAM.GetResourceSharesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourceSharesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            name: self.name, 
-            nextToken: token, 
-            resourceOwner: self.resourceOwner, 
-            resourceShareArns: self.resourceShareArns, 
-            resourceShareStatus: self.resourceShareStatus, 
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            resourceOwner: self.resourceOwner,
+            resourceShareArns: self.resourceShareArns,
+            resourceShareStatus: self.resourceShareStatus,
             tagFilters: self.tagFilters
         )
 
@@ -114,8 +142,8 @@ extension RAM.GetResourceSharesRequest: AWSPaginateToken {
 extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListPendingInvitationResourcesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             resourceShareInvitationArn: self.resourceShareInvitationArn
         )
 
@@ -125,12 +153,12 @@ extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateToken {
 extension RAM.ListPrincipalsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListPrincipalsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            principals: self.principals, 
-            resourceArn: self.resourceArn, 
-            resourceOwner: self.resourceOwner, 
-            resourceShareArns: self.resourceShareArns, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            principals: self.principals,
+            resourceArn: self.resourceArn,
+            resourceOwner: self.resourceOwner,
+            resourceShareArns: self.resourceShareArns,
             resourceType: self.resourceType
         )
 
@@ -140,12 +168,12 @@ extension RAM.ListPrincipalsRequest: AWSPaginateToken {
 extension RAM.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListResourcesRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            principal: self.principal, 
-            resourceArns: self.resourceArns, 
-            resourceOwner: self.resourceOwner, 
-            resourceShareArns: self.resourceShareArns, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
+            resourceArns: self.resourceArns,
+            resourceOwner: self.resourceOwner,
+            resourceShareArns: self.resourceShareArns,
             resourceType: self.resourceType
         )
 

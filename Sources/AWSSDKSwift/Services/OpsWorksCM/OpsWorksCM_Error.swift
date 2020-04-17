@@ -27,7 +27,7 @@ public enum OpsWorksCMErrorType: AWSErrorType {
 }
 
 extension OpsWorksCMErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension OpsWorksCMErrorType {
     }
 }
 
-extension OpsWorksCMErrorType : CustomStringConvertible {
-    public var description : String {
+extension OpsWorksCMErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .invalidNextTokenException(let message):
             return "InvalidNextTokenException: \(message ?? "")"

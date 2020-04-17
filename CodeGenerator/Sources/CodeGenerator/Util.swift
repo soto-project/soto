@@ -12,11 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import Darwin.C
+import Foundation
 
 public class Glob {
-    
+
     public static func entries(pattern: String) -> [String] {
         var files = [String]()
         var gt: glob_t = glob_t()
@@ -24,14 +24,14 @@ public class Glob {
         if res != 0 {
             return files
         }
-        
+
         for i in (0..<gt.gl_pathc) {
             let x = gt.gl_pathv[Int(i)]
             let c = UnsafePointer<CChar>(x)!
             let s = String.init(cString: c)
             files.append(s)
         }
-        
+
         globfree(&gt)
         return files
     }
@@ -58,24 +58,24 @@ func loadModelJSON() throws -> [(api: API, docs: Docs, paginators: Paginators?)]
     let directories = apiDirectories()
 
     return try directories.map {
-        let apiFile = Glob.entries(pattern: $0+"/**/api-*.json")[0]
-        let docFile = Glob.entries(pattern: $0+"/**/docs-*.json")[0]
+        let apiFile = Glob.entries(pattern: $0 + "/**/api-*.json")[0]
+        let docFile = Glob.entries(pattern: $0 + "/**/docs-*.json")[0]
         let data = try Data(contentsOf: URL(fileURLWithPath: apiFile))
         var api = try JSONDecoder().decode(API.self, from: data)
         try api.postProcess()
-        
+
         let docData = try Data(contentsOf: URL(fileURLWithPath: docFile))
         let docs = try JSONDecoder().decode(Docs.self, from: docData)
-        
+
         // a paginator file doesn't always exist
         let paginators: Paginators?
-        if let paginatorFile = Glob.entries(pattern: $0+"/**/paginators-*.json").first {
+        if let paginatorFile = Glob.entries(pattern: $0 + "/**/paginators-*.json").first {
             let paginatorData = try Data(contentsOf: URL(string: "file://\(paginatorFile)")!)
             paginators = try JSONDecoder().decode(Paginators.self, from: paginatorData)
         } else {
             paginators = nil
         }
-        return (api:api, docs:docs, paginators:paginators)
+        return (api: api, docs: docs, paginators: paginators)
     }
 }
 

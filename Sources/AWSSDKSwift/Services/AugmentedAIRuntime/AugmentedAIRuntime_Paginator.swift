@@ -21,7 +21,11 @@ import NIO
 extension AugmentedAIRuntime {
 
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
-    public func listHumanLoopsPaginator(_ input: ListHumanLoopsRequest, onPage: @escaping (ListHumanLoopsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listHumanLoopsPaginator(
+        _ input: ListHumanLoopsRequest,
+        onPage: @escaping (ListHumanLoopsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHumanLoops, tokenKey: \ListHumanLoopsResponse.nextToken, onPage: onPage)
     }
 
@@ -30,11 +34,11 @@ extension AugmentedAIRuntime {
 extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AugmentedAIRuntime.ListHumanLoopsRequest {
         return .init(
-            creationTimeAfter: self.creationTimeAfter, 
-            creationTimeBefore: self.creationTimeBefore, 
-            flowDefinitionArn: self.flowDefinitionArn, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            flowDefinitionArn: self.flowDefinitionArn,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortOrder: self.sortOrder
         )
 

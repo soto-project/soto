@@ -21,12 +21,20 @@ import NIO
 extension IoT1ClickProjects {
 
     ///  Lists the placement(s) of a project.
-    public func listPlacementsPaginator(_ input: ListPlacementsRequest, onPage: @escaping (ListPlacementsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPlacementsPaginator(
+        _ input: ListPlacementsRequest,
+        onPage: @escaping (ListPlacementsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPlacements, tokenKey: \ListPlacementsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
-    public func listProjectsPaginator(_ input: ListProjectsRequest, onPage: @escaping (ListProjectsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listProjectsPaginator(
+        _ input: ListProjectsRequest,
+        onPage: @escaping (ListProjectsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, onPage: onPage)
     }
 
@@ -35,8 +43,8 @@ extension IoT1ClickProjects {
 extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT1ClickProjects.ListPlacementsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            maxResults: self.maxResults,
+            nextToken: token,
             projectName: self.projectName
         )
 
@@ -46,7 +54,7 @@ extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateToken {
 extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT1ClickProjects.ListProjectsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

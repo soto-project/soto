@@ -25,7 +25,7 @@ public enum SageMakerErrorType: AWSErrorType {
 }
 
 extension SageMakerErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -45,8 +45,8 @@ extension SageMakerErrorType {
     }
 }
 
-extension SageMakerErrorType : CustomStringConvertible {
-    public var description : String {
+extension SageMakerErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .conflictException(let message):
             return "ConflictException: \(message ?? "")"

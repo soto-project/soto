@@ -21,27 +21,47 @@ import NIO
 extension MediaConvert {
 
     ///  Send an request with an empty body to the regional API endpoint to get your account API endpoint.
-    public func describeEndpointsPaginator(_ input: DescribeEndpointsRequest, onPage: @escaping (DescribeEndpointsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func describeEndpointsPaginator(
+        _ input: DescribeEndpointsRequest,
+        onPage: @escaping (DescribeEndpointsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEndpoints, tokenKey: \DescribeEndpointsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
-    public func listJobTemplatesPaginator(_ input: ListJobTemplatesRequest, onPage: @escaping (ListJobTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listJobTemplatesPaginator(
+        _ input: ListJobTemplatesRequest,
+        onPage: @escaping (ListJobTemplatesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobTemplates, tokenKey: \ListJobTemplatesResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
-    public func listJobsPaginator(_ input: ListJobsRequest, onPage: @escaping (ListJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listJobsPaginator(
+        _ input: ListJobsRequest,
+        onPage: @escaping (ListJobsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
-    public func listPresetsPaginator(_ input: ListPresetsRequest, onPage: @escaping (ListPresetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPresetsPaginator(
+        _ input: ListPresetsRequest,
+        onPage: @escaping (ListPresetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPresets, tokenKey: \ListPresetsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
-    public func listQueuesPaginator(_ input: ListQueuesRequest, onPage: @escaping (ListQueuesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listQueuesPaginator(
+        _ input: ListQueuesRequest,
+        onPage: @escaping (ListQueuesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResponse.nextToken, onPage: onPage)
     }
 
@@ -50,8 +70,8 @@ extension MediaConvert {
 extension MediaConvert.DescribeEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.DescribeEndpointsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            mode: self.mode, 
+            maxResults: self.maxResults,
+            mode: self.mode,
             nextToken: token
         )
 
@@ -61,10 +81,10 @@ extension MediaConvert.DescribeEndpointsRequest: AWSPaginateToken {
 extension MediaConvert.ListJobTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListJobTemplatesRequest {
         return .init(
-            category: self.category, 
-            listBy: self.listBy, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            category: self.category,
+            listBy: self.listBy,
+            maxResults: self.maxResults,
+            nextToken: token,
             order: self.order
         )
 
@@ -74,10 +94,10 @@ extension MediaConvert.ListJobTemplatesRequest: AWSPaginateToken {
 extension MediaConvert.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListJobsRequest {
         return .init(
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            order: self.order, 
-            queue: self.queue, 
+            maxResults: self.maxResults,
+            nextToken: token,
+            order: self.order,
+            queue: self.queue,
             status: self.status
         )
 
@@ -87,10 +107,10 @@ extension MediaConvert.ListJobsRequest: AWSPaginateToken {
 extension MediaConvert.ListPresetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListPresetsRequest {
         return .init(
-            category: self.category, 
-            listBy: self.listBy, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            category: self.category,
+            listBy: self.listBy,
+            maxResults: self.maxResults,
+            nextToken: token,
             order: self.order
         )
 
@@ -100,9 +120,9 @@ extension MediaConvert.ListPresetsRequest: AWSPaginateToken {
 extension MediaConvert.ListQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListQueuesRequest {
         return .init(
-            listBy: self.listBy, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            listBy: self.listBy,
+            maxResults: self.maxResults,
+            nextToken: token,
             order: self.order
         )
 

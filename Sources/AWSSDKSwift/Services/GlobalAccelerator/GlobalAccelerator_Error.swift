@@ -36,7 +36,7 @@ public enum GlobalAcceleratorErrorType: AWSErrorType {
 }
 
 extension GlobalAcceleratorErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -78,8 +78,8 @@ extension GlobalAcceleratorErrorType {
     }
 }
 
-extension GlobalAcceleratorErrorType : CustomStringConvertible {
-    public var description : String {
+extension GlobalAcceleratorErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .acceleratorNotDisabledException(let message):
             return "AcceleratorNotDisabledException: \(message ?? "")"

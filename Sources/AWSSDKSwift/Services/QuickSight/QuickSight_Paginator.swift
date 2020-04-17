@@ -21,47 +21,83 @@ import NIO
 extension QuickSight {
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
-    public func listDashboardVersionsPaginator(_ input: ListDashboardVersionsRequest, onPage: @escaping (ListDashboardVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDashboardVersionsPaginator(
+        _ input: ListDashboardVersionsRequest,
+        onPage: @escaping (ListDashboardVersionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDashboardVersions, tokenKey: \ListDashboardVersionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists dashboards in an AWS account.
-    public func listDashboardsPaginator(_ input: ListDashboardsRequest, onPage: @escaping (ListDashboardsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDashboardsPaginator(
+        _ input: ListDashboardsRequest,
+        onPage: @escaping (ListDashboardsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
-    public func listDataSetsPaginator(_ input: ListDataSetsRequest, onPage: @escaping (ListDataSetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataSetsPaginator(
+        _ input: ListDataSetsRequest,
+        onPage: @escaping (ListDataSetsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists data sources in current AWS Region that belong to this AWS account.
-    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping (ListDataSourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listDataSourcesPaginator(
+        _ input: ListDataSourcesRequest,
+        onPage: @escaping (ListDataSourcesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the history of SPICE ingestions for a dataset.
-    public func listIngestionsPaginator(_ input: ListIngestionsRequest, onPage: @escaping (ListIngestionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listIngestionsPaginator(
+        _ input: ListIngestionsRequest,
+        onPage: @escaping (ListIngestionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIngestions, tokenKey: \ListIngestionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all the aliases of a template.
-    public func listTemplateAliasesPaginator(_ input: ListTemplateAliasesRequest, onPage: @escaping (ListTemplateAliasesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTemplateAliasesPaginator(
+        _ input: ListTemplateAliasesRequest,
+        onPage: @escaping (ListTemplateAliasesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTemplateAliases, tokenKey: \ListTemplateAliasesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all the versions of the templates in the current Amazon QuickSight account.
-    public func listTemplateVersionsPaginator(_ input: ListTemplateVersionsRequest, onPage: @escaping (ListTemplateVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTemplateVersionsPaginator(
+        _ input: ListTemplateVersionsRequest,
+        onPage: @escaping (ListTemplateVersionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTemplateVersions, tokenKey: \ListTemplateVersionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists all the templates in the current Amazon QuickSight account.
-    public func listTemplatesPaginator(_ input: ListTemplatesRequest, onPage: @escaping (ListTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listTemplatesPaginator(
+        _ input: ListTemplatesRequest,
+        onPage: @escaping (ListTemplatesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, onPage: onPage)
     }
 
     ///  Searchs for dashboards that belong to a user. 
-    public func searchDashboardsPaginator(_ input: SearchDashboardsRequest, onPage: @escaping (SearchDashboardsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func searchDashboardsPaginator(
+        _ input: SearchDashboardsRequest,
+        onPage: @escaping (SearchDashboardsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchDashboards, tokenKey: \SearchDashboardsResponse.nextToken, onPage: onPage)
     }
 
@@ -70,9 +106,9 @@ extension QuickSight {
 extension QuickSight.ListDashboardVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDashboardVersionsRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            dashboardId: self.dashboardId, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            dashboardId: self.dashboardId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -82,8 +118,8 @@ extension QuickSight.ListDashboardVersionsRequest: AWSPaginateToken {
 extension QuickSight.ListDashboardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDashboardsRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -93,8 +129,8 @@ extension QuickSight.ListDashboardsRequest: AWSPaginateToken {
 extension QuickSight.ListDataSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSetsRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -104,8 +140,8 @@ extension QuickSight.ListDataSetsRequest: AWSPaginateToken {
 extension QuickSight.ListDataSourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSourcesRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -115,9 +151,9 @@ extension QuickSight.ListDataSourcesRequest: AWSPaginateToken {
 extension QuickSight.ListIngestionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListIngestionsRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            dataSetId: self.dataSetId, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            dataSetId: self.dataSetId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -127,9 +163,9 @@ extension QuickSight.ListIngestionsRequest: AWSPaginateToken {
 extension QuickSight.ListTemplateAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateAliasesRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
             templateId: self.templateId
         )
 
@@ -139,9 +175,9 @@ extension QuickSight.ListTemplateAliasesRequest: AWSPaginateToken {
 extension QuickSight.ListTemplateVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateVersionsRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
             templateId: self.templateId
         )
 
@@ -151,8 +187,8 @@ extension QuickSight.ListTemplateVersionsRequest: AWSPaginateToken {
 extension QuickSight.ListTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplatesRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -162,9 +198,9 @@ extension QuickSight.ListTemplatesRequest: AWSPaginateToken {
 extension QuickSight.SearchDashboardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchDashboardsRequest {
         return .init(
-            awsAccountId: self.awsAccountId, 
-            filters: self.filters, 
-            maxResults: self.maxResults, 
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

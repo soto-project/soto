@@ -34,7 +34,7 @@ public enum Route53ResolverErrorType: AWSErrorType {
 }
 
 extension Route53ResolverErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -72,8 +72,8 @@ extension Route53ResolverErrorType {
     }
 }
 
-extension Route53ResolverErrorType : CustomStringConvertible {
-    public var description : String {
+extension Route53ResolverErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .internalServiceErrorException(let message):
             return "InternalServiceErrorException: \(message ?? "")"

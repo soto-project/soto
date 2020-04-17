@@ -57,7 +57,7 @@ public enum ELBV2ErrorType: AWSErrorType {
 }
 
 extension ELBV2ErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -141,8 +141,8 @@ extension ELBV2ErrorType {
     }
 }
 
-extension ELBV2ErrorType : CustomStringConvertible {
-    public var description : String {
+extension ELBV2ErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .allocationIdNotFoundException(let message):
             return "AllocationIdNotFound: \(message ?? "")"

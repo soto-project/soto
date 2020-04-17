@@ -26,7 +26,7 @@ public enum ForecastQueryServiceErrorType: AWSErrorType {
 }
 
 extension ForecastQueryServiceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -48,8 +48,8 @@ extension ForecastQueryServiceErrorType {
     }
 }
 
-extension ForecastQueryServiceErrorType : CustomStringConvertible {
-    public var description : String {
+extension ForecastQueryServiceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .invalidInputException(let message):
             return "InvalidInputException: \(message ?? "")"

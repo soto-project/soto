@@ -21,12 +21,20 @@ import NIO
 extension Mobile {
 
     ///   List all available bundles. 
-    public func listBundlesPaginator(_ input: ListBundlesRequest, onPage: @escaping (ListBundlesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listBundlesPaginator(
+        _ input: ListBundlesRequest,
+        onPage: @escaping (ListBundlesResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBundles, tokenKey: \ListBundlesResult.nextToken, onPage: onPage)
     }
 
     ///   Lists projects in AWS Mobile Hub. 
-    public func listProjectsPaginator(_ input: ListProjectsRequest, onPage: @escaping (ListProjectsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listProjectsPaginator(
+        _ input: ListProjectsRequest,
+        onPage: @escaping (ListProjectsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResult.nextToken, onPage: onPage)
     }
 
@@ -35,7 +43,7 @@ extension Mobile {
 extension Mobile.ListBundlesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mobile.ListBundlesRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -45,7 +53,7 @@ extension Mobile.ListBundlesRequest: AWSPaginateToken {
 extension Mobile.ListProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mobile.ListProjectsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 

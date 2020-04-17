@@ -28,7 +28,7 @@ public enum PinpointErrorType: AWSErrorType {
 }
 
 extension PinpointErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -54,8 +54,8 @@ extension PinpointErrorType {
     }
 }
 
-extension PinpointErrorType : CustomStringConvertible {
-    public var description : String {
+extension PinpointErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"

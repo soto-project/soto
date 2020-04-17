@@ -30,7 +30,7 @@ public enum MediaConnectErrorType: AWSErrorType {
 }
 
 extension MediaConnectErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -60,8 +60,8 @@ extension MediaConnectErrorType {
     }
 }
 
-extension MediaConnectErrorType : CustomStringConvertible {
-    public var description : String {
+extension MediaConnectErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .addFlowOutputs420Exception(let message):
             return "AddFlowOutputs420Exception: \(message ?? "")"

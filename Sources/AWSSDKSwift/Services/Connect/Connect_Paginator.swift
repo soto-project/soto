@@ -21,52 +21,92 @@ import NIO
 extension Connect {
 
     ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
-    public func getCurrentMetricDataPaginator(_ input: GetCurrentMetricDataRequest, onPage: @escaping (GetCurrentMetricDataResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getCurrentMetricDataPaginator(
+        _ input: GetCurrentMetricDataRequest,
+        onPage: @escaping (GetCurrentMetricDataResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCurrentMetricData, tokenKey: \GetCurrentMetricDataResponse.nextToken, onPage: onPage)
     }
 
     ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
-    public func getMetricDataPaginator(_ input: GetMetricDataRequest, onPage: @escaping (GetMetricDataResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getMetricDataPaginator(
+        _ input: GetMetricDataRequest,
+        onPage: @escaping (GetMetricDataResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getMetricData, tokenKey: \GetMetricDataResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides information about the contact flows for the specified Amazon Connect instance.
-    public func listContactFlowsPaginator(_ input: ListContactFlowsRequest, onPage: @escaping (ListContactFlowsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listContactFlowsPaginator(
+        _ input: ListContactFlowsRequest,
+        onPage: @escaping (ListContactFlowsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContactFlows, tokenKey: \ListContactFlowsResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides information about the hours of operation for the specified Amazon Connect instance.
-    public func listHoursOfOperationsPaginator(_ input: ListHoursOfOperationsRequest, onPage: @escaping (ListHoursOfOperationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listHoursOfOperationsPaginator(
+        _ input: ListHoursOfOperationsRequest,
+        onPage: @escaping (ListHoursOfOperationsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHoursOfOperations, tokenKey: \ListHoursOfOperationsResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides information about the phone numbers for the specified Amazon Connect instance.
-    public func listPhoneNumbersPaginator(_ input: ListPhoneNumbersRequest, onPage: @escaping (ListPhoneNumbersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPhoneNumbersPaginator(
+        _ input: ListPhoneNumbersRequest,
+        onPage: @escaping (ListPhoneNumbersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides information about the queues for the specified Amazon Connect instance.
-    public func listQueuesPaginator(_ input: ListQueuesRequest, onPage: @escaping (ListQueuesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listQueuesPaginator(
+        _ input: ListQueuesRequest,
+        onPage: @escaping (ListQueuesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides summary information about the routing profiles for the specified Amazon Connect instance.
-    public func listRoutingProfilesPaginator(_ input: ListRoutingProfilesRequest, onPage: @escaping (ListRoutingProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listRoutingProfilesPaginator(
+        _ input: ListRoutingProfilesRequest,
+        onPage: @escaping (ListRoutingProfilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoutingProfiles, tokenKey: \ListRoutingProfilesResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides summary information about the security profiles for the specified Amazon Connect instance.
-    public func listSecurityProfilesPaginator(_ input: ListSecurityProfilesRequest, onPage: @escaping (ListSecurityProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listSecurityProfilesPaginator(
+        _ input: ListSecurityProfilesRequest,
+        onPage: @escaping (ListSecurityProfilesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSecurityProfiles, tokenKey: \ListSecurityProfilesResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
-    public func listUserHierarchyGroupsPaginator(_ input: ListUserHierarchyGroupsRequest, onPage: @escaping (ListUserHierarchyGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listUserHierarchyGroupsPaginator(
+        _ input: ListUserHierarchyGroupsRequest,
+        onPage: @escaping (ListUserHierarchyGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUserHierarchyGroups, tokenKey: \ListUserHierarchyGroupsResponse.nextToken, onPage: onPage)
     }
 
     ///  Provides summary information about the users for the specified Amazon Connect instance.
-    public func listUsersPaginator(_ input: ListUsersRequest, onPage: @escaping (ListUsersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listUsersPaginator(
+        _ input: ListUsersRequest,
+        onPage: @escaping (ListUsersResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, onPage: onPage)
     }
 
@@ -75,11 +115,11 @@ extension Connect {
 extension Connect.GetCurrentMetricDataRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.GetCurrentMetricDataRequest {
         return .init(
-            currentMetrics: self.currentMetrics, 
-            filters: self.filters, 
-            groupings: self.groupings, 
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            currentMetrics: self.currentMetrics,
+            filters: self.filters,
+            groupings: self.groupings,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -89,13 +129,13 @@ extension Connect.GetCurrentMetricDataRequest: AWSPaginateToken {
 extension Connect.GetMetricDataRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.GetMetricDataRequest {
         return .init(
-            endTime: self.endTime, 
-            filters: self.filters, 
-            groupings: self.groupings, 
-            historicalMetrics: self.historicalMetrics, 
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            endTime: self.endTime,
+            filters: self.filters,
+            groupings: self.groupings,
+            historicalMetrics: self.historicalMetrics,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
             startTime: self.startTime
         )
 
@@ -105,9 +145,9 @@ extension Connect.GetMetricDataRequest: AWSPaginateToken {
 extension Connect.ListContactFlowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListContactFlowsRequest {
         return .init(
-            contactFlowTypes: self.contactFlowTypes, 
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            contactFlowTypes: self.contactFlowTypes,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -117,8 +157,8 @@ extension Connect.ListContactFlowsRequest: AWSPaginateToken {
 extension Connect.ListHoursOfOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationsRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -128,10 +168,10 @@ extension Connect.ListHoursOfOperationsRequest: AWSPaginateToken {
 extension Connect.ListPhoneNumbersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListPhoneNumbersRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            phoneNumberCountryCodes: self.phoneNumberCountryCodes, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            phoneNumberCountryCodes: self.phoneNumberCountryCodes,
             phoneNumberTypes: self.phoneNumberTypes
         )
 
@@ -141,9 +181,9 @@ extension Connect.ListPhoneNumbersRequest: AWSPaginateToken {
 extension Connect.ListQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListQueuesRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
             queueTypes: self.queueTypes
         )
 
@@ -153,8 +193,8 @@ extension Connect.ListQueuesRequest: AWSPaginateToken {
 extension Connect.ListRoutingProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListRoutingProfilesRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -164,8 +204,8 @@ extension Connect.ListRoutingProfilesRequest: AWSPaginateToken {
 extension Connect.ListSecurityProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilesRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -175,8 +215,8 @@ extension Connect.ListSecurityProfilesRequest: AWSPaginateToken {
 extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListUserHierarchyGroupsRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -186,8 +226,8 @@ extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateToken {
 extension Connect.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListUsersRequest {
         return .init(
-            instanceId: self.instanceId, 
-            maxResults: self.maxResults, 
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

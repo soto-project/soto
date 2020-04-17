@@ -25,7 +25,7 @@ public enum SSOErrorType: AWSErrorType {
 }
 
 extension SSOErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -45,8 +45,8 @@ extension SSOErrorType {
     }
 }
 
-extension SSOErrorType : CustomStringConvertible {
-    public var description : String {
+extension SSOErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .invalidRequestException(let message):
             return "InvalidRequestException: \(message ?? "")"

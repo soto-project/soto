@@ -24,7 +24,7 @@ public enum ElasticInferenceErrorType: AWSErrorType {
 }
 
 extension ElasticInferenceErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -42,8 +42,8 @@ extension ElasticInferenceErrorType {
     }
 }
 
-extension ElasticInferenceErrorType : CustomStringConvertible {
-    public var description : String {
+extension ElasticInferenceErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"

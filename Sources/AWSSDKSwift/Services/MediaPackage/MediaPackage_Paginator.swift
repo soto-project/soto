@@ -21,17 +21,29 @@ import NIO
 extension MediaPackage {
 
     ///  Returns a collection of Channels.
-    public func listChannelsPaginator(_ input: ListChannelsRequest, onPage: @escaping (ListChannelsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listChannelsPaginator(
+        _ input: ListChannelsRequest,
+        onPage: @escaping (ListChannelsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a collection of HarvestJob records.
-    public func listHarvestJobsPaginator(_ input: ListHarvestJobsRequest, onPage: @escaping (ListHarvestJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listHarvestJobsPaginator(
+        _ input: ListHarvestJobsRequest,
+        onPage: @escaping (ListHarvestJobsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHarvestJobs, tokenKey: \ListHarvestJobsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a collection of OriginEndpoint records.
-    public func listOriginEndpointsPaginator(_ input: ListOriginEndpointsRequest, onPage: @escaping (ListOriginEndpointsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listOriginEndpointsPaginator(
+        _ input: ListOriginEndpointsRequest,
+        onPage: @escaping (ListOriginEndpointsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOriginEndpoints, tokenKey: \ListOriginEndpointsResponse.nextToken, onPage: onPage)
     }
 
@@ -40,7 +52,7 @@ extension MediaPackage {
 extension MediaPackage.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackage.ListChannelsRequest {
         return .init(
-            maxResults: self.maxResults, 
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -50,9 +62,9 @@ extension MediaPackage.ListChannelsRequest: AWSPaginateToken {
 extension MediaPackage.ListHarvestJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackage.ListHarvestJobsRequest {
         return .init(
-            includeChannelId: self.includeChannelId, 
-            includeStatus: self.includeStatus, 
-            maxResults: self.maxResults, 
+            includeChannelId: self.includeChannelId,
+            includeStatus: self.includeStatus,
+            maxResults: self.maxResults,
             nextToken: token
         )
 
@@ -62,8 +74,8 @@ extension MediaPackage.ListHarvestJobsRequest: AWSPaginateToken {
 extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackage.ListOriginEndpointsRequest {
         return .init(
-            channelId: self.channelId, 
-            maxResults: self.maxResults, 
+            channelId: self.channelId,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

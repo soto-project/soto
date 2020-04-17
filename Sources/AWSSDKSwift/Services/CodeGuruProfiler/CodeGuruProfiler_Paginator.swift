@@ -21,12 +21,20 @@ import NIO
 extension CodeGuruProfiler {
 
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
-    public func listProfileTimesPaginator(_ input: ListProfileTimesRequest, onPage: @escaping (ListProfileTimesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listProfileTimesPaginator(
+        _ input: ListProfileTimesRequest,
+        onPage: @escaping (ListProfileTimesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists profiling groups.
-    public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest, onPage: @escaping (ListProfilingGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listProfilingGroupsPaginator(
+        _ input: ListProfilingGroupsRequest,
+        onPage: @escaping (ListProfilingGroupsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, onPage: onPage)
     }
 
@@ -35,12 +43,12 @@ extension CodeGuruProfiler {
 extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListProfileTimesRequest {
         return .init(
-            endTime: self.endTime, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            orderBy: self.orderBy, 
-            period: self.period, 
-            profilingGroupName: self.profilingGroupName, 
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            orderBy: self.orderBy,
+            period: self.period,
+            profilingGroupName: self.profilingGroupName,
             startTime: self.startTime
         )
 
@@ -50,8 +58,8 @@ extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateToken {
 extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListProfilingGroupsRequest {
         return .init(
-            includeDescription: self.includeDescription, 
-            maxResults: self.maxResults, 
+            includeDescription: self.includeDescription,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

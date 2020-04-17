@@ -25,7 +25,7 @@ public enum MediaStoreDataErrorType: AWSErrorType {
 }
 
 extension MediaStoreDataErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -45,8 +45,8 @@ extension MediaStoreDataErrorType {
     }
 }
 
-extension MediaStoreDataErrorType : CustomStringConvertible {
-    public var description : String {
+extension MediaStoreDataErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .containerNotFoundException(let message):
             return "ContainerNotFoundException: \(message ?? "")"

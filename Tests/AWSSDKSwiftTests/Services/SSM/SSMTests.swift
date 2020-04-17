@@ -12,11 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
 import Foundation
+import XCTest
+
 @testable import AWSSSM
 
-enum SSMTestsError : Error {
+enum SSMTestsError: Error {
     case noTopicArn
 }
 
@@ -46,7 +47,7 @@ class SSMTests: XCTestCase {
             let request = SSM.PutParameterRequest(name: parameterName, overwrite: true, type: .string, value: parameterValue)
             _ = try client.putParameter(request).wait()
         }
-        
+
         deinit {
             attempt {
                 let request = SSM.DeleteParameterRequest(name: parameterName)
@@ -56,7 +57,7 @@ class SSMTests: XCTestCase {
     }
 
     //MARK: TESTS
-    
+
     func testGetParameter() {
         attempt {
             let testData = try TestData(#function, client: client)
@@ -66,22 +67,19 @@ class SSMTests: XCTestCase {
             XCTAssertEqual(response.parameter?.value, testData.parameterValue)
         }
     }
-    
+
     func testGetParametersByPath() {
         attempt {
             let testData = try TestData(#function, client: client)
             let request = SSM.GetParametersByPathRequest(path: "/awssdkswift/")
             let response = try client.getParametersByPath(request).wait()
-            XCTAssertNotNil(response.parameters?.first {$0.name == testData.parameterName})
+            XCTAssertNotNil(response.parameters?.first { $0.name == testData.parameterName })
         }
     }
-    
-    static var allTests : [(String, (SSMTests) -> () throws -> Void)] {
+
+    static var allTests: [(String, (SSMTests) -> () throws -> Void)] {
         return [
             ("testGetParametersByPath", testGetParametersByPath),
         ]
     }
 }
-
-
-

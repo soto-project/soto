@@ -27,7 +27,7 @@ public enum MediaConvertErrorType: AWSErrorType {
 }
 
 extension MediaConvertErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -51,8 +51,8 @@ extension MediaConvertErrorType {
     }
 }
 
-extension MediaConvertErrorType : CustomStringConvertible {
-    public var description : String {
+extension MediaConvertErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"

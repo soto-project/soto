@@ -12,11 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
 import Foundation
+import XCTest
+
 @testable import AWSSNS
 
-enum SNSTestsError : Error {
+enum SNSTestsError: Error {
     case noTopicArn
 }
 
@@ -44,65 +45,67 @@ class SNSTests: XCTestCase {
 
             let request = SNS.CreateTopicInput(name: topicName)
             let response = try client.createTopic(request).wait()
-            guard let topicArn = response.topicArn else {throw SNSTestsError.noTopicArn}
-            
+            guard let topicArn = response.topicArn else { throw SNSTestsError.noTopicArn }
+
             self.topicArn = topicArn
         }
-        
+
         deinit {
             attempt {
                 // disabled until we get valid topic arn's returned from Localstack
                 #if false
-                let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
-                _ = try client.deleteTopic(request).wait()
+                    let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
+                    _ = try client.deleteTopic(request).wait()
                 #endif
             }
         }
     }
 
     //MARK: TESTS
-    
+
     func testCreateDelete() {
         attempt {
             _ = try TestData(#function, client: client)
         }
     }
-    
+
     func testListTopics() {
         attempt {
             let testData = try TestData(#function, client: client)
 
             let request = SNS.ListTopicsInput()
             let response = try client.listTopics(request).wait()
-            let topic = response.topics?.first {$0.topicArn == testData.topicArn }
+            let topic = response.topics?.first { $0.topicArn == testData.topicArn }
             XCTAssertNotNil(topic)
         }
     }
-    
+
     // disabled until we get valid topic arn's returned from Localstack
     #if false
-    func testSetTopicAttributes() {
-        attempt {
-            let testData = try TestData(#function, client: client)
+        func testSetTopicAttributes() {
+            attempt {
+                let testData = try TestData(#function, client: client)
 
-            let setTopicAttributesInput = SNS.SetTopicAttributesInput(attributeName:"DisplayName", attributeValue: "aws-test topic", topicArn: testData.topicArn)
-            try client.setTopicAttributes(setTopicAttributesInput).wait()
-            
-            let getTopicAttributesInput = SNS.GetTopicAttributesInput(topicArn: testData.topicArn)
-            let getTopicAttributesResponse = try client.getTopicAttributes(getTopicAttributesInput).wait()
-            
-            XCTAssertEqual(getTopicAttributesResponse.attributes?["DisplayName"], "aws-test topic")
+                let setTopicAttributesInput = SNS.SetTopicAttributesInput(
+                    attributeName: "DisplayName",
+                    attributeValue: "aws-test topic",
+                    topicArn: testData.topicArn
+                )
+                try client.setTopicAttributes(setTopicAttributesInput).wait()
+
+                let getTopicAttributesInput = SNS.GetTopicAttributesInput(topicArn: testData.topicArn)
+                let getTopicAttributesResponse = try client.getTopicAttributes(getTopicAttributesInput).wait()
+
+                XCTAssertEqual(getTopicAttributesResponse.attributes?["DisplayName"], "aws-test topic")
+            }
         }
-    }
     #endif
-    
-    static var allTests : [(String, (SNSTests) -> () throws -> Void)] {
+
+    static var allTests: [(String, (SNSTests) -> () throws -> Void)] {
         return [
             ("testCreateDelete", testCreateDelete),
             ("testListTopics", testListTopics),
-//            ("testSetTopicAttributes", testSetTopicAttributes),
+            //            ("testSetTopicAttributes", testSetTopicAttributes),
         ]
     }
 }
-
-

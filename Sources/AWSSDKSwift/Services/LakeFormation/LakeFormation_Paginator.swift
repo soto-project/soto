@@ -21,17 +21,29 @@ import NIO
 extension LakeFormation {
 
     ///  Returns the permissions for a specified table or database resource located at a path in Amazon S3.
-    public func getEffectivePermissionsForPathPaginator(_ input: GetEffectivePermissionsForPathRequest, onPage: @escaping (GetEffectivePermissionsForPathResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func getEffectivePermissionsForPathPaginator(
+        _ input: GetEffectivePermissionsForPathRequest,
+        onPage: @escaping (GetEffectivePermissionsForPathResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getEffectivePermissionsForPath, tokenKey: \GetEffectivePermissionsForPathResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
-    public func listPermissionsPaginator(_ input: ListPermissionsRequest, onPage: @escaping (ListPermissionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listPermissionsPaginator(
+        _ input: ListPermissionsRequest,
+        onPage: @escaping (ListPermissionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, onPage: onPage)
     }
 
     ///  Lists the resources registered to be managed by the Data Catalog.
-    public func listResourcesPaginator(_ input: ListResourcesRequest, onPage: @escaping (ListResourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+    public func listResourcesPaginator(
+        _ input: ListResourcesRequest,
+        onPage: @escaping (ListResourcesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, onPage: onPage)
     }
 
@@ -40,9 +52,9 @@ extension LakeFormation {
 extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LakeFormation.GetEffectivePermissionsForPathRequest {
         return .init(
-            catalogId: self.catalogId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
+            catalogId: self.catalogId,
+            maxResults: self.maxResults,
+            nextToken: token,
             resourceArn: self.resourceArn
         )
 
@@ -52,11 +64,11 @@ extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateToken 
 extension LakeFormation.ListPermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LakeFormation.ListPermissionsRequest {
         return .init(
-            catalogId: self.catalogId, 
-            maxResults: self.maxResults, 
-            nextToken: token, 
-            principal: self.principal, 
-            resource: self.resource, 
+            catalogId: self.catalogId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
+            resource: self.resource,
             resourceType: self.resourceType
         )
 
@@ -66,8 +78,8 @@ extension LakeFormation.ListPermissionsRequest: AWSPaginateToken {
 extension LakeFormation.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LakeFormation.ListResourcesRequest {
         return .init(
-            filterConditionList: self.filterConditionList, 
-            maxResults: self.maxResults, 
+            filterConditionList: self.filterConditionList,
+            maxResults: self.maxResults,
             nextToken: token
         )
 

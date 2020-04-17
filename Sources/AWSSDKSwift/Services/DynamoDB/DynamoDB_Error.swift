@@ -46,7 +46,7 @@ public enum DynamoDBErrorType: AWSErrorType {
 }
 
 extension DynamoDBErrorType {
-    public init?(errorCode: String, message: String?){
+    public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
@@ -108,8 +108,8 @@ extension DynamoDBErrorType {
     }
 }
 
-extension DynamoDBErrorType : CustomStringConvertible {
-    public var description : String {
+extension DynamoDBErrorType: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .backupInUseException(let message):
             return "BackupInUseException: \(message ?? "")"
