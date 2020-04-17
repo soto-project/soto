@@ -30,7 +30,7 @@ struct API: Decodable {
             case query = "query"
             case ec2 = "ec2"
         }
-        
+
         var apiVersion: String
         var endpointPrefix: String
         var jsonVersion: String?
@@ -47,14 +47,13 @@ struct API: Decodable {
     struct XMLNamespace: Decodable {
         var uri: String
     }
-    
 
     var version: String?
     var metadata: Metadata
     var operations: [String: Operation]
     var shapes: [String: Shape]
     var serviceName: String
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.version = try container.decodeIfPresent(String.self, forKey: .version)
@@ -63,7 +62,7 @@ struct API: Decodable {
         self.shapes = try container.decode([String: Shape].self, forKey: .shapes)
         self.serviceName = Self.getServiceName(from: self.metadata)
     }
-    
+
     /// Return service name from API
     static func getServiceName(from metadata: Metadata) -> String {
         // port of https://github.com/aws/aws-sdk-go-v2/blob/996478f06a00c31ee7e7b0c3ac6674ce24ba0120/private/model/api/api.go#L105
@@ -85,10 +84,10 @@ struct API: Decodable {
 
     /// return Shape given a name
     func getShape(named: String) throws -> Shape {
-        guard let shape = shapes[named] else { throw APIError.shapeDoesNotExist(named)}
+        guard let shape = shapes[named] else { throw APIError.shapeDoesNotExist(named) }
         return shape
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case version
         case metadata
@@ -100,10 +99,10 @@ struct API: Decodable {
 extension API {
     /// function run after JSONDecode to fixup some variables
     mutating func postProcess() throws {
-        
+
         // patch error in json files
         try patch()
-        
+
         // post setup of Shape pointers
         for shape in shapes {
             shape.value.name = shape.key
@@ -123,7 +122,7 @@ extension API {
                 try setShapeUsedIn(shape: getShape(named: output.shapeName), input: false, output: true)
             }
         }
-        
+
         // post processing of shapes
         for shape in shapes {
             shape.value.postProcess()
@@ -139,7 +138,7 @@ extension API {
             guard shape.usedInOutput == false else { return }
             shape.usedInOutput = true
         }
-        
+
         switch shape.type {
         case .list(let list):
             try setShapeUsedIn(shape: list.member.shape, input: input, output: output)
@@ -164,7 +163,7 @@ class Operation: Decodable, Patchable {
         var method: String
         var requestUri: String
     }
-    
+
     struct Input: Decodable {
         var shapeName: String
         var locationName: String?
@@ -198,7 +197,7 @@ class Operation: Decodable, Patchable {
     var errors: [Error]
     var deprecated: Bool
     var deprecatedMessage: String?
-    
+
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
@@ -209,7 +208,7 @@ class Operation: Decodable, Patchable {
         self.deprecated = try container.decodeIfPresent(Bool.self, forKey: .deprecated) ?? false
         self.deprecatedMessage = try container.decodeIfPresent(String.self, forKey: .deprecatedMessage)
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case name
         case http
@@ -225,7 +224,7 @@ class Operation: Decodable, Patchable {
 
 /// Shape loaded from api_2.json
 class Shape: Decodable, Patchable {
-    
+
     enum Location: String, Decodable {
         case header
         case headers
@@ -234,7 +233,7 @@ class Shape: Decodable, Patchable {
         case body
         case statusCode
     }
-    
+
     struct Member: Decodable {
         var location: Location?
         var locationName: String?
@@ -246,7 +245,7 @@ class Shape: Decodable, Patchable {
         // set after decode in postProcess stage
         var required: Bool = false
         var shape: Shape!
-        
+
         private enum CodingKeys: String, CodingKey {
             case location
             case locationName
@@ -263,22 +262,22 @@ class Shape: Decodable, Patchable {
         let httpStatusCode: Int
         let senderFault: Bool?
     }
-    
+
     /// Enum defining a shape type
     enum ShapeType: Decodable {
         class StructureType: Patchable {
             var required: [String]
             var members: [String: Member]
-            init(required: [String]? = nil, members: [String : Member]) {
+            init(required: [String]? = nil, members: [String: Member]) {
                 self.required = required ?? []
                 self.members = members
             }
-            
+
             func setupShapes(api: API) throws {
                 // setup member shape
                 var updatedMembers: [String: Member] = try members.mapValues {
-                    var member = $0;
-                    member.shape = try api.getShape(named: member.shapeName);
+                    var member = $0
+                    member.shape = try api.getShape(named: member.shapeName)
                     // pass xmlNamespace from member to shape
                     if let xmlNamespace = member.xmlNamespace {
                         member.shape.xmlNamespace = xmlNamespace
@@ -289,7 +288,10 @@ class Shape: Decodable, Patchable {
                     updatedMembers[require]?.required = true
                 }
                 // remove deprecated members
-                members = updatedMembers.compactMapValues { if $0.deprecated == true { return nil }; return $0 }
+                members = updatedMembers.compactMapValues {
+                    if $0.deprecated == true { return nil }
+                    return $0
+                }
             }
         }
 
@@ -299,13 +301,13 @@ class Shape: Decodable, Patchable {
             var max: Int?
             var flattened: Bool?
         }
-        
+
         struct MapType {
             var key: Member
             var value: Member
             var flattened: Bool?
         }
-        
+
         class EnumType: Patchable {
             var cases: [String]
             init(cases: [String]) {
@@ -326,13 +328,13 @@ class Shape: Decodable, Patchable {
         case boolean
         case timestamp
         case `enum`(EnumType)
-        
+
         // added so we can access enum type through keypaths
         var `enum`: EnumType? {
             if case .enum(let type) = self { return type }
             return nil
         }
-        
+
         // added so we can access structure type through keypaths
         var structure: StructureType? {
             if case .structure(let type) = self { return type }
@@ -345,7 +347,7 @@ class Shape: Decodable, Patchable {
             switch type {
             case "string":
                 if let enumStrings = try container.decodeIfPresent([String].self, forKey: .enum) {
-                    self = .enum(EnumType(cases:enumStrings))
+                    self = .enum(EnumType(cases: enumStrings))
                 } else {
                     let min = try container.decodeIfPresent(Int.self, forKey: .min)
                     let max = try container.decodeIfPresent(Int.self, forKey: .max)
@@ -392,7 +394,10 @@ class Shape: Decodable, Patchable {
             case "timestamp":
                 self = .timestamp
             default:
-                throw DecodingError.typeMismatch(ShapeType.self, .init(codingPath: decoder.codingPath, debugDescription:"Invalid shape type: \(type)"))
+                throw DecodingError.typeMismatch(
+                    ShapeType.self,
+                    .init(codingPath: decoder.codingPath, debugDescription: "Invalid shape type: \(type)")
+                )
             }
         }
 
@@ -411,7 +416,6 @@ class Shape: Decodable, Patchable {
         }
     }
 
-    
     var type: ShapeType
     var payload: String?
     var xmlNamespace: API.XMLNamespace?
@@ -428,11 +432,11 @@ class Shape: Decodable, Patchable {
         self.usedInOutput = false
         self.usedInInput = false
     }
-    
+
     required init(from decoder: Decoder) throws {
         self.usedInInput = false
         self.usedInOutput = false
-        
+
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.payload = try container.decodeIfPresent(String.self, forKey: .payload)
         self.xmlNamespace = try container.decodeIfPresent(API.XMLNamespace.self, forKey: .xmlNamespace)
@@ -440,28 +444,27 @@ class Shape: Decodable, Patchable {
         self.exception = try container.decodeIfPresent(Bool.self, forKey: .exception)
         self.type = try ShapeType(from: decoder)
     }
-    
+
     /// once everything has been loaded this is called to post process the ShapeType
     func setupShapes(api: API) throws {
         switch self.type {
         case .structure(let structure):
             try structure.setupShapes(api: api)
-                
+
         case .list(var list):
             list.member.shape = try api.getShape(named: list.member.shapeName)
             self.type = .list(list)
-            
+
         case .map(var map):
             map.key.shape = try api.getShape(named: map.key.shapeName)
             map.value.shape = try api.getShape(named: map.value.shapeName)
             self.type = .map(map)
-            
+
         default:
             break
         }
     }
-    
-    
+
     /// post process
     func postProcess() {
         switch self.type {
@@ -473,12 +476,12 @@ class Shape: Decodable, Patchable {
                     }
                 }
             }
-            
+
         default:
             break
         }
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case type
         case payload

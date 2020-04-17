@@ -20,10 +20,10 @@ struct Paginators: Decodable {
         var moreResults: String?
         var limitKey: String?
         var resultKey: [String]?
-        
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             if let value = try container.decodeArrayIfPresent(String.self, forKey: .inputToken) {
                 self.inputTokens = value
             } else {
@@ -38,7 +38,7 @@ struct Paginators: Decodable {
             self.limitKey = try container.decodeIfPresent(String.self, forKey: .limitKey)
             self.resultKey = try container.decodeArrayIfPresent(String.self, forKey: .resultKey)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case inputToken = "input_token"
             case outputToken = "output_token"
@@ -49,10 +49,9 @@ struct Paginators: Decodable {
             case resultKey = "result_key"
         }
     }
-    
+
     var pagination: [String: Paginator]
 }
-
 
 extension KeyedDecodingContainer {
     func decodeArray(_ type: String.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> [String] {
@@ -75,7 +74,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    func decodeArray<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> [T] where T : Decodable {
+    func decodeArray<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> [T] where T: Decodable {
         do {
             return [try self.decode(T.self, forKey: key)]
         } catch {
@@ -83,7 +82,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    func decodeArrayIfPresent<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> [T]? where T : Decodable {
+    func decodeArrayIfPresent<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> [T]? where T: Decodable {
         do {
             if let value = try self.decodeIfPresent(T.self, forKey: key) {
                 return [value]

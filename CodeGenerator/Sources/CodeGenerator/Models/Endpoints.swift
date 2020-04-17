@@ -31,10 +31,10 @@ enum Region: String, Decodable {
     case eunorth1 = "eu-north-1"
     case saeast1 = "sa-east-1"
     case mesouth1 = "me-south-1"
-    
+
     case cnnorth1 = "cn-north-1"
     case cnnorthwest1 = "cn-northwest-1"
-    
+
     case usgoveast1 = "us-gov-east-1"
     case usgovwest1 = "us-gov-west-1"
     case usisoeast1 = "us-iso-east-1"
@@ -48,24 +48,23 @@ enum SignatureVersion: String, Decodable {
     case s3v4 = "s3v4"
 }
 
-
 struct Endpoints: Decodable {
     struct CredentialScope: Decodable {
         var region: Region?
         var service: String?
     }
-    
+
     struct Defaults: Decodable {
         var credentialScope: CredentialScope?
         var hostname: String?
         var protocols: [String]?
         var signatureVersions: [SignatureVersion]?
     }
-    
+
     struct RegionDesc: Decodable {
         var description: String
     }
-    
+
     struct Service: Decodable {
         struct Endpoint: Decodable {
             var credentialScope: CredentialScope?
@@ -87,6 +86,6 @@ struct Endpoints: Decodable {
         var regions: [String: RegionDesc]
         var services: [String: Service]
     }
-    
+
     var partitions: [Partition]
 }

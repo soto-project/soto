@@ -126,33 +126,41 @@ extension AWSService {
     }
 
     struct MemberContext {
-        let variable : String
-        let locationPath : String
-        let parameter : String
-        let required : Bool
-        let `default` : String?
-        let type : String
-        let comment : [String.SubSequence]
-        var duplicate : Bool
+        let variable: String
+        let locationPath: String
+        let parameter: String
+        let required: Bool
+        let `default`: String?
+        let type: String
+        let comment: [String.SubSequence]
+        var duplicate: Bool
     }
 
     struct AWSShapeMemberContext {
-        let name : String
-        let location : String?
-        let locationName : String?
-        let encoding : String?
+        let name: String
+        let location: String?
+        let locationName: String?
+        let encoding: String?
     }
 
     class ValidationContext {
-        let name : String
-        let shape : Bool
-        let required : Bool
-        let reqs : [String : Any]
-        let member : ValidationContext?
-        let key : ValidationContext?
-        let value : ValidationContext?
+        let name: String
+        let shape: Bool
+        let required: Bool
+        let reqs: [String: Any]
+        let member: ValidationContext?
+        let key: ValidationContext?
+        let value: ValidationContext?
 
-        init(name: String, shape: Bool = false, required: Bool = true, reqs: [String: Any] = [:], member: ValidationContext? = nil, key: ValidationContext? = nil, value: ValidationContext? = nil) {
+        init(
+            name: String,
+            shape: Bool = false,
+            required: Bool = true,
+            reqs: [String: Any] = [:],
+            member: ValidationContext? = nil,
+            key: ValidationContext? = nil,
+            value: ValidationContext? = nil
+        ) {
             self.name = name
             self.shape = shape
             self.required = required
@@ -164,9 +172,9 @@ extension AWSService {
     }
 
     struct CodingKeysContext {
-        let variable : String
-        let codingKey : String
-        var duplicate : Bool
+        let variable: String
+        let codingKey: String
+        var duplicate: Bool
     }
 
     struct StructureContext {
@@ -214,7 +222,7 @@ extension AWSService {
         }
         context["protocol"] = serviceProtocol
         context["apiVersion"] = api.metadata.apiVersion
-        let endpoints = serviceEndpoints.sorted { $0.key < $1.key }.map {return "\"\($0.key)\": \"\($0.value)\""}
+        let endpoints = serviceEndpoints.sorted { $0.key < $1.key }.map { return "\"\($0.key)\": \"\($0.value)\"" }
         if endpoints.count > 0 {
             context["serviceEndpoints"] = endpoints
         }
@@ -255,7 +263,7 @@ extension AWSService {
     /// Generate paginator context
     func generatePaginatorContext() throws -> [String: Any] {
         guard let pagination = paginators?.pagination else { return [:] }
-        let paginators = pagination.map { return (key:$0.key, value: $0.value) }.sorted { $0.key < $1.key }
+        let paginators = pagination.map { return (key: $0.key, value: $0.value) }.sorted { $0.key < $1.key }
         var context: [String: Any] = [:]
         context["name"] = api.serviceName
 
@@ -267,8 +275,9 @@ extension AWSService {
                 let inputShape = try operation.input.map({ try api.getShape(named: $0.shapeName) }),
                 let outputShape = try operation.output.map({ try api.getShape(named: $0.shapeName) }),
                 case .structure(let inputStructure) = inputShape.type,
-                case .structure(let outputStructure) = outputShape.type else {
-                    continue
+                case .structure(let outputStructure) = outputShape.type
+            else {
+                continue
             }
 
             let inputTokens = paginator.value.inputTokens ?? []
@@ -278,15 +287,16 @@ extension AWSService {
             // get input token member
             guard inputTokens.count > 0,
                 outputTokens.count > 0,
-                let inputTokenMember = inputStructure.members[inputTokens[0]] else {
-                    continue
+                let inputTokenMember = inputStructure.members[inputTokens[0]]
+            else {
+                continue
             }
 
             let paginatorProtocol = "AWSPaginateToken"
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(api.serviceName)
 
             // process output tokens
-            let processedOutputTokens = outputTokens.map { (token)->String in
+            let processedOutputTokens = outputTokens.map { (token) -> String in
                 var split = token.split(separator: ".")
                 for i in 0..<split.count {
                     // if string contains [-1] replace with '.last'.
@@ -295,15 +305,16 @@ extension AWSService {
 
                         var replacement = "last"
                         // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
-                        if split.count > i+1 {
+                        if split.count > i + 1 {
                             replacement += "?"
                         }
-                        split.insert(Substring(replacement), at: i+1)
+                        split.insert(Substring(replacement), at: i + 1)
                     }
                 }
                 // if output token is member of an optional struct add ? suffix
-                if outputStructure.required.first(where: {$0 == String(split[0])}) == nil,
-                    split.count > 1 {
+                if outputStructure.required.first(where: { $0 == String(split[0]) }) == nil,
+                    split.count > 1
+                {
                     split[0] += "?"
                 }
                 return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
@@ -314,7 +325,7 @@ extension AWSService {
                 initParams[member.key.toSwiftLabelCase()] = "self.\(member.key.toSwiftLabelCase())"
             }
             initParams[inputTokens[0].toSwiftLabelCase()] = "token"
-            let initParamsArray = initParams.map {"\($0.key): \($0.value)"}.sorted { $0.lowercased() < $1.lowercased() }
+            let initParamsArray = initParams.map { "\($0.key): \($0.value)" }.sorted { $0.lowercased() < $1.lowercased() }
             paginatorContexts.append(
                 PaginatorContext(
                     operation: generateOperationContext(operation, name: paginator.key),
@@ -348,7 +359,7 @@ extension AWSService {
                 .replacingOccurrences(of: ")", with: "_")
                 .replacingOccurrences(of: "*", with: "all")
 
-            if Int(String(key[key.startIndex])) != nil { key = "_"+key }
+            if Int(String(key[key.startIndex])) != nil { key = "_" + key }
 
             var caseName = key.camelCased().reservedwordEscaped()
             if caseName.allLetterIsNumeric() {
@@ -395,7 +406,7 @@ extension AWSService {
 
     /// Generate the context information for outputting a member variable
     func generateMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> MemberContext {
-        let defaultValue : String?
+        let defaultValue: String?
         if member.idempotencyToken == true {
             defaultValue = "\(shape.swiftTypeName).idempotencyToken()"
         } else if !member.required {
@@ -493,8 +504,10 @@ extension AWSService {
     }
 
     /// Generate validation context
-    func generateValidationContext(name: String, shape: Shape, required: Bool, container: Bool = false, alreadyProcessed: Set<String> = []) -> ValidationContext? {
-        var requirements : [String: Any] = [:]
+    func generateValidationContext(name: String, shape: Shape, required: Bool, container: Bool = false, alreadyProcessed: Set<String> = [])
+        -> ValidationContext?
+    {
+        var requirements: [String: Any] = [:]
         switch shape.type {
         case .integer(let min, let max):
             requirements["max"] = max
@@ -505,12 +518,12 @@ extension AWSService {
             requirements["min"] = min
 
         case .float(let min, let max):
-            requirements["max"] = max.map{ Int($0) }
-            requirements["min"] = min.map{ Int($0) }
+            requirements["max"] = max.map { Int($0) }
+            requirements["min"] = min.map { Int($0) }
 
         case .double(let min, let max):
-            requirements["max"] = max.map{ Int($0) }
-            requirements["min"] = min.map{ Int($0) }
+            requirements["max"] = max.map { Int($0) }
+            requirements["min"] = min.map { Int($0) }
 
         case .blob(let min, let max), .payload(let min, let max):
             requirements["max"] = max
@@ -522,17 +535,45 @@ extension AWSService {
             requirements["min"] = list.min
             // validation code doesn't support containers inside containers. Only service affected by this is SSM
             if !container {
-                if let memberValidationContext = generateValidationContext(name: name, shape: list.member.shape, required: true, container: true, alreadyProcessed: alreadyProcessed) {
-                    return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements, member: memberValidationContext)
+                if let memberValidationContext = generateValidationContext(
+                    name: name,
+                    shape: list.member.shape,
+                    required: true,
+                    container: true,
+                    alreadyProcessed: alreadyProcessed
+                ) {
+                    return ValidationContext(
+                        name: name.toSwiftVariableCase(),
+                        required: required,
+                        reqs: requirements,
+                        member: memberValidationContext
+                    )
                 }
             }
         case .map(let map):
             // validation code doesn't support containers inside containers. Only service affected by this is SSM
             if !container {
-                let keyValidationContext = generateValidationContext(name: name, shape: map.key.shape, required: true, container: true, alreadyProcessed: alreadyProcessed)
-                let valueValiationContext = generateValidationContext(name: name, shape: map.value.shape, required: true, container: true, alreadyProcessed: alreadyProcessed)
+                let keyValidationContext = generateValidationContext(
+                    name: name,
+                    shape: map.key.shape,
+                    required: true,
+                    container: true,
+                    alreadyProcessed: alreadyProcessed
+                )
+                let valueValiationContext = generateValidationContext(
+                    name: name,
+                    shape: map.value.shape,
+                    required: true,
+                    container: true,
+                    alreadyProcessed: alreadyProcessed
+                )
                 if keyValidationContext != nil || valueValiationContext != nil {
-                    return ValidationContext(name: name.toSwiftVariableCase(), required: required, key: keyValidationContext, value: valueValiationContext)
+                    return ValidationContext(
+                        name: name.toSwiftVariableCase(),
+                        required: required,
+                        key: keyValidationContext,
+                        value: valueValiationContext
+                    )
                 }
             }
         case .string(let min, let max, let pattern):
@@ -546,7 +587,13 @@ extension AWSService {
             var alreadyProcessed = alreadyProcessed
             alreadyProcessed.insert(shape.name)
             for member2 in structure.members {
-                if generateValidationContext(name:member2.key, shape:member2.value.shape, required: member2.value.required, container: false, alreadyProcessed: alreadyProcessed) != nil {
+                if generateValidationContext(
+                    name: member2.key,
+                    shape: member2.value.shape,
+                    required: member2.value.required,
+                    container: false,
+                    alreadyProcessed: alreadyProcessed
+                ) != nil {
                     return ValidationContext(name: name.toSwiftVariableCase(), shape: true, required: required)
                 }
             }
@@ -561,11 +608,11 @@ extension AWSService {
 
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: Shape.ShapeType.StructureType) -> StructureContext {
-        var memberContexts : [MemberContext] = []
+        var memberContexts: [MemberContext] = []
         var codingKeyContexts: [CodingKeysContext] = []
-        var awsShapeMemberContexts : [AWSShapeMemberContext] = []
-        var validationContexts : [ValidationContext] = []
-        var usedLocationPath : [String] = []
+        var awsShapeMemberContexts: [AWSShapeMemberContext] = []
+        var validationContexts: [ValidationContext] = []
+        var usedLocationPath: [String] = []
         var shapeProtocol: String
 
         if shape.usedInInput {
@@ -580,10 +627,10 @@ extension AWSService {
         }
 
         if shape.payload != nil {
-           shapeProtocol += " & AWSShapeWithPayload"
+            shapeProtocol += " & AWSShapeWithPayload"
         }
 
-        let members = type.members.map { (key:$0.key, value:$0.value)} .sorted {$0.key.lowercased() < $1.key.lowercased() }
+        let members = type.members.map { (key: $0.key, value: $0.value) }.sorted { $0.key.lowercased() < $1.key.lowercased() }
         for member in members {
             var memberContext = generateMemberContext(member.value, name: member.key, shape: shape)
 
@@ -606,13 +653,13 @@ extension AWSService {
             }
 
             // CodingKey entry
-            if let codingKeyContext = generateCodingKeyContext(member.value, name:member.key, shape: shape) {
+            if let codingKeyContext = generateCodingKeyContext(member.value, name: member.key, shape: shape) {
                 codingKeyContexts.append(codingKeyContext)
             }
 
             // only output validation for shapes used in inputs to service apis
             if shape.usedInInput {
-                if let validationContext = generateValidationContext(name:member.key, shape: member.value.shape, required: member.value.required) {
+                if let validationContext = generateValidationContext(name: member.key, shape: member.value.shape, required: member.value.required) {
                     validationContexts.append(validationContext)
                 }
             }
@@ -627,7 +674,8 @@ extension AWSService {
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,
             codingKeys: codingKeyContexts,
-            validation: validationContexts)
+            validation: validationContexts
+        )
     }
 
     /// Generate the context for outputting all the AWSShape (enums and structures)
@@ -661,13 +709,12 @@ extension AWSService {
         return context
     }
 
-
 }
 
 //MARK: Extensions
 
 /// extend Shape to be Hashable so we can store them in a Set<>
-extension Shape : Hashable, Equatable {
+extension Shape: Hashable, Equatable {
     static func == (lhs: Shape, rhs: Shape) -> Bool {
         lhs.name == rhs.name
     }
@@ -738,7 +785,8 @@ extension Shape {
             return "[\(list.member.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
 
         case .map(let map):
-            return "[\(map.key.shape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(map.value.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
+            return
+                "[\(map.key.shape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(map.value.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
 
         default:
             return self.swiftTypeName
