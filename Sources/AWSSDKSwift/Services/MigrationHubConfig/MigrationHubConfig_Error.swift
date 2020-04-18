@@ -23,6 +23,7 @@ public enum MigrationHubConfigErrorType: AWSErrorType {
     case internalServerError(message: String?)
     case invalidInputException(message: String?)
     case serviceUnavailableException(message: String?)
+    case throttlingException(message: String?)
 }
 
 extension MigrationHubConfigErrorType {
@@ -42,6 +43,8 @@ extension MigrationHubConfigErrorType {
             self = .invalidInputException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "ThrottlingException":
+            self = .throttlingException(message: message)
         default:
             return nil
         }
@@ -61,6 +64,8 @@ extension MigrationHubConfigErrorType: CustomStringConvertible {
             return "InvalidInputException: \(message ?? "")"
         case .serviceUnavailableException(let message):
             return "ServiceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
         }
     }
 }

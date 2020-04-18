@@ -79,7 +79,7 @@ public struct CloudFormation {
         return client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates stack instances for the specified accounts, within the specified regions. A stack instance refers to a stack in a specific account and region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions.
+    ///  Creates stack instances for the specified accounts, within the specified Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions.
     public func createStackInstances(_ input: CreateStackInstancesInput) -> EventLoopFuture<CreateStackInstancesOutput> {
         return client.send(operation: "CreateStackInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -99,7 +99,7 @@ public struct CloudFormation {
         return client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes stack instances for the specified accounts, in the specified regions. 
+    ///  Deletes stack instances for the specified accounts, in the specified Regions. 
     public func deleteStackInstances(_ input: DeleteStackInstancesInput) -> EventLoopFuture<DeleteStackInstancesOutput> {
         return client.send(operation: "DeleteStackInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -134,7 +134,7 @@ public struct CloudFormation {
         return client.send(operation: "DescribeStackEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the stack instance that's associated with the specified stack set, AWS account, and region. For a list of stack instances that are associated with a specific stack set, use ListStackInstances.
+    ///  Returns the stack instance that's associated with the specified stack set, AWS account, and Region. For a list of stack instances that are associated with a specific stack set, use ListStackInstances.
     public func describeStackInstance(_ input: DescribeStackInstanceInput) -> EventLoopFuture<DescribeStackInstanceOutput> {
         return client.send(operation: "DescribeStackInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -224,7 +224,7 @@ public struct CloudFormation {
         return client.send(operation: "ListChangeSets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all exported output values in the account and region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
+    ///  Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
     public func listExports(_ input: ListExportsInput) -> EventLoopFuture<ListExportsOutput> {
         return client.send(operation: "ListExports", path: "/", httpMethod: "POST", input: input)
     }
@@ -234,7 +234,7 @@ public struct CloudFormation {
         return client.send(operation: "ListImports", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or region.
+    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region.
     public func listStackInstances(_ input: ListStackInstancesInput) -> EventLoopFuture<ListStackInstancesOutput> {
         return client.send(operation: "ListStackInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -284,7 +284,7 @@ public struct CloudFormation {
         return client.send(operation: "RecordHandlerProgress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers a type with the CloudFormation service. Registering a type makes it available for use in CloudFormation templates in your AWS account, and includes:   Validating the resource schema   Determining which handlers have been specified for the resource   Making the resource type available for use in your account   For more information on how to develop types and ready them for registeration, see Creating Resource Providers in the CloudFormation CLI User Guide. Once you have initiated a registration request using  RegisterType , you can use  DescribeTypeRegistration  to monitor the progress of the registration request.
+    ///  Registers a type with the CloudFormation service. Registering a type makes it available for use in CloudFormation templates in your AWS account, and includes:   Validating the resource schema   Determining which handlers have been specified for the resource   Making the resource type available for use in your account   For more information on how to develop types and ready them for registeration, see Creating Resource Providers in the CloudFormation CLI User Guide. You can have a maximum of 50 resource type versions registered at a time. This maximum is per account and per region. Use DeregisterType to deregister specific resource type versions if necessary. Once you have initiated a registration request using  RegisterType , you can use  DescribeTypeRegistration  to monitor the progress of the registration request.
     public func registerType(_ input: RegisterTypeInput) -> EventLoopFuture<RegisterTypeOutput> {
         return client.send(operation: "RegisterType", path: "/", httpMethod: "POST", input: input)
     }
@@ -314,12 +314,12 @@ public struct CloudFormation {
         return client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the parameter values for stack instances for the specified accounts, within the specified regions. A stack instance refers to a stack in a specific account and region.  You can only update stack instances in regions and accounts where they already exist; to create additional stack instances, use CreateStackInstances.  During stack set updates, any parameters overridden for a stack instance are not updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use UpdateStackSet to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
+    ///  Updates the parameter values for stack instances for the specified accounts, within the specified Regions. A stack instance refers to a stack in a specific account and Region.  You can only update stack instances in Regions and accounts where they already exist; to create additional stack instances, use CreateStackInstances.  During stack set updates, any parameters overridden for a stack instance are not updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use UpdateStackSet to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
     public func updateStackInstances(_ input: UpdateStackInstancesInput) -> EventLoopFuture<UpdateStackInstancesOutput> {
         return client.send(operation: "UpdateStackInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the stack set, and associated stack instances in the specified accounts and regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent CreateStackInstances calls on the specified stack set use the updated stack set.
+    ///  Updates the stack set, and associated stack instances in the specified accounts and Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent CreateStackInstances calls on the specified stack set use the updated stack set.
     public func updateStackSet(_ input: UpdateStackSetInput) -> EventLoopFuture<UpdateStackSetOutput> {
         return client.send(operation: "UpdateStackSet", path: "/", httpMethod: "POST", input: input)
     }

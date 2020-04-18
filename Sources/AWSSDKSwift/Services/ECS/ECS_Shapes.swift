@@ -114,6 +114,18 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
         case fluentd = "fluentd"
         case fluentbit = "fluentbit"
@@ -481,7 +493,7 @@ extension ECS {
 
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined.
         public let base: Int?
-        /// The short name or full Amazon Resource Name (ARN) of the capacity provider.
+        /// The short name of the capacity provider.
         public let capacityProvider: String
         /// The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. For example, if you have a strategy that contains two capacity providers and both have a weight of 1, then when the base is satisfied, the tasks will be split evenly across the two capacity providers. Using that same logic, if you specify a weight of 1 for capacityProviderA and a weight of 4 for capacityProviderB, then for every one task that is run using capacityProviderA, four tasks would use capacityProviderB.
         public let weight: Int?
@@ -692,7 +704,7 @@ extension ECS {
         public let extraHosts: [HostEntry]?
         /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see Custom Log Routing in the Amazon Elastic Container Service Developer Guide.
         public let firelensConfiguration: FirelensConfiguration?
-        /// The health check command and associated configuration parameters for the container. This parameter maps to HealthCheck in the Create a container section of the Docker Remote API and the HEALTHCHECK parameter of docker run.
+        /// The container health check command and associated configuration parameters for the container. This parameter maps to HealthCheck in the Create a container section of the Docker Remote API and the HEALTHCHECK parameter of docker run.
         public let healthCheck: HealthCheck?
         /// The hostname to use for your container. This parameter maps to Hostname in the Create a container section of the Docker Remote API and the --hostname option to docker run.  The hostname parameter is not supported if you are using the awsvpc network mode. 
         public let hostname: String?
@@ -1045,7 +1057,7 @@ extension ECS {
 
     public struct CreateClusterRequest: AWSEncodableShape {
 
-        /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created and not already associated with another cluster. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
+        /// The short name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created and not already associated with another cluster. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviders: [String]?
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. 
         public let clusterName: String?
@@ -1132,7 +1144,7 @@ extension ECS {
         public let propagateTags: PropagateTags?
         /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is only permitted if you are using a load balancer with your service and your task definition does not use the awsvpc network mode. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter.  If your account has already created the Amazon ECS service-linked role, that role is used by default for your service unless you specify a role here. The service-linked role is required if your task definition uses the awsvpc network mode or if the service is configured to use service discovery, an external deployment controller, multiple target groups, or Elastic Inference accelerators in which case you should not specify a role here. For more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see Friendly Names and Paths in the IAM User Guide.
         public let role: String?
-        /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. This scheduler strategy is required if the service is using the CODE_DEPLOY or EXTERNAL deployment controller types.    DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.  Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.   
+        /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. This scheduler strategy is required if the service is using the CODE_DEPLOY or EXTERNAL deployment controller types.    DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that do not meet the placement constraints. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.  Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.   
         public let schedulingStrategy: SchedulingStrategy?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
         public let serviceName: String
@@ -1994,21 +2006,51 @@ extension ECS {
         }
     }
 
-    public struct EFSVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+    public struct EFSAuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Amazon EFS file system ID to use.
-        public let fileSystemId: String
-        /// The directory within the Amazon EFS file system to mount as the root directory inside the host.
-        public let rootDirectory: String?
+        /// The Amazon EFS access point ID to use. If an access point is specified, the root directory value specified in the EFSVolumeConfiguration will be relative to the directory set for the access point. If an access point is used, transit encryption must be enabled in the EFSVolumeConfiguration. For more information, see Working with Amazon EFS Access Points in the Amazon Elastic File System User Guide.
+        public let accessPointId: String?
+        /// Whether or not to use the Amazon ECS task IAM role defined in a task definition when mounting the Amazon EFS file system. If enabled, transit encryption must be enabled in the EFSVolumeConfiguration. If this parameter is omitted, the default value of DISABLED is used. For more information, see Using Amazon EFS Access Points in the Amazon Elastic Container Service Developer Guide.
+        public let iam: EFSAuthorizationConfigIAM?
 
-        public init(fileSystemId: String, rootDirectory: String? = nil) {
-            self.fileSystemId = fileSystemId
-            self.rootDirectory = rootDirectory
+        public init(accessPointId: String? = nil, iam: EFSAuthorizationConfigIAM? = nil) {
+            self.accessPointId = accessPointId
+            self.iam = iam
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointId = "accessPointId"
+            case iam = "iam"
+        }
+    }
+
+    public struct EFSVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The authorization configuration details for the Amazon EFS file system.
+        public let authorizationConfig: EFSAuthorizationConfig?
+        /// The Amazon EFS file system ID to use.
+        public let fileSystemId: String
+        /// The directory within the Amazon EFS file system to mount as the root directory inside the host. If this parameter is omitted, the root of the Amazon EFS volume will be used. Specifying / will have the same effect as omitting this parameter.
+        public let rootDirectory: String?
+        /// Whether or not to enable encryption for Amazon EFS data in transit between the Amazon ECS host and the Amazon EFS server. Transit encryption must be enabled if Amazon EFS IAM authorization is used. If this parameter is omitted, the default value of DISABLED is used. For more information, see Encrypting Data in Transit in the Amazon Elastic File System User Guide.
+        public let transitEncryption: EFSTransitEncryption?
+        /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server. If you do not specify a transit encryption port, it will use the port selection strategy that the Amazon EFS mount helper uses. For more information, see EFS Mount Helper in the Amazon Elastic File System User Guide.
+        public let transitEncryptionPort: Int?
+
+        public init(authorizationConfig: EFSAuthorizationConfig? = nil, fileSystemId: String, rootDirectory: String? = nil, transitEncryption: EFSTransitEncryption? = nil, transitEncryptionPort: Int? = nil) {
+            self.authorizationConfig = authorizationConfig
+            self.fileSystemId = fileSystemId
+            self.rootDirectory = rootDirectory
+            self.transitEncryption = transitEncryption
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationConfig = "authorizationConfig"
             case fileSystemId = "fileSystemId"
             case rootDirectory = "rootDirectory"
+            case transitEncryption = "transitEncryption"
+            case transitEncryptionPort = "transitEncryptionPort"
         }
     }
 
@@ -3461,7 +3503,7 @@ extension ECS {
         public let roleArn: String?
         /// The number of tasks in the cluster that are in the RUNNING state.
         public let runningCount: Int?
-        /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.    DAEMON-The daemon scheduling strategy deploys exactly one task on each container instance in your cluster. When you are using this strategy, do not specify a desired number of tasks or any task placement strategies.  Fargate tasks do not support the DAEMON scheduling strategy.   
+        /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.    DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that do not meet the placement constraints.  Fargate tasks do not support the DAEMON scheduling strategy.   
         public let schedulingStrategy: SchedulingStrategy?
         /// The ARN that identifies the service. The ARN contains the arn:aws:ecs namespace, followed by the Region of the service, the AWS account ID of the service owner, the service namespace, and then the service name. For example, arn:aws:ecs:region:012345678910:service/my-service.
         public let serviceArn: String?
@@ -4556,7 +4598,7 @@ extension ECS {
 
     public struct UpdateServiceRequest: AWSEncodableShape {
 
-        /// The capacity provider strategy to update the service to use. If the service is using the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers. However, when a service is using a non-default capacity provider strategy, the service cannot be updated to use the cluster's default capacity provider strategy. 
+        /// The capacity provider strategy to update the service to use. If the service is using the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers as opposed to the default capacity provider strategy. However, when a service is using a capacity provider strategy that is not the default capacity provider strategy, the service cannot be updated to use the cluster's default capacity provider strategy. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created. 
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?

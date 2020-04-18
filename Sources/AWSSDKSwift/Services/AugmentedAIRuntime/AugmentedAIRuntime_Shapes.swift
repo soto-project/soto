@@ -48,7 +48,7 @@ extension AugmentedAIRuntime {
             AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
-        /// The name of the human loop you want to delete.
+        /// The name of the human loop that you want to delete.
         public let humanLoopName: String
 
         public init(humanLoopName: String) {
@@ -77,7 +77,7 @@ extension AugmentedAIRuntime {
             AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
-        /// The unique name of the human loop.
+        /// The name of the human loop that you want information about.
         public let humanLoopName: String
 
         public init(humanLoopName: String) {
@@ -97,19 +97,19 @@ extension AugmentedAIRuntime {
 
         /// The creation time when Amazon Augmented AI created the human loop.
         public let creationTime: TimeStamp
-        /// A failure code denoting a specific type of failure.
+        /// A failure code that identifies the type of failure.
         public let failureCode: String?
-        /// The reason why a human loop has failed. The failure reason is returned when the human loop status is Failed.
+        /// The reason why a human loop failed. The failure reason is returned when the status of the human loop is Failed.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the flow definition.
         public let flowDefinitionArn: String
         /// The Amazon Resource Name (ARN) of the human loop.
         public let humanLoopArn: String
-        /// The name of the human loop.
+        /// The name of the human loop. The name must be lowercase, unique within the Region in your account, and can have up to 63 characters. Valid characters: a-z, 0-9, and - (hyphen).
         public let humanLoopName: String
-        /// An object containing information about the output of the human loop.
+        /// An object that contains information about the output of the human loop.
         public let humanLoopOutput: HumanLoopOutput?
-        /// The status of the human loop. Valid values:
+        /// The status of the human loop. 
         public let humanLoopStatus: HumanLoopStatus
 
         public init(creationTime: TimeStamp, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String, humanLoopArn: String, humanLoopName: String, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus) {
@@ -163,7 +163,7 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try validate(self.inputContent, name: "inputContent", parent: name, max: 4194304)
+            try validate(self.inputContent, name: "inputContent", parent: name, max: 3145728)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -189,13 +189,13 @@ extension AugmentedAIRuntime {
 
         /// When Amazon Augmented AI created the human loop.
         public let creationTime: TimeStamp?
-        /// The reason why the human loop failed. A failure reason is returned only when the status of the human loop is Failed.
+        /// The reason why the human loop failed. A failure reason is returned when the status of the human loop is Failed.
         public let failureReason: String?
-        /// The Amazon Resource Name (ARN) of the flow definition.
+        /// The Amazon Resource Name (ARN) of the flow definition used to configure the human loop.
         public let flowDefinitionArn: String?
         /// The name of the human loop.
         public let humanLoopName: String?
-        /// The status of the human loop. Valid values:
+        /// The status of the human loop. 
         public let humanLoopStatus: HumanLoopStatus?
 
         public init(creationTime: TimeStamp? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, humanLoopName: String? = nil, humanLoopStatus: HumanLoopStatus? = nil) {
@@ -231,11 +231,11 @@ extension AugmentedAIRuntime {
         public let creationTimeBefore: TimeStamp?
         /// The Amazon Resource Name (ARN) of a flow definition.
         public let flowDefinitionArn: String
-        /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
+        /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken is returned in the output. You can use this token to display the next page of results. 
         public let maxResults: Int?
-        /// A token to resume pagination.
+        /// A token to display the next page of results.
         public let nextToken: String?
-        /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
+        /// Optional. The order for displaying results. Valid values: Ascending and Descending.
         public let sortOrder: SortOrder?
 
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, flowDefinitionArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
@@ -261,9 +261,9 @@ extension AugmentedAIRuntime {
 
     public struct ListHumanLoopsResponse: AWSDecodableShape {
 
-        /// An array of objects containing information about the human loops.
+        /// An array of objects that contain information about the human loops.
         public let humanLoopSummaries: [HumanLoopSummary]
-        /// A token to resume pagination.
+        /// A token to display the next page of results.
         public let nextToken: String?
 
         public init(humanLoopSummaries: [HumanLoopSummary], nextToken: String? = nil) {
@@ -279,11 +279,11 @@ extension AugmentedAIRuntime {
 
     public struct StartHumanLoopRequest: AWSEncodableShape {
 
-        /// Attributes of the data specified by the customer.
+        /// Attributes of the specified data. Use DataAttributes to specify if your data is free of personally identifiable information and/or free of adult content.
         public let dataAttributes: HumanLoopDataAttributes?
-        /// The Amazon Resource Name (ARN) of the flow definition.
+        /// The Amazon Resource Name (ARN) of the flow definition associated with this human loop.
         public let flowDefinitionArn: String
-        /// An object containing information about the human loop.
+        /// An object that contains information about the human loop.
         public let humanLoopInput: HumanLoopInput
         /// The name of the human loop.
         public let humanLoopName: String
@@ -329,7 +329,7 @@ extension AugmentedAIRuntime {
 
     public struct StopHumanLoopRequest: AWSEncodableShape {
 
-        /// The name of the human loop you want to stop.
+        /// The name of the human loop that you want to stop.
         public let humanLoopName: String
 
         public init(humanLoopName: String) {

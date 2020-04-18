@@ -89,7 +89,12 @@ public struct FraudDetector {
         return client.send(operation: "CreateVariable", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the detector version.
+    ///  Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
+    public func deleteDetector(_ input: DeleteDetectorRequest) -> EventLoopFuture<DeleteDetectorResult> {
+        return client.send(operation: "DeleteDetector", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the detector version. You cannot delete detector versions that are in ACTIVE status.
     public func deleteDetectorVersion(_ input: DeleteDetectorVersionRequest) -> EventLoopFuture<DeleteDetectorVersionResult> {
         return client.send(operation: "DeleteDetectorVersion", path: "/", httpMethod: "POST", input: input)
     }
@@ -97,6 +102,11 @@ public struct FraudDetector {
     ///  Deletes the specified event.
     public func deleteEvent(_ input: DeleteEventRequest) -> EventLoopFuture<DeleteEventResult> {
         return client.send(operation: "DeleteEvent", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the rule version. You cannot delete a rule version if it is used by an ACTIVE or INACTIVE detector version.
+    public func deleteRuleVersion(_ input: DeleteRuleVersionRequest) -> EventLoopFuture<DeleteRuleVersionResult> {
+        return client.send(operation: "DeleteRuleVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets all versions for a specified detector.

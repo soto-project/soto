@@ -202,8 +202,10 @@ extension MediaConnect {
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
+        /// The name of the VPC interface attachment to use for this output.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -215,6 +217,7 @@ extension MediaConnect {
             self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -229,6 +232,7 @@ extension MediaConnect {
             case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -765,8 +769,10 @@ extension MediaConnect {
         public let port: Int?
         /// Attributes related to the transport stream that are used in the output.
         public let transport: Transport?
+        /// The name of the VPC interface attachment to use for this output.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
@@ -777,6 +783,7 @@ extension MediaConnect {
             self.outputArn = outputArn
             self.port = port
             self.transport = transport
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -790,6 +797,7 @@ extension MediaConnect {
             case outputArn = "outputArn"
             case port = "port"
             case transport = "transport"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -1321,8 +1329,10 @@ extension MediaConnect {
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
+        /// The name of the VPC interface attachment to use for this output.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -1335,6 +1345,7 @@ extension MediaConnect {
             self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1348,6 +1359,7 @@ extension MediaConnect {
             case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -1502,6 +1514,20 @@ extension MediaConnect {
             case roleArn = "roleArn"
             case securityGroupIds = "securityGroupIds"
             case subnetId = "subnetId"
+        }
+    }
+
+    public struct VpcInterfaceAttachment: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the VPC interface to use for this output.
+        public let vpcInterfaceName: String?
+
+        public init(vpcInterfaceName: String? = nil) {
+            self.vpcInterfaceName = vpcInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcInterfaceName = "vpcInterfaceName"
         }
     }
 

@@ -66,6 +66,7 @@ extension Snowball {
         case t80 = "T80"
         case t100 = "T100"
         case t42 = "T42"
+        case t98 = "T98"
         case nopreference = "NoPreference"
         public var description: String { return self.rawValue }
     }
@@ -75,6 +76,7 @@ extension Snowball {
         case edge = "EDGE"
         case edgeC = "EDGE_C"
         case edgeCg = "EDGE_CG"
+        case edgeS = "EDGE_S"
         public var description: String { return self.rawValue }
     }
 
