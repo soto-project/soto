@@ -47,6 +47,9 @@ class GenerateProcess {
         let templatesFolder = try Folder(path: "./scripts/templates/create-modules")
         let licenseFile = try templatesFolder.file(named: "LICENSE")
         try licenseFile.copy(to: serviceTargetFolder)
+        // copy license
+        let gitIgnore = try templatesFolder.file(named: ".gitignore")
+        try gitIgnore.copy(to: serviceTargetFolder)
     }
 
     func run() throws {
