@@ -1,7 +1,8 @@
 sourcekitten_sourcefile:
   - sourcekitten/AWSSDKSwiftCore.json
-<% for(service of services) { %>
-  - sourcekitten/<%=service%>.json<% } %>
+{%for service in services %}
+  - sourcekitten/{{service}}.json
+{%endfor %}
 
 author: Yuki Takei, Joe Smith, Jonathan McAllister, Adam Fowler
 author_url: https://github.com/swift-aws
@@ -25,9 +26,9 @@ custom_categories:
       - AWSLoggingMiddleware
       - Region
       - XML
-<% for(service of services) { %>
-  - name: <%=service%>
+{% for service in services %}
+  - name: {{service}}
     children:
-      - <%=service%>
-      - <%=service%>ErrorType
-<% } %>
+      - {{service}}
+      - {{service}}ErrorType
+{%endfor %}

@@ -3,14 +3,12 @@
 set -eux
 
 create_jazzy_yaml() {
-    cd jazzy
-    node create-jazzy.yaml.js
-    cd ..
+    ./scripts/create-jazzy-yaml.swift
 }
 
 run_jazzy() {
 # use theme apple-thin-nav else docs are 50+ GB!
-    jazzy --clean --theme jazzy/themes/apple-thin-nav/
+    jazzy --clean --theme scripts/jazzy/themes/apple-thin-nav/
 }
 
 tidy_up() {
