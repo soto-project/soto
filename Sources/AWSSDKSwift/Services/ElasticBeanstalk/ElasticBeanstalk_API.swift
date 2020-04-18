@@ -79,22 +79,22 @@ public struct ElasticBeanstalk {
         return client.send(operation: "ComposeEnvironments", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Creates an application that has one configuration template named default and no application versions. 
+    ///  Creates an application that has one configuration template named default and no application versions.
     public func createApplication(_ input: CreateApplicationMessage) -> EventLoopFuture<ApplicationDescriptionMessage> {
         return client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle  Omit both SourceBuildInformation and SourceBundle to use the default sample application.  Once you create an application version with a specified Amazon S3 bucket and key location, you cannot change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version. 
+    ///  Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle  Omit both SourceBuildInformation and SourceBundle to use the default sample application.  After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version. 
     public func createApplicationVersion(_ input: CreateApplicationVersionMessage) -> EventLoopFuture<ApplicationVersionDescriptionMessage> {
         return client.send(operation: "CreateApplicationVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a configuration template. Templates are associated with a specific application and are used to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics    DescribeConfigurationOptions     DescribeConfigurationSettings     ListAvailableSolutionStacks   
+    ///  Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics    DescribeConfigurationOptions     DescribeConfigurationSettings     ListAvailableSolutionStacks   
     public func createConfigurationTemplate(_ input: CreateConfigurationTemplateMessage) -> EventLoopFuture<ConfigurationSettingsDescription> {
         return client.send(operation: "CreateConfigurationTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Launches an environment for the specified application using the specified configuration.
+    ///  Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
     public func createEnvironment(_ input: CreateEnvironmentMessage) -> EventLoopFuture<EnvironmentDescription> {
         return client.send(operation: "CreateEnvironment", path: "/", httpMethod: "POST", input: input)
     }
@@ -194,7 +194,7 @@ public struct ElasticBeanstalk {
         return client.send(operation: "DescribeInstancesHealth", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the version of the platform.
+    ///  Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
     public func describePlatformVersion(_ input: DescribePlatformVersionRequest) -> EventLoopFuture<DescribePlatformVersionResult> {
         return client.send(operation: "DescribePlatformVersion", path: "/", httpMethod: "POST", input: input)
     }
@@ -204,12 +204,17 @@ public struct ElasticBeanstalk {
         return client.send(operation: "ListAvailableSolutionStacks", path: "/", httpMethod: "POST")
     }
 
-    ///  Lists the available platforms.
+    ///  Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    public func listPlatformBranches(_ input: ListPlatformBranchesRequest) -> EventLoopFuture<ListPlatformBranchesResult> {
+        return client.send(operation: "ListPlatformBranches", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
     public func listPlatformVersions(_ input: ListPlatformVersionsRequest) -> EventLoopFuture<ListPlatformVersionsResult> {
         return client.send(operation: "ListPlatformVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments. For details about environment tagging, see Tagging Resources in Your Elastic Beanstalk Environment.
+    ///  Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources.
     public func listTagsForResource(_ input: ListTagsForResourceMessage) -> EventLoopFuture<ResourceTagsDescriptionMessage> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -269,7 +274,7 @@ public struct ElasticBeanstalk {
         return client.send(operation: "UpdateEnvironment", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments. For details about environment tagging, see Tagging Resources in Your Elastic Beanstalk Environment. If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
+    ///  Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
     @discardableResult public func updateTagsForResource(_ input: UpdateTagsForResourceMessage) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateTagsForResource", path: "/", httpMethod: "POST", input: input)
     }

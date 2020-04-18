@@ -20,6 +20,11 @@ import Foundation
 extension CodeGuruProfiler {
     //MARK: Enums
 
+    public enum ActionGroup: String, CustomStringConvertible, Codable {
+        case agentpermissions = "agentPermissions"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregationPeriod: String, CustomStringConvertible, Codable {
         case p1d = "P1D"
         case pt1h = "PT1H"
@@ -236,6 +241,45 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case profilingGroup = "profilingGroup"
+        }
+    }
+
+    public struct GetPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        ]
+
+        /// The name of the profiling group.
+        public let profilingGroupName: String
+
+        public init(profilingGroupName: String) {
+            self.profilingGroupName = profilingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPolicyResponse: AWSDecodableShape {
+
+        /// The resource-based policy attached to the ProfilingGroup.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(policy: String, revisionId: String) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
@@ -542,6 +586,109 @@ extension CodeGuruProfiler {
             case latestAgentOrchestratedAt = "latestAgentOrchestratedAt"
             case latestAgentProfileReportedAt = "latestAgentProfileReportedAt"
             case latestAggregatedProfile = "latestAggregatedProfile"
+        }
+    }
+
+    public struct PutPermissionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        ]
+
+        /// The list of actions that the users and roles can perform on the profiling group.
+        public let actionGroup: ActionGroup
+        /// The list of role and user ARNs or the accountId that needs access (wildcards are not allowed).
+        public let principals: [String]
+        /// The name of the profiling group.
+        public let profilingGroupName: String
+        /// A unique identifier for the current revision of the policy. This is required, if a policy exists for the profiling group. This is not required when creating the policy for the first time.
+        public let revisionId: String?
+
+        public init(actionGroup: ActionGroup, principals: [String], profilingGroupName: String, revisionId: String? = nil) {
+            self.actionGroup = actionGroup
+            self.principals = principals
+            self.profilingGroupName = profilingGroupName
+            self.revisionId = revisionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.principals, name: "principals", parent: name, max: 50)
+            try validate(self.principals, name: "principals", parent: name, min: 1)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.revisionId, name: "revisionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principals = "principals"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct PutPermissionResponse: AWSDecodableShape {
+
+        /// The resource-based policy.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(policy: String, revisionId: String) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct RemovePermissionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "revisionId"))
+        ]
+
+        /// The list of actions that the users and roles can perform on the profiling group.
+        public let actionGroup: ActionGroup
+        /// The name of the profiling group.
+        public let profilingGroupName: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(actionGroup: ActionGroup, profilingGroupName: String, revisionId: String) {
+            self.actionGroup = actionGroup
+            self.profilingGroupName = profilingGroupName
+            self.revisionId = revisionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.revisionId, name: "revisionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RemovePermissionResponse: AWSDecodableShape {
+
+        /// The resource-based policy.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(policy: String, revisionId: String) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 

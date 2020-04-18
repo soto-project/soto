@@ -50,6 +50,7 @@ public struct EC2 {
             serviceProtocol: ServiceProtocol(type: .other("ec2")),
             apiVersion: "2016-11-15",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "ec2-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "ec2-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ec2-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ec2-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ec2-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             eventLoopGroupProvider: eventLoopGroupProvider
         )
@@ -383,7 +384,7 @@ public struct EC2 {
     }
 
     ///  Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-    @discardableResult public func createPlacementGroup(_ input: CreatePlacementGroupRequest) -> EventLoopFuture<Void> {
+    public func createPlacementGroup(_ input: CreatePlacementGroupRequest) -> EventLoopFuture<CreatePlacementGroupResult> {
         return client.send(operation: "CreatePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -772,6 +773,11 @@ public struct EC2 {
         return client.send(operation: "DeregisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
+    public func deregisterInstanceEventNotificationAttributes(_ input: DeregisterInstanceEventNotificationAttributesRequest) -> EventLoopFuture<DeregisterInstanceEventNotificationAttributesResult> {
+        return client.send(operation: "DeregisterInstanceEventNotificationAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deregisters the specified members (network interfaces) from the transit gateway multicast group.
     public func deregisterTransitGatewayMulticastGroupMembers(_ input: DeregisterTransitGatewayMulticastGroupMembersRequest) -> EventLoopFuture<DeregisterTransitGatewayMulticastGroupMembersResult> {
         return client.send(operation: "DeregisterTransitGatewayMulticastGroupMembers", path: "/", httpMethod: "POST", input: input)
@@ -980,6 +986,11 @@ public struct EC2 {
     ///  Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeInstanceCreditSpecifications(_ input: DescribeInstanceCreditSpecificationsRequest) -> EventLoopFuture<DescribeInstanceCreditSpecificationsResult> {
         return client.send(operation: "DescribeInstanceCreditSpecifications", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region.
+    public func describeInstanceEventNotificationAttributes(_ input: DescribeInstanceEventNotificationAttributesRequest) -> EventLoopFuture<DescribeInstanceEventNotificationAttributesResult> {
+        return client.send(operation: "DescribeInstanceEventNotificationAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status Checks for Your Instances and Troubleshooting Instances with Failed Status Checks in the Amazon Elastic Compute Cloud User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled Events for Your Instances in the Amazon Elastic Compute Cloud User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide.  
@@ -1837,6 +1848,11 @@ public struct EC2 {
         return client.send(operation: "RegisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Registers a set of tag keys to include in scheduled event notifications for your resources.  To remove tags, use .
+    public func registerInstanceEventNotificationAttributes(_ input: RegisterInstanceEventNotificationAttributesRequest) -> EventLoopFuture<RegisterInstanceEventNotificationAttributesResult> {
+        return client.send(operation: "RegisterInstanceEventNotificationAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For information about supported instances, see Multicast Consideration in Amazon VPC Transit Gateways. After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group.
     public func registerTransitGatewayMulticastGroupMembers(_ input: RegisterTransitGatewayMulticastGroupMembersRequest) -> EventLoopFuture<RegisterTransitGatewayMulticastGroupMembersResult> {
         return client.send(operation: "RegisterTransitGatewayMulticastGroupMembers", path: "/", httpMethod: "POST", input: input)
@@ -1972,7 +1988,7 @@ public struct EC2 {
         return client.send(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Launches the specified number of instances using an AMI for which you have permissions.  You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance Types Available Only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance Types.   If you don't specify a security group ID, we use the default security group. For more information, see Security Groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging Your Amazon EC2 Resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key Pairs in the Amazon Elastic Compute Cloud User Guide. For troubleshooting, see What To Do If An Instance Immediately Terminates, and Troubleshooting Connecting to Your Instance in the Amazon Elastic Compute Cloud User Guide.
+    ///  Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance Types Available Only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance Types.   If you don't specify a security group ID, we use the default security group. For more information, see Security Groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging Your Amazon EC2 Resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key Pairs in the Amazon Elastic Compute Cloud User Guide. For troubleshooting, see What To Do If An Instance Immediately Terminates, and Troubleshooting Connecting to Your Instance in the Amazon Elastic Compute Cloud User Guide.
     public func runInstances(_ input: RunInstancesRequest) -> EventLoopFuture<Reservation> {
         return client.send(operation: "RunInstances", path: "/", httpMethod: "POST", input: input)
     }

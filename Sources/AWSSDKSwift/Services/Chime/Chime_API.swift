@@ -140,6 +140,11 @@ public struct Chime {
         return client.send(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers.
+    public func createProxySession(_ input: CreateProxySessionRequest) -> EventLoopFuture<CreateProxySessionResponse> {
+        return client.send(operation: "CreateProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a chat room for the specified Amazon Chime Enterprise account.
     public func createRoom(_ input: CreateRoomRequest) -> EventLoopFuture<CreateRoomResponse> {
         return client.send(operation: "CreateRoom", path: "/accounts/{accountId}/rooms", httpMethod: "POST", input: input)
@@ -190,6 +195,11 @@ public struct Chime {
         return client.send(operation: "DeletePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes the specified proxy session from the specified Amazon Chime Voice Connector.
+    @discardableResult public func deleteProxySession(_ input: DeleteProxySessionRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes a chat room in an Amazon Chime Enterprise account.
     @discardableResult public func deleteRoom(_ input: DeleteRoomRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: "DELETE", input: input)
@@ -213,6 +223,11 @@ public struct Chime {
     ///  Deletes the origination settings for the specified Amazon Chime Voice Connector.
     @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
+    @discardableResult public func deleteVoiceConnectorProxy(_ input: DeleteVoiceConnectorProxyRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the streaming configuration for the specified Amazon Chime Voice Connector.
@@ -300,6 +315,11 @@ public struct Chime {
         return client.send(operation: "GetPhoneNumberSettings", path: "/settings/phone-number", httpMethod: "GET")
     }
 
+    ///  Gets the specified proxy session details for the specified Amazon Chime Voice Connector.
+    public func getProxySession(_ input: GetProxySessionRequest) -> EventLoopFuture<GetProxySessionResponse> {
+        return client.send(operation: "GetProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     public func getRoom(_ input: GetRoomRequest) -> EventLoopFuture<GetRoomResponse> {
         return client.send(operation: "GetRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: "GET", input: input)
@@ -335,6 +355,11 @@ public struct Chime {
         return client.send(operation: "GetVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "GET", input: input)
     }
 
+    ///  Gets the proxy configuration details for the specified Amazon Chime Voice Connector.
+    public func getVoiceConnectorProxy(_ input: GetVoiceConnectorProxyRequest) -> EventLoopFuture<GetVoiceConnectorProxyResponse> {
+        return client.send(operation: "GetVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
     public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest) -> EventLoopFuture<GetVoiceConnectorStreamingConfigurationResponse> {
         return client.send(operation: "GetVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "GET", input: input)
@@ -360,6 +385,11 @@ public struct Chime {
         return client.send(operation: "ListAccounts", path: "/accounts", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the tags applied to an Amazon Chime SDK attendee resource.
+    public func listAttendeeTags(_ input: ListAttendeeTagsRequest) -> EventLoopFuture<ListAttendeeTagsResponse> {
+        return client.send(operation: "ListAttendeeTags", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func listAttendees(_ input: ListAttendeesRequest) -> EventLoopFuture<ListAttendeesResponse> {
         return client.send(operation: "ListAttendees", path: "/meetings/{meetingId}/attendees", httpMethod: "GET", input: input)
@@ -368,6 +398,11 @@ public struct Chime {
     ///  Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     public func listBots(_ input: ListBotsRequest) -> EventLoopFuture<ListBotsResponse> {
         return client.send(operation: "ListBots", path: "/accounts/{accountId}/bots", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the tags applied to an Amazon Chime SDK meeting resource.
+    public func listMeetingTags(_ input: ListMeetingTagsRequest) -> EventLoopFuture<ListMeetingTagsResponse> {
+        return client.send(operation: "ListMeetingTags", path: "/meetings/{meetingId}/tags", httpMethod: "GET", input: input)
     }
 
     ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -385,6 +420,11 @@ public struct Chime {
         return client.send(operation: "ListPhoneNumbers", path: "/phone-numbers", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    public func listProxySessions(_ input: ListProxySessionsRequest) -> EventLoopFuture<ListProxySessionsResponse> {
+        return client.send(operation: "ListProxySessions", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     public func listRoomMemberships(_ input: ListRoomMembershipsRequest) -> EventLoopFuture<ListRoomMembershipsResponse> {
         return client.send(operation: "ListRoomMemberships", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: "GET", input: input)
@@ -393,6 +433,11 @@ public struct Chime {
     ///  Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     public func listRooms(_ input: ListRoomsRequest) -> EventLoopFuture<ListRoomsResponse> {
         return client.send(operation: "ListRooms", path: "/accounts/{accountId}/rooms", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the tags applied to an Amazon Chime SDK meeting resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags", httpMethod: "GET", input: input)
     }
 
     ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
@@ -435,6 +480,11 @@ public struct Chime {
         return client.send(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "PUT", input: input)
     }
 
+    ///  Puts the specified proxy configuration to the specified Amazon Chime Voice Connector.
+    public func putVoiceConnectorProxy(_ input: PutVoiceConnectorProxyRequest) -> EventLoopFuture<PutVoiceConnectorProxyResponse> {
+        return client.send(operation: "PutVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: "PUT", input: input)
+    }
+
     ///  Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Amazon Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
     public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest) -> EventLoopFuture<PutVoiceConnectorStreamingConfigurationResponse> {
         return client.send(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "PUT", input: input)
@@ -470,6 +520,36 @@ public struct Chime {
         return client.send(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: "GET", input: input)
     }
 
+    ///  Applies the specified tags to the specified Amazon Chime SDK attendee.
+    @discardableResult public func tagAttendee(_ input: TagAttendeeRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=add", httpMethod: "POST", input: input)
+    }
+
+    ///  Applies the specified tags to the specified Amazon Chime SDK meeting.
+    @discardableResult public func tagMeeting(_ input: TagMeetingRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagMeeting", path: "/meetings/{meetingId}/tags?operation=add", httpMethod: "POST", input: input)
+    }
+
+    ///  Applies the specified tags to the specified Amazon Chime SDK meeting resource.
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: "POST", input: input)
+    }
+
+    ///  Untags the specified tags from the specified Amazon Chime SDK attendee.
+    @discardableResult public func untagAttendee(_ input: UntagAttendeeRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=delete", httpMethod: "POST", input: input)
+    }
+
+    ///  Untags the specified tags from the specified Amazon Chime SDK meeting.
+    @discardableResult public func untagMeeting(_ input: UntagMeetingRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagMeeting", path: "/meetings/{meetingId}/tags?operation=delete", httpMethod: "POST", input: input)
+    }
+
+    ///  Untags the specified tags from the specified Amazon Chime SDK meeting resource.
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: "POST", input: input)
+    }
+
     ///  Updates account details for the specified Amazon Chime account. Currently, only account name updates are supported for this action.
     public func updateAccount(_ input: UpdateAccountRequest) -> EventLoopFuture<UpdateAccountResponse> {
         return client.send(operation: "UpdateAccount", path: "/accounts/{accountId}", httpMethod: "POST", input: input)
@@ -498,6 +578,11 @@ public struct Chime {
     ///  Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     @discardableResult public func updatePhoneNumberSettings(_ input: UpdatePhoneNumberSettingsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdatePhoneNumberSettings", path: "/settings/phone-number", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the specified proxy session details, such as voice or SMS capabilities.
+    public func updateProxySession(_ input: UpdateProxySessionRequest) -> EventLoopFuture<UpdateProxySessionResponse> {
+        return client.send(operation: "UpdateProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.

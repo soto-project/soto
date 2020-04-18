@@ -51,6 +51,7 @@ public struct Glue {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-03-31",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "glue-fips.us-east-1.amazonaws.com", "fips-us-east-2": "glue-fips.us-east-2.amazonaws.com", "fips-us-west-1": "glue-fips.us-west-1.amazonaws.com", "fips-us-west-2": "glue-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [GlueErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

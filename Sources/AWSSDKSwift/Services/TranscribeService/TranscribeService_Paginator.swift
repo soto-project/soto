@@ -20,6 +20,15 @@ import NIO
 
 extension TranscribeService {
 
+    ///  Lists medical transcription jobs with a specified status or substring that matches their names.
+    public func listMedicalTranscriptionJobsPaginator(
+        _ input: ListMedicalTranscriptionJobsRequest,
+        onPage: @escaping (ListMedicalTranscriptionJobsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMedicalTranscriptionJobs, tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Lists transcription jobs with the specified status.
     public func listTranscriptionJobsPaginator(
         _ input: ListTranscriptionJobsRequest,
@@ -47,6 +56,18 @@ extension TranscribeService {
         return client.paginate(input: input, command: listVocabularyFilters, tokenKey: \ListVocabularyFiltersResponse.nextToken, onPage: onPage)
     }
 
+}
+
+extension TranscribeService.ListMedicalTranscriptionJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListMedicalTranscriptionJobsRequest {
+        return .init(
+            jobNameContains: self.jobNameContains,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+
+    }
 }
 
 extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateToken {
