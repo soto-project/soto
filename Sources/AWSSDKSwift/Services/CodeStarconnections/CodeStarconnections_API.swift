@@ -68,22 +68,22 @@ public struct CodeStarconnections {
     //MARK: API Calls
 
     ///  Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
-    public func createConnection(_ input: CreateConnectionInput) -> EventLoopFuture<CreateConnectionOutput> {
-        return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
+    public func createConnection(_ input: CreateConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionOutput> {
+        return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  The connection to be deleted.
-    public func deleteConnection(_ input: DeleteConnectionInput) -> EventLoopFuture<DeleteConnectionOutput> {
-        return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
+    public func deleteConnection(_ input: DeleteConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionOutput> {
+        return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns the connection ARN and details such as status, owner, and provider type.
-    public func getConnection(_ input: GetConnectionInput) -> EventLoopFuture<GetConnectionOutput> {
-        return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
+    public func getConnection(_ input: GetConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionOutput> {
+        return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the connections associated with your account.
-    public func listConnections(_ input: ListConnectionsInput) -> EventLoopFuture<ListConnectionsOutput> {
-        return client.send(operation: "ListConnections", path: "/", httpMethod: "POST", input: input)
+    public func listConnections(_ input: ListConnectionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectionsOutput> {
+        return client.send(operation: "ListConnections", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

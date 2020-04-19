@@ -68,22 +68,22 @@ public struct IoTDataPlane {
     //MARK: API Calls
 
     ///  Deletes the thing shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
-    public func deleteThingShadow(_ input: DeleteThingShadowRequest) -> EventLoopFuture<DeleteThingShadowResponse> {
-        return client.send(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: "DELETE", input: input)
+    public func deleteThingShadow(_ input: DeleteThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingShadowResponse> {
+        return client.send(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Gets the thing shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
-    public func getThingShadow(_ input: GetThingShadowRequest) -> EventLoopFuture<GetThingShadowResponse> {
-        return client.send(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: "GET", input: input)
+    public func getThingShadow(_ input: GetThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThingShadowResponse> {
+        return client.send(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
-    @discardableResult public func publish(_ input: PublishRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input)
+    @discardableResult public func publish(_ input: PublishRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the thing shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
-    public func updateThingShadow(_ input: UpdateThingShadowRequest) -> EventLoopFuture<UpdateThingShadowResponse> {
-        return client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input)
+    public func updateThingShadow(_ input: UpdateThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingShadowResponse> {
+        return client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

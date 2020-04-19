@@ -69,7 +69,7 @@ public struct QLDBSession {
     //MARK: API Calls
 
     ///  Sends a command to an Amazon QLDB ledger.
-    public func sendCommand(_ input: SendCommandRequest) -> EventLoopFuture<SendCommandResult> {
-        return client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input)
+    public func sendCommand(_ input: SendCommandRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCommandResult> {
+        return client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

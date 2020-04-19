@@ -68,12 +68,12 @@ public struct PI {
     //MARK: API Calls
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.
-    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest) -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input)
+    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
+        return client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
-    public func getResourceMetrics(_ input: GetResourceMetricsRequest) -> EventLoopFuture<GetResourceMetricsResponse> {
-        return client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input)
+    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceMetricsResponse> {
+        return client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

@@ -86,75 +86,75 @@ public struct ServerlessApplicationRepository {
     //MARK: API Calls
 
     ///  Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
-    public func createApplication(_ input: CreateApplicationRequest) -> EventLoopFuture<CreateApplicationResponse> {
-        return client.send(operation: "CreateApplication", path: "/applications", httpMethod: "POST", input: input)
+    public func createApplication(_ input: CreateApplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApplicationResponse> {
+        return client.send(operation: "CreateApplication", path: "/applications", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates an application version.
-    public func createApplicationVersion(_ input: CreateApplicationVersionRequest) -> EventLoopFuture<CreateApplicationVersionResponse> {
-        return client.send(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: "PUT", input: input)
+    public func createApplicationVersion(_ input: CreateApplicationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApplicationVersionResponse> {
+        return client.send(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates an AWS CloudFormation change set for the given application.
-    public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest) -> EventLoopFuture<CreateCloudFormationChangeSetResponse> {
-        return client.send(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: "POST", input: input)
+    public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCloudFormationChangeSetResponse> {
+        return client.send(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates an AWS CloudFormation template.
-    public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest) -> EventLoopFuture<CreateCloudFormationTemplateResponse> {
-        return client.send(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: "POST", input: input)
+    public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCloudFormationTemplateResponse> {
+        return client.send(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the specified application.
-    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Gets the specified application.
-    public func getApplication(_ input: GetApplicationRequest) -> EventLoopFuture<GetApplicationResponse> {
-        return client.send(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: "GET", input: input)
+    public func getApplication(_ input: GetApplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationResponse> {
+        return client.send(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves the policy for the application.
-    public func getApplicationPolicy(_ input: GetApplicationPolicyRequest) -> EventLoopFuture<GetApplicationPolicyResponse> {
-        return client.send(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "GET", input: input)
+    public func getApplicationPolicy(_ input: GetApplicationPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationPolicyResponse> {
+        return client.send(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets the specified AWS CloudFormation template.
-    public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest) -> EventLoopFuture<GetCloudFormationTemplateResponse> {
-        return client.send(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: "GET", input: input)
+    public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCloudFormationTemplateResponse> {
+        return client.send(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves the list of applications nested in the containing application.
-    public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest) -> EventLoopFuture<ListApplicationDependenciesResponse> {
-        return client.send(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: "GET", input: input)
+    public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationDependenciesResponse> {
+        return client.send(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists versions for the specified application.
-    public func listApplicationVersions(_ input: ListApplicationVersionsRequest) -> EventLoopFuture<ListApplicationVersionsResponse> {
-        return client.send(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: "GET", input: input)
+    public func listApplicationVersions(_ input: ListApplicationVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationVersionsResponse> {
+        return client.send(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists applications owned by the requester.
-    public func listApplications(_ input: ListApplicationsRequest) -> EventLoopFuture<ListApplicationsResponse> {
-        return client.send(operation: "ListApplications", path: "/applications", httpMethod: "GET", input: input)
+    public func listApplications(_ input: ListApplicationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationsResponse> {
+        return client.send(operation: "ListApplications", path: "/applications", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Sets the permission policy for an application. For the list of actions supported for this operation, see
     ///   Application 
     ///   Permissions
     ///   .
-    public func putApplicationPolicy(_ input: PutApplicationPolicyRequest) -> EventLoopFuture<PutApplicationPolicyResponse> {
-        return client.send(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "PUT", input: input)
+    public func putApplicationPolicy(_ input: PutApplicationPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutApplicationPolicyResponse> {
+        return client.send(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
-    @discardableResult public func unshareApplication(_ input: UnshareApplicationRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "UnshareApplication", path: "/applications/{applicationId}/unshare", httpMethod: "POST", input: input)
+    @discardableResult public func unshareApplication(_ input: UnshareApplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "UnshareApplication", path: "/applications/{applicationId}/unshare", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the specified application.
-    public func updateApplication(_ input: UpdateApplicationRequest) -> EventLoopFuture<UpdateApplicationResponse> {
-        return client.send(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: "PATCH", input: input)
+    public func updateApplication(_ input: UpdateApplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApplicationResponse> {
+        return client.send(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: "PATCH", input: input, on: eventLoop)
     }
 }

@@ -69,17 +69,17 @@ public struct SSOOIDC {
     //MARK: API Calls
 
     ///  Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
-    public func createToken(_ input: CreateTokenRequest) -> EventLoopFuture<CreateTokenResponse> {
-        return client.send(operation: "CreateToken", path: "/token", httpMethod: "POST", input: input)
+    public func createToken(_ input: CreateTokenRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
+        return client.send(operation: "CreateToken", path: "/token", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
-    public func registerClient(_ input: RegisterClientRequest) -> EventLoopFuture<RegisterClientResponse> {
-        return client.send(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", input: input)
+    public func registerClient(_ input: RegisterClientRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterClientResponse> {
+        return client.send(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Initiates device authorization by requesting a pair of verification codes from the authorization service.
-    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
-        return client.send(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", input: input)
+    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
+        return client.send(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

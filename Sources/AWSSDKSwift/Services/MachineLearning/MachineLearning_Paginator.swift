@@ -23,37 +23,41 @@ extension MachineLearning {
     ///  Returns a list of BatchPrediction operations that match the search criteria in the request.
     public func describeBatchPredictionsPaginator(
         _ input: DescribeBatchPredictionsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeBatchPredictionsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeBatchPredictions, tokenKey: \DescribeBatchPredictionsOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeBatchPredictions, tokenKey: \DescribeBatchPredictionsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of DataSource that match the search criteria in the request.
     public func describeDataSourcesPaginator(
         _ input: DescribeDataSourcesInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDataSourcesOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDataSources, tokenKey: \DescribeDataSourcesOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeDataSources, tokenKey: \DescribeDataSourcesOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of DescribeEvaluations that match the search criteria in the request.
     public func describeEvaluationsPaginator(
         _ input: DescribeEvaluationsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeEvaluationsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvaluations, tokenKey: \DescribeEvaluationsOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeEvaluations, tokenKey: \DescribeEvaluationsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of MLModel that match the search criteria in the request.
     public func describeMLModelsPaginator(
         _ input: DescribeMLModelsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMLModelsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMLModels, tokenKey: \DescribeMLModelsOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeMLModels, tokenKey: \DescribeMLModelsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

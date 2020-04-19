@@ -23,28 +23,31 @@ extension MediaPackageVod {
     ///  Returns a collection of MediaPackage VOD Asset resources.
     public func listAssetsPaginator(
         _ input: ListAssetsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListAssetsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
     public func listPackagingConfigurationsPaginator(
         _ input: ListPackagingConfigurationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPackagingConfigurationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPackagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
     public func listPackagingGroupsPaginator(
         _ input: ListPackagingGroupsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPackagingGroupsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPackagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

@@ -68,22 +68,22 @@ public struct CostandUsageReportService {
     //MARK: API Calls
 
     ///  Deletes the specified report.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) -> EventLoopFuture<DeleteReportDefinitionResponse> {
-        return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReportDefinitionResponse> {
+        return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
+        return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Allows you to programatically update your report preferences.
-    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest) -> EventLoopFuture<ModifyReportDefinitionResponse> {
-        return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReportDefinitionResponse> {
+        return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new report using the description that you provide.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest) -> EventLoopFuture<PutReportDefinitionResponse> {
-        return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutReportDefinitionResponse> {
+        return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

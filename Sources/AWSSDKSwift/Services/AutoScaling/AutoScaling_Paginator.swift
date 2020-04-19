@@ -23,73 +23,81 @@ extension AutoScaling {
     ///  Describes one or more Auto Scaling groups.
     public func describeAutoScalingGroupsPaginator(
         _ input: AutoScalingGroupNamesType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (AutoScalingGroupsType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAutoScalingGroups, tokenKey: \AutoScalingGroupsType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeAutoScalingGroups, tokenKey: \AutoScalingGroupsType.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes one or more Auto Scaling instances.
     public func describeAutoScalingInstancesPaginator(
         _ input: DescribeAutoScalingInstancesType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (AutoScalingInstancesType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAutoScalingInstances, tokenKey: \AutoScalingInstancesType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeAutoScalingInstances, tokenKey: \AutoScalingInstancesType.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes one or more launch configurations.
     public func describeLaunchConfigurationsPaginator(
         _ input: LaunchConfigurationNamesType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (LaunchConfigurationsType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeLaunchConfigurations, tokenKey: \LaunchConfigurationsType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeLaunchConfigurations, tokenKey: \LaunchConfigurationsType.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the notification actions associated with the specified Auto Scaling group.
     public func describeNotificationConfigurationsPaginator(
         _ input: DescribeNotificationConfigurationsType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNotificationConfigurationsAnswer,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeNotificationConfigurations, tokenKey: \DescribeNotificationConfigurationsAnswer.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeNotificationConfigurations, tokenKey: \DescribeNotificationConfigurationsAnswer.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the policies for the specified Auto Scaling group.
     public func describePoliciesPaginator(
         _ input: DescribePoliciesType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (PoliciesType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePolicies, tokenKey: \PoliciesType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describePolicies, tokenKey: \PoliciesType.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes one or more scaling activities for the specified Auto Scaling group.
     public func describeScalingActivitiesPaginator(
         _ input: DescribeScalingActivitiesType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ActivitiesType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeScalingActivities, tokenKey: \ActivitiesType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeScalingActivities, tokenKey: \ActivitiesType.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the actions scheduled for your Auto Scaling group that haven't run or that have not reached their end time. To describe the actions that have already run, use DescribeScalingActivities.
     public func describeScheduledActionsPaginator(
         _ input: DescribeScheduledActionsType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ScheduledActionsType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeScheduledActions, tokenKey: \ScheduledActionsType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeScheduledActions, tokenKey: \ScheduledActionsType.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multiple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned.
     public func describeTagsPaginator(
         _ input: DescribeTagsType,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (TagsType,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeTags, tokenKey: \TagsType.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeTags, tokenKey: \TagsType.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

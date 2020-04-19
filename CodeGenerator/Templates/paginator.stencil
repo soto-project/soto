@@ -15,10 +15,11 @@ extension {{name}} {
 {%endif %}
     public func {{page.operation.funcName}}Paginator(
         _ input: {{page.operation.inputShape}},
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping ({{page.operation.outputShape}},
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: {{page.operation.funcName}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}}, onPage: onPage)
+        return client.paginate(input: input, command: {{page.operation.funcName}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}}, on: eventLoop, onPage: onPage)
     }
 
 {%endfor %}

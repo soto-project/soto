@@ -23,64 +23,71 @@ extension EMR {
     ///  Provides information about the bootstrap actions associated with a cluster.
     public func listBootstrapActionsPaginator(
         _ input: ListBootstrapActionsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListBootstrapActionsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBootstrapActions, tokenKey: \ListBootstrapActionsOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listBootstrapActions, tokenKey: \ListBootstrapActionsOutput.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Provides the status of all clusters visible to this AWS account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls.
     public func listClustersPaginator(
         _ input: ListClustersInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListClustersOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersOutput.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all available details about the instance fleets in a cluster.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
     public func listInstanceFleetsPaginator(
         _ input: ListInstanceFleetsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInstanceFleetsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInstanceFleets, tokenKey: \ListInstanceFleetsOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listInstanceFleets, tokenKey: \ListInstanceFleetsOutput.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Provides all available details about the instance groups in a cluster.
     public func listInstanceGroupsPaginator(
         _ input: ListInstanceGroupsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInstanceGroupsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInstanceGroups, tokenKey: \ListInstanceGroupsOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listInstanceGroups, tokenKey: \ListInstanceGroupsOutput.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     public func listInstancesPaginator(
         _ input: ListInstancesInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInstancesOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesOutput.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
     public func listSecurityConfigurationsPaginator(
         _ input: ListSecurityConfigurationsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSecurityConfigurationsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSecurityConfigurations, tokenKey: \ListSecurityConfigurationsOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listSecurityConfigurations, tokenKey: \ListSecurityConfigurationsOutput.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of ten stepIDs.
     public func listStepsPaginator(
         _ input: ListStepsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListStepsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSteps, tokenKey: \ListStepsOutput.marker, onPage: onPage)
+        return client.paginate(input: input, command: listSteps, tokenKey: \ListStepsOutput.marker, on: eventLoop, onPage: onPage)
     }
 
 }

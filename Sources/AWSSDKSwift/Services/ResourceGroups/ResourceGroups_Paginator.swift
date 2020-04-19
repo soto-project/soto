@@ -23,28 +23,31 @@ extension ResourceGroups {
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
     public func listGroupResourcesPaginator(
         _ input: ListGroupResourcesInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListGroupResourcesOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroupResources, tokenKey: \ListGroupResourcesOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listGroupResources, tokenKey: \ListGroupResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of existing resource groups in your account.
     public func listGroupsPaginator(
         _ input: ListGroupsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListGroupsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
     public func searchResourcesPaginator(
         _ input: SearchResourcesInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (SearchResourcesOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

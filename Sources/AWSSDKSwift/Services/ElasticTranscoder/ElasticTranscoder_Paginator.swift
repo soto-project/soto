@@ -23,37 +23,41 @@ extension ElasticTranscoder {
     ///  The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
     public func listJobsByPipelinePaginator(
         _ input: ListJobsByPipelineRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsByPipelineResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobsByPipeline, tokenKey: \ListJobsByPipelineResponse.nextPageToken, onPage: onPage)
+        return client.paginate(input: input, command: listJobsByPipeline, tokenKey: \ListJobsByPipelineResponse.nextPageToken, on: eventLoop, onPage: onPage)
     }
 
     ///  The ListJobsByStatus operation gets a list of jobs that have a specified status. The response body contains one element for each job that satisfies the search criteria.
     public func listJobsByStatusPaginator(
         _ input: ListJobsByStatusRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsByStatusResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobsByStatus, tokenKey: \ListJobsByStatusResponse.nextPageToken, onPage: onPage)
+        return client.paginate(input: input, command: listJobsByStatus, tokenKey: \ListJobsByStatusResponse.nextPageToken, on: eventLoop, onPage: onPage)
     }
 
     ///  The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
     public func listPipelinesPaginator(
         _ input: ListPipelinesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPipelinesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextPageToken, onPage: onPage)
+        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextPageToken, on: eventLoop, onPage: onPage)
     }
 
     ///  The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that you've added in an AWS region.
     public func listPresetsPaginator(
         _ input: ListPresetsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPresetsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPresets, tokenKey: \ListPresetsResponse.nextPageToken, onPage: onPage)
+        return client.paginate(input: input, command: listPresets, tokenKey: \ListPresetsResponse.nextPageToken, on: eventLoop, onPage: onPage)
     }
 
 }

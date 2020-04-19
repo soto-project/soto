@@ -23,28 +23,31 @@ extension ServerlessApplicationRepository {
     ///  Retrieves the list of applications nested in the containing application.
     public func listApplicationDependenciesPaginator(
         _ input: ListApplicationDependenciesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListApplicationDependenciesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplicationDependencies, tokenKey: \ListApplicationDependenciesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listApplicationDependencies, tokenKey: \ListApplicationDependenciesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists versions for the specified application.
     public func listApplicationVersionsPaginator(
         _ input: ListApplicationVersionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListApplicationVersionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplicationVersions, tokenKey: \ListApplicationVersionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listApplicationVersions, tokenKey: \ListApplicationVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists applications owned by the requester.
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListApplicationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

@@ -66,61 +66,61 @@ public struct CodeGuruProfiler {
     
     //MARK: API Calls
 
-    public func configureAgent(_ input: ConfigureAgentRequest) -> EventLoopFuture<ConfigureAgentResponse> {
-        return client.send(operation: "ConfigureAgent", path: "/profilingGroups/{profilingGroupName}/configureAgent", httpMethod: "POST", input: input)
+    public func configureAgent(_ input: ConfigureAgentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigureAgentResponse> {
+        return client.send(operation: "ConfigureAgent", path: "/profilingGroups/{profilingGroupName}/configureAgent", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a profiling group.
-    public func createProfilingGroup(_ input: CreateProfilingGroupRequest) -> EventLoopFuture<CreateProfilingGroupResponse> {
-        return client.send(operation: "CreateProfilingGroup", path: "/profilingGroups", httpMethod: "POST", input: input)
+    public func createProfilingGroup(_ input: CreateProfilingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfilingGroupResponse> {
+        return client.send(operation: "CreateProfilingGroup", path: "/profilingGroups", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes a profiling group.
-    public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest) -> EventLoopFuture<DeleteProfilingGroupResponse> {
-        return client.send(operation: "DeleteProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "DELETE", input: input)
+    public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProfilingGroupResponse> {
+        return client.send(operation: "DeleteProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Describes a profiling group.
-    public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest) -> EventLoopFuture<DescribeProfilingGroupResponse> {
-        return client.send(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "GET", input: input)
+    public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProfilingGroupResponse> {
+        return client.send(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets the profiling group policy.
-    public func getPolicy(_ input: GetPolicyRequest) -> EventLoopFuture<GetPolicyResponse> {
-        return client.send(operation: "GetPolicy", path: "/profilingGroups/{profilingGroupName}/policy", httpMethod: "GET", input: input)
+    public func getPolicy(_ input: GetPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPolicyResponse> {
+        return client.send(operation: "GetPolicy", path: "/profilingGroups/{profilingGroupName}/policy", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets the aggregated profile of a profiling group for the specified time range. If the requested time range does not align with the available aggregated profiles, it is expanded to attain alignment. If aggregated profiles are available only for part of the period requested, the profile is returned from the earliest available to the latest within the requested time range.  For example, if the requested time range is from 00:00 to 00:20 and the available profiles are from 00:15 to 00:25, the returned profile will be from 00:15 to 00:20.  You must specify exactly two of the following parameters: startTime, period, and endTime. 
-    public func getProfile(_ input: GetProfileRequest) -> EventLoopFuture<GetProfileResponse> {
-        return client.send(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: "GET", input: input)
+    public func getProfile(_ input: GetProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProfileResponse> {
+        return client.send(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
-    public func listProfileTimes(_ input: ListProfileTimesRequest) -> EventLoopFuture<ListProfileTimesResponse> {
-        return client.send(operation: "ListProfileTimes", path: "/profilingGroups/{profilingGroupName}/profileTimes", httpMethod: "GET", input: input)
+    public func listProfileTimes(_ input: ListProfileTimesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProfileTimesResponse> {
+        return client.send(operation: "ListProfileTimes", path: "/profilingGroups/{profilingGroupName}/profileTimes", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists profiling groups.
-    public func listProfilingGroups(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<ListProfilingGroupsResponse> {
-        return client.send(operation: "ListProfilingGroups", path: "/profilingGroups", httpMethod: "GET", input: input)
+    public func listProfilingGroups(_ input: ListProfilingGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProfilingGroupsResponse> {
+        return client.send(operation: "ListProfilingGroups", path: "/profilingGroups", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    public func postAgentProfile(_ input: PostAgentProfileRequest) -> EventLoopFuture<PostAgentProfileResponse> {
-        return client.send(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: "POST", input: input)
+    public func postAgentProfile(_ input: PostAgentProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostAgentProfileResponse> {
+        return client.send(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Provides permission to the principals. This overwrites the existing permissions, and is not additive.
-    public func putPermission(_ input: PutPermissionRequest) -> EventLoopFuture<PutPermissionResponse> {
-        return client.send(operation: "PutPermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: "PUT", input: input)
+    public func putPermission(_ input: PutPermissionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPermissionResponse> {
+        return client.send(operation: "PutPermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Removes statement for the provided action group from the policy.
-    public func removePermission(_ input: RemovePermissionRequest) -> EventLoopFuture<RemovePermissionResponse> {
-        return client.send(operation: "RemovePermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: "DELETE", input: input)
+    public func removePermission(_ input: RemovePermissionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemovePermissionResponse> {
+        return client.send(operation: "RemovePermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Updates a profiling group.
-    public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest) -> EventLoopFuture<UpdateProfilingGroupResponse> {
-        return client.send(operation: "UpdateProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "PUT", input: input)
+    public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfilingGroupResponse> {
+        return client.send(operation: "UpdateProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

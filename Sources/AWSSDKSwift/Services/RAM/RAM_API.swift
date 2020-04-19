@@ -67,117 +67,117 @@ public struct RAM {
     //MARK: API Calls
 
     ///  Accepts an invitation to a resource share from another AWS account.
-    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest) -> EventLoopFuture<AcceptResourceShareInvitationResponse> {
-        return client.send(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: "POST", input: input)
+    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptResourceShareInvitationResponse> {
+        return client.send(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Associates the specified resource share with the specified principals and resources.
-    public func associateResourceShare(_ input: AssociateResourceShareRequest) -> EventLoopFuture<AssociateResourceShareResponse> {
-        return client.send(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: "POST", input: input)
+    public func associateResourceShare(_ input: AssociateResourceShareRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateResourceShareResponse> {
+        return client.send(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Associates a permission with a resource share.
-    public func associateResourceSharePermission(_ input: AssociateResourceSharePermissionRequest) -> EventLoopFuture<AssociateResourceSharePermissionResponse> {
-        return client.send(operation: "AssociateResourceSharePermission", path: "/associateresourcesharepermission", httpMethod: "POST", input: input)
+    public func associateResourceSharePermission(_ input: AssociateResourceSharePermissionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateResourceSharePermissionResponse> {
+        return client.send(operation: "AssociateResourceSharePermission", path: "/associateresourcesharepermission", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a resource share.
-    public func createResourceShare(_ input: CreateResourceShareRequest) -> EventLoopFuture<CreateResourceShareResponse> {
-        return client.send(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: "POST", input: input)
+    public func createResourceShare(_ input: CreateResourceShareRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceShareResponse> {
+        return client.send(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the specified resource share.
-    public func deleteResourceShare(_ input: DeleteResourceShareRequest) -> EventLoopFuture<DeleteResourceShareResponse> {
-        return client.send(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: "DELETE", input: input)
+    public func deleteResourceShare(_ input: DeleteResourceShareRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourceShareResponse> {
+        return client.send(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Disassociates the specified principals or resources from the specified resource share.
-    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest) -> EventLoopFuture<DisassociateResourceShareResponse> {
-        return client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
+    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateResourceShareResponse> {
+        return client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Disassociates an AWS RAM permission from a resource share.
-    public func disassociateResourceSharePermission(_ input: DisassociateResourceSharePermissionRequest) -> EventLoopFuture<DisassociateResourceSharePermissionResponse> {
-        return client.send(operation: "DisassociateResourceSharePermission", path: "/disassociateresourcesharepermission", httpMethod: "POST", input: input)
+    public func disassociateResourceSharePermission(_ input: DisassociateResourceSharePermissionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateResourceSharePermissionResponse> {
+        return client.send(operation: "DisassociateResourceSharePermission", path: "/disassociateresourcesharepermission", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Enables resource sharing within your AWS Organization. The caller must be the master account for the AWS Organization.
-    public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest) -> EventLoopFuture<EnableSharingWithAwsOrganizationResponse> {
-        return client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input)
+    public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableSharingWithAwsOrganizationResponse> {
+        return client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets the contents of an AWS RAM permission in JSON format.
-    public func getPermission(_ input: GetPermissionRequest) -> EventLoopFuture<GetPermissionResponse> {
-        return client.send(operation: "GetPermission", path: "/getpermission", httpMethod: "POST", input: input)
+    public func getPermission(_ input: GetPermissionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPermissionResponse> {
+        return client.send(operation: "GetPermission", path: "/getpermission", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets the policies for the specified resources that you own and have shared.
-    public func getResourcePolicies(_ input: GetResourcePoliciesRequest) -> EventLoopFuture<GetResourcePoliciesResponse> {
-        return client.send(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: "POST", input: input)
+    public func getResourcePolicies(_ input: GetResourcePoliciesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePoliciesResponse> {
+        return client.send(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets the resources or principals for the resource shares that you own.
-    public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest) -> EventLoopFuture<GetResourceShareAssociationsResponse> {
-        return client.send(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: "POST", input: input)
+    public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceShareAssociationsResponse> {
+        return client.send(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets the invitations for resource sharing that you've received.
-    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) -> EventLoopFuture<GetResourceShareInvitationsResponse> {
-        return client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input)
+    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceShareInvitationsResponse> {
+        return client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets the resource shares that you own or the resource shares that are shared with you.
-    public func getResourceShares(_ input: GetResourceSharesRequest) -> EventLoopFuture<GetResourceSharesResponse> {
-        return client.send(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: "POST", input: input)
+    public func getResourceShares(_ input: GetResourceSharesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceSharesResponse> {
+        return client.send(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
-    public func listPendingInvitationResources(_ input: ListPendingInvitationResourcesRequest) -> EventLoopFuture<ListPendingInvitationResourcesResponse> {
-        return client.send(operation: "ListPendingInvitationResources", path: "/listpendinginvitationresources", httpMethod: "POST", input: input)
+    public func listPendingInvitationResources(_ input: ListPendingInvitationResourcesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPendingInvitationResourcesResponse> {
+        return client.send(operation: "ListPendingInvitationResources", path: "/listpendinginvitationresources", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the AWS RAM permissions.
-    public func listPermissions(_ input: ListPermissionsRequest) -> EventLoopFuture<ListPermissionsResponse> {
-        return client.send(operation: "ListPermissions", path: "/listpermissions", httpMethod: "POST", input: input)
+    public func listPermissions(_ input: ListPermissionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPermissionsResponse> {
+        return client.send(operation: "ListPermissions", path: "/listpermissions", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the principals that you have shared resources with or that have shared resources with you.
-    public func listPrincipals(_ input: ListPrincipalsRequest) -> EventLoopFuture<ListPrincipalsResponse> {
-        return client.send(operation: "ListPrincipals", path: "/listprincipals", httpMethod: "POST", input: input)
+    public func listPrincipals(_ input: ListPrincipalsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPrincipalsResponse> {
+        return client.send(operation: "ListPrincipals", path: "/listprincipals", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the AWS RAM permissions that are associated with a resource share.
-    public func listResourceSharePermissions(_ input: ListResourceSharePermissionsRequest) -> EventLoopFuture<ListResourceSharePermissionsResponse> {
-        return client.send(operation: "ListResourceSharePermissions", path: "/listresourcesharepermissions", httpMethod: "POST", input: input)
+    public func listResourceSharePermissions(_ input: ListResourceSharePermissionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceSharePermissionsResponse> {
+        return client.send(operation: "ListResourceSharePermissions", path: "/listresourcesharepermissions", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
-    public func listResources(_ input: ListResourcesRequest) -> EventLoopFuture<ListResourcesResponse> {
-        return client.send(operation: "ListResources", path: "/listresources", httpMethod: "POST", input: input)
+    public func listResources(_ input: ListResourcesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourcesResponse> {
+        return client.send(operation: "ListResources", path: "/listresources", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Resource shares that were created by attaching a policy to a resource are visible only to the resource share owner, and the resource share cannot be modified in AWS RAM. Use this API action to promote the resource share. When you promote the resource share, it becomes:   Visible to all principals that it is shared with.   Modifiable in AWS RAM.  
-    public func promoteResourceShareCreatedFromPolicy(_ input: PromoteResourceShareCreatedFromPolicyRequest) -> EventLoopFuture<PromoteResourceShareCreatedFromPolicyResponse> {
-        return client.send(operation: "PromoteResourceShareCreatedFromPolicy", path: "/promoteresourcesharecreatedfrompolicy", httpMethod: "POST", input: input)
+    public func promoteResourceShareCreatedFromPolicy(_ input: PromoteResourceShareCreatedFromPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PromoteResourceShareCreatedFromPolicyResponse> {
+        return client.send(operation: "PromoteResourceShareCreatedFromPolicy", path: "/promoteresourcesharecreatedfrompolicy", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Rejects an invitation to a resource share from another AWS account.
-    public func rejectResourceShareInvitation(_ input: RejectResourceShareInvitationRequest) -> EventLoopFuture<RejectResourceShareInvitationResponse> {
-        return client.send(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: "POST", input: input)
+    public func rejectResourceShareInvitation(_ input: RejectResourceShareInvitationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectResourceShareInvitationResponse> {
+        return client.send(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Adds the specified tags to the specified resource share that you own.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes the specified tags from the specified resource share that you own.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the specified resource share that you own.
-    public func updateResourceShare(_ input: UpdateResourceShareRequest) -> EventLoopFuture<UpdateResourceShareResponse> {
-        return client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
+    public func updateResourceShare(_ input: UpdateResourceShareRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceShareResponse> {
+        return client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

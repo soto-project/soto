@@ -23,28 +23,31 @@ extension WorkSpaces {
     ///  Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
     public func describeWorkspaceBundlesPaginator(
         _ input: DescribeWorkspaceBundlesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeWorkspaceBundlesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeWorkspaceBundles, tokenKey: \DescribeWorkspaceBundlesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeWorkspaceBundles, tokenKey: \DescribeWorkspaceBundlesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
     public func describeWorkspaceDirectoriesPaginator(
         _ input: DescribeWorkspaceDirectoriesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeWorkspaceDirectoriesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeWorkspaceDirectories, tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeWorkspaceDirectories, tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
     public func describeWorkspacesPaginator(
         _ input: DescribeWorkspacesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeWorkspacesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeWorkspaces, tokenKey: \DescribeWorkspacesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeWorkspaces, tokenKey: \DescribeWorkspacesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }
