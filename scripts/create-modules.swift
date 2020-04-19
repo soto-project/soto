@@ -21,6 +21,7 @@ class GenerateProcess {
 
     func createProject(_ serviceName: String) throws {
         let serviceSourceFolder = try servicesFolder.subfolder(at: serviceName)
+        let extensionSourceFolder = try? extensionsFolder.subfolder(at: serviceName)
 
         // create folders
         let serviceTargetFolder = try targetFolder.createSubfolder(at: serviceName)
@@ -31,6 +32,11 @@ class GenerateProcess {
         }
         // copy source files across
         try serviceSourceFolder.copy(to: sourceTargetFolder)
+        // if there is an extensions folder copy files across to target source folder
+        if let extensionSourceFolder = extensionSourceFolder {
+            let serviceSourceTargetFolder = try sourceTargetFolder.subfolder(at: serviceName)
+            try extensionSourceFolder.files.forEach { try $0.copy(to: serviceSourceTargetFolder)}
+        }
         // Package.swift
         let context = [
             "name": serviceName,
@@ -54,7 +60,7 @@ class GenerateProcess {
 
     func run() throws {
         servicesFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
-        extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
+        extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Extensions")
         targetFolder = try Folder(path: ".").createSubfolder(at: parameters.targetPath)
 
         //try Folder(path: "targetFolder").
