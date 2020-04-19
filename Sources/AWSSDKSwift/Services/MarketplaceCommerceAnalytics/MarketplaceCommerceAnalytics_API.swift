@@ -56,7 +56,7 @@ public struct MarketplaceCommerceAnalytics {
             region: region,
             amzTarget: "MarketplaceCommerceAnalytics20150701",
             service: "marketplacecommerceanalytics",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-07-01",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -56,7 +56,7 @@ public struct IoTThingsGraph {
             region: region,
             amzTarget: "IotThingsGraphFrontEndService",
             service: "iotthingsgraph",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-09-06",
             endpoint: endpoint,
             middlewares: middlewares,

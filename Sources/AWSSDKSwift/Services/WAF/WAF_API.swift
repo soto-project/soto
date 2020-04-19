@@ -56,7 +56,7 @@ public struct WAF {
             region: region,
             amzTarget: "AWSWAF_20150824",
             service: "waf",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-24",
             endpoint: endpoint,
             serviceEndpoints: ["aws-fips": "waf-fips.amazonaws.com", "aws-global": "waf.amazonaws.com"],

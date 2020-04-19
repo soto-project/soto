@@ -56,7 +56,7 @@ public struct Inspector {
             region: region,
             amzTarget: "InspectorService",
             service: "inspector",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-02-16",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "inspector-fips.us-east-1.amazonaws.com", "fips-us-east-2": "inspector-fips.us-east-2.amazonaws.com", "fips-us-west-1": "inspector-fips.us-west-1.amazonaws.com", "fips-us-west-2": "inspector-fips.us-west-2.amazonaws.com"],

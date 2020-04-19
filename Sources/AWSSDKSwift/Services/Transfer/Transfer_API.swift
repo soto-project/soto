@@ -56,7 +56,7 @@ public struct Transfer {
             region: region,
             amzTarget: "TransferService",
             service: "transfer",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-05",
             endpoint: endpoint,
             middlewares: middlewares,

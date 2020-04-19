@@ -55,7 +55,7 @@ public struct MediaConvert {
             sessionToken: sessionToken,
             region: region,
             service: "mediaconvert",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
             endpoint: endpoint,
             middlewares: middlewares,

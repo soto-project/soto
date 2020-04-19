@@ -55,7 +55,7 @@ public struct SNS {
             sessionToken: sessionToken,
             region: region,
             service: "sns",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2010-03-31",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "sns-fips.us-east-1.amazonaws.com", "fips-us-east-2": "sns-fips.us-east-2.amazonaws.com", "fips-us-west-1": "sns-fips.us-west-1.amazonaws.com", "fips-us-west-2": "sns-fips.us-west-2.amazonaws.com"],

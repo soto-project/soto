@@ -56,7 +56,7 @@ public struct Personalize {
             region: region,
             amzTarget: "AmazonPersonalize",
             service: "personalize",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-05-22",
             endpoint: endpoint,
             middlewares: middlewares,

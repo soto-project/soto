@@ -56,7 +56,7 @@ public struct ECS {
             region: region,
             amzTarget: "AmazonEC2ContainerServiceV20141113",
             service: "ecs",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-13",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "ecs-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ecs-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ecs-fips.us-west-1.amazonaws.com", "madison-fips-us-west-2": "ecs-fips.us-west-2.amazonaws.com"],

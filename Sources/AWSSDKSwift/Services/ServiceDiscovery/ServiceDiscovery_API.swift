@@ -56,7 +56,7 @@ public struct ServiceDiscovery {
             region: region,
             amzTarget: "Route53AutoNaming_v20170314",
             service: "servicediscovery",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-14",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -56,7 +56,7 @@ public struct TranscribeService {
             region: region,
             amzTarget: "Transcribe",
             service: "transcribe",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-26",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "fips.transcribe.us-east-1.amazonaws.com", "fips-us-east-2": "fips.transcribe.us-east-2.amazonaws.com", "fips-us-west-1": "fips.transcribe.us-west-1.amazonaws.com", "fips-us-west-2": "fips.transcribe.us-west-2.amazonaws.com"],

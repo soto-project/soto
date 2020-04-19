@@ -55,7 +55,7 @@ public struct CloudDirectory {
             sessionToken: sessionToken,
             region: region,
             service: "clouddirectory",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-01-11",
             endpoint: endpoint,
             middlewares: middlewares,

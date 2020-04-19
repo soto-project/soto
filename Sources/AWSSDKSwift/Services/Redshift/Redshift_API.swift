@@ -55,7 +55,7 @@ public struct Redshift {
             sessionToken: sessionToken,
             region: region,
             service: "redshift",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2012-12-01",
             endpoint: endpoint,
             serviceEndpoints: ["fips-ca-central-1": "redshift-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "redshift-fips.us-east-1.amazonaws.com", "fips-us-east-2": "redshift-fips.us-east-2.amazonaws.com", "fips-us-west-1": "redshift-fips.us-west-1.amazonaws.com", "fips-us-west-2": "redshift-fips.us-west-2.amazonaws.com"],

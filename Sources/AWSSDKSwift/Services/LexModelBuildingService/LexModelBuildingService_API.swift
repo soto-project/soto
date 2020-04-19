@@ -56,7 +56,7 @@ public struct LexModelBuildingService {
             region: region,
             service: "models.lex",
             signingName: "lex",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-04-19",
             endpoint: endpoint,
             middlewares: middlewares,

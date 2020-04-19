@@ -55,7 +55,7 @@ public struct IoTAnalytics {
             sessionToken: sessionToken,
             region: region,
             service: "iotanalytics",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-11-27",
             endpoint: endpoint,
             middlewares: middlewares,

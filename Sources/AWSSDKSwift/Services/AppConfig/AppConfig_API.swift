@@ -55,7 +55,7 @@ public struct AppConfig {
             sessionToken: sessionToken,
             region: region,
             service: "appconfig",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-10-09",
             endpoint: endpoint,
             middlewares: middlewares,

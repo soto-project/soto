@@ -56,7 +56,7 @@ public struct Cloud9 {
             region: region,
             amzTarget: "AWSCloud9WorkspaceManagementService",
             service: "cloud9",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-23",
             endpoint: endpoint,
             middlewares: middlewares,

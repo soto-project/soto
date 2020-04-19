@@ -55,7 +55,7 @@ public struct MediaPackage {
             sessionToken: sessionToken,
             region: region,
             service: "mediapackage",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-10-12",
             endpoint: endpoint,
             middlewares: middlewares,

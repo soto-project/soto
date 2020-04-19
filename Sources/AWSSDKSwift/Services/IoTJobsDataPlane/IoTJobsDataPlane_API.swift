@@ -56,7 +56,7 @@ public struct IoTJobsDataPlane {
             region: region,
             service: "data.jobs.iot",
             signingName: "iot-jobs-data",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-09-29",
             endpoint: endpoint,
             middlewares: middlewares,

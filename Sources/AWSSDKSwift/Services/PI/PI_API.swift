@@ -56,7 +56,7 @@ public struct PI {
             region: region,
             amzTarget: "PerformanceInsightsv20180227",
             service: "pi",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-02-27",
             endpoint: endpoint,
             middlewares: middlewares,

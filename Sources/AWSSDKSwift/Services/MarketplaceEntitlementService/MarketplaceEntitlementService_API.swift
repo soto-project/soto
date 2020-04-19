@@ -57,7 +57,7 @@ public struct MarketplaceEntitlementService {
             amzTarget: "AWSMPEntitlementService",
             service: "entitlement.marketplace",
             signingName: "aws-marketplace",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
             endpoint: endpoint,
             middlewares: middlewares,

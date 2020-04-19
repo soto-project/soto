@@ -56,7 +56,7 @@ public struct CloudHSM {
             region: region,
             amzTarget: "CloudHsmFrontendService",
             service: "cloudhsm",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-05-30",
             endpoint: endpoint,
             middlewares: middlewares,

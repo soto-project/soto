@@ -55,7 +55,7 @@ public struct CodeGuruProfiler {
             sessionToken: sessionToken,
             region: region,
             service: "codeguru-profiler",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-07-18",
             endpoint: endpoint,
             middlewares: middlewares,

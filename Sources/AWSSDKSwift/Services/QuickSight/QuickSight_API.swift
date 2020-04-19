@@ -55,7 +55,7 @@ public struct QuickSight {
             sessionToken: sessionToken,
             region: region,
             service: "quicksight",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 0)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-04-01",
             endpoint: endpoint,
             middlewares: middlewares,

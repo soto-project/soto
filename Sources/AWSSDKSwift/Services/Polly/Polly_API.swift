@@ -55,7 +55,7 @@ public struct Polly {
             sessionToken: sessionToken,
             region: region,
             service: "polly",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2016-06-10",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "polly-fips.us-east-1.amazonaws.com", "fips-us-east-2": "polly-fips.us-east-2.amazonaws.com", "fips-us-west-1": "polly-fips.us-west-1.amazonaws.com", "fips-us-west-2": "polly-fips.us-west-2.amazonaws.com"],

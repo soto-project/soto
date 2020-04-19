@@ -56,7 +56,7 @@ public struct ResourceGroupsTaggingAPI {
             region: region,
             amzTarget: "ResourceGroupsTaggingAPI_20170126",
             service: "tagging",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-26",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -55,7 +55,7 @@ public struct ImportExport {
             sessionToken: sessionToken,
             region: region,
             service: "importexport",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2010-06-01",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "importexport.amazonaws.com"],

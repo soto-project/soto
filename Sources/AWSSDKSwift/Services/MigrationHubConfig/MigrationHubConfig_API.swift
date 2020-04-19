@@ -57,7 +57,7 @@ public struct MigrationHubConfig {
             amzTarget: "AWSMigrationHubMultiAccountService",
             service: "migrationhub-config",
             signingName: "mgh",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-30",
             endpoint: endpoint,
             middlewares: middlewares,

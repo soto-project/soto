@@ -56,7 +56,7 @@ public struct MediaStoreData {
             region: region,
             service: "data.mediastore",
             signingName: "mediastore",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-09-01",
             endpoint: endpoint,
             middlewares: middlewares,

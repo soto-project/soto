@@ -56,7 +56,7 @@ public struct CodeStarconnections {
             region: region,
             amzTarget: "com.amazonaws.codestar.connections.CodeStar_connections_20191201",
             service: "codestar-connections",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
+            serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-12-01",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -56,7 +56,7 @@ public struct MigrationHub {
             region: region,
             amzTarget: "AWSMigrationHub",
             service: "mgh",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-05-31",
             endpoint: endpoint,
             middlewares: middlewares,

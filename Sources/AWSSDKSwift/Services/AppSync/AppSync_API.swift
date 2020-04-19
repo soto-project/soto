@@ -55,7 +55,7 @@ public struct AppSync {
             sessionToken: sessionToken,
             region: region,
             service: "appsync",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
             middlewares: middlewares,

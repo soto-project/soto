@@ -55,7 +55,7 @@ public struct MobileAnalytics {
             sessionToken: sessionToken,
             region: region,
             service: "mobileanalytics",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2014-06-05",
             endpoint: endpoint,
             middlewares: middlewares,

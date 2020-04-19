@@ -56,7 +56,7 @@ public struct IoTEventsData {
             region: region,
             service: "data.iotevents",
             signingName: "ioteventsdata",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2018-10-23",
             endpoint: endpoint,
             middlewares: middlewares,

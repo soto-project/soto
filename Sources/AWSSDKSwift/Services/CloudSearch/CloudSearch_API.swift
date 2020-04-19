@@ -55,7 +55,7 @@ public struct CloudSearch {
             sessionToken: sessionToken,
             region: region,
             service: "cloudsearch",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2013-01-01",
             endpoint: endpoint,
             middlewares: middlewares,

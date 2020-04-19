@@ -55,7 +55,7 @@ public struct CodeStarNotifications {
             sessionToken: sessionToken,
             region: region,
             service: "codestar-notifications",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-10-15",
             endpoint: endpoint,
             middlewares: middlewares,

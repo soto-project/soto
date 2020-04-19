@@ -57,7 +57,7 @@ public struct MarketplaceMetering {
             amzTarget: "AWSMPMeteringService",
             service: "metering.marketplace",
             signingName: "aws-marketplace",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-14",
             endpoint: endpoint,
             middlewares: middlewares,

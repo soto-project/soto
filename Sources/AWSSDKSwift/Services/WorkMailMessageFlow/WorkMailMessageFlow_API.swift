@@ -55,7 +55,7 @@ public struct WorkMailMessageFlow {
             sessionToken: sessionToken,
             region: region,
             service: "workmailmessageflow",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-05-01",
             endpoint: endpoint,
             middlewares: middlewares,

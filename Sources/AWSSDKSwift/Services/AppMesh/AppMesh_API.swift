@@ -67,7 +67,7 @@ public struct AppMesh {
             sessionToken: sessionToken,
             region: region,
             service: "appmesh",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-01-25",
             endpoint: endpoint,
             middlewares: middlewares,

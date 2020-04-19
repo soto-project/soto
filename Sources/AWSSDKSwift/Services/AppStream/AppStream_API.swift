@@ -57,7 +57,7 @@ public struct AppStream {
             amzTarget: "PhotonAdminProxyService",
             service: "appstream2",
             signingName: "appstream",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             serviceEndpoints: ["fips": "appstream2-fips.us-west-2.amazonaws.com"],

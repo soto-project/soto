@@ -56,7 +56,7 @@ public struct SageMakerRuntime {
             region: region,
             service: "runtime.sagemaker",
             signingName: "sagemaker",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-05-13",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "runtime-fips.sagemaker.us-east-1.amazonaws.com", "us-east-2-fips": "runtime-fips.sagemaker.us-east-2.amazonaws.com", "us-west-1-fips": "runtime-fips.sagemaker.us-west-1.amazonaws.com", "us-west-2-fips": "runtime-fips.sagemaker.us-west-2.amazonaws.com"],

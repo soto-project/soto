@@ -55,7 +55,7 @@ public struct CognitoSync {
             sessionToken: sessionToken,
             region: region,
             service: "cognito-sync",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2014-06-30",
             endpoint: endpoint,
             middlewares: middlewares,

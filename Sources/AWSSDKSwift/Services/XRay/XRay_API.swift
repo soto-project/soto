@@ -55,7 +55,7 @@ public struct XRay {
             sessionToken: sessionToken,
             region: region,
             service: "xray",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2016-04-12",
             endpoint: endpoint,
             middlewares: middlewares,

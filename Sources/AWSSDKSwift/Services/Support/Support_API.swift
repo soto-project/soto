@@ -56,7 +56,7 @@ public struct Support {
             region: region,
             amzTarget: "AWSSupport_20130415",
             service: "support",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-04-15",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "support.us-east-1.amazonaws.com"],

@@ -54,7 +54,7 @@ public struct KinesisVideo {
             sessionToken: sessionToken,
             region: region,
             service: "kinesisvideo",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-09-30",
             endpoint: endpoint,
             middlewares: middlewares,

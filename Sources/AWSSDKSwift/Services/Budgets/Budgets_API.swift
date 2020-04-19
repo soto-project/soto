@@ -56,7 +56,7 @@ public struct Budgets {
             region: region,
             amzTarget: "AWSBudgetServiceGateway",
             service: "budgets",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-20",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "budgets.amazonaws.com"],

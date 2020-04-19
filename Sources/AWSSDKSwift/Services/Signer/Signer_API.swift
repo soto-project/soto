@@ -55,7 +55,7 @@ public struct Signer {
             sessionToken: sessionToken,
             region: region,
             service: "signer",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-08-25",
             endpoint: endpoint,
             middlewares: middlewares,

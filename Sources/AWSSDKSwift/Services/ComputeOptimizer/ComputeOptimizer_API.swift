@@ -56,7 +56,7 @@ public struct ComputeOptimizer {
             region: region,
             amzTarget: "ComputeOptimizerService",
             service: "compute-optimizer",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
+            serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-11-01",
             endpoint: endpoint,
             middlewares: middlewares,

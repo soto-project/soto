@@ -55,7 +55,7 @@ public struct EBS {
             sessionToken: sessionToken,
             region: region,
             service: "ebs",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-11-02",
             endpoint: endpoint,
             middlewares: middlewares,
