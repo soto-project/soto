@@ -442,8 +442,7 @@ extension Kafka {
         public let kafkaVersion: String
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
-        ///             The number of broker nodes in the cluster.
-        ///          
+        /// The number of Kafka broker nodes in the Amazon MSK cluster.
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
