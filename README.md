@@ -131,13 +131,20 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 }
 ```
 
-## EventLoopGroup management
+## HTTP client
 
-The AWS SDK has its own NIO `EventLoopGroup` but it is recommended that you provide your own `EventLoopGroup` for the SDK to work off. You can do this when you construct your client.
+The AWS SDK sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/aws-sdk-swift-core/blob/master/Sources/AWSSDKSwiftCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
+
+You can provide your own HTTP client as follows
 ```
-let s3 = S3(region:.uswest2, eventLoopGroupProvider: .shared(myEventLoopGroup)
+let s3 = S3(region:.uswest2, httpClientProvider: .shared(myHTTPClient))
 ```
-The EventLoopGroup types you can use depend on the platform you are running on. On Linux use `MultiThreadedEventLoopGroup`, on macOS use `MultiThreadedEventLoopGroup` or `NIOTSEventLoopGroup` and iOS use `NIOTSEventLoopGroup`. Using the `NIOTSEventLoopGroup` will mean you use [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework.
+Reasons you might want to provide your own client.
+- You have one HTTP client you want to use across all your systems.
+- You want to provide a client that is using a global `EventLoopGroup`.
+- On macOS you want to force the usage of the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) regardless of OS version.
+- You want to change the configuration for the HTTP client used.
+- You want to provide your own custom built HTTP client.
 
 ## Using AWSSDKSwift with Vapor
 
