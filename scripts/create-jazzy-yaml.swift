@@ -7,10 +7,6 @@ class GenerateProcess {
     let environment: Environment
     let fsLoader: FileSystemLoader
 
-    var targetFolder: Folder!
-    var servicesFolder: Folder!
-    var extensionsFolder: Folder!
-
     init() {
         self.fsLoader = FileSystemLoader(paths: ["./scripts/templates/create-jazzy-yaml"])
         self.environment = Environment(loader: fsLoader)
