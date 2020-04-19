@@ -45,7 +45,7 @@ jobs:
     - name: Install
       run: |
         gem install jazzy
-        npm install lodash fs globby
+        brew install swift-sh
     - name: Chunk 1
       uses: actions/download-artifact@v1
       with:
