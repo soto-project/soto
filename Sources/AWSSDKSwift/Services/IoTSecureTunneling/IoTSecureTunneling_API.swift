@@ -69,37 +69,37 @@ public struct IoTSecureTunneling {
     //MARK: API Calls
 
     ///  Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted.
-    public func closeTunnel(_ input: CloseTunnelRequest) -> EventLoopFuture<CloseTunnelResponse> {
-        return client.send(operation: "CloseTunnel", path: "/", httpMethod: "POST", input: input)
+    public func closeTunnel(_ input: CloseTunnelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CloseTunnelResponse> {
+        return client.send(operation: "CloseTunnel", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets information about a tunnel identified by the unique tunnel id.
-    public func describeTunnel(_ input: DescribeTunnelRequest) -> EventLoopFuture<DescribeTunnelResponse> {
-        return client.send(operation: "DescribeTunnel", path: "/", httpMethod: "POST", input: input)
+    public func describeTunnel(_ input: DescribeTunnelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTunnelResponse> {
+        return client.send(operation: "DescribeTunnel", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the tags for the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
-    public func listTunnels(_ input: ListTunnelsRequest) -> EventLoopFuture<ListTunnelsResponse> {
-        return client.send(operation: "ListTunnels", path: "/", httpMethod: "POST", input: input)
+    public func listTunnels(_ input: ListTunnelsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTunnelsResponse> {
+        return client.send(operation: "ListTunnels", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server. .
-    public func openTunnel(_ input: OpenTunnelRequest) -> EventLoopFuture<OpenTunnelResponse> {
-        return client.send(operation: "OpenTunnel", path: "/", httpMethod: "POST", input: input)
+    public func openTunnel(_ input: OpenTunnelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<OpenTunnelResponse> {
+        return client.send(operation: "OpenTunnel", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  A resource tag.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes a tag from a resource.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

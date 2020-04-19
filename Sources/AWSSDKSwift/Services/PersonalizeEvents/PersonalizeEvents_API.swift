@@ -67,7 +67,7 @@ public struct PersonalizeEvents {
     //MARK: API Calls
 
     ///  Records user interaction event data.
-    @discardableResult public func putEvents(_ input: PutEventsRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input)
+    @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

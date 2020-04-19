@@ -23,37 +23,41 @@ extension Route53Resolver {
     ///  Gets the IP addresses for a specified resolver endpoint.
     public func listResolverEndpointIpAddressesPaginator(
         _ input: ListResolverEndpointIpAddressesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResolverEndpointIpAddressesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverEndpointIpAddresses, tokenKey: \ListResolverEndpointIpAddressesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listResolverEndpointIpAddresses, tokenKey: \ListResolverEndpointIpAddressesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all the resolver endpoints that were created using the current AWS account.
     public func listResolverEndpointsPaginator(
         _ input: ListResolverEndpointsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResolverEndpointsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverEndpoints, tokenKey: \ListResolverEndpointsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listResolverEndpoints, tokenKey: \ListResolverEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the associations that were created between resolver rules and VPCs using the current AWS account.
     public func listResolverRuleAssociationsPaginator(
         _ input: ListResolverRuleAssociationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResolverRuleAssociationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverRuleAssociations, tokenKey: \ListResolverRuleAssociationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listResolverRuleAssociations, tokenKey: \ListResolverRuleAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the resolver rules that were created using the current AWS account.
     public func listResolverRulesPaginator(
         _ input: ListResolverRulesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResolverRulesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverRules, tokenKey: \ListResolverRulesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listResolverRules, tokenKey: \ListResolverRulesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

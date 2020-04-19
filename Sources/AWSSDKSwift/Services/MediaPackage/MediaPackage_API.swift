@@ -67,90 +67,90 @@ public struct MediaPackage {
     //MARK: API Calls
 
     ///  Creates a new Channel.
-    public func createChannel(_ input: CreateChannelRequest) -> EventLoopFuture<CreateChannelResponse> {
-        return client.send(operation: "CreateChannel", path: "/channels", httpMethod: "POST", input: input)
+    public func createChannel(_ input: CreateChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
+        return client.send(operation: "CreateChannel", path: "/channels", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new HarvestJob record.
-    public func createHarvestJob(_ input: CreateHarvestJobRequest) -> EventLoopFuture<CreateHarvestJobResponse> {
-        return client.send(operation: "CreateHarvestJob", path: "/harvest_jobs", httpMethod: "POST", input: input)
+    public func createHarvestJob(_ input: CreateHarvestJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHarvestJobResponse> {
+        return client.send(operation: "CreateHarvestJob", path: "/harvest_jobs", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new OriginEndpoint record.
-    public func createOriginEndpoint(_ input: CreateOriginEndpointRequest) -> EventLoopFuture<CreateOriginEndpointResponse> {
-        return client.send(operation: "CreateOriginEndpoint", path: "/origin_endpoints", httpMethod: "POST", input: input)
+    public func createOriginEndpoint(_ input: CreateOriginEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOriginEndpointResponse> {
+        return client.send(operation: "CreateOriginEndpoint", path: "/origin_endpoints", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes an existing Channel.
-    public func deleteChannel(_ input: DeleteChannelRequest) -> EventLoopFuture<DeleteChannelResponse> {
-        return client.send(operation: "DeleteChannel", path: "/channels/{id}", httpMethod: "DELETE", input: input)
+    public func deleteChannel(_ input: DeleteChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChannelResponse> {
+        return client.send(operation: "DeleteChannel", path: "/channels/{id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes an existing OriginEndpoint.
-    public func deleteOriginEndpoint(_ input: DeleteOriginEndpointRequest) -> EventLoopFuture<DeleteOriginEndpointResponse> {
-        return client.send(operation: "DeleteOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "DELETE", input: input)
+    public func deleteOriginEndpoint(_ input: DeleteOriginEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteOriginEndpointResponse> {
+        return client.send(operation: "DeleteOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Gets details about a Channel.
-    public func describeChannel(_ input: DescribeChannelRequest) -> EventLoopFuture<DescribeChannelResponse> {
-        return client.send(operation: "DescribeChannel", path: "/channels/{id}", httpMethod: "GET", input: input)
+    public func describeChannel(_ input: DescribeChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
+        return client.send(operation: "DescribeChannel", path: "/channels/{id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets details about an existing HarvestJob.
-    public func describeHarvestJob(_ input: DescribeHarvestJobRequest) -> EventLoopFuture<DescribeHarvestJobResponse> {
-        return client.send(operation: "DescribeHarvestJob", path: "/harvest_jobs/{id}", httpMethod: "GET", input: input)
+    public func describeHarvestJob(_ input: DescribeHarvestJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHarvestJobResponse> {
+        return client.send(operation: "DescribeHarvestJob", path: "/harvest_jobs/{id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets details about an existing OriginEndpoint.
-    public func describeOriginEndpoint(_ input: DescribeOriginEndpointRequest) -> EventLoopFuture<DescribeOriginEndpointResponse> {
-        return client.send(operation: "DescribeOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "GET", input: input)
+    public func describeOriginEndpoint(_ input: DescribeOriginEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOriginEndpointResponse> {
+        return client.send(operation: "DescribeOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a collection of Channels.
-    public func listChannels(_ input: ListChannelsRequest) -> EventLoopFuture<ListChannelsResponse> {
-        return client.send(operation: "ListChannels", path: "/channels", httpMethod: "GET", input: input)
+    public func listChannels(_ input: ListChannelsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
+        return client.send(operation: "ListChannels", path: "/channels", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a collection of HarvestJob records.
-    public func listHarvestJobs(_ input: ListHarvestJobsRequest) -> EventLoopFuture<ListHarvestJobsResponse> {
-        return client.send(operation: "ListHarvestJobs", path: "/harvest_jobs", httpMethod: "GET", input: input)
+    public func listHarvestJobs(_ input: ListHarvestJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHarvestJobsResponse> {
+        return client.send(operation: "ListHarvestJobs", path: "/harvest_jobs", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a collection of OriginEndpoint records.
-    public func listOriginEndpoints(_ input: ListOriginEndpointsRequest) -> EventLoopFuture<ListOriginEndpointsResponse> {
-        return client.send(operation: "ListOriginEndpoints", path: "/origin_endpoints", httpMethod: "GET", input: input)
+    public func listOriginEndpoints(_ input: ListOriginEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginEndpointsResponse> {
+        return client.send(operation: "ListOriginEndpoints", path: "/origin_endpoints", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     @available(*, deprecated, message:"This API is deprecated. Please use RotateIngestEndpointCredentials instead")
-    public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest) -> EventLoopFuture<RotateChannelCredentialsResponse> {
-        return client.send(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: "PUT", input: input)
+    public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RotateChannelCredentialsResponse> {
+        return client.send(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
-    public func rotateIngestEndpointCredentials(_ input: RotateIngestEndpointCredentialsRequest) -> EventLoopFuture<RotateIngestEndpointCredentialsResponse> {
-        return client.send(operation: "RotateIngestEndpointCredentials", path: "/channels/{id}/ingest_endpoints/{ingest_endpoint_id}/credentials", httpMethod: "PUT", input: input)
+    public func rotateIngestEndpointCredentials(_ input: RotateIngestEndpointCredentialsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RotateIngestEndpointCredentialsResponse> {
+        return client.send(operation: "RotateIngestEndpointCredentials", path: "/channels/{id}/ingest_endpoints/{ingest_endpoint_id}/credentials", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Updates an existing Channel.
-    public func updateChannel(_ input: UpdateChannelRequest) -> EventLoopFuture<UpdateChannelResponse> {
-        return client.send(operation: "UpdateChannel", path: "/channels/{id}", httpMethod: "PUT", input: input)
+    public func updateChannel(_ input: UpdateChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelResponse> {
+        return client.send(operation: "UpdateChannel", path: "/channels/{id}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Updates an existing OriginEndpoint.
-    public func updateOriginEndpoint(_ input: UpdateOriginEndpointRequest) -> EventLoopFuture<UpdateOriginEndpointResponse> {
-        return client.send(operation: "UpdateOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "PUT", input: input)
+    public func updateOriginEndpoint(_ input: UpdateOriginEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOriginEndpointResponse> {
+        return client.send(operation: "UpdateOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

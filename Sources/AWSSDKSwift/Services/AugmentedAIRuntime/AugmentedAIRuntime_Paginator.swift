@@ -23,10 +23,11 @@ extension AugmentedAIRuntime {
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     public func listHumanLoopsPaginator(
         _ input: ListHumanLoopsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListHumanLoopsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHumanLoops, tokenKey: \ListHumanLoopsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listHumanLoops, tokenKey: \ListHumanLoopsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

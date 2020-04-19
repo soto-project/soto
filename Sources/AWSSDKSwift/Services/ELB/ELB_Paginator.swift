@@ -23,10 +23,11 @@ extension ELB {
     ///  Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
     public func describeLoadBalancersPaginator(
         _ input: DescribeAccessPointsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAccessPointsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeAccessPointsOutput.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeAccessPointsOutput.nextMarker, on: eventLoop, onPage: onPage)
     }
 
 }

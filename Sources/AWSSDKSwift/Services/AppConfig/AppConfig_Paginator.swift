@@ -23,46 +23,51 @@ extension AppConfig {
     ///  List all applications in your AWS account.
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Applications,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, tokenKey: \Applications.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listApplications, tokenKey: \Applications.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the configuration profiles for an application.
     public func listConfigurationProfilesPaginator(
         _ input: ListConfigurationProfilesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ConfigurationProfiles,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurationProfiles, tokenKey: \ConfigurationProfiles.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listConfigurationProfiles, tokenKey: \ConfigurationProfiles.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List deployment strategies.
     public func listDeploymentStrategiesPaginator(
         _ input: ListDeploymentStrategiesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DeploymentStrategies,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeploymentStrategies, tokenKey: \DeploymentStrategies.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listDeploymentStrategies, tokenKey: \DeploymentStrategies.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the deployments for an environment.
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Deployments,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeployments, tokenKey: \Deployments.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listDeployments, tokenKey: \Deployments.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List the environments for an application.
     public func listEnvironmentsPaginator(
         _ input: ListEnvironmentsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Environments,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

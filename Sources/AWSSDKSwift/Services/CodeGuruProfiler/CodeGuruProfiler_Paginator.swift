@@ -23,19 +23,21 @@ extension CodeGuruProfiler {
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
     public func listProfileTimesPaginator(
         _ input: ListProfileTimesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListProfileTimesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists profiling groups.
     public func listProfilingGroupsPaginator(
         _ input: ListProfilingGroupsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListProfilingGroupsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

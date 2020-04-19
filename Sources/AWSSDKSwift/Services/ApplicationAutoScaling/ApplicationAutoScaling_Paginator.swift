@@ -23,37 +23,41 @@ extension ApplicationAutoScaling {
     ///  Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension. To create a scalable target or update an existing one, see RegisterScalableTarget. If you are no longer using a scalable target, you can deregister it using DeregisterScalableTarget.
     public func describeScalableTargetsPaginator(
         _ input: DescribeScalableTargetsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScalableTargetsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeScalableTargets, tokenKey: \DescribeScalableTargetsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeScalableTargets, tokenKey: \DescribeScalableTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension. Scaling activities are triggered by CloudWatch alarms that are associated with scaling policies. To view the scaling policies for a service namespace, see DescribeScalingPolicies. To create a scaling policy or update an existing one, see PutScalingPolicy.
     public func describeScalingActivitiesPaginator(
         _ input: DescribeScalingActivitiesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScalingActivitiesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeScalingActivities, tokenKey: \DescribeScalingActivitiesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeScalingActivities, tokenKey: \DescribeScalingActivitiesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the Application Auto Scaling scaling policies for the specified service namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames. To create a scaling policy or update an existing one, see PutScalingPolicy. If you are no longer using a scaling policy, you can delete it using DeleteScalingPolicy.
     public func describeScalingPoliciesPaginator(
         _ input: DescribeScalingPoliciesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScalingPoliciesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeScalingPolicies, tokenKey: \DescribeScalingPoliciesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeScalingPolicies, tokenKey: \DescribeScalingPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. To create a scheduled action or update an existing one, see PutScheduledAction. If you are no longer using a scheduled action, you can delete it using DeleteScheduledAction.
     public func describeScheduledActionsPaginator(
         _ input: DescribeScheduledActionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScheduledActionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeScheduledActions, tokenKey: \DescribeScheduledActionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeScheduledActions, tokenKey: \DescribeScheduledActionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

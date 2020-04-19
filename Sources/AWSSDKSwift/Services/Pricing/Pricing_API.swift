@@ -69,17 +69,17 @@ public struct Pricing {
     //MARK: API Calls
 
     ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
-    public func describeServices(_ input: DescribeServicesRequest) -> EventLoopFuture<DescribeServicesResponse> {
-        return client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input)
+    public func describeServices(_ input: DescribeServicesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServicesResponse> {
+        return client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of attribute values. Attibutes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the AWS Billing and Cost Management User Guide.
-    public func getAttributeValues(_ input: GetAttributeValuesRequest) -> EventLoopFuture<GetAttributeValuesResponse> {
-        return client.send(operation: "GetAttributeValues", path: "/", httpMethod: "POST", input: input)
+    public func getAttributeValues(_ input: GetAttributeValuesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttributeValuesResponse> {
+        return client.send(operation: "GetAttributeValues", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of all products that match the filter criteria.
-    public func getProducts(_ input: GetProductsRequest) -> EventLoopFuture<GetProductsResponse> {
-        return client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input)
+    public func getProducts(_ input: GetProductsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProductsResponse> {
+        return client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

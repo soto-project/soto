@@ -68,17 +68,17 @@ public struct ElasticInference {
     //MARK: API Calls
 
     ///  Returns all tags of an Elastic Inference Accelerator.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Adds the specified tag(s) to an Elastic Inference Accelerator.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
-        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResult> {
+        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes the specified tag(s) from an Elastic Inference Accelerator.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
-        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResult> {
+        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 }

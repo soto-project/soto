@@ -68,92 +68,92 @@ public struct Transfer {
     //MARK: API Calls
 
     ///  Instantiates an autoscaling virtual server based on Secure File Transfer Protocol (SFTP) in AWS. When you make updates to your server or when you work with users, use the service-generated ServerId property that is assigned to the newly created server.
-    public func createServer(_ input: CreateServerRequest) -> EventLoopFuture<CreateServerResponse> {
-        return client.send(operation: "CreateServer", path: "/", httpMethod: "POST", input: input)
+    public func createServer(_ input: CreateServerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServerResponse> {
+        return client.send(operation: "CreateServer", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a user and associates them with an existing Secure File Transfer Protocol (SFTP) server. You can only create and associate users with SFTP servers that have the IdentityProviderType set to SERVICE_MANAGED. Using parameters for CreateUser, you can specify the user name, set the home directory, store the user's public key, and assign the user's AWS Identity and Access Management (IAM) role. You can also optionally add a scope-down policy, and assign metadata with tags that can be used to group and search for users.
-    public func createUser(_ input: CreateUserRequest) -> EventLoopFuture<CreateUserResponse> {
-        return client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input)
+    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
+        return client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the Secure File Transfer Protocol (SFTP) server that you specify. No response returns from this operation.
-    @discardableResult public func deleteServer(_ input: DeleteServerRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteServer(_ input: DeleteServerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteServer", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes a user's Secure Shell (SSH) public key. No response is returned from this operation.
-    @discardableResult public func deleteSshPublicKey(_ input: DeleteSshPublicKeyRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteSshPublicKey", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSshPublicKey(_ input: DeleteSshPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteSshPublicKey", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the user belonging to the server you specify. No response returns from this operation.  When you delete a user from a server, the user's information is lost. 
-    @discardableResult public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the server that you specify by passing the ServerId parameter. The response contains a description of the server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
-    public func describeServer(_ input: DescribeServerRequest) -> EventLoopFuture<DescribeServerResponse> {
-        return client.send(operation: "DescribeServer", path: "/", httpMethod: "POST", input: input)
+    public func describeServer(_ input: DescribeServerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServerResponse> {
+        return client.send(operation: "DescribeServer", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the user assigned to a specific server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified.
-    public func describeUser(_ input: DescribeUserRequest) -> EventLoopFuture<DescribeUserResponse> {
-        return client.send(operation: "DescribeUser", path: "/", httpMethod: "POST", input: input)
+    public func describeUser(_ input: DescribeUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserResponse> {
+        return client.send(operation: "DescribeUser", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Adds a Secure Shell (SSH) public key to a user account identified by a UserName value assigned to a specific server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
-    public func importSshPublicKey(_ input: ImportSshPublicKeyRequest) -> EventLoopFuture<ImportSshPublicKeyResponse> {
-        return client.send(operation: "ImportSshPublicKey", path: "/", httpMethod: "POST", input: input)
+    public func importSshPublicKey(_ input: ImportSshPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportSshPublicKeyResponse> {
+        return client.send(operation: "ImportSshPublicKey", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
-    public func listServers(_ input: ListServersRequest) -> EventLoopFuture<ListServersResponse> {
-        return client.send(operation: "ListServers", path: "/", httpMethod: "POST", input: input)
+    public func listServers(_ input: ListServersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServersResponse> {
+        return client.send(operation: "ListServers", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the users for the server that you specify by passing the ServerId parameter.
-    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
-        return client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
+    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
+        return client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Changes the state of a Secure File Transfer Protocol (SFTP) server from OFFLINE to ONLINE. It has no impact on an SFTP server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition.  No response is returned from this call.
-    @discardableResult public func startServer(_ input: StartServerRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "StartServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func startServer(_ input: StartServerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "StartServer", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Changes the state of an SFTP server from ONLINE to OFFLINE. An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server such as server and user properties are not affected by stopping your server. Stopping a server will not reduce or impact your Secure File Transfer Protocol (SFTP) endpoint billing. The state of STOPPING indicates that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of STOP_FAILED can indicate an error condition. No response is returned from this call.
-    @discardableResult public func stopServer(_ input: StopServerRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "StopServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopServer(_ input: StopServerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "StopServer", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  If the IdentityProviderType of the server is API_Gateway, tests whether your API Gateway is set up successfully. We highly recommend that you call this operation to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the API Gateway integration to ensure that your users can successfully use the service.
-    public func testIdentityProvider(_ input: TestIdentityProviderRequest) -> EventLoopFuture<TestIdentityProviderResponse> {
-        return client.send(operation: "TestIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    public func testIdentityProvider(_ input: TestIdentityProviderRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestIdentityProviderResponse> {
+        return client.send(operation: "TestIdentityProvider", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the server properties after that server has been created. The UpdateServer call returns the ServerId of the Secure File Transfer Protocol (SFTP) server you updated.
-    public func updateServer(_ input: UpdateServerRequest) -> EventLoopFuture<UpdateServerResponse> {
-        return client.send(operation: "UpdateServer", path: "/", httpMethod: "POST", input: input)
+    public func updateServer(_ input: UpdateServerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServerResponse> {
+        return client.send(operation: "UpdateServer", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user.
-    public func updateUser(_ input: UpdateUserRequest) -> EventLoopFuture<UpdateUserResponse> {
-        return client.send(operation: "UpdateUser", path: "/", httpMethod: "POST", input: input)
+    public func updateUser(_ input: UpdateUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
+        return client.send(operation: "UpdateUser", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

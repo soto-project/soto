@@ -23,19 +23,21 @@ extension IoT1ClickProjects {
     ///  Lists the placement(s) of a project.
     public func listPlacementsPaginator(
         _ input: ListPlacementsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPlacementsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPlacements, tokenKey: \ListPlacementsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPlacements, tokenKey: \ListPlacementsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListProjectsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

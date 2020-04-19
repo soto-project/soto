@@ -23,37 +23,41 @@ extension CloudFront {
     ///  Lists origin access identities.
     public func listCloudFrontOriginAccessIdentitiesPaginator(
         _ input: ListCloudFrontOriginAccessIdentitiesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCloudFrontOriginAccessIdentitiesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCloudFrontOriginAccessIdentities, tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: listCloudFrontOriginAccessIdentities, tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker, on: eventLoop, onPage: onPage)
     }
 
     ///  List CloudFront distributions.
     public func listDistributionsPaginator(
         _ input: ListDistributionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDistributionsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDistributions, tokenKey: \ListDistributionsResult.distributionList?.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: listDistributions, tokenKey: \ListDistributionsResult.distributionList?.nextMarker, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists invalidation batches. 
     public func listInvalidationsPaginator(
         _ input: ListInvalidationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInvalidationsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvalidations, tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: listInvalidations, tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker, on: eventLoop, onPage: onPage)
     }
 
     ///  List streaming distributions. 
     public func listStreamingDistributionsPaginator(
         _ input: ListStreamingDistributionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListStreamingDistributionsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreamingDistributions, tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: listStreamingDistributions, tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker, on: eventLoop, onPage: onPage)
     }
 
 }

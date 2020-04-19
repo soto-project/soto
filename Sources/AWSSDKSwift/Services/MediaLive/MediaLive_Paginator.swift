@@ -23,73 +23,81 @@ extension MediaLive {
     ///  Get a channel schedule
     public func describeSchedulePaginator(
         _ input: DescribeScheduleRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScheduleResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSchedule, tokenKey: \DescribeScheduleResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeSchedule, tokenKey: \DescribeScheduleResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Produces list of channels that have been created
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListChannelsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Produces a list of Input Security Groups for an account
     public func listInputSecurityGroupsPaginator(
         _ input: ListInputSecurityGroupsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInputSecurityGroupsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listInputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Produces list of inputs that have been created
     public func listInputsPaginator(
         _ input: ListInputsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInputsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputs, tokenKey: \ListInputsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listInputs, tokenKey: \ListInputsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List the programs that currently exist for a specific multiplex.
     public func listMultiplexProgramsPaginator(
         _ input: ListMultiplexProgramsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMultiplexProgramsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultiplexPrograms, tokenKey: \ListMultiplexProgramsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listMultiplexPrograms, tokenKey: \ListMultiplexProgramsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Retrieve a list of the existing multiplexes.
     public func listMultiplexesPaginator(
         _ input: ListMultiplexesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMultiplexesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultiplexes, tokenKey: \ListMultiplexesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listMultiplexes, tokenKey: \ListMultiplexesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List offerings available for purchase.
     public func listOfferingsPaginator(
         _ input: ListOfferingsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOfferingsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List purchased reservations.
     public func listReservationsPaginator(
         _ input: ListReservationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListReservationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReservations, tokenKey: \ListReservationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listReservations, tokenKey: \ListReservationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

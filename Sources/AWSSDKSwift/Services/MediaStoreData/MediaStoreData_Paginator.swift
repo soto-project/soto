@@ -23,10 +23,11 @@ extension MediaStoreData {
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
     public func listItemsPaginator(
         _ input: ListItemsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListItemsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listItems, tokenKey: \ListItemsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listItems, tokenKey: \ListItemsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

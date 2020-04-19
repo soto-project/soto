@@ -23,28 +23,31 @@ extension ACMPCA {
     ///  Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
     public func listCertificateAuthoritiesPaginator(
         _ input: ListCertificateAuthoritiesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCertificateAuthoritiesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCertificateAuthorities, tokenKey: \ListCertificateAuthoritiesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listCertificateAuthorities, tokenKey: \ListCertificateAuthoritiesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all the permissions, if any, that have been assigned by a private CA. Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.
     public func listPermissionsPaginator(
         _ input: ListPermissionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPermissionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the tags, if any, that are associated with your private CA. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags. 
     public func listTagsPaginator(
         _ input: ListTagsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTagsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

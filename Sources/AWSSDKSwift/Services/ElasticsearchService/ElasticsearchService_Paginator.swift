@@ -23,73 +23,81 @@ extension ElasticsearchService {
     ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     public func describePackagesPaginator(
         _ input: DescribePackagesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePackagesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePackages, tokenKey: \DescribePackagesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describePackages, tokenKey: \DescribePackagesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists available reserved Elasticsearch instance offerings.
     public func describeReservedElasticsearchInstanceOfferingsPaginator(
         _ input: DescribeReservedElasticsearchInstanceOfferingsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReservedElasticsearchInstanceOfferingsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns information about reserved Elasticsearch instances for this account.
     public func describeReservedElasticsearchInstancesPaginator(
         _ input: DescribeReservedElasticsearchInstancesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReservedElasticsearchInstancesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstances, tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeReservedElasticsearchInstances, tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     public func getUpgradeHistoryPaginator(
         _ input: GetUpgradeHistoryRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetUpgradeHistoryResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUpgradeHistory, tokenKey: \GetUpgradeHistoryResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getUpgradeHistory, tokenKey: \GetUpgradeHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all Amazon ES domains associated with the package.
     public func listDomainsForPackagePaginator(
         _ input: ListDomainsForPackageRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDomainsForPackageResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomainsForPackage, tokenKey: \ListDomainsForPackageResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listDomainsForPackage, tokenKey: \ListDomainsForPackageResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     public func listElasticsearchInstanceTypesPaginator(
         _ input: ListElasticsearchInstanceTypesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListElasticsearchInstanceTypesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listElasticsearchInstanceTypes, tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listElasticsearchInstanceTypes, tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List all supported Elasticsearch versions
     public func listElasticsearchVersionsPaginator(
         _ input: ListElasticsearchVersionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListElasticsearchVersionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listElasticsearchVersions, tokenKey: \ListElasticsearchVersionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listElasticsearchVersions, tokenKey: \ListElasticsearchVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all packages associated with the Amazon ES domain.
     public func listPackagesForDomainPaginator(
         _ input: ListPackagesForDomainRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPackagesForDomainResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackagesForDomain, tokenKey: \ListPackagesForDomainResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPackagesForDomain, tokenKey: \ListPackagesForDomainResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

@@ -23,64 +23,71 @@ extension FraudDetector {
     ///  Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version. 
     public func describeModelVersionsPaginator(
         _ input: DescribeModelVersionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeModelVersionsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeModelVersions, tokenKey: \DescribeModelVersionsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeModelVersions, tokenKey: \DescribeModelVersionsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets all of detectors. This is a paginated API. If you provide a null maxSizePerPage, this actions retrieves a maximum of 10 records per page. If you provide a maxSizePerPage, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning. 
     public func getDetectorsPaginator(
         _ input: GetDetectorsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetDetectorsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDetectors, tokenKey: \GetDetectorsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getDetectors, tokenKey: \GetDetectorsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxSizePerPage, this actions retrieves a maximum of 10 records per page. If you provide a maxSizePerPage, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning. 
     public func getExternalModelsPaginator(
         _ input: GetExternalModelsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetExternalModelsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getExternalModels, tokenKey: \GetExternalModelsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getExternalModels, tokenKey: \GetExternalModelsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets all of the models for the AWS account, or the specified model type, or gets a single model for the specified model type, model ID combination. 
     public func getModelsPaginator(
         _ input: GetModelsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetModelsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getModels, tokenKey: \GetModelsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getModels, tokenKey: \GetModelsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets one or more outcomes. This is a paginated API. If you provide a null maxSizePerPage, this actions retrieves a maximum of 10 records per page. If you provide a maxSizePerPage, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning. 
     public func getOutcomesPaginator(
         _ input: GetOutcomesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetOutcomesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getOutcomes, tokenKey: \GetOutcomesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getOutcomes, tokenKey: \GetOutcomesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets all rules available for the specified detector.
     public func getRulesPaginator(
         _ input: GetRulesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetRulesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getRules, tokenKey: \GetRulesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getRules, tokenKey: \GetRulesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning. 
     public func getVariablesPaginator(
         _ input: GetVariablesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetVariablesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getVariables, tokenKey: \GetVariablesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getVariables, tokenKey: \GetVariablesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

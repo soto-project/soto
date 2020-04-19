@@ -23,19 +23,21 @@ extension ApplicationDiscoveryService {
     ///  Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
     public func describeContinuousExportsPaginator(
         _ input: DescribeContinuousExportsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeContinuousExportsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeContinuousExports, tokenKey: \DescribeContinuousExportsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeContinuousExports, tokenKey: \DescribeContinuousExportsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     public func describeImportTasksPaginator(
         _ input: DescribeImportTasksRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeImportTasksResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImportTasks, tokenKey: \DescribeImportTasksResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeImportTasks, tokenKey: \DescribeImportTasksResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

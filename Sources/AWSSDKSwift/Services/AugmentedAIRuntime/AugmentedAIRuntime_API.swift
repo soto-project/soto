@@ -68,27 +68,27 @@ public struct AugmentedAIRuntime {
     //MARK: API Calls
 
     ///  Deletes the specified human loop for a flow definition.
-    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest) -> EventLoopFuture<DeleteHumanLoopResponse> {
-        return client.send(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "DELETE", input: input)
+    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHumanLoopResponse> {
+        return client.send(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Returns information about the specified human loop.
-    public func describeHumanLoop(_ input: DescribeHumanLoopRequest) -> EventLoopFuture<DescribeHumanLoopResponse> {
-        return client.send(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "GET", input: input)
+    public func describeHumanLoop(_ input: DescribeHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHumanLoopResponse> {
+        return client.send(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
-    public func listHumanLoops(_ input: ListHumanLoopsRequest) -> EventLoopFuture<ListHumanLoopsResponse> {
-        return client.send(operation: "ListHumanLoops", path: "/human-loops", httpMethod: "GET", input: input)
+    public func listHumanLoops(_ input: ListHumanLoopsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHumanLoopsResponse> {
+        return client.send(operation: "ListHumanLoops", path: "/human-loops", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Starts a human loop, provided that at least one activation condition is met.
-    public func startHumanLoop(_ input: StartHumanLoopRequest) -> EventLoopFuture<StartHumanLoopResponse> {
-        return client.send(operation: "StartHumanLoop", path: "/human-loops", httpMethod: "POST", input: input)
+    public func startHumanLoop(_ input: StartHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartHumanLoopResponse> {
+        return client.send(operation: "StartHumanLoop", path: "/human-loops", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Stops the specified human loop.
-    public func stopHumanLoop(_ input: StopHumanLoopRequest) -> EventLoopFuture<StopHumanLoopResponse> {
-        return client.send(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: "POST", input: input)
+    public func stopHumanLoop(_ input: StopHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopHumanLoopResponse> {
+        return client.send(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

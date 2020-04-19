@@ -23,28 +23,31 @@ extension Transfer {
     ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
     public func listServersPaginator(
         _ input: ListServersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListServersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServers, tokenKey: \ListServersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listServers, tokenKey: \ListServersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTagsForResourceResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the users for the server that you specify by passing the ServerId parameter.
     public func listUsersPaginator(
         _ input: ListUsersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListUsersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

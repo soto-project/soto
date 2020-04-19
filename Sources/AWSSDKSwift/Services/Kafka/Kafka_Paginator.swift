@@ -23,55 +23,61 @@ extension Kafka {
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
     public func listClusterOperationsPaginator(
         _ input: ListClusterOperationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListClusterOperationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusterOperations, tokenKey: \ListClusterOperationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listClusterOperations, tokenKey: \ListClusterOperationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of all the MSK clusters in the current Region.
     public func listClustersPaginator(
         _ input: ListClustersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListClustersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of all the revisions of an MSK configuration.
     public func listConfigurationRevisionsPaginator(
         _ input: ListConfigurationRevisionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListConfigurationRevisionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurationRevisions, tokenKey: \ListConfigurationRevisionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listConfigurationRevisions, tokenKey: \ListConfigurationRevisionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of all the MSK configurations in this Region.
     public func listConfigurationsPaginator(
         _ input: ListConfigurationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListConfigurationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurations, tokenKey: \ListConfigurationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listConfigurations, tokenKey: \ListConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of Kafka versions.
     public func listKafkaVersionsPaginator(
         _ input: ListKafkaVersionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListKafkaVersionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listKafkaVersions, tokenKey: \ListKafkaVersionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listKafkaVersions, tokenKey: \ListKafkaVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of the broker nodes in the cluster.
     public func listNodesPaginator(
         _ input: ListNodesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListNodesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

@@ -69,42 +69,42 @@ public struct SavingsPlans {
     //MARK: API Calls
 
     ///  Creates a Savings Plan.
-    public func createSavingsPlan(_ input: CreateSavingsPlanRequest) -> EventLoopFuture<CreateSavingsPlanResponse> {
-        return client.send(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: "POST", input: input)
+    public func createSavingsPlan(_ input: CreateSavingsPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSavingsPlanResponse> {
+        return client.send(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans rates.
-    public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
-        return client.send(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: "POST", input: input)
+    public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
+        return client.send(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans.
-    public func describeSavingsPlans(_ input: DescribeSavingsPlansRequest) -> EventLoopFuture<DescribeSavingsPlansResponse> {
-        return client.send(operation: "DescribeSavingsPlans", path: "/DescribeSavingsPlans", httpMethod: "POST", input: input)
+    public func describeSavingsPlans(_ input: DescribeSavingsPlansRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansResponse> {
+        return client.send(operation: "DescribeSavingsPlans", path: "/DescribeSavingsPlans", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans offering rates.
-    public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest) -> EventLoopFuture<DescribeSavingsPlansOfferingRatesResponse> {
-        return client.send(operation: "DescribeSavingsPlansOfferingRates", path: "/DescribeSavingsPlansOfferingRates", httpMethod: "POST", input: input)
+    public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansOfferingRatesResponse> {
+        return client.send(operation: "DescribeSavingsPlansOfferingRates", path: "/DescribeSavingsPlansOfferingRates", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans offerings.
-    public func describeSavingsPlansOfferings(_ input: DescribeSavingsPlansOfferingsRequest) -> EventLoopFuture<DescribeSavingsPlansOfferingsResponse> {
-        return client.send(operation: "DescribeSavingsPlansOfferings", path: "/DescribeSavingsPlansOfferings", httpMethod: "POST", input: input)
+    public func describeSavingsPlansOfferings(_ input: DescribeSavingsPlansOfferingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansOfferingsResponse> {
+        return client.send(operation: "DescribeSavingsPlansOfferings", path: "/DescribeSavingsPlansOfferings", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the tags for the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Adds the specified tags to the specified resource.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/TagResource", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/TagResource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes the specified tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/UntagResource", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/UntagResource", httpMethod: "POST", input: input, on: eventLoop)
     }
 }
