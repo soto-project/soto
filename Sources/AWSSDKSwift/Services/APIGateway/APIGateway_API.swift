@@ -56,7 +56,7 @@ public struct APIGateway {
             sessionToken: sessionToken,
             region: region,
             service: "apigateway",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2015-07-09",
             endpoint: endpoint,
             middlewares: middlewares,

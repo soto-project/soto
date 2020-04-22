@@ -56,7 +56,7 @@ public struct SESV2 {
             region: region,
             service: "email",
             signingName: "ses",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-09-27",
             endpoint: endpoint,
             middlewares: middlewares,

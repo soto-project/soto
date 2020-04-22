@@ -56,7 +56,7 @@ public struct SSM {
             region: region,
             amzTarget: "AmazonSSM",
             service: "ssm",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-06",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "ssm-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ssm-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ssm-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ssm-fips.us-west-2.amazonaws.com", "ssm-facade-fips-us-east-1": "ssm-facade-fips.us-east-1.amazonaws.com", "ssm-facade-fips-us-east-2": "ssm-facade-fips.us-east-2.amazonaws.com", "ssm-facade-fips-us-west-1": "ssm-facade-fips.us-west-1.amazonaws.com", "ssm-facade-fips-us-west-2": "ssm-facade-fips.us-west-2.amazonaws.com"],

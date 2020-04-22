@@ -42,11 +42,10 @@ struct AWSService {
 
     /// service protocol
     var serviceProtocol: String {
-        var versionString: String = ""
-        if let version = api.metadata.jsonVersion?.split(separator: ".") {
-            versionString = ", version: ServiceProtocol.Version(major: \(version[0]), minor: \(version[1]))"
+        if let version = api.metadata.jsonVersion, api.metadata.protocol == .json {
+            return ".json(version: \"\(version)\")"
         }
-        return "ServiceProtocol(type: \(api.metadata.protocol.enumStringValue)\(versionString))"
+        return api.metadata.protocol.enumStringValue
     }
 
     /// Service endpoints from API and Endpoints structure
@@ -737,7 +736,7 @@ extension API.Metadata.ServiceProtocol {
         case .query:
             return ".query"
         case .ec2:
-            return ".other(\"ec2\")"
+            return ".ec2"
         }
     }
 }

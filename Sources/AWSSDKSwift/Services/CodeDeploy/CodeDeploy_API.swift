@@ -56,7 +56,7 @@ public struct CodeDeploy {
             region: region,
             amzTarget: "CodeDeploy_20141006",
             service: "codedeploy",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-10-06",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "codedeploy-fips.us-east-1.amazonaws.com", "us-east-2-fips": "codedeploy-fips.us-east-2.amazonaws.com", "us-west-1-fips": "codedeploy-fips.us-west-1.amazonaws.com", "us-west-2-fips": "codedeploy-fips.us-west-2.amazonaws.com"],

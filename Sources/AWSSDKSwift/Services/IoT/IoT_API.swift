@@ -56,7 +56,7 @@ public struct IoT {
             region: region,
             service: "iot",
             signingName: "execute-api",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
             middlewares: middlewares,

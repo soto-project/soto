@@ -56,7 +56,7 @@ public struct Detective {
             region: region,
             service: "api.detective",
             signingName: "detective",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-10-26",
             endpoint: endpoint,
             middlewares: middlewares,

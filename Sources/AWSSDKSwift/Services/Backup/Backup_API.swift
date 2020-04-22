@@ -55,7 +55,7 @@ public struct Backup {
             sessionToken: sessionToken,
             region: region,
             service: "backup",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-11-15",
             endpoint: endpoint,
             middlewares: middlewares,

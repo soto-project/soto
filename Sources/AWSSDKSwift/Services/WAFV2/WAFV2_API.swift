@@ -56,7 +56,7 @@ public struct WAFV2 {
             region: region,
             amzTarget: "AWSWAF_20190729",
             service: "wafv2",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-07-29",
             endpoint: endpoint,
             middlewares: middlewares,

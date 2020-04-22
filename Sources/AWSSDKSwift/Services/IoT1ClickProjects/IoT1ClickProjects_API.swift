@@ -56,7 +56,7 @@ public struct IoT1ClickProjects {
             region: region,
             service: "projects.iot1click",
             signingName: "iot1click",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-05-14",
             endpoint: endpoint,
             middlewares: middlewares,

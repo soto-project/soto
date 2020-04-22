@@ -74,7 +74,7 @@ public struct ServerlessApplicationRepository {
             sessionToken: sessionToken,
             region: region,
             service: "serverlessrepo",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-09-08",
             endpoint: endpoint,
             middlewares: middlewares,

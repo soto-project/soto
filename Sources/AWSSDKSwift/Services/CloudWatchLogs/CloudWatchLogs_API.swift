@@ -56,7 +56,7 @@ public struct CloudWatchLogs {
             region: region,
             amzTarget: "Logs_20140328",
             service: "logs",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-03-28",
             endpoint: endpoint,
             middlewares: middlewares,

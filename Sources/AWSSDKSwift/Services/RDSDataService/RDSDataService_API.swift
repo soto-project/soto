@@ -55,7 +55,7 @@ public struct RDSDataService {
             sessionToken: sessionToken,
             region: region,
             service: "rds-data",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-08-01",
             endpoint: endpoint,
             middlewares: middlewares,

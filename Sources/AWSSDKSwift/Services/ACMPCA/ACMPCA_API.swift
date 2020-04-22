@@ -56,7 +56,7 @@ public struct ACMPCA {
             region: region,
             amzTarget: "ACMPrivateCA",
             service: "acm-pca",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-08-22",
             endpoint: endpoint,
             serviceEndpoints: ["fips-ca-central-1": "acm-pca-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "acm-pca-fips.us-east-1.amazonaws.com", "fips-us-east-2": "acm-pca-fips.us-east-2.amazonaws.com", "fips-us-west-1": "acm-pca-fips.us-west-1.amazonaws.com", "fips-us-west-2": "acm-pca-fips.us-west-2.amazonaws.com"],

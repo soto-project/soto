@@ -49,7 +49,7 @@ class AWSRequestTests: XCTestCase {
             var expected2 = expected
 
             // If XML remove whitespace from expected by converting to XMLNode and back
-            if case .restxml = client.serviceProtocol.type {
+            if case .restxml = client.serviceProtocol {
                 let document = try XML.Document(data: expected.data(using: .utf8)!)
                 expected2 = document.xmlString
             }

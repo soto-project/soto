@@ -55,7 +55,7 @@ public struct SimpleDB {
             sessionToken: sessionToken,
             region: region,
             service: "sdb",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2009-04-15",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1": "sdb.amazonaws.com"],

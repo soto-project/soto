@@ -56,7 +56,7 @@ public struct Kendra {
             region: region,
             amzTarget: "AWSKendraFrontendService",
             service: "kendra",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-02-03",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -55,7 +55,7 @@ public struct GroundStation {
             sessionToken: sessionToken,
             region: region,
             service: "groundstation",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-05-23",
             endpoint: endpoint,
             middlewares: middlewares,

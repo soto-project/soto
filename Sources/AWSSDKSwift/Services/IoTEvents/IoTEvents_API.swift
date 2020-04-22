@@ -55,7 +55,7 @@ public struct IoTEvents {
             sessionToken: sessionToken,
             region: region,
             service: "iotevents",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2018-07-27",
             endpoint: endpoint,
             middlewares: middlewares,

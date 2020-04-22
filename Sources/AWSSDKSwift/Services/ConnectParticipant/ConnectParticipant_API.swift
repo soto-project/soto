@@ -56,7 +56,7 @@ public struct ConnectParticipant {
             region: region,
             service: "participant.connect",
             signingName: "execute-api",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-09-07",
             endpoint: endpoint,
             middlewares: middlewares,

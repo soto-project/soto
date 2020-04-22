@@ -56,7 +56,7 @@ public struct DatabaseMigrationService {
             region: region,
             amzTarget: "AmazonDMSv20160101",
             service: "dms",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-01",
             endpoint: endpoint,
             serviceEndpoints: ["dms-fips": "dms-fips.us-west-1.amazonaws.com"],

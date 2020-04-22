@@ -55,7 +55,7 @@ public struct Chime {
             sessionToken: sessionToken,
             region: region,
             service: "chime",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2018-05-01",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "service.chime.aws.amazon.com"],

@@ -55,7 +55,7 @@ public struct PersonalizeEvents {
             region: region,
             service: "personalize-events",
             signingName: "personalize",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-03-22",
             endpoint: endpoint,
             middlewares: middlewares,

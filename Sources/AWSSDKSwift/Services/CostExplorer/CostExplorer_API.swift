@@ -56,7 +56,7 @@ public struct CostExplorer {
             region: region,
             amzTarget: "AWSInsightsIndexService",
             service: "ce",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-25",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "ce.us-east-1.amazonaws.com"],

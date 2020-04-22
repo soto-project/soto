@@ -56,7 +56,7 @@ public struct CloudSearchDomain {
             region: region,
             service: "cloudsearchdomain",
             signingName: "cloudsearch",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2013-01-01",
             endpoint: endpoint,
             middlewares: middlewares,

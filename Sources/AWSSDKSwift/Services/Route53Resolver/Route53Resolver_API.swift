@@ -56,7 +56,7 @@ public struct Route53Resolver {
             region: region,
             amzTarget: "Route53Resolver",
             service: "route53resolver",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-01",
             endpoint: endpoint,
             middlewares: middlewares,

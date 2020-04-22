@@ -57,7 +57,7 @@ public struct IoTSecureTunneling {
             amzTarget: "IoTSecuredTunneling",
             service: "api.tunneling.iot",
             signingName: "IoTSecuredTunneling",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-05",
             endpoint: endpoint,
             middlewares: middlewares,

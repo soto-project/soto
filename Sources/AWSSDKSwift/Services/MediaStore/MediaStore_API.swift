@@ -56,7 +56,7 @@ public struct MediaStore {
             region: region,
             amzTarget: "MediaStore_20170901",
             service: "mediastore",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-01",
             endpoint: endpoint,
             middlewares: middlewares,

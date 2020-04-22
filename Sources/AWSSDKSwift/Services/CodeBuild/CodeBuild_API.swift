@@ -56,7 +56,7 @@ public struct CodeBuild {
             region: region,
             amzTarget: "CodeBuild_20161006",
             service: "codebuild",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-06",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "codebuild-fips.us-east-1.amazonaws.com", "us-east-2-fips": "codebuild-fips.us-east-2.amazonaws.com", "us-west-1-fips": "codebuild-fips.us-west-1.amazonaws.com", "us-west-2-fips": "codebuild-fips.us-west-2.amazonaws.com"],

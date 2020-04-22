@@ -56,7 +56,7 @@ public struct AugmentedAIRuntime {
             region: region,
             service: "a2i-runtime.sagemaker",
             signingName: "sagemaker",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-11-07",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -56,7 +56,7 @@ public struct AutoScalingPlans {
             region: region,
             amzTarget: "AnyScaleScalingPlannerFrontendService",
             service: "autoscaling-plans",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-06",
             endpoint: endpoint,
             middlewares: middlewares,

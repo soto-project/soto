@@ -56,7 +56,7 @@ public struct ApplicationDiscoveryService {
             region: region,
             amzTarget: "AWSPoseidonService_V2015_11_01",
             service: "discovery",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-11-01",
             endpoint: endpoint,
             middlewares: middlewares,

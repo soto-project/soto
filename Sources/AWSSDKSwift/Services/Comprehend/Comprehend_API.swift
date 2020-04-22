@@ -56,7 +56,7 @@ public struct Comprehend {
             region: region,
             amzTarget: "Comprehend_20171127",
             service: "comprehend",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-11-27",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "comprehend-fips.us-east-1.amazonaws.com", "fips-us-east-2": "comprehend-fips.us-east-2.amazonaws.com", "fips-us-west-2": "comprehend-fips.us-west-2.amazonaws.com"],

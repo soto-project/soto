@@ -55,7 +55,7 @@ public struct ManagedBlockchain {
             sessionToken: sessionToken,
             region: region,
             service: "managedblockchain",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-09-24",
             endpoint: endpoint,
             middlewares: middlewares,

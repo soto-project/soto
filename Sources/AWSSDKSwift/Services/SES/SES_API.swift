@@ -56,7 +56,7 @@ public struct SES {
             region: region,
             service: "email",
             signingName: "ses",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2010-12-01",
             endpoint: endpoint,
             middlewares: middlewares,

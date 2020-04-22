@@ -56,7 +56,7 @@ public struct ComprehendMedical {
             region: region,
             amzTarget: "ComprehendMedical_20181030",
             service: "comprehendmedical",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-30",
             endpoint: endpoint,
             middlewares: middlewares,

@@ -55,7 +55,7 @@ public struct QLDB {
             sessionToken: sessionToken,
             region: region,
             service: "qldb",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 0)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-01-02",
             endpoint: endpoint,
             middlewares: middlewares,

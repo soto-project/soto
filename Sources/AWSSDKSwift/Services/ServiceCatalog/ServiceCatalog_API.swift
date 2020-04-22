@@ -56,7 +56,7 @@ public struct ServiceCatalog {
             region: region,
             amzTarget: "AWS242ServiceCatalogService",
             service: "servicecatalog",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-12-10",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "servicecatalog-fips.us-east-1.amazonaws.com", "us-east-2-fips": "servicecatalog-fips.us-east-2.amazonaws.com", "us-west-1-fips": "servicecatalog-fips.us-west-1.amazonaws.com", "us-west-2-fips": "servicecatalog-fips.us-west-2.amazonaws.com"],

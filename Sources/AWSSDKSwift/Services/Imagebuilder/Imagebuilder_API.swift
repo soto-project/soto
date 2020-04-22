@@ -55,7 +55,7 @@ public struct Imagebuilder {
             sessionToken: sessionToken,
             region: region,
             service: "imagebuilder",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
             middlewares: middlewares,

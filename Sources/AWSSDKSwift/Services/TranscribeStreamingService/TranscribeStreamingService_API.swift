@@ -56,7 +56,7 @@ public struct TranscribeStreamingService {
             region: region,
             service: "transcribestreaming",
             signingName: "transcribe",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
             middlewares: middlewares,

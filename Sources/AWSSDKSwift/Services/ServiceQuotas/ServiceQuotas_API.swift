@@ -56,7 +56,7 @@ public struct ServiceQuotas {
             region: region,
             amzTarget: "ServiceQuotasV20190624",
             service: "servicequotas",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-24",
             endpoint: endpoint,
             middlewares: middlewares,

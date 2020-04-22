@@ -55,7 +55,7 @@ public struct Lambda {
             sessionToken: sessionToken,
             region: region,
             service: "lambda",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2015-03-31",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "lambda-fips.us-east-1.amazonaws.com", "fips-us-east-2": "lambda-fips.us-east-2.amazonaws.com", "fips-us-west-1": "lambda-fips.us-west-1.amazonaws.com", "fips-us-west-2": "lambda-fips.us-west-2.amazonaws.com"],

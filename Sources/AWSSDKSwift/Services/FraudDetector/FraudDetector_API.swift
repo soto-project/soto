@@ -56,7 +56,7 @@ public struct FraudDetector {
             region: region,
             amzTarget: "AWSHawksNestServiceFacade",
             service: "frauddetector",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-11-15",
             endpoint: endpoint,
             middlewares: middlewares,

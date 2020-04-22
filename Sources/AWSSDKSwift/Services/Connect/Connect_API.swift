@@ -55,7 +55,7 @@ public struct Connect {
             sessionToken: sessionToken,
             region: region,
             service: "connect",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-08-08",
             endpoint: endpoint,
             middlewares: middlewares,

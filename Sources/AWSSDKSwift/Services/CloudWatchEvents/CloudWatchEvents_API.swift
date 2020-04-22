@@ -56,7 +56,7 @@ public struct CloudWatchEvents {
             region: region,
             amzTarget: "AWSEvents",
             service: "events",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-07",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "events-fips.us-east-1.amazonaws.com", "fips-us-east-2": "events-fips.us-east-2.amazonaws.com", "fips-us-west-1": "events-fips.us-west-1.amazonaws.com", "fips-us-west-2": "events-fips.us-west-2.amazonaws.com"],

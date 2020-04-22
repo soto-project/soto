@@ -56,7 +56,7 @@ public struct Route53Domains {
             region: region,
             amzTarget: "Route53Domains_v20140515",
             service: "route53domains",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-05-15",
             endpoint: endpoint,
             middlewares: middlewares,

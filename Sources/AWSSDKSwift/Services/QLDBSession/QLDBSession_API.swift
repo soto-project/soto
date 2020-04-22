@@ -57,7 +57,7 @@ public struct QLDBSession {
             amzTarget: "QLDBSession",
             service: "session.qldb",
             signingName: "qldb",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
+            serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-07-11",
             endpoint: endpoint,
             middlewares: middlewares,

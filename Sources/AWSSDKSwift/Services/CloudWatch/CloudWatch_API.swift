@@ -55,7 +55,7 @@ public struct CloudWatch {
             sessionToken: sessionToken,
             region: region,
             service: "monitoring",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2010-08-01",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "monitoring-fips.us-east-1.amazonaws.com", "fips-us-east-2": "monitoring-fips.us-east-2.amazonaws.com", "fips-us-west-1": "monitoring-fips.us-west-1.amazonaws.com", "fips-us-west-2": "monitoring-fips.us-west-2.amazonaws.com"],

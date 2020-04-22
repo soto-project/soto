@@ -56,7 +56,7 @@ public struct CloudTrail {
             region: region,
             amzTarget: "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101",
             service: "cloudtrail",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-11-01",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "cloudtrail-fips.us-east-1.amazonaws.com", "fips-us-east-2": "cloudtrail-fips.us-east-2.amazonaws.com", "fips-us-west-1": "cloudtrail-fips.us-west-1.amazonaws.com", "fips-us-west-2": "cloudtrail-fips.us-west-2.amazonaws.com"],

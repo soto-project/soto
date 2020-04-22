@@ -56,7 +56,7 @@ public struct IoTDataPlane {
             region: region,
             service: "data.iot",
             signingName: "iotdata",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
             middlewares: middlewares,

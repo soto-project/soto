@@ -56,7 +56,7 @@ public struct FSx {
             region: region,
             amzTarget: "AWSSimbaAPIService_v20180301",
             service: "fsx",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-03-01",
             endpoint: endpoint,
             middlewares: middlewares,

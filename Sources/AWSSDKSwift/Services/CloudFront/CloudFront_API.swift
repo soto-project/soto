@@ -55,7 +55,7 @@ public struct CloudFront {
             sessionToken: sessionToken,
             region: region,
             service: "cloudfront",
-            serviceProtocol: ServiceProtocol(type: .restxml),
+            serviceProtocol: .restxml,
             apiVersion: "2019-03-26",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],

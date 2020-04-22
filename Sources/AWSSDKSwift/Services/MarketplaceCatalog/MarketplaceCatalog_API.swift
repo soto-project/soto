@@ -56,7 +56,7 @@ public struct MarketplaceCatalog {
             region: region,
             service: "catalog.marketplace",
             signingName: "aws-marketplace",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-09-17",
             endpoint: endpoint,
             middlewares: middlewares,

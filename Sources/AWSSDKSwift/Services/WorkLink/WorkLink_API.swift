@@ -55,7 +55,7 @@ public struct WorkLink {
             sessionToken: sessionToken,
             region: region,
             service: "worklink",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-09-25",
             endpoint: endpoint,
             middlewares: middlewares,

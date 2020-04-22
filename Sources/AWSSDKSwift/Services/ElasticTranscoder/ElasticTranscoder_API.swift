@@ -55,7 +55,7 @@ public struct ElasticTranscoder {
             sessionToken: sessionToken,
             region: region,
             service: "elastictranscoder",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2012-09-25",
             endpoint: endpoint,
             middlewares: middlewares,

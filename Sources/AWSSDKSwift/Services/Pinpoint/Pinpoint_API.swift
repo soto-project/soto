@@ -56,7 +56,7 @@ public struct Pinpoint {
             region: region,
             service: "pinpoint",
             signingName: "mobiletargeting",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "pinpoint-fips.us-east-1.amazonaws.com", "fips-us-west-2": "pinpoint-fips.us-west-2.amazonaws.com", "us-east-1": "pinpoint.us-east-1.amazonaws.com", "us-west-2": "pinpoint.us-west-2.amazonaws.com"],

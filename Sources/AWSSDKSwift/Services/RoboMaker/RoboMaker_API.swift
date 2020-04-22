@@ -55,7 +55,7 @@ public struct RoboMaker {
             sessionToken: sessionToken,
             region: region,
             service: "robomaker",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-06-29",
             endpoint: endpoint,
             middlewares: middlewares,

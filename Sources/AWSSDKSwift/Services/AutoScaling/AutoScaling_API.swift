@@ -55,7 +55,7 @@ public struct AutoScaling {
             sessionToken: sessionToken,
             region: region,
             service: "autoscaling",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2011-01-01",
             endpoint: endpoint,
             middlewares: middlewares,

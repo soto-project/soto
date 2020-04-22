@@ -55,7 +55,7 @@ public struct SavingsPlans {
             sessionToken: sessionToken,
             region: region,
             service: "savingsplans",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 0)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-06-28",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "savingsplans.amazonaws.com"],

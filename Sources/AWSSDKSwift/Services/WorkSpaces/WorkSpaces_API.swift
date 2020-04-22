@@ -56,7 +56,7 @@ public struct WorkSpaces {
             region: region,
             amzTarget: "WorkspacesService",
             service: "workspaces",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-08",
             endpoint: endpoint,
             middlewares: middlewares,

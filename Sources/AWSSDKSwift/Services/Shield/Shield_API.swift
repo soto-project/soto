@@ -56,7 +56,7 @@ public struct Shield {
             region: region,
             amzTarget: "AWSShield_20160616",
             service: "shield",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-02",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "shield-fips.us-east-1.amazonaws.com", "us-east-1": "shield.us-east-1.amazonaws.com"],

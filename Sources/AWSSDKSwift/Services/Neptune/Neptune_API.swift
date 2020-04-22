@@ -55,7 +55,7 @@ public struct Neptune {
             sessionToken: sessionToken,
             region: region,
             service: "rds",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
             middlewares: middlewares,

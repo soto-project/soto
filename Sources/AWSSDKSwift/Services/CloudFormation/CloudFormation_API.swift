@@ -55,7 +55,7 @@ public struct CloudFormation {
             sessionToken: sessionToken,
             region: region,
             service: "cloudformation",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2010-05-15",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "cloudformation-fips.us-east-1.amazonaws.com", "us-east-2-fips": "cloudformation-fips.us-east-2.amazonaws.com", "us-west-1-fips": "cloudformation-fips.us-west-1.amazonaws.com", "us-west-2-fips": "cloudformation-fips.us-west-2.amazonaws.com"],

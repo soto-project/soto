@@ -55,7 +55,7 @@ public struct IAM {
             sessionToken: sessionToken,
             region: region,
             service: "iam",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2010-05-08",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "iam.amazonaws.com", "iam-fips": "iam-fips.amazonaws.com"],

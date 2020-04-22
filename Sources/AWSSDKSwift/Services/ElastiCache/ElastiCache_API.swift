@@ -55,7 +55,7 @@ public struct ElastiCache {
             sessionToken: sessionToken,
             region: region,
             service: "elasticache",
-            serviceProtocol: ServiceProtocol(type: .query),
+            serviceProtocol: .query,
             apiVersion: "2015-02-02",
             endpoint: endpoint,
             serviceEndpoints: ["fips": "elasticache-fips.us-west-1.amazonaws.com"],

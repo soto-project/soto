@@ -56,7 +56,7 @@ public struct LexRuntimeService {
             region: region,
             service: "runtime.lex",
             signingName: "lex",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2016-11-28",
             endpoint: endpoint,
             middlewares: middlewares,

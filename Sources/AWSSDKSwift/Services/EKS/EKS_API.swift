@@ -55,7 +55,7 @@ public struct EKS {
             sessionToken: sessionToken,
             region: region,
             service: "eks",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-11-01",
             endpoint: endpoint,
             middlewares: middlewares,

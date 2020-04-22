@@ -55,7 +55,7 @@ public struct AccessAnalyzer {
             sessionToken: sessionToken,
             region: region,
             service: "access-analyzer",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-11-01",
             endpoint: endpoint,
             middlewares: middlewares,
