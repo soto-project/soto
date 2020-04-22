@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
@@ -7,9 +7,10 @@ let package = Package(
         .executable(name: "aws-sdk-swift-codegen", targets: ["CodeGenerator"])
     ],
     dependencies: [
+        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "0.0.1")),
         .package(url: "https://github.com/swift-aws/Stencil.git", .upToNextMajor(from: "0.13.2"))
     ],
     targets: [
-        .target(name: "CodeGenerator", dependencies: ["Stencil"])
+        .target(name: "CodeGenerator", dependencies: ["ArgumentParser", "Stencil"])
     ]
 )
