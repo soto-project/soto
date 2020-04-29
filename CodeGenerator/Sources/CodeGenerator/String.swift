@@ -89,6 +89,11 @@ extension String {
             .upperFirst()
     }
 
+    // for some reason the Region and Partition enum are not camel cased
+    public func toSwiftRegionEnumCase() -> String {
+        return self.replacingOccurrences(of: "-", with: "")
+    }
+    
     public func camelCased(separator: String = "_") -> String {
         let items = self.components(separatedBy: separator)
         var camelCase = ""
@@ -96,6 +101,10 @@ extension String {
             camelCase += 0 == $0 ? $1 : $1.capitalized
         }
         return camelCase.lowerFirst()
+    }
+
+    public func toSwiftEnumCase() -> String {
+        return toSwiftLabelCase().reservedwordEscaped()
     }
 
     private func allLetterIsUppercasedAlnum() -> Bool {

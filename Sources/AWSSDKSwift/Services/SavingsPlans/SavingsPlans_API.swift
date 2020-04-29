@@ -57,7 +57,7 @@ public struct SavingsPlans {
             apiVersion: "2019-06-28",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "savingsplans.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [SavingsPlansErrorType.self],
             httpClientProvider: httpClientProvider

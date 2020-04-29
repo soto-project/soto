@@ -59,7 +59,6 @@ public struct SMS {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-24",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "sms-fips.us-east-1.amazonaws.com", "fips-us-east-2": "sms-fips.us-east-2.amazonaws.com", "fips-us-west-1": "sms-fips.us-west-1.amazonaws.com", "fips-us-west-2": "sms-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SMSErrorType.self],
             httpClientProvider: httpClientProvider

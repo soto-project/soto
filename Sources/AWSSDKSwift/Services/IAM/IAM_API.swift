@@ -56,8 +56,8 @@ public struct IAM {
             serviceProtocol: .query,
             apiVersion: "2010-05-08",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "iam.amazonaws.com", "iam-fips": "iam-fips.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-cn-global": "iam.cn-north-1.amazonaws.com.cn", "aws-global": "iam.amazonaws.com", "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov", "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov", "aws-us-gov-global": "iam.us-gov.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorth1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             middlewares: middlewares,
             possibleErrorTypes: [IAMErrorType.self],
             httpClientProvider: httpClientProvider

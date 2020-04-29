@@ -56,8 +56,8 @@ public struct CloudFront {
             serviceProtocol: .restxml,
             apiVersion: "2019-03-26",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-cn-global": "cloudfront.cn-northwest-1.amazonaws.com.cn", "aws-global": "cloudfront.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
             middlewares: middlewares,
             possibleErrorTypes: [CloudFrontErrorType.self],
             httpClientProvider: httpClientProvider

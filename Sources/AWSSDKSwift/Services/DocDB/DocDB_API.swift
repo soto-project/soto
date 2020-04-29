@@ -58,7 +58,6 @@ public struct DocDB {
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
-            serviceEndpoints: ["rds-fips.ca-central-1": "rds-fips.ca-central-1.amazonaws.com", "rds-fips.us-east-1": "rds-fips.us-east-1.amazonaws.com", "rds-fips.us-east-2": "rds-fips.us-east-2.amazonaws.com", "rds-fips.us-west-1": "rds-fips.us-west-1.amazonaws.com", "rds-fips.us-west-2": "rds-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [DocDBErrorType.self],
             httpClientProvider: httpClientProvider

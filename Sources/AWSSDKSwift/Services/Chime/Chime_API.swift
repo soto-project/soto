@@ -57,7 +57,7 @@ public struct Chime {
             apiVersion: "2018-05-01",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "service.chime.aws.amazon.com"],
-            partitionEndpoint: "aws-global",
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [ChimeErrorType.self],
             httpClientProvider: httpClientProvider

@@ -59,7 +59,7 @@ public struct TranscribeService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-26",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "fips.transcribe.us-east-1.amazonaws.com", "fips-us-east-2": "fips.transcribe.us-east-2.amazonaws.com", "fips-us-west-1": "fips.transcribe.us-west-1.amazonaws.com", "fips-us-west-2": "fips.transcribe.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["cn-north-1": "cn.transcribe.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn"],
             middlewares: middlewares,
             possibleErrorTypes: [TranscribeServiceErrorType.self],
             httpClientProvider: httpClientProvider

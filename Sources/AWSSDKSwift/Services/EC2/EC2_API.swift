@@ -58,7 +58,7 @@ public struct EC2 {
             serviceProtocol: .ec2,
             apiVersion: "2016-11-15",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-ca-central-1": "ec2-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "ec2-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ec2-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ec2-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ec2-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["us-gov-east-1": "ec2.us-gov-east-1.amazonaws.com", "us-gov-west-1": "ec2.us-gov-west-1.amazonaws.com"],
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
         )

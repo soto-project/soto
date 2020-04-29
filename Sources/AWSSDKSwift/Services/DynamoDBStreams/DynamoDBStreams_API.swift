@@ -60,7 +60,6 @@ public struct DynamoDBStreams {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
-            serviceEndpoints: ["ca-central-1-fips": "dynamodb-fips.ca-central-1.amazonaws.com", "local": "localhost:8000", "us-east-1-fips": "dynamodb-fips.us-east-1.amazonaws.com", "us-east-2-fips": "dynamodb-fips.us-east-2.amazonaws.com", "us-west-1-fips": "dynamodb-fips.us-west-1.amazonaws.com", "us-west-2-fips": "dynamodb-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [DynamoDBStreamsErrorType.self],
             httpClientProvider: httpClientProvider

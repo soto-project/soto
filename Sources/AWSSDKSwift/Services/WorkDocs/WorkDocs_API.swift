@@ -58,7 +58,6 @@ public struct WorkDocs {
             serviceProtocol: .restjson,
             apiVersion: "2016-05-01",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "workdocs-fips.us-east-1.amazonaws.com", "fips-us-west-2": "workdocs-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [WorkDocsErrorType.self],
             httpClientProvider: httpClientProvider

@@ -59,7 +59,6 @@ public struct SFN {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2016-11-23",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "states-fips.us-east-1.amazonaws.com", "fips-us-east-2": "states-fips.us-east-2.amazonaws.com", "fips-us-west-1": "states-fips.us-west-1.amazonaws.com", "fips-us-west-2": "states-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SFNErrorType.self],
             httpClientProvider: httpClientProvider

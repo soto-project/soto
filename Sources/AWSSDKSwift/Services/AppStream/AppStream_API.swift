@@ -60,7 +60,6 @@ public struct AppStream {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-12-01",
             endpoint: endpoint,
-            serviceEndpoints: ["fips": "appstream2-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [AppStreamErrorType.self],
             httpClientProvider: httpClientProvider

@@ -57,7 +57,7 @@ public struct ImportExport {
             apiVersion: "2010-06-01",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "importexport.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [ImportExportErrorType.self],
             httpClientProvider: httpClientProvider

@@ -59,7 +59,6 @@ public struct DatabaseMigrationService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-01",
             endpoint: endpoint,
-            serviceEndpoints: ["dms-fips": "dms-fips.us-west-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [DatabaseMigrationServiceErrorType.self],
             httpClientProvider: httpClientProvider

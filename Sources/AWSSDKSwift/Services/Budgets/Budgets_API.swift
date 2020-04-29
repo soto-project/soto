@@ -58,7 +58,7 @@ public struct Budgets {
             apiVersion: "2016-10-20",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "budgets.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [BudgetsErrorType.self],
             httpClientProvider: httpClientProvider

@@ -58,7 +58,7 @@ public struct CostExplorer {
             apiVersion: "2017-10-25",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "ce.us-east-1.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [CostExplorerErrorType.self],
             httpClientProvider: httpClientProvider

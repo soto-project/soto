@@ -74,6 +74,7 @@ struct Endpoints: Decodable {
             var protocols: [String]?
             var signatureVersions: [SignatureVersion]?
         }
+        var defaults: Endpoint?
         var endpoints: [String: Endpoint]
         var isRegionalized: Bool?
         var partitionEndpoint: String?

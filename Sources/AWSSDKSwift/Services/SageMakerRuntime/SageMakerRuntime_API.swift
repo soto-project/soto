@@ -59,7 +59,6 @@ public struct SageMakerRuntime {
             serviceProtocol: .restjson,
             apiVersion: "2017-05-13",
             endpoint: endpoint,
-            serviceEndpoints: ["us-east-1-fips": "runtime-fips.sagemaker.us-east-1.amazonaws.com", "us-east-2-fips": "runtime-fips.sagemaker.us-east-2.amazonaws.com", "us-west-1-fips": "runtime-fips.sagemaker.us-west-1.amazonaws.com", "us-west-2-fips": "runtime-fips.sagemaker.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SageMakerRuntimeErrorType.self],
             httpClientProvider: httpClientProvider

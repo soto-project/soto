@@ -57,8 +57,8 @@ public struct WAF {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-24",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-fips": "waf-fips.amazonaws.com", "aws-global": "waf.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-global": "waf.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [WAFErrorType.self],
             httpClientProvider: httpClientProvider

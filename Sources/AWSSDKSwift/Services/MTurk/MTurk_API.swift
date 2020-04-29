@@ -57,7 +57,6 @@ public struct MTurk {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-17",
             endpoint: endpoint,
-            serviceEndpoints: ["sandbox": "mturk-requester-sandbox.us-east-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [MTurkErrorType.self],
             httpClientProvider: httpClientProvider

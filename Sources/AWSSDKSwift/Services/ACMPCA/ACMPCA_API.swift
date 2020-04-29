@@ -59,7 +59,6 @@ public struct ACMPCA {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-08-22",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-ca-central-1": "acm-pca-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "acm-pca-fips.us-east-1.amazonaws.com", "fips-us-east-2": "acm-pca-fips.us-east-2.amazonaws.com", "fips-us-west-1": "acm-pca-fips.us-west-1.amazonaws.com", "fips-us-west-2": "acm-pca-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ACMPCAErrorType.self],
             httpClientProvider: httpClientProvider

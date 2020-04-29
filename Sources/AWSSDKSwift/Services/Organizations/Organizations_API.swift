@@ -57,8 +57,8 @@ public struct Organizations {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "organizations.us-east-1.amazonaws.com", "fips-aws-global": "organizations-fips.us-east-1.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-global": "organizations.us-east-1.amazonaws.com", "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             middlewares: middlewares,
             possibleErrorTypes: [OrganizationsErrorType.self],
             httpClientProvider: httpClientProvider

@@ -59,7 +59,7 @@ public struct DirectConnect {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2012-10-25",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "directconnect-fips.us-east-1.amazonaws.com", "fips-us-east-2": "directconnect-fips.us-east-2.amazonaws.com", "fips-us-west-1": "directconnect-fips.us-west-1.amazonaws.com", "fips-us-west-2": "directconnect-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["us-gov-east-1": "directconnect.us-gov-east-1.amazonaws.com", "us-gov-west-1": "directconnect.us-gov-west-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [DirectConnectErrorType.self],
             httpClientProvider: httpClientProvider

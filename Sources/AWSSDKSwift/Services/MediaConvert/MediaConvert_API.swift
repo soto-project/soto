@@ -58,6 +58,7 @@ public struct MediaConvert {
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
             endpoint: endpoint,
+            serviceEndpoints: ["cn-northwest-1": "subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn"],
             middlewares: middlewares,
             possibleErrorTypes: [MediaConvertErrorType.self],
             httpClientProvider: httpClientProvider

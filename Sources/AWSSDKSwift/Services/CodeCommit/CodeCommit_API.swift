@@ -59,7 +59,6 @@ public struct CodeCommit {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-13",
             endpoint: endpoint,
-            serviceEndpoints: ["fips": "codecommit-fips.ca-central-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [CodeCommitErrorType.self],
             httpClientProvider: httpClientProvider

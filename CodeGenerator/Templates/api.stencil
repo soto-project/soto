@@ -70,8 +70,8 @@ public struct {{ name }} {
 {% if serviceEndpoints %}
             serviceEndpoints: [{{ serviceEndpoints|join:", "}}],
 {% endif %}
-{% if partitionEndpoint %}
-            partitionEndpoint: "{{partitionEndpoint}}",
+{% if partitionEndpoints %}
+            partitionEndpoints: [{{ partitionEndpoints|join:", "}}],
 {% endif %}
             middlewares: middlewares,
 {% if errorTypes %}
