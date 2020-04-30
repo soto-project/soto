@@ -1,9 +1,9 @@
-name: CI
+name: Swift nightly build
 
 on:
-  push:
-    branches:
-    - master
+  schedule:
+    - cron: '0 1 * * *'
+      
 jobs:
   linux:
     runs-on: ubuntu-latest
