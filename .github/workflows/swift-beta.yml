@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    services:
+      localstack:
+        image: localstack/localstack
+        env:
+          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
+        options: >-
+          --health-cmd "awslocal s3 ls"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --workdir /opt/code/localstack/
+    container:
+      image: swiftlang/swift:nightly-master
+      env:
+        APIGATEWAY_ENDPOINT : "http://localstack:4567"
+        DYNAMODB_ENDPOINT   : "http://localstack:4569"
+        S3_ENDPOINT         : "http://localstack:4572"
+        SNS_ENDPOINT        : "http://localstack:4575"
+        SQS_ENDPOINT        : "http://localstack:4576"
+        SSM_ENDPOINT        : "http://localstack:4583"
+        IAM_ENDPOINT        : "http://localstack:4593"
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install dependencies
+      run: |
+        apt-get update -qq
+        apt-get install -q -y tzdata zlib1g-dev
+    - name: Test
+      run: swift test -Xswiftc -DDEBUG
