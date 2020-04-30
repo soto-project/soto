@@ -131,7 +131,7 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 }
 ```
 
-## HTTP client
+## HTTP client (v5.x.x)
 
 The AWS SDK sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/aws-sdk-swift-core/blob/master/Sources/AWSSDKSwiftCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
 
