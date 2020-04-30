@@ -39,8 +39,16 @@ public struct CostandUsageReportService {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,34 +56,34 @@ public struct CostandUsageReportService {
             region: region,
             amzTarget: "AWSOrigamiServiceGatewayService",
             service: "cur",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-06",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [CostandUsageReportServiceErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Deletes the specified report.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) -> EventLoopFuture<DeleteReportDefinitionResponse> {
-        return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReportDefinitionResponse> {
+        return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
+        return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Allows you to programatically update your report preferences.
-    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest) -> EventLoopFuture<ModifyReportDefinitionResponse> {
-        return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReportDefinitionResponse> {
+        return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new report using the description that you provide.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest) -> EventLoopFuture<PutReportDefinitionResponse> {
-        return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutReportDefinitionResponse> {
+        return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

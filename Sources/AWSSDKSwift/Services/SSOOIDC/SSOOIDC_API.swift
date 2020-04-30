@@ -39,8 +39,16 @@ public struct SSOOIDC {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,30 +56,30 @@ public struct SSOOIDC {
             region: region,
             service: "oidc",
             signingName: "awsssooidc",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-06-10",
             endpoint: endpoint,
             serviceEndpoints: ["ap-southeast-1": "oidc.ap-southeast-1.amazonaws.com", "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com", "ca-central-1": "oidc.ca-central-1.amazonaws.com", "eu-central-1": "oidc.eu-central-1.amazonaws.com", "eu-west-1": "oidc.eu-west-1.amazonaws.com", "eu-west-2": "oidc.eu-west-2.amazonaws.com", "us-east-1": "oidc.us-east-1.amazonaws.com", "us-east-2": "oidc.us-east-2.amazonaws.com", "us-west-2": "oidc.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SSOOIDCErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
-    public func createToken(_ input: CreateTokenRequest) -> EventLoopFuture<CreateTokenResponse> {
-        return client.send(operation: "CreateToken", path: "/token", httpMethod: "POST", input: input)
+    public func createToken(_ input: CreateTokenRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
+        return client.send(operation: "CreateToken", path: "/token", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
-    public func registerClient(_ input: RegisterClientRequest) -> EventLoopFuture<RegisterClientResponse> {
-        return client.send(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", input: input)
+    public func registerClient(_ input: RegisterClientRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterClientResponse> {
+        return client.send(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Initiates device authorization by requesting a pair of verification codes from the authorization service.
-    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
-        return client.send(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", input: input)
+    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
+        return client.send(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

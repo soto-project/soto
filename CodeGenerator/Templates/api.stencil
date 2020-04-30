@@ -28,11 +28,23 @@ public struct {{ name }} {
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+{% if regionalized %}
     ///     - region: Region of server you want to communicate with
+{% endif %}
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+{% if regionalized %}
+        region: AWSSDKSwiftCore.Region? = nil,
+{% endif %}
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
 {% if middlewareClass %}
         let middlewares = [{{middlewareClass}}] + middlewares
 {% endif %}
@@ -40,7 +52,11 @@ public struct {{ name }} {
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
+{% if regionalized %}
             region: region,
+{% else %}
+            region: nil,
+{% endif %}
 {% if amzTarget %}
             amzTarget: "{{amzTarget}}",
 {% endif %}
@@ -61,7 +77,7 @@ public struct {{ name }} {
 {% if errorTypes %}
             possibleErrorTypes: [{{errorTypes}}.self],
 {% endif %}
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
@@ -74,8 +90,8 @@ public struct {{ name }} {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %})
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}, on: eventLoop)
     }
 {%endfor %}
 }

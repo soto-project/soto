@@ -20,6 +20,12 @@ import Foundation
 extension MediaTailor {
     //MARK: Enums
 
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case behindLiveEdge = "BEHIND_LIVE_EDGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginManifestType: String, CustomStringConvertible, Codable {
         case singlePeriod = "SINGLE_PERIOD"
         case multiPeriod = "MULTI_PERIOD"
@@ -27,6 +33,23 @@ extension MediaTailor {
     }
 
     //MARK: Shapes
+
+    public struct AvailSuppression: AWSEncodableShape & AWSDecodableShape {
+
+        public let mode: Mode?
+        /// Sets the mode for avail suppression, also known as ad suppression. By default, ad suppression is off and all ad breaks are filled by MediaTailor with ads or slate.
+        public let value: String?
+
+        public init(mode: Mode? = nil, value: String? = nil) {
+            self.mode = mode
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case value = "Value"
+        }
+    }
 
     public struct CdnConfiguration: AWSEncodableShape & AWSDecodableShape {
 
@@ -126,6 +149,8 @@ extension MediaTailor {
 
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The configuration for Avail Suppression.
+        public let availSuppression: AvailSuppression?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. 
         public let cdnConfiguration: CdnConfiguration?
         /// The configuration for DASH content. 
@@ -153,8 +178,9 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.availSuppression = availSuppression
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
@@ -172,6 +198,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case availSuppression = "AvailSuppression"
             case cdnConfiguration = "CdnConfiguration"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
@@ -340,6 +367,8 @@ extension MediaTailor {
 
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The configuration for Avail Suppression.
+        public let availSuppression: AvailSuppression?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. 
         public let cdnConfiguration: CdnConfiguration?
         /// The configuration for DASH content. 
@@ -359,8 +388,9 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.availSuppression = availSuppression
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -378,6 +408,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case availSuppression = "AvailSuppression"
             case cdnConfiguration = "CdnConfiguration"
             case dashConfiguration = "DashConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
@@ -393,6 +424,7 @@ extension MediaTailor {
     public struct PutPlaybackConfigurationResponse: AWSDecodableShape {
 
         public let adDecisionServerUrl: String?
+        public let availSuppression: AvailSuppression?
         public let cdnConfiguration: CdnConfiguration?
         public let dashConfiguration: DashConfiguration?
         public let hlsConfiguration: HlsConfiguration?
@@ -406,8 +438,9 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.availSuppression = availSuppression
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
@@ -424,6 +457,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case availSuppression = "AvailSuppression"
             case cdnConfiguration = "CdnConfiguration"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"

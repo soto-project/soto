@@ -23,37 +23,41 @@ extension EKS {
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
     public func listClustersPaginator(
         _ input: ListClustersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListClustersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in the specified Region.
     public func listFargateProfilesPaginator(
         _ input: ListFargateProfilesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListFargateProfilesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFargateProfiles, tokenKey: \ListFargateProfilesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listFargateProfiles, tokenKey: \ListFargateProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS account in the specified Region. Self-managed node groups are not listed.
     public func listNodegroupsPaginator(
         _ input: ListNodegroupsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListNodegroupsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodegroups, tokenKey: \ListNodegroupsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listNodegroups, tokenKey: \ListNodegroupsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS account, in the specified Region.
     public func listUpdatesPaginator(
         _ input: ListUpdatesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListUpdatesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUpdates, tokenKey: \ListUpdatesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listUpdates, tokenKey: \ListUpdatesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

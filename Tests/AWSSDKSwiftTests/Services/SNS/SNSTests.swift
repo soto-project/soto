@@ -30,7 +30,8 @@ class SNSTests: XCTestCase {
         secretAccessKey: "secret",
         region: .useast1,
         endpoint: ProcessInfo.processInfo.environment["SNS_ENDPOINT"] ?? "http://localhost:4575",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        httpClientProvider: .createNew
     )
 
     class TestData {

@@ -39,133 +39,141 @@ public struct MQ {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "mq",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-11-27",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "mq-fips.us-east-1.amazonaws.com", "fips-us-east-2": "mq-fips.us-east-2.amazonaws.com", "fips-us-west-1": "mq-fips.us-west-1.amazonaws.com", "fips-us-west-2": "mq-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [MQErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates a broker. Note: This API is asynchronous.
-    public func createBroker(_ input: CreateBrokerRequest) -> EventLoopFuture<CreateBrokerResponse> {
-        return client.send(operation: "CreateBroker", path: "/v1/brokers", httpMethod: "POST", input: input)
+    public func createBroker(_ input: CreateBrokerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBrokerResponse> {
+        return client.send(operation: "CreateBroker", path: "/v1/brokers", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
-    public func createConfiguration(_ input: CreateConfigurationRequest) -> EventLoopFuture<CreateConfigurationResponse> {
-        return client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
+    public func createConfiguration(_ input: CreateConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationResponse> {
+        return client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Add a tag to a resource.
-    @discardableResult public func createTags(_ input: CreateTagsRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "CreateTags", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
+    @discardableResult public func createTags(_ input: CreateTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "CreateTags", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates an ActiveMQ user.
-    public func createUser(_ input: CreateUserRequest) -> EventLoopFuture<CreateUserResponse> {
-        return client.send(operation: "CreateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "POST", input: input)
+    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
+        return client.send(operation: "CreateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes a broker. Note: This API is asynchronous.
-    public func deleteBroker(_ input: DeleteBrokerRequest) -> EventLoopFuture<DeleteBrokerResponse> {
-        return client.send(operation: "DeleteBroker", path: "/v1/brokers/{broker-id}", httpMethod: "DELETE", input: input)
+    public func deleteBroker(_ input: DeleteBrokerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBrokerResponse> {
+        return client.send(operation: "DeleteBroker", path: "/v1/brokers/{broker-id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Removes a tag from a resource.
-    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteTags", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteTags", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes an ActiveMQ user.
-    public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<DeleteUserResponse> {
-        return client.send(operation: "DeleteUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "DELETE", input: input)
+    public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResponse> {
+        return client.send(operation: "DeleteUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Returns information about the specified broker.
-    public func describeBroker(_ input: DescribeBrokerRequest) -> EventLoopFuture<DescribeBrokerResponse> {
-        return client.send(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: "GET", input: input)
+    public func describeBroker(_ input: DescribeBrokerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBrokerResponse> {
+        return client.send(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Describe available engine types and versions.
-    public func describeBrokerEngineTypes(_ input: DescribeBrokerEngineTypesRequest) -> EventLoopFuture<DescribeBrokerEngineTypesResponse> {
-        return client.send(operation: "DescribeBrokerEngineTypes", path: "/v1/broker-engine-types", httpMethod: "GET", input: input)
+    public func describeBrokerEngineTypes(_ input: DescribeBrokerEngineTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBrokerEngineTypesResponse> {
+        return client.send(operation: "DescribeBrokerEngineTypes", path: "/v1/broker-engine-types", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Describe available broker instance options.
-    public func describeBrokerInstanceOptions(_ input: DescribeBrokerInstanceOptionsRequest) -> EventLoopFuture<DescribeBrokerInstanceOptionsResponse> {
-        return client.send(operation: "DescribeBrokerInstanceOptions", path: "/v1/broker-instance-options", httpMethod: "GET", input: input)
+    public func describeBrokerInstanceOptions(_ input: DescribeBrokerInstanceOptionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBrokerInstanceOptionsResponse> {
+        return client.send(operation: "DescribeBrokerInstanceOptions", path: "/v1/broker-instance-options", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns information about the specified configuration.
-    public func describeConfiguration(_ input: DescribeConfigurationRequest) -> EventLoopFuture<DescribeConfigurationResponse> {
-        return client.send(operation: "DescribeConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "GET", input: input)
+    public func describeConfiguration(_ input: DescribeConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationResponse> {
+        return client.send(operation: "DescribeConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns the specified configuration revision for the specified configuration.
-    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest) -> EventLoopFuture<DescribeConfigurationRevisionResponse> {
-        return client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: "GET", input: input)
+    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationRevisionResponse> {
+        return client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns information about an ActiveMQ user.
-    public func describeUser(_ input: DescribeUserRequest) -> EventLoopFuture<DescribeUserResponse> {
-        return client.send(operation: "DescribeUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "GET", input: input)
+    public func describeUser(_ input: DescribeUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserResponse> {
+        return client.send(operation: "DescribeUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a list of all brokers.
-    public func listBrokers(_ input: ListBrokersRequest) -> EventLoopFuture<ListBrokersResponse> {
-        return client.send(operation: "ListBrokers", path: "/v1/brokers", httpMethod: "GET", input: input)
+    public func listBrokers(_ input: ListBrokersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBrokersResponse> {
+        return client.send(operation: "ListBrokers", path: "/v1/brokers", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a list of all revisions for the specified configuration.
-    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest) -> EventLoopFuture<ListConfigurationRevisionsResponse> {
-        return client.send(operation: "ListConfigurationRevisions", path: "/v1/configurations/{configuration-id}/revisions", httpMethod: "GET", input: input)
+    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationRevisionsResponse> {
+        return client.send(operation: "ListConfigurationRevisions", path: "/v1/configurations/{configuration-id}/revisions", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a list of all configurations.
-    public func listConfigurations(_ input: ListConfigurationsRequest) -> EventLoopFuture<ListConfigurationsResponse> {
-        return client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
+    public func listConfigurations(_ input: ListConfigurationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationsResponse> {
+        return client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists tags for a resource.
-    public func listTags(_ input: ListTagsRequest) -> EventLoopFuture<ListTagsResponse> {
-        return client.send(operation: "ListTags", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
+    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
+        return client.send(operation: "ListTags", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a list of all ActiveMQ users.
-    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
-        return client.send(operation: "ListUsers", path: "/v1/brokers/{broker-id}/users", httpMethod: "GET", input: input)
+    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
+        return client.send(operation: "ListUsers", path: "/v1/brokers/{broker-id}/users", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Reboots a broker. Note: This API is asynchronous.
-    public func rebootBroker(_ input: RebootBrokerRequest) -> EventLoopFuture<RebootBrokerResponse> {
-        return client.send(operation: "RebootBroker", path: "/v1/brokers/{broker-id}/reboot", httpMethod: "POST", input: input)
+    public func rebootBroker(_ input: RebootBrokerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootBrokerResponse> {
+        return client.send(operation: "RebootBroker", path: "/v1/brokers/{broker-id}/reboot", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Adds a pending configuration change to a broker.
-    public func updateBroker(_ input: UpdateBrokerRequest) -> EventLoopFuture<UpdateBrokerResponse> {
-        return client.send(operation: "UpdateBroker", path: "/v1/brokers/{broker-id}", httpMethod: "PUT", input: input)
+    public func updateBroker(_ input: UpdateBrokerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerResponse> {
+        return client.send(operation: "UpdateBroker", path: "/v1/brokers/{broker-id}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Updates the specified configuration.
-    public func updateConfiguration(_ input: UpdateConfigurationRequest) -> EventLoopFuture<UpdateConfigurationResponse> {
-        return client.send(operation: "UpdateConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "PUT", input: input)
+    public func updateConfiguration(_ input: UpdateConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConfigurationResponse> {
+        return client.send(operation: "UpdateConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Updates the information for an ActiveMQ user.
-    public func updateUser(_ input: UpdateUserRequest) -> EventLoopFuture<UpdateUserResponse> {
-        return client.send(operation: "UpdateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "PUT", input: input)
+    public func updateUser(_ input: UpdateUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
+        return client.send(operation: "UpdateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

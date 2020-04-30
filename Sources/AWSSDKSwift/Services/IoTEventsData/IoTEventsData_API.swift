@@ -39,8 +39,16 @@ public struct IoTEventsData {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,34 +56,34 @@ public struct IoTEventsData {
             region: region,
             service: "data.iotevents",
             signingName: "ioteventsdata",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2018-10-23",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [IoTEventsDataErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
-    public func batchPutMessage(_ input: BatchPutMessageRequest) -> EventLoopFuture<BatchPutMessageResponse> {
-        return client.send(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: "POST", input: input)
+    public func batchPutMessage(_ input: BatchPutMessageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutMessageResponse> {
+        return client.send(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
-    public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest) -> EventLoopFuture<BatchUpdateDetectorResponse> {
-        return client.send(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: "POST", input: input)
+    public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateDetectorResponse> {
+        return client.send(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns information about the specified detector (instance).
-    public func describeDetector(_ input: DescribeDetectorRequest) -> EventLoopFuture<DescribeDetectorResponse> {
-        return client.send(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: "GET", input: input)
+    public func describeDetector(_ input: DescribeDetectorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorResponse> {
+        return client.send(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists detectors (the instances of a detector model).
-    public func listDetectors(_ input: ListDetectorsRequest) -> EventLoopFuture<ListDetectorsResponse> {
-        return client.send(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: "GET", input: input)
+    public func listDetectors(_ input: ListDetectorsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorsResponse> {
+        return client.send(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: "GET", input: input, on: eventLoop)
     }
 }

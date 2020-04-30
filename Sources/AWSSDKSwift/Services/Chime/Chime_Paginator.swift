@@ -23,100 +23,121 @@ extension Chime {
     ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     public func listAccountsPaginator(
         _ input: ListAccountsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListAccountsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func listAttendeesPaginator(
         _ input: ListAttendeesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListAttendeesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAttendees, tokenKey: \ListAttendeesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listAttendees, tokenKey: \ListAttendeesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     public func listBotsPaginator(
         _ input: ListBotsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListBotsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBots, tokenKey: \ListBotsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listBots, tokenKey: \ListBotsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func listMeetingsPaginator(
         _ input: ListMeetingsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMeetingsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMeetings, tokenKey: \ListMeetingsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listMeetings, tokenKey: \ListMeetingsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the phone number orders for the administrator's Amazon Chime account.
     public func listPhoneNumberOrdersPaginator(
         _ input: ListPhoneNumberOrdersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPhoneNumberOrdersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPhoneNumberOrders, tokenKey: \ListPhoneNumberOrdersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPhoneNumberOrders, tokenKey: \ListPhoneNumberOrdersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     public func listPhoneNumbersPaginator(
         _ input: ListPhoneNumbersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPhoneNumbersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    public func listProxySessionsPaginator(
+        _ input: ListProxySessionsRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProxySessionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProxySessions, tokenKey: \ListProxySessionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     public func listRoomMembershipsPaginator(
         _ input: ListRoomMembershipsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRoomMembershipsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRoomMemberships, tokenKey: \ListRoomMembershipsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listRoomMemberships, tokenKey: \ListRoomMembershipsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     public func listRoomsPaginator(
         _ input: ListRoomsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRoomsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRooms, tokenKey: \ListRoomsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listRooms, tokenKey: \ListRoomsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     public func listUsersPaginator(
         _ input: ListUsersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListUsersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
     public func listVoiceConnectorGroupsPaginator(
         _ input: ListVoiceConnectorGroupsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVoiceConnectorGroupsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVoiceConnectorGroups, tokenKey: \ListVoiceConnectorGroupsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listVoiceConnectorGroups, tokenKey: \ListVoiceConnectorGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
     public func listVoiceConnectorsPaginator(
         _ input: ListVoiceConnectorsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVoiceConnectorsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVoiceConnectors, tokenKey: \ListVoiceConnectorsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listVoiceConnectors, tokenKey: \ListVoiceConnectorsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }
@@ -184,6 +205,18 @@ extension Chime.ListPhoneNumbersRequest: AWSPaginateToken {
             nextToken: token,
             productType: self.productType,
             status: self.status
+        )
+
+    }
+}
+
+extension Chime.ListProxySessionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Chime.ListProxySessionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            voiceConnectorId: self.voiceConnectorId
         )
 
     }

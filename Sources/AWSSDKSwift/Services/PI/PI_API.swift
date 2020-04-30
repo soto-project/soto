@@ -39,8 +39,16 @@ public struct PI {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,24 +56,24 @@ public struct PI {
             region: region,
             amzTarget: "PerformanceInsightsv20180227",
             service: "pi",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-02-27",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [PIErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.
-    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest) -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input)
+    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
+        return client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
-    public func getResourceMetrics(_ input: GetResourceMetricsRequest) -> EventLoopFuture<GetResourceMetricsResponse> {
-        return client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input)
+    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceMetricsResponse> {
+        return client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

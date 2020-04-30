@@ -87,6 +87,12 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuleExecutionMode: String, CustomStringConvertible, Codable {
+        case allMatched = "ALL_MATCHED"
+        case firstMatched = "FIRST_MATCHED"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct BatchCreateVariableError: AWSDecodableShape {
@@ -213,14 +219,17 @@ extension FraudDetector {
         public let externalModelEndpoints: [String]?
         /// The model versions to include in the detector version.
         public let modelVersions: [ModelVersion]?
+        /// The rule execution mode for the rules included in the detector version. You can define and edit the rule mode at the detector version level, when it is in draft status. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules.  The default behavior is FIRST_MATCHED.
+        public let ruleExecutionMode: RuleExecutionMode?
         /// The rules to include in the detector version.
         public let rules: [Rule]
 
-        public init(description: String? = nil, detectorId: String, externalModelEndpoints: [String]? = nil, modelVersions: [ModelVersion]? = nil, rules: [Rule]) {
+        public init(description: String? = nil, detectorId: String, externalModelEndpoints: [String]? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]) {
             self.description = description
             self.detectorId = detectorId
             self.externalModelEndpoints = externalModelEndpoints
             self.modelVersions = modelVersions
+            self.ruleExecutionMode = ruleExecutionMode
             self.rules = rules
         }
 
@@ -243,6 +252,7 @@ extension FraudDetector {
             case detectorId = "detectorId"
             case externalModelEndpoints = "externalModelEndpoints"
             case modelVersions = "modelVersions"
+            case ruleExecutionMode = "ruleExecutionMode"
             case rules = "rules"
         }
     }
@@ -429,6 +439,34 @@ extension FraudDetector {
 
     }
 
+    public struct DeleteDetectorRequest: AWSEncodableShape {
+
+        /// The ID of the detector to delete.
+        public let detectorId: String
+
+        public init(detectorId: String) {
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct DeleteDetectorResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteDetectorVersionRequest: AWSEncodableShape {
 
         /// The ID of the parent detector for the detector version to delete.
@@ -477,6 +515,46 @@ extension FraudDetector {
     }
 
     public struct DeleteEventResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteRuleVersionRequest: AWSEncodableShape {
+
+        /// The ID of the detector that includes the rule version to delete.
+        public let detectorId: String
+        /// The rule ID of the rule version to delete.
+        public let ruleId: String
+        /// The rule version to delete.
+        public let ruleVersion: String
+
+        public init(detectorId: String, ruleId: String, ruleVersion: String) {
+            self.detectorId = detectorId
+            self.ruleId = ruleId
+            self.ruleVersion = ruleVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.ruleId, name: "ruleId", parent: name, max: 64)
+            try validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.ruleVersion, name: "ruleVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case ruleId = "ruleId"
+            case ruleVersion = "ruleVersion"
+        }
+    }
+
+    public struct DeleteRuleVersionResult: AWSDecodableShape {
 
 
         public init() {
@@ -728,12 +806,14 @@ extension FraudDetector {
         public let lastUpdatedTime: String?
         /// The model versions included in the detector version. 
         public let modelVersions: [ModelVersion]?
+        /// The execution mode of the rule in the dectector  FIRST_MATCHED indicates that Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule.  ALL_MATCHED indicates that Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status.
+        public let ruleExecutionMode: RuleExecutionMode?
         /// The rules included in the detector version.
         public let rules: [Rule]?
         /// The status of the detector version.
         public let status: DetectorVersionStatus?
 
-        public init(createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, detectorVersionId: String? = nil, externalModelEndpoints: [String]? = nil, lastUpdatedTime: String? = nil, modelVersions: [ModelVersion]? = nil, rules: [Rule]? = nil, status: DetectorVersionStatus? = nil) {
+        public init(createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, detectorVersionId: String? = nil, externalModelEndpoints: [String]? = nil, lastUpdatedTime: String? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]? = nil, status: DetectorVersionStatus? = nil) {
             self.createdTime = createdTime
             self.description = description
             self.detectorId = detectorId
@@ -741,6 +821,7 @@ extension FraudDetector {
             self.externalModelEndpoints = externalModelEndpoints
             self.lastUpdatedTime = lastUpdatedTime
             self.modelVersions = modelVersions
+            self.ruleExecutionMode = ruleExecutionMode
             self.rules = rules
             self.status = status
         }
@@ -753,6 +834,7 @@ extension FraudDetector {
             case externalModelEndpoints = "externalModelEndpoints"
             case lastUpdatedTime = "lastUpdatedTime"
             case modelVersions = "modelVersions"
+            case ruleExecutionMode = "ruleExecutionMode"
             case rules = "rules"
             case status = "status"
         }
@@ -1058,15 +1140,19 @@ extension FraudDetector {
         public let modelScores: [ModelScores]?
         /// The prediction outcomes.
         public let outcomes: [String]?
+        /// The rule results in the prediction.
+        public let ruleResults: [RuleResult]?
 
-        public init(modelScores: [ModelScores]? = nil, outcomes: [String]? = nil) {
+        public init(modelScores: [ModelScores]? = nil, outcomes: [String]? = nil, ruleResults: [RuleResult]? = nil) {
             self.modelScores = modelScores
             self.outcomes = outcomes
+            self.ruleResults = ruleResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelScores = "modelScores"
             case outcomes = "outcomes"
+            case ruleResults = "ruleResults"
         }
     }
 
@@ -1712,6 +1798,24 @@ extension FraudDetector {
         }
     }
 
+    public struct RuleResult: AWSDecodableShape {
+
+        /// The outcomes of the matched rule, based on the rule execution mode.
+        public let outcomes: [String]?
+        /// The rule ID that was matched, based on the rule execution mode.
+        public let ruleId: String?
+
+        public init(outcomes: [String]? = nil, ruleId: String? = nil) {
+            self.outcomes = outcomes
+            self.ruleId = ruleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outcomes = "outcomes"
+            case ruleId = "ruleId"
+        }
+    }
+
     public struct TrainingDataSource: AWSEncodableShape & AWSDecodableShape {
 
         /// The data access role ARN for the training data source.
@@ -1730,7 +1834,7 @@ extension FraudDetector {
             try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn\\:aws\\:iam\\:\\:[0-9]{12}\\:role\\/[^\\s]{2,64}$")
             try validate(self.dataLocation, name: "dataLocation", parent: name, max: 512)
             try validate(self.dataLocation, name: "dataLocation", parent: name, min: 1)
-            try validate(self.dataLocation, name: "dataLocation", parent: name, pattern: "^s3:\\/\\/[^\\s]+$")
+            try validate(self.dataLocation, name: "dataLocation", parent: name, pattern: "^s3:\\/\\/(.+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1790,15 +1894,18 @@ extension FraudDetector {
         public let externalModelEndpoints: [String]
         /// The model versions to include in the detector version.
         public let modelVersions: [ModelVersion]?
+        /// The rule execution mode to add to the detector. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
+        public let ruleExecutionMode: RuleExecutionMode?
         /// The rules to include in the detector version.
         public let rules: [Rule]
 
-        public init(description: String? = nil, detectorId: String, detectorVersionId: String, externalModelEndpoints: [String], modelVersions: [ModelVersion]? = nil, rules: [Rule]) {
+        public init(description: String? = nil, detectorId: String, detectorVersionId: String, externalModelEndpoints: [String], modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]) {
             self.description = description
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
             self.externalModelEndpoints = externalModelEndpoints
             self.modelVersions = modelVersions
+            self.ruleExecutionMode = ruleExecutionMode
             self.rules = rules
         }
 
@@ -1823,6 +1930,7 @@ extension FraudDetector {
             case detectorVersionId = "detectorVersionId"
             case externalModelEndpoints = "externalModelEndpoints"
             case modelVersions = "modelVersions"
+            case ruleExecutionMode = "ruleExecutionMode"
             case rules = "rules"
         }
     }

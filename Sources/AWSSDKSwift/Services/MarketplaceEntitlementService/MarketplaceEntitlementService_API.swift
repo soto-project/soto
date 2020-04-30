@@ -39,8 +39,16 @@ public struct MarketplaceEntitlementService {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -49,19 +57,19 @@ public struct MarketplaceEntitlementService {
             amzTarget: "AWSMPEntitlementService",
             service: "entitlement.marketplace",
             signingName: "aws-marketplace",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
-    public func getEntitlements(_ input: GetEntitlementsRequest) -> EventLoopFuture<GetEntitlementsResult> {
-        return client.send(operation: "GetEntitlements", path: "/", httpMethod: "POST", input: input)
+    public func getEntitlements(_ input: GetEntitlementsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEntitlementsResult> {
+        return client.send(operation: "GetEntitlements", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

@@ -5646,7 +5646,7 @@ extension Glue {
         /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the functions are located.
-        public let databaseName: String
+        public let databaseName: String?
         /// The maximum number of functions to return in one response.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
@@ -5654,7 +5654,7 @@ extension Glue {
         /// An optional function-name pattern string that filters the function definitions returned.
         public let pattern: String
 
-        public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, pattern: String) {
+        public init(catalogId: String? = nil, databaseName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pattern: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.maxResults = maxResults

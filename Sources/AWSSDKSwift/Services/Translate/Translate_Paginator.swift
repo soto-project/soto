@@ -23,19 +23,21 @@ extension Translate {
     ///  Provides a list of custom terminologies associated with your account.
     public func listTerminologiesPaginator(
         _ input: ListTerminologiesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTerminologiesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTerminologies, tokenKey: \ListTerminologiesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTerminologies, tokenKey: \ListTerminologiesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets a list of the batch translation jobs that you have submitted.
     public func listTextTranslationJobsPaginator(
         _ input: ListTextTranslationJobsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTextTranslationJobsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTextTranslationJobs, tokenKey: \ListTextTranslationJobsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTextTranslationJobs, tokenKey: \ListTextTranslationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

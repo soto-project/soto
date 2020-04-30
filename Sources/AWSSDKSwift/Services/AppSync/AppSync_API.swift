@@ -39,227 +39,235 @@ public struct AppSync {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "appsync",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [AppSyncErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates a cache for the GraphQL API.
-    public func createApiCache(_ input: CreateApiCacheRequest) -> EventLoopFuture<CreateApiCacheResponse> {
-        return client.send(operation: "CreateApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "POST", input: input)
+    public func createApiCache(_ input: CreateApiCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApiCacheResponse> {
+        return client.send(operation: "CreateApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a unique key that you can distribute to clients who are executing your API.
-    public func createApiKey(_ input: CreateApiKeyRequest) -> EventLoopFuture<CreateApiKeyResponse> {
-        return client.send(operation: "CreateApiKey", path: "/v1/apis/{apiId}/apikeys", httpMethod: "POST", input: input)
+    public func createApiKey(_ input: CreateApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApiKeyResponse> {
+        return client.send(operation: "CreateApiKey", path: "/v1/apis/{apiId}/apikeys", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a DataSource object.
-    public func createDataSource(_ input: CreateDataSourceRequest) -> EventLoopFuture<CreateDataSourceResponse> {
-        return client.send(operation: "CreateDataSource", path: "/v1/apis/{apiId}/datasources", httpMethod: "POST", input: input)
+    public func createDataSource(_ input: CreateDataSourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceResponse> {
+        return client.send(operation: "CreateDataSource", path: "/v1/apis/{apiId}/datasources", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a Function object. A function is a reusable entity. Multiple functions can be used to compose the resolver logic.
-    public func createFunction(_ input: CreateFunctionRequest) -> EventLoopFuture<CreateFunctionResponse> {
-        return client.send(operation: "CreateFunction", path: "/v1/apis/{apiId}/functions", httpMethod: "POST", input: input)
+    public func createFunction(_ input: CreateFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionResponse> {
+        return client.send(operation: "CreateFunction", path: "/v1/apis/{apiId}/functions", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a GraphqlApi object.
-    public func createGraphqlApi(_ input: CreateGraphqlApiRequest) -> EventLoopFuture<CreateGraphqlApiResponse> {
-        return client.send(operation: "CreateGraphqlApi", path: "/v1/apis", httpMethod: "POST", input: input)
+    public func createGraphqlApi(_ input: CreateGraphqlApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGraphqlApiResponse> {
+        return client.send(operation: "CreateGraphqlApi", path: "/v1/apis", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand and converts the data source's responses into GraphQL.
-    public func createResolver(_ input: CreateResolverRequest) -> EventLoopFuture<CreateResolverResponse> {
-        return client.send(operation: "CreateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers", httpMethod: "POST", input: input)
+    public func createResolver(_ input: CreateResolverRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResolverResponse> {
+        return client.send(operation: "CreateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a Type object.
-    public func createType(_ input: CreateTypeRequest) -> EventLoopFuture<CreateTypeResponse> {
-        return client.send(operation: "CreateType", path: "/v1/apis/{apiId}/types", httpMethod: "POST", input: input)
+    public func createType(_ input: CreateTypeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTypeResponse> {
+        return client.send(operation: "CreateType", path: "/v1/apis/{apiId}/types", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes an ApiCache object.
-    public func deleteApiCache(_ input: DeleteApiCacheRequest) -> EventLoopFuture<DeleteApiCacheResponse> {
-        return client.send(operation: "DeleteApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "DELETE", input: input)
+    public func deleteApiCache(_ input: DeleteApiCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApiCacheResponse> {
+        return client.send(operation: "DeleteApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes an API key.
-    public func deleteApiKey(_ input: DeleteApiKeyRequest) -> EventLoopFuture<DeleteApiKeyResponse> {
-        return client.send(operation: "DeleteApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "DELETE", input: input)
+    public func deleteApiKey(_ input: DeleteApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApiKeyResponse> {
+        return client.send(operation: "DeleteApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes a DataSource object.
-    public func deleteDataSource(_ input: DeleteDataSourceRequest) -> EventLoopFuture<DeleteDataSourceResponse> {
-        return client.send(operation: "DeleteDataSource", path: "/v1/apis/{apiId}/datasources/{name}", httpMethod: "DELETE", input: input)
+    public func deleteDataSource(_ input: DeleteDataSourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSourceResponse> {
+        return client.send(operation: "DeleteDataSource", path: "/v1/apis/{apiId}/datasources/{name}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes a Function.
-    public func deleteFunction(_ input: DeleteFunctionRequest) -> EventLoopFuture<DeleteFunctionResponse> {
-        return client.send(operation: "DeleteFunction", path: "/v1/apis/{apiId}/functions/{functionId}", httpMethod: "DELETE", input: input)
+    public func deleteFunction(_ input: DeleteFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFunctionResponse> {
+        return client.send(operation: "DeleteFunction", path: "/v1/apis/{apiId}/functions/{functionId}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes a GraphqlApi object.
-    public func deleteGraphqlApi(_ input: DeleteGraphqlApiRequest) -> EventLoopFuture<DeleteGraphqlApiResponse> {
-        return client.send(operation: "DeleteGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "DELETE", input: input)
+    public func deleteGraphqlApi(_ input: DeleteGraphqlApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGraphqlApiResponse> {
+        return client.send(operation: "DeleteGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes a Resolver object.
-    public func deleteResolver(_ input: DeleteResolverRequest) -> EventLoopFuture<DeleteResolverResponse> {
-        return client.send(operation: "DeleteResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "DELETE", input: input)
+    public func deleteResolver(_ input: DeleteResolverRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResolverResponse> {
+        return client.send(operation: "DeleteResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes a Type object.
-    public func deleteType(_ input: DeleteTypeRequest) -> EventLoopFuture<DeleteTypeResponse> {
-        return client.send(operation: "DeleteType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "DELETE", input: input)
+    public func deleteType(_ input: DeleteTypeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTypeResponse> {
+        return client.send(operation: "DeleteType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Flushes an ApiCache object.
-    public func flushApiCache(_ input: FlushApiCacheRequest) -> EventLoopFuture<FlushApiCacheResponse> {
-        return client.send(operation: "FlushApiCache", path: "/v1/apis/{apiId}/FlushCache", httpMethod: "DELETE", input: input)
+    public func flushApiCache(_ input: FlushApiCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FlushApiCacheResponse> {
+        return client.send(operation: "FlushApiCache", path: "/v1/apis/{apiId}/FlushCache", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Retrieves an ApiCache object.
-    public func getApiCache(_ input: GetApiCacheRequest) -> EventLoopFuture<GetApiCacheResponse> {
-        return client.send(operation: "GetApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "GET", input: input)
+    public func getApiCache(_ input: GetApiCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApiCacheResponse> {
+        return client.send(operation: "GetApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves a DataSource object.
-    public func getDataSource(_ input: GetDataSourceRequest) -> EventLoopFuture<GetDataSourceResponse> {
-        return client.send(operation: "GetDataSource", path: "/v1/apis/{apiId}/datasources/{name}", httpMethod: "GET", input: input)
+    public func getDataSource(_ input: GetDataSourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataSourceResponse> {
+        return client.send(operation: "GetDataSource", path: "/v1/apis/{apiId}/datasources/{name}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get a Function.
-    public func getFunction(_ input: GetFunctionRequest) -> EventLoopFuture<GetFunctionResponse> {
-        return client.send(operation: "GetFunction", path: "/v1/apis/{apiId}/functions/{functionId}", httpMethod: "GET", input: input)
+    public func getFunction(_ input: GetFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionResponse> {
+        return client.send(operation: "GetFunction", path: "/v1/apis/{apiId}/functions/{functionId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves a GraphqlApi object.
-    public func getGraphqlApi(_ input: GetGraphqlApiRequest) -> EventLoopFuture<GetGraphqlApiResponse> {
-        return client.send(operation: "GetGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "GET", input: input)
+    public func getGraphqlApi(_ input: GetGraphqlApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGraphqlApiResponse> {
+        return client.send(operation: "GetGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves the introspection schema for a GraphQL API.
-    public func getIntrospectionSchema(_ input: GetIntrospectionSchemaRequest) -> EventLoopFuture<GetIntrospectionSchemaResponse> {
-        return client.send(operation: "GetIntrospectionSchema", path: "/v1/apis/{apiId}/schema", httpMethod: "GET", input: input)
+    public func getIntrospectionSchema(_ input: GetIntrospectionSchemaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIntrospectionSchemaResponse> {
+        return client.send(operation: "GetIntrospectionSchema", path: "/v1/apis/{apiId}/schema", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves a Resolver object.
-    public func getResolver(_ input: GetResolverRequest) -> EventLoopFuture<GetResolverResponse> {
-        return client.send(operation: "GetResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "GET", input: input)
+    public func getResolver(_ input: GetResolverRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverResponse> {
+        return client.send(operation: "GetResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves the current status of a schema creation operation.
-    public func getSchemaCreationStatus(_ input: GetSchemaCreationStatusRequest) -> EventLoopFuture<GetSchemaCreationStatusResponse> {
-        return client.send(operation: "GetSchemaCreationStatus", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "GET", input: input)
+    public func getSchemaCreationStatus(_ input: GetSchemaCreationStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSchemaCreationStatusResponse> {
+        return client.send(operation: "GetSchemaCreationStatus", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves a Type object.
-    public func getType(_ input: GetTypeRequest) -> EventLoopFuture<GetTypeResponse> {
-        return client.send(operation: "GetType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "GET", input: input)
+    public func getType(_ input: GetTypeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTypeResponse> {
+        return client.send(operation: "GetType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists the API keys for a given API.  API keys are deleted automatically sometime after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted. 
-    public func listApiKeys(_ input: ListApiKeysRequest) -> EventLoopFuture<ListApiKeysResponse> {
-        return client.send(operation: "ListApiKeys", path: "/v1/apis/{apiId}/apikeys", httpMethod: "GET", input: input)
+    public func listApiKeys(_ input: ListApiKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApiKeysResponse> {
+        return client.send(operation: "ListApiKeys", path: "/v1/apis/{apiId}/apikeys", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists the data sources for a given API.
-    public func listDataSources(_ input: ListDataSourcesRequest) -> EventLoopFuture<ListDataSourcesResponse> {
-        return client.send(operation: "ListDataSources", path: "/v1/apis/{apiId}/datasources", httpMethod: "GET", input: input)
+    public func listDataSources(_ input: ListDataSourcesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataSourcesResponse> {
+        return client.send(operation: "ListDataSources", path: "/v1/apis/{apiId}/datasources", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List multiple functions.
-    public func listFunctions(_ input: ListFunctionsRequest) -> EventLoopFuture<ListFunctionsResponse> {
-        return client.send(operation: "ListFunctions", path: "/v1/apis/{apiId}/functions", httpMethod: "GET", input: input)
+    public func listFunctions(_ input: ListFunctionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResponse> {
+        return client.send(operation: "ListFunctions", path: "/v1/apis/{apiId}/functions", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists your GraphQL APIs.
-    public func listGraphqlApis(_ input: ListGraphqlApisRequest) -> EventLoopFuture<ListGraphqlApisResponse> {
-        return client.send(operation: "ListGraphqlApis", path: "/v1/apis", httpMethod: "GET", input: input)
+    public func listGraphqlApis(_ input: ListGraphqlApisRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGraphqlApisResponse> {
+        return client.send(operation: "ListGraphqlApis", path: "/v1/apis", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists the resolvers for a given API and type.
-    public func listResolvers(_ input: ListResolversRequest) -> EventLoopFuture<ListResolversResponse> {
-        return client.send(operation: "ListResolvers", path: "/v1/apis/{apiId}/types/{typeName}/resolvers", httpMethod: "GET", input: input)
+    public func listResolvers(_ input: ListResolversRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolversResponse> {
+        return client.send(operation: "ListResolvers", path: "/v1/apis/{apiId}/types/{typeName}/resolvers", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List the resolvers that are associated with a specific function.
-    public func listResolversByFunction(_ input: ListResolversByFunctionRequest) -> EventLoopFuture<ListResolversByFunctionResponse> {
-        return client.send(operation: "ListResolversByFunction", path: "/v1/apis/{apiId}/functions/{functionId}/resolvers", httpMethod: "GET", input: input)
+    public func listResolversByFunction(_ input: ListResolversByFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolversByFunctionResponse> {
+        return client.send(operation: "ListResolversByFunction", path: "/v1/apis/{apiId}/functions/{functionId}/resolvers", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists the tags for a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists the types for a given API.
-    public func listTypes(_ input: ListTypesRequest) -> EventLoopFuture<ListTypesResponse> {
-        return client.send(operation: "ListTypes", path: "/v1/apis/{apiId}/types", httpMethod: "GET", input: input)
+    public func listTypes(_ input: ListTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypesResponse> {
+        return client.send(operation: "ListTypes", path: "/v1/apis/{apiId}/types", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
-    public func startSchemaCreation(_ input: StartSchemaCreationRequest) -> EventLoopFuture<StartSchemaCreationResponse> {
-        return client.send(operation: "StartSchemaCreation", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "POST", input: input)
+    public func startSchemaCreation(_ input: StartSchemaCreationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSchemaCreationResponse> {
+        return client.send(operation: "StartSchemaCreation", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Tags a resource with user-supplied tags.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Untags a resource.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Updates the cache for the GraphQL API.
-    public func updateApiCache(_ input: UpdateApiCacheRequest) -> EventLoopFuture<UpdateApiCacheResponse> {
-        return client.send(operation: "UpdateApiCache", path: "/v1/apis/{apiId}/ApiCaches/update", httpMethod: "POST", input: input)
+    public func updateApiCache(_ input: UpdateApiCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApiCacheResponse> {
+        return client.send(operation: "UpdateApiCache", path: "/v1/apis/{apiId}/ApiCaches/update", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates an API key.
-    public func updateApiKey(_ input: UpdateApiKeyRequest) -> EventLoopFuture<UpdateApiKeyResponse> {
-        return client.send(operation: "UpdateApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "POST", input: input)
+    public func updateApiKey(_ input: UpdateApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApiKeyResponse> {
+        return client.send(operation: "UpdateApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates a DataSource object.
-    public func updateDataSource(_ input: UpdateDataSourceRequest) -> EventLoopFuture<UpdateDataSourceResponse> {
-        return client.send(operation: "UpdateDataSource", path: "/v1/apis/{apiId}/datasources/{name}", httpMethod: "POST", input: input)
+    public func updateDataSource(_ input: UpdateDataSourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSourceResponse> {
+        return client.send(operation: "UpdateDataSource", path: "/v1/apis/{apiId}/datasources/{name}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates a Function object.
-    public func updateFunction(_ input: UpdateFunctionRequest) -> EventLoopFuture<UpdateFunctionResponse> {
-        return client.send(operation: "UpdateFunction", path: "/v1/apis/{apiId}/functions/{functionId}", httpMethod: "POST", input: input)
+    public func updateFunction(_ input: UpdateFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionResponse> {
+        return client.send(operation: "UpdateFunction", path: "/v1/apis/{apiId}/functions/{functionId}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates a GraphqlApi object.
-    public func updateGraphqlApi(_ input: UpdateGraphqlApiRequest) -> EventLoopFuture<UpdateGraphqlApiResponse> {
-        return client.send(operation: "UpdateGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "POST", input: input)
+    public func updateGraphqlApi(_ input: UpdateGraphqlApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGraphqlApiResponse> {
+        return client.send(operation: "UpdateGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates a Resolver object.
-    public func updateResolver(_ input: UpdateResolverRequest) -> EventLoopFuture<UpdateResolverResponse> {
-        return client.send(operation: "UpdateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "POST", input: input)
+    public func updateResolver(_ input: UpdateResolverRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResolverResponse> {
+        return client.send(operation: "UpdateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates a Type object.
-    public func updateType(_ input: UpdateTypeRequest) -> EventLoopFuture<UpdateTypeResponse> {
-        return client.send(operation: "UpdateType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "POST", input: input)
+    public func updateType(_ input: UpdateTypeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTypeResponse> {
+        return client.send(operation: "UpdateType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

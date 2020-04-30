@@ -23,64 +23,71 @@ extension RAM {
     ///  Gets the policies for the specified resources that you own and have shared.
     public func getResourcePoliciesPaginator(
         _ input: GetResourcePoliciesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetResourcePoliciesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getResourcePolicies, tokenKey: \GetResourcePoliciesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getResourcePolicies, tokenKey: \GetResourcePoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets the resources or principals for the resource shares that you own.
     public func getResourceShareAssociationsPaginator(
         _ input: GetResourceShareAssociationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetResourceShareAssociationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getResourceShareAssociations, tokenKey: \GetResourceShareAssociationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getResourceShareAssociations, tokenKey: \GetResourceShareAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets the invitations for resource sharing that you've received.
     public func getResourceShareInvitationsPaginator(
         _ input: GetResourceShareInvitationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetResourceShareInvitationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getResourceShareInvitations, tokenKey: \GetResourceShareInvitationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getResourceShareInvitations, tokenKey: \GetResourceShareInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets the resource shares that you own or the resource shares that are shared with you.
     public func getResourceSharesPaginator(
         _ input: GetResourceSharesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetResourceSharesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getResourceShares, tokenKey: \GetResourceSharesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getResourceShares, tokenKey: \GetResourceSharesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
     public func listPendingInvitationResourcesPaginator(
         _ input: ListPendingInvitationResourcesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPendingInvitationResourcesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPendingInvitationResources, tokenKey: \ListPendingInvitationResourcesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPendingInvitationResources, tokenKey: \ListPendingInvitationResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the principals that you have shared resources with or that have shared resources with you.
     public func listPrincipalsPaginator(
         _ input: ListPrincipalsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPrincipalsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPrincipals, tokenKey: \ListPrincipalsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPrincipals, tokenKey: \ListPrincipalsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
     public func listResourcesPaginator(
         _ input: ListResourcesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResourcesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

@@ -49,7 +49,7 @@ class AWSRequestTests: XCTestCase {
             var expected2 = expected
 
             // If XML remove whitespace from expected by converting to XMLNode and back
-            if case .restxml = client.serviceProtocol.type {
+            if case .restxml = client.serviceProtocol {
                 let document = try XML.Document(data: expected.data(using: .utf8)!)
                 expected2 = document.xmlString
             }
@@ -112,7 +112,7 @@ class AWSRequestTests: XCTestCase {
         let request = S3.PutBucketLifecycleConfigurationRequest(bucket: "bucket", lifecycleConfiguration: lifecycleConfiguration)
 
         testAWSShapeRequest(
-            client: S3().client,
+            client: S3(httpClientProvider: .createNew).client,
             operation: "PutBucketLifecycleConfiguration",
             path: "/{Bucket}?lifecycle",
             httpMethod: "PUT",
@@ -130,7 +130,7 @@ class AWSRequestTests: XCTestCase {
             tags: [SNS.Tag(key: "tag1", value: "23"), SNS.Tag(key: "tag2", value: "true")]
         )
 
-        testAWSShapeRequest(client: SNS().client, operation: "CreateTopic", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(client: SNS(httpClientProvider: .createNew).client, operation: "CreateTopic", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
     }
 
     func testCloudFrontCreateDistribution() {
@@ -158,7 +158,7 @@ class AWSRequestTests: XCTestCase {
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
 
         testAWSShapeRequest(
-            client: CloudFront().client,
+            client: CloudFront(httpClientProvider: .createNew).client,
             operation: "CreateDistribution2019_03_26",
             path: "/2019-03-26/distribution",
             httpMethod: "POST",
@@ -171,7 +171,7 @@ class AWSRequestTests: XCTestCase {
         let expectedResult = "Action=CreateImage&Version=2016-11-15&instanceId=i-123123&name=TestInstance"
         let request = EC2.CreateImageRequest(instanceId: "i-123123", name: "TestInstance")
 
-        testAWSShapeRequest(client: EC2().client, operation: "CreateImage", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(client: EC2(httpClientProvider: .createNew).client, operation: "CreateImage", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
     }
 
     func testEC2CreateInstanceExportTask() {
@@ -180,7 +180,7 @@ class AWSRequestTests: XCTestCase {
         let request = EC2.CreateInstanceExportTaskRequest(exportToS3Task: exportToS3Task, instanceId: "i-123123")
 
         testAWSShapeRequest(
-            client: EC2().client,
+            client: EC2(httpClientProvider: .createNew).client,
             operation: "CreateInstanceExportTask",
             path: "/",
             httpMethod: "POST",
@@ -194,7 +194,7 @@ class AWSRequestTests: XCTestCase {
             "Action=SimulateCustomPolicy&ActionNames.member.1=s3%2A&ActionNames.member.2=iam%2A&PolicyInputList.member.1=testPolicy&Version=2010-05-08"
         let request = IAM.SimulateCustomPolicyRequest(actionNames: ["s3*", "iam*"], policyInputList: ["testPolicy"])
 
-        testAWSShapeRequest(client: IAM().client, operation: "SimulateCustomPolicy", input: request, expected: expectedResult)
+        testAWSShapeRequest(client: IAM(httpClientProvider: .createNew).client, operation: "SimulateCustomPolicy", input: request, expected: expectedResult)
     }
 
     func testRoute53ChangeResourceRecordSetsRequest() {
@@ -208,7 +208,7 @@ class AWSRequestTests: XCTestCase {
         let changeBatch = Route53.ChangeBatch(changes: changes)
         let request = Route53.ChangeResourceRecordSetsRequest(changeBatch: changeBatch, hostedZoneId: "Zone")
 
-        testAWSShapeRequest(client: Route53().client, operation: "ChangeResourceRecordSets", input: request, expected: expectedResult)
+        testAWSShapeRequest(client: Route53(httpClientProvider: .createNew).client, operation: "ChangeResourceRecordSets", input: request, expected: expectedResult)
     }
 
     func testSESSendEmail() {
@@ -218,7 +218,7 @@ class AWSRequestTests: XCTestCase {
         let message = SES.Message(body: SES.Body(text: SES.Content(data: "Testing 1,2,1,2")), subject: SES.Content(data: "Testing"))
         let request = SES.SendEmailRequest(destination: destination, message: message, source: "me@gmail.com")
 
-        testAWSShapeRequest(client: SES().client, operation: "SendEmail", input: request, expected: expectedResult)
+        testAWSShapeRequest(client: SES(httpClientProvider: .createNew).client, operation: "SendEmail", input: request, expected: expectedResult)
     }
 
     // VALIDATION TESTS
@@ -226,31 +226,33 @@ class AWSRequestTests: XCTestCase {
     func testS3GetObjectAclValidate() {
         // string length
         let request = S3.GetObjectAclRequest(bucket: "testbucket", key: "")
-        testAWSValidationFail(client: S3().client, operation: "GetObjectAcl", input: request)
+        testAWSValidationFail(client: S3(httpClientProvider: .createNew).client, operation: "GetObjectAcl", input: request)
     }
 
     func testIAMAttachGroupPolicyValidate() {
+        let client = IAM(httpClientProvider: .createNew).client
         // regular expression fail
         let request = IAM.AttachGroupPolicyRequest(groupName: ":MY:GROUP", policyArn: "arn://3948574985/unvalidated")
-        testAWSValidationFail(client: IAM().client, operation: "AttachGroupPolicy", input: request)
+        testAWSValidationFail(client: client, operation: "AttachGroupPolicy", input: request)
         // string length
         let request2 = IAM.AttachGroupPolicyRequest(groupName: "MYGROUP", policyArn: "arn:tooshort")
-        testAWSValidationFail(client: IAM().client, operation: "AttachGroupPolicy", input: request2)
+        testAWSValidationFail(client: client, operation: "AttachGroupPolicy", input: request2)
         // regular expression success
         let request3 = IAM.AttachGroupPolicyRequest(groupName: "MY-GR_OU+P", policyArn: "arn://3948574985/unvalidated")
-        testAWSValidationSuccess(client: IAM().client, operation: "AttachGroupPolicy", input: request3)
+        testAWSValidationSuccess(client: client, operation: "AttachGroupPolicy", input: request3)
     }
 
     func testCloudFrontListTagsForResourceValidate() {
         // arn regular expressions, expect arn:aws(-cn)?:cloudfront::[0-9]+:.*
+        let client = CloudFront(httpClientProvider: .createNew).client
         let request = CloudFront.ListTagsForResourceRequest(resource: "test")
-        testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request)
+        testAWSValidationFail(client: client, operation: "ListTagsForResource", input: request)
         let request2 = CloudFront.ListTagsForResourceRequest(resource: "arn:aws::58979345:test")
-        testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request2)
+        testAWSValidationFail(client: client, operation: "ListTagsForResource", input: request2)
         let request3 = CloudFront.ListTagsForResourceRequest(resource: "arn:aws:cloudfront::58979345")
-        testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request3)
+        testAWSValidationFail(client: client, operation: "ListTagsForResource", input: request3)
         let successRequest = CloudFront.ListTagsForResourceRequest(resource: "arn:aws:cloudfront::58979345:test")
-        testAWSValidationSuccess(client: CloudFront().client, operation: "ListTagsForResource", input: successRequest)
+        testAWSValidationSuccess(client: client, operation: "ListTagsForResource", input: successRequest)
     }
 
     func testACMAddTagsToCertificateValidate() {
@@ -259,7 +261,7 @@ class AWSRequestTests: XCTestCase {
             certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012",
             tags: [ACM.Tag(key: "hello", value: "1"), ACM.Tag(key: "?hello?", value: "1")]
         )
-        testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
+        testAWSValidationFail(client: ACM(httpClientProvider: .createNew).client, operation: "AddTagsToCertificate", input: request)
     }
 
     func testCloudFrontCreateDistributionValidate() {
@@ -282,7 +284,7 @@ class AWSRequestTests: XCTestCase {
             origins: origins
         )
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
-        testAWSValidationFail(client: CloudFront().client, operation: "CreateDistribution", input: request)
+        testAWSValidationFail(client: CloudFront(httpClientProvider: .createNew).client, operation: "CreateDistribution", input: request)
     }
 
     static var allTests: [(String, (AWSRequestTests) -> () throws -> Void)] {

@@ -41,6 +41,12 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
+    public enum Capability: String, CustomStringConvertible, Codable {
+        case voice = "Voice"
+        case sms = "SMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EmailStatus: String, CustomStringConvertible, Codable {
         case notsent = "NotSent"
         case sent = "Sent"
@@ -66,6 +72,12 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GeoMatchLevel: String, CustomStringConvertible, Codable {
+        case country = "Country"
+        case areacode = "AreaCode"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InviteStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case accepted = "Accepted"
@@ -85,6 +97,12 @@ extension Chime {
         case user = "User"
         case bot = "Bot"
         case webhook = "Webhook"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumberSelectionBehavior: String, CustomStringConvertible, Codable {
+        case prefersticky = "PreferSticky"
+        case avoidsticky = "AvoidSticky"
         public var description: String { return self.rawValue }
     }
 
@@ -138,6 +156,13 @@ extension Chime {
     public enum PhoneNumberType: String, CustomStringConvertible, Codable {
         case local = "Local"
         case tollfree = "TollFree"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProxySessionStatus: String, CustomStringConvertible, Codable {
+        case open = "Open"
+        case inprogress = "InProgress"
+        case closed = "Closed"
         public var description: String { return self.rawValue }
     }
 
@@ -838,20 +863,29 @@ extension Chime {
         public let externalUserId: String
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]?
 
-        public init(externalUserId: String, meetingId: String) {
+        public init(externalUserId: String, meetingId: String, tags: [Tag]? = nil) {
             self.externalUserId = externalUserId
             self.meetingId = meetingId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.externalUserId, name: "externalUserId", parent: name, max: 64)
             try validate(self.externalUserId, name: "externalUserId", parent: name, min: 2)
             try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 10)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case externalUserId = "ExternalUserId"
+            case tags = "Tags"
         }
     }
 
@@ -859,18 +893,27 @@ extension Chime {
 
         /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]?
 
-        public init(externalUserId: String) {
+        public init(externalUserId: String, tags: [Tag]? = nil) {
             self.externalUserId = externalUserId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.externalUserId, name: "externalUserId", parent: name, max: 64)
             try validate(self.externalUserId, name: "externalUserId", parent: name, min: 2)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 10)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case externalUserId = "ExternalUserId"
+            case tags = "Tags"
         }
     }
 
@@ -935,34 +978,49 @@ extension Chime {
 
         /// The unique identifier for the client request. Use a different token for different meetings.
         public let clientRequestToken: String
+        /// The external meeting ID.
+        public let externalMeetingId: String?
         /// The Region in which to create the meeting. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
         public let mediaRegion: String?
         /// Reserved.
         public let meetingHostId: String?
         /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
         public let notificationsConfiguration: MeetingNotificationConfiguration?
+        /// The tag key-value pairs.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), mediaRegion: String? = nil, meetingHostId: String? = nil, notificationsConfiguration: MeetingNotificationConfiguration? = nil) {
+        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String? = nil, mediaRegion: String? = nil, meetingHostId: String? = nil, notificationsConfiguration: MeetingNotificationConfiguration? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.externalMeetingId = externalMeetingId
             self.mediaRegion = mediaRegion
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try validate(self.externalMeetingId, name: "externalMeetingId", parent: name, max: 64)
+            try validate(self.externalMeetingId, name: "externalMeetingId", parent: name, min: 2)
             try validate(self.meetingHostId, name: "meetingHostId", parent: name, max: 64)
             try validate(self.meetingHostId, name: "meetingHostId", parent: name, min: 2)
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case externalMeetingId = "ExternalMeetingId"
             case mediaRegion = "MediaRegion"
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
+            case tags = "Tags"
         }
     }
 
@@ -1015,6 +1073,78 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case phoneNumberOrder = "PhoneNumberOrder"
+        }
+    }
+
+    public struct CreateProxySessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The proxy session capabilities.
+        public let capabilities: [Capability]
+        /// The number of minutes allowed for the proxy session.
+        public let expiryMinutes: Int?
+        /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
+        public let geoMatchLevel: GeoMatchLevel?
+        /// The country and area code for the proxy phone number.
+        public let geoMatchParams: GeoMatchParams?
+        /// The name of the proxy session.
+        public let name: String?
+        /// The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
+        public let numberSelectionBehavior: NumberSelectionBehavior?
+        /// The participant phone numbers.
+        public let participantPhoneNumbers: [String]
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(capabilities: [Capability], expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participantPhoneNumbers: [String], voiceConnectorId: String) {
+            self.capabilities = capabilities
+            self.expiryMinutes = expiryMinutes
+            self.geoMatchLevel = geoMatchLevel
+            self.geoMatchParams = geoMatchParams
+            self.name = name
+            self.numberSelectionBehavior = numberSelectionBehavior
+            self.participantPhoneNumbers = participantPhoneNumbers
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.expiryMinutes, name: "expiryMinutes", parent: name, min: 1)
+            try self.geoMatchParams?.validate(name: "\(name).geoMatchParams")
+            try validate(self.name, name: "name", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{0,30}$")
+            try self.participantPhoneNumbers.forEach {
+                try validate($0, name: "participantPhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
+            }
+            try validate(self.participantPhoneNumbers, name: "participantPhoneNumbers", parent: name, max: 2)
+            try validate(self.participantPhoneNumbers, name: "participantPhoneNumbers", parent: name, min: 2)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case expiryMinutes = "ExpiryMinutes"
+            case geoMatchLevel = "GeoMatchLevel"
+            case geoMatchParams = "GeoMatchParams"
+            case name = "Name"
+            case numberSelectionBehavior = "NumberSelectionBehavior"
+            case participantPhoneNumbers = "ParticipantPhoneNumbers"
+        }
+    }
+
+    public struct CreateProxySessionResponse: AWSDecodableShape {
+
+        /// The proxy session details.
+        public let proxySession: ProxySession?
+
+        public init(proxySession: ProxySession? = nil) {
+            self.proxySession = proxySession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxySession = "ProxySession"
         }
     }
 
@@ -1365,6 +1495,34 @@ extension Chime {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteProxySessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")), 
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The proxy session ID.
+        public let proxySessionId: String
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(proxySessionId: String, voiceConnectorId: String) {
+            self.proxySessionId = proxySessionId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: ".*\\S.*")
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
@@ -1450,6 +1608,27 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVoiceConnectorProxyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The Amazon Chime Voice Connector ID.
+        public let voiceConnectorId: String
+
+        public init(voiceConnectorId: String) {
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -1698,6 +1877,29 @@ extension Chime {
             case botId = "BotId"
             case lambdaFunctionArn = "LambdaFunctionArn"
             case outboundEventsHTTPSEndpoint = "OutboundEventsHTTPSEndpoint"
+        }
+    }
+
+    public struct GeoMatchParams: AWSEncodableShape & AWSDecodableShape {
+
+        /// The area code.
+        public let areaCode: String
+        /// The country.
+        public let country: String
+
+        public init(areaCode: String, country: String) {
+            self.areaCode = areaCode
+            self.country = country
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.areaCode, name: "areaCode", parent: name, pattern: "^$|^[0-9]{3,3}$")
+            try validate(self.country, name: "country", parent: name, pattern: "^$|^[A-Z]{2,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case areaCode = "AreaCode"
+            case country = "Country"
         }
     }
 
@@ -2012,6 +2214,48 @@ extension Chime {
         }
     }
 
+    public struct GetProxySessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")), 
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The proxy session ID.
+        public let proxySessionId: String
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(proxySessionId: String, voiceConnectorId: String) {
+            self.proxySessionId = proxySessionId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: ".*\\S.*")
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProxySessionResponse: AWSDecodableShape {
+
+        /// The proxy session details.
+        public let proxySession: ProxySession?
+
+        public init(proxySession: ProxySession? = nil) {
+            self.proxySession = proxySession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxySession = "ProxySession"
+        }
+    }
+
     public struct GetRoomRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
@@ -2217,6 +2461,41 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case origination = "Origination"
+        }
+    }
+
+    public struct GetVoiceConnectorProxyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(voiceConnectorId: String) {
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVoiceConnectorProxyResponse: AWSDecodableShape {
+
+        /// The proxy configuration details.
+        public let proxy: Proxy?
+
+        public init(proxy: Proxy? = nil) {
+            self.proxy = proxy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxy = "Proxy"
         }
     }
 
@@ -2478,6 +2757,44 @@ extension Chime {
         }
     }
 
+    public struct ListAttendeeTagsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(attendeeId: String, meetingId: String) {
+            self.attendeeId = attendeeId
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAttendeeTagsResponse: AWSDecodableShape {
+
+        /// A list of tag key-value pairs.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListAttendeesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
@@ -2569,6 +2886,39 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case bots = "Bots"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMeetingTagsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(meetingId: String) {
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMeetingTagsResponse: AWSDecodableShape {
+
+        /// A list of tag key-value pairs.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -2714,6 +3064,60 @@ extension Chime {
         }
     }
 
+    public struct ListProxySessionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")), 
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The proxy session status.
+        public let status: ProxySessionStatus?
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: ProxySessionStatus? = nil, voiceConnectorId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 99)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProxySessionsResponse: AWSDecodableShape {
+
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The proxy session details.
+        public let proxySessions: [ProxySession]?
+
+        public init(nextToken: String? = nil, proxySessions: [ProxySession]? = nil) {
+            self.nextToken = nextToken
+            self.proxySessions = proxySessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case proxySessions = "ProxySessions"
+        }
+    }
+
     public struct ListRoomMembershipsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
@@ -2814,6 +3218,41 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case rooms = "Rooms"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceARN", location: .querystring(locationName: "arn"))
+        ]
+
+        /// The resource ARN.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+
+        /// A list of tag-key value pairs.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -3076,6 +3515,8 @@ extension Chime {
 
     public struct Meeting: AWSDecodableShape {
 
+        /// The external meeting ID.
+        public let externalMeetingId: String?
         /// The media placement for the meeting.
         public let mediaPlacement: MediaPlacement?
         /// The Region in which to create the meeting. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
@@ -3083,13 +3524,15 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
 
-        public init(mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingId: String? = nil) {
+        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingId: String? = nil) {
+            self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
             self.meetingId = meetingId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case externalMeetingId = "ExternalMeetingId"
             case mediaPlacement = "MediaPlacement"
             case mediaRegion = "MediaRegion"
             case meetingId = "MeetingId"
@@ -3278,6 +3721,24 @@ extension Chime {
         }
     }
 
+    public struct Participant: AWSDecodableShape {
+
+        /// The participant's phone number.
+        public let phoneNumber: String?
+        /// The participant's proxy phone number.
+        public let proxyPhoneNumber: String?
+
+        public init(phoneNumber: String? = nil, proxyPhoneNumber: String? = nil) {
+            self.phoneNumber = phoneNumber
+            self.proxyPhoneNumber = proxyPhoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+            case proxyPhoneNumber = "ProxyPhoneNumber"
+        }
+    }
+
     public struct PhoneNumber: AWSDecodableShape {
 
         /// The phone number associations.
@@ -3448,6 +3909,94 @@ extension Chime {
         }
     }
 
+    public struct Proxy: AWSDecodableShape {
+
+        /// The default number of minutes allowed for proxy sessions.
+        public let defaultSessionExpiryMinutes: Int?
+        /// When true, stops proxy sessions from being created on the specified Amazon Chime Voice Connector.
+        public let disabled: Bool?
+        /// The phone number to route calls to after a proxy session expires.
+        public let fallBackPhoneNumber: String?
+        /// The countries for proxy phone numbers to be selected from.
+        public let phoneNumberCountries: [String]?
+
+        public init(defaultSessionExpiryMinutes: Int? = nil, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberCountries: [String]? = nil) {
+            self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
+            self.disabled = disabled
+            self.fallBackPhoneNumber = fallBackPhoneNumber
+            self.phoneNumberCountries = phoneNumberCountries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultSessionExpiryMinutes = "DefaultSessionExpiryMinutes"
+            case disabled = "Disabled"
+            case fallBackPhoneNumber = "FallBackPhoneNumber"
+            case phoneNumberCountries = "PhoneNumberCountries"
+        }
+    }
+
+    public struct ProxySession: AWSDecodableShape {
+
+        /// The proxy session capabilities.
+        public let capabilities: [Capability]?
+        /// The created timestamp, in ISO 8601 format.
+        public let createdTimestamp: TimeStamp?
+        /// The ended timestamp, in ISO 8601 format.
+        public let endedTimestamp: TimeStamp?
+        /// The number of minutes allowed for the proxy session.
+        public let expiryMinutes: Int?
+        /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
+        public let geoMatchLevel: GeoMatchLevel?
+        /// The country and area code for the proxy phone number.
+        public let geoMatchParams: GeoMatchParams?
+        /// The name of the proxy session.
+        public let name: String?
+        /// The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
+        public let numberSelectionBehavior: NumberSelectionBehavior?
+        /// The proxy session participants.
+        public let participants: [Participant]?
+        /// The proxy session ID.
+        public let proxySessionId: String?
+        /// The status of the proxy session.
+        public let status: ProxySessionStatus?
+        /// The updated timestamp, in ISO 8601 format.
+        public let updatedTimestamp: TimeStamp?
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String?
+
+        public init(capabilities: [Capability]? = nil, createdTimestamp: TimeStamp? = nil, endedTimestamp: TimeStamp? = nil, expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participants: [Participant]? = nil, proxySessionId: String? = nil, status: ProxySessionStatus? = nil, updatedTimestamp: TimeStamp? = nil, voiceConnectorId: String? = nil) {
+            self.capabilities = capabilities
+            self.createdTimestamp = createdTimestamp
+            self.endedTimestamp = endedTimestamp
+            self.expiryMinutes = expiryMinutes
+            self.geoMatchLevel = geoMatchLevel
+            self.geoMatchParams = geoMatchParams
+            self.name = name
+            self.numberSelectionBehavior = numberSelectionBehavior
+            self.participants = participants
+            self.proxySessionId = proxySessionId
+            self.status = status
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case createdTimestamp = "CreatedTimestamp"
+            case endedTimestamp = "EndedTimestamp"
+            case expiryMinutes = "ExpiryMinutes"
+            case geoMatchLevel = "GeoMatchLevel"
+            case geoMatchParams = "GeoMatchParams"
+            case name = "Name"
+            case numberSelectionBehavior = "NumberSelectionBehavior"
+            case participants = "Participants"
+            case proxySessionId = "ProxySessionId"
+            case status = "Status"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceConnectorId = "VoiceConnectorId"
+        }
+    }
+
     public struct PutEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
@@ -3568,6 +4117,64 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case origination = "Origination"
+        }
+    }
+
+    public struct PutVoiceConnectorProxyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The default number of minutes allowed for proxy sessions.
+        public let defaultSessionExpiryMinutes: Int
+        /// When true, stops proxy sessions from being created on the specified Amazon Chime Voice Connector.
+        public let disabled: Bool?
+        /// The phone number to route calls to after a proxy session expires.
+        public let fallBackPhoneNumber: String?
+        /// The countries for proxy phone numbers to be selected from.
+        public let phoneNumberPoolCountries: [String]
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(defaultSessionExpiryMinutes: Int, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberPoolCountries: [String], voiceConnectorId: String) {
+            self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
+            self.disabled = disabled
+            self.fallBackPhoneNumber = fallBackPhoneNumber
+            self.phoneNumberPoolCountries = phoneNumberPoolCountries
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.fallBackPhoneNumber, name: "fallBackPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
+            try self.phoneNumberPoolCountries.forEach {
+                try validate($0, name: "phoneNumberPoolCountries[]", parent: name, pattern: "^$|^[A-Z]{2,2}$")
+            }
+            try validate(self.phoneNumberPoolCountries, name: "phoneNumberPoolCountries", parent: name, max: 100)
+            try validate(self.phoneNumberPoolCountries, name: "phoneNumberPoolCountries", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultSessionExpiryMinutes = "DefaultSessionExpiryMinutes"
+            case disabled = "Disabled"
+            case fallBackPhoneNumber = "FallBackPhoneNumber"
+            case phoneNumberPoolCountries = "PhoneNumberPoolCountries"
+        }
+    }
+
+    public struct PutVoiceConnectorProxyResponse: AWSDecodableShape {
+
+        /// The proxy configuration details.
+        public let proxy: Proxy?
+
+        public init(proxy: Proxy? = nil) {
+            self.proxy = proxy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxy = "Proxy"
         }
     }
 
@@ -3945,6 +4552,123 @@ extension Chime {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
+        /// The key of the tag.
+        public let key: String
+        /// The value of the tag.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name: "key", parent: name, max: 128)
+            try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.value, name: "value", parent: name, max: 256)
+            try validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagAttendeeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(attendeeId: String, meetingId: String, tags: [Tag]) {
+            self.attendeeId = attendeeId
+            self.meetingId = meetingId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 10)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagMeetingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(meetingId: String, tags: [Tag]) {
+            self.meetingId = meetingId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
     public struct TelephonySettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Allows or denies inbound calling.
@@ -4017,6 +4741,101 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case source = "Source"
             case timestamp = "Timestamp"
+        }
+    }
+
+    public struct UntagAttendeeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(attendeeId: String, meetingId: String, tagKeys: [String]) {
+            self.attendeeId = attendeeId
+            self.meetingId = meetingId
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name: "tagKeys", parent: name, max: 10)
+            try validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagMeetingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(meetingId: String, tagKeys: [String]) {
+            self.meetingId = meetingId
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
         }
     }
 
@@ -4238,6 +5057,58 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case callingName = "CallingName"
+        }
+    }
+
+    public struct UpdateProxySessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")), 
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
+        ]
+
+        /// The proxy session capabilities.
+        public let capabilities: [Capability]
+        /// The number of minutes allowed for the proxy session.
+        public let expiryMinutes: Int?
+        /// The proxy session ID.
+        public let proxySessionId: String
+        /// The Amazon Chime voice connector ID.
+        public let voiceConnectorId: String
+
+        public init(capabilities: [Capability], expiryMinutes: Int? = nil, proxySessionId: String, voiceConnectorId: String) {
+            self.capabilities = capabilities
+            self.expiryMinutes = expiryMinutes
+            self.proxySessionId = proxySessionId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.expiryMinutes, name: "expiryMinutes", parent: name, min: 1)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
+            try validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: ".*\\S.*")
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case expiryMinutes = "ExpiryMinutes"
+        }
+    }
+
+    public struct UpdateProxySessionResponse: AWSDecodableShape {
+
+        /// The proxy session details.
+        public let proxySession: ProxySession?
+
+        public init(proxySession: ProxySession? = nil) {
+            self.proxySession = proxySession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxySession = "ProxySession"
         }
     }
 

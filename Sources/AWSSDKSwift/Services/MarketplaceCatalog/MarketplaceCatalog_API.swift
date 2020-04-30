@@ -39,8 +39,16 @@ public struct MarketplaceCatalog {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,44 +56,44 @@ public struct MarketplaceCatalog {
             region: region,
             service: "catalog.marketplace",
             signingName: "aws-marketplace",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-09-17",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [MarketplaceCatalogErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.
-    public func cancelChangeSet(_ input: CancelChangeSetRequest) -> EventLoopFuture<CancelChangeSetResponse> {
-        return client.send(operation: "CancelChangeSet", path: "/CancelChangeSet", httpMethod: "PATCH", input: input)
+    public func cancelChangeSet(_ input: CancelChangeSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelChangeSetResponse> {
+        return client.send(operation: "CancelChangeSet", path: "/CancelChangeSet", httpMethod: "PATCH", input: input, on: eventLoop)
     }
 
     ///  Provides information about a given change set.
-    public func describeChangeSet(_ input: DescribeChangeSetRequest) -> EventLoopFuture<DescribeChangeSetResponse> {
-        return client.send(operation: "DescribeChangeSet", path: "/DescribeChangeSet", httpMethod: "GET", input: input)
+    public func describeChangeSet(_ input: DescribeChangeSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChangeSetResponse> {
+        return client.send(operation: "DescribeChangeSet", path: "/DescribeChangeSet", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns the metadata and content of the entity.
-    public func describeEntity(_ input: DescribeEntityRequest) -> EventLoopFuture<DescribeEntityResponse> {
-        return client.send(operation: "DescribeEntity", path: "/DescribeEntity", httpMethod: "GET", input: input)
+    public func describeEntity(_ input: DescribeEntityRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEntityResponse> {
+        return client.send(operation: "DescribeEntity", path: "/DescribeEntity", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
-    public func listChangeSets(_ input: ListChangeSetsRequest) -> EventLoopFuture<ListChangeSetsResponse> {
-        return client.send(operation: "ListChangeSets", path: "/ListChangeSets", httpMethod: "POST", input: input)
+    public func listChangeSets(_ input: ListChangeSetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChangeSetsResponse> {
+        return client.send(operation: "ListChangeSets", path: "/ListChangeSets", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Provides the list of entities of a given type.
-    public func listEntities(_ input: ListEntitiesRequest) -> EventLoopFuture<ListEntitiesResponse> {
-        return client.send(operation: "ListEntities", path: "/ListEntities", httpMethod: "POST", input: input)
+    public func listEntities(_ input: ListEntitiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntitiesResponse> {
+        return client.send(operation: "ListEntities", path: "/ListEntities", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  This operation allows you to request changes in your entities.
-    public func startChangeSet(_ input: StartChangeSetRequest) -> EventLoopFuture<StartChangeSetResponse> {
-        return client.send(operation: "StartChangeSet", path: "/StartChangeSet", httpMethod: "POST", input: input)
+    public func startChangeSet(_ input: StartChangeSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChangeSetResponse> {
+        return client.send(operation: "StartChangeSet", path: "/StartChangeSet", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

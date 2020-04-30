@@ -23,37 +23,41 @@ extension Batch {
     ///  Describes one or more of your compute environments. If you are using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you should launch your Amazon ECS container instances into.
     public func describeComputeEnvironmentsPaginator(
         _ input: DescribeComputeEnvironmentsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeComputeEnvironmentsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeComputeEnvironments, tokenKey: \DescribeComputeEnvironmentsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeComputeEnvironments, tokenKey: \DescribeComputeEnvironmentsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
     public func describeJobDefinitionsPaginator(
         _ input: DescribeJobDefinitionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeJobDefinitionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeJobDefinitions, tokenKey: \DescribeJobDefinitionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeJobDefinitions, tokenKey: \DescribeJobDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes one or more of your job queues.
     public func describeJobQueuesPaginator(
         _ input: DescribeJobQueuesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeJobQueuesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeJobQueues, tokenKey: \DescribeJobQueuesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeJobQueues, tokenKey: \DescribeJobQueuesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of AWS Batch jobs. You must specify only one of the following:   a job queue ID to return a list of jobs in that job queue   a multi-node parallel job ID to return a list of that job's nodes   an array job ID to return a list of that job's children   You can filter the results by job status with the jobStatus parameter. If you do not specify a status, only RUNNING jobs are returned.
     public func listJobsPaginator(
         _ input: ListJobsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

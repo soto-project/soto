@@ -38,8 +38,16 @@ public struct PersonalizeRuntime {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -47,24 +55,24 @@ public struct PersonalizeRuntime {
             region: region,
             service: "personalize-runtime",
             signingName: "personalize",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-05-22",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [PersonalizeRuntimeErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user.  The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING. 
-    public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest) -> EventLoopFuture<GetPersonalizedRankingResponse> {
-        return client.send(operation: "GetPersonalizedRanking", path: "/personalize-ranking", httpMethod: "POST", input: input)
+    public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPersonalizedRankingResponse> {
+        return client.send(operation: "GetPersonalizedRanking", path: "/personalize-ranking", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of recommended items. The required input depends on the recipe type used to create the solution backing the campaign, as follows:   RELATED_ITEMS - itemId required, userId not used   USER_PERSONALIZATION - itemId optional, userId required    Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. 
-    public func getRecommendations(_ input: GetRecommendationsRequest) -> EventLoopFuture<GetRecommendationsResponse> {
-        return client.send(operation: "GetRecommendations", path: "/recommendations", httpMethod: "POST", input: input)
+    public func getRecommendations(_ input: GetRecommendationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecommendationsResponse> {
+        return client.send(operation: "GetRecommendations", path: "/recommendations", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

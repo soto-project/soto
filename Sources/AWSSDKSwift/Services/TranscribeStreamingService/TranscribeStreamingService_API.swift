@@ -39,8 +39,16 @@ public struct TranscribeStreamingService {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,19 +56,19 @@ public struct TranscribeStreamingService {
             region: region,
             service: "transcribestreaming",
             signingName: "transcribe",
-            serviceProtocol: ServiceProtocol(type: .restjson),
+            serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [TranscribeStreamingServiceErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Starts a bidirectional HTTP2 stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following are encoded as HTTP2 headers:   x-amzn-transcribe-language-code   x-amzn-transcribe-media-encoding   x-amzn-transcribe-sample-rate   x-amzn-transcribe-session-id  
-    public func startStreamTranscription(_ input: StartStreamTranscriptionRequest) -> EventLoopFuture<StartStreamTranscriptionResponse> {
-        return client.send(operation: "StartStreamTranscription", path: "/stream-transcription", httpMethod: "POST", input: input)
+    public func startStreamTranscription(_ input: StartStreamTranscriptionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartStreamTranscriptionResponse> {
+        return client.send(operation: "StartStreamTranscription", path: "/stream-transcription", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

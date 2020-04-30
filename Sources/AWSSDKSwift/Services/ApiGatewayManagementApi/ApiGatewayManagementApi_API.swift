@@ -39,37 +39,45 @@ public struct ApiGatewayManagementApi {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "execute-api",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-11-29",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [ApiGatewayManagementApiErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Delete the connection with the provided id.
-    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Get information about the connection with the provided id.
-    public func getConnection(_ input: GetConnectionRequest) -> EventLoopFuture<GetConnectionResponse> {
-        return client.send(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: "GET", input: input)
+    public func getConnection(_ input: GetConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionResponse> {
+        return client.send(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Sends the provided data to the specified connection.
-    @discardableResult public func postToConnection(_ input: PostToConnectionRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input)
+    @discardableResult public func postToConnection(_ input: PostToConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

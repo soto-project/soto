@@ -87,6 +87,7 @@ extension CodeGuruReviewer {
         public func validate(name: String) throws {
             try validate(self.name, name: "name", parent: name, max: 100)
             try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -202,6 +203,7 @@ extension CodeGuruReviewer {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 100)
                 try validate($0, name: "names[]", parent: name, min: 1)
+                try validate($0, name: "names[]", parent: name, pattern: "^\\S[\\w.-]*$")
             }
             try validate(self.names, name: "names", parent: name, max: 3)
             try validate(self.names, name: "names", parent: name, min: 1)
@@ -210,6 +212,7 @@ extension CodeGuruReviewer {
             try self.owners?.forEach {
                 try validate($0, name: "owners[]", parent: name, max: 100)
                 try validate($0, name: "owners[]", parent: name, min: 1)
+                try validate($0, name: "owners[]", parent: name, pattern: "^\\S(.*\\S)?$")
             }
             try validate(self.owners, name: "owners", parent: name, max: 3)
             try validate(self.owners, name: "owners", parent: name, min: 1)

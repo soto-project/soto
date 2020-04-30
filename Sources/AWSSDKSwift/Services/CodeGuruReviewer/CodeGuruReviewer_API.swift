@@ -39,42 +39,50 @@ public struct CodeGuruReviewer {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "codeguru-reviewer",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-09-19",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [CodeGuruReviewerErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
-    public func associateRepository(_ input: AssociateRepositoryRequest) -> EventLoopFuture<AssociateRepositoryResponse> {
-        return client.send(operation: "AssociateRepository", path: "/associations", httpMethod: "POST", input: input)
+    public func associateRepository(_ input: AssociateRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateRepositoryResponse> {
+        return client.send(operation: "AssociateRepository", path: "/associations", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes a repository association.
-    public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest) -> EventLoopFuture<DescribeRepositoryAssociationResponse> {
-        return client.send(operation: "DescribeRepositoryAssociation", path: "/associations/{AssociationArn}", httpMethod: "GET", input: input)
+    public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRepositoryAssociationResponse> {
+        return client.send(operation: "DescribeRepositoryAssociation", path: "/associations/{AssociationArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Removes the association between Amazon CodeGuru Reviewer and a repository.
-    public func disassociateRepository(_ input: DisassociateRepositoryRequest) -> EventLoopFuture<DisassociateRepositoryResponse> {
-        return client.send(operation: "DisassociateRepository", path: "/associations/{AssociationArn}", httpMethod: "DELETE", input: input)
+    public func disassociateRepository(_ input: DisassociateRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateRepositoryResponse> {
+        return client.send(operation: "DisassociateRepository", path: "/associations/{AssociationArn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
-    public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
-        return client.send(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: "GET", input: input)
+    public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
+        return client.send(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: "GET", input: input, on: eventLoop)
     }
 }

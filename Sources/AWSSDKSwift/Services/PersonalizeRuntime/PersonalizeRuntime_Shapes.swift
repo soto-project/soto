@@ -26,7 +26,7 @@ extension PersonalizeRuntime {
 
         /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking.
         public let campaignArn: String
-        /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. For more information, see Contextual Metadata.
+        /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
         /// A list of items (itemId's) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. The maximum is 500.
         public let inputList: [String]
@@ -80,7 +80,7 @@ extension PersonalizeRuntime {
 
         /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations.
         public let campaignArn: String
-        /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. For more information, see Contextual Metadata.
+        /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
         /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
         public let itemId: String?
@@ -137,13 +137,17 @@ extension PersonalizeRuntime {
 
         /// The recommended item ID.
         public let itemId: String?
+        /// A numeric representation of the model's certainty in the item's suitability. For more information on scoring logic, see how-scores-work.
+        public let score: Double?
 
-        public init(itemId: String? = nil) {
+        public init(itemId: String? = nil, score: Double? = nil) {
             self.itemId = itemId
+            self.score = score
         }
 
         private enum CodingKeys: String, CodingKey {
             case itemId = "itemId"
+            case score = "score"
         }
     }
 }

@@ -23,91 +23,101 @@ extension SecurityHub {
     ///  Returns a list of the custom action targets in Security Hub in your account.
     public func describeActionTargetsPaginator(
         _ input: DescribeActionTargetsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeActionTargetsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
     public func describeProductsPaginator(
         _ input: DescribeProductsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeProductsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
     public func describeStandardsPaginator(
         _ input: DescribeStandardsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeStandardsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStandards, tokenKey: \DescribeStandardsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeStandards, tokenKey: \DescribeStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
     public func describeStandardsControlsPaginator(
         _ input: DescribeStandardsControlsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeStandardsControlsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStandardsControls, tokenKey: \DescribeStandardsControlsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeStandardsControls, tokenKey: \DescribeStandardsControlsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of the standards that are currently enabled.
     public func getEnabledStandardsPaginator(
         _ input: GetEnabledStandardsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetEnabledStandardsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getEnabledStandards, tokenKey: \GetEnabledStandardsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getEnabledStandards, tokenKey: \GetEnabledStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of findings that match the specified criteria.
     public func getFindingsPaginator(
         _ input: GetFindingsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetFindingsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists and describes insights for the specified insight ARNs.
     public func getInsightsPaginator(
         _ input: GetInsightsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetInsightsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     public func listEnabledProductsForImportPaginator(
         _ input: ListEnabledProductsForImportRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListEnabledProductsForImportResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all Security Hub membership invitations that were sent to the current AWS account. 
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInvitationsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists details about all member accounts for the current Security Hub master account.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMembersResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

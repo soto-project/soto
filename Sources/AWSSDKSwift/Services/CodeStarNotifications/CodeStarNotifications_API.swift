@@ -39,87 +39,95 @@ public struct CodeStarNotifications {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "codestar-notifications",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-10-15",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [CodeStarNotificationsErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as SNS topics) where you want to receive them.
-    public func createNotificationRule(_ input: CreateNotificationRuleRequest) -> EventLoopFuture<CreateNotificationRuleResult> {
-        return client.send(operation: "CreateNotificationRule", path: "/createNotificationRule", httpMethod: "POST", input: input)
+    public func createNotificationRule(_ input: CreateNotificationRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNotificationRuleResult> {
+        return client.send(operation: "CreateNotificationRule", path: "/createNotificationRule", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes a notification rule for a resource.
-    public func deleteNotificationRule(_ input: DeleteNotificationRuleRequest) -> EventLoopFuture<DeleteNotificationRuleResult> {
-        return client.send(operation: "DeleteNotificationRule", path: "/deleteNotificationRule", httpMethod: "POST", input: input)
+    public func deleteNotificationRule(_ input: DeleteNotificationRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNotificationRuleResult> {
+        return client.send(operation: "DeleteNotificationRule", path: "/deleteNotificationRule", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes a specified target for notifications.
-    public func deleteTarget(_ input: DeleteTargetRequest) -> EventLoopFuture<DeleteTargetResult> {
-        return client.send(operation: "DeleteTarget", path: "/deleteTarget", httpMethod: "POST", input: input)
+    public func deleteTarget(_ input: DeleteTargetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTargetResult> {
+        return client.send(operation: "DeleteTarget", path: "/deleteTarget", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns information about a specified notification rule.
-    public func describeNotificationRule(_ input: DescribeNotificationRuleRequest) -> EventLoopFuture<DescribeNotificationRuleResult> {
-        return client.send(operation: "DescribeNotificationRule", path: "/describeNotificationRule", httpMethod: "POST", input: input)
+    public func describeNotificationRule(_ input: DescribeNotificationRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNotificationRuleResult> {
+        return client.send(operation: "DescribeNotificationRule", path: "/describeNotificationRule", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns information about the event types available for configuring notifications.
-    public func listEventTypes(_ input: ListEventTypesRequest) -> EventLoopFuture<ListEventTypesResult> {
-        return client.send(operation: "ListEventTypes", path: "/listEventTypes", httpMethod: "POST", input: input)
+    public func listEventTypes(_ input: ListEventTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventTypesResult> {
+        return client.send(operation: "ListEventTypes", path: "/listEventTypes", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of the notification rules for an AWS account.
-    public func listNotificationRules(_ input: ListNotificationRulesRequest) -> EventLoopFuture<ListNotificationRulesResult> {
-        return client.send(operation: "ListNotificationRules", path: "/listNotificationRules", httpMethod: "POST", input: input)
+    public func listNotificationRules(_ input: ListNotificationRulesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotificationRulesResult> {
+        return client.send(operation: "ListNotificationRules", path: "/listNotificationRules", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of the tags associated with a notification rule.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
-        return client.send(operation: "ListTagsForResource", path: "/listTagsForResource", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
+        return client.send(operation: "ListTagsForResource", path: "/listTagsForResource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of the notification rule targets for an AWS account.
-    public func listTargets(_ input: ListTargetsRequest) -> EventLoopFuture<ListTargetsResult> {
-        return client.send(operation: "ListTargets", path: "/listTargets", httpMethod: "POST", input: input)
+    public func listTargets(_ input: ListTargetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTargetsResult> {
+        return client.send(operation: "ListTargets", path: "/listTargets", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates an association between a notification rule and an SNS topic so that the associated target can receive notifications when the events described in the rule are triggered.
-    public func subscribe(_ input: SubscribeRequest) -> EventLoopFuture<SubscribeResult> {
-        return client.send(operation: "Subscribe", path: "/subscribe", httpMethod: "POST", input: input)
+    public func subscribe(_ input: SubscribeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SubscribeResult> {
+        return client.send(operation: "Subscribe", path: "/subscribe", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Associates a set of provided tags with a notification rule.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
-        return client.send(operation: "TagResource", path: "/tagResource", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResult> {
+        return client.send(operation: "TagResource", path: "/tagResource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes an association between a notification rule and an Amazon SNS topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
-    public func unsubscribe(_ input: UnsubscribeRequest) -> EventLoopFuture<UnsubscribeResult> {
-        return client.send(operation: "Unsubscribe", path: "/unsubscribe", httpMethod: "POST", input: input)
+    public func unsubscribe(_ input: UnsubscribeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnsubscribeResult> {
+        return client.send(operation: "Unsubscribe", path: "/unsubscribe", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes the association between one or more provided tags and a notification rule.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
-        return client.send(operation: "UntagResource", path: "/untagResource", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResult> {
+        return client.send(operation: "UntagResource", path: "/untagResource", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications.  To add or remove tags for a notification rule, you must use TagResource and UntagResource. 
-    public func updateNotificationRule(_ input: UpdateNotificationRuleRequest) -> EventLoopFuture<UpdateNotificationRuleResult> {
-        return client.send(operation: "UpdateNotificationRule", path: "/updateNotificationRule", httpMethod: "POST", input: input)
+    public func updateNotificationRule(_ input: UpdateNotificationRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotificationRuleResult> {
+        return client.send(operation: "UpdateNotificationRule", path: "/updateNotificationRule", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

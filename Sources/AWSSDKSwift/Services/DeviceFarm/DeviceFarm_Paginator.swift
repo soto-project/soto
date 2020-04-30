@@ -23,163 +23,181 @@ extension DeviceFarm {
     ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func getOfferingStatusPaginator(
         _ input: GetOfferingStatusRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetOfferingStatusResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getOfferingStatus, tokenKey: \GetOfferingStatusResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getOfferingStatus, tokenKey: \GetOfferingStatusResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about artifacts.
     public func listArtifactsPaginator(
         _ input: ListArtifactsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListArtifactsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listArtifacts, tokenKey: \ListArtifactsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listArtifacts, tokenKey: \ListArtifactsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about device pools.
     public func listDevicePoolsPaginator(
         _ input: ListDevicePoolsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDevicePoolsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDevicePools, tokenKey: \ListDevicePoolsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listDevicePools, tokenKey: \ListDevicePoolsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about unique device types.
     public func listDevicesPaginator(
         _ input: ListDevicesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDevicesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDevices, tokenKey: \ListDevicesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listDevices, tokenKey: \ListDevicesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about jobs for a given test run.
     public func listJobsPaginator(
         _ input: ListJobsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func listOfferingTransactionsPaginator(
         _ input: ListOfferingTransactionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOfferingTransactionsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOfferingTransactions, tokenKey: \ListOfferingTransactionsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listOfferingTransactions, tokenKey: \ListOfferingTransactionsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func listOfferingsPaginator(
         _ input: ListOfferingsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOfferingsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about projects.
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListProjectsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about runs, given an AWS Device Farm project ARN.
     public func listRunsPaginator(
         _ input: ListRunsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRunsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRuns, tokenKey: \ListRunsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listRuns, tokenKey: \ListRunsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about samples, given an AWS Device Farm job ARN.
     public func listSamplesPaginator(
         _ input: ListSamplesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSamplesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSamples, tokenKey: \ListSamplesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listSamples, tokenKey: \ListSamplesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about test suites for a given job.
     public func listSuitesPaginator(
         _ input: ListSuitesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSuitesResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSuites, tokenKey: \ListSuitesResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listSuites, tokenKey: \ListSuitesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets a list of all Selenium testing projects in your account.
     public func listTestGridProjectsPaginator(
         _ input: ListTestGridProjectsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTestGridProjectsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTestGridProjects, tokenKey: \ListTestGridProjectsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTestGridProjects, tokenKey: \ListTestGridProjectsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of the actions taken in a TestGridSession.
     public func listTestGridSessionActionsPaginator(
         _ input: ListTestGridSessionActionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTestGridSessionActionsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTestGridSessionActions, tokenKey: \ListTestGridSessionActionsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTestGridSessionActions, tokenKey: \ListTestGridSessionActionsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Retrieves a list of artifacts created during the session.
     public func listTestGridSessionArtifactsPaginator(
         _ input: ListTestGridSessionArtifactsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTestGridSessionArtifactsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTestGridSessionArtifacts, tokenKey: \ListTestGridSessionArtifactsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTestGridSessionArtifacts, tokenKey: \ListTestGridSessionArtifactsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Retrieves a list of sessions for a TestGridProject.
     public func listTestGridSessionsPaginator(
         _ input: ListTestGridSessionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTestGridSessionsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTestGridSessions, tokenKey: \ListTestGridSessionsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTestGridSessions, tokenKey: \ListTestGridSessionsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about tests in a given test suite.
     public func listTestsPaginator(
         _ input: ListTestsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTestsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTests, tokenKey: \ListTestsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTests, tokenKey: \ListTestsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
     public func listUniqueProblemsPaginator(
         _ input: ListUniqueProblemsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListUniqueProblemsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUniqueProblems, tokenKey: \ListUniqueProblemsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listUniqueProblems, tokenKey: \ListUniqueProblemsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets information about uploads, given an AWS Device Farm project ARN.
     public func listUploadsPaginator(
         _ input: ListUploadsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListUploadsResult,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUploads, tokenKey: \ListUploadsResult.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listUploads, tokenKey: \ListUploadsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

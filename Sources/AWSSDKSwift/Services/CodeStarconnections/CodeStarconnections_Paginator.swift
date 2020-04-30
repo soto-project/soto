@@ -23,10 +23,11 @@ extension CodeStarconnections {
     ///  Lists the connections associated with your account.
     public func listConnectionsPaginator(
         _ input: ListConnectionsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListConnectionsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

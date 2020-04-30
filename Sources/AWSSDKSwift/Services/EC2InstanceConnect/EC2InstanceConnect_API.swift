@@ -39,8 +39,16 @@ public struct EC2InstanceConnect {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,19 +56,19 @@ public struct EC2InstanceConnect {
             region: region,
             amzTarget: "AWSEC2InstanceConnectService",
             service: "ec2-instance-connect",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-02",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [EC2InstanceConnectErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
-    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest) -> EventLoopFuture<SendSSHPublicKeyResponse> {
-        return client.send(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", input: input)
+    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
+        return client.send(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

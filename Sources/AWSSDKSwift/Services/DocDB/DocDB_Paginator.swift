@@ -23,55 +23,61 @@ extension DocDB {
     ///  Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     public func describeDBClustersPaginator(
         _ input: DescribeDBClustersMessage,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterMessage,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, onPage: onPage)
+        return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of the available engines.
     public func describeDBEngineVersionsPaginator(
         _ input: DescribeDBEngineVersionsMessage,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBEngineVersionMessage,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
+        return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
     public func describeDBInstancesPaginator(
         _ input: DescribeDBInstancesMessage,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBInstanceMessage,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
+        return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
     public func describeDBSubnetGroupsPaginator(
         _ input: DescribeDBSubnetGroupsMessage,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBSubnetGroupMessage,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
+        return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (EventsMessage,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
+        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of orderable instance options for the specified engine.
     public func describeOrderableDBInstanceOptionsPaginator(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (OrderableDBInstanceOptionsMessage,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
+        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)
     }
 
 }

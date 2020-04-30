@@ -39,8 +39,16 @@ public struct Cloud9 {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,79 +56,79 @@ public struct Cloud9 {
             region: region,
             amzTarget: "AWSCloud9WorkspaceManagementService",
             service: "cloud9",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-23",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [Cloud9ErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates an AWS Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
-    public func createEnvironmentEC2(_ input: CreateEnvironmentEC2Request) -> EventLoopFuture<CreateEnvironmentEC2Result> {
-        return client.send(operation: "CreateEnvironmentEC2", path: "/", httpMethod: "POST", input: input)
+    public func createEnvironmentEC2(_ input: CreateEnvironmentEC2Request, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentEC2Result> {
+        return client.send(operation: "CreateEnvironmentEC2", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Adds an environment member to an AWS Cloud9 development environment.
-    public func createEnvironmentMembership(_ input: CreateEnvironmentMembershipRequest) -> EventLoopFuture<CreateEnvironmentMembershipResult> {
-        return client.send(operation: "CreateEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
+    public func createEnvironmentMembership(_ input: CreateEnvironmentMembershipRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentMembershipResult> {
+        return client.send(operation: "CreateEnvironmentMembership", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes an AWS Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
-    public func deleteEnvironment(_ input: DeleteEnvironmentRequest) -> EventLoopFuture<DeleteEnvironmentResult> {
-        return client.send(operation: "DeleteEnvironment", path: "/", httpMethod: "POST", input: input)
+    public func deleteEnvironment(_ input: DeleteEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentResult> {
+        return client.send(operation: "DeleteEnvironment", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes an environment member from an AWS Cloud9 development environment.
-    public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest) -> EventLoopFuture<DeleteEnvironmentMembershipResult> {
-        return client.send(operation: "DeleteEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
+    public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentMembershipResult> {
+        return client.send(operation: "DeleteEnvironmentMembership", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets information about environment members for an AWS Cloud9 development environment.
-    public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest) -> EventLoopFuture<DescribeEnvironmentMembershipsResult> {
-        return client.send(operation: "DescribeEnvironmentMemberships", path: "/", httpMethod: "POST", input: input)
+    public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentMembershipsResult> {
+        return client.send(operation: "DescribeEnvironmentMemberships", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets status information for an AWS Cloud9 development environment.
-    public func describeEnvironmentStatus(_ input: DescribeEnvironmentStatusRequest) -> EventLoopFuture<DescribeEnvironmentStatusResult> {
-        return client.send(operation: "DescribeEnvironmentStatus", path: "/", httpMethod: "POST", input: input)
+    public func describeEnvironmentStatus(_ input: DescribeEnvironmentStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentStatusResult> {
+        return client.send(operation: "DescribeEnvironmentStatus", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets information about AWS Cloud9 development environments.
-    public func describeEnvironments(_ input: DescribeEnvironmentsRequest) -> EventLoopFuture<DescribeEnvironmentsResult> {
-        return client.send(operation: "DescribeEnvironments", path: "/", httpMethod: "POST", input: input)
+    public func describeEnvironments(_ input: DescribeEnvironmentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentsResult> {
+        return client.send(operation: "DescribeEnvironments", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets a list of AWS Cloud9 development environment identifiers.
-    public func listEnvironments(_ input: ListEnvironmentsRequest) -> EventLoopFuture<ListEnvironmentsResult> {
-        return client.send(operation: "ListEnvironments", path: "/", httpMethod: "POST", input: input)
+    public func listEnvironments(_ input: ListEnvironmentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnvironmentsResult> {
+        return client.send(operation: "ListEnvironments", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets a list of the tags associated with an AWS Cloud9 development environment.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Adds tags to an AWS Cloud9 development environment.  Tags that you add to an AWS Cloud9 environment by using this method will NOT be automatically propagated to underlying resources. 
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes tags from an AWS Cloud9 development environment.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Changes the settings of an existing AWS Cloud9 development environment.
-    public func updateEnvironment(_ input: UpdateEnvironmentRequest) -> EventLoopFuture<UpdateEnvironmentResult> {
-        return client.send(operation: "UpdateEnvironment", path: "/", httpMethod: "POST", input: input)
+    public func updateEnvironment(_ input: UpdateEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentResult> {
+        return client.send(operation: "UpdateEnvironment", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Changes the settings of an existing environment member for an AWS Cloud9 development environment.
-    public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest) -> EventLoopFuture<UpdateEnvironmentMembershipResult> {
-        return client.send(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
+    public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentMembershipResult> {
+        return client.send(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

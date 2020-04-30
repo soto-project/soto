@@ -21,7 +21,7 @@ import NIO
 /**
 Client object for interacting with AWS MigrationHubConfig service.
 
-The AWS Migration Hub home region APIs are available specifically for working with your Migration Hub home region. You can use these APIs to determine a home region, as well as to create and work with controls that describe the home region. You can use these APIs within your home region only. If you call these APIs from outside your home region, your calls are rejected, except for the ability to register your agents and connectors.   You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region. The StartDataCollection API call in AWS Application Discovery Service allows your agents and connectors to begin collecting data that flows directly into the home region, and it will prevent you from enabling data collection information to be sent outside the home region.  For specific API usage, see the sections that follow in this AWS Migration Hub Home Region API reference.   The Migration Hub Home Region APIs do not support AWS Organizations. 
+The AWS Migration Hub home region APIs are available specifically for working with your Migration Hub home region. You can use these APIs to determine a home region, as well as to create and work with controls that describe the home region.   You must make API calls for write actions (create, notify, associate, disassociate, import, or put) while in your home region, or a HomeRegionNotSetException error is returned.   API calls for read actions (list, describe, stop, and delete) are permitted outside of your home region.   If you call a write API outside the home region, an InvalidInputException is returned.   You can call GetHomeRegion action to obtain the account's Migration Hub home region.   For specific API usage, see the sections that follow in this AWS Migration Hub Home Region API reference. 
 */
 public struct MigrationHubConfig {
 
@@ -39,8 +39,16 @@ public struct MigrationHubConfig {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -49,29 +57,29 @@ public struct MigrationHubConfig {
             amzTarget: "AWSMigrationHubMultiAccountService",
             service: "migrationhub-config",
             signingName: "mgh",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-30",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [MigrationHubConfigErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  This API sets up the home region for the calling account only.
-    public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest) -> EventLoopFuture<CreateHomeRegionControlResult> {
-        return client.send(operation: "CreateHomeRegionControl", path: "/", httpMethod: "POST", input: input)
+    public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHomeRegionControlResult> {
+        return client.send(operation: "CreateHomeRegionControl", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  This API permits filtering on the ControlId, HomeRegion, and RegionControlScope fields.
-    public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest) -> EventLoopFuture<DescribeHomeRegionControlsResult> {
-        return client.send(operation: "DescribeHomeRegionControls", path: "/", httpMethod: "POST", input: input)
+    ///  This API permits filtering on the ControlId and HomeRegion fields.
+    public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHomeRegionControlsResult> {
+        return client.send(operation: "DescribeHomeRegionControls", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
-    public func getHomeRegion(_ input: GetHomeRegionRequest) -> EventLoopFuture<GetHomeRegionResult> {
-        return client.send(operation: "GetHomeRegion", path: "/", httpMethod: "POST", input: input)
+    public func getHomeRegion(_ input: GetHomeRegionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHomeRegionResult> {
+        return client.send(operation: "GetHomeRegion", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

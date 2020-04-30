@@ -31,7 +31,8 @@ class S3Tests: XCTestCase {
         secretAccessKey: "secret",
         region: .euwest1,
         endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        httpClientProvider: .createNew
     )
 
     class TestData {
@@ -404,7 +405,7 @@ class S3Tests: XCTestCase {
             httpMethod: "GET",
             httpHeaders: [:],
             body: .empty
-        ).applyMiddlewares(client.client.middlewares)
+        ).applyMiddlewares(client.client.serviceConfig.middlewares)
         return request.url.relativeString
     }
 

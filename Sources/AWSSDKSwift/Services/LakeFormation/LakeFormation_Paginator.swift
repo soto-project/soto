@@ -23,28 +23,31 @@ extension LakeFormation {
     ///  Returns the permissions for a specified table or database resource located at a path in Amazon S3.
     public func getEffectivePermissionsForPathPaginator(
         _ input: GetEffectivePermissionsForPathRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetEffectivePermissionsForPathResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getEffectivePermissionsForPath, tokenKey: \GetEffectivePermissionsForPathResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: getEffectivePermissionsForPath, tokenKey: \GetEffectivePermissionsForPathResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
     public func listPermissionsPaginator(
         _ input: ListPermissionsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPermissionsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the resources registered to be managed by the Data Catalog.
     public func listResourcesPaginator(
         _ input: ListResourcesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResourcesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

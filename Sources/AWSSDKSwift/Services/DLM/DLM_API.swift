@@ -39,62 +39,70 @@ public struct DLM {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "dlm",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2018-01-12",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [DLMErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
-    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest) -> EventLoopFuture<CreateLifecyclePolicyResponse> {
-        return client.send(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: "POST", input: input)
+    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLifecyclePolicyResponse> {
+        return client.send(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
-    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
-        return client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input)
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
+        return client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
-    public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest) -> EventLoopFuture<GetLifecyclePoliciesResponse> {
-        return client.send(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: "GET", input: input)
+    public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLifecyclePoliciesResponse> {
+        return client.send(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets detailed information about the specified lifecycle policy.
-    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) -> EventLoopFuture<GetLifecyclePolicyResponse> {
-        return client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input)
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLifecyclePolicyResponse> {
+        return client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists the tags for the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Adds the specified tags to the specified resource.
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Removes the specified tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Updates the specified lifecycle policy.
-    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) -> EventLoopFuture<UpdateLifecyclePolicyResponse> {
-        return client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)
+    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLifecyclePolicyResponse> {
+        return client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input, on: eventLoop)
     }
 }

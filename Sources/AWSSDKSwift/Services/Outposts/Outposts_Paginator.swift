@@ -23,19 +23,21 @@ extension Outposts {
     ///  List the Outposts for your AWS account.
     public func listOutpostsPaginator(
         _ input: ListOutpostsInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOutpostsOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOutposts, tokenKey: \ListOutpostsOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listOutposts, tokenKey: \ListOutpostsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the sites for the specified AWS account.
     public func listSitesPaginator(
         _ input: ListSitesInput,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSitesOutput,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSites, tokenKey: \ListSitesOutput.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listSites, tokenKey: \ListSitesOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

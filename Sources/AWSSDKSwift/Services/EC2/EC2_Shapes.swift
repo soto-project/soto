@@ -5646,20 +5646,26 @@ extension EC2 {
     }
 
     public struct CreateKeyPairRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// A unique name for the key pair. Constraints: Up to 255 ASCII characters
         public let keyName: String
+        /// The tags to apply to the new key pair.
+        @OptionalCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyName: String) {
+        public init(dryRun: Bool? = nil, keyName: String, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case keyName = "KeyName"
+            case tagSpecifications = "TagSpecification"
         }
     }
 
@@ -6104,6 +6110,7 @@ extension EC2 {
     }
 
     public struct CreatePlacementGroupRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6113,12 +6120,16 @@ extension EC2 {
         public let partitionCount: Int?
         /// The placement strategy.
         public let strategy: PlacementStrategy?
+        /// The tags to apply to the new placement group.
+        @OptionalCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, strategy: PlacementStrategy? = nil) {
+        public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, strategy: PlacementStrategy? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
             self.partitionCount = partitionCount
             self.strategy = strategy
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6126,6 +6137,20 @@ extension EC2 {
             case groupName = "groupName"
             case partitionCount = "PartitionCount"
             case strategy = "strategy"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreatePlacementGroupResult: AWSDecodableShape {
+
+        public let placementGroup: PlacementGroup?
+
+        public init(placementGroup: PlacementGroup? = nil) {
+            self.placementGroup = placementGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placementGroup = "placementGroup"
         }
     }
 
@@ -7928,16 +7953,20 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The name of the key pair.
-        public let keyName: String
+        public let keyName: String?
+        /// The ID of the key pair.
+        public let keyPairId: String?
 
-        public init(dryRun: Bool? = nil, keyName: String) {
+        public init(dryRun: Bool? = nil, keyName: String? = nil, keyPairId: String? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
+            self.keyPairId = keyPairId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case keyName = "KeyName"
+            case keyPairId = "KeyPairId"
         }
     }
 
@@ -9110,6 +9139,58 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case imageId = "ImageId"
+        }
+    }
+
+    public struct DeregisterInstanceEventNotificationAttributesRequest: AWSEncodableShape {
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Information about the tag keys to deregister.
+        public let instanceTagAttribute: DeregisterInstanceTagAttributeRequest?
+
+        public init(dryRun: Bool? = nil, instanceTagAttribute: DeregisterInstanceTagAttributeRequest? = nil) {
+            self.dryRun = dryRun
+            self.instanceTagAttribute = instanceTagAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instanceTagAttribute = "InstanceTagAttribute"
+        }
+    }
+
+    public struct DeregisterInstanceEventNotificationAttributesResult: AWSDecodableShape {
+
+        /// The resulting set of tag keys.
+        public let instanceTagAttribute: InstanceTagNotificationAttribute?
+
+        public init(instanceTagAttribute: InstanceTagNotificationAttribute? = nil) {
+            self.instanceTagAttribute = instanceTagAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTagAttribute = "instanceTagAttribute"
+        }
+    }
+
+    public struct DeregisterInstanceTagAttributeRequest: AWSEncodableShape {
+        public struct _InstanceTagKeysEncoding: ArrayCoderProperties { static public let member = "item" }
+
+        /// Indicates whether to deregister all tag keys in the current Region. Specify false to deregister all tag keys.
+        public let includeAllTagsOfInstance: Bool?
+        /// Information about the tag keys to deregister.
+        @OptionalCoding<ArrayCoder<_InstanceTagKeysEncoding, String>>
+        public var instanceTagKeys: [String]?
+
+        public init(includeAllTagsOfInstance: Bool? = nil, instanceTagKeys: [String]? = nil) {
+            self.includeAllTagsOfInstance = includeAllTagsOfInstance
+            self.instanceTagKeys = instanceTagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeAllTagsOfInstance = "IncludeAllTagsOfInstance"
+            case instanceTagKeys = "InstanceTagKey"
         }
     }
 
@@ -10945,7 +11026,7 @@ extension EC2 {
         /// The IAM instance profile associations.
         @OptionalCoding<ArrayCoder<_AssociationIdsEncoding, String>>
         public var associationIds: [String]?
-        /// The filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating | disassociated).  
+        /// The filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating).  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -11322,6 +11403,34 @@ extension EC2 {
         }
     }
 
+    public struct DescribeInstanceEventNotificationAttributesRequest: AWSEncodableShape {
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(dryRun: Bool? = nil) {
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct DescribeInstanceEventNotificationAttributesResult: AWSDecodableShape {
+
+        /// Information about the registered tag keys.
+        public let instanceTagAttribute: InstanceTagNotificationAttribute?
+
+        public init(instanceTagAttribute: InstanceTagNotificationAttribute? = nil) {
+            self.instanceTagAttribute = instanceTagAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTagAttribute = "instanceTagAttribute"
+        }
+    }
+
     public struct DescribeInstanceStatusRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
@@ -11675,7 +11784,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
+        /// The filters.    key-pair-id - The ID of the key pair.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The key pair names. Default: Describes all your key pairs.
@@ -12566,7 +12675,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).  
+        /// The filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the placement groups.
@@ -13887,7 +13996,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    key - The tag key.    resource-id - The ID of the resource.    resource-type - The resource type (customer-gateway | dedicated-host | dhcp-options | elastic-ip | fleet | fpga-image | image | instance | host-reservation | internet-gateway | launch-template | natgateway | network-acl | network-interface | placement-group | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpc-endpoint | vpc-endpoint-service | vpc-peering-connection | vpn-connection | vpn-gateway).    tag:&lt;key&gt; - The key/value combination of the tag. For example, specify "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with the tag "Owner=TeamA".    value - The tag value.  
+        /// The filters.    key - The tag key.    resource-id - The ID of the resource.    resource-type - The resource type (customer-gateway | dedicated-host | dhcp-options | elastic-ip | fleet | fpga-image | host-reservation | image | instance | internet-gateway | key-pair | launch-template | natgateway | network-acl | network-interface | placement-group | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpc-endpoint | vpc-endpoint-service | vpc-peering-connection | vpn-connection | vpn-gateway).    tag:&lt;key&gt; - The key/value combination of the tag. For example, specify "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with the tag "Owner=TeamA".    value - The tag value.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return in a single call. This value can be between 5 and 1000. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -19747,6 +19856,7 @@ extension EC2 {
     }
 
     public struct ImportKeyPairRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19754,35 +19864,50 @@ extension EC2 {
         public let keyName: String
         /// The public key. For API calls, the text must be base64-encoded. For command line tools, base64 encoding is performed for you.
         public let publicKeyMaterial: Data
+        /// The tags to apply to the imported key pair.
+        @OptionalCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: Data) {
+        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: Data, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
             self.publicKeyMaterial = publicKeyMaterial
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case keyName = "keyName"
             case publicKeyMaterial = "publicKeyMaterial"
+            case tagSpecifications = "TagSpecification"
         }
     }
 
     public struct ImportKeyPairResult: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
         public let keyFingerprint: String?
         /// The key pair name you provided.
         public let keyName: String?
+        /// The ID of the resulting key pair.
+        public let keyPairId: String?
+        /// The tags applied to the imported key pair.
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(keyFingerprint: String? = nil, keyName: String? = nil) {
+        public init(keyFingerprint: String? = nil, keyName: String? = nil, keyPairId: String? = nil, tags: [Tag]? = nil) {
             self.keyFingerprint = keyFingerprint
             self.keyName = keyName
+            self.keyPairId = keyPairId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyFingerprint = "keyFingerprint"
             case keyName = "keyName"
+            case keyPairId = "keyPairId"
+            case tags = "tagSet"
         }
     }
 
@@ -20967,6 +21092,26 @@ extension EC2 {
         }
     }
 
+    public struct InstanceTagNotificationAttribute: AWSDecodableShape {
+        public struct _InstanceTagKeysEncoding: ArrayCoderProperties { static public let member = "item" }
+
+        /// Indicates wheter all tag keys in the current Region are registered to appear in scheduled event notifications. true indicates that all tag keys in the current Region are registered.
+        public let includeAllTagsOfInstance: Bool?
+        /// The registered tag keys.
+        @OptionalCoding<ArrayCoder<_InstanceTagKeysEncoding, String>>
+        public var instanceTagKeys: [String]?
+
+        public init(includeAllTagsOfInstance: Bool? = nil, instanceTagKeys: [String]? = nil) {
+            self.includeAllTagsOfInstance = includeAllTagsOfInstance
+            self.instanceTagKeys = instanceTagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeAllTagsOfInstance = "includeAllTagsOfInstance"
+            case instanceTagKeys = "instanceTagKeySet"
+        }
+    }
+
     public struct InstanceTypeInfo: AWSDecodableShape {
         public struct _SupportedRootDeviceTypesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SupportedUsageClassesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -21302,6 +21447,7 @@ extension EC2 {
     }
 
     public struct KeyPair: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The SHA-1 digest of the DER encoded private key.
         public let keyFingerprint: String?
@@ -21311,12 +21457,16 @@ extension EC2 {
         public let keyName: String?
         /// The ID of the key pair.
         public let keyPairId: String?
+        /// Any tags applied to the key pair.
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(keyFingerprint: String? = nil, keyMaterial: String? = nil, keyName: String? = nil, keyPairId: String? = nil) {
+        public init(keyFingerprint: String? = nil, keyMaterial: String? = nil, keyName: String? = nil, keyPairId: String? = nil, tags: [Tag]? = nil) {
             self.keyFingerprint = keyFingerprint
             self.keyMaterial = keyMaterial
             self.keyName = keyName
             self.keyPairId = keyPairId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21324,6 +21474,7 @@ extension EC2 {
             case keyMaterial = "keyMaterial"
             case keyName = "keyName"
             case keyPairId = "keyPairId"
+            case tags = "tagSet"
         }
     }
 
@@ -25609,21 +25760,21 @@ extension EC2 {
 
     public struct Placement: AWSEncodableShape & AWSDecodableShape {
 
-        /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command. This parameter is not supported by .
+        /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command. This parameter is not supported by CreateFleet.
         public let affinity: String?
-        /// The Availability Zone of the instance. If not specified, an Availability Zone will be automatically chosen for you based on the load balancing criteria for the Region. This parameter is not supported by .
+        /// The Availability Zone of the instance. If not specified, an Availability Zone will be automatically chosen for you based on the load balancing criteria for the Region. This parameter is not supported by CreateFleet.
         public let availabilityZone: String?
         /// The name of the placement group the instance is in.
         public let groupName: String?
-        /// The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command. This parameter is not supported by .
+        /// The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command. This parameter is not supported by CreateFleet.
         public let hostId: String?
-        /// The ARN of the host resource group in which to launch the instances. If you specify a host resource group ARN, omit the Tenancy parameter or set it to host. This parameter is not supported by .
+        /// The ARN of the host resource group in which to launch the instances. If you specify a host resource group ARN, omit the Tenancy parameter or set it to host. This parameter is not supported by CreateFleet.
         public let hostResourceGroupArn: String?
-        /// The number of the partition the instance is in. Valid only if the placement group strategy is set to partition. This parameter is not supported by .
+        /// The number of the partition the instance is in. Valid only if the placement group strategy is set to partition. This parameter is not supported by CreateFleet.
         public let partitionNumber: Int?
-        /// Reserved for future use. This parameter is not supported by .
+        /// Reserved for future use. This parameter is not supported by CreateFleet.
         public let spreadDomain: String?
-        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by .
+        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by CreateFleet.
         public let tenancy: Tenancy?
 
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
@@ -26460,6 +26611,58 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "imageId"
+        }
+    }
+
+    public struct RegisterInstanceEventNotificationAttributesRequest: AWSEncodableShape {
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Information about the tag keys to register.
+        public let instanceTagAttribute: RegisterInstanceTagAttributeRequest?
+
+        public init(dryRun: Bool? = nil, instanceTagAttribute: RegisterInstanceTagAttributeRequest? = nil) {
+            self.dryRun = dryRun
+            self.instanceTagAttribute = instanceTagAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instanceTagAttribute = "InstanceTagAttribute"
+        }
+    }
+
+    public struct RegisterInstanceEventNotificationAttributesResult: AWSDecodableShape {
+
+        /// The resulting set of tag keys.
+        public let instanceTagAttribute: InstanceTagNotificationAttribute?
+
+        public init(instanceTagAttribute: InstanceTagNotificationAttribute? = nil) {
+            self.instanceTagAttribute = instanceTagAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTagAttribute = "instanceTagAttribute"
+        }
+    }
+
+    public struct RegisterInstanceTagAttributeRequest: AWSEncodableShape {
+        public struct _InstanceTagKeysEncoding: ArrayCoderProperties { static public let member = "item" }
+
+        /// Indicates whether to register all tag keys in the current Region. Specify true to register all tag keys.
+        public let includeAllTagsOfInstance: Bool?
+        /// The tag keys to register.
+        @OptionalCoding<ArrayCoder<_InstanceTagKeysEncoding, String>>
+        public var instanceTagKeys: [String]?
+
+        public init(includeAllTagsOfInstance: Bool? = nil, instanceTagKeys: [String]? = nil) {
+            self.includeAllTagsOfInstance = includeAllTagsOfInstance
+            self.instanceTagKeys = instanceTagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeAllTagsOfInstance = "IncludeAllTagsOfInstance"
+            case instanceTagKeys = "InstanceTagKey"
         }
     }
 

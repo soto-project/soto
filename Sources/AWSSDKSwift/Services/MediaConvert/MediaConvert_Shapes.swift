@@ -2916,6 +2916,31 @@ extension MediaConvert {
         }
     }
 
+    public struct CaptionSourceFramerate: AWSEncodableShape & AWSDecodableShape {
+
+        /// Specify the denominator of the fraction that represents the framerate for the setting Caption source framerate (CaptionSourceFramerate). Use this setting along with the setting Framerate numerator (framerateNumerator).
+        public let framerateDenominator: Int?
+        /// Specify the numerator of the fraction that represents the framerate for the setting Caption source framerate (CaptionSourceFramerate). Use this setting along with the setting Framerate denominator (framerateDenominator).
+        public let framerateNumerator: Int?
+
+        public init(framerateDenominator: Int? = nil, framerateNumerator: Int? = nil) {
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 1001)
+            try validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 60000)
+            try validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+        }
+    }
+
     public struct CaptionSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Settings for ancillary captions source.
@@ -3265,15 +3290,17 @@ extension MediaConvert {
 
     public struct CreateJobRequest: AWSEncodableShape {
 
-        /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
+        /// Optional. Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
         /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
         public let billingTagsSource: BillingTagsSource?
-        /// Idempotency token for CreateJob operation.
+        /// Optional. Idempotency token for CreateJob operation.
         public let clientRequestToken: String?
-        /// When you create a job, you can either specify a job template or specify the transcoding settings individually
+        /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
+        public let hopDestinations: [HopDestination]?
+        /// Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
         public let jobTemplate: String?
-        /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
+        /// Optional. Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
         public let priority: Int?
         /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
         public let queue: String?
@@ -3281,19 +3308,20 @@ extension MediaConvert {
         public let role: String
         /// JobSettings contains all the transcode settings for a job.
         public let settings: JobSettings
-        /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
+        /// Optional. Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
         public let simulateReservedQueue: SimulateReservedQueue?
-        /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
+        /// Optional. Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
-        /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
+        /// Optional. The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
-        /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
+        /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
+            self.hopDestinations = hopDestinations
             self.jobTemplate = jobTemplate
             self.priority = priority
             self.queue = queue
@@ -3306,6 +3334,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.hopDestinations?.forEach {
+                try $0.validate(name: "\(name).hopDestinations[]")
+            }
             try validate(self.priority, name: "priority", parent: name, max: 50)
             try validate(self.priority, name: "priority", parent: name, min: -50)
             try self.settings.validate(name: "\(name).settings")
@@ -3315,6 +3346,7 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case billingTagsSource = "billingTagsSource"
             case clientRequestToken = "clientRequestToken"
+            case hopDestinations = "hopDestinations"
             case jobTemplate = "jobTemplate"
             case priority = "priority"
             case queue = "queue"
@@ -3349,6 +3381,8 @@ extension MediaConvert {
         public let category: String?
         /// Optional. A description of the job template you are creating.
         public let description: String?
+        /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
+        public let hopDestinations: [HopDestination]?
         /// The name of the job template you are creating.
         public let name: String
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
@@ -3362,10 +3396,11 @@ extension MediaConvert {
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
+            self.hopDestinations = hopDestinations
             self.name = name
             self.priority = priority
             self.queue = queue
@@ -3375,6 +3410,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.hopDestinations?.forEach {
+                try $0.validate(name: "\(name).hopDestinations[]")
+            }
             try validate(self.priority, name: "priority", parent: name, max: 50)
             try validate(self.priority, name: "priority", parent: name, min: -50)
             try self.settings.validate(name: "\(name).settings")
@@ -3384,6 +3422,7 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
             case description = "description"
+            case hopDestinations = "hopDestinations"
             case name = "name"
             case priority = "priority"
             case queue = "queue"
@@ -4423,18 +4462,22 @@ extension MediaConvert {
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
+        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing framerates between your input captions and input video, specify the framerate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
+        public let framerate: CaptionSourceFramerate?
         /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', and 'smi'.
         public let sourceFile: String?
         /// Specifies a time delta in seconds to offset the captions from the source file.
         public let timeDelta: Int?
 
-        public init(convert608To708: FileSourceConvert608To708? = nil, sourceFile: String? = nil, timeDelta: Int? = nil) {
+        public init(convert608To708: FileSourceConvert608To708? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil) {
             self.convert608To708 = convert608To708
+            self.framerate = framerate
             self.sourceFile = sourceFile
             self.timeDelta = timeDelta
         }
 
         public func validate(name: String) throws {
+            try self.framerate?.validate(name: "\(name).framerate")
             try validate(self.sourceFile, name: "sourceFile", parent: name, min: 14)
             try validate(self.sourceFile, name: "sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.timeDelta, name: "timeDelta", parent: name, max: 2147483647)
@@ -4443,6 +4486,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case convert608To708 = "convert608To708"
+            case framerate = "framerate"
             case sourceFile = "sourceFile"
             case timeDelta = "timeDelta"
         }
@@ -5413,6 +5457,33 @@ extension MediaConvert {
         }
     }
 
+    public struct HopDestination: AWSEncodableShape & AWSDecodableShape {
+
+        /// Optional. When you set up a job to use queue hopping, you can specify a different relative priority for the job in the destination queue. If you don't specify, the relative priority will remain the same as in the previous queue.
+        public let priority: Int?
+        /// Optional unless the job is submitted on the default queue. When you set up a job to use queue hopping, you can specify a destination queue. This queue cannot be the original queue to which the job is submitted. If the original queue isn't the default queue and you don't specify the destination queue, the job will move to the default queue.
+        public let queue: String?
+        /// Required for setting up a job to use queue hopping. Minimum wait time in minutes until the job can hop to the destination queue. Valid range is 1 to 1440 minutes, inclusive.
+        public let waitMinutes: Int?
+
+        public init(priority: Int? = nil, queue: String? = nil, waitMinutes: Int? = nil) {
+            self.priority = priority
+            self.queue = queue
+            self.waitMinutes = waitMinutes
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.priority, name: "priority", parent: name, max: 50)
+            try validate(self.priority, name: "priority", parent: name, min: -50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "priority"
+            case queue = "queue"
+            case waitMinutes = "waitMinutes"
+        }
+    }
+
     public struct Id3Insertion: AWSEncodableShape & AWSDecodableShape {
 
         /// Use ID3 tag (Id3) to provide a tag value in base64-encode format.
@@ -5834,7 +5905,7 @@ extension MediaConvert {
         public let accelerationStatus: AccelerationStatus?
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
-        /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
+        /// The tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up.
         public let billingTagsSource: BillingTagsSource?
         /// The time, in Unix epoch format in seconds, when the job got created.
         public let createdAt: TimeStamp?
@@ -5844,6 +5915,8 @@ extension MediaConvert {
         public let errorCode: Int?
         /// Error message of Job
         public let errorMessage: String?
+        /// Optional list of hop destinations.
+        public let hopDestinations: [HopDestination]?
         /// A portion of the job's ARN, unique within your AWS Elemental MediaConvert resources
         public let id: String?
         /// An estimate of how far your job has progressed. This estimate is shown as a percentage of the total time from when your job leaves its queue to when your output files appear in your output Amazon S3 bucket. AWS Elemental MediaConvert provides jobPercentComplete in CloudWatch STATUS_UPDATE events and in the response to GetJob and ListJobs requests. The jobPercentComplete estimate is reliable for the following input containers: Quicktime, Transport Stream, MP4, and MXF. For some jobs, the service can't provide information about job progress. In those cases, jobPercentComplete returns a null value.
@@ -5856,8 +5929,10 @@ extension MediaConvert {
         public let outputGroupDetails: [OutputGroupDetail]?
         /// Relative priority on the job.
         public let priority: Int?
-        /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        /// When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let queue: String?
+        /// The job's queue hopping history.
+        public let queueTransitions: [QueueTransition]?
         /// The number of times that the service automatically attempted to process your job after encountering an error.
         public let retryCount: Int?
         /// The IAM role you use for creating this job. For details about permissions, see the User Guide topic at the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
@@ -5875,7 +5950,7 @@ extension MediaConvert {
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -5884,6 +5959,7 @@ extension MediaConvert {
             self.currentPhase = currentPhase
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+            self.hopDestinations = hopDestinations
             self.id = id
             self.jobPercentComplete = jobPercentComplete
             self.jobTemplate = jobTemplate
@@ -5891,6 +5967,7 @@ extension MediaConvert {
             self.outputGroupDetails = outputGroupDetails
             self.priority = priority
             self.queue = queue
+            self.queueTransitions = queueTransitions
             self.retryCount = retryCount
             self.role = role
             self.settings = settings
@@ -5910,6 +5987,7 @@ extension MediaConvert {
             case currentPhase = "currentPhase"
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
+            case hopDestinations = "hopDestinations"
             case id = "id"
             case jobPercentComplete = "jobPercentComplete"
             case jobTemplate = "jobTemplate"
@@ -5917,6 +5995,7 @@ extension MediaConvert {
             case outputGroupDetails = "outputGroupDetails"
             case priority = "priority"
             case queue = "queue"
+            case queueTransitions = "queueTransitions"
             case retryCount = "retryCount"
             case role = "role"
             case settings = "settings"
@@ -6021,6 +6100,8 @@ extension MediaConvert {
         public let createdAt: TimeStamp?
         /// An optional description you create for each job template.
         public let description: String?
+        /// Optional list of hop destinations.
+        public let hopDestinations: [HopDestination]?
         /// The timestamp in epoch seconds when the Job template was last updated.
         public let lastUpdated: TimeStamp?
         /// A name you create for each job template. Each name must be unique within your account.
@@ -6036,12 +6117,13 @@ extension MediaConvert {
         /// A job template can be of two types: system or custom. System or built-in job templates can't be modified or deleted by the user.
         public let `type`: `Type`?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: TimeStamp? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.category = category
             self.createdAt = createdAt
             self.description = description
+            self.hopDestinations = hopDestinations
             self.lastUpdated = lastUpdated
             self.name = name
             self.priority = priority
@@ -6057,6 +6139,7 @@ extension MediaConvert {
             case category = "category"
             case createdAt = "createdAt"
             case description = "description"
+            case hopDestinations = "hopDestinations"
             case lastUpdated = "lastUpdated"
             case name = "name"
             case priority = "priority"
@@ -6147,7 +6230,7 @@ extension MediaConvert {
         public let maxResults: Int?
         /// Use this string, provided with the response to a previous request, to request the next batch of job templates.
         public let nextToken: String?
-        /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+        /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
         public init(category: String? = nil, listBy: JobTemplateListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
@@ -6195,13 +6278,13 @@ extension MediaConvert {
 
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
         public let maxResults: Int?
-        /// Use this string, provided with the response to a previous request, to request the next batch of jobs.
+        /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
         public let nextToken: String?
-        /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+        /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
-        /// Provide a queue name to get back only jobs from that queue.
+        /// Optional. Provide a queue name to get back only jobs from that queue.
         public let queue: String?
-        /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
+        /// Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
         public let status: JobStatus?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
@@ -6255,7 +6338,7 @@ extension MediaConvert {
         public let maxResults: Int?
         /// Use this string, provided with the response to a previous request, to request the next batch of presets.
         public let nextToken: String?
-        /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+        /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
         public init(category: String? = nil, listBy: PresetListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
@@ -6306,7 +6389,7 @@ extension MediaConvert {
         public let maxResults: Int?
         /// Use this string, provided with the response to a previous request, to request the next batch of queues.
         public let nextToken: String?
-        /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+        /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
         public init(listBy: QueueListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
@@ -7734,6 +7817,28 @@ extension MediaConvert {
         }
     }
 
+    public struct QueueTransition: AWSDecodableShape {
+
+        /// The queue that the job was on after the transition.
+        public let destinationQueue: String?
+        /// The queue that the job was on before the transition.
+        public let sourceQueue: String?
+        /// The time, in Unix epoch format, that the job moved from the source queue to the destination queue.
+        public let timestamp: TimeStamp?
+
+        public init(destinationQueue: String? = nil, sourceQueue: String? = nil, timestamp: TimeStamp? = nil) {
+            self.destinationQueue = destinationQueue
+            self.sourceQueue = sourceQueue
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationQueue = "destinationQueue"
+            case sourceQueue = "sourceQueue"
+            case timestamp = "timestamp"
+        }
+    }
+
     public struct Rectangle: AWSEncodableShape & AWSDecodableShape {
 
         /// Height of rectangle in pixels. Specify only even numbers.
@@ -8304,6 +8409,8 @@ extension MediaConvert {
         public let category: String?
         /// The new description for the job template, if you are changing it.
         public let description: String?
+        /// Optional list of hop destinations.
+        public let hopDestinations: [HopDestination]?
         /// The name of the job template you are modifying
         public let name: String
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
@@ -8315,10 +8422,11 @@ extension MediaConvert {
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
+            self.hopDestinations = hopDestinations
             self.name = name
             self.priority = priority
             self.queue = queue
@@ -8327,6 +8435,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.hopDestinations?.forEach {
+                try $0.validate(name: "\(name).hopDestinations[]")
+            }
             try validate(self.priority, name: "priority", parent: name, max: 50)
             try validate(self.priority, name: "priority", parent: name, min: -50)
             try self.settings?.validate(name: "\(name).settings")
@@ -8336,6 +8447,7 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
             case description = "description"
+            case hopDestinations = "hopDestinations"
             case priority = "priority"
             case queue = "queue"
             case settings = "settings"

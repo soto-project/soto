@@ -23,19 +23,21 @@ extension SES {
     ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func listCustomVerificationEmailTemplatesPaginator(
         _ input: ListCustomVerificationEmailTemplatesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCustomVerificationEmailTemplatesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCustomVerificationEmailTemplates, tokenKey: \ListCustomVerificationEmailTemplatesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listCustomVerificationEmailTemplates, tokenKey: \ListCustomVerificationEmailTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list containing all of the identities (email addresses and domains) for your AWS account in the current AWS Region, regardless of verification status. You can execute this operation no more than once per second.
     public func listIdentitiesPaginator(
         _ input: ListIdentitiesRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListIdentitiesResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIdentities, tokenKey: \ListIdentitiesResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listIdentities, tokenKey: \ListIdentitiesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }

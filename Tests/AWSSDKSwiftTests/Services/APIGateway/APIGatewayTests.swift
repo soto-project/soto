@@ -30,7 +30,8 @@ class APIGatewayTests: XCTestCase {
         secretAccessKey: "secret",
         region: .useast1,
         endpoint: ProcessInfo.processInfo.environment["APIGATEWAY_ENDPOINT"] ?? "http://localhost:4567",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        httpClientProvider: .createNew
     )
 
     class TestData {

@@ -39,107 +39,115 @@ public struct CognitoSync {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "cognito-sync",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2014-06-30",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [CognitoSyncErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func bulkPublish(_ input: BulkPublishRequest) -> EventLoopFuture<BulkPublishResponse> {
-        return client.send(operation: "BulkPublish", path: "/identitypools/{IdentityPoolId}/bulkpublish", httpMethod: "POST", input: input)
+    public func bulkPublish(_ input: BulkPublishRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BulkPublishResponse> {
+        return client.send(operation: "BulkPublish", path: "/identitypools/{IdentityPoolId}/bulkpublish", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the specific dataset. The dataset will be deleted permanently, and the action can't be undone. Datasets that this dataset was merged with will no longer report the merge. Any subsequent operation on this dataset will result in a ResourceNotFoundException. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
-    public func deleteDataset(_ input: DeleteDatasetRequest) -> EventLoopFuture<DeleteDatasetResponse> {
-        return client.send(operation: "DeleteDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "DELETE", input: input)
+    public func deleteDataset(_ input: DeleteDatasetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDatasetResponse> {
+        return client.send(operation: "DeleteDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
-    public func describeDataset(_ input: DescribeDatasetRequest) -> EventLoopFuture<DescribeDatasetResponse> {
-        return client.send(operation: "DescribeDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "GET", input: input)
+    public func describeDataset(_ input: DescribeDatasetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
+        return client.send(operation: "DescribeDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets usage details (for example, data storage) about a particular identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func describeIdentityPoolUsage(_ input: DescribeIdentityPoolUsageRequest) -> EventLoopFuture<DescribeIdentityPoolUsageResponse> {
-        return client.send(operation: "DescribeIdentityPoolUsage", path: "/identitypools/{IdentityPoolId}", httpMethod: "GET", input: input)
+    public func describeIdentityPoolUsage(_ input: DescribeIdentityPoolUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIdentityPoolUsageResponse> {
+        return client.send(operation: "DescribeIdentityPoolUsage", path: "/identitypools/{IdentityPoolId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
-    public func describeIdentityUsage(_ input: DescribeIdentityUsageRequest) -> EventLoopFuture<DescribeIdentityUsageResponse> {
-        return client.send(operation: "DescribeIdentityUsage", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}", httpMethod: "GET", input: input)
+    public func describeIdentityUsage(_ input: DescribeIdentityUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIdentityUsageResponse> {
+        return client.send(operation: "DescribeIdentityUsage", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the status of the last BulkPublish operation for an identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func getBulkPublishDetails(_ input: GetBulkPublishDetailsRequest) -> EventLoopFuture<GetBulkPublishDetailsResponse> {
-        return client.send(operation: "GetBulkPublishDetails", path: "/identitypools/{IdentityPoolId}/getBulkPublishDetails", httpMethod: "POST", input: input)
+    public func getBulkPublishDetails(_ input: GetBulkPublishDetailsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBulkPublishDetailsResponse> {
+        return client.send(operation: "GetBulkPublishDetails", path: "/identitypools/{IdentityPoolId}/getBulkPublishDetails", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gets the events and the corresponding Lambda functions associated with an identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func getCognitoEvents(_ input: GetCognitoEventsRequest) -> EventLoopFuture<GetCognitoEventsResponse> {
-        return client.send(operation: "GetCognitoEvents", path: "/identitypools/{IdentityPoolId}/events", httpMethod: "GET", input: input)
+    public func getCognitoEvents(_ input: GetCognitoEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCognitoEventsResponse> {
+        return client.send(operation: "GetCognitoEvents", path: "/identitypools/{IdentityPoolId}/events", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets the configuration settings of an identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func getIdentityPoolConfiguration(_ input: GetIdentityPoolConfigurationRequest) -> EventLoopFuture<GetIdentityPoolConfigurationResponse> {
-        return client.send(operation: "GetIdentityPoolConfiguration", path: "/identitypools/{IdentityPoolId}/configuration", httpMethod: "GET", input: input)
+    public func getIdentityPoolConfiguration(_ input: GetIdentityPoolConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIdentityPoolConfigurationResponse> {
+        return client.send(operation: "GetIdentityPoolConfiguration", path: "/identitypools/{IdentityPoolId}/configuration", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. ListDatasets can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use the Cognito Identity credentials to make this API call.
-    public func listDatasets(_ input: ListDatasetsRequest) -> EventLoopFuture<ListDatasetsResponse> {
-        return client.send(operation: "ListDatasets", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets", httpMethod: "GET", input: input)
+    public func listDatasets(_ input: ListDatasetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetsResponse> {
+        return client.send(operation: "ListDatasets", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets a list of identity pools registered with Cognito. ListIdentityPoolUsage can only be called with developer credentials. You cannot make this API call with the temporary user credentials provided by Cognito Identity.
-    public func listIdentityPoolUsage(_ input: ListIdentityPoolUsageRequest) -> EventLoopFuture<ListIdentityPoolUsageResponse> {
-        return client.send(operation: "ListIdentityPoolUsage", path: "/identitypools", httpMethod: "GET", input: input)
+    public func listIdentityPoolUsage(_ input: ListIdentityPoolUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIdentityPoolUsageResponse> {
+        return client.send(operation: "ListIdentityPoolUsage", path: "/identitypools", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets paginated records, optionally changed after a particular sync count for a dataset and identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. ListRecords can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
-    public func listRecords(_ input: ListRecordsRequest) -> EventLoopFuture<ListRecordsResponse> {
-        return client.send(operation: "ListRecords", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/records", httpMethod: "GET", input: input)
+    public func listRecords(_ input: ListRecordsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecordsResponse> {
+        return client.send(operation: "ListRecords", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/records", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Registers a device to receive push sync notifications. This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
-    public func registerDevice(_ input: RegisterDeviceRequest) -> EventLoopFuture<RegisterDeviceResponse> {
-        return client.send(operation: "RegisterDevice", path: "/identitypools/{IdentityPoolId}/identity/{IdentityId}/device", httpMethod: "POST", input: input)
+    public func registerDevice(_ input: RegisterDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterDeviceResponse> {
+        return client.send(operation: "RegisterDevice", path: "/identitypools/{IdentityPoolId}/identity/{IdentityId}/device", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    @discardableResult public func setCognitoEvents(_ input: SetCognitoEventsRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "SetCognitoEvents", path: "/identitypools/{IdentityPoolId}/events", httpMethod: "POST", input: input)
+    @discardableResult public func setCognitoEvents(_ input: SetCognitoEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "SetCognitoEvents", path: "/identitypools/{IdentityPoolId}/events", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func setIdentityPoolConfiguration(_ input: SetIdentityPoolConfigurationRequest) -> EventLoopFuture<SetIdentityPoolConfigurationResponse> {
-        return client.send(operation: "SetIdentityPoolConfiguration", path: "/identitypools/{IdentityPoolId}/configuration", httpMethod: "POST", input: input)
+    public func setIdentityPoolConfiguration(_ input: SetIdentityPoolConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetIdentityPoolConfigurationResponse> {
+        return client.send(operation: "SetIdentityPoolConfiguration", path: "/identitypools/{IdentityPoolId}/configuration", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Subscribes to receive notifications when a dataset is modified by another device. This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
-    public func subscribeToDataset(_ input: SubscribeToDatasetRequest) -> EventLoopFuture<SubscribeToDatasetResponse> {
-        return client.send(operation: "SubscribeToDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/subscriptions/{DeviceId}", httpMethod: "POST", input: input)
+    public func subscribeToDataset(_ input: SubscribeToDatasetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SubscribeToDatasetResponse> {
+        return client.send(operation: "SubscribeToDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/subscriptions/{DeviceId}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Unsubscribes from receiving notifications when a dataset is modified by another device. This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
-    public func unsubscribeFromDataset(_ input: UnsubscribeFromDatasetRequest) -> EventLoopFuture<UnsubscribeFromDatasetResponse> {
-        return client.send(operation: "UnsubscribeFromDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/subscriptions/{DeviceId}", httpMethod: "DELETE", input: input)
+    public func unsubscribeFromDataset(_ input: UnsubscribeFromDatasetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnsubscribeFromDatasetResponse> {
+        return client.send(operation: "UnsubscribeFromDataset", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/subscriptions/{DeviceId}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Posts updates to records and adds and deletes records for a dataset and user. The sync count in the record patch is your last known sync count for that record. The server will reject an UpdateRecords request with a ResourceConflictException if you try to patch a record with a new value but a stale sync count. For example, if the sync count on the server is 5 for a key called highScore and you try and submit a new highScore with sync count of 4, the request will be rejected. To obtain the current sync count for a record, call ListRecords. On a successful update of the record, the response returns the new sync count for that record. You should present that sync count the next time you try to update that same record. When the record does not exist, specify the sync count as 0. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
-    public func updateRecords(_ input: UpdateRecordsRequest) -> EventLoopFuture<UpdateRecordsResponse> {
-        return client.send(operation: "UpdateRecords", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "POST", input: input)
+    public func updateRecords(_ input: UpdateRecordsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecordsResponse> {
+        return client.send(operation: "UpdateRecords", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

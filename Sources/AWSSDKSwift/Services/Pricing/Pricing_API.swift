@@ -39,8 +39,16 @@ public struct Pricing {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -49,29 +57,29 @@ public struct Pricing {
             amzTarget: "AWSPriceListService",
             service: "api.pricing",
             signingName: "pricing",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-15",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [PricingErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
-    public func describeServices(_ input: DescribeServicesRequest) -> EventLoopFuture<DescribeServicesResponse> {
-        return client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input)
+    public func describeServices(_ input: DescribeServicesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServicesResponse> {
+        return client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of attribute values. Attibutes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the AWS Billing and Cost Management User Guide.
-    public func getAttributeValues(_ input: GetAttributeValuesRequest) -> EventLoopFuture<GetAttributeValuesResponse> {
-        return client.send(operation: "GetAttributeValues", path: "/", httpMethod: "POST", input: input)
+    public func getAttributeValues(_ input: GetAttributeValuesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttributeValuesResponse> {
+        return client.send(operation: "GetAttributeValues", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of all products that match the filter criteria.
-    public func getProducts(_ input: GetProductsRequest) -> EventLoopFuture<GetProductsResponse> {
-        return client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input)
+    public func getProducts(_ input: GetProductsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProductsResponse> {
+        return client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

@@ -310,7 +310,7 @@ extension ElasticBeanstalk {
 
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value.
         public let serviceRole: String?
-        /// The application version lifecycle configuration.
+        /// Defines lifecycle settings for application versions.
         public let versionLifecycleConfig: ApplicationVersionLifecycleConfig?
 
         public init(serviceRole: String? = nil, versionLifecycleConfig: ApplicationVersionLifecycleConfig? = nil) {
@@ -724,11 +724,11 @@ extension ElasticBeanstalk {
 
     public struct ConfigurationOptionSetting: AWSEncodableShape & AWSDecodableShape {
 
-        /// A unique namespace identifying the option's associated AWS resource.
+        /// A unique namespace that identifies the option's associated AWS resource.
         public let namespace: String?
         /// The name of the configuration option.
         public let optionName: String?
-        /// A unique resource name for a time-based scaling configuration option.
+        /// A unique resource name for the option setting. Use it for a time–based scaling configuration option.
         public let resourceName: String?
         /// The current value for the configuration option.
         public let value: String?
@@ -758,7 +758,7 @@ extension ElasticBeanstalk {
         ///  A list of ConfigurationOptionDescription. 
         @OptionalCoding<DefaultArrayCoder>
         public var options: [ConfigurationOptionDescription]?
-        /// The ARN of the platform.
+        /// The ARN of the platform version.
         public let platformArn: String?
         /// The name of the solution stack these configuration options belong to.
         public let solutionStackName: String?
@@ -793,7 +793,7 @@ extension ElasticBeanstalk {
         /// A list of the configuration options and their values in this configuration set.
         @OptionalCoding<DefaultArrayCoder>
         public var optionSettings: [ConfigurationOptionSetting]?
-        /// The ARN of the platform.
+        /// The ARN of the platform version.
         public let platformArn: String?
         /// The name of the solution stack this configuration set uses.
         public let solutionStackName: String?
@@ -859,11 +859,11 @@ extension ElasticBeanstalk {
 
     public struct CreateApplicationMessage: AWSEncodableShape {
 
-        /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
+        /// The name of the application. Must be unique within your account.
         public let applicationName: String
-        /// Describes the application.
+        /// Your description of the application.
         public let description: String?
-        /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
+        /// Specifies an application resource lifecycle configuration to prevent your application from accumulating too many versions.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Environments that you create in the application don't inherit the tags.
         @OptionalCoding<DefaultArrayCoder>
@@ -901,7 +901,7 @@ extension ElasticBeanstalk {
         public let autoCreateApplication: Bool?
         /// Settings for an AWS CodeBuild build.
         public let buildConfiguration: BuildConfiguration?
-        /// Describes this version.
+        /// A description of this application version.
         public let description: String?
         /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration. 
         public let process: Bool?
@@ -956,25 +956,25 @@ extension ElasticBeanstalk {
 
     public struct CreateConfigurationTemplateMessage: AWSEncodableShape {
 
-        /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        /// The name of the Elastic Beanstalk application to associate with this configuration template.
         public let applicationName: String
-        /// Describes this configuration.
+        /// An optional description for this configuration.
         public let description: String?
-        /// The ID of the environment used with this configuration template.
+        /// The ID of an environment whose settings you want to use to create the configuration template. You must specify EnvironmentId if you don't specify PlatformArn, SolutionStackName, or SourceConfiguration.
         public let environmentId: String?
-        /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
+        /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the AWS Elastic Beanstalk Developer Guide.
         @OptionalCoding<DefaultArrayCoder>
         public var optionSettings: [ConfigurationOptionSetting]?
-        /// The ARN of the custom platform.
+        /// The Amazon Resource Name (ARN) of the custom platform. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, then don't specify SolutionStackName. 
         public let platformArn: String?
-        /// The name of the solution stack used by this configuration. The solution stack specifies the operating system, architecture, and application server for a configuration template. It determines the set of configuration options as well as the possible and default values.  Use ListAvailableSolutionStacks to obtain a list of available solution stacks.   A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.  If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
+        /// The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7. A solution stack specifies the operating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see Supported Platforms in the AWS Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify PlatformArn, EnvironmentId, or SourceConfiguration. Use the  ListAvailableSolutionStacks  API to obtain a list of available solution stacks.
         public let solutionStackName: String?
-        /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
+        /// An Elastic Beanstalk configuration template to base this one on. If specified, Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration. Values specified in OptionSettings override any values obtained from the SourceConfiguration. You must specify SourceConfiguration if you don't specify PlatformArn, EnvironmentId, or SolutionStackName. Constraint: If both solution stack name and source configuration are specified, the solution stack of the source configuration template must match the specified solution stack name.
         public let sourceConfiguration: SourceConfiguration?
         /// Specifies the tags applied to the configuration template.
         @OptionalCoding<DefaultArrayCoder>
         public var tags: [Tag]?
-        /// The name of the configuration template. Constraint: This name must be unique per application. Default: If a configuration template already exists with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        /// The name of the configuration template. Constraint: This name must be unique per application.
         public let templateName: String
 
         public init(applicationName: String, description: String? = nil, environmentId: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, sourceConfiguration: SourceConfiguration? = nil, tags: [Tag]? = nil, templateName: String) {
@@ -1019,13 +1019,13 @@ extension ElasticBeanstalk {
 
     public struct CreateEnvironmentMessage: AWSEncodableShape {
 
-        /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
+        /// The name of the application that is associated with this environment.
         public let applicationName: String
-        /// If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
+        /// If specified, the environment attempts to use this value as the prefix for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
         public let cNAMEPrefix: String?
-        /// Describes this environment.
+        /// Your description for this environment.
         public let description: String?
-        /// A unique name for the deployment environment. Used in the application URL. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It cannot start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Default: If the CNAME parameter is not specified, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
+        /// A unique name for the environment. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, Elastic Beanstalk returns an InvalidParameterValue error.  If you don't specify the CNAMEPrefix parameter, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
         public let environmentName: String?
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
@@ -1035,18 +1035,18 @@ extension ElasticBeanstalk {
         /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
         @OptionalCoding<DefaultArrayCoder>
         public var optionsToRemove: [OptionSpecification]?
-        /// The ARN of the platform.
+        /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName. 
         public let platformArn: String?
-        /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms.
+        /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName. 
         public let solutionStackName: String?
         /// Specifies the tags applied to resources in the environment.
         @OptionalCoding<DefaultArrayCoder>
         public var tags: [Tag]?
-        ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        /// The name of the Elastic Beanstalk configuration template to use with the environment.  If you specify TemplateName, then don't specify SolutionStackName. 
         public let templateName: String?
-        /// This specifies the tier to use for creating this environment.
+        /// Specifies the tier to use in creating this environment. The environment tier that you choose determines whether Elastic Beanstalk provisions resources to support a web application that handles HTTP(S) requests or a web application that handles background-processing tasks.
         public let tier: EnvironmentTier?
-        /// The name of the application version to deploy.  If the specified application has no associated application versions, AWS Elastic Beanstalk UpdateEnvironment returns an InvalidParameterValue error.  Default: If not specified, AWS Elastic Beanstalk attempts to launch the sample application in the container.
+        /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
         public let versionLabel: String?
 
         public init(applicationName: String, cNAMEPrefix: String? = nil, description: String? = nil, environmentName: String? = nil, groupName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, optionsToRemove: [OptionSpecification]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, tags: [Tag]? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
@@ -1765,7 +1765,7 @@ extension ElasticBeanstalk {
         public let maxRecords: Int?
         /// Pagination token. If specified, the events return the next batch of results.
         public let nextToken: String?
-        /// The ARN of the version of the custom platform.
+        /// The ARN of a custom platform version. If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
         public let platformArn: String?
         /// If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
         public let requestId: String?
@@ -1881,7 +1881,7 @@ extension ElasticBeanstalk {
 
     public struct DescribePlatformVersionRequest: AWSEncodableShape {
 
-        /// The ARN of the version of the platform.
+        /// The ARN of the platform version.
         public let platformArn: String?
 
         public init(platformArn: String? = nil) {
@@ -1895,7 +1895,7 @@ extension ElasticBeanstalk {
 
     public struct DescribePlatformVersionResult: AWSDecodableShape {
 
-        /// Detailed information about the version of the platform.
+        /// Detailed information about the platform version.
         public let platformDescription: PlatformDescription?
 
         public init(platformDescription: PlatformDescription? = nil) {
@@ -1936,7 +1936,7 @@ extension ElasticBeanstalk {
         public let health: EnvironmentHealth?
         /// Returns the health status of the application running in your environment. For more information, see Health Colors and Statuses.
         public let healthStatus: EnvironmentHealthStatus?
-        /// The ARN of the platform.
+        /// The ARN of the platform version.
         public let platformArn: String?
         /// The description of the AWS resources used by this environment.
         public let resources: EnvironmentResourcesDescription?
@@ -2170,7 +2170,7 @@ extension ElasticBeanstalk {
         public let eventDate: TimeStamp?
         /// The event message.
         public let message: String?
-        /// The ARN of the platform.
+        /// The ARN of the platform version.
         public let platformArn: String?
         /// The web service request ID for the activity of this event.
         public let requestId: String?
@@ -2371,14 +2371,60 @@ extension ElasticBeanstalk {
         }
     }
 
+    public struct ListPlatformBranchesRequest: AWSEncodableShape {
+
+        /// Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values.    Attribute = BranchName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = LifecycleState:    Operator: = | != | in | not_in     Values: beta | supported | deprecated | retired       Attribute = PlatformName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = TierType:    Operator: = | !=     Values: WebServer/Standard | Worker/SQS/HTTP      Array size: limited to 10 SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10 items.
+        @OptionalCoding<DefaultArrayCoder>
+        public var filters: [SearchFilter]?
+        /// The maximum number of platform branch values returned in one call.
+        public let maxRecords: Int?
+        /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
+        public let nextToken: String?
+
+        public init(filters: [SearchFilter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPlatformBranchesResult: AWSDecodableShape {
+
+        /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
+        public let nextToken: String?
+        /// Summary information about the platform branches.
+        @OptionalCoding<DefaultArrayCoder>
+        public var platformBranchSummaryList: [PlatformBranchSummary]?
+
+        public init(nextToken: String? = nil, platformBranchSummaryList: [PlatformBranchSummary]? = nil) {
+            self.nextToken = nextToken
+            self.platformBranchSummaryList = platformBranchSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case platformBranchSummaryList = "PlatformBranchSummaryList"
+        }
+    }
+
     public struct ListPlatformVersionsRequest: AWSEncodableShape {
 
-        /// List only the platforms where the platform member value relates to one of the supplied values.
+        /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms.
         @OptionalCoding<DefaultArrayCoder>
         public var filters: [PlatformFilter]?
-        /// The maximum number of platform values returned in one call.
+        /// The maximum number of platform version values returned in one call.
         public let maxRecords: Int?
-        /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
+        /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
         public let nextToken: String?
 
         public init(filters: [PlatformFilter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
@@ -2400,9 +2446,9 @@ extension ElasticBeanstalk {
 
     public struct ListPlatformVersionsResult: AWSDecodableShape {
 
-        /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
+        /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
-        /// Detailed information about the platforms.
+        /// Summary information about the platform versions.
         @OptionalCoding<DefaultArrayCoder>
         public var platformSummaryList: [PlatformSummary]?
 
@@ -2419,7 +2465,7 @@ extension ElasticBeanstalk {
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk environment.
+        /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2647,51 +2693,88 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct PlatformDescription: AWSDecodableShape {
+    public struct PlatformBranchSummary: AWSDecodableShape {
 
-        /// The custom AMIs supported by the platform.
-        @OptionalCoding<DefaultArrayCoder>
-        public var customAmiList: [CustomAmi]?
-        /// The date when the platform was created.
-        public let dateCreated: TimeStamp?
-        /// The date when the platform was last updated.
-        public let dateUpdated: TimeStamp?
-        /// The description of the platform.
-        public let description: String?
-        /// The frameworks supported by the platform.
-        @OptionalCoding<DefaultArrayCoder>
-        public var frameworks: [PlatformFramework]?
-        /// Information about the maintainer of the platform.
-        public let maintainer: String?
-        /// The operating system used by the platform.
-        public let operatingSystemName: String?
-        /// The version of the operating system used by the platform.
-        public let operatingSystemVersion: String?
-        /// The ARN of the platform.
-        public let platformArn: String?
-        /// The category of the platform.
-        public let platformCategory: String?
-        /// The name of the platform.
+        /// The name of the platform branch.
+        public let branchName: String?
+        /// An ordinal number that designates the order in which platform branches have been added to a platform. This can be helpful, for example, if your code calls the ListPlatformBranches action and then displays a list of platform branches. A larger BranchOrder value designates a newer platform branch within the platform.
+        public let branchOrder: Int?
+        /// The support life cycle state of the platform branch. Possible values: beta | supported | deprecated | retired 
+        public let lifecycleState: String?
+        /// The name of the platform to which this platform branch belongs.
         public let platformName: String?
-        /// The AWS account ID of the person who created the platform.
-        public let platformOwner: String?
-        /// The status of the platform.
-        public let platformStatus: PlatformStatus?
-        /// The version of the platform.
-        public let platformVersion: String?
-        /// The programming languages supported by the platform.
-        @OptionalCoding<DefaultArrayCoder>
-        public var programmingLanguages: [PlatformProgrammingLanguage]?
-        /// The name of the solution stack used by the platform.
-        public let solutionStackName: String?
-        /// The additions supported by the platform.
-        @OptionalCoding<DefaultArrayCoder>
-        public var supportedAddonList: [String]?
-        /// The tiers supported by the platform.
+        /// The environment tiers that platform versions in this branch support. Possible values: WebServer/Standard | Worker/SQS/HTTP 
         @OptionalCoding<DefaultArrayCoder>
         public var supportedTierList: [String]?
 
-        public init(customAmiList: [CustomAmi]? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformCategory: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
+        public init(branchName: String? = nil, branchOrder: Int? = nil, lifecycleState: String? = nil, platformName: String? = nil, supportedTierList: [String]? = nil) {
+            self.branchName = branchName
+            self.branchOrder = branchOrder
+            self.lifecycleState = lifecycleState
+            self.platformName = platformName
+            self.supportedTierList = supportedTierList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "BranchName"
+            case branchOrder = "BranchOrder"
+            case lifecycleState = "LifecycleState"
+            case platformName = "PlatformName"
+            case supportedTierList = "SupportedTierList"
+        }
+    }
+
+    public struct PlatformDescription: AWSDecodableShape {
+
+        /// The custom AMIs supported by the platform version.
+        @OptionalCoding<DefaultArrayCoder>
+        public var customAmiList: [CustomAmi]?
+        /// The date when the platform version was created.
+        public let dateCreated: TimeStamp?
+        /// The date when the platform version was last updated.
+        public let dateUpdated: TimeStamp?
+        /// The description of the platform version.
+        public let description: String?
+        /// The frameworks supported by the platform version.
+        @OptionalCoding<DefaultArrayCoder>
+        public var frameworks: [PlatformFramework]?
+        /// Information about the maintainer of the platform version.
+        public let maintainer: String?
+        /// The operating system used by the platform version.
+        public let operatingSystemName: String?
+        /// The version of the operating system used by the platform version.
+        public let operatingSystemVersion: String?
+        /// The ARN of the platform version.
+        public let platformArn: String?
+        /// The state of the platform version's branch in its lifecycle. Possible values: Beta | Supported | Deprecated | Retired 
+        public let platformBranchLifecycleState: String?
+        /// The platform branch to which the platform version belongs.
+        public let platformBranchName: String?
+        /// The category of the platform version.
+        public let platformCategory: String?
+        /// The state of the platform version in its lifecycle. Possible values: Recommended | null  If a null value is returned, the platform version isn't the recommended one for its branch. Each platform branch has a single recommended platform version, typically the most recent one.
+        public let platformLifecycleState: String?
+        /// The name of the platform version.
+        public let platformName: String?
+        /// The AWS account ID of the person who created the platform version.
+        public let platformOwner: String?
+        /// The status of the platform version.
+        public let platformStatus: PlatformStatus?
+        /// The version of the platform version.
+        public let platformVersion: String?
+        /// The programming languages supported by the platform version.
+        @OptionalCoding<DefaultArrayCoder>
+        public var programmingLanguages: [PlatformProgrammingLanguage]?
+        /// The name of the solution stack used by the platform version.
+        public let solutionStackName: String?
+        /// The additions supported by the platform version.
+        @OptionalCoding<DefaultArrayCoder>
+        public var supportedAddonList: [String]?
+        /// The tiers supported by the platform version.
+        @OptionalCoding<DefaultArrayCoder>
+        public var supportedTierList: [String]?
+
+        public init(customAmiList: [CustomAmi]? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
             self.customAmiList = customAmiList
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -2701,7 +2784,10 @@ extension ElasticBeanstalk {
             self.operatingSystemName = operatingSystemName
             self.operatingSystemVersion = operatingSystemVersion
             self.platformArn = platformArn
+            self.platformBranchLifecycleState = platformBranchLifecycleState
+            self.platformBranchName = platformBranchName
             self.platformCategory = platformCategory
+            self.platformLifecycleState = platformLifecycleState
             self.platformName = platformName
             self.platformOwner = platformOwner
             self.platformStatus = platformStatus
@@ -2722,7 +2808,10 @@ extension ElasticBeanstalk {
             case operatingSystemName = "OperatingSystemName"
             case operatingSystemVersion = "OperatingSystemVersion"
             case platformArn = "PlatformArn"
+            case platformBranchLifecycleState = "PlatformBranchLifecycleState"
+            case platformBranchName = "PlatformBranchName"
             case platformCategory = "PlatformCategory"
+            case platformLifecycleState = "PlatformLifecycleState"
             case platformName = "PlatformName"
             case platformOwner = "PlatformOwner"
             case platformStatus = "PlatformStatus"
@@ -2736,11 +2825,11 @@ extension ElasticBeanstalk {
 
     public struct PlatformFilter: AWSEncodableShape {
 
-        /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
+        /// The operator to apply to the Type with each of the Values. Valid values: = | != | &lt; | &lt;= | &gt; | &gt;= | contains | begins_with | ends_with 
         public let `operator`: String?
-        /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
+        /// The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName 
         public let `type`: String?
-        /// The list of values applied to the custom platform attribute.
+        /// The list of values applied to the filtering platform version attribute. Only one value is supported for all current operators. The following list shows valid filter values for some filter attributes.    PlatformStatus: Creating | Failed | Ready | Deleting | Deleted     PlatformLifecycleState: recommended     SupportedTier: WebServer/Standard | Worker/SQS/HTTP     SupportedAddon: Log/S3 | Monitoring/Healthd | WorkerDaemon/SQSD   
         @OptionalCoding<DefaultArrayCoder>
         public var values: [String]?
 
@@ -2795,32 +2884,44 @@ extension ElasticBeanstalk {
 
     public struct PlatformSummary: AWSDecodableShape {
 
-        /// The operating system used by the platform.
+        /// The operating system used by the platform version.
         public let operatingSystemName: String?
-        /// The version of the operating system used by the platform.
+        /// The version of the operating system used by the platform version.
         public let operatingSystemVersion: String?
-        /// The ARN of the platform.
+        /// The ARN of the platform version.
         public let platformArn: String?
-        /// The category of platform.
+        /// The state of the platform version's branch in its lifecycle. Possible values: beta | supported | deprecated | retired 
+        public let platformBranchLifecycleState: String?
+        /// The platform branch to which the platform version belongs.
+        public let platformBranchName: String?
+        /// The category of platform version.
         public let platformCategory: String?
-        /// The AWS account ID of the person who created the platform.
+        /// The state of the platform version in its lifecycle. Possible values: recommended | empty If an empty value is returned, the platform version is supported but isn't the recommended one for its branch.
+        public let platformLifecycleState: String?
+        /// The AWS account ID of the person who created the platform version.
         public let platformOwner: String?
-        /// The status of the platform. You can create an environment from the platform once it is ready.
+        /// The status of the platform version. You can create an environment from the platform version once it is ready.
         public let platformStatus: PlatformStatus?
-        /// The additions associated with the platform.
+        /// The version string of the platform version.
+        public let platformVersion: String?
+        /// The additions associated with the platform version.
         @OptionalCoding<DefaultArrayCoder>
         public var supportedAddonList: [String]?
-        /// The tiers in which the platform runs.
+        /// The tiers in which the platform version runs.
         @OptionalCoding<DefaultArrayCoder>
         public var supportedTierList: [String]?
 
-        public init(operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformCategory: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
+        public init(operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
             self.operatingSystemName = operatingSystemName
             self.operatingSystemVersion = operatingSystemVersion
             self.platformArn = platformArn
+            self.platformBranchLifecycleState = platformBranchLifecycleState
+            self.platformBranchName = platformBranchName
             self.platformCategory = platformCategory
+            self.platformLifecycleState = platformLifecycleState
             self.platformOwner = platformOwner
             self.platformStatus = platformStatus
+            self.platformVersion = platformVersion
             self.supportedAddonList = supportedAddonList
             self.supportedTierList = supportedTierList
         }
@@ -2829,9 +2930,13 @@ extension ElasticBeanstalk {
             case operatingSystemName = "OperatingSystemName"
             case operatingSystemVersion = "OperatingSystemVersion"
             case platformArn = "PlatformArn"
+            case platformBranchLifecycleState = "PlatformBranchLifecycleState"
+            case platformBranchName = "PlatformBranchName"
             case platformCategory = "PlatformCategory"
+            case platformLifecycleState = "PlatformLifecycleState"
             case platformOwner = "PlatformOwner"
             case platformStatus = "PlatformStatus"
+            case platformVersion = "PlatformVersion"
             case supportedAddonList = "SupportedAddonList"
             case supportedTierList = "SupportedTierList"
         }
@@ -2951,7 +3056,7 @@ extension ElasticBeanstalk {
 
     public struct ResourceTagsDescriptionMessage: AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
+        /// The Amazon Resource Name (ARN) of the resource for which a tag list was requested.
         public let resourceArn: String?
         /// A list of tag key-value pairs.
         @OptionalCoding<DefaultArrayCoder>
@@ -3053,6 +3158,29 @@ extension ElasticBeanstalk {
         private enum CodingKeys: String, CodingKey {
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
+        }
+    }
+
+    public struct SearchFilter: AWSEncodableShape {
+
+        /// The result attribute to which the filter values are applied. Valid values vary by API action.
+        public let attribute: String?
+        /// The operator to apply to the Attribute with each of the Values. Valid values vary by Attribute.
+        public let `operator`: String?
+        /// The list of values applied to the Attribute and Operator attributes. Number of values and valid values vary by Attribute.
+        @OptionalCoding<DefaultArrayCoder>
+        public var values: [String]?
+
+        public init(attribute: String? = nil, operator: String? = nil, values: [String]? = nil) {
+            self.attribute = attribute
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case `operator` = "Operator"
+            case values = "Values"
         }
     }
 
@@ -3532,7 +3660,7 @@ extension ElasticBeanstalk {
 
     public struct UpdateTagsForResourceMessage: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk environment.
+        /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.
         public let resourceArn: String
         /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.
         @OptionalCoding<DefaultArrayCoder>

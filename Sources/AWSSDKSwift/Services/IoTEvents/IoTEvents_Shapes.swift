@@ -52,15 +52,25 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
+    public enum PayloadType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
 
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
+        /// Writes to the DynamoDB table that you created. The default action payload contains all attribute-value pairs that have the information about the detector model instance and the event that triggered the action. You can also customize the payload. One column of the DynamoDB table receives all attribute-value pairs in the payload that you specify. For more information, see Actions in AWS IoT Events Developer Guide.
+        public let dynamoDB: DynamoDBAction?
+        /// Writes to the DynamoDB table that you created. The default action payload contains all attribute-value pairs that have the information about the detector model instance and the event that triggered the action. You can also customize the payload. A separate column of the DynamoDB table receives one attribute-value pair in the payload that you specify. For more information, see Actions in AWS IoT Events Developer Guide.
+        public let dynamoDBv2: DynamoDBv2Action?
         /// Sends information about the detector model instance and the event that triggered the action to an Amazon Kinesis Data Firehose delivery stream.
         public let firehose: FirehoseAction?
-        /// Sends an AWS IoT Events input, passing in information about the detector model instance and the event that triggered the action.
+        /// Sends AWS IoT Events input, which passes information about the detector model instance and the event that triggered the action.
         public let iotEvents: IotEventsAction?
         /// Publishes an MQTT message with the given topic to the AWS IoT message broker.
         public let iotTopicPublish: IotTopicPublishAction?
@@ -77,8 +87,10 @@ extension IoTEvents {
         /// Sends information about the detector model instance and the event that triggered the action to an Amazon SQS queue.
         public let sqs: SqsAction?
 
-        public init(clearTimer: ClearTimerAction? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
+        public init(clearTimer: ClearTimerAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
             self.clearTimer = clearTimer
+            self.dynamoDB = dynamoDB
+            self.dynamoDBv2 = dynamoDBv2
             self.firehose = firehose
             self.iotEvents = iotEvents
             self.iotTopicPublish = iotTopicPublish
@@ -92,6 +104,8 @@ extension IoTEvents {
 
         public func validate(name: String) throws {
             try self.clearTimer?.validate(name: "\(name).clearTimer")
+            try self.dynamoDB?.validate(name: "\(name).dynamoDB")
+            try self.dynamoDBv2?.validate(name: "\(name).dynamoDBv2")
             try self.firehose?.validate(name: "\(name).firehose")
             try self.iotEvents?.validate(name: "\(name).iotEvents")
             try self.iotTopicPublish?.validate(name: "\(name).iotTopicPublish")
@@ -100,10 +114,13 @@ extension IoTEvents {
             try self.setTimer?.validate(name: "\(name).setTimer")
             try self.setVariable?.validate(name: "\(name).setVariable")
             try self.sns?.validate(name: "\(name).sns")
+            try self.sqs?.validate(name: "\(name).sqs")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clearTimer = "clearTimer"
+            case dynamoDB = "dynamoDB"
+            case dynamoDBv2 = "dynamoDBv2"
             case firehose = "firehose"
             case iotEvents = "iotEvents"
             case iotTopicPublish = "iotTopicPublish"
@@ -489,7 +506,7 @@ extension IoTEvents {
         public let detectorModelVersion: String?
         /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
-        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression in the message payload of each input to specify the attribute-value pair that is used to identify the device associated with the input.
+        /// The value used to identify a detector instance. When a device or system sends input, a new detector instance with a unique key value is created. AWS IoT Events can continue to route input to its corresponding detector instance based on this identifying information.  This parameter uses a JSON-path expression to select the attribute-value pair in the message payload that is used for identification. To route the message to the correct detector instance, the device must send a message payload that contains the same attribute-value.
         public let key: String?
         /// The time the detector model was last updated.
         public let lastUpdateTime: TimeStamp?
@@ -616,6 +633,80 @@ extension IoTEvents {
         }
     }
 
+    public struct DynamoDBAction: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the hash key (also called the partition key).
+        public let hashKeyField: String
+        /// The data type for the hash key (also called the partition key). You can specify the following values:    STRING - The hash key is a string.    NUMBER - The hash key is a number.   If you don't specify hashKeyType, the default value is STRING.
+        public let hashKeyType: String?
+        /// The value of the hash key (also called the partition key).
+        public let hashKeyValue: String
+        /// The type of operation to perform. You can specify the following values:     INSERT - Insert data as a new item into the DynamoDB table. This item uses the specified hash key as a partition key. If you specified a range key, the item uses the range key as a sort key.    UPDATE - Update an existing item of the DynamoDB table with new data. This item's partition key must match the specified hash key. If you specified a range key, the range key must match the item's sort key.    DELETE - Delete an existing item of the DynamoDB table. This item's partition key must match the specified hash key. If you specified a range key, the range key must match the item's sort key.   If you don't specify this parameter, AWS IoT Events triggers the INSERT operation.
+        public let operation: String?
+        public let payload: Payload?
+        /// The name of the DynamoDB column that receives the action payload. If you don't specify this parameter, the name of the DynamoDB column is payload.
+        public let payloadField: String?
+        /// The name of the range key (also called the sort key).
+        public let rangeKeyField: String?
+        /// The data type for the range key (also called the sort key), You can specify the following values:    STRING - The range key is a string.    NUMBER - The range key is number.   If you don't specify rangeKeyField, the default value is STRING.
+        public let rangeKeyType: String?
+        /// The value of the range key (also called the sort key).
+        public let rangeKeyValue: String?
+        /// The name of the DynamoDB table.
+        public let tableName: String
+
+        public init(hashKeyField: String, hashKeyType: String? = nil, hashKeyValue: String, operation: String? = nil, payload: Payload? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, tableName: String) {
+            self.hashKeyField = hashKeyField
+            self.hashKeyType = hashKeyType
+            self.hashKeyValue = hashKeyValue
+            self.operation = operation
+            self.payload = payload
+            self.payloadField = payloadField
+            self.rangeKeyField = rangeKeyField
+            self.rangeKeyType = rangeKeyType
+            self.rangeKeyValue = rangeKeyValue
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.payload?.validate(name: "\(name).payload")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hashKeyField = "hashKeyField"
+            case hashKeyType = "hashKeyType"
+            case hashKeyValue = "hashKeyValue"
+            case operation = "operation"
+            case payload = "payload"
+            case payloadField = "payloadField"
+            case rangeKeyField = "rangeKeyField"
+            case rangeKeyType = "rangeKeyType"
+            case rangeKeyValue = "rangeKeyValue"
+            case tableName = "tableName"
+        }
+    }
+
+    public struct DynamoDBv2Action: AWSEncodableShape & AWSDecodableShape {
+
+        public let payload: Payload?
+        /// The name of the DynamoDB table.
+        public let tableName: String
+
+        public init(payload: Payload? = nil, tableName: String) {
+            self.payload = payload
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.payload?.validate(name: "\(name).payload")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
+            case tableName = "tableName"
+        }
+    }
+
     public struct Event: AWSEncodableShape & AWSDecodableShape {
 
         /// The actions to be performed.
@@ -650,20 +741,25 @@ extension IoTEvents {
 
         /// The name of the Kinesis Data Firehose delivery stream where the data is written.
         public let deliveryStreamName: String
+        /// You can configure the action payload when you send a message to an Amazon Kinesis Data Firehose delivery stream.
+        public let payload: Payload?
         /// A character separator that is used to separate records written to the Kinesis Data Firehose delivery stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
         public let separator: String?
 
-        public init(deliveryStreamName: String, separator: String? = nil) {
+        public init(deliveryStreamName: String, payload: Payload? = nil, separator: String? = nil) {
             self.deliveryStreamName = deliveryStreamName
+            self.payload = payload
             self.separator = separator
         }
 
         public func validate(name: String) throws {
+            try self.payload?.validate(name: "\(name).payload")
             try validate(self.separator, name: "separator", parent: name, pattern: "([\\n\\t])|(\\r\\n)|(,)")
         }
 
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "deliveryStreamName"
+            case payload = "payload"
             case separator = "separator"
         }
     }
@@ -780,19 +876,24 @@ extension IoTEvents {
 
         /// The name of the AWS IoT Events input where the data is sent.
         public let inputName: String
+        /// You can configure the action payload when you send a message to an AWS IoT Events input.
+        public let payload: Payload?
 
-        public init(inputName: String) {
+        public init(inputName: String, payload: Payload? = nil) {
             self.inputName = inputName
+            self.payload = payload
         }
 
         public func validate(name: String) throws {
             try validate(self.inputName, name: "inputName", parent: name, max: 128)
             try validate(self.inputName, name: "inputName", parent: name, min: 1)
             try validate(self.inputName, name: "inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.payload?.validate(name: "\(name).payload")
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputName = "inputName"
+            case payload = "payload"
         }
     }
 
@@ -800,18 +901,23 @@ extension IoTEvents {
 
         /// The MQTT topic of the message. You can use a string expression that includes variables ($variable.&lt;variable-name&gt;) and input values ($input.&lt;input-name&gt;.&lt;path-to-datum&gt;) as the topic string.
         public let mqttTopic: String
+        /// You can configure the action payload when you publish a message to an AWS IoT Core topic.
+        public let payload: Payload?
 
-        public init(mqttTopic: String) {
+        public init(mqttTopic: String, payload: Payload? = nil) {
             self.mqttTopic = mqttTopic
+            self.payload = payload
         }
 
         public func validate(name: String) throws {
             try validate(self.mqttTopic, name: "mqttTopic", parent: name, max: 128)
             try validate(self.mqttTopic, name: "mqttTopic", parent: name, min: 1)
+            try self.payload?.validate(name: "\(name).payload")
         }
 
         private enum CodingKeys: String, CodingKey {
             case mqttTopic = "mqttTopic"
+            case payload = "payload"
         }
     }
 
@@ -819,18 +925,23 @@ extension IoTEvents {
 
         /// The ARN of the Lambda function that is executed.
         public let functionArn: String
+        /// You can configure the action payload when you send a message to a Lambda function.
+        public let payload: Payload?
 
-        public init(functionArn: String) {
+        public init(functionArn: String, payload: Payload? = nil) {
             self.functionArn = functionArn
+            self.payload = payload
         }
 
         public func validate(name: String) throws {
             try validate(self.functionArn, name: "functionArn", parent: name, max: 2048)
             try validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.payload?.validate(name: "\(name).payload")
         }
 
         private enum CodingKeys: String, CodingKey {
             case functionArn = "functionArn"
+            case payload = "payload"
         }
     }
 
@@ -1103,6 +1214,28 @@ extension IoTEvents {
         }
     }
 
+    public struct Payload: AWSEncodableShape & AWSDecodableShape {
+
+        /// The content of the payload. You can use a string expression that includes quoted strings ('&lt;string&gt;'), variables ($variable.&lt;variable-name&gt;), input values ($input.&lt;input-name&gt;.&lt;path-to-datum&gt;), string concatenations, and quoted strings that contain ${} as the content. The recommended maximum size of a content expression is 1 KB.
+        public let contentExpression: String
+        /// The value of the payload type can be either STRING or JSON.
+        public let `type`: PayloadType
+
+        public init(contentExpression: String, type: PayloadType) {
+            self.contentExpression = contentExpression
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contentExpression, name: "contentExpression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentExpression = "contentExpression"
+            case `type` = "type"
+        }
+    }
+
     public struct PutLoggingOptionsRequest: AWSEncodableShape {
 
         /// The new values of the AWS IoT Events logging options.
@@ -1142,19 +1275,24 @@ extension IoTEvents {
 
     public struct SNSTopicPublishAction: AWSEncodableShape & AWSDecodableShape {
 
+        /// You can configure the action payload when you send a message as an Amazon SNS push notification.
+        public let payload: Payload?
         /// The ARN of the Amazon SNS target where the message is sent.
         public let targetArn: String
 
-        public init(targetArn: String) {
+        public init(payload: Payload? = nil, targetArn: String) {
+            self.payload = payload
             self.targetArn = targetArn
         }
 
         public func validate(name: String) throws {
+            try self.payload?.validate(name: "\(name).payload")
             try validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
             try validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
             case targetArn = "targetArn"
         }
     }
@@ -1212,17 +1350,25 @@ extension IoTEvents {
 
     public struct SqsAction: AWSEncodableShape & AWSDecodableShape {
 
+        /// You can configure the action payload when you send a message to an Amazon SQS queue.
+        public let payload: Payload?
         /// The URL of the SQS queue where the data is written.
         public let queueUrl: String
-        /// Set this to TRUE if you want the data to be base-64 encoded before it is written to the queue.
+        /// Set this to TRUE if you want the data to be base-64 encoded before it is written to the queue. Otherwise, set this to FALSE.
         public let useBase64: Bool?
 
-        public init(queueUrl: String, useBase64: Bool? = nil) {
+        public init(payload: Payload? = nil, queueUrl: String, useBase64: Bool? = nil) {
+            self.payload = payload
             self.queueUrl = queueUrl
             self.useBase64 = useBase64
         }
 
+        public func validate(name: String) throws {
+            try self.payload?.validate(name: "\(name).payload")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
             case queueUrl = "queueUrl"
             case useBase64 = "useBase64"
         }

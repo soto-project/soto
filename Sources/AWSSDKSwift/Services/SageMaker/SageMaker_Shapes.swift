@@ -347,6 +347,7 @@ extension SageMaker {
         case onnx = "ONNX"
         case pytorch = "PYTORCH"
         case xgboost = "XGBOOST"
+        case tflite = "TFLITE"
         public var description: String { return self.rawValue }
     }
 
@@ -945,6 +946,11 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC5NXlarge = "ml.c5n.xlarge"
+        case mlC5N2Xlarge = "ml.c5n.2xlarge"
+        case mlC5N4Xlarge = "ml.c5n.4xlarge"
+        case mlC5N9Xlarge = "ml.c5n.9xlarge"
+        case mlC5N18Xlarge = "ml.c5n.18xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -1014,6 +1020,8 @@ extension SageMaker {
         case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
@@ -2743,6 +2751,7 @@ extension SageMaker {
         public let humanLoopActivationConfig: HumanLoopActivationConfig?
         /// An object containing information about the tasks the human reviewers will perform.
         public let humanLoopConfig: HumanLoopConfig
+        /// Container for configuring the source of human task requests. Use to specify if Amazon Rekognition or Amazon Textract is used as an integration source.
         public let humanLoopRequestSource: HumanLoopRequestSource?
         /// An object containing information about where the human review results will be uploaded.
         public let outputConfig: FlowDefinitionOutputConfig
@@ -5459,6 +5468,7 @@ extension SageMaker {
         public let humanLoopActivationConfig: HumanLoopActivationConfig?
         /// An object containing information about who works on the task, the workforce task price, and other task details.
         public let humanLoopConfig: HumanLoopConfig
+        /// Container for configuring the source of human task requests. Used to specify if Amazon Rekognition or Amazon Textract is used as an integration source.
         public let humanLoopRequestSource: HumanLoopRequestSource?
         /// An object containing information about the output file.
         public let outputConfig: FlowDefinitionOutputConfig
@@ -7164,11 +7174,11 @@ extension SageMaker {
 
     public struct Filter: AWSEncodableShape {
 
-        /// A property name. For example, TrainingJobName. For the list of valid property names returned in a search result for each supported resource, see TrainingJob properties. You must specify a valid property name for the resource.
+        /// A resource property name. For example, TrainingJobName. For valid property names, see SearchRecord. You must specify a valid property for the resource.
         public let name: String
-        /// A Boolean binary operator that is used to evaluate the filter. The operator field contains one of the following values:  Equals  The specified resource in Name equals the specified Value.  NotEquals  The specified resource in Name does not equal the specified Value.  GreaterThan  The specified resource in Name is greater than the specified Value. Not supported for text-based properties.  GreaterThanOrEqualTo  The specified resource in Name is greater than or equal to the specified Value. Not supported for text-based properties.  LessThan  The specified resource in Name is less than the specified Value. Not supported for text-based properties.  LessThanOrEqualTo  The specified resource in Name is less than or equal to the specified Value. Not supported for text-based properties.  Contains  Only supported for text-based properties. The word-list of the property contains the specified Value. A SearchExpression can include only one Contains operator.   If you have specified a filter Value, the default is Equals.
+        /// A Boolean binary operator that is used to evaluate the filter. The operator field contains one of the following values:  Equals  The value of Name equals Value.  NotEquals  The value of Name doesn't equal Value.  GreaterThan  The value of Name is greater than Value. Not supported for text properties.  GreaterThanOrEqualTo  The value of Name is greater than or equal to Value. Not supported for text properties.  LessThan  The value of Name is less than Value. Not supported for text properties.  LessThanOrEqualTo  The value of Name is less than or equal to Value. Not supported for text properties.  Contains  The value of Name contains the string Value. A SearchExpression can include only one Contains operator. Only supported for text properties.  Exists  The Name property exists.  NotExists  The Name property does not exist.  In  The value of Name is one of the comma delimited strings in Value. Only supported for text properties.  
         public let `operator`: Operator?
-        /// A value used with Resource and Operator to determine if objects satisfy the filter's condition. For numerical properties, Value must be an integer or floating-point decimal. For timestamp properties, Value must be an ISO 8601 date-time string of the following format: YYYY-mm-dd'T'HH:MM:SS.
+        /// A value used with Name and Operator to determine which resources satisfy the filter's condition. For numerical properties, Value must be an integer or floating-point decimal. For timestamp properties, Value must be an ISO 8601 date-time string of the following format: YYYY-mm-dd'T'HH:MM:SS.
         public let value: String?
 
         public init(name: String, operator: Operator? = nil, value: String? = nil) {
@@ -7294,7 +7304,7 @@ extension SageMaker {
 
     public struct GetSearchSuggestionsRequest: AWSEncodableShape {
 
-        /// The name of the Amazon SageMaker resource to Search for.
+        /// The name of the Amazon SageMaker resource to search for.
         public let resource: ResourceType
         /// Limits the property names that are included in the response.
         public let suggestionQuery: SuggestionQuery?
@@ -11752,6 +11762,98 @@ extension SageMaker {
         }
     }
 
+    public struct ProcessingJob: AWSDecodableShape {
+
+        public let appSpecification: AppSpecification?
+        /// The Amazon Resource Name (ARN) of the AutoML job associated with this processing job.
+        public let autoMLJobArn: String?
+        /// The time the processing job was created.
+        public let creationTime: TimeStamp?
+        /// Sets the environment variables in the Docker container.
+        public let environment: [String: String]?
+        /// A string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
+        public let exitMessage: String?
+        public let experimentConfig: ExperimentConfig?
+        /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
+        public let failureReason: String?
+        /// The time the processing job was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The ARN of a monitoring schedule for an endpoint associated with this processing job.
+        public let monitoringScheduleArn: String?
+        public let networkConfig: NetworkConfig?
+        /// The time that the processing job ended.
+        public let processingEndTime: TimeStamp?
+        /// For each input, data is downloaded from S3 into the processing container before the processing job begins running if "S3InputMode" is set to File.
+        public let processingInputs: [ProcessingInput]?
+        /// The ARN of the processing job.
+        public let processingJobArn: String?
+        /// The name of the processing job.
+        public let processingJobName: String?
+        /// The status of the processing job.
+        public let processingJobStatus: ProcessingJobStatus?
+        public let processingOutputConfig: ProcessingOutputConfig?
+        public let processingResources: ProcessingResources?
+        /// The time that the processing job started.
+        public let processingStartTime: TimeStamp?
+        /// The ARN of the role used to create the processing job.
+        public let roleArn: String?
+        public let stoppingCondition: ProcessingStoppingCondition?
+        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+        /// The ARN of the training job associated with this processing job.
+        public let trainingJobArn: String?
+
+        public init(appSpecification: AppSpecification? = nil, autoMLJobArn: String? = nil, creationTime: TimeStamp? = nil, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: TimeStamp? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String? = nil, processingJobName: String? = nil, processingJobStatus: ProcessingJobStatus? = nil, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources? = nil, processingStartTime: TimeStamp? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil, trainingJobArn: String? = nil) {
+            self.appSpecification = appSpecification
+            self.autoMLJobArn = autoMLJobArn
+            self.creationTime = creationTime
+            self.environment = environment
+            self.exitMessage = exitMessage
+            self.experimentConfig = experimentConfig
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.monitoringScheduleArn = monitoringScheduleArn
+            self.networkConfig = networkConfig
+            self.processingEndTime = processingEndTime
+            self.processingInputs = processingInputs
+            self.processingJobArn = processingJobArn
+            self.processingJobName = processingJobName
+            self.processingJobStatus = processingJobStatus
+            self.processingOutputConfig = processingOutputConfig
+            self.processingResources = processingResources
+            self.processingStartTime = processingStartTime
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+            self.trainingJobArn = trainingJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appSpecification = "AppSpecification"
+            case autoMLJobArn = "AutoMLJobArn"
+            case creationTime = "CreationTime"
+            case environment = "Environment"
+            case exitMessage = "ExitMessage"
+            case experimentConfig = "ExperimentConfig"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+            case networkConfig = "NetworkConfig"
+            case processingEndTime = "ProcessingEndTime"
+            case processingInputs = "ProcessingInputs"
+            case processingJobArn = "ProcessingJobArn"
+            case processingJobName = "ProcessingJobName"
+            case processingJobStatus = "ProcessingJobStatus"
+            case processingOutputConfig = "ProcessingOutputConfig"
+            case processingResources = "ProcessingResources"
+            case processingStartTime = "ProcessingStartTime"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+            case trainingJobArn = "TrainingJobArn"
+        }
+    }
+
     public struct ProcessingJobSummary: AWSDecodableShape {
 
         /// The time at which the processing job was created.
@@ -11866,13 +11968,13 @@ extension SageMaker {
 
         /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to download the inputs to run a processing job. LocalPath is an absolute path to the input data.
         public let localPath: String
-        /// Whether to use Gzip compresion for Amazon S3 storage.
+        /// Whether to use Gzip compression for Amazon S3 storage.
         public let s3CompressionType: ProcessingS3CompressionType?
         /// Whether the data stored in Amazon S3 is FullyReplicated or ShardedByS3Key.
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
         /// Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
         public let s3DataType: ProcessingS3DataType
-        /// Wether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
+        /// Whether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
         public let s3InputMode: ProcessingS3InputMode
         /// The URI for the Amazon S3 storage where you want Amazon SageMaker to download the artifacts needed to run a processing job.
         public let s3Uri: String
@@ -12256,7 +12358,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try validate(self.environmentArn, name: "environmentArn", parent: name, max: 256)
-            try validate(self.environmentArn, name: "environmentArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:environment/[a-z0-9](-*[a-z0-9]){0,62}$")
+            try validate(self.environmentArn, name: "environmentArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:environment/[a-z0-9]([-.]?[a-z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12381,13 +12483,13 @@ extension SageMaker {
 
     public struct SearchRecord: AWSDecodableShape {
 
-        /// A summary of the properties of an experiment.
+        /// The properties of an experiment.
         public let experiment: Experiment?
-        /// A TrainingJob object that is returned as part of a Search request.
+        /// The properties of a training job.
         public let trainingJob: TrainingJob?
-        /// A summary of the properties of a trial.
+        /// The properties of a trial.
         public let trial: Trial?
-        /// A summary of the properties of a trial component.
+        /// The properties of a trial component.
         public let trialComponent: TrialComponent?
 
         public init(experiment: Experiment? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
@@ -12407,13 +12509,13 @@ extension SageMaker {
 
     public struct SearchRequest: AWSEncodableShape {
 
-        /// The maximum number of results to return in a SearchResponse.
+        /// The maximum number of results to return.
         public let maxResults: Int?
-        /// If more than MaxResults resource objects match the specified SearchExpression, the SearchResponse includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results for the specified SearchExpression and Sort parameters.
+        /// If more than MaxResults resources match the specified SearchExpression, the response includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results.
         public let nextToken: String?
         /// The name of the Amazon SageMaker resource to search for.
         public let resource: ResourceType
-        /// A Boolean conditional statement. Resource objects must satisfy this condition to be included in search results. You must provide at least one subexpression, filter, or nested filter. The maximum number of recursive SubExpressions, NestedFilters, and Filters that can be included in a SearchExpression object is 50.
+        /// A Boolean conditional statement. Resources must satisfy this condition to be included in search results. You must provide at least one subexpression, filter, or nested filter. The maximum number of recursive SubExpressions, NestedFilters, and Filters that can be included in a SearchExpression object is 50.
         public let searchExpression: SearchExpression?
         /// The name of the resource property used to sort the SearchResults. The default is LastModifiedTime.
         public let sortBy: String?
@@ -12454,7 +12556,7 @@ extension SageMaker {
 
         /// If the result of the previous Search request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
-        /// A list of SearchResult objects.
+        /// A list of SearchRecord objects.
         public let results: [SearchRecord]?
 
         public init(nextToken: String? = nil, results: [SearchRecord]? = nil) {
@@ -13592,8 +13694,9 @@ extension SageMaker {
         public let parameters: [String: TrialComponentParameterValue]?
         /// An array of the parents of the component. A parent is a trial the component is associated with and the experiment the trial is part of. A component might not have any parents.
         public let parents: [Parent]?
+        /// The Amazon Resource Name (ARN) and job type of the source of the component.
         public let source: TrialComponentSource?
-        /// The source of the trial component.&gt;
+        /// Details of the source of the component.
         public let sourceDetail: TrialComponentSourceDetail?
         /// When the component started.
         public let startTime: TimeStamp?
@@ -13772,7 +13875,7 @@ extension SageMaker {
 
     public struct TrialComponentSource: AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the source.
+        /// The source ARN.
         public let sourceArn: String
         /// The source job type.
         public let sourceType: String?
@@ -13790,16 +13893,21 @@ extension SageMaker {
 
     public struct TrialComponentSourceDetail: AWSDecodableShape {
 
+        /// Information about a processing job that's the source of a trial component.
+        public let processingJob: ProcessingJob?
         /// The Amazon Resource Name (ARN) of the source.
         public let sourceArn: String?
+        /// Information about a training job that's the source of a trial component.
         public let trainingJob: TrainingJob?
 
-        public init(sourceArn: String? = nil, trainingJob: TrainingJob? = nil) {
+        public init(processingJob: ProcessingJob? = nil, sourceArn: String? = nil, trainingJob: TrainingJob? = nil) {
+            self.processingJob = processingJob
             self.sourceArn = sourceArn
             self.trainingJob = trainingJob
         }
 
         private enum CodingKeys: String, CodingKey {
+            case processingJob = "ProcessingJob"
             case sourceArn = "SourceArn"
             case trainingJob = "TrainingJob"
         }

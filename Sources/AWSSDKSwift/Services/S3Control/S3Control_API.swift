@@ -39,8 +39,16 @@ public struct S3Control {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         let middlewares = [S3ControlMiddleware()] + middlewares
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -49,110 +57,110 @@ public struct S3Control {
             region: region,
             service: "s3-control",
             signingName: "s3",
-            serviceProtocol: ServiceProtocol(type: .restxml),
+            serviceProtocol: .restxml,
             apiVersion: "2018-08-20",
             endpoint: endpoint,
             serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-north-1": "s3-control.eu-north-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [S3ControlErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates an access point and associates it with the specified bucket.
-    @discardableResult public func createAccessPoint(_ input: CreateAccessPointRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "CreateAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "PUT", input: input)
+    @discardableResult public func createAccessPoint(_ input: CreateAccessPointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "CreateAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates an Amazon S3 batch operations job.
-    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResult> {
-        return client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
+    public func createJob(_ input: CreateJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResult> {
+        return client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the specified access point.
-    @discardableResult public func deleteAccessPoint(_ input: DeleteAccessPointRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteAccessPoint(_ input: DeleteAccessPointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Deletes the access point policy for the specified access point.
-    @discardableResult public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Delete the tags on a Amazon S3 batch operations job, if any.
-    public func deleteJobTagging(_ input: DeleteJobTaggingRequest) -> EventLoopFuture<DeleteJobTaggingResult> {
-        return client.send(operation: "DeleteJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "DELETE", input: input)
+    public func deleteJobTagging(_ input: DeleteJobTaggingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobTaggingResult> {
+        return client.send(operation: "DeleteJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Removes the PublicAccessBlock configuration for an Amazon Web Services account.
-    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Retrieves the configuration parameters and status for a batch operations job.
-    public func describeJob(_ input: DescribeJobRequest) -> EventLoopFuture<DescribeJobResult> {
-        return client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
+    public func describeJob(_ input: DescribeJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobResult> {
+        return client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns configuration information about the specified access point.
-    public func getAccessPoint(_ input: GetAccessPointRequest) -> EventLoopFuture<GetAccessPointResult> {
-        return client.send(operation: "GetAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "GET", input: input)
+    public func getAccessPoint(_ input: GetAccessPointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessPointResult> {
+        return client.send(operation: "GetAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns the access point policy associated with the specified access point.
-    public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest) -> EventLoopFuture<GetAccessPointPolicyResult> {
-        return client.send(operation: "GetAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "GET", input: input)
+    public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessPointPolicyResult> {
+        return client.send(operation: "GetAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
-    public func getAccessPointPolicyStatus(_ input: GetAccessPointPolicyStatusRequest) -> EventLoopFuture<GetAccessPointPolicyStatusResult> {
-        return client.send(operation: "GetAccessPointPolicyStatus", path: "/v20180820/accesspoint/{name}/policyStatus", httpMethod: "GET", input: input)
+    public func getAccessPointPolicyStatus(_ input: GetAccessPointPolicyStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessPointPolicyStatusResult> {
+        return client.send(operation: "GetAccessPointPolicyStatus", path: "/v20180820/accesspoint/{name}/policyStatus", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieve the tags on a Amazon S3 batch operations job.
-    public func getJobTagging(_ input: GetJobTaggingRequest) -> EventLoopFuture<GetJobTaggingResult> {
-        return client.send(operation: "GetJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "GET", input: input)
+    public func getJobTagging(_ input: GetJobTaggingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobTaggingResult> {
+        return client.send(operation: "GetJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account.
-    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) -> EventLoopFuture<GetPublicAccessBlockOutput> {
-        return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
+    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPublicAccessBlockOutput> {
+        return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1000 access points (or the number specified in maxResults, whichever is less), then the response will include a continuation token that you can use to list the additional access points.
-    public func listAccessPoints(_ input: ListAccessPointsRequest) -> EventLoopFuture<ListAccessPointsResult> {
-        return client.send(operation: "ListAccessPoints", path: "/v20180820/accesspoint", httpMethod: "GET", input: input)
+    public func listAccessPoints(_ input: ListAccessPointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessPointsResult> {
+        return client.send(operation: "ListAccessPoints", path: "/v20180820/accesspoint", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
-    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResult> {
-        return client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
+    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResult> {
+        return client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.
-    @discardableResult public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "PutAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "PUT", input: input)
+    @discardableResult public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "PutAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Replace the set of tags on a Amazon S3 batch operations job.
-    public func putJobTagging(_ input: PutJobTaggingRequest) -> EventLoopFuture<PutJobTaggingResult> {
-        return client.send(operation: "PutJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "PUT", input: input)
+    public func putJobTagging(_ input: PutJobTaggingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutJobTaggingResult> {
+        return client.send(operation: "PutJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
-    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
+    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Updates an existing job's priority.
-    public func updateJobPriority(_ input: UpdateJobPriorityRequest) -> EventLoopFuture<UpdateJobPriorityResult> {
-        return client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input)
+    public func updateJobPriority(_ input: UpdateJobPriorityRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobPriorityResult> {
+        return client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job.
-    public func updateJobStatus(_ input: UpdateJobStatusRequest) -> EventLoopFuture<UpdateJobStatusResult> {
-        return client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
+    public func updateJobStatus(_ input: UpdateJobStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobStatusResult> {
+        return client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

@@ -14,10 +14,17 @@ custom_categories:
     children:
       - AWSClient
       - AWSShape
+      - AWSDecodableShape
+      - AWSEncodableShape
+      - AWSShapeWithPayload
+      - AWSPayload
       - AWSRequest
       - AWSResponse
+      - AWSErrorType
       - AWSServiceMiddleware
       - AWSLoggingMiddleware
+      - Region
+      - XML
 <% for(service of services) { %>
   - name: <%=service%>
     children:

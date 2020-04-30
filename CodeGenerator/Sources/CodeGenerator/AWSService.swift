@@ -42,11 +42,10 @@ struct AWSService {
 
     /// service protocol
     var serviceProtocol: String {
-        var versionString: String = ""
-        if let version = api.metadata.jsonVersion?.split(separator: ".") {
-            versionString = ", version: ServiceProtocol.Version(major: \(version[0]), minor: \(version[1]))"
+        if let version = api.metadata.jsonVersion, api.metadata.protocol == .json {
+            return ".json(version: \"\(version)\")"
         }
-        return "ServiceProtocol(type: \(api.metadata.protocol.enumStringValue)\(versionString))"
+        return api.metadata.protocol.enumStringValue
     }
 
     /// Service endpoints from API and Endpoints structure
@@ -249,6 +248,19 @@ extension AWSService {
             context["errorTypes"] = serviceErrorName
         }
 
+        // service is considered regionalized if any of its service definitions across all partitions say it is.
+        // if no service details are found in the endpoints then it is assumed the service is regionalized
+        let isRegionalized: Bool? = self.endpoints.partitions.reduce(nil) {
+            var isRegionalized = false
+            if let service = $1.services[api.metadata.endpointPrefix] {
+                isRegionalized = service.isRegionalized ?? true
+            } else {
+                return $0
+            }
+            return ($0 ?? false) || isRegionalized
+        } ?? true
+        context["regionalized"] = isRegionalized
+        
         // Operations
         var operationContexts: [OperationContext] = []
         for operation in api.operations {
@@ -831,7 +843,7 @@ extension API.Metadata.ServiceProtocol {
         case .query:
             return ".query"
         case .ec2:
-            return ".other(\"ec2\")"
+            return ".ec2"
         }
     }
 }

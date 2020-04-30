@@ -39,232 +39,240 @@ public struct Imagebuilder {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
             service: "imagebuilder",
-            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
             middlewares: middlewares,
             possibleErrorTypes: [ImagebuilderErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
-    public func cancelImageCreation(_ input: CancelImageCreationRequest) -> EventLoopFuture<CancelImageCreationResponse> {
-        return client.send(operation: "CancelImageCreation", path: "/CancelImageCreation", httpMethod: "PUT", input: input)
+    public func cancelImageCreation(_ input: CancelImageCreationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelImageCreationResponse> {
+        return client.send(operation: "CancelImageCreation", path: "/CancelImageCreation", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates a new component that can be used to build, validate, test, and assess your image.
-    public func createComponent(_ input: CreateComponentRequest) -> EventLoopFuture<CreateComponentResponse> {
-        return client.send(operation: "CreateComponent", path: "/CreateComponent", httpMethod: "PUT", input: input)
+    public func createComponent(_ input: CreateComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateComponentResponse> {
+        return client.send(operation: "CreateComponent", path: "/CreateComponent", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
-    public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest) -> EventLoopFuture<CreateDistributionConfigurationResponse> {
-        return client.send(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: "PUT", input: input)
+    public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionConfigurationResponse> {
+        return client.send(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. 
-    public func createImage(_ input: CreateImageRequest) -> EventLoopFuture<CreateImageResponse> {
-        return client.send(operation: "CreateImage", path: "/CreateImage", httpMethod: "PUT", input: input)
+    public func createImage(_ input: CreateImageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImageResponse> {
+        return client.send(operation: "CreateImage", path: "/CreateImage", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images. 
-    public func createImagePipeline(_ input: CreateImagePipelineRequest) -> EventLoopFuture<CreateImagePipelineResponse> {
-        return client.send(operation: "CreateImagePipeline", path: "/CreateImagePipeline", httpMethod: "PUT", input: input)
+    public func createImagePipeline(_ input: CreateImagePipelineRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImagePipelineResponse> {
+        return client.send(operation: "CreateImagePipeline", path: "/CreateImagePipeline", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Creates a new image recipe. Image recipes define how images are configured, tested, and assessed. 
-    public func createImageRecipe(_ input: CreateImageRecipeRequest) -> EventLoopFuture<CreateImageRecipeResponse> {
-        return client.send(operation: "CreateImageRecipe", path: "/CreateImageRecipe", httpMethod: "PUT", input: input)
+    public func createImageRecipe(_ input: CreateImageRecipeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImageRecipeResponse> {
+        return client.send(operation: "CreateImageRecipe", path: "/CreateImageRecipe", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. 
-    public func createInfrastructureConfiguration(_ input: CreateInfrastructureConfigurationRequest) -> EventLoopFuture<CreateInfrastructureConfigurationResponse> {
-        return client.send(operation: "CreateInfrastructureConfiguration", path: "/CreateInfrastructureConfiguration", httpMethod: "PUT", input: input)
+    public func createInfrastructureConfiguration(_ input: CreateInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInfrastructureConfigurationResponse> {
+        return client.send(operation: "CreateInfrastructureConfiguration", path: "/CreateInfrastructureConfiguration", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Deletes a component build version. 
-    public func deleteComponent(_ input: DeleteComponentRequest) -> EventLoopFuture<DeleteComponentResponse> {
-        return client.send(operation: "DeleteComponent", path: "/DeleteComponent", httpMethod: "DELETE", input: input)
+    public func deleteComponent(_ input: DeleteComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteComponentResponse> {
+        return client.send(operation: "DeleteComponent", path: "/DeleteComponent", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Deletes a distribution configuration. 
-    public func deleteDistributionConfiguration(_ input: DeleteDistributionConfigurationRequest) -> EventLoopFuture<DeleteDistributionConfigurationResponse> {
-        return client.send(operation: "DeleteDistributionConfiguration", path: "/DeleteDistributionConfiguration", httpMethod: "DELETE", input: input)
+    public func deleteDistributionConfiguration(_ input: DeleteDistributionConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDistributionConfigurationResponse> {
+        return client.send(operation: "DeleteDistributionConfiguration", path: "/DeleteDistributionConfiguration", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Deletes an image. 
-    public func deleteImage(_ input: DeleteImageRequest) -> EventLoopFuture<DeleteImageResponse> {
-        return client.send(operation: "DeleteImage", path: "/DeleteImage", httpMethod: "DELETE", input: input)
+    public func deleteImage(_ input: DeleteImageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteImageResponse> {
+        return client.send(operation: "DeleteImage", path: "/DeleteImage", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Deletes an image pipeline. 
-    public func deleteImagePipeline(_ input: DeleteImagePipelineRequest) -> EventLoopFuture<DeleteImagePipelineResponse> {
-        return client.send(operation: "DeleteImagePipeline", path: "/DeleteImagePipeline", httpMethod: "DELETE", input: input)
+    public func deleteImagePipeline(_ input: DeleteImagePipelineRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteImagePipelineResponse> {
+        return client.send(operation: "DeleteImagePipeline", path: "/DeleteImagePipeline", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Deletes an image recipe. 
-    public func deleteImageRecipe(_ input: DeleteImageRecipeRequest) -> EventLoopFuture<DeleteImageRecipeResponse> {
-        return client.send(operation: "DeleteImageRecipe", path: "/DeleteImageRecipe", httpMethod: "DELETE", input: input)
+    public func deleteImageRecipe(_ input: DeleteImageRecipeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteImageRecipeResponse> {
+        return client.send(operation: "DeleteImageRecipe", path: "/DeleteImageRecipe", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Deletes an infrastructure configuration. 
-    public func deleteInfrastructureConfiguration(_ input: DeleteInfrastructureConfigurationRequest) -> EventLoopFuture<DeleteInfrastructureConfigurationResponse> {
-        return client.send(operation: "DeleteInfrastructureConfiguration", path: "/DeleteInfrastructureConfiguration", httpMethod: "DELETE", input: input)
+    public func deleteInfrastructureConfiguration(_ input: DeleteInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInfrastructureConfigurationResponse> {
+        return client.send(operation: "DeleteInfrastructureConfiguration", path: "/DeleteInfrastructureConfiguration", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Gets a component object. 
-    public func getComponent(_ input: GetComponentRequest) -> EventLoopFuture<GetComponentResponse> {
-        return client.send(operation: "GetComponent", path: "/GetComponent", httpMethod: "GET", input: input)
+    public func getComponent(_ input: GetComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentResponse> {
+        return client.send(operation: "GetComponent", path: "/GetComponent", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets a component policy. 
-    public func getComponentPolicy(_ input: GetComponentPolicyRequest) -> EventLoopFuture<GetComponentPolicyResponse> {
-        return client.send(operation: "GetComponentPolicy", path: "/GetComponentPolicy", httpMethod: "GET", input: input)
+    public func getComponentPolicy(_ input: GetComponentPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentPolicyResponse> {
+        return client.send(operation: "GetComponentPolicy", path: "/GetComponentPolicy", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets a distribution configuration. 
-    public func getDistributionConfiguration(_ input: GetDistributionConfigurationRequest) -> EventLoopFuture<GetDistributionConfigurationResponse> {
-        return client.send(operation: "GetDistributionConfiguration", path: "/GetDistributionConfiguration", httpMethod: "GET", input: input)
+    public func getDistributionConfiguration(_ input: GetDistributionConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDistributionConfigurationResponse> {
+        return client.send(operation: "GetDistributionConfiguration", path: "/GetDistributionConfiguration", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets an image. 
-    public func getImage(_ input: GetImageRequest) -> EventLoopFuture<GetImageResponse> {
-        return client.send(operation: "GetImage", path: "/GetImage", httpMethod: "GET", input: input)
+    public func getImage(_ input: GetImageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImageResponse> {
+        return client.send(operation: "GetImage", path: "/GetImage", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets an image pipeline. 
-    public func getImagePipeline(_ input: GetImagePipelineRequest) -> EventLoopFuture<GetImagePipelineResponse> {
-        return client.send(operation: "GetImagePipeline", path: "/GetImagePipeline", httpMethod: "GET", input: input)
+    public func getImagePipeline(_ input: GetImagePipelineRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImagePipelineResponse> {
+        return client.send(operation: "GetImagePipeline", path: "/GetImagePipeline", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets an image policy. 
-    public func getImagePolicy(_ input: GetImagePolicyRequest) -> EventLoopFuture<GetImagePolicyResponse> {
-        return client.send(operation: "GetImagePolicy", path: "/GetImagePolicy", httpMethod: "GET", input: input)
+    public func getImagePolicy(_ input: GetImagePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImagePolicyResponse> {
+        return client.send(operation: "GetImagePolicy", path: "/GetImagePolicy", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets an image recipe. 
-    public func getImageRecipe(_ input: GetImageRecipeRequest) -> EventLoopFuture<GetImageRecipeResponse> {
-        return client.send(operation: "GetImageRecipe", path: "/GetImageRecipe", httpMethod: "GET", input: input)
+    public func getImageRecipe(_ input: GetImageRecipeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImageRecipeResponse> {
+        return client.send(operation: "GetImageRecipe", path: "/GetImageRecipe", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets an image recipe policy. 
-    public func getImageRecipePolicy(_ input: GetImageRecipePolicyRequest) -> EventLoopFuture<GetImageRecipePolicyResponse> {
-        return client.send(operation: "GetImageRecipePolicy", path: "/GetImageRecipePolicy", httpMethod: "GET", input: input)
+    public func getImageRecipePolicy(_ input: GetImageRecipePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImageRecipePolicyResponse> {
+        return client.send(operation: "GetImageRecipePolicy", path: "/GetImageRecipePolicy", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///   Gets an infrastructure configuration. 
-    public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest) -> EventLoopFuture<GetInfrastructureConfigurationResponse> {
-        return client.send(operation: "GetInfrastructureConfiguration", path: "/GetInfrastructureConfiguration", httpMethod: "GET", input: input)
+    public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInfrastructureConfigurationResponse> {
+        return client.send(operation: "GetInfrastructureConfiguration", path: "/GetInfrastructureConfiguration", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Imports a component and transforms its data into a component document. 
-    public func importComponent(_ input: ImportComponentRequest) -> EventLoopFuture<ImportComponentResponse> {
-        return client.send(operation: "ImportComponent", path: "/ImportComponent", httpMethod: "PUT", input: input)
+    public func importComponent(_ input: ImportComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportComponentResponse> {
+        return client.send(operation: "ImportComponent", path: "/ImportComponent", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Returns the list of component build versions for the specified semantic version. 
-    public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest) -> EventLoopFuture<ListComponentBuildVersionsResponse> {
-        return client.send(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: "POST", input: input)
+    public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentBuildVersionsResponse> {
+        return client.send(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns the list of component build versions for the specified semantic version. 
-    public func listComponents(_ input: ListComponentsRequest) -> EventLoopFuture<ListComponentsResponse> {
-        return client.send(operation: "ListComponents", path: "/ListComponents", httpMethod: "POST", input: input)
+    public func listComponents(_ input: ListComponentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentsResponse> {
+        return client.send(operation: "ListComponents", path: "/ListComponents", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns a list of distribution configurations. 
-    public func listDistributionConfigurations(_ input: ListDistributionConfigurationsRequest) -> EventLoopFuture<ListDistributionConfigurationsResponse> {
-        return client.send(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: "POST", input: input)
+    public func listDistributionConfigurations(_ input: ListDistributionConfigurationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionConfigurationsResponse> {
+        return client.send(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns a list of distribution configurations. 
-    public func listImageBuildVersions(_ input: ListImageBuildVersionsRequest) -> EventLoopFuture<ListImageBuildVersionsResponse> {
-        return client.send(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: "POST", input: input)
+    public func listImageBuildVersions(_ input: ListImageBuildVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImageBuildVersionsResponse> {
+        return client.send(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns a list of images created by the specified pipeline. 
-    public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest) -> EventLoopFuture<ListImagePipelineImagesResponse> {
-        return client.send(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: "POST", input: input)
+    public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePipelineImagesResponse> {
+        return client.send(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of image pipelines. 
-    public func listImagePipelines(_ input: ListImagePipelinesRequest) -> EventLoopFuture<ListImagePipelinesResponse> {
-        return client.send(operation: "ListImagePipelines", path: "/ListImagePipelines", httpMethod: "POST", input: input)
+    public func listImagePipelines(_ input: ListImagePipelinesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePipelinesResponse> {
+        return client.send(operation: "ListImagePipelines", path: "/ListImagePipelines", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns a list of image recipes. 
-    public func listImageRecipes(_ input: ListImageRecipesRequest) -> EventLoopFuture<ListImageRecipesResponse> {
-        return client.send(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: "POST", input: input)
+    public func listImageRecipes(_ input: ListImageRecipesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImageRecipesResponse> {
+        return client.send(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns the list of image build versions for the specified semantic version. 
-    public func listImages(_ input: ListImagesRequest) -> EventLoopFuture<ListImagesResponse> {
-        return client.send(operation: "ListImages", path: "/ListImages", httpMethod: "POST", input: input)
+    public func listImages(_ input: ListImagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagesResponse> {
+        return client.send(operation: "ListImages", path: "/ListImages", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns a list of infrastructure configurations. 
-    public func listInfrastructureConfigurations(_ input: ListInfrastructureConfigurationsRequest) -> EventLoopFuture<ListInfrastructureConfigurationsResponse> {
-        return client.send(operation: "ListInfrastructureConfigurations", path: "/ListInfrastructureConfigurations", httpMethod: "POST", input: input)
+    public func listInfrastructureConfigurations(_ input: ListInfrastructureConfigurationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInfrastructureConfigurationsResponse> {
+        return client.send(operation: "ListInfrastructureConfigurations", path: "/ListInfrastructureConfigurations", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Returns the list of tags for the specified resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    ///   Applies a policy to a component. 
-    public func putComponentPolicy(_ input: PutComponentPolicyRequest) -> EventLoopFuture<PutComponentPolicyResponse> {
-        return client.send(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: "PUT", input: input)
+    ///   Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
+    public func putComponentPolicy(_ input: PutComponentPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutComponentPolicyResponse> {
+        return client.send(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
-    ///   Applies a policy to an image. 
-    public func putImagePolicy(_ input: PutImagePolicyRequest) -> EventLoopFuture<PutImagePolicyResponse> {
-        return client.send(operation: "PutImagePolicy", path: "/PutImagePolicy", httpMethod: "PUT", input: input)
+    ///  Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
+    public func putImagePolicy(_ input: PutImagePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutImagePolicyResponse> {
+        return client.send(operation: "PutImagePolicy", path: "/PutImagePolicy", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
-    ///   Applies a policy to an image recipe. 
-    public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest) -> EventLoopFuture<PutImageRecipePolicyResponse> {
-        return client.send(operation: "PutImageRecipePolicy", path: "/PutImageRecipePolicy", httpMethod: "PUT", input: input)
+    ///   Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
+    public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutImageRecipePolicyResponse> {
+        return client.send(operation: "PutImageRecipePolicy", path: "/PutImageRecipePolicy", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Manually triggers a pipeline to create an image. 
-    public func startImagePipelineExecution(_ input: StartImagePipelineExecutionRequest) -> EventLoopFuture<StartImagePipelineExecutionResponse> {
-        return client.send(operation: "StartImagePipelineExecution", path: "/StartImagePipelineExecution", httpMethod: "PUT", input: input)
+    public func startImagePipelineExecution(_ input: StartImagePipelineExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImagePipelineExecutionResponse> {
+        return client.send(operation: "StartImagePipelineExecution", path: "/StartImagePipelineExecution", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Adds a tag to a resource. 
-    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///   Removes a tag from a resource. 
-    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///   Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
-    public func updateDistributionConfiguration(_ input: UpdateDistributionConfigurationRequest) -> EventLoopFuture<UpdateDistributionConfigurationResponse> {
-        return client.send(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: "PUT", input: input)
+    public func updateDistributionConfiguration(_ input: UpdateDistributionConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDistributionConfigurationResponse> {
+        return client.send(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Updates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images. 
-    public func updateImagePipeline(_ input: UpdateImagePipelineRequest) -> EventLoopFuture<UpdateImagePipelineResponse> {
-        return client.send(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: "PUT", input: input)
+    public func updateImagePipeline(_ input: UpdateImagePipelineRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateImagePipelineResponse> {
+        return client.send(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///   Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. 
-    public func updateInfrastructureConfiguration(_ input: UpdateInfrastructureConfigurationRequest) -> EventLoopFuture<UpdateInfrastructureConfigurationResponse> {
-        return client.send(operation: "UpdateInfrastructureConfiguration", path: "/UpdateInfrastructureConfiguration", httpMethod: "PUT", input: input)
+    public func updateInfrastructureConfiguration(_ input: UpdateInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInfrastructureConfigurationResponse> {
+        return client.send(operation: "UpdateInfrastructureConfiguration", path: "/UpdateInfrastructureConfiguration", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

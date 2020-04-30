@@ -39,8 +39,16 @@ public struct SMS {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -48,155 +56,155 @@ public struct SMS {
             region: region,
             amzTarget: "AWSServerMigrationService_V2016_10_24",
             service: "sms",
-            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
+            serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-24",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "sms-fips.us-east-1.amazonaws.com", "fips-us-east-2": "sms-fips.us-east-2.amazonaws.com", "fips-us-west-1": "sms-fips.us-west-1.amazonaws.com", "fips-us-west-2": "sms-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SMSErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
-    public func createApp(_ input: CreateAppRequest) -> EventLoopFuture<CreateAppResponse> {
-        return client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
+    public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
+        return client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a replication job. The replication job schedules periodic replication runs to replicate your server to AWS. Each replication run creates an Amazon Machine Image (AMI).
-    public func createReplicationJob(_ input: CreateReplicationJobRequest) -> EventLoopFuture<CreateReplicationJobResponse> {
-        return client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
+    public func createReplicationJob(_ input: CreateReplicationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplicationJobResponse> {
+        return client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes an existing application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
-    public func deleteApp(_ input: DeleteAppRequest) -> EventLoopFuture<DeleteAppResponse> {
-        return client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
+    public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResponse> {
+        return client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes existing launch configuration for an application.
-    public func deleteAppLaunchConfiguration(_ input: DeleteAppLaunchConfigurationRequest) -> EventLoopFuture<DeleteAppLaunchConfigurationResponse> {
-        return client.send(operation: "DeleteAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func deleteAppLaunchConfiguration(_ input: DeleteAppLaunchConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppLaunchConfigurationResponse> {
+        return client.send(operation: "DeleteAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes existing replication configuration for an application.
-    public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest) -> EventLoopFuture<DeleteAppReplicationConfigurationResponse> {
-        return client.send(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppReplicationConfigurationResponse> {
+        return client.send(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
-    public func deleteReplicationJob(_ input: DeleteReplicationJobRequest) -> EventLoopFuture<DeleteReplicationJobResponse> {
-        return client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input)
+    public func deleteReplicationJob(_ input: DeleteReplicationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReplicationJobResponse> {
+        return client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Deletes all servers from your server catalog.
-    public func deleteServerCatalog(_ input: DeleteServerCatalogRequest) -> EventLoopFuture<DeleteServerCatalogResponse> {
-        return client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input)
+    public func deleteServerCatalog(_ input: DeleteServerCatalogRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServerCatalogResponse> {
+        return client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Disassociates the specified connector from AWS SMS. After you disassociate a connector, it is no longer available to support replication jobs.
-    public func disassociateConnector(_ input: DisassociateConnectorRequest) -> EventLoopFuture<DisassociateConnectorResponse> {
-        return client.send(operation: "DisassociateConnector", path: "/", httpMethod: "POST", input: input)
+    public func disassociateConnector(_ input: DisassociateConnectorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateConnectorResponse> {
+        return client.send(operation: "DisassociateConnector", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Generates a target change set for a currently launched stack and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
-    public func generateChangeSet(_ input: GenerateChangeSetRequest) -> EventLoopFuture<GenerateChangeSetResponse> {
-        return client.send(operation: "GenerateChangeSet", path: "/", httpMethod: "POST", input: input)
+    public func generateChangeSet(_ input: GenerateChangeSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateChangeSetResponse> {
+        return client.send(operation: "GenerateChangeSet", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Generates an Amazon CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
-    public func generateTemplate(_ input: GenerateTemplateRequest) -> EventLoopFuture<GenerateTemplateResponse> {
-        return client.send(operation: "GenerateTemplate", path: "/", httpMethod: "POST", input: input)
+    public func generateTemplate(_ input: GenerateTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateTemplateResponse> {
+        return client.send(operation: "GenerateTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Retrieve information about an application.
-    public func getApp(_ input: GetAppRequest) -> EventLoopFuture<GetAppResponse> {
-        return client.send(operation: "GetApp", path: "/", httpMethod: "POST", input: input)
+    public func getApp(_ input: GetAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppResponse> {
+        return client.send(operation: "GetApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Retrieves the application launch configuration associated with an application.
-    public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest) -> EventLoopFuture<GetAppLaunchConfigurationResponse> {
-        return client.send(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppLaunchConfigurationResponse> {
+        return client.send(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Retrieves an application replication configuration associatd with an application.
-    public func getAppReplicationConfiguration(_ input: GetAppReplicationConfigurationRequest) -> EventLoopFuture<GetAppReplicationConfigurationResponse> {
-        return client.send(operation: "GetAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func getAppReplicationConfiguration(_ input: GetAppReplicationConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppReplicationConfigurationResponse> {
+        return client.send(operation: "GetAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the connectors registered with the AWS SMS.
-    public func getConnectors(_ input: GetConnectorsRequest) -> EventLoopFuture<GetConnectorsResponse> {
-        return client.send(operation: "GetConnectors", path: "/", httpMethod: "POST", input: input)
+    public func getConnectors(_ input: GetConnectorsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectorsResponse> {
+        return client.send(operation: "GetConnectors", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the specified replication job or all of your replication jobs.
-    public func getReplicationJobs(_ input: GetReplicationJobsRequest) -> EventLoopFuture<GetReplicationJobsResponse> {
-        return client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input)
+    public func getReplicationJobs(_ input: GetReplicationJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReplicationJobsResponse> {
+        return client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the replication runs for the specified replication job.
-    public func getReplicationRuns(_ input: GetReplicationRunsRequest) -> EventLoopFuture<GetReplicationRunsResponse> {
-        return client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input)
+    public func getReplicationRuns(_ input: GetReplicationRunsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReplicationRunsResponse> {
+        return client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
-    public func getServers(_ input: GetServersRequest) -> EventLoopFuture<GetServersResponse> {
-        return client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
+    public func getServers(_ input: GetServersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServersResponse> {
+        return client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers that you want to import. This call returns immediately, but might take additional time to retrieve all the servers.
-    public func importServerCatalog(_ input: ImportServerCatalogRequest) -> EventLoopFuture<ImportServerCatalogResponse> {
-        return client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
+    public func importServerCatalog(_ input: ImportServerCatalogRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportServerCatalogResponse> {
+        return client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Launches an application stack.
-    public func launchApp(_ input: LaunchAppRequest) -> EventLoopFuture<LaunchAppResponse> {
-        return client.send(operation: "LaunchApp", path: "/", httpMethod: "POST", input: input)
+    public func launchApp(_ input: LaunchAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<LaunchAppResponse> {
+        return client.send(operation: "LaunchApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Returns a list of summaries for all applications.
-    public func listApps(_ input: ListAppsRequest) -> EventLoopFuture<ListAppsResponse> {
-        return client.send(operation: "ListApps", path: "/", httpMethod: "POST", input: input)
+    public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResponse> {
+        return client.send(operation: "ListApps", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a launch configuration for an application.
-    public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest) -> EventLoopFuture<PutAppLaunchConfigurationResponse> {
-        return client.send(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAppLaunchConfigurationResponse> {
+        return client.send(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates or updates a replication configuration for an application.
-    public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest) -> EventLoopFuture<PutAppReplicationConfigurationResponse> {
-        return client.send(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAppReplicationConfigurationResponse> {
+        return client.send(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Starts replicating an application.
-    public func startAppReplication(_ input: StartAppReplicationRequest) -> EventLoopFuture<StartAppReplicationResponse> {
-        return client.send(operation: "StartAppReplication", path: "/", httpMethod: "POST", input: input)
+    public func startAppReplication(_ input: StartAppReplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAppReplicationResponse> {
+        return client.send(operation: "StartAppReplication", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs you can request in a 24-hour period.
-    public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest) -> EventLoopFuture<StartOnDemandReplicationRunResponse> {
-        return client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input)
+    public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOnDemandReplicationRunResponse> {
+        return client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Stops replicating an application.
-    public func stopAppReplication(_ input: StopAppReplicationRequest) -> EventLoopFuture<StopAppReplicationResponse> {
-        return client.send(operation: "StopAppReplication", path: "/", httpMethod: "POST", input: input)
+    public func stopAppReplication(_ input: StopAppReplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopAppReplicationResponse> {
+        return client.send(operation: "StopAppReplication", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Terminates the stack for an application.
-    public func terminateApp(_ input: TerminateAppRequest) -> EventLoopFuture<TerminateAppResponse> {
-        return client.send(operation: "TerminateApp", path: "/", httpMethod: "POST", input: input)
+    public func terminateApp(_ input: TerminateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TerminateAppResponse> {
+        return client.send(operation: "TerminateApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates an application.
-    public func updateApp(_ input: UpdateAppRequest) -> EventLoopFuture<UpdateAppResponse> {
-        return client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input)
+    public func updateApp(_ input: UpdateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppResponse> {
+        return client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates the specified settings for the specified replication job.
-    public func updateReplicationJob(_ input: UpdateReplicationJobRequest) -> EventLoopFuture<UpdateReplicationJobResponse> {
-        return client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input)
+    public func updateReplicationJob(_ input: UpdateReplicationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateReplicationJobResponse> {
+        return client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 }

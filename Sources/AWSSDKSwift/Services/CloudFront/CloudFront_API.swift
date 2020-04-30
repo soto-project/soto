@@ -36,252 +36,258 @@ public struct CloudFront {
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
-    ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
-            region: region,
+            region: nil,
             service: "cloudfront",
-            serviceProtocol: ServiceProtocol(type: .restxml),
+            serviceProtocol: .restxml,
             apiVersion: "2019-03-26",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
             possibleErrorTypes: [CloudFrontErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
     //MARK: API Calls
 
     ///  Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
-    public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<CreateCloudFrontOriginAccessIdentityResult> {
-        return client.send(operation: "CreateCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
+    public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCloudFrontOriginAccessIdentityResult> {
+        return client.send(operation: "CreateCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new web distribution. You create a CloudFront distribution to tell CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery. Send a POST request to the /CloudFront API version/distribution/distribution ID resource.  When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using UpdateDistribution, follow the steps included in the documentation to get the current configuration and then make your updates. This helps to make sure that you include all of the required fields. To view a summary, see Required Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide. 
-    public func createDistribution(_ input: CreateDistributionRequest) -> EventLoopFuture<CreateDistributionResult> {
-        return client.send(operation: "CreateDistribution2019_03_26", path: "/2019-03-26/distribution", httpMethod: "POST", input: input)
+    public func createDistribution(_ input: CreateDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionResult> {
+        return client.send(operation: "CreateDistribution2019_03_26", path: "/2019-03-26/distribution", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Create a new distribution with tags.
-    public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest) -> EventLoopFuture<CreateDistributionWithTagsResult> {
-        return client.send(operation: "CreateDistributionWithTags2019_03_26", path: "/2019-03-26/distribution?WithTags", httpMethod: "POST", input: input)
+    public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionWithTagsResult> {
+        return client.send(operation: "CreateDistributionWithTags2019_03_26", path: "/2019-03-26/distribution?WithTags", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Create a new field-level encryption configuration.
-    public func createFieldLevelEncryptionConfig(_ input: CreateFieldLevelEncryptionConfigRequest) -> EventLoopFuture<CreateFieldLevelEncryptionConfigResult> {
-        return client.send(operation: "CreateFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption", httpMethod: "POST", input: input)
+    public func createFieldLevelEncryptionConfig(_ input: CreateFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFieldLevelEncryptionConfigResult> {
+        return client.send(operation: "CreateFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Create a field-level encryption profile.
-    public func createFieldLevelEncryptionProfile(_ input: CreateFieldLevelEncryptionProfileRequest) -> EventLoopFuture<CreateFieldLevelEncryptionProfileResult> {
-        return client.send(operation: "CreateFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile", httpMethod: "POST", input: input)
+    public func createFieldLevelEncryptionProfile(_ input: CreateFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFieldLevelEncryptionProfileResult> {
+        return client.send(operation: "CreateFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Create a new invalidation. 
-    public func createInvalidation(_ input: CreateInvalidationRequest) -> EventLoopFuture<CreateInvalidationResult> {
-        return client.send(operation: "CreateInvalidation2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
+    public func createInvalidation(_ input: CreateInvalidationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInvalidationResult> {
+        return client.send(operation: "CreateInvalidation2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Add a new public key to CloudFront to use, for example, for field-level encryption. You can add a maximum of 10 public keys with one AWS account.
-    public func createPublicKey(_ input: CreatePublicKeyRequest) -> EventLoopFuture<CreatePublicKeyResult> {
-        return client.send(operation: "CreatePublicKey2019_03_26", path: "/2019-03-26/public-key", httpMethod: "POST", input: input)
+    public func createPublicKey(_ input: CreatePublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePublicKeyResult> {
+        return client.send(operation: "CreatePublicKey2019_03_26", path: "/2019-03-26/public-key", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Creates a new RTMP distribution. An RTMP distribution is similar to a web distribution, but an RTMP distribution streams media files using the Adobe Real-Time Messaging Protocol (RTMP) instead of serving files using HTTP.  To create a new distribution, submit a POST request to the CloudFront API version/distribution resource. The request body must include a document with a StreamingDistributionConfig element. The response echoes the StreamingDistributionConfig element and returns other information about the RTMP distribution. To get the status of your request, use the GET StreamingDistribution API action. When the value of Enabled is true and the value of Status is Deployed, your distribution is ready. A distribution usually deploys in less than 15 minutes. For more information about web distributions, see Working with RTMP Distributions in the Amazon CloudFront Developer Guide.  Beginning with the 2012-05-05 version of the CloudFront API, we made substantial changes to the format of the XML document that you include in the request body when you create or update a web distribution or an RTMP distribution, and when you invalidate objects. With previous versions of the API, we discovered that it was too easy to accidentally delete one or more values for an element that accepts multiple values, for example, CNAMEs and trusted signers. Our changes for the 2012-05-05 release are intended to prevent these accidental deletions and to notify you when there's a mismatch between the number of values you say you're specifying in the Quantity element and the number of values specified. 
-    public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest) -> EventLoopFuture<CreateStreamingDistributionResult> {
-        return client.send(operation: "CreateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution", httpMethod: "POST", input: input)
+    public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingDistributionResult> {
+        return client.send(operation: "CreateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Create a new streaming distribution with tags.
-    public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest) -> EventLoopFuture<CreateStreamingDistributionWithTagsResult> {
-        return client.send(operation: "CreateStreamingDistributionWithTags2019_03_26", path: "/2019-03-26/streaming-distribution?WithTags", httpMethod: "POST", input: input)
+    public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingDistributionWithTagsResult> {
+        return client.send(operation: "CreateStreamingDistributionWithTags2019_03_26", path: "/2019-03-26/streaming-distribution?WithTags", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Delete an origin access identity. 
-    @discardableResult public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Delete a distribution. 
-    @discardableResult public func deleteDistribution(_ input: DeleteDistributionRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDistribution(_ input: DeleteDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Remove a field-level encryption configuration.
-    @discardableResult public func deleteFieldLevelEncryptionConfig(_ input: DeleteFieldLevelEncryptionConfigRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFieldLevelEncryptionConfig(_ input: DeleteFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Remove a field-level encryption profile.
-    @discardableResult public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Remove a public key you previously added to CloudFront.
-    @discardableResult public func deletePublicKey(_ input: DeletePublicKeyRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeletePublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePublicKey(_ input: DeletePublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeletePublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
-    @discardableResult public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Get the information about an origin access identity. 
-    public func getCloudFrontOriginAccessIdentity(_ input: GetCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityResult> {
-        return client.send(operation: "GetCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
+    public func getCloudFrontOriginAccessIdentity(_ input: GetCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityResult> {
+        return client.send(operation: "GetCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the configuration information about an origin access identity. 
-    public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityConfigResult> {
-        return client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
+    public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityConfigResult> {
+        return client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the information about a distribution.
-    public func getDistribution(_ input: GetDistributionRequest) -> EventLoopFuture<GetDistributionResult> {
-        return client.send(operation: "GetDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}", httpMethod: "GET", input: input)
+    public func getDistribution(_ input: GetDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDistributionResult> {
+        return client.send(operation: "GetDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the configuration information about a distribution. 
-    public func getDistributionConfig(_ input: GetDistributionConfigRequest) -> EventLoopFuture<GetDistributionConfigResult> {
-        return client.send(operation: "GetDistributionConfig2019_03_26", path: "/2019-03-26/distribution/{Id}/config", httpMethod: "GET", input: input)
+    public func getDistributionConfig(_ input: GetDistributionConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDistributionConfigResult> {
+        return client.send(operation: "GetDistributionConfig2019_03_26", path: "/2019-03-26/distribution/{Id}/config", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the field-level encryption configuration information.
-    public func getFieldLevelEncryption(_ input: GetFieldLevelEncryptionRequest) -> EventLoopFuture<GetFieldLevelEncryptionResult> {
-        return client.send(operation: "GetFieldLevelEncryption2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}", httpMethod: "GET", input: input)
+    public func getFieldLevelEncryption(_ input: GetFieldLevelEncryptionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionResult> {
+        return client.send(operation: "GetFieldLevelEncryption2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the field-level encryption configuration information.
-    public func getFieldLevelEncryptionConfig(_ input: GetFieldLevelEncryptionConfigRequest) -> EventLoopFuture<GetFieldLevelEncryptionConfigResult> {
-        return client.send(operation: "GetFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}/config", httpMethod: "GET", input: input)
+    public func getFieldLevelEncryptionConfig(_ input: GetFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionConfigResult> {
+        return client.send(operation: "GetFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}/config", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the field-level encryption profile information.
-    public func getFieldLevelEncryptionProfile(_ input: GetFieldLevelEncryptionProfileRequest) -> EventLoopFuture<GetFieldLevelEncryptionProfileResult> {
-        return client.send(operation: "GetFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}", httpMethod: "GET", input: input)
+    public func getFieldLevelEncryptionProfile(_ input: GetFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionProfileResult> {
+        return client.send(operation: "GetFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the field-level encryption profile configuration information.
-    public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest) -> EventLoopFuture<GetFieldLevelEncryptionProfileConfigResult> {
-        return client.send(operation: "GetFieldLevelEncryptionProfileConfig2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}/config", httpMethod: "GET", input: input)
+    public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionProfileConfigResult> {
+        return client.send(operation: "GetFieldLevelEncryptionProfileConfig2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}/config", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the information about an invalidation. 
-    public func getInvalidation(_ input: GetInvalidationRequest) -> EventLoopFuture<GetInvalidationResult> {
-        return client.send(operation: "GetInvalidation2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
+    public func getInvalidation(_ input: GetInvalidationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvalidationResult> {
+        return client.send(operation: "GetInvalidation2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the public key information.
-    public func getPublicKey(_ input: GetPublicKeyRequest) -> EventLoopFuture<GetPublicKeyResult> {
-        return client.send(operation: "GetPublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}", httpMethod: "GET", input: input)
+    public func getPublicKey(_ input: GetPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPublicKeyResult> {
+        return client.send(operation: "GetPublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Return public key configuration informaation
-    public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest) -> EventLoopFuture<GetPublicKeyConfigResult> {
-        return client.send(operation: "GetPublicKeyConfig2019_03_26", path: "/2019-03-26/public-key/{Id}/config", httpMethod: "GET", input: input)
+    public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPublicKeyConfigResult> {
+        return client.send(operation: "GetPublicKeyConfig2019_03_26", path: "/2019-03-26/public-key/{Id}/config", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Gets information about a specified RTMP distribution, including the distribution configuration.
-    public func getStreamingDistribution(_ input: GetStreamingDistributionRequest) -> EventLoopFuture<GetStreamingDistributionResult> {
-        return client.send(operation: "GetStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}", httpMethod: "GET", input: input)
+    public func getStreamingDistribution(_ input: GetStreamingDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingDistributionResult> {
+        return client.send(operation: "GetStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Get the configuration information about a streaming distribution. 
-    public func getStreamingDistributionConfig(_ input: GetStreamingDistributionConfigRequest) -> EventLoopFuture<GetStreamingDistributionConfigResult> {
-        return client.send(operation: "GetStreamingDistributionConfig2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
+    public func getStreamingDistributionConfig(_ input: GetStreamingDistributionConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingDistributionConfigResult> {
+        return client.send(operation: "GetStreamingDistributionConfig2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists origin access identities.
-    public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest) -> EventLoopFuture<ListCloudFrontOriginAccessIdentitiesResult> {
-        return client.send(operation: "ListCloudFrontOriginAccessIdentities2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
+    public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCloudFrontOriginAccessIdentitiesResult> {
+        return client.send(operation: "ListCloudFrontOriginAccessIdentities2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List CloudFront distributions.
-    public func listDistributions(_ input: ListDistributionsRequest) -> EventLoopFuture<ListDistributionsResult> {
-        return client.send(operation: "ListDistributions2019_03_26", path: "/2019-03-26/distribution", httpMethod: "GET", input: input)
+    public func listDistributions(_ input: ListDistributionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsResult> {
+        return client.send(operation: "ListDistributions2019_03_26", path: "/2019-03-26/distribution", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List the distributions that are associated with a specified AWS WAF web ACL. 
-    public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
-        return client.send(operation: "ListDistributionsByWebACLId2019_03_26", path: "/2019-03-26/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
+    public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
+        return client.send(operation: "ListDistributionsByWebACLId2019_03_26", path: "/2019-03-26/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List all field-level encryption configurations that have been created in CloudFront for this account.
-    public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest) -> EventLoopFuture<ListFieldLevelEncryptionConfigsResult> {
-        return client.send(operation: "ListFieldLevelEncryptionConfigs2019_03_26", path: "/2019-03-26/field-level-encryption", httpMethod: "GET", input: input)
+    public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFieldLevelEncryptionConfigsResult> {
+        return client.send(operation: "ListFieldLevelEncryptionConfigs2019_03_26", path: "/2019-03-26/field-level-encryption", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Request a list of field-level encryption profiles that have been created in CloudFront for this account.
-    public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest) -> EventLoopFuture<ListFieldLevelEncryptionProfilesResult> {
-        return client.send(operation: "ListFieldLevelEncryptionProfiles2019_03_26", path: "/2019-03-26/field-level-encryption-profile", httpMethod: "GET", input: input)
+    public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFieldLevelEncryptionProfilesResult> {
+        return client.send(operation: "ListFieldLevelEncryptionProfiles2019_03_26", path: "/2019-03-26/field-level-encryption-profile", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Lists invalidation batches. 
-    public func listInvalidations(_ input: ListInvalidationsRequest) -> EventLoopFuture<ListInvalidationsResult> {
-        return client.send(operation: "ListInvalidations2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
+    public func listInvalidations(_ input: ListInvalidationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvalidationsResult> {
+        return client.send(operation: "ListInvalidations2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List all public keys that have been added to CloudFront for this account.
-    public func listPublicKeys(_ input: ListPublicKeysRequest) -> EventLoopFuture<ListPublicKeysResult> {
-        return client.send(operation: "ListPublicKeys2019_03_26", path: "/2019-03-26/public-key", httpMethod: "GET", input: input)
+    public func listPublicKeys(_ input: ListPublicKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPublicKeysResult> {
+        return client.send(operation: "ListPublicKeys2019_03_26", path: "/2019-03-26/public-key", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List streaming distributions. 
-    public func listStreamingDistributions(_ input: ListStreamingDistributionsRequest) -> EventLoopFuture<ListStreamingDistributionsResult> {
-        return client.send(operation: "ListStreamingDistributions2019_03_26", path: "/2019-03-26/streaming-distribution", httpMethod: "GET", input: input)
+    public func listStreamingDistributions(_ input: ListStreamingDistributionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingDistributionsResult> {
+        return client.send(operation: "ListStreamingDistributions2019_03_26", path: "/2019-03-26/streaming-distribution", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  List tags for a CloudFront resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
-        return client.send(operation: "ListTagsForResource2019_03_26", path: "/2019-03-26/tagging", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
+        return client.send(operation: "ListTagsForResource2019_03_26", path: "/2019-03-26/tagging", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Add tags to a CloudFront resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "TagResource2019_03_26", path: "/2019-03-26/tagging?Operation=Tag", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagResource2019_03_26", path: "/2019-03-26/tagging?Operation=Tag", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Remove tags from a CloudFront resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "UntagResource2019_03_26", path: "/2019-03-26/tagging?Operation=Untag", httpMethod: "POST", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagResource2019_03_26", path: "/2019-03-26/tagging?Operation=Untag", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Update an origin access identity. 
-    public func updateCloudFrontOriginAccessIdentity(_ input: UpdateCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<UpdateCloudFrontOriginAccessIdentityResult> {
-        return client.send(operation: "UpdateCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateCloudFrontOriginAccessIdentity(_ input: UpdateCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCloudFrontOriginAccessIdentityResult> {
+        return client.send(operation: "UpdateCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Updates the configuration for a web distribution.   When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using this API action, follow the steps here to get the current configuration and then make your updates, to make sure that you include all of the required fields. To view a summary, see Required Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide.  The update process includes getting the current distribution configuration, updating the XML document that is returned to make your changes, and then submitting an UpdateDistribution request to make the updates. For information about updating a distribution using the CloudFront console instead, see Creating a Distribution in the Amazon CloudFront Developer Guide.  To update a web distribution using the CloudFront API    Submit a GetDistributionConfig request to get the current configuration and an Etag header for the distribution.  If you update the distribution again, you must get a new Etag header.    Update the XML document that was returned in the response to your GetDistributionConfig request to include your changes.   When you edit the XML file, be aware of the following:   You must strip out the ETag parameter that is returned.   Additional fields are required when you update a distribution. There may be fields included in the XML file for features that you haven't configured for your distribution. This is expected and required to successfully update the distribution.   You can't change the value of CallerReference. If you try to change this value, CloudFront returns an IllegalUpdate error.    The new configuration replaces the existing configuration; the values that you specify in an UpdateDistribution request are not merged into your existing configuration. When you add, delete, or replace values in an element that allows multiple values (for example, CNAME), you must specify all of the values that you want to appear in the updated distribution. In addition, you must update the corresponding Quantity element.      Submit an UpdateDistribution request to update the configuration for your distribution:   In the request body, include the XML document that you updated in Step 2. The request body must include an XML document with a DistributionConfig element.   Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GetDistributionConfig request in Step 1.     Review the response to the UpdateDistribution request to confirm that the configuration was successfully updated.   Optional: Submit a GetDistribution request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.  
-    public func updateDistribution(_ input: UpdateDistributionRequest) -> EventLoopFuture<UpdateDistributionResult> {
-        return client.send(operation: "UpdateDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateDistribution(_ input: UpdateDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDistributionResult> {
+        return client.send(operation: "UpdateDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}/config", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Update a field-level encryption configuration. 
-    public func updateFieldLevelEncryptionConfig(_ input: UpdateFieldLevelEncryptionConfigRequest) -> EventLoopFuture<UpdateFieldLevelEncryptionConfigResult> {
-        return client.send(operation: "UpdateFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateFieldLevelEncryptionConfig(_ input: UpdateFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFieldLevelEncryptionConfigResult> {
+        return client.send(operation: "UpdateFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}/config", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Update a field-level encryption profile. 
-    public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
-        return client.send(operation: "UpdateFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
+        return client.send(operation: "UpdateFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Update public key information. Note that the only value you can change is the comment.
-    public func updatePublicKey(_ input: UpdatePublicKeyRequest) -> EventLoopFuture<UpdatePublicKeyResult> {
-        return client.send(operation: "UpdatePublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}/config", httpMethod: "PUT", input: input)
+    public func updatePublicKey(_ input: UpdatePublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePublicKeyResult> {
+        return client.send(operation: "UpdatePublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}/config", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Update a streaming distribution. 
-    public func updateStreamingDistribution(_ input: UpdateStreamingDistributionRequest) -> EventLoopFuture<UpdateStreamingDistributionResult> {
-        return client.send(operation: "UpdateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateStreamingDistribution(_ input: UpdateStreamingDistributionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStreamingDistributionResult> {
+        return client.send(operation: "UpdateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

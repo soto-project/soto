@@ -23,38 +23,42 @@ extension EFS {
     ///  Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both.  This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
     public func describeAccessPointsPaginator(
         _ input: DescribeAccessPointsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAccessPointsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAccessPoints, tokenKey: \DescribeAccessPointsResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: describeAccessPoints, tokenKey: \DescribeAccessPointsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns the description of a specific Amazon EFS file system if either the file system CreationToken or the FileSystemId is provided. Otherwise, it returns descriptions of all file systems owned by the caller's AWS account in the AWS Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally specify the MaxItems parameter to limit the number of descriptions in a response. Currently, this number is automatically set to 10. If more file system descriptions remain, Amazon EFS returns a NextMarker, an opaque token, in the response. In this case, you should send a subsequent request with the Marker request parameter set to the value of NextMarker.  To retrieve a list of your file system descriptions, this operation is used in an iterative process, where DescribeFileSystems is called first without the Marker and then the operation continues to call it with the Marker parameter set to the value of the NextMarker from the previous response until the response has no NextMarker.   The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multi-call iteration is unspecified.   This operation requires permissions for the elasticfilesystem:DescribeFileSystems action. 
     public func describeFileSystemsPaginator(
         _ input: DescribeFileSystemsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFileSystemsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeFileSystems, tokenKey: \DescribeFileSystemsResponse.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: describeFileSystems, tokenKey: \DescribeFileSystemsResponse.nextMarker, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns the tags associated with a file system. The order of tags returned in the response of one DescribeTags call and the order of tags returned across the responses of a multiple-call iteration (when using pagination) is unspecified.   This operation requires permissions for the elasticfilesystem:DescribeTags action. 
     @available(*, deprecated, message:"Use ListTagsForResource.")
     public func describeTagsPaginator(
         _ input: DescribeTagsRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTagsResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeTags, tokenKey: \DescribeTagsResponse.nextMarker, onPage: onPage)
+        return client.paginate(input: input, command: describeTags, tokenKey: \DescribeTagsResponse.nextMarker, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTagsForResourceResponse,
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, onPage: onPage)
+        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
 }
