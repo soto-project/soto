@@ -12,10 +12,10 @@
 //
 //===----------------------------------------------------------------------===//
 
-import NIO
-import AWSSDKSwiftCore
 import AWSCrypto
+import AWSSDKSwiftCore
 import AWSSignerV4
+import NIO
 
 let MEGA_BYTE = 1024 * 1024
 
@@ -27,7 +27,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
     let apiVersion: String
 
-    public init (apiVersion: String) {
+    public init(apiVersion: String) {
         self.apiVersion = apiVersion
     }
 
@@ -58,9 +58,9 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
         if byteBuffer.readableBytes < MEGA_BYTE {
             let byteBufferView = byteBuffer.readableBytesView
-            guard let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in
-                shas.append(SHA256.hash(data: bytes))
-            }) else {
+            guard
+                let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in shas.append(SHA256.hash(data: bytes)) })
+            else {
                 throw GlacierMiddlewareErrorType.failedToAccessBytes
             }
         } else {
@@ -77,10 +77,14 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
                 if partNum == numParts - 1 {
                     length = byteBuffer.readableBytes - start
                 }
-                guard let byteBufferView = byteBuffer.viewBytes(at: byteBuffer.readerIndex+start, length: length) else { throw GlacierMiddlewareErrorType.failedToAccessBytes }
-                guard let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in
-                    shas.append(SHA256.hash(data: bytes))
-                }) else {
+                guard let byteBufferView = byteBuffer.viewBytes(at: byteBuffer.readerIndex + start, length: length) else {
+                    throw GlacierMiddlewareErrorType.failedToAccessBytes
+                }
+                guard
+                    let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in
+                        shas.append(SHA256.hash(data: bytes))
+                    })
+                else {
                     throw GlacierMiddlewareErrorType.failedToAccessBytes
                 }
             }
@@ -88,19 +92,22 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
         while shas.count > 1 {
             var tmpShas: [SHA256.Digest] = []
-            shas.forEachSlice(2, {
-                let pair = $0
-                guard let bytes1 = pair.first else { return }
+            shas.forEachSlice(
+                2,
+                {
+                    let pair = $0
+                    guard let bytes1 = pair.first else { return }
 
-                if pair.count > 1, let bytes2 = pair.last {
-                    var sha256 = SHA256()
-                    sha256.update(data: [UInt8](bytes1))
-                    sha256.update(data: [UInt8](bytes2))
-                    tmpShas.append(sha256.finalize())
-                } else {
-                    tmpShas.append(bytes1)
+                    if pair.count > 1, let bytes2 = pair.last {
+                        var sha256 = SHA256()
+                        sha256.update(data: [UInt8](bytes1))
+                        sha256.update(data: [UInt8](bytes2))
+                        tmpShas.append(sha256.finalize())
+                    } else {
+                        tmpShas.append(bytes1)
+                    }
                 }
-            })
+            )
             shas = tmpShas
         }
 

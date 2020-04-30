@@ -12,15 +12,16 @@
 //
 //===----------------------------------------------------------------------===//
 
+import AWSSDKSwiftCore
+
 import struct Foundation.CharacterSet
 import struct Foundation.URL
 import struct Foundation.URLComponents
 import struct Foundation.URLQueryItem
-import AWSSDKSwiftCore
 
 public struct S3ControlMiddleware: AWSServiceMiddleware {
 
-    public init () {}
+    public init() {}
 
     /// edit request before sending to S3
     public func chain(request: AWSRequest) throws -> AWSRequest {
@@ -46,4 +47,3 @@ public struct S3ControlMiddleware: AWSServiceMiddleware {
         request.url = URL(string: urlString)!
     }
 }
-

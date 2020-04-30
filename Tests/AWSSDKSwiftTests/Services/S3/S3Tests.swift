@@ -405,7 +405,7 @@ class S3Tests: XCTestCase {
             httpMethod: "GET",
             httpHeaders: [:],
             body: .empty
-        ).applyMiddlewares(client.client.middlewares)
+        ).applyMiddlewares(client.client.serviceConfig.middlewares)
         return request.url.relativeString
     }
 

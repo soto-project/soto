@@ -12,13 +12,13 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
-import AWSSDKSwiftCore
 import AWSCrypto
+import AWSSDKSwiftCore
+import Foundation
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
 
-    public init () {}
+    public init() {}
 
     /// edit request before sending to S3
     public func chain(request: AWSRequest) throws -> AWSRequest {
@@ -47,7 +47,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count > 0 {
             guard let host = request.url.host, host.contains("amazonaws.com") else { return }
-            let bucket = paths.removeFirst() // bucket
+            let bucket = paths.removeFirst()  // bucket
             // if bucket name contains a period don't do virtual address look up
             guard !bucket.contains(".") else { return }
             var urlPath: String
@@ -70,7 +70,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     func metadataFixup(request: inout AWSRequest) {
         // add metadata to request
         if let metadata = request.httpHeaders["x-amz-meta-"] as? [String: String] {
-            for (key,value) in metadata {
+            for (key, value) in metadata {
                 // metadata keys have to be lowercase or signing fails
                 request.httpHeaders["x-amz-meta-\(key.lowercased())"] = value
             }
@@ -124,7 +124,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
         switch response.body {
         case .buffer(_), .empty:
-            var metadata : [String: String] = [:]
+            var metadata: [String: String] = [:]
             for (key, value) in response.headers {
                 if key.hasPrefix("x-amz-meta-"), let value = value as? String {
                     let keyWithoutPrefix = key.dropFirst("x-amz-meta-".count)
