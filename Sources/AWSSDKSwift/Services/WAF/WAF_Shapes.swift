@@ -399,6 +399,7 @@ extension WAF {
             }
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -476,6 +477,10 @@ extension WAF {
             self.byteMatchTuple = byteMatchTuple
         }
 
+        public func validate(name: String) throws {
+            try self.byteMatchTuple.validate(name: "\(name).byteMatchTuple")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case byteMatchTuple = "ByteMatchTuple"
@@ -496,7 +501,7 @@ extension WAF {
         public let positionalConstraint: PositionalConstraint
         /// The value that you want AWS WAF to search for. AWS WAF searches for the specified string in the part of web requests that you specified in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the values that you specified for FieldToMatch:    HEADER: The value that you want AWS WAF to search for in the request header that you specified in FieldToMatch, for example, the value of the User-Agent or Referer header.    METHOD: The HTTP method, which indicates the type of operation specified in the request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: The value that you want AWS WAF to search for in the query string, which is the part of a URL that appears after a ? character.    URI: The value that you want AWS WAF to search for in the part of a URL that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.     SINGLE_QUERY_ARG: The parameter in the query string that you will inspect, such as UserName or SalesRegion. The maximum length for SINGLE_QUERY_ARG is 30 characters.    ALL_QUERY_ARGS: Similar to SINGLE_QUERY_ARG, but instead of inspecting a single parameter, AWS WAF inspects all parameters within the query string for the value or regex pattern that you specify in TargetString.   If TargetString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of TargetString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
         public let targetString: Data
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on TargetString before inspecting a request for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
         public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, targetString: Data, textTransformation: TextTransformation) {
@@ -504,6 +509,10 @@ extension WAF {
             self.positionalConstraint = positionalConstraint
             self.targetString = targetString
             self.textTransformation = textTransformation
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -531,9 +540,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -581,9 +593,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -631,9 +646,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -696,9 +714,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
+            try validate(self.metricName, name:"metricName", parent: name, max: 128)
+            try validate(self.metricName, name:"metricName", parent: name, min: 1)
+            try validate(self.metricName, name:"metricName", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try validate(self.rateLimit, name:"rateLimit", parent: name, max: 2000000000)
             try validate(self.rateLimit, name:"rateLimit", parent: name, min: 100)
             try self.tags?.forEach {
@@ -756,9 +780,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -806,9 +833,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -863,9 +893,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
+            try validate(self.metricName, name:"metricName", parent: name, max: 128)
+            try validate(self.metricName, name:"metricName", parent: name, min: 1)
+            try validate(self.metricName, name:"metricName", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -926,9 +962,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
+            try validate(self.metricName, name:"metricName", parent: name, max: 128)
+            try validate(self.metricName, name:"metricName", parent: name, min: 1)
+            try validate(self.metricName, name:"metricName", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -982,9 +1024,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1032,9 +1077,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1062,6 +1110,59 @@ extension WAF {
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case sqlInjectionMatchSet = "SqlInjectionMatchSet"
+        }
+    }
+
+    public struct CreateWebACLMigrationStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IgnoreUnsupportedType", required: true, type: .boolean), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "WebACLId", required: true, type: .string)
+        ]
+
+        /// Indicates whether to exclude entities that can't be migrated or to stop the migration. Set this to true to ignore unsupported entities in the web ACL during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the process and throws an exception. 
+        public let ignoreUnsupportedType: Bool
+        /// The name of the Amazon S3 bucket to store the CloudFormation template in. The S3 bucket must be configured as follows for the migration:    The bucket name must start with aws-waf-migration-. For example, aws-waf-migration-my-web-acl.   The bucket must be in the Region where you are deploying the template. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2.    The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples section.   
+        public let s3BucketName: String
+        /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
+        public let webACLId: String
+
+        public init(ignoreUnsupportedType: Bool, s3BucketName: String, webACLId: String) {
+            self.ignoreUnsupportedType = ignoreUnsupportedType
+            self.s3BucketName = s3BucketName
+            self.webACLId = webACLId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, max: 63)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, min: 3)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, pattern: "^aws-waf-migration-[0-9A-Za-z\\.\\-_]*")
+            try validate(self.webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(self.webACLId, name:"webACLId", parent: name, min: 1)
+            try validate(self.webACLId, name:"webACLId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ignoreUnsupportedType = "IgnoreUnsupportedType"
+            case s3BucketName = "S3BucketName"
+            case webACLId = "WebACLId"
+        }
+    }
+
+    public struct CreateWebACLMigrationStackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3ObjectUrl", required: true, type: .string)
+        ]
+
+        /// The URL of the template created in Amazon S3. 
+        public let s3ObjectUrl: String
+
+        public init(s3ObjectUrl: String) {
+            self.s3ObjectUrl = s3ObjectUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ObjectUrl = "S3ObjectUrl"
         }
     }
 
@@ -1093,9 +1194,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
+            try validate(self.metricName, name:"metricName", parent: name, max: 128)
+            try validate(self.metricName, name:"metricName", parent: name, min: 1)
+            try validate(self.metricName, name:"metricName", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1150,9 +1257,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1202,7 +1312,10 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
             try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1245,9 +1358,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
             try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
+            try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1290,9 +1406,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.iPSetId, name:"iPSetId", parent: name, max: 128)
             try validate(self.iPSetId, name:"iPSetId", parent: name, min: 1)
+            try validate(self.iPSetId, name:"iPSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1333,6 +1452,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1224)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1363,6 +1483,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1224)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1395,9 +1516,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1440,9 +1564,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
             try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
+            try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1485,9 +1612,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
+            try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1530,9 +1660,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
+            try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1575,9 +1708,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1620,9 +1756,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
             try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
+            try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,9 +1804,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
             try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
+            try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1710,9 +1852,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.webACLId, name:"webACLId", parent: name, max: 128)
             try validate(self.webACLId, name:"webACLId", parent: name, min: 1)
+            try validate(self.webACLId, name:"webACLId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1755,9 +1900,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
             try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
+            try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1798,6 +1946,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1819,6 +1968,12 @@ extension WAF {
         public init(data: String? = nil, type: MatchFieldType) {
             self.data = data
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.data, name:"data", parent: name, max: 128)
+            try validate(self.data, name:"data", parent: name, min: 1)
+            try validate(self.data, name:"data", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1935,6 +2090,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
             try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1997,7 +2153,9 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2037,6 +2195,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
             try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
+            try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2076,6 +2235,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.iPSetId, name:"iPSetId", parent: name, max: 128)
             try validate(self.iPSetId, name:"iPSetId", parent: name, min: 1)
+            try validate(self.iPSetId, name:"iPSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2115,6 +2275,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1224)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2154,6 +2315,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1224)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2195,9 +2357,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2243,6 +2408,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2282,6 +2448,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
             try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
+            try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2321,6 +2488,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
+            try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2360,6 +2528,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
+            try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2399,6 +2568,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2435,7 +2605,7 @@ extension WAF {
         public let maxItems: Int64
         ///  RuleId is one of three values:   The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests.    Default_Action, which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL.  
         public let ruleId: String
-        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let timeWindow: TimeWindow
         /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
         public let webAclId: String
@@ -2452,8 +2622,10 @@ extension WAF {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
             try validate(self.webAclId, name:"webAclId", parent: name, max: 128)
             try validate(self.webAclId, name:"webAclId", parent: name, min: 1)
+            try validate(self.webAclId, name:"webAclId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2475,7 +2647,7 @@ extension WAF {
         public let populationSize: Int64?
         /// A complex type that contains detailed information about each of the requests in the sample.
         public let sampledRequests: [SampledHTTPRequest]?
-        /// Usually, TimeWindow is the time range that you specified in the GetSampledRequests request. However, if your AWS resource received more than 5,000 requests during the time range that you specified in the request, GetSampledRequests returns the time range for the first 5,000 requests.
+        /// Usually, TimeWindow is the time range that you specified in the GetSampledRequests request. However, if your AWS resource received more than 5,000 requests during the time range that you specified in the request, GetSampledRequests returns the time range for the first 5,000 requests. Times are in Coordinated Universal Time (UTC) format.
         public let timeWindow: TimeWindow?
 
         public init(populationSize: Int64? = nil, sampledRequests: [SampledHTTPRequest]? = nil, timeWindow: TimeWindow? = nil) {
@@ -2506,6 +2678,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
             try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
+            try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2545,6 +2718,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
             try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
+            try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2584,6 +2758,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.webACLId, name:"webACLId", parent: name, max: 128)
             try validate(self.webACLId, name:"webACLId", parent: name, min: 1)
+            try validate(self.webACLId, name:"webACLId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2623,6 +2798,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
             try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
+            try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2754,6 +2930,12 @@ extension WAF {
             self.value = value
         }
 
+        public func validate(name: String) throws {
+            try validate(self.value, name:"value", parent: name, max: 50)
+            try validate(self.value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case `type` = "Type"
             case value = "Value"
@@ -2798,6 +2980,10 @@ extension WAF {
             self.iPSetDescriptor = iPSetDescriptor
         }
 
+        public func validate(name: String) throws {
+            try self.iPSetDescriptor.validate(name: "\(name).iPSetDescriptor")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case iPSetDescriptor = "IPSetDescriptor"
@@ -2827,9 +3013,12 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
+            try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2880,7 +3069,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2930,7 +3121,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2980,7 +3173,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3030,7 +3225,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3080,7 +3277,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3130,7 +3329,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3180,7 +3381,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3230,7 +3433,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3280,7 +3485,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3330,7 +3537,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3380,7 +3589,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3430,7 +3641,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3481,9 +3694,12 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
             try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1224)
             try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3532,7 +3748,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3582,7 +3800,9 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, max: 1224)
             try validate(self.nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(self.nextMarker, name:"nextMarker", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3637,11 +3857,16 @@ extension WAF {
             try self.logDestinationConfigs.forEach {
                 try validate($0, name: "logDestinationConfigs[]", parent: name, max: 1224)
                 try validate($0, name: "logDestinationConfigs[]", parent: name, min: 1)
+                try validate($0, name: "logDestinationConfigs[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.logDestinationConfigs, name:"logDestinationConfigs", parent: name, max: 1)
             try validate(self.logDestinationConfigs, name:"logDestinationConfigs", parent: name, min: 1)
+            try self.redactedFields?.forEach {
+                try $0.validate(name: "\(name).redactedFields[]")
+            }
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1224)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3674,6 +3899,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.dataId, name:"dataId", parent: name, max: 128)
             try validate(self.dataId, name:"dataId", parent: name, min: 1)
+            try validate(self.dataId, name:"dataId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3738,9 +3964,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.policy, name:"policy", parent: name, max: 395000)
             try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, pattern: ".*\\S.*")
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1224)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3895,8 +4124,10 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
+            try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3972,7 +4203,9 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.regexPatternString, name:"regexPatternString", parent: name, max: 512)
             try validate(self.regexPatternString, name:"regexPatternString", parent: name, min: 1)
+            try validate(self.regexPatternString, name:"regexPatternString", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4187,7 +4420,7 @@ extension WAF {
         public let fieldToMatch: FieldToMatch
         /// The size in bytes that you want AWS WAF to compare against the size of the specified FieldToMatch. AWS WAF uses this in combination with ComparisonOperator and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match. Valid values for size are 0 - 21474836480 bytes (0 - 20 GB). If you specify URI for the value of Type, the / in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
         public let size: Int64
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. You can only specify a single type of TextTransformation. Note that if you choose BODY for the value of Type, you must choose NONE for TextTransformation because CloudFront forwards only the first 8192 bytes for inspection.   NONE  Specify NONE if you don't want to perform any text transformations.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation. Note that if you choose BODY for the value of Type, you must choose NONE for TextTransformation because CloudFront forwards only the first 8192 bytes for inspection.   NONE  Specify NONE if you don't want to perform any text transformations.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.
         public let textTransformation: TextTransformation
 
         public init(comparisonOperator: ComparisonOperator, fieldToMatch: FieldToMatch, size: Int64, textTransformation: TextTransformation) {
@@ -4198,6 +4431,7 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
             try validate(self.size, name:"size", parent: name, max: 21474836480)
             try validate(self.size, name:"size", parent: name, min: 0)
         }
@@ -4350,6 +4584,10 @@ extension WAF {
             self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
         }
 
+        public func validate(name: String) throws {
+            try self.sqlInjectionMatchTuple.validate(name: "\(name).sqlInjectionMatchTuple")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case sqlInjectionMatchTuple = "SqlInjectionMatchTuple"
@@ -4364,12 +4602,16 @@ extension WAF {
 
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         public let fieldToMatch: FieldToMatch
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
         public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4407,14 +4649,14 @@ extension WAF {
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        public let key: String?
-        public let value: String?
+        public let key: String
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -4422,8 +4664,10 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.key, name:"key", parent: name, max: 128)
             try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: ".*\\S.*")
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4469,6 +4713,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1224)
             try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: ".*\\S.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4495,9 +4740,9 @@ extension WAF {
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
 
-        /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: TimeStamp
-        /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let startTime: TimeStamp
 
         public init(endTime: TimeStamp, startTime: TimeStamp) {
@@ -4528,9 +4773,11 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1224)
             try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: ".*\\S.*")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
@@ -4572,7 +4819,13 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
             try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(self.byteMatchSetId, name:"byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
+            try self.updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
             try validate(self.updates, name:"updates", parent: name, min: 1)
         }
 
@@ -4621,9 +4874,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
             try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
+            try validate(self.geoMatchSetId, name:"geoMatchSetId", parent: name, pattern: ".*\\S.*")
             try validate(self.updates, name:"updates", parent: name, min: 1)
         }
 
@@ -4672,9 +4928,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.iPSetId, name:"iPSetId", parent: name, max: 128)
             try validate(self.iPSetId, name:"iPSetId", parent: name, min: 1)
+            try validate(self.iPSetId, name:"iPSetId", parent: name, pattern: ".*\\S.*")
+            try self.updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
             try validate(self.updates, name:"updates", parent: name, min: 1)
         }
 
@@ -4727,11 +4989,14 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.rateLimit, name:"rateLimit", parent: name, max: 2000000000)
             try validate(self.rateLimit, name:"rateLimit", parent: name, min: 100)
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4783,9 +5048,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
             try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
+            try validate(self.regexMatchSetId, name:"regexMatchSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4837,9 +5105,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
             try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
+            try validate(self.regexPatternSetId, name:"regexPatternSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4891,9 +5162,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
             try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
+            try validate(self.ruleGroupId, name:"ruleGroupId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4945,9 +5219,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4998,9 +5275,12 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
             try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
+            try validate(self.sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -5052,9 +5332,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
             try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
+            try validate(self.sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
             try validate(self.updates, name:"updates", parent: name, min: 1)
         }
 
@@ -5107,12 +5393,15 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
             try self.updates?.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
             try validate(self.webACLId, name:"webACLId", parent: name, max: 128)
             try validate(self.webACLId, name:"webACLId", parent: name, min: 1)
+            try validate(self.webACLId, name:"webACLId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5161,10 +5450,16 @@ extension WAF {
         }
 
         public func validate(name: String) throws {
+            try validate(self.changeToken, name:"changeToken", parent: name, max: 128)
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(self.changeToken, name:"changeToken", parent: name, pattern: ".*\\S.*")
+            try self.updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
             try validate(self.updates, name:"updates", parent: name, min: 1)
             try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
             try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
+            try validate(self.xssMatchSetId, name:"xssMatchSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5380,6 +5675,10 @@ extension WAF {
             self.xssMatchTuple = xssMatchTuple
         }
 
+        public func validate(name: String) throws {
+            try self.xssMatchTuple.validate(name: "\(name).xssMatchTuple")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case xssMatchTuple = "XssMatchTuple"
@@ -5394,12 +5693,16 @@ extension WAF {
 
         /// Specifies where in a web request to look for cross-site scripting attacks.
         public let fieldToMatch: FieldToMatch
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
         public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
         }
 
         private enum CodingKeys: String, CodingKey {

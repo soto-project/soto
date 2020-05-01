@@ -209,17 +209,17 @@ public struct Imagebuilder {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
-    ///   Applies a policy to a component. 
+    ///   Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
     public func putComponentPolicy(_ input: PutComponentPolicyRequest) -> EventLoopFuture<PutComponentPolicyResponse> {
         return client.send(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: "PUT", input: input)
     }
 
-    ///   Applies a policy to an image. 
+    ///  Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
     public func putImagePolicy(_ input: PutImagePolicyRequest) -> EventLoopFuture<PutImagePolicyResponse> {
         return client.send(operation: "PutImagePolicy", path: "/PutImagePolicy", httpMethod: "PUT", input: input)
     }
 
-    ///   Applies a policy to an image recipe. 
+    ///   Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
     public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest) -> EventLoopFuture<PutImageRecipePolicyResponse> {
         return client.send(operation: "PutImageRecipePolicy", path: "/PutImageRecipePolicy", httpMethod: "PUT", input: input)
     }

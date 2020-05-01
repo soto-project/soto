@@ -38,7 +38,7 @@ public struct ECR {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-09-21",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "fips-us-east-1": "ecr-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ecr-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ecr-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ecr-fips.us-west-2.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["af-south-1": "api.ecr.af-south-1.amazonaws.com", "ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-south-1": "api.ecr.eu-south-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "fips-us-east-1": "ecr-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ecr-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ecr-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ecr-fips.us-west-2.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ECRErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -47,7 +47,7 @@ public struct ECR {
     
     //MARK: API Calls
 
-    ///  Checks the availability of one or more image layers in a repository. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it is, then the image layer is skipped. When an image is pulled from a repository, each image layer is checked once to verify it is available to be pulled.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Checks the availability of one or more image layers in a repository. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func batchCheckLayerAvailability(_ input: BatchCheckLayerAvailabilityRequest) -> EventLoopFuture<BatchCheckLayerAvailabilityResponse> {
         return client.send(operation: "BatchCheckLayerAvailability", path: "/", httpMethod: "POST", input: input)
     }
@@ -62,7 +62,7 @@ public struct ECR {
         return client.send(operation: "BatchGetImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func completeLayerUpload(_ input: CompleteLayerUploadRequest) -> EventLoopFuture<CompleteLayerUploadResponse> {
         return client.send(operation: "CompleteLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
@@ -107,7 +107,7 @@ public struct ECR {
         return client.send(operation: "GetAuthorizationToken", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func getDownloadUrlForLayer(_ input: GetDownloadUrlForLayerRequest) -> EventLoopFuture<GetDownloadUrlForLayerResponse> {
         return client.send(operation: "GetDownloadUrlForLayer", path: "/", httpMethod: "POST", input: input)
     }
@@ -127,7 +127,7 @@ public struct ECR {
         return client.send(operation: "GetRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether an image layer has been uploaded before is determined by the BatchCheckLayerAvailability API action.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func initiateLayerUpload(_ input: InitiateLayerUploadRequest) -> EventLoopFuture<InitiateLayerUploadResponse> {
         return client.send(operation: "InitiateLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
@@ -142,7 +142,7 @@ public struct ECR {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and tags associated with the image.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func putImage(_ input: PutImageRequest) -> EventLoopFuture<PutImageResponse> {
         return client.send(operation: "PutImage", path: "/", httpMethod: "POST", input: input)
     }
@@ -187,7 +187,7 @@ public struct ECR {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func uploadLayerPart(_ input: UploadLayerPartRequest) -> EventLoopFuture<UploadLayerPartResponse> {
         return client.send(operation: "UploadLayerPart", path: "/", httpMethod: "POST", input: input)
     }

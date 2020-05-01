@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS ElasticInference service.
 
-Elastic Inference public APIs.
+ Elastic Inference public APIs. 
 */
 public struct ElasticInference {
 
@@ -32,7 +32,8 @@ public struct ElasticInference {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
-            service: "elastic-inference",
+            service: "api.elastic-inference",
+            signingName: "elastic-inference",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-25",
             endpoint: endpoint,
@@ -45,17 +46,32 @@ public struct ElasticInference {
     
     //MARK: API Calls
 
-    ///  Returns all tags of an Elastic Inference Accelerator.
+    ///   Describes the locations in which a given accelerator type or set of types is present in a given region. 
+    public func describeAcceleratorOfferings(_ input: DescribeAcceleratorOfferingsRequest) -> EventLoopFuture<DescribeAcceleratorOfferingsResponse> {
+        return client.send(operation: "DescribeAcceleratorOfferings", path: "/describe-accelerator-offerings", httpMethod: "POST", input: input)
+    }
+
+    ///   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. 
+    public func describeAcceleratorTypes(_ input: DescribeAcceleratorTypesRequest) -> EventLoopFuture<DescribeAcceleratorTypesResponse> {
+        return client.send(operation: "DescribeAcceleratorTypes", path: "/describe-accelerator-types", httpMethod: "GET", input: input)
+    }
+
+    ///   Describes information over a provided set of accelerators belonging to an account. 
+    public func describeAccelerators(_ input: DescribeAcceleratorsRequest) -> EventLoopFuture<DescribeAcceleratorsResponse> {
+        return client.send(operation: "DescribeAccelerators", path: "/describe-accelerators", httpMethod: "POST", input: input)
+    }
+
+    ///   Returns all tags of an Elastic Inference Accelerator. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
-    ///  Adds the specified tag(s) to an Elastic Inference Accelerator.
+    ///   Adds the specified tags to an Elastic Inference Accelerator. 
     public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
         return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified tag(s) from an Elastic Inference Accelerator.
+    ///   Removes the specified tags from an Elastic Inference Accelerator. 
     public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }

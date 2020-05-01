@@ -77,13 +77,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "state", required: false, type: .structure)
         ]
 
-        ///  The description of the EC2 AMI. 
+        /// The description of the EC2 AMI. 
         public let description: String?
-        ///  The AMI ID of the EC2 AMI. 
+        /// The AMI ID of the EC2 AMI. 
         public let image: String?
-        ///  The name of the EC2 AMI. 
+        /// The name of the EC2 AMI. 
         public let name: String?
-        ///  The AWS Region of the EC2 AMI. 
+        /// The AWS Region of the EC2 AMI. 
         public let region: String?
         public let state: ImageState?
 
@@ -112,13 +112,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
 
-        ///  The tags to apply to AMIs distributed to this Region. 
+        /// The tags to apply to AMIs distributed to this Region. 
         public let amiTags: [String: String]?
-        ///  The description of the distribution configuration. 
+        /// The description of the distribution configuration. 
         public let description: String?
         ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances. 
         public let launchPermission: LaunchPermissionConfiguration?
-        ///  The name of the distribution configuration. 
+        /// The name of the distribution configuration. 
         public let name: String?
 
         public init(amiTags: [String: String]? = nil, description: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil) {
@@ -288,7 +288,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "componentArn", required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component. 
+        /// The Amazon Resource Name (ARN) of the component. 
         public let componentArn: String
 
         public init(componentArn: String) {
@@ -614,6 +614,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "clientToken", required: true, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "enhancedImageMetadataEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "imageRecipeArn", required: true, type: .string), 
             AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "infrastructureConfigurationArn", required: true, type: .string), 
@@ -629,6 +630,8 @@ extension Imagebuilder {
         public let description: String?
         ///  The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images created by this image pipeline. 
         public let distributionConfigurationArn: String?
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        public let enhancedImageMetadataEnabled: Bool?
         ///  The Amazon Resource Name (ARN) of the image recipe that will be used to configure images created by this image pipeline. 
         public let imageRecipeArn: String
         ///  The image test configuration of the image pipeline. 
@@ -644,10 +647,11 @@ extension Imagebuilder {
         ///  The tags of the image pipeline. 
         public let tags: [String: String]?
 
-        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String? = nil, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.distributionConfigurationArn = distributionConfigurationArn
+            self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipeArn = imageRecipeArn
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -680,6 +684,7 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case description = "description"
             case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imageRecipeArn = "imageRecipeArn"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
@@ -729,19 +734,19 @@ extension Imagebuilder {
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
-        ///  The block device mappings of the image recipe. 
+        /// The block device mappings of the image recipe. 
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String
-        ///  The components of the image recipe. 
+        /// The components of the image recipe. 
         public let components: [ComponentConfiguration]
         ///  The description of the image recipe. 
         public let description: String?
         ///  The name of the image recipe. 
         public let name: String
-        ///  The parent image of the image recipe. 
+        /// The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/2019.x.x. The ARN ends with /20xx.x.x, which communicates to EC2 Image Builder that you want to use the latest AMI created in 20xx (year). You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder. 
         public let parentImage: String
-        ///  The semantic version of the image recipe. 
+        /// The semantic version of the image recipe. 
         public let semanticVersion: String
         ///  The tags of the image recipe. 
         public let tags: [String: String]?
@@ -800,11 +805,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the image recipe that was created by this request. 
+        /// The Amazon Resource Name (ARN) of the image recipe that was created by this request. 
         public let imageRecipeArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, imageRecipeArn: String? = nil, requestId: String? = nil) {
@@ -824,6 +829,7 @@ extension Imagebuilder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: true, type: .string), 
             AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "enhancedImageMetadataEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "imageRecipeArn", required: true, type: .string), 
             AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "infrastructureConfigurationArn", required: true, type: .string), 
@@ -834,6 +840,8 @@ extension Imagebuilder {
         public let clientToken: String
         ///  The Amazon Resource Name (ARN) of the distribution configuration that defines and configures the outputs of your pipeline. 
         public let distributionConfigurationArn: String?
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        public let enhancedImageMetadataEnabled: Bool?
         ///  The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed. 
         public let imageRecipeArn: String
         ///  The image tests configuration of the image. 
@@ -843,9 +851,10 @@ extension Imagebuilder {
         ///  The tags of the image. 
         public let tags: [String: String]?
 
-        public init(clientToken: String = CreateImageRequest.idempotencyToken(), distributionConfigurationArn: String? = nil, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateImageRequest.idempotencyToken(), distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.distributionConfigurationArn = distributionConfigurationArn
+            self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipeArn = imageRecipeArn
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -870,6 +879,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imageRecipeArn = "imageRecipeArn"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
@@ -920,29 +930,29 @@ extension Imagebuilder {
             AWSShapeMember(label: "terminateInstanceOnFailure", required: false, type: .boolean)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String
-        ///  The description of the infrastructure configuration. 
+        /// The description of the infrastructure configuration. 
         public let description: String?
-        ///  The instance profile to associate with the instance used to customize your EC2 AMI. 
+        /// The instance profile to associate with the instance used to customize your EC2 AMI. 
         public let instanceProfileName: String
-        ///  The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
+        /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
         public let instanceTypes: [String]?
-        ///  The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
+        /// The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
         public let keyPair: String?
-        ///  The logging configuration of the infrastructure configuration. 
+        /// The logging configuration of the infrastructure configuration. 
         public let logging: Logging?
-        ///  The name of the infrastructure configuration. 
+        /// The name of the infrastructure configuration. 
         public let name: String
-        ///  The security group IDs to associate with the instance used to customize your EC2 AMI. 
+        /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
         public let securityGroupIds: [String]?
-        ///  The SNS topic on which to send image build events. 
+        /// The SNS topic on which to send image build events. 
         public let snsTopicArn: String?
-        ///  The subnet ID in which to place the instance used to customize your EC2 AMI. 
+        /// The subnet ID in which to place the instance used to customize your EC2 AMI. 
         public let subnetId: String?
-        ///  The tags of the infrastructure configuration. 
+        /// The tags of the infrastructure configuration. 
         public let tags: [String: String]?
-        ///  The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
+        /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
         public let terminateInstanceOnFailure: Bool?
 
         public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
@@ -1009,11 +1019,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that was created by this request. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was created by this request. 
         public let infrastructureConfigurationArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -1034,7 +1044,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component build version to delete. 
+        /// The Amazon Resource Name (ARN) of the component build version to delete. 
         public let componentBuildVersionArn: String
 
         public init(componentBuildVersionArn: String) {
@@ -1056,9 +1066,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component build version that was deleted. 
+        /// The Amazon Resource Name (ARN) of the component build version that was deleted. 
         public let componentBuildVersionArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(componentBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -1077,7 +1087,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the distribution configuration to delete. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration to delete. 
         public let distributionConfigurationArn: String
 
         public init(distributionConfigurationArn: String) {
@@ -1099,9 +1109,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that was deleted. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that was deleted. 
         public let distributionConfigurationArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(distributionConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -1120,7 +1130,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image pipeline to delete. 
+        /// The Amazon Resource Name (ARN) of the image pipeline to delete. 
         public let imagePipelineArn: String
 
         public init(imagePipelineArn: String) {
@@ -1142,9 +1152,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image pipeline that was deleted. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that was deleted. 
         public let imagePipelineArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imagePipelineArn: String? = nil, requestId: String? = nil) {
@@ -1163,7 +1173,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image recipe to delete. 
+        /// The Amazon Resource Name (ARN) of the image recipe to delete. 
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
@@ -1185,9 +1195,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image recipe that was deleted. 
+        /// The Amazon Resource Name (ARN) of the image recipe that was deleted. 
         public let imageRecipeArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageRecipeArn: String? = nil, requestId: String? = nil) {
@@ -1206,7 +1216,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image to delete. 
+        /// The Amazon Resource Name (ARN) of the image to delete. 
         public let imageBuildVersionArn: String
 
         public init(imageBuildVersionArn: String) {
@@ -1228,9 +1238,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image that was deleted. 
+        /// The Amazon Resource Name (ARN) of the image that was deleted. 
         public let imageBuildVersionArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -1249,7 +1259,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration to delete. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete. 
         public let infrastructureConfigurationArn: String
 
         public init(infrastructureConfigurationArn: String) {
@@ -1271,9 +1281,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted. 
         public let infrastructureConfigurationArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -1294,11 +1304,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "region", required: true, type: .string)
         ]
 
-        ///  The specific AMI settings (for example, launch permissions, AMI tags). 
+        /// The specific AMI settings (for example, launch permissions, AMI tags). 
         public let amiDistributionConfiguration: AmiDistributionConfiguration?
-        ///  The License Manager Configuration to associate with the AMI in the specified Region.
+        /// The License Manager Configuration to associate with the AMI in the specified Region.
         public let licenseConfigurationArns: [String]?
-        ///  The target Region. 
+        /// The target Region. 
         public let region: String
 
         public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, licenseConfigurationArns: [String]? = nil, region: String) {
@@ -1478,9 +1488,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
 
-        ///  The name of the filter. Filter names are case-sensitive. 
+        /// The name of the filter. Filter names are case-sensitive. 
         public let name: String?
-        ///  The filter values. Filter values are case-sensitive. 
+        /// The filter values. Filter values are case-sensitive. 
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -1508,7 +1518,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "componentArn", location: .querystring(locationName: "componentArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component whose policy you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the component whose policy you want to retrieve. 
         public let componentArn: String
 
         public init(componentArn: String) {
@@ -1530,9 +1540,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The component policy. 
+        /// The component policy. 
         public let policy: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(policy: String? = nil, requestId: String? = nil) {
@@ -1551,7 +1561,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires "/\d+$" suffix.
+        /// The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires "/\d+$" suffix.
         public let componentBuildVersionArn: String
 
         public init(componentBuildVersionArn: String) {
@@ -1573,9 +1583,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The component object associated with the specified ARN. 
+        /// The component object associated with the specified ARN. 
         public let component: Component?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(component: Component? = nil, requestId: String? = nil) {
@@ -1594,7 +1604,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve. 
         public let distributionConfigurationArn: String
 
         public init(distributionConfigurationArn: String) {
@@ -1616,9 +1626,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The distribution configuration object. 
+        /// The distribution configuration object. 
         public let distributionConfiguration: DistributionConfiguration?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(distributionConfiguration: DistributionConfiguration? = nil, requestId: String? = nil) {
@@ -1637,7 +1647,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. 
         public let imagePipelineArn: String
 
         public init(imagePipelineArn: String) {
@@ -1659,9 +1669,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The image pipeline object. 
+        /// The image pipeline object. 
         public let imagePipeline: ImagePipeline?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imagePipeline: ImagePipeline? = nil, requestId: String? = nil) {
@@ -1680,7 +1690,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imageArn", location: .querystring(locationName: "imageArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image whose policy you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve. 
         public let imageArn: String
 
         public init(imageArn: String) {
@@ -1702,9 +1712,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The image policy object. 
+        /// The image policy object. 
         public let policy: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(policy: String? = nil, requestId: String? = nil) {
@@ -1723,7 +1733,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve. 
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
@@ -1745,9 +1755,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The image recipe policy object. 
+        /// The image recipe policy object. 
         public let policy: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(policy: String? = nil, requestId: String? = nil) {
@@ -1766,7 +1776,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. 
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
@@ -1788,9 +1798,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The image recipe object. 
+        /// The image recipe object. 
         public let imageRecipe: ImageRecipe?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageRecipe: ImageRecipe? = nil, requestId: String? = nil) {
@@ -1809,7 +1819,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image that you want to retrieve. 
         public let imageBuildVersionArn: String
 
         public init(imageBuildVersionArn: String) {
@@ -1831,9 +1841,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The image object. 
+        /// The image object. 
         public let image: Image?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(image: Image? = nil, requestId: String? = nil) {
@@ -1874,9 +1884,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The infrastructure configuration object. 
+        /// The infrastructure configuration object. 
         public let infrastructureConfiguration: InfrastructureConfiguration?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(infrastructureConfiguration: InfrastructureConfiguration? = nil, requestId: String? = nil) {
@@ -1895,10 +1905,12 @@ extension Imagebuilder {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "dateCreated", required: false, type: .string), 
             AWSShapeMember(label: "distributionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "enhancedImageMetadataEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "imageRecipe", required: false, type: .structure), 
             AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "infrastructureConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "osVersion", required: false, type: .string), 
             AWSShapeMember(label: "outputResources", required: false, type: .structure), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
             AWSShapeMember(label: "sourcePipelineArn", required: false, type: .string), 
@@ -1914,14 +1926,18 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The distribution configuration used when creating this image.
         public let distributionConfiguration: DistributionConfiguration?
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        public let enhancedImageMetadataEnabled: Bool?
         /// The image recipe used when creating the image.
         public let imageRecipe: ImageRecipe?
         /// The image tests configuration used when creating this image.
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        ///  The infrastructure used when creating this image.
+        /// The infrastructure used when creating this image.
         public let infrastructureConfiguration: InfrastructureConfiguration?
         /// The name of the image.
         public let name: String?
+        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019. 
+        public let osVersion: String?
         /// The output resources produced when creating this image.
         public let outputResources: OutputResources?
         /// The platform of the image.
@@ -1937,14 +1953,16 @@ extension Imagebuilder {
         /// The semantic version of the image.
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, imageRecipe: ImageRecipe? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.distributionConfiguration = distributionConfiguration
+            self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipe = imageRecipe
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
             self.name = name
+            self.osVersion = osVersion
             self.outputResources = outputResources
             self.platform = platform
             self.sourcePipelineArn = sourcePipelineArn
@@ -1958,10 +1976,12 @@ extension Imagebuilder {
             case arn = "arn"
             case dateCreated = "dateCreated"
             case distributionConfiguration = "distributionConfiguration"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imageRecipe = "imageRecipe"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfiguration = "infrastructureConfiguration"
             case name = "name"
+            case osVersion = "osVersion"
             case outputResources = "outputResources"
             case platform = "platform"
             case sourcePipelineArn = "sourcePipelineArn"
@@ -1981,6 +2001,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "enhancedImageMetadataEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "imageRecipeArn", required: false, type: .string), 
             AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "infrastructureConfigurationArn", required: false, type: .string), 
@@ -2005,6 +2026,8 @@ extension Imagebuilder {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration associated with this image pipeline.
         public let distributionConfigurationArn: String?
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        public let enhancedImageMetadataEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image pipeline.
         public let imageRecipeArn: String?
         /// The image tests configuration of the image pipeline.
@@ -2022,7 +2045,7 @@ extension Imagebuilder {
         /// The tags of this image pipeline.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, imageRecipeArn: String? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipeArn: String? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateLastRun = dateLastRun
@@ -2030,6 +2053,7 @@ extension Imagebuilder {
             self.dateUpdated = dateUpdated
             self.description = description
             self.distributionConfigurationArn = distributionConfigurationArn
+            self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipeArn = imageRecipeArn
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -2048,6 +2072,7 @@ extension Imagebuilder {
             case dateUpdated = "dateUpdated"
             case description = "description"
             case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imageRecipeArn = "imageRecipeArn"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
@@ -2179,9 +2204,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
 
-        ///  The reason for the image's status. 
+        /// The reason for the image's status. 
         public let reason: String?
-        ///  The status of the image. 
+        /// The status of the image. 
         public let status: ImageStatus?
 
         public init(reason: String? = nil, status: ImageStatus? = nil) {
@@ -2200,6 +2225,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "dateCreated", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "osVersion", required: false, type: .string), 
             AWSShapeMember(label: "outputResources", required: false, type: .structure), 
             AWSShapeMember(label: "owner", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
@@ -2214,6 +2240,8 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The name of the image.
         public let name: String?
+        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019. 
+        public let osVersion: String?
         /// The output resources produced when creating this image.
         public let outputResources: OutputResources?
         /// The owner of the image.
@@ -2227,10 +2255,11 @@ extension Imagebuilder {
         /// The version of the image.
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.name = name
+            self.osVersion = osVersion
             self.outputResources = outputResources
             self.owner = owner
             self.platform = platform
@@ -2243,6 +2272,7 @@ extension Imagebuilder {
             case arn = "arn"
             case dateCreated = "dateCreated"
             case name = "name"
+            case osVersion = "osVersion"
             case outputResources = "outputResources"
             case owner = "owner"
             case platform = "platform"
@@ -2284,6 +2314,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "dateCreated", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "osVersion", required: false, type: .string), 
             AWSShapeMember(label: "owner", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
@@ -2295,6 +2326,8 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The name of the image semantic version.
         public let name: String?
+        ///  The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019. 
+        public let osVersion: String?
         /// The owner of the image semantic version.
         public let owner: String?
         /// The platform of the image semantic version.
@@ -2302,10 +2335,11 @@ extension Imagebuilder {
         /// The semantic version of the image semantic version.
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, version: String? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.name = name
+            self.osVersion = osVersion
             self.owner = owner
             self.platform = platform
             self.version = version
@@ -2315,6 +2349,7 @@ extension Imagebuilder {
             case arn = "arn"
             case dateCreated = "dateCreated"
             case name = "name"
+            case osVersion = "osVersion"
             case owner = "owner"
             case platform = "platform"
             case version = "version"
@@ -2337,25 +2372,25 @@ extension Imagebuilder {
             AWSShapeMember(label: "uri", required: false, type: .string)
         ]
 
-        ///  The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component. 
+        /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component. 
         public let changeDescription: String?
-        ///  The idempotency token of the component. 
+        /// The idempotency token of the component. 
         public let clientToken: String
         /// The data of the component. Used to specify the data inline. Either data or uri can be used to specify the data within the component.
         public let data: String?
         /// The description of the component. Describes the contents of the component. 
         public let description: String?
-        ///  The format of the resource that you want to import as a component. 
+        /// The format of the resource that you want to import as a component. 
         public let format: ComponentFormat
-        ///  The ID of the KMS key that should be used to encrypt this component. 
+        /// The ID of the KMS key that should be used to encrypt this component. 
         public let kmsKeyId: String?
         ///  The name of the component. 
         public let name: String
-        ///  The platform of the component. 
+        /// The platform of the component. 
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
         public let semanticVersion: String
-        ///  The tags of the component. 
+        /// The tags of the component. 
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it. 
         public let `type`: ComponentType
@@ -2421,11 +2456,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the imported component. 
+        /// The Amazon Resource Name (ARN) of the imported component. 
         public let componentBuildVersionArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, componentBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -2615,7 +2650,7 @@ extension Imagebuilder {
 
         /// The name of the group. 
         public let userGroups: [String]?
-        ///  The AWS account ID. 
+        /// The AWS account ID. 
         public let userIds: [String]?
 
         public init(userGroups: [String]? = nil, userIds: [String]? = nil) {
@@ -2647,11 +2682,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        ///  The component version Amazon Resource Name (ARN) whose versions you want to list. 
+        /// The component version Amazon Resource Name (ARN) whose versions you want to list. 
         public let componentVersionArn: String
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
 
         public init(componentVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2682,11 +2717,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of component summaries for the specified semantic version. 
+        /// The list of component summaries for the specified semantic version. 
         public let componentSummaryList: [ComponentSummary]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(componentSummaryList: [ComponentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2710,13 +2745,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "owner", required: false, type: .enum)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
-        ///  The owner defines which components you want to list. By default, this request will only show components owned by your account. You can use this field to specify if you want to view components owned by yourself, by Amazon, or those components that have been shared with you by other customers. 
+        /// The owner defines which components you want to list. By default, this request will only show components owned by your account. You can use this field to specify if you want to view components owned by yourself, by Amazon, or those components that have been shared with you by other customers. 
         public let owner: Ownership?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -2753,11 +2788,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of component semantic versions. 
+        /// The list of component semantic versions. 
         public let componentVersionList: [ComponentVersion]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(componentVersionList: [ComponentVersion]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2780,11 +2815,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2819,11 +2854,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of distributions. 
+        /// The list of distributions. 
         public let distributionConfigurationSummaryList: [DistributionConfigurationSummary]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(distributionConfigurationSummaryList: [DistributionConfigurationSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2847,13 +2882,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve. 
         public let imageVersionArn: String
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, imageVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2891,11 +2926,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of image build versions. 
+        /// The list of image build versions. 
         public let imageSummaryList: [ImageSummary]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageSummaryList: [ImageSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2919,13 +2954,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. 
+        /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. 
         public let imagePipelineArn: String
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, imagePipelineArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2963,11 +2998,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of images built by this pipeline. 
+        /// The list of images built by this pipeline. 
         public let imageSummaryList: [ImageSummary]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageSummaryList: [ImageSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2990,11 +3025,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3029,11 +3064,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of image pipelines. 
+        /// The list of image pipelines. 
         public let imagePipelineList: [ImagePipeline]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imagePipelineList: [ImagePipeline]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -3057,13 +3092,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "owner", required: false, type: .enum)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
-        ///  The owner defines which image recipes you want to list. By default, this request will only show image recipes owned by your account. You can use this field to specify if you want to view image recipes owned by yourself, by Amazon, or those image recipes that have been shared with you by other customers. 
+        /// The owner defines which image recipes you want to list. By default, this request will only show image recipes owned by your account. You can use this field to specify if you want to view image recipes owned by yourself, by Amazon, or those image recipes that have been shared with you by other customers. 
         public let owner: Ownership?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -3100,11 +3135,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of image pipelines. 
+        /// The list of image pipelines. 
         public let imageRecipeSummaryList: [ImageRecipeSummary]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageRecipeSummaryList: [ImageRecipeSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -3128,13 +3163,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "owner", required: false, type: .enum)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
-        ///  The owner defines which images you want to list. By default, this request will only show images owned by your account. You can use this field to specify if you want to view images owned by yourself, by Amazon, or those images that have been shared with you by other customers. 
+        /// The owner defines which images you want to list. By default, this request will only show images owned by your account. You can use this field to specify if you want to view images owned by yourself, by Amazon, or those images that have been shared with you by other customers. 
         public let owner: Ownership?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -3171,11 +3206,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of image semantic versions. 
+        /// The list of image semantic versions. 
         public let imageVersionList: [ImageVersion]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageVersionList: [ImageVersion]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -3198,11 +3233,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        ///  The filters. 
+        /// The filters. 
         public let filters: [Filter]?
-        ///  The maximum items to return in a request. 
+        /// The maximum items to return in a request. 
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3237,11 +3272,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The list of infrastructure configurations. 
+        /// The list of infrastructure configurations. 
         public let infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]?
-        ///  The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -3262,7 +3297,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. 
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -3283,7 +3318,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
-        ///  The tags for the specified resource. 
+        /// The tags for the specified resource. 
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -3339,9 +3374,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "policy", required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component that this policy should be applied to. 
+        /// The Amazon Resource Name (ARN) of the component that this policy should be applied to. 
         public let componentArn: String
-        ///  The policy to apply. 
+        /// The policy to apply. 
         public let policy: String
 
         public init(componentArn: String, policy: String) {
@@ -3367,9 +3402,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the component that this policy was applied to. 
+        /// The Amazon Resource Name (ARN) of the component that this policy was applied to. 
         public let componentArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(componentArn: String? = nil, requestId: String? = nil) {
@@ -3389,9 +3424,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "policy", required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image that this policy should be applied to. 
+        /// The Amazon Resource Name (ARN) of the image that this policy should be applied to. 
         public let imageArn: String
-        ///  The policy to apply. 
+        /// The policy to apply. 
         public let policy: String
 
         public init(imageArn: String, policy: String) {
@@ -3417,9 +3452,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image that this policy was applied to. 
+        /// The Amazon Resource Name (ARN) of the image that this policy was applied to. 
         public let imageArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageArn: String? = nil, requestId: String? = nil) {
@@ -3439,9 +3474,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "policy", required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. 
+        /// The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. 
         public let imageRecipeArn: String
-        ///  The policy to apply. 
+        /// The policy to apply. 
         public let policy: String
 
         public init(imageRecipeArn: String, policy: String) {
@@ -3467,9 +3502,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the image recipe that this policy was applied to. 
+        /// The Amazon Resource Name (ARN) of the image recipe that this policy was applied to. 
         public let imageRecipeArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(imageRecipeArn: String? = nil, requestId: String? = nil) {
@@ -3518,9 +3553,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "scheduleExpression", required: false, type: .string)
         ]
 
-        ///  The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, EC2 Image Builder will build a new image only when there are known changes pending. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time.
+        /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, EC2 Image Builder will build a new image only when there are known changes pending. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
-        ///  The expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition.
+        /// The expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition.
         public let scheduleExpression: String?
 
         public init(pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil) {
@@ -3545,9 +3580,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "imagePipelineArn", required: true, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String
-        ///  The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke. 
         public let imagePipelineArn: String
 
         public init(clientToken: String = StartImagePipelineExecutionRequest.idempotencyToken(), imagePipelineArn: String) {
@@ -3574,11 +3609,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent.
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the image that was created by this request.
+        /// The Amazon Resource Name (ARN) of the image that was created by this request.
         public let imageBuildVersionArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -3600,9 +3635,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the resource that you want to tag. 
+        /// The Amazon Resource Name (ARN) of the resource that you want to tag. 
         public let resourceArn: String
-        ///  The tags to apply to the resource. 
+        /// The tags to apply to the resource. 
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -3640,9 +3675,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
 
-        ///  The Amazon Resource Name (ARN) of the resource that you want to untag. 
+        /// The Amazon Resource Name (ARN) of the resource that you want to untag. 
         public let resourceArn: String
-        ///  The tag keys to remove from the resource. 
+        /// The tag keys to remove from the resource. 
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -3683,13 +3718,13 @@ extension Imagebuilder {
             AWSShapeMember(label: "distributions", required: true, type: .list)
         ]
 
-        ///  The idempotency token of the distribution configuration. 
+        /// The idempotency token of the distribution configuration. 
         public let clientToken: String
-        ///  The description of the distribution configuration. 
+        /// The description of the distribution configuration. 
         public let description: String?
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that you want to update. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that you want to update. 
         public let distributionConfigurationArn: String
-        ///  The distributions of the distribution configuration. 
+        /// The distributions of the distribution configuration. 
         public let distributions: [Distribution]
 
         public init(clientToken: String = UpdateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String, distributions: [Distribution]) {
@@ -3725,11 +3760,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that was updated by this request. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that was updated by this request. 
         public let distributionConfigurationArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, distributionConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -3750,6 +3785,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "clientToken", required: true, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "enhancedImageMetadataEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "imagePipelineArn", required: true, type: .string), 
             AWSShapeMember(label: "imageRecipeArn", required: true, type: .string), 
             AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
@@ -3758,29 +3794,32 @@ extension Imagebuilder {
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String
-        ///  The description of the image pipeline. 
+        /// The description of the image pipeline. 
         public let description: String?
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images updated by this image pipeline. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images updated by this image pipeline. 
         public let distributionConfigurationArn: String?
-        ///  The Amazon Resource Name (ARN) of the image pipeline that you want to update. 
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        public let enhancedImageMetadataEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the image pipeline that you want to update. 
         public let imagePipelineArn: String
-        ///  The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline. 
+        /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline. 
         public let imageRecipeArn: String
-        ///  The image test configuration of the image pipeline. 
+        /// The image test configuration of the image pipeline. 
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images updated by this image pipeline. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images updated by this image pipeline. 
         public let infrastructureConfigurationArn: String
-        ///  The schedule of the image pipeline. 
+        /// The schedule of the image pipeline. 
         public let schedule: Schedule?
-        ///  The status of the image pipeline. 
+        /// The status of the image pipeline. 
         public let status: PipelineStatus?
 
-        public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String? = nil, imagePipelineArn: String, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, schedule: Schedule? = nil, status: PipelineStatus? = nil) {
+        public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imagePipelineArn: String, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, schedule: Schedule? = nil, status: PipelineStatus? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.distributionConfigurationArn = distributionConfigurationArn
+            self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imagePipelineArn = imagePipelineArn
             self.imageRecipeArn = imageRecipeArn
             self.imageTestsConfiguration = imageTestsConfiguration
@@ -3806,6 +3845,7 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case description = "description"
             case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imagePipelineArn = "imagePipelineArn"
             case imageRecipeArn = "imageRecipeArn"
             case imageTestsConfiguration = "imageTestsConfiguration"
@@ -3822,11 +3862,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the image pipeline that was updated by this request. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that was updated by this request. 
         public let imagePipelineArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, imagePipelineArn: String? = nil, requestId: String? = nil) {
@@ -3857,27 +3897,27 @@ extension Imagebuilder {
             AWSShapeMember(label: "terminateInstanceOnFailure", required: false, type: .boolean)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String
-        ///  The description of the infrastructure configuration. 
+        /// The description of the infrastructure configuration. 
         public let description: String?
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update. 
         public let infrastructureConfigurationArn: String
-        ///  The instance profile to associate with the instance used to customize your EC2 AMI. 
+        /// The instance profile to associate with the instance used to customize your EC2 AMI. 
         public let instanceProfileName: String
-        ///  The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
+        /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
         public let instanceTypes: [String]?
-        ///  The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
+        /// The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
         public let keyPair: String?
-        ///  The logging configuration of the infrastructure configuration. 
+        /// The logging configuration of the infrastructure configuration. 
         public let logging: Logging?
-        ///  The security group IDs to associate with the instance used to customize your EC2 AMI. 
+        /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
         public let securityGroupIds: [String]?
-        ///  The SNS topic on which to send image build events. 
+        /// The SNS topic on which to send image build events. 
         public let snsTopicArn: String?
-        ///  The subnet ID to place the instance used to customize your EC2 AMI in. 
+        /// The subnet ID to place the instance used to customize your EC2 AMI in. 
         public let subnetId: String?
-        ///  The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
+        /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
         public let terminateInstanceOnFailure: Bool?
 
         public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
@@ -3936,11 +3976,11 @@ extension Imagebuilder {
             AWSShapeMember(label: "requestId", required: false, type: .string)
         ]
 
-        ///  The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent. 
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by this request. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by this request. 
         public let infrastructureConfigurationArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request. 
         public let requestId: String?
 
         public init(clientToken: String? = nil, infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {

@@ -269,6 +269,22 @@ extension Schemas {
         }
     }
 
+    public struct DeleteResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistryName", location: .querystring(locationName: "registryName"), required: false, type: .string)
+        ]
+
+        public let registryName: String?
+
+        public init(registryName: String? = nil) {
+            self.registryName = registryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryName = "registryName"
+        }
+    }
+
     public struct DeleteSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"), required: true, type: .string), 
@@ -552,6 +568,7 @@ extension Schemas {
         public let discovererId: String?
         /// The ARN of the event bus.
         public let sourceArn: String?
+        /// The state of the discoverer.
         public let state: DiscovererState?
         /// Tags associated with the resource.
         public let tags: [String: String]?
@@ -661,6 +678,42 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistryName", location: .querystring(locationName: "registryName"), required: false, type: .string)
+        ]
+
+        public let registryName: String?
+
+        public init(registryName: String? = nil) {
+            self.registryName = registryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryName = "registryName"
+        }
+    }
+
+    public struct GetResourcePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string)
+        ]
+
+        public let policy: String?
+        public let revisionId: String?
+
+        public init(policy: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
         }
     }
 
@@ -874,68 +927,17 @@ extension Schemas {
 
     public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(tags: [String: String]) {
+        public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct LockServiceLinkedRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Timeout", required: true, type: .integer)
-        ]
-
-        public let roleArn: String
-        public let timeout: Int
-
-        public init(roleArn: String, timeout: Int) {
-            self.roleArn = roleArn
-            self.timeout = timeout
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.roleArn, name:"roleArn", parent: name, max: 1600)
-            try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
-            try validate(self.timeout, name:"timeout", parent: name, max: 29000)
-            try validate(self.timeout, name:"timeout", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case timeout = "Timeout"
-        }
-    }
-
-    public struct LockServiceLinkedRoleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CanBeDeleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReasonOfFailure", required: false, type: .string), 
-            AWSShapeMember(label: "RelatedResources", required: false, type: .list)
-        ]
-
-        public let canBeDeleted: Bool?
-        public let reasonOfFailure: String?
-        public let relatedResources: [DiscovererSummary]?
-
-        public init(canBeDeleted: Bool? = nil, reasonOfFailure: String? = nil, relatedResources: [DiscovererSummary]? = nil) {
-            self.canBeDeleted = canBeDeleted
-            self.reasonOfFailure = reasonOfFailure
-            self.relatedResources = relatedResources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case canBeDeleted = "CanBeDeleted"
-            case reasonOfFailure = "ReasonOfFailure"
-            case relatedResources = "RelatedResources"
+            case tags = "tags"
         }
     }
 
@@ -992,6 +994,50 @@ extension Schemas {
             case lastModified = "LastModified"
             case schemaVersion = "SchemaVersion"
             case status = "Status"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "RegistryName", location: .querystring(locationName: "registryName"), required: false, type: .string), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string)
+        ]
+
+        public let policy: String
+        public let registryName: String?
+        public let revisionId: String?
+
+        public init(policy: String, registryName: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.registryName = registryName
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case registryName = "registryName"
+            case revisionId = "RevisionId"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string)
+        ]
+
+        public let policy: String?
+        public let revisionId: String?
+
+        public init(policy: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
         }
     }
 
@@ -1124,6 +1170,7 @@ extension Schemas {
             AWSShapeMember(label: "SchemaVersion", required: false, type: .string)
         ]
 
+        /// The date the schema version was created.
         public let createdDate: TimeStamp?
         /// The version number of the schema
         public let schemaVersion: String?
@@ -1277,35 +1324,6 @@ extension Schemas {
             case resourceArn = "resource-arn"
             case tags = "tags"
         }
-    }
-
-    public struct UnlockServiceLinkedRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
-
-        public let roleArn: String
-
-        public init(roleArn: String) {
-            self.roleArn = roleArn
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.roleArn, name:"roleArn", parent: name, max: 1600)
-            try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-        }
-    }
-
-    public struct UnlockServiceLinkedRoleResponse: AWSShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct UntagResourceRequest: AWSShape {

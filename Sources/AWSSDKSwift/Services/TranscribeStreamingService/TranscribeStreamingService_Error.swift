@@ -8,6 +8,7 @@ public enum TranscribeStreamingServiceErrorType: AWSErrorType {
     case conflictException(message: String?)
     case internalFailureException(message: String?)
     case limitExceededException(message: String?)
+    case serviceUnavailableException(message: String?)
 }
 
 extension TranscribeStreamingServiceErrorType {
@@ -25,6 +26,8 @@ extension TranscribeStreamingServiceErrorType {
             self = .internalFailureException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
         default:
             return nil
         }
@@ -42,6 +45,8 @@ extension TranscribeStreamingServiceErrorType : CustomStringConvertible {
             return "InternalFailureException: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
         }
     }
 }

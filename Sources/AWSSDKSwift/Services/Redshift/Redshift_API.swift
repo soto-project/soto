@@ -140,6 +140,11 @@ public struct Redshift {
         return client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a usage limit for a specified Amazon Redshift feature on a cluster. The usage limit is identified by the returned usage limit identifier.
+    public func createUsageLimit(_ input: CreateUsageLimitMessage) -> EventLoopFuture<UsageLimit> {
+        return client.send(operation: "CreateUsageLimit", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide. If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier. You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster.   For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
     public func deleteCluster(_ input: DeleteClusterMessage) -> EventLoopFuture<DeleteClusterResult> {
         return client.send(operation: "DeleteCluster", path: "/", httpMethod: "POST", input: input)
@@ -198,6 +203,11 @@ public struct Redshift {
     ///  Deletes tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
     @discardableResult public func deleteTags(_ input: DeleteTagsMessage) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a usage limit from a cluster.
+    @discardableResult public func deleteUsageLimit(_ input: DeleteUsageLimitMessage) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteUsageLimit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of attributes attached to an account
@@ -340,6 +350,11 @@ public struct Redshift {
         return client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Shows usage limits on a cluster. Results are filtered based on the combination of input usage limit identifier, cluster identifier, and feature type parameters:   If usage limit identifier, cluster identifier, and feature type are not provided, then all usage limit objects for the current account in the current region are returned.   If usage limit identifier is provided, then the corresponding usage limit object is returned.   If cluster identifier is provided, then all usage limit objects for the specified cluster are returned.   If cluster identifier and feature type are provided, then all usage limit objects for the combination of cluster and feature are returned.  
+    public func describeUsageLimits(_ input: DescribeUsageLimitsMessage) -> EventLoopFuture<UsageLimitList> {
+        return client.send(operation: "DescribeUsageLimits", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Stops logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
     public func disableLogging(_ input: DisableLoggingMessage) -> EventLoopFuture<LoggingStatus> {
         return client.send(operation: "DisableLogging", path: "/", httpMethod: "POST", input: input)
@@ -428,6 +443,11 @@ public struct Redshift {
     ///  Modifies a snapshot schedule. Any schedule associated with a cluster is modified asynchronously.
     public func modifySnapshotSchedule(_ input: ModifySnapshotScheduleMessage) -> EventLoopFuture<SnapshotSchedule> {
         return client.send(operation: "ModifySnapshotSchedule", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies a usage limit in a cluster. You can't modify the feature type or period of a usage limit.
+    public func modifyUsageLimit(_ input: ModifyUsageLimitMessage) -> EventLoopFuture<UsageLimit> {
+        return client.send(operation: "ModifyUsageLimit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Pauses a cluster.

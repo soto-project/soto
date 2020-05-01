@@ -172,6 +172,21 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public enum Endpointtypeselement: String, CustomStringConvertible, Codable {
+        case gcm = "GCM"
+        case apns = "APNS"
+        case apnsSandbox = "APNS_SANDBOX"
+        case apnsVoip = "APNS_VOIP"
+        case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
+        case adm = "ADM"
+        case sms = "SMS"
+        case voice = "VOICE"
+        case email = "EMAIL"
+        case baidu = "BAIDU"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct ADMChannelRequest: AWSShape {
@@ -1330,11 +1345,11 @@ extension Pinpoint {
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        /// The settings for the AWS Lambda function to use by default as a code hook for campaigns in the application.
+        /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application.
         public let campaignHook: CampaignHook?
         /// The date and time, in ISO 8601 format, when the application's settings were last modified.
         public let lastModifiedDate: String?
-        /// The default sending limits for campaigns in the application.
+        /// The default sending limits for campaigns and journeys in the application.
         public let limits: CampaignLimits?
         /// The default quiet time for campaigns and journeys in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
@@ -1620,6 +1635,23 @@ extension Pinpoint {
         }
     }
 
+    public struct CampaignCustomMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: false, type: .string)
+        ]
+
+        /// The raw, JSON-formatted string to use as the payload for the message. The maximum size is 5 KB.
+        public let data: String?
+
+        public init(data: String? = nil) {
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+        }
+    }
+
     public struct CampaignDateRangeKpiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
@@ -1728,9 +1760,9 @@ extension Pinpoint {
             AWSShapeMember(label: "WebUrl", required: false, type: .string)
         ]
 
-        /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to send messages for a campaign.
+        /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to customize a segment for a campaign.
         public let lambdaFunctionName: String?
-        /// Specifies which Lambda mode to use when invoking the AWS Lambda function.
+        /// The mode that Amazon Pinpoint uses to invoke the AWS Lambda function. Possible values are: FILTER - Invoke the function to customize the segment that's used by a campaign. DELIVERY - (Deprecated) Previously, invoked the function to send a campaign through a custom channel. This functionality is not supported anymore. To send a campaign through a custom channel, use the CustomDeliveryConfiguration and CampaignCustomMessage objects of the campaign.
         public let mode: Mode?
         ///  The web URL that Amazon Pinpoint calls to invoke the AWS Lambda function over HTTPS.
         public let webUrl: String?
@@ -1756,13 +1788,13 @@ extension Pinpoint {
             AWSShapeMember(label: "Total", required: false, type: .integer)
         ]
 
-        /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. The maximum value is 100.
+        /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. For an application, this value specifies the default limit for the number of messages that campaigns and journeys can send to a single endpoint during a 24-hour period. The maximum value is 100.
         public let daily: Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
         public let maximumDuration: Int?
-        /// The maximum number of messages that a campaign can send each second. The minimum value is 50. The maximum value is 20,000.
+        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns and journeys can send each second. The minimum value is 50. The maximum value is 20,000.
         public let messagesPerSecond: Int?
-        /// The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. The maximum value is 100.
+        /// The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. If a campaign recurs, this setting applies to all runs of the campaign. The maximum value is 100.
         public let total: Int?
 
         public init(daily: Int? = nil, maximumDuration: Int? = nil, messagesPerSecond: Int? = nil, total: Int? = nil) {
@@ -1786,6 +1818,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "CreationDate", required: true, type: .string), 
+            AWSShapeMember(label: "CustomDeliveryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DefaultState", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "HoldoutPercent", required: false, type: .integer), 
@@ -1815,13 +1848,15 @@ extension Pinpoint {
         public let arn: String
         /// The date, in ISO 8601 format, when the campaign was created.
         public let creationDate: String
-        /// The current status of the campaign's default treatment. This value exists only for campaigns that have more than one treatment, to support A/B testing.
+        /// The delivery configuration settings for sending the campaign through a custom channel.
+        public let customDeliveryConfiguration: CustomDeliveryConfiguration?
+        /// The current status of the campaign's default treatment. This value exists only for campaigns that have more than one treatment.
         public let defaultState: CampaignState?
         /// The custom description of the campaign.
         public let description: String?
         /// The allocated percentage of users (segment members) who shouldn't receive messages from the campaign.
         public let holdoutPercent: Int?
-        /// The settings for the AWS Lambda function to use as a code hook for the campaign.
+        /// The settings for the AWS Lambda function to use as a code hook for the campaign. You can use this hook to customize the segment that's used by the campaign.
         public let hook: CampaignHook?
         /// The unique identifier for the campaign.
         public let id: String
@@ -1847,18 +1882,19 @@ extension Pinpoint {
         public let tags: [String: String]?
         /// The message template that’s used for the campaign.
         public let templateConfiguration: TemplateConfiguration?
-        /// The custom description of a variation of the campaign that's used for A/B testing.
+        /// The custom description of the default treatment for the campaign.
         public let treatmentDescription: String?
-        /// The custom name of a variation of the campaign that's used for A/B testing.
+        /// The custom name of the default treatment for the campaign, if the campaign has multiple treatments. A treatment is a variation of a campaign that's used for A/B testing.
         public let treatmentName: String?
         /// The version number of the campaign.
         public let version: Int?
 
-        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int, state: CampaignState? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
+        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int, state: CampaignState? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
             self.arn = arn
             self.creationDate = creationDate
+            self.customDeliveryConfiguration = customDeliveryConfiguration
             self.defaultState = defaultState
             self.description = description
             self.holdoutPercent = holdoutPercent
@@ -1885,6 +1921,7 @@ extension Pinpoint {
             case applicationId = "ApplicationId"
             case arn = "Arn"
             case creationDate = "CreationDate"
+            case customDeliveryConfiguration = "CustomDeliveryConfiguration"
             case defaultState = "DefaultState"
             case description = "Description"
             case holdoutPercent = "HoldoutPercent"
@@ -1939,7 +1976,7 @@ extension Pinpoint {
             AWSShapeMember(label: "CampaignStatus", required: false, type: .enum)
         ]
 
-        /// The current status of the campaign, or the current status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only if all campaign treatments have a status of COMPLETED.
+        /// The current status of the campaign, or the current status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only if all campaign treatments have a status of COMPLETED. If you delete the segment that's associated with a campaign, the campaign fails and has a status of DELETED.
         public let campaignStatus: CampaignStatus?
 
         public init(campaignStatus: CampaignStatus? = nil) {
@@ -2412,21 +2449,21 @@ extension Pinpoint {
             AWSShapeMember(label: "RecommendationTransformerUri", required: false, type: .string)
         ]
 
-        /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommenderUserIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder pane of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (LambdaFunctionArn) to process recommendation data. Otherwise, don't include this object in your request.
+        /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (RecommendationTransformerUri) to process recommendation data. Otherwise, don't include this object in your request.
         public let attributes: [String: String]?
-        /// A custom description of the configuration for the recommender model. The description can contain up to 128 characters.
+        /// A custom description of the configuration for the recommender model. The description can contain up to 128 characters. The characters can be letters, numbers, spaces, or the following symbols: _ ; () , ‐.
         public let description: String?
         /// A custom name of the configuration for the recommender model. The name must start with a letter or number and it can contain up to 128 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-).
         public let name: String?
-        /// The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon Pinpoint has to specify a both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
+        /// The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
         public let recommendationProviderIdType: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data from the recommender model.
         public let recommendationProviderRoleArn: String
         /// The Amazon Resource Name (ARN) of the recommender model to retrieve recommendation data from. This value must match the ARN of an Amazon Personalize campaign.
         public let recommendationProviderUri: String
-        /// A custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores a recommended item for each endpoint or user, depending on the value for the RecommenderUserIdType property. This value is required if the configuration doesn't invoke an AWS Lambda function (LambdaFunctionArn) to perform additional processing of recommendation data. This name appears in the Attribute finder pane of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). These restrictions don't apply to attribute values.
+        /// A custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores recommended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This value is required if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). These restrictions don't apply to attribute values.
         public let recommendationsDisplayName: String?
-        /// The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the RecommenderUserIdType property. This number determines how many recommended attributes are available for use as message variables in message templates. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (LambdaFunctionArn) to perform additional processing of recommendation data.
+        /// The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This number determines how many recommended items are available for use in message variables. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let recommendationsPerMessage: Int?
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function to invoke for additional processing of recommendation data that's retrieved from the recommender model.
         public let recommendationTransformerUri: String?
@@ -2636,6 +2673,28 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case createTemplateMessageBody = "CreateTemplateMessageBody"
+        }
+    }
+
+    public struct CustomDeliveryConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryUri", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointTypes", required: false, type: .list)
+        ]
+
+        /// The destination to send the campaign or treatment to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol. 
+        public let deliveryUri: String
+        /// The types of endpoints to send the campaign or treatment to. Each valid value maps to a type of channel that you can associate with an endpoint by using the ChannelType property of an endpoint.
+        public let endpointTypes: [Endpointtypeselement]?
+
+        public init(deliveryUri: String, endpointTypes: [Endpointtypeselement]? = nil) {
+            self.deliveryUri = deliveryUri
+            self.endpointTypes = endpointTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryUri = "DeliveryUri"
+            case endpointTypes = "EndpointTypes"
         }
     }
 
@@ -3595,7 +3654,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
 
-        /// The configuration set that you want to apply to email that you send through the channel by using the Amazon Pinpoint Email API.
+        /// The Amazon SES configuration set that you want to apply to messages that you send through the channel.
         public let configurationSet: String?
         /// Specifies whether to enable the email channel for the application.
         public let enabled: Bool?
@@ -3644,19 +3703,19 @@ extension Pinpoint {
 
         /// The unique identifier for the application that the email channel applies to.
         public let applicationId: String?
-        /// The configuration set that's applied to email that's sent through the channel by using the Amazon Pinpoint Email API.
+        /// The Amazon SES configuration set that's applied to messages that are sent through the channel.
         public let configurationSet: String?
         /// The date and time, in ISO 8601 format, when the email channel was enabled.
         public let creationDate: String?
         /// Specifies whether the email channel is enabled for the application.
         public let enabled: Bool?
-        /// The verified email address that you send email from when you send email through the channel.
+        /// The verified email address that email is sent from when you send email through the channel.
         public let fromAddress: String?
         /// (Not used) This property is retained only for backward compatibility.
         public let hasCredential: Bool?
         /// (Deprecated) An identifier for the email channel. This property is retained only for backward compatibility.
         public let id: String?
-        ///  The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you use when you send email through the channel.
+        ///  The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that's used when you send email through the channel.
         public let identity: String?
         /// Specifies whether the email channel is archived.
         public let isArchived: Bool?
@@ -3664,7 +3723,7 @@ extension Pinpoint {
         public let lastModifiedBy: String?
         /// The date and time, in ISO 8601 format, when the email channel was last modified.
         public let lastModifiedDate: String?
-        /// The maximum number of emails that you can send through the channel each second.
+        /// The maximum number of emails that can be sent through the channel each second.
         public let messagesPerSecond: Int?
         /// The type of messaging or notification platform for the channel. For the email channel, this value is EMAIL.
         public let platform: String
@@ -3951,7 +4010,7 @@ extension Pinpoint {
         public let optOut: String?
         /// The unique identifier for the request to create or update the endpoint.
         public let requestId: String?
-        /// One or more custom user attributes that describe the user who's associated with the endpoint.
+        /// One or more custom attributes that describe the user who's associated with the endpoint.
         public let user: EndpointUser?
 
         public init(address: String? = nil, attributes: [String: [String]]? = nil, channelType: ChannelType? = nil, demographic: EndpointDemographic? = nil, effectiveDate: String? = nil, endpointStatus: String? = nil, id: String? = nil, location: EndpointLocation? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, requestId: String? = nil, user: EndpointUser? = nil) {
@@ -4195,7 +4254,7 @@ extension Pinpoint {
         public let optOut: String?
         /// The unique identifier for the most recent request to update the endpoint.
         public let requestId: String?
-        /// One or more custom user attributes that describe the user who's associated with the endpoint.
+        /// One or more custom attributes that describe the user who's associated with the endpoint.
         public let user: EndpointUser?
 
         public init(address: String? = nil, attributes: [String: [String]]? = nil, channelType: ChannelType? = nil, demographic: EndpointDemographic? = nil, effectiveDate: String? = nil, endpointStatus: String? = nil, location: EndpointLocation? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, requestId: String? = nil, user: EndpointUser? = nil) {
@@ -7627,31 +7686,35 @@ extension Pinpoint {
             AWSShapeMember(label: "ADMMessage", required: false, type: .structure), 
             AWSShapeMember(label: "APNSMessage", required: false, type: .structure), 
             AWSShapeMember(label: "BaiduMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomMessage", required: false, type: .structure), 
             AWSShapeMember(label: "DefaultMessage", required: false, type: .structure), 
             AWSShapeMember(label: "EmailMessage", required: false, type: .structure), 
             AWSShapeMember(label: "GCMMessage", required: false, type: .structure), 
             AWSShapeMember(label: "SMSMessage", required: false, type: .structure)
         ]
 
-        /// The message that the campaign sends through the ADM (Amazon Device Messaging) channel. This message overrides the default message.
+        /// The message that the campaign sends through the ADM (Amazon Device Messaging) channel. If specified, this message overrides the default message.
         public let aDMMessage: Message?
-        /// The message that the campaign sends through the APNs (Apple Push Notification service) channel. This message overrides the default message.
+        /// The message that the campaign sends through the APNs (Apple Push Notification service) channel. If specified, this message overrides the default message.
         public let aPNSMessage: Message?
-        /// The message that the campaign sends through the Baidu (Baidu Cloud Push) channel. This message overrides the default message.
+        /// The message that the campaign sends through the Baidu (Baidu Cloud Push) channel. If specified, this message overrides the default message.
         public let baiduMessage: Message?
+        /// The message that the campaign sends through a custom channel, as specified by the delivery configuration (CustomDeliveryConfiguration) settings for the campaign. If specified, this message overrides the default message. 
+        public let customMessage: CampaignCustomMessage?
         /// The default message that the campaign sends through all the channels that are configured for the campaign.
         public let defaultMessage: Message?
-        /// The message that the campaign sends through the email channel.
+        /// The message that the campaign sends through the email channel. If specified, this message overrides the default message.
         public let emailMessage: CampaignEmailMessage?
-        /// The message that the campaign sends through the GCM channel, which enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. This message overrides the default message.
+        /// The message that the campaign sends through the GCM channel, which enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. If specified, this message overrides the default message.
         public let gCMMessage: Message?
-        /// The message that the campaign sends through the SMS channel.
+        /// The message that the campaign sends through the SMS channel. If specified, this message overrides the default message.
         public let sMSMessage: CampaignSmsMessage?
 
-        public init(aDMMessage: Message? = nil, aPNSMessage: Message? = nil, baiduMessage: Message? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gCMMessage: Message? = nil, sMSMessage: CampaignSmsMessage? = nil) {
+        public init(aDMMessage: Message? = nil, aPNSMessage: Message? = nil, baiduMessage: Message? = nil, customMessage: CampaignCustomMessage? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gCMMessage: Message? = nil, sMSMessage: CampaignSmsMessage? = nil) {
             self.aDMMessage = aDMMessage
             self.aPNSMessage = aPNSMessage
             self.baiduMessage = baiduMessage
+            self.customMessage = customMessage
             self.defaultMessage = defaultMessage
             self.emailMessage = emailMessage
             self.gCMMessage = gCMMessage
@@ -7662,6 +7725,7 @@ extension Pinpoint {
             case aDMMessage = "ADMMessage"
             case aPNSMessage = "APNSMessage"
             case baiduMessage = "BaiduMessage"
+            case customMessage = "CustomMessage"
             case defaultMessage = "DefaultMessage"
             case emailMessage = "EmailMessage"
             case gCMMessage = "GCMMessage"
@@ -8399,7 +8463,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RecommendationTransformerUri", required: false, type: .string)
         ]
 
-        /// A map that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommenderUserIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. This value is null if the configuration doesn't invoke an AWS Lambda function (LambdaFunctionArn) to perform additional processing of recommendation data.
+        /// A map that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. This value is null if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let attributes: [String: String]?
         /// The date, in extended ISO 8601 format, when the configuration was created for the recommender model.
         public let creationDate: String
@@ -8417,9 +8481,9 @@ extension Pinpoint {
         public let recommendationProviderRoleArn: String
         /// The Amazon Resource Name (ARN) of the recommender model that Amazon Pinpoint retrieves the recommendation data from. This value is the ARN of an Amazon Personalize campaign.
         public let recommendationProviderUri: String
-        /// The custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores a recommended item for each endpoint or user, depending on the value for the RecommenderUserIdType property. This name appears in the Attribute finder pane of the template editor on the Amazon Pinpoint console. This value is null if the configuration doesn't invoke an AWS Lambda function (LambdaFunctionArn) to perform additional processing of recommendation data.
+        /// The custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores recommended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. This value is null if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let recommendationsDisplayName: String?
-        /// The number of recommended items that are retrieved from the model for each endpoint or user, depending on the value for the RecommenderUserIdType property. This number determines how many recommended attributes are available for use as message variables in message templates.
+        /// The number of recommended items that are retrieved from the model for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This number determines how many recommended items are available for use in message variables.
         public let recommendationsPerMessage: Int?
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to perform additional processing of recommendation data that it retrieves from the recommender model.
         public let recommendationTransformerUri: String?
@@ -9776,6 +9840,7 @@ extension Pinpoint {
 
     public struct TreatmentResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomDeliveryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Schedule", required: false, type: .structure), 
@@ -9786,6 +9851,8 @@ extension Pinpoint {
             AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
 
+        /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
+        public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// The unique identifier for the treatment.
         public let id: String
         /// The message configuration settings for the treatment.
@@ -9800,10 +9867,11 @@ extension Pinpoint {
         public let templateConfiguration: TemplateConfiguration?
         /// The custom description of the treatment.
         public let treatmentDescription: String?
-        /// The custom name of the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
+        /// The custom name of the treatment.
         public let treatmentName: String?
 
-        public init(id: String, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, state: CampaignState? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, id: String, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, state: CampaignState? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+            self.customDeliveryConfiguration = customDeliveryConfiguration
             self.id = id
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule
@@ -9815,6 +9883,7 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customDeliveryConfiguration = "CustomDeliveryConfiguration"
             case id = "Id"
             case messageConfiguration = "MessageConfiguration"
             case schedule = "Schedule"
@@ -10548,21 +10617,21 @@ extension Pinpoint {
             AWSShapeMember(label: "RecommendationTransformerUri", required: false, type: .string)
         ]
 
-        /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommenderUserIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder pane of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (LambdaFunctionArn) to process recommendation data. Otherwise, don't include this object in your request.
+        /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (RecommendationTransformerUri) to process recommendation data. Otherwise, don't include this object in your request.
         public let attributes: [String: String]?
-        /// A custom description of the configuration for the recommender model. The description can contain up to 128 characters.
+        /// A custom description of the configuration for the recommender model. The description can contain up to 128 characters. The characters can be letters, numbers, spaces, or the following symbols: _ ; () , ‐.
         public let description: String?
         /// A custom name of the configuration for the recommender model. The name must start with a letter or number and it can contain up to 128 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-).
         public let name: String?
-        /// The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon Pinpoint has to specify a both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
+        /// The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
         public let recommendationProviderIdType: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data from the recommender model.
         public let recommendationProviderRoleArn: String
         /// The Amazon Resource Name (ARN) of the recommender model to retrieve recommendation data from. This value must match the ARN of an Amazon Personalize campaign.
         public let recommendationProviderUri: String
-        /// A custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores a recommended item for each endpoint or user, depending on the value for the RecommenderUserIdType property. This value is required if the configuration doesn't invoke an AWS Lambda function (LambdaFunctionArn) to perform additional processing of recommendation data. This name appears in the Attribute finder pane of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). These restrictions don't apply to attribute values.
+        /// A custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores recommended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This value is required if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). These restrictions don't apply to attribute values.
         public let recommendationsDisplayName: String?
-        /// The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the RecommenderUserIdType property. This number determines how many recommended attributes are available for use as message variables in message templates. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (LambdaFunctionArn) to perform additional processing of recommendation data.
+        /// The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This number determines how many recommended items are available for use in message variables. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let recommendationsPerMessage: Int?
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function to invoke for additional processing of recommendation data that's retrieved from the recommender model.
         public let recommendationTransformerUri: String?
@@ -11178,11 +11247,11 @@ extension Pinpoint {
             AWSShapeMember(label: "QuietTime", required: false, type: .structure)
         ]
 
-        /// The settings for the AWS Lambda function to use by default as a code hook for campaigns in the application. To override these settings for a specific campaign, use the Campaign resource to define custom Lambda function settings for the campaign.
+        /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application. To override these settings and define custom settings for a specific campaign, use the CampaignHook object of the Campaign resource.
         public let campaignHook: CampaignHook?
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
         public let cloudWatchMetricsEnabled: Bool?
-        /// The default sending limits for campaigns in the application. To override these limits for a specific campaign, use the Campaign resource to define custom limits for the campaign.
+        /// The default sending limits for campaigns and journeys in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaign resource or the Journey resource, respectively.
         public let limits: CampaignLimits?
         /// The default quiet time for campaigns and journeys in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific campaign or journey, use the Campaign resource or the Journey resource to define a custom quiet time for the campaign or journey.
         public let quietTime: QuietTime?
@@ -11205,6 +11274,7 @@ extension Pinpoint {
     public struct WriteCampaignRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
+            AWSShapeMember(label: "CustomDeliveryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "HoldoutPercent", required: false, type: .integer), 
             AWSShapeMember(label: "Hook", required: false, type: .structure), 
@@ -11223,13 +11293,15 @@ extension Pinpoint {
 
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public let additionalTreatments: [WriteTreatmentResource]?
+        /// The delivery configuration settings for sending the campaign through a custom channel. This object is required if the MessageConfiguration object for the campaign specifies a CustomMessage object.
+        public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// A custom description of the campaign.
         public let description: String?
         /// The allocated percentage of users (segment members) who shouldn't receive messages from the campaign.
         public let holdoutPercent: Int?
-        /// The settings for the AWS Lambda function to use as a code hook for the campaign.
+        /// The settings for the AWS Lambda function to invoke as a code hook for the campaign. You can use this hook to customize the segment that's used by the campaign.
         public let hook: CampaignHook?
-        /// Specifies whether to pause the campaign. A paused campaign doesn't run unless you resume it by setting this value to false.
+        /// Specifies whether to pause the campaign. A paused campaign doesn't run unless you resume it by changing this value to false.
         public let isPaused: Bool?
         /// The messaging limits for the campaign.
         public let limits: CampaignLimits?
@@ -11247,13 +11319,14 @@ extension Pinpoint {
         public let tags: [String: String]?
         /// The message template to use for the campaign.
         public let templateConfiguration: TemplateConfiguration?
-        /// A custom description of a variation of the campaign to use for A/B testing.
+        /// A custom description of the default treatment for the campaign.
         public let treatmentDescription: String?
-        /// A custom name for a variation of the campaign to use for A/B testing.
+        /// A custom name of the default treatment for the campaign, if the campaign has multiple treatments. A treatment is a variation of a campaign that's used for A/B testing.
         public let treatmentName: String?
 
-        public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(additionalTreatments: [WriteTreatmentResource]? = nil, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.additionalTreatments = additionalTreatments
+            self.customDeliveryConfiguration = customDeliveryConfiguration
             self.description = description
             self.holdoutPercent = holdoutPercent
             self.hook = hook
@@ -11272,6 +11345,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case additionalTreatments = "AdditionalTreatments"
+            case customDeliveryConfiguration = "CustomDeliveryConfiguration"
             case description = "Description"
             case holdoutPercent = "HoldoutPercent"
             case hook = "Hook"
@@ -11419,6 +11493,7 @@ extension Pinpoint {
 
     public struct WriteTreatmentResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomDeliveryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "SizePercent", required: true, type: .integer), 
@@ -11427,6 +11502,8 @@ extension Pinpoint {
             AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
 
+        /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
+        public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// The message configuration settings for the treatment.
         public let messageConfiguration: MessageConfiguration?
         /// The schedule settings for the treatment.
@@ -11437,10 +11514,11 @@ extension Pinpoint {
         public let templateConfiguration: TemplateConfiguration?
         /// A custom description of the treatment.
         public let treatmentDescription: String?
-        /// A custom name for the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
+        /// A custom name for the treatment.
         public let treatmentName: String?
 
-        public init(messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+            self.customDeliveryConfiguration = customDeliveryConfiguration
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule
             self.sizePercent = sizePercent
@@ -11450,6 +11528,7 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customDeliveryConfiguration = "CustomDeliveryConfiguration"
             case messageConfiguration = "MessageConfiguration"
             case schedule = "Schedule"
             case sizePercent = "SizePercent"

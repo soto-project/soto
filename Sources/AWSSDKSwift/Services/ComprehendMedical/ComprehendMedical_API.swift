@@ -37,6 +37,7 @@ public struct ComprehendMedical {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-10-30",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "comprehendmedical-fips.us-east-1.amazonaws.com", "fips-us-east-2": "comprehendmedical-fips.us-east-2.amazonaws.com", "fips-us-west-2": "comprehendmedical-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ComprehendMedicalErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

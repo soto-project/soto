@@ -20,6 +20,7 @@ public enum ECRErrorType: AWSErrorType {
     case lifecyclePolicyPreviewInProgressException(message: String?)
     case lifecyclePolicyPreviewNotFoundException(message: String?)
     case limitExceededException(message: String?)
+    case referencedImagesNotFoundException(message: String?)
     case repositoryAlreadyExistsException(message: String?)
     case repositoryNotEmptyException(message: String?)
     case repositoryNotFoundException(message: String?)
@@ -27,6 +28,7 @@ public enum ECRErrorType: AWSErrorType {
     case scanNotFoundException(message: String?)
     case serverException(message: String?)
     case tooManyTagsException(message: String?)
+    case unsupportedImageTypeException(message: String?)
     case uploadNotFoundException(message: String?)
 }
 
@@ -69,6 +71,8 @@ extension ECRErrorType {
             self = .lifecyclePolicyPreviewNotFoundException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ReferencedImagesNotFoundException":
+            self = .referencedImagesNotFoundException(message: message)
         case "RepositoryAlreadyExistsException":
             self = .repositoryAlreadyExistsException(message: message)
         case "RepositoryNotEmptyException":
@@ -83,6 +87,8 @@ extension ECRErrorType {
             self = .serverException(message: message)
         case "TooManyTagsException":
             self = .tooManyTagsException(message: message)
+        case "UnsupportedImageTypeException":
+            self = .unsupportedImageTypeException(message: message)
         case "UploadNotFoundException":
             self = .uploadNotFoundException(message: message)
         default:
@@ -126,6 +132,8 @@ extension ECRErrorType : CustomStringConvertible {
             return "LifecyclePolicyPreviewNotFoundException: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
+        case .referencedImagesNotFoundException(let message):
+            return "ReferencedImagesNotFoundException: \(message ?? "")"
         case .repositoryAlreadyExistsException(let message):
             return "RepositoryAlreadyExistsException: \(message ?? "")"
         case .repositoryNotEmptyException(let message):
@@ -140,6 +148,8 @@ extension ECRErrorType : CustomStringConvertible {
             return "ServerException: \(message ?? "")"
         case .tooManyTagsException(let message):
             return "TooManyTagsException: \(message ?? "")"
+        case .unsupportedImageTypeException(let message):
+            return "UnsupportedImageTypeException: \(message ?? "")"
         case .uploadNotFoundException(let message):
             return "UploadNotFoundException: \(message ?? "")"
         }

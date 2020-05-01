@@ -60,7 +60,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
             AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: false, type: .string)
+            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         /// The ARN of the Asset.
@@ -77,8 +78,9 @@ extension MediaPackageVod {
         public let sourceArn: String?
         /// The IAM role ARN used to access the source S3 bucket.
         public let sourceRoleArn: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: String? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -86,6 +88,7 @@ extension MediaPackageVod {
             self.resourceId = resourceId
             self.sourceArn = sourceArn
             self.sourceRoleArn = sourceRoleArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -96,6 +99,7 @@ extension MediaPackageVod {
             case resourceId = "resourceId"
             case sourceArn = "sourceArn"
             case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -148,7 +152,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
             AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: true, type: .string)
+            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let id: String
@@ -156,13 +161,15 @@ extension MediaPackageVod {
         public let resourceId: String?
         public let sourceArn: String
         public let sourceRoleArn: String
+        public let tags: [String: String]?
 
-        public init(id: String, packagingGroupId: String, resourceId: String? = nil, sourceArn: String, sourceRoleArn: String) {
+        public init(id: String, packagingGroupId: String, resourceId: String? = nil, sourceArn: String, sourceRoleArn: String, tags: [String: String]? = nil) {
             self.id = id
             self.packagingGroupId = packagingGroupId
             self.resourceId = resourceId
             self.sourceArn = sourceArn
             self.sourceRoleArn = sourceRoleArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -171,6 +178,7 @@ extension MediaPackageVod {
             case resourceId = "resourceId"
             case sourceArn = "sourceArn"
             case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -183,7 +191,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
             AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: false, type: .string)
+            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
@@ -194,8 +203,9 @@ extension MediaPackageVod {
         public let resourceId: String?
         public let sourceArn: String?
         public let sourceRoleArn: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.egressEndpoints = egressEndpoints
@@ -204,6 +214,7 @@ extension MediaPackageVod {
             self.resourceId = resourceId
             self.sourceArn = sourceArn
             self.sourceRoleArn = sourceRoleArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -215,6 +226,7 @@ extension MediaPackageVod {
             case resourceId = "resourceId"
             case sourceArn = "sourceArn"
             case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -225,7 +237,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: true, type: .string)
+            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let cmafPackage: CmafPackage?
@@ -234,14 +247,16 @@ extension MediaPackageVod {
         public let id: String
         public let mssPackage: MssPackage?
         public let packagingGroupId: String
+        public let tags: [String: String]?
 
-        public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String, mssPackage: MssPackage? = nil, packagingGroupId: String) {
+        public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String, mssPackage: MssPackage? = nil, packagingGroupId: String, tags: [String: String]? = nil) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
             self.id = id
             self.mssPackage = mssPackage
             self.packagingGroupId = packagingGroupId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -251,6 +266,7 @@ extension MediaPackageVod {
             case id = "id"
             case mssPackage = "mssPackage"
             case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -262,7 +278,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string)
+            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
@@ -272,8 +289,9 @@ extension MediaPackageVod {
         public let id: String?
         public let mssPackage: MssPackage?
         public let packagingGroupId: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil) {
+        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -281,6 +299,7 @@ extension MediaPackageVod {
             self.id = id
             self.mssPackage = mssPackage
             self.packagingGroupId = packagingGroupId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -291,22 +310,27 @@ extension MediaPackageVod {
             case id = "id"
             case mssPackage = "mssPackage"
             case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
     public struct CreatePackagingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let id: String
+        public let tags: [String: String]?
 
-        public init(id: String) {
+        public init(id: String, tags: [String: String]? = nil) {
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -314,23 +338,27 @@ extension MediaPackageVod {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let domainName: String?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil) {
+        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.domainName = domainName
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case domainName = "domainName"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -523,7 +551,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
             AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: false, type: .string)
+            AWSShapeMember(label: "SourceRoleArn", location: .body(locationName: "sourceRoleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
@@ -534,8 +563,9 @@ extension MediaPackageVod {
         public let resourceId: String?
         public let sourceArn: String?
         public let sourceRoleArn: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.egressEndpoints = egressEndpoints
@@ -544,6 +574,7 @@ extension MediaPackageVod {
             self.resourceId = resourceId
             self.sourceArn = sourceArn
             self.sourceRoleArn = sourceRoleArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -555,6 +586,7 @@ extension MediaPackageVod {
             case resourceId = "resourceId"
             case sourceArn = "sourceArn"
             case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -582,7 +614,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string)
+            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
@@ -592,8 +625,9 @@ extension MediaPackageVod {
         public let id: String?
         public let mssPackage: MssPackage?
         public let packagingGroupId: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil) {
+        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -601,6 +635,7 @@ extension MediaPackageVod {
             self.id = id
             self.mssPackage = mssPackage
             self.packagingGroupId = packagingGroupId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -611,6 +646,7 @@ extension MediaPackageVod {
             case id = "id"
             case mssPackage = "mssPackage"
             case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -634,23 +670,27 @@ extension MediaPackageVod {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let domainName: String?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil) {
+        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.domainName = domainName
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case domainName = "domainName"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -932,6 +972,38 @@ extension MediaPackageVod {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct MssEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
@@ -1003,7 +1075,8 @@ extension MediaPackageVod {
             AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string)
+            AWSShapeMember(label: "PackagingGroupId", location: .body(locationName: "packagingGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         /// The ARN of the PackagingConfiguration.
@@ -1016,8 +1089,9 @@ extension MediaPackageVod {
         public let mssPackage: MssPackage?
         /// The ID of a PackagingGroup.
         public let packagingGroupId: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil) {
+        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1025,6 +1099,7 @@ extension MediaPackageVod {
             self.id = id
             self.mssPackage = mssPackage
             self.packagingGroupId = packagingGroupId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1035,6 +1110,7 @@ extension MediaPackageVod {
             case id = "id"
             case mssPackage = "mssPackage"
             case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -1042,7 +1118,8 @@ extension MediaPackageVod {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         /// The ARN of the PackagingGroup.
@@ -1051,17 +1128,20 @@ extension MediaPackageVod {
         public let domainName: String?
         /// The ID of the PackagingGroup.
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil) {
+        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.domainName = domainName
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case domainName = "domainName"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -1117,6 +1197,46 @@ extension MediaPackageVod {
             case maxVideoBitsPerSecond = "maxVideoBitsPerSecond"
             case minVideoBitsPerSecond = "minVideoBitsPerSecond"
             case streamOrder = "streamOrder"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+        ]
+
+        public let resourceArn: String
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tags = "tags"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
         }
     }
 }

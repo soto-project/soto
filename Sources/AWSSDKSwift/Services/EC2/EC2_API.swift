@@ -36,6 +36,7 @@ public struct EC2 {
             serviceProtocol: ServiceProtocol(type: .other("ec2")),
             apiVersion: "2016-11-15",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "ec2-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "ec2-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ec2-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ec2-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ec2-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             eventLoopGroupProvider: eventLoopGroupProvider
         )
@@ -369,7 +370,7 @@ public struct EC2 {
     }
 
     ///  Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-    @discardableResult public func createPlacementGroup(_ input: CreatePlacementGroupRequest) -> EventLoopFuture<Void> {
+    public func createPlacementGroup(_ input: CreatePlacementGroupRequest) -> EventLoopFuture<CreatePlacementGroupResult> {
         return client.send(operation: "CreatePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -758,7 +759,7 @@ public struct EC2 {
         return client.send(operation: "DeregisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region. For more information, see Customizing Scheduled Event Notifications.
+    ///  Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
     public func deregisterInstanceEventNotificationAttributes(_ input: DeregisterInstanceEventNotificationAttributesRequest) -> EventLoopFuture<DeregisterInstanceEventNotificationAttributesResult> {
         return client.send(operation: "DeregisterInstanceEventNotificationAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -1833,7 +1834,7 @@ public struct EC2 {
         return client.send(operation: "RegisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers a set of tag keys to include in scheduled event notifications for your resources. For more information, see Customizing Scheduled Event Notifications. To remove tags, use .
+    ///  Registers a set of tag keys to include in scheduled event notifications for your resources.  To remove tags, use .
     public func registerInstanceEventNotificationAttributes(_ input: RegisterInstanceEventNotificationAttributesRequest) -> EventLoopFuture<RegisterInstanceEventNotificationAttributesResult> {
         return client.send(operation: "RegisterInstanceEventNotificationAttributes", path: "/", httpMethod: "POST", input: input)
     }

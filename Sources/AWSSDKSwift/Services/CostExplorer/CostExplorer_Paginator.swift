@@ -6,7 +6,7 @@ import NIO
 
 extension CostExplorer {
 
-    ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
+    ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
     public func getSavingsPlansCoveragePaginator(_ input: GetSavingsPlansCoverageRequest, onPage: @escaping (GetSavingsPlansCoverageResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSavingsPlansCoverage, tokenKey: \GetSavingsPlansCoverageResponse.nextToken, onPage: onPage)
     }
@@ -14,6 +14,11 @@ extension CostExplorer {
     ///  Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.   GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn. 
     public func getSavingsPlansUtilizationDetailsPaginator(_ input: GetSavingsPlansUtilizationDetailsRequest, onPage: @escaping (GetSavingsPlansUtilizationDetailsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSavingsPlansUtilizationDetails, tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
+    public func listCostCategoryDefinitionsPaginator(_ input: ListCostCategoryDefinitionsRequest, onPage: @escaping (ListCostCategoryDefinitionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCostCategoryDefinitions, tokenKey: \ListCostCategoryDefinitionsResponse.nextToken, onPage: onPage)
     }
 
 }
@@ -40,6 +45,17 @@ extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateStri
             maxResults: self.maxResults, 
             nextToken: token, 
             timePeriod: self.timePeriod
+        )
+
+    }
+}
+
+extension CostExplorer.ListCostCategoryDefinitionsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CostExplorer.ListCostCategoryDefinitionsRequest {
+        return .init(
+            effectiveOn: self.effectiveOn, 
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }

@@ -40,6 +40,12 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable {
+        case awsKms = "aws:kms"
+        case aes256 = "AES256"
+        public var description: String { return self.rawValue }
+    }
+
     public enum State: String, CustomStringConvertible, Codable {
         case waiting = "WAITING"
         case inProgress = "IN_PROGRESS"
@@ -650,6 +656,7 @@ extension DataExchange {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssetDestinations", required: true, type: .list), 
             AWSShapeMember(label: "DataSetId", required: true, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
             AWSShapeMember(label: "RevisionId", required: true, type: .string)
         ]
 
@@ -657,18 +664,22 @@ extension DataExchange {
         public let assetDestinations: [AssetDestinationEntry]
         /// The unique identifier for the data set associated with this export job.
         public let dataSetId: String
+        /// Encryption configuration for the export job.
+        public let encryption: ExportServerSideEncryption?
         /// The unique identifier for the revision associated with this export request.
         public let revisionId: String
 
-        public init(assetDestinations: [AssetDestinationEntry], dataSetId: String, revisionId: String) {
+        public init(assetDestinations: [AssetDestinationEntry], dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionId: String) {
             self.assetDestinations = assetDestinations
             self.dataSetId = dataSetId
+            self.encryption = encryption
             self.revisionId = revisionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetDestinations = "AssetDestinations"
             case dataSetId = "DataSetId"
+            case encryption = "Encryption"
             case revisionId = "RevisionId"
         }
     }
@@ -677,6 +688,7 @@ extension DataExchange {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssetDestinations", required: true, type: .list), 
             AWSShapeMember(label: "DataSetId", required: true, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
             AWSShapeMember(label: "RevisionId", required: true, type: .string)
         ]
 
@@ -684,19 +696,45 @@ extension DataExchange {
         public let assetDestinations: [AssetDestinationEntry]
         /// The unique identifier for the data set associated with this export job.
         public let dataSetId: String
+        /// Encryption configuration of the export job.
+        public let encryption: ExportServerSideEncryption?
         /// The unique identifier for the revision associated with this export response.
         public let revisionId: String
 
-        public init(assetDestinations: [AssetDestinationEntry], dataSetId: String, revisionId: String) {
+        public init(assetDestinations: [AssetDestinationEntry], dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionId: String) {
             self.assetDestinations = assetDestinations
             self.dataSetId = dataSetId
+            self.encryption = encryption
             self.revisionId = revisionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetDestinations = "AssetDestinations"
             case dataSetId = "DataSetId"
+            case encryption = "Encryption"
             case revisionId = "RevisionId"
+        }
+    }
+
+    public struct ExportServerSideEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyArn", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
+        public let kmsKeyArn: String
+        /// The type of server side encryption used for encrypting the objects in Amazon S3.
+        public let `type`: ServerSideEncryptionTypes
+
+        public init(kmsKeyArn: String, type: ServerSideEncryptionTypes) {
+            self.kmsKeyArn = kmsKeyArn
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case `type` = "Type"
         }
     }
 
@@ -1019,7 +1057,7 @@ extension DataExchange {
         public func validate(name: String) throws {
             try validate(self.md5Hash, name:"md5Hash", parent: name, max: 24)
             try validate(self.md5Hash, name:"md5Hash", parent: name, min: 24)
-            try validate(self.md5Hash, name:"md5Hash", parent: name, pattern: "/^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$/")
+            try validate(self.md5Hash, name:"md5Hash", parent: name, pattern: "/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1198,7 +1236,7 @@ extension DataExchange {
         public let limitValue: Double?
         /// The message related to the job error.
         public let message: String
-        /// The unqiue identifier for the resource related to the error.
+        /// The unique identifier for the resource related to the error.
         public let resourceId: String?
         /// The type of resource related to the error.
         public let resourceType: JobErrorResourceTypes?

@@ -59,9 +59,14 @@ public struct SecurityHub {
         return client.send(operation: "BatchEnableStandards", path: "/standards/register", httpMethod: "POST", input: input)
     }
 
-    ///  Imports security findings generated from an integrated third-party product into Security Hub. This action is requested by the integrated product to import its findings into Security Hub. The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb.
+    ///  Imports security findings generated from an integrated third-party product into Security Hub. This action is requested by the integrated product to import its findings into Security Hub. The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow   
     public func batchImportFindings(_ input: BatchImportFindingsRequest) -> EventLoopFuture<BatchImportFindingsResponse> {
         return client.send(operation: "BatchImportFindings", path: "/findings/import", httpMethod: "POST", input: input)
+    }
+
+    ///  Used by Security Hub customers to update information about their investigation into a finding. Requested by master accounts or member accounts. Master accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Master accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    Member accounts can only use BatchUpdateFindings to update the Note object.
+    public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest) -> EventLoopFuture<BatchUpdateFindingsResponse> {
+        return client.send(operation: "BatchUpdateFindings", path: "/findings/batchupdate", httpMethod: "PATCH", input: input)
     }
 
     ///  Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
@@ -234,7 +239,7 @@ public struct SecurityHub {
         return client.send(operation: "UpdateActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
+    ///   UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
     public func updateFindings(_ input: UpdateFindingsRequest) -> EventLoopFuture<UpdateFindingsResponse> {
         return client.send(operation: "UpdateFindings", path: "/findings", httpMethod: "PATCH", input: input)
     }

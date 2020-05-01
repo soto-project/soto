@@ -103,4 +103,16 @@ public struct MediaPackageVod {
     public func listPackagingGroups(_ input: ListPackagingGroupsRequest) -> EventLoopFuture<ListPackagingGroupsResponse> {
         return client.send(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", input: input)
     }
+
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
+    }
 }

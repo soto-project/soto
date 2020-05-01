@@ -1215,7 +1215,7 @@ extension Lambda {
         public let stateReason: String?
         /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
         public let stateReasonCode: StateReasonCode?
-        /// The amount of time that Lambda allows a function to run before stopping it.
+        /// The amount of time in seconds that Lambda allows a function to run before stopping it.
         public let timeout: Int?
         /// The function's AWS X-Ray tracing configuration.
         public let tracingConfig: TracingConfigResponse?

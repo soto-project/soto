@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS SageMaker service.
 
-Provides APIs for creating and managing Amazon SageMaker resources.
+Provides APIs for creating and managing Amazon SageMaker resources.  Other Resources:    Amazon SageMaker Developer Guide     Amazon Augmented AI Runtime API Reference   
 */
 public struct SageMaker {
 
@@ -587,7 +587,7 @@ public struct SageMaker {
         return client.send(operation: "RenderUiTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Finds Amazon SageMaker resources that match a search query. Matching resource objects are returned as a list of SearchResult objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
+    ///  Finds Amazon SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
     public func search(_ input: SearchRequest) -> EventLoopFuture<SearchResponse> {
         return client.send(operation: "Search", path: "/", httpMethod: "POST", input: input)
     }

@@ -10,6 +10,7 @@ public enum SchemasErrorType: AWSErrorType {
     case goneException(message: String?)
     case internalServerErrorException(message: String?)
     case notFoundException(message: String?)
+    case preconditionFailedException(message: String?)
     case serviceUnavailableException(message: String?)
     case tooManyRequestsException(message: String?)
     case unauthorizedException(message: String?)
@@ -34,6 +35,8 @@ extension SchemasErrorType {
             self = .internalServerErrorException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "PreconditionFailedException":
+            self = .preconditionFailedException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "TooManyRequestsException":
@@ -61,6 +64,8 @@ extension SchemasErrorType : CustomStringConvertible {
             return "InternalServerErrorException: \(message ?? "")"
         case .notFoundException(let message):
             return "NotFoundException: \(message ?? "")"
+        case .preconditionFailedException(let message):
+            return "PreconditionFailedException: \(message ?? "")"
         case .serviceUnavailableException(let message):
             return "ServiceUnavailableException: \(message ?? "")"
         case .tooManyRequestsException(let message):

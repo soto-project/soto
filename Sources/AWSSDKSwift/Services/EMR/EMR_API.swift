@@ -107,6 +107,11 @@ public struct EMR {
         return client.send(operation: "GetBlockPublicAccessConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Fetches the attached managed scaling policy for an Amazon EMR cluster. 
+    public func getManagedScalingPolicy(_ input: GetManagedScalingPolicyInput) -> EventLoopFuture<GetManagedScalingPolicyOutput> {
+        return client.send(operation: "GetManagedScalingPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Provides information about the bootstrap actions associated with a cluster.
     public func listBootstrapActions(_ input: ListBootstrapActionsInput) -> EventLoopFuture<ListBootstrapActionsOutput> {
         return client.send(operation: "ListBootstrapActions", path: "/", httpMethod: "POST", input: input)
@@ -167,9 +172,19 @@ public struct EMR {
         return client.send(operation: "PutBlockPublicAccessConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+    public func putManagedScalingPolicy(_ input: PutManagedScalingPolicyInput) -> EventLoopFuture<PutManagedScalingPolicyOutput> {
+        return client.send(operation: "PutManagedScalingPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Removes an automatic scaling policy from a specified instance group within an EMR cluster.
     public func removeAutoScalingPolicy(_ input: RemoveAutoScalingPolicyInput) -> EventLoopFuture<RemoveAutoScalingPolicyOutput> {
         return client.send(operation: "RemoveAutoScalingPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Removes a managed scaling policy from a specified EMR cluster. 
+    public func removeManagedScalingPolicy(_ input: RemoveManagedScalingPolicyInput) -> EventLoopFuture<RemoveManagedScalingPolicyOutput> {
+        return client.send(operation: "RemoveManagedScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters.  The following example removes the stack tag with value Prod from a cluster:

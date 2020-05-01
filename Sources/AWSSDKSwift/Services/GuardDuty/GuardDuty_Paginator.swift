@@ -31,9 +31,14 @@ extension GuardDuty {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists details about all member accounts for the current GuardDuty master account.
+    ///  Lists details about associated member accounts for the current GuardDuty master account.
     public func listMembersPaginator(_ input: ListMembersRequest, onPage: @escaping (ListMembersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists the accounts configured as AWS Organization delegated administrators.
+    public func listOrganizationAdminAccountsPaginator(_ input: ListOrganizationAdminAccountsRequest, onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of publishing destinations associated with the specified dectectorId.
@@ -110,6 +115,16 @@ extension GuardDuty.ListMembersRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             onlyAssociated: self.onlyAssociated
+        )
+
+    }
+}
+
+extension GuardDuty.ListOrganizationAdminAccountsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListOrganizationAdminAccountsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }

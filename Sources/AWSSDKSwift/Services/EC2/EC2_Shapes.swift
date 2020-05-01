@@ -6382,22 +6382,27 @@ extension EC2 {
     public struct CreateKeyPairRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeMember(label: "KeyName", required: true, type: .string)
+            AWSShapeMember(label: "KeyName", required: true, type: .string), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// A unique name for the key pair. Constraints: Up to 255 ASCII characters
         public let keyName: String
+        /// The tags to apply to the new key pair.
+        public let tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyName: String) {
+        public init(dryRun: Bool? = nil, keyName: String, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case keyName = "KeyName"
+            case tagSpecifications = "TagSpecification"
         }
     }
 
@@ -6931,7 +6936,8 @@ extension EC2 {
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
             AWSShapeMember(label: "PartitionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Strategy", location: .body(locationName: "strategy"), required: false, type: .enum)
+            AWSShapeMember(label: "Strategy", location: .body(locationName: "strategy"), required: false, type: .enum), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6942,12 +6948,15 @@ extension EC2 {
         public let partitionCount: Int?
         /// The placement strategy.
         public let strategy: PlacementStrategy?
+        /// The tags to apply to the new placement group.
+        public let tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, strategy: PlacementStrategy? = nil) {
+        public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, strategy: PlacementStrategy? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
             self.partitionCount = partitionCount
             self.strategy = strategy
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6955,6 +6964,23 @@ extension EC2 {
             case groupName = "groupName"
             case partitionCount = "PartitionCount"
             case strategy = "strategy"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreatePlacementGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlacementGroup", location: .body(locationName: "placementGroup"), required: false, type: .structure)
+        ]
+
+        public let placementGroup: PlacementGroup?
+
+        public init(placementGroup: PlacementGroup? = nil) {
+            self.placementGroup = placementGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placementGroup = "placementGroup"
         }
     }
 
@@ -9088,22 +9114,27 @@ extension EC2 {
     public struct DeleteKeyPairRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeMember(label: "KeyName", required: true, type: .string)
+            AWSShapeMember(label: "KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPairId", required: false, type: .string)
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The name of the key pair.
-        public let keyName: String
+        public let keyName: String?
+        /// The ID of the key pair.
+        public let keyPairId: String?
 
-        public init(dryRun: Bool? = nil, keyName: String) {
+        public init(dryRun: Bool? = nil, keyName: String? = nil, keyPairId: String? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
+            self.keyPairId = keyPairId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case keyName = "KeyName"
+            case keyPairId = "KeyPairId"
         }
     }
 
@@ -12596,7 +12627,7 @@ extension EC2 {
 
         /// The IAM instance profile associations.
         public let associationIds: [String]?
-        /// The filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating | disassociated).  
+        /// The filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating).  
         public let filters: [Filter]?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -13432,7 +13463,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
+        /// The filters.    key-pair-id - The ID of the key pair.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.  
         public let filters: [Filter]?
         /// The key pair names. Default: Describes all your key pairs.
         public let keyNames: [String]?
@@ -14403,7 +14434,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).  
+        /// The filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.  
         public let filters: [Filter]?
         /// The IDs of the placement groups.
         public let groupIds: [String]?
@@ -15871,7 +15902,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    key - The tag key.    resource-id - The ID of the resource.    resource-type - The resource type (customer-gateway | dedicated-host | dhcp-options | elastic-ip | fleet | fpga-image | image | instance | host-reservation | internet-gateway | launch-template | natgateway | network-acl | network-interface | placement-group | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpc-endpoint | vpc-endpoint-service | vpc-peering-connection | vpn-connection | vpn-gateway).    tag:&lt;key&gt; - The key/value combination of the tag. For example, specify "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with the tag "Owner=TeamA".    value - The tag value.  
+        /// The filters.    key - The tag key.    resource-id - The ID of the resource.    resource-type - The resource type (customer-gateway | dedicated-host | dhcp-options | elastic-ip | fleet | fpga-image | host-reservation | image | instance | internet-gateway | key-pair | launch-template | natgateway | network-acl | network-interface | placement-group | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpc-endpoint | vpc-endpoint-service | vpc-peering-connection | vpn-connection | vpn-gateway).    tag:&lt;key&gt; - The key/value combination of the tag. For example, specify "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with the tag "Owner=TeamA".    value - The tag value.  
         public let filters: [Filter]?
         /// The maximum number of results to return in a single call. This value can be between 5 and 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -22695,7 +22726,8 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName"), required: true, type: .string), 
-            AWSShapeMember(label: "PublicKeyMaterial", location: .body(locationName: "publicKeyMaterial"), required: true, type: .blob)
+            AWSShapeMember(label: "PublicKeyMaterial", location: .body(locationName: "publicKeyMaterial"), required: true, type: .blob), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -22704,39 +22736,53 @@ extension EC2 {
         public let keyName: String
         /// The public key. For API calls, the text must be base64-encoded. For command line tools, base64 encoding is performed for you.
         public let publicKeyMaterial: Data
+        /// The tags to apply to the imported key pair.
+        public let tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: Data) {
+        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: Data, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
             self.publicKeyMaterial = publicKeyMaterial
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case keyName = "keyName"
             case publicKeyMaterial = "publicKeyMaterial"
+            case tagSpecifications = "TagSpecification"
         }
     }
 
     public struct ImportKeyPairResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string)
+            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyPairId", location: .body(locationName: "keyPairId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
         public let keyFingerprint: String?
         /// The key pair name you provided.
         public let keyName: String?
+        /// The ID of the resulting key pair.
+        public let keyPairId: String?
+        /// The tags applied to the imported key pair.
+        public let tags: [Tag]?
 
-        public init(keyFingerprint: String? = nil, keyName: String? = nil) {
+        public init(keyFingerprint: String? = nil, keyName: String? = nil, keyPairId: String? = nil, tags: [Tag]? = nil) {
             self.keyFingerprint = keyFingerprint
             self.keyName = keyName
+            self.keyPairId = keyPairId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyFingerprint = "keyFingerprint"
             case keyName = "keyName"
+            case keyPairId = "keyPairId"
+            case tags = "tagSet"
         }
     }
 
@@ -24558,7 +24604,8 @@ extension EC2 {
             AWSShapeMember(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string), 
             AWSShapeMember(label: "KeyMaterial", location: .body(locationName: "keyMaterial"), required: false, type: .string), 
             AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
-            AWSShapeMember(label: "KeyPairId", location: .body(locationName: "keyPairId"), required: false, type: .string)
+            AWSShapeMember(label: "KeyPairId", location: .body(locationName: "keyPairId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// The SHA-1 digest of the DER encoded private key.
@@ -24569,12 +24616,15 @@ extension EC2 {
         public let keyName: String?
         /// The ID of the key pair.
         public let keyPairId: String?
+        /// Any tags applied to the key pair.
+        public let tags: [Tag]?
 
-        public init(keyFingerprint: String? = nil, keyMaterial: String? = nil, keyName: String? = nil, keyPairId: String? = nil) {
+        public init(keyFingerprint: String? = nil, keyMaterial: String? = nil, keyName: String? = nil, keyPairId: String? = nil, tags: [Tag]? = nil) {
             self.keyFingerprint = keyFingerprint
             self.keyMaterial = keyMaterial
             self.keyName = keyName
             self.keyPairId = keyPairId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -24582,6 +24632,7 @@ extension EC2 {
             case keyMaterial = "keyMaterial"
             case keyName = "keyName"
             case keyPairId = "keyPairId"
+            case tags = "tagSet"
         }
     }
 

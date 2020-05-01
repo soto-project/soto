@@ -433,6 +433,7 @@ extension RDS.DescribeOptionGroupsMessage: AWSPaginateStringToken {
 extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
+            availabilityZoneGroup: self.availabilityZoneGroup, 
             dBInstanceClass: self.dBInstanceClass, 
             engine: self.engine, 
             engineVersion: self.engineVersion, 

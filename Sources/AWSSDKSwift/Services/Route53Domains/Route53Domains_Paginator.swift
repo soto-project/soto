@@ -11,7 +11,7 @@ extension Route53Domains {
         return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextPageMarker, onPage: onPage)
     }
 
-    ///  This operation returns the operation IDs of operations that are not yet complete.
+    ///  Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. 
     public func listOperationsPaginator(_ input: ListOperationsRequest, onPage: @escaping (ListOperationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextPageMarker, onPage: onPage)
     }
