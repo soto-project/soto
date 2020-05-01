@@ -8,6 +8,7 @@ public enum CodeGuruReviewerErrorType: AWSErrorType {
     case conflictException(message: String?)
     case internalServerException(message: String?)
     case notFoundException(message: String?)
+    case resourceNotFoundException(message: String?)
     case throttlingException(message: String?)
     case validationException(message: String?)
 }
@@ -27,6 +28,8 @@ extension CodeGuruReviewerErrorType {
             self = .internalServerException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         case "ValidationException":
@@ -48,6 +51,8 @@ extension CodeGuruReviewerErrorType : CustomStringConvertible {
             return "InternalServerException: \(message ?? "")"
         case .notFoundException(let message):
             return "NotFoundException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
         case .throttlingException(let message):
             return "ThrottlingException: \(message ?? "")"
         case .validationException(let message):

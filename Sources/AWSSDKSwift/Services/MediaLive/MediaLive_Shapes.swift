@@ -430,6 +430,18 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Fmp4NielsenId3Behavior: String, CustomStringConvertible, Codable {
+        case noPassthrough = "NO_PASSTHROUGH"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Fmp4TimedMetadataBehavior: String, CustomStringConvertible, Codable {
+        case noPassthrough = "NO_PASSTHROUGH"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FollowPoint: String, CustomStringConvertible, Codable {
         case end = "END"
         case start = "START"
@@ -559,6 +571,12 @@ extension MediaLive {
         case high422 = "HIGH_422"
         case high42210Bit = "HIGH_422_10BIT"
         case main = "MAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264QualityLevel: String, CustomStringConvertible, Codable {
+        case enhancedQuality = "ENHANCED_QUALITY"
+        case standardQuality = "STANDARD_QUALITY"
         public var description: String { return self.rawValue }
     }
 
@@ -1372,6 +1390,7 @@ extension MediaLive {
     public enum SmoothGroupSparseTrackType: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case scte35 = "SCTE_35"
+        case scte35WithoutSegmentation = "SCTE_35_WITHOUT_SEGMENTATION"
         public var description: String { return self.rawValue }
     }
 
@@ -1384,6 +1403,34 @@ extension MediaLive {
     public enum SmoothGroupTimestampOffsetMode: String, CustomStringConvertible, Codable {
         case useConfiguredOffset = "USE_CONFIGURED_OFFSET"
         case useEventStartDate = "USE_EVENT_START_DATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemporalFilterPostFilterSharpening: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemporalFilterStrength: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case strength1 = "STRENGTH_1"
+        case strength10 = "STRENGTH_10"
+        case strength11 = "STRENGTH_11"
+        case strength12 = "STRENGTH_12"
+        case strength13 = "STRENGTH_13"
+        case strength14 = "STRENGTH_14"
+        case strength15 = "STRENGTH_15"
+        case strength16 = "STRENGTH_16"
+        case strength2 = "STRENGTH_2"
+        case strength3 = "STRENGTH_3"
+        case strength4 = "STRENGTH_4"
+        case strength5 = "STRENGTH_5"
+        case strength6 = "STRENGTH_6"
+        case strength7 = "STRENGTH_7"
+        case strength8 = "STRENGTH_8"
+        case strength9 = "STRENGTH_9"
         public var description: String { return self.rawValue }
     }
 
@@ -1919,24 +1966,73 @@ extension MediaLive {
     public struct AudioSelectorSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioLanguageSelection", location: .body(locationName: "audioLanguageSelection"), required: false, type: .structure), 
-            AWSShapeMember(label: "AudioPidSelection", location: .body(locationName: "audioPidSelection"), required: false, type: .structure)
+            AWSShapeMember(label: "AudioPidSelection", location: .body(locationName: "audioPidSelection"), required: false, type: .structure), 
+            AWSShapeMember(label: "AudioTrackSelection", location: .body(locationName: "audioTrackSelection"), required: false, type: .structure)
         ]
 
         public let audioLanguageSelection: AudioLanguageSelection?
         public let audioPidSelection: AudioPidSelection?
+        public let audioTrackSelection: AudioTrackSelection?
 
-        public init(audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil) {
+        public init(audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil, audioTrackSelection: AudioTrackSelection? = nil) {
             self.audioLanguageSelection = audioLanguageSelection
             self.audioPidSelection = audioPidSelection
+            self.audioTrackSelection = audioTrackSelection
         }
 
         public func validate(name: String) throws {
             try self.audioPidSelection?.validate(name: "\(name).audioPidSelection")
+            try self.audioTrackSelection?.validate(name: "\(name).audioTrackSelection")
         }
 
         private enum CodingKeys: String, CodingKey {
             case audioLanguageSelection = "audioLanguageSelection"
             case audioPidSelection = "audioPidSelection"
+            case audioTrackSelection = "audioTrackSelection"
+        }
+    }
+
+    public struct AudioTrack: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Track", location: .body(locationName: "track"), required: true, type: .integer)
+        ]
+
+        /// 1-based integer value that maps to a specific audio track
+        public let track: Int
+
+        public init(track: Int) {
+            self.track = track
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.track, name:"track", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case track = "track"
+        }
+    }
+
+    public struct AudioTrackSelection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tracks", location: .body(locationName: "tracks"), required: true, type: .list)
+        ]
+
+        /// Selects one or more unique audio tracks from within an mp4 source.
+        public let tracks: [AudioTrack]
+
+        public init(tracks: [AudioTrack]) {
+            self.tracks = tracks
+        }
+
+        public func validate(name: String) throws {
+            try self.tracks.forEach {
+                try $0.validate(name: "\(name).tracks[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tracks = "tracks"
         }
     }
 
@@ -4506,18 +4602,28 @@ extension MediaLive {
 
     public struct Fmp4HlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string)
+            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string), 
+            AWSShapeMember(label: "NielsenId3Behavior", location: .body(locationName: "nielsenId3Behavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimedMetadataBehavior", location: .body(locationName: "timedMetadataBehavior"), required: false, type: .enum)
         ]
 
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public let nielsenId3Behavior: Fmp4NielsenId3Behavior?
+        /// When set to passthrough, timed metadata is passed through from input to output.
+        public let timedMetadataBehavior: Fmp4TimedMetadataBehavior?
 
-        public init(audioRenditionSets: String? = nil) {
+        public init(audioRenditionSets: String? = nil, nielsenId3Behavior: Fmp4NielsenId3Behavior? = nil, timedMetadataBehavior: Fmp4TimedMetadataBehavior? = nil) {
             self.audioRenditionSets = audioRenditionSets
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.timedMetadataBehavior = timedMetadataBehavior
         }
 
         private enum CodingKeys: String, CodingKey {
             case audioRenditionSets = "audioRenditionSets"
+            case nielsenId3Behavior = "nielsenId3Behavior"
+            case timedMetadataBehavior = "timedMetadataBehavior"
         }
     }
 
@@ -4678,6 +4784,22 @@ extension MediaLive {
         }
     }
 
+    public struct H264FilterSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemporalFilterSettings", location: .body(locationName: "temporalFilterSettings"), required: false, type: .structure)
+        ]
+
+        public let temporalFilterSettings: TemporalFilterSettings?
+
+        public init(temporalFilterSettings: TemporalFilterSettings? = nil) {
+            self.temporalFilterSettings = temporalFilterSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case temporalFilterSettings = "temporalFilterSettings"
+        }
+    }
+
     public struct H264Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization"), required: false, type: .enum), 
@@ -4688,6 +4810,7 @@ extension MediaLive {
             AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata"), required: false, type: .enum), 
             AWSShapeMember(label: "ColorSpaceSettings", location: .body(locationName: "colorSpaceSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "EntropyEncoding", location: .body(locationName: "entropyEncoding"), required: false, type: .enum), 
+            AWSShapeMember(label: "FilterSettings", location: .body(locationName: "filterSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd"), required: false, type: .enum), 
             AWSShapeMember(label: "FlickerAq", location: .body(locationName: "flickerAq"), required: false, type: .enum), 
             AWSShapeMember(label: "ForceFieldPictures", location: .body(locationName: "forceFieldPictures"), required: false, type: .enum), 
@@ -4708,6 +4831,7 @@ extension MediaLive {
             AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator"), required: false, type: .integer), 
             AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator"), required: false, type: .integer), 
             AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum), 
+            AWSShapeMember(label: "QualityLevel", location: .body(locationName: "qualityLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"), required: false, type: .integer), 
             AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
             AWSShapeMember(label: "ScanType", location: .body(locationName: "scanType"), required: false, type: .enum), 
@@ -4737,13 +4861,15 @@ extension MediaLive {
         public let colorSpaceSettings: H264ColorSpaceSettings?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
         public let entropyEncoding: H264EntropyEncoding?
+        /// Settings associated with the specified filter.
+        public let filterSettings: H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
         /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
         public let flickerAq: H264FlickerAq?
-        /// This setting applies only when scan type is "interlaced." It controls whether coding is on a field basis or a frame basis. (When the video is progressive, the coding is always on a frame basis.)
-        /// enabled: Always code on a field basis, so that odd and even sets of fields are coded separately.
-        /// disabled: Code the two sets of fields separately (on a field basis) or together (on a frame basis, using PAFF or MBAFF), depending on what is most appropriate for the content.
+        /// This setting applies only when scan type is "interlaced." It controls whether coding is performed on a field basis or on a frame basis. (When the video is progressive, the coding is always performed on a frame basis.)
+        /// enabled: Force MediaLive to code on a field basis, so that odd and even sets of fields are coded separately.
+        /// disabled: Code the two sets of fields separately (on a field basis) or together (on a frame basis using PAFF), depending on what is most appropriate for the content.
         public let forceFieldPictures: H264ForceFieldPictures?
         /// This field indicates how the output video frame rate is specified.  If "specified" is selected then the output video frame rate is determined by framerateNumerator and framerateDenominator, else if "initializeFromSource" is selected then the output video frame rate will be set equal to the input video frame rate of the first input.
         public let framerateControl: H264FramerateControl?
@@ -4782,6 +4908,8 @@ extension MediaLive {
         public let parNumerator: Int?
         /// H.264 Profile.
         public let profile: H264Profile?
+        /// If set to "ENHANCEDQUALITY," improves visual quality at an increased output cost. If this video is being delivered to a MediaLive Multiplex, "ENHANCEDQUALITY" is always used.
+        public let qualityLevel: H264QualityLevel?
         /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality level field and Max bitrate field that suit your most important viewing devices. Recommended values are:
         /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
         /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
@@ -4822,7 +4950,7 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -4831,6 +4959,7 @@ extension MediaLive {
             self.colorMetadata = colorMetadata
             self.colorSpaceSettings = colorSpaceSettings
             self.entropyEncoding = entropyEncoding
+            self.filterSettings = filterSettings
             self.fixedAfd = fixedAfd
             self.flickerAq = flickerAq
             self.forceFieldPictures = forceFieldPictures
@@ -4851,6 +4980,7 @@ extension MediaLive {
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
             self.profile = profile
+            self.qualityLevel = qualityLevel
             self.qvbrQualityLevel = qvbrQualityLevel
             self.rateControlMode = rateControlMode
             self.scanType = scanType
@@ -4897,6 +5027,7 @@ extension MediaLive {
             case colorMetadata = "colorMetadata"
             case colorSpaceSettings = "colorSpaceSettings"
             case entropyEncoding = "entropyEncoding"
+            case filterSettings = "filterSettings"
             case fixedAfd = "fixedAfd"
             case flickerAq = "flickerAq"
             case forceFieldPictures = "forceFieldPictures"
@@ -4917,6 +5048,7 @@ extension MediaLive {
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
             case profile = "profile"
+            case qualityLevel = "qualityLevel"
             case qvbrQualityLevel = "qvbrQualityLevel"
             case rateControlMode = "rateControlMode"
             case scanType = "scanType"
@@ -5422,6 +5554,7 @@ extension MediaLive {
         /// VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
         public let mode: HlsMode?
         /// MANIFESTSANDSEGMENTS: Generates manifests (master manifest, if applicable, and media manifests) for this output group.
+        /// VARIANTMANIFESTSANDSEGMENTS: Generates media manifests for this output group, but not a master manifest.
         /// SEGMENTSONLY: Does not generate any manifests for this output group.
         public let outputSelection: HlsOutputSelection?
         /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files. The value is calculated as follows: either the program date and time are initialized using the input timecode source, or the time is initialized using the input timecode source and the date is initialized using the timestampOffset.
@@ -7386,7 +7519,7 @@ extension MediaLive {
         public let segmentationMode: SmoothGroupSegmentationMode?
         /// Number of milliseconds to delay the output from the second pipeline.
         public let sendDelayMs: Int?
-        /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs.
+        /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs. scte35WithoutSegmentation is the same as scte35, except EML will not start a new segment at a SCTE-35 marker. It will still encode an IDR frame at a SCTE-35 marker.
         public let sparseTrackType: SmoothGroupSparseTrackType?
         /// When set to send, send stream manifest so publishing point doesn't start until all streams start.
         public let streamManifestBehavior: SmoothGroupStreamManifestBehavior?
@@ -9818,6 +9951,28 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case pageNumber = "pageNumber"
+        }
+    }
+
+    public struct TemporalFilterSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PostFilterSharpening", location: .body(locationName: "postFilterSharpening"), required: false, type: .enum), 
+            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"), required: false, type: .enum)
+        ]
+
+        /// If set to "ENABLED," applies post-filter sharpening to improve visual quality. This is most beneficial when using a noisy or compressed input source and low output bitrates.
+        public let postFilterSharpening: TemporalFilterPostFilterSharpening?
+        /// Filter strength. A higher value produces stronger filtering.
+        public let strength: TemporalFilterStrength?
+
+        public init(postFilterSharpening: TemporalFilterPostFilterSharpening? = nil, strength: TemporalFilterStrength? = nil) {
+            self.postFilterSharpening = postFilterSharpening
+            self.strength = strength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postFilterSharpening = "postFilterSharpening"
+            case strength = "strength"
         }
     }
 

@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS Schemas service.
 
-AWS EventBridge Schemas
+Amazon EventBridge Schema Registry
 */
 public struct Schemas {
 
@@ -54,7 +54,7 @@ public struct Schemas {
         return client.send(operation: "CreateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a schema definition.
+    ///  Creates a schema definition. Inactive schemas will be deleted after two years.
     public func createSchema(_ input: CreateSchemaRequest) -> EventLoopFuture<CreateSchemaResponse> {
         return client.send(operation: "CreateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "POST", input: input)
     }
@@ -67,6 +67,11 @@ public struct Schemas {
     ///  Deletes a Registry.
     @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Delete the resource-based policy attached to the specified registry.
+    @discardableResult public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteResourcePolicy", path: "/v1/policy", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete a schema definition.
@@ -109,6 +114,11 @@ public struct Schemas {
         return client.send(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves the resource-based policy attached to a given registry.
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest) -> EventLoopFuture<GetResourcePolicyResponse> {
+        return client.send(operation: "GetResourcePolicy", path: "/v1/policy", httpMethod: "GET", input: input)
+    }
+
     ///  List the discoverers.
     public func listDiscoverers(_ input: ListDiscoverersRequest) -> EventLoopFuture<ListDiscoverersResponse> {
         return client.send(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: "GET", input: input)
@@ -134,13 +144,14 @@ public struct Schemas {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
-    public func lockServiceLinkedRole(_ input: LockServiceLinkedRoleRequest) -> EventLoopFuture<LockServiceLinkedRoleResponse> {
-        return client.send(operation: "LockServiceLinkedRole", path: "/slr-deletion/lock", httpMethod: "POST", input: input)
-    }
-
     ///  Put code binding URI
     public func putCodeBinding(_ input: PutCodeBindingRequest) -> EventLoopFuture<PutCodeBindingResponse> {
         return client.send(operation: "PutCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: "POST", input: input)
+    }
+
+    ///  The name of the policy.
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest) -> EventLoopFuture<PutResourcePolicyResponse> {
+        return client.send(operation: "PutResourcePolicy", path: "/v1/policy", httpMethod: "PUT", input: input)
     }
 
     ///  Search the schemas
@@ -163,10 +174,6 @@ public struct Schemas {
         return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
-    public func unlockServiceLinkedRole(_ input: UnlockServiceLinkedRoleRequest) -> EventLoopFuture<UnlockServiceLinkedRoleResponse> {
-        return client.send(operation: "UnlockServiceLinkedRole", path: "/slr-deletion/unlock", httpMethod: "POST", input: input)
-    }
-
     ///  Removes tags from a resource.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
@@ -182,7 +189,7 @@ public struct Schemas {
         return client.send(operation: "UpdateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the schema definition
+    ///  Updates the schema definition Inactive schemas will be deleted after two years.
     public func updateSchema(_ input: UpdateSchemaRequest) -> EventLoopFuture<UpdateSchemaResponse> {
         return client.send(operation: "UpdateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "PUT", input: input)
     }

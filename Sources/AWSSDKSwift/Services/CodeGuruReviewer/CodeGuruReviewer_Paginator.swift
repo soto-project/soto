@@ -6,11 +6,64 @@ import NIO
 
 extension CodeGuruReviewer {
 
+    ///   Lists all the code reviews that the customer has created in the past 90 days. 
+    public func listCodeReviewsPaginator(_ input: ListCodeReviewsRequest, onPage: @escaping (ListCodeReviewsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCodeReviews, tokenKey: \ListCodeReviewsResponse.nextToken, onPage: onPage)
+    }
+
+    ///   Lists the customer feedback for a CodeGuru Reviewer recommendation for all users. This API will be used from the console to extract the previously given feedback by the user to pre-populate the feedback emojis for all recommendations. 
+    public func listRecommendationFeedbackPaginator(_ input: ListRecommendationFeedbackRequest, onPage: @escaping (ListRecommendationFeedbackResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRecommendationFeedback, tokenKey: \ListRecommendationFeedbackResponse.nextToken, onPage: onPage)
+    }
+
+    ///   Returns the list of all recommendations for a completed code review. 
+    public func listRecommendationsPaginator(_ input: ListRecommendationsRequest, onPage: @escaping (ListRecommendationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRecommendations, tokenKey: \ListRecommendationsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
     public func listRepositoryAssociationsPaginator(_ input: ListRepositoryAssociationsRequest, onPage: @escaping (ListRepositoryAssociationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositoryAssociations, tokenKey: \ListRepositoryAssociationsResponse.nextToken, onPage: onPage)
     }
 
+}
+
+extension CodeGuruReviewer.ListCodeReviewsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CodeGuruReviewer.ListCodeReviewsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            providerTypes: self.providerTypes, 
+            repositoryNames: self.repositoryNames, 
+            states: self.states, 
+            type: self.type
+        )
+
+    }
+}
+
+extension CodeGuruReviewer.ListRecommendationFeedbackRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CodeGuruReviewer.ListRecommendationFeedbackRequest {
+        return .init(
+            codeReviewArn: self.codeReviewArn, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            recommendationIds: self.recommendationIds, 
+            userIds: self.userIds
+        )
+
+    }
+}
+
+extension CodeGuruReviewer.ListRecommendationsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CodeGuruReviewer.ListRecommendationsRequest {
+        return .init(
+            codeReviewArn: self.codeReviewArn, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
 }
 
 extension CodeGuruReviewer.ListRepositoryAssociationsRequest: AWSPaginateStringToken {

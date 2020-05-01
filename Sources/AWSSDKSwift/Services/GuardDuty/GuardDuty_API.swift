@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS GuardDuty service.
 
-Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC Flow Logs, AWS CloudTrail event logs, and DNS logs. It uses threat intelligence feeds, such as lists of malicious IPs and domains, and machine learning to identify unexpected and potentially unauthorized and malicious activity within your AWS environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, URLs, or domains. For example, GuardDuty can detect compromised EC2 instances serving malware or mining bitcoin. It also monitors AWS account access behavior for signs of compromise, such as unauthorized infrastructure deployments, like instances deployed in a region that has never been used, or unusual API calls, like a password policy change to reduce password strength. GuardDuty informs you of the status of your AWS environment by producing security findings that you can view in the GuardDuty console or through Amazon CloudWatch events. For more information, see Amazon GuardDuty User Guide. 
+Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC Flow Logs, AWS CloudTrail event logs, and DNS logs. It uses threat intelligence feeds (such as lists of malicious IPs and domains) and machine learning to identify unexpected, potentially unauthorized, and malicious activity within your AWS environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, URLs, or domains. For example, GuardDuty can detect compromised EC2 instances that serve malware or mine bitcoin.  GuardDuty also monitors AWS account access behavior for signs of compromise. Some examples of this are unauthorized infrastructure deployments such as EC2 instances deployed in a Region that has never been used, or unusual API calls like a password policy change to reduce password strength.  GuardDuty informs you of the status of your AWS environment by producing security findings that you can view in the GuardDuty console or through Amazon CloudWatch events. For more information, see the  Amazon GuardDuty User Guide . 
 */
 public struct GuardDuty {
 
@@ -50,12 +50,12 @@ public struct GuardDuty {
         return client.send(operation: "AcceptInvitation", path: "/detector/{detectorId}/master", httpMethod: "POST", input: input)
     }
 
-    ///  Archives GuardDuty findings specified by the list of finding IDs.  Only the master account can archive findings. Member accounts do not have permission to archive findings from their accounts. 
+    ///  Archives GuardDuty findings that are specified by the list of finding IDs.  Only the master account can archive findings. Member accounts don't have permission to archive findings from their accounts. 
     public func archiveFindings(_ input: ArchiveFindingsRequest) -> EventLoopFuture<ArchiveFindingsResponse> {
         return client.send(operation: "ArchiveFindings", path: "/detector/{detectorId}/findings/archive", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each region that you enable the service. You can have only one detector per account per region.
+    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region.
     public func createDetector(_ input: CreateDetectorRequest) -> EventLoopFuture<CreateDetectorResponse> {
         return client.send(operation: "CreateDetector", path: "/detector", httpMethod: "POST", input: input)
     }
@@ -65,7 +65,7 @@ public struct GuardDuty {
         return client.send(operation: "CreateFilter", path: "/detector/{detectorId}/filter", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new IPSet, called Trusted IP list in the consoler user interface. An IPSet is a list IP addresses trusted for secure communication with AWS infrastructure and applications. GuardDuty does not generate findings for IP addresses included in IPSets. Only users from the master account can use this operation.
+    ///  Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with AWS infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the master account can use this operation.
     public func createIPSet(_ input: CreateIPSetRequest) -> EventLoopFuture<CreateIPSetResponse> {
         return client.send(operation: "CreateIPSet", path: "/detector/{detectorId}/ipset", httpMethod: "POST", input: input)
     }
@@ -75,7 +75,7 @@ public struct GuardDuty {
         return client.send(operation: "CreateMembers", path: "/detector/{detectorId}/member", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a publishing destination to send findings to. The resource to send findings to must exist before you use this operation.
+    ///  Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
     public func createPublishingDestination(_ input: CreatePublishingDestinationRequest) -> EventLoopFuture<CreatePublishingDestinationResponse> {
         return client.send(operation: "CreatePublishingDestination", path: "/detector/{detectorId}/publishingDestination", httpMethod: "POST", input: input)
     }
@@ -85,17 +85,17 @@ public struct GuardDuty {
         return client.send(operation: "CreateSampleFindings", path: "/detector/{detectorId}/findings/create", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the master account can use this operation.
+    ///  Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the master account can use this operation.
     public func createThreatIntelSet(_ input: CreateThreatIntelSetRequest) -> EventLoopFuture<CreateThreatIntelSetResponse> {
         return client.send(operation: "CreateThreatIntelSet", path: "/detector/{detectorId}/threatintelset", httpMethod: "POST", input: input)
     }
 
-    ///  Declines invitations sent to the current member account by AWS account specified by their account IDs.
+    ///  Declines invitations sent to the current member account by AWS accounts specified by their account IDs.
     public func declineInvitations(_ input: DeclineInvitationsRequest) -> EventLoopFuture<DeclineInvitationsResponse> {
         return client.send(operation: "DeclineInvitations", path: "/invitation/decline", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a Amazon GuardDuty detector specified by the detector ID.
+    ///  Deletes an Amazon GuardDuty detector that is specified by the detector ID.
     public func deleteDetector(_ input: DeleteDetectorRequest) -> EventLoopFuture<DeleteDetectorResponse> {
         return client.send(operation: "DeleteDetector", path: "/detector/{detectorId}", httpMethod: "DELETE", input: input)
     }
@@ -105,7 +105,7 @@ public struct GuardDuty {
         return client.send(operation: "DeleteFilter", path: "/detector/{detectorId}/filter/{filterName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes the IPSet specified by the ipSetId. IPSets are called Trusted IP lists in the console user interface.
+    ///  Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
     public func deleteIPSet(_ input: DeleteIPSetRequest) -> EventLoopFuture<DeleteIPSetResponse> {
         return client.send(operation: "DeleteIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: "DELETE", input: input)
     }
@@ -125,14 +125,24 @@ public struct GuardDuty {
         return client.send(operation: "DeletePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes ThreatIntelSet specified by the ThreatIntelSet ID.
+    ///  Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     public func deleteThreatIntelSet(_ input: DeleteThreatIntelSetRequest) -> EventLoopFuture<DeleteThreatIntelSetResponse> {
         return client.send(operation: "DeleteThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Returns information about the account selected as the delegated administrator for GuardDuty.
+    public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest) -> EventLoopFuture<DescribeOrganizationConfigurationResponse> {
+        return client.send(operation: "DescribeOrganizationConfiguration", path: "/detector/{detectorId}/admin", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about the publishing destination specified by the provided destinationId.
     public func describePublishingDestination(_ input: DescribePublishingDestinationRequest) -> EventLoopFuture<DescribePublishingDestinationResponse> {
         return client.send(operation: "DescribePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Disables GuardDuty administrator permissions for an AWS account within the Organization.
+    public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
+        return client.send(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the current GuardDuty member account from its master account.
@@ -143,6 +153,11 @@ public struct GuardDuty {
     ///  Disassociates GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
     public func disassociateMembers(_ input: DisassociateMembersRequest) -> EventLoopFuture<DisassociateMembersResponse> {
         return client.send(operation: "DisassociateMembers", path: "/detector/{detectorId}/member/disassociate", httpMethod: "POST", input: input)
+    }
+
+    ///  Enables GuardDuty administrator permissions for an AWS account within the organization.
+    public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
+        return client.send(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves an Amazon GuardDuty detector specified by the detectorId.
@@ -160,7 +175,7 @@ public struct GuardDuty {
         return client.send(operation: "GetFindings", path: "/detector/{detectorId}/findings/get", httpMethod: "POST", input: input)
     }
 
-    ///  Lists Amazon GuardDuty findings' statistics for the specified detector ID.
+    ///  Lists Amazon GuardDuty findings statistics for the specified detector ID.
     public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest) -> EventLoopFuture<GetFindingsStatisticsResponse> {
         return client.send(operation: "GetFindingsStatistics", path: "/detector/{detectorId}/findings/statistics", httpMethod: "POST", input: input)
     }
@@ -190,7 +205,7 @@ public struct GuardDuty {
         return client.send(operation: "GetThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "GET", input: input)
     }
 
-    ///  Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty and allow the current AWS account to view and manage these accounts' GuardDuty findings on their behalf as the master account.
+    ///  Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' GuardDuty findings on their behalf as the master account.
     public func inviteMembers(_ input: InviteMembersRequest) -> EventLoopFuture<InviteMembersResponse> {
         return client.send(operation: "InviteMembers", path: "/detector/{detectorId}/member/invite", httpMethod: "POST", input: input)
     }
@@ -220,9 +235,14 @@ public struct GuardDuty {
         return client.send(operation: "ListInvitations", path: "/invitation", httpMethod: "GET", input: input)
     }
 
-    ///  Lists details about all member accounts for the current GuardDuty master account.
+    ///  Lists details about associated member accounts for the current GuardDuty master account.
     public func listMembers(_ input: ListMembersRequest) -> EventLoopFuture<ListMembersResponse> {
         return client.send(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the accounts configured as AWS Organization delegated administrators.
+    public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
+        return client.send(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of publishing destinations associated with the specified dectectorId.
@@ -230,7 +250,7 @@ public struct GuardDuty {
         return client.send(operation: "ListPublishingDestinations", path: "/detector/{detectorId}/publishingDestination", httpMethod: "GET", input: input)
     }
 
-    ///  Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and Threat Intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource..
+    ///  Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
@@ -245,7 +265,7 @@ public struct GuardDuty {
         return client.send(operation: "StartMonitoringMembers", path: "/detector/{detectorId}/member/start", httpMethod: "POST", input: input)
     }
 
-    ///  Stops GuardDuty monitoring for the specified member accounnts. Use the StartMonitoringMembers to restart monitoring for those accounts.
+    ///  Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts.
     public func stopMonitoringMembers(_ input: StopMonitoringMembersRequest) -> EventLoopFuture<StopMonitoringMembersResponse> {
         return client.send(operation: "StopMonitoringMembers", path: "/detector/{detectorId}/member/stop", httpMethod: "POST", input: input)
     }
@@ -285,12 +305,17 @@ public struct GuardDuty {
         return client.send(operation: "UpdateIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: "POST", input: input)
     }
 
+    ///  Updates the delegated administrator account with the values provided.
+    public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest) -> EventLoopFuture<UpdateOrganizationConfigurationResponse> {
+        return client.send(operation: "UpdateOrganizationConfiguration", path: "/detector/{detectorId}/admin", httpMethod: "POST", input: input)
+    }
+
     ///  Updates information about the publishing destination specified by the destinationId.
     public func updatePublishingDestination(_ input: UpdatePublishingDestinationRequest) -> EventLoopFuture<UpdatePublishingDestinationResponse> {
         return client.send(operation: "UpdatePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the ThreatIntelSet specified by ThreatIntelSet ID.
+    ///  Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
     public func updateThreatIntelSet(_ input: UpdateThreatIntelSetRequest) -> EventLoopFuture<UpdateThreatIntelSetResponse> {
         return client.send(operation: "UpdateThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "POST", input: input)
     }

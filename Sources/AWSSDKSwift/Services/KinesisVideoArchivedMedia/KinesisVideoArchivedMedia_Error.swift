@@ -7,6 +7,7 @@ public enum KinesisVideoArchivedMediaErrorType: AWSErrorType {
     case clientLimitExceededException(message: String?)
     case invalidArgumentException(message: String?)
     case invalidCodecPrivateDataException(message: String?)
+    case invalidMediaFrameException(message: String?)
     case missingCodecPrivateDataException(message: String?)
     case noDataRetentionException(message: String?)
     case notAuthorizedException(message: String?)
@@ -27,6 +28,8 @@ extension KinesisVideoArchivedMediaErrorType {
             self = .invalidArgumentException(message: message)
         case "InvalidCodecPrivateDataException":
             self = .invalidCodecPrivateDataException(message: message)
+        case "InvalidMediaFrameException":
+            self = .invalidMediaFrameException(message: message)
         case "MissingCodecPrivateDataException":
             self = .missingCodecPrivateDataException(message: message)
         case "NoDataRetentionException":
@@ -52,6 +55,8 @@ extension KinesisVideoArchivedMediaErrorType : CustomStringConvertible {
             return "InvalidArgumentException: \(message ?? "")"
         case .invalidCodecPrivateDataException(let message):
             return "InvalidCodecPrivateDataException: \(message ?? "")"
+        case .invalidMediaFrameException(let message):
+            return "InvalidMediaFrameException: \(message ?? "")"
         case .missingCodecPrivateDataException(let message):
             return "MissingCodecPrivateDataException: \(message ?? "")"
         case .noDataRetentionException(let message):

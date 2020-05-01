@@ -75,6 +75,13 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputeLimitsUnitType: String, CustomStringConvertible, Codable {
+        case instancefleetunits = "InstanceFleetUnits"
+        case instances = "Instances"
+        case vcpu = "VCPU"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
         case instanceFleet = "INSTANCE_FLEET"
         case instanceGroup = "INSTANCE_GROUP"
@@ -1132,6 +1139,38 @@ extension EMR {
         }
     }
 
+    public struct ComputeLimits: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumCapacityUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "MaximumOnDemandCapacityUnits", required: false, type: .integer), 
+            AWSShapeMember(label: "MinimumCapacityUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "UnitType", required: true, type: .enum)
+        ]
+
+        ///  The upper boundary of EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        public let maximumCapacityUnits: Int
+        ///  The upper boundary of on-demand EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The on-demand units are not allowed to scale beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        public let maximumOnDemandCapacityUnits: Int?
+        ///  The lower boundary of EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        public let minimumCapacityUnits: Int
+        ///  The unit type used for specifying a managed scaling policy. 
+        public let unitType: ComputeLimitsUnitType
+
+        public init(maximumCapacityUnits: Int, maximumOnDemandCapacityUnits: Int? = nil, minimumCapacityUnits: Int, unitType: ComputeLimitsUnitType) {
+            self.maximumCapacityUnits = maximumCapacityUnits
+            self.maximumOnDemandCapacityUnits = maximumOnDemandCapacityUnits
+            self.minimumCapacityUnits = minimumCapacityUnits
+            self.unitType = unitType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumCapacityUnits = "MaximumCapacityUnits"
+            case maximumOnDemandCapacityUnits = "MaximumOnDemandCapacityUnits"
+            case minimumCapacityUnits = "MinimumCapacityUnits"
+            case unitType = "UnitType"
+        }
+    }
+
     public class Configuration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: false, type: .string), 
@@ -1616,7 +1655,7 @@ extension EMR {
             AWSShapeMember(label: "BlockPublicAccessConfigurationMetadata", required: true, type: .structure)
         ]
 
-        /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception.
+        /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region. 
         public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
         /// Properties that describe the AWS principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
         public let blockPublicAccessConfigurationMetadata: BlockPublicAccessConfigurationMetadata
@@ -1629,6 +1668,40 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case blockPublicAccessConfiguration = "BlockPublicAccessConfiguration"
             case blockPublicAccessConfigurationMetadata = "BlockPublicAccessConfigurationMetadata"
+        }
+    }
+
+    public struct GetManagedScalingPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+        ]
+
+        ///  Specifies the ID of the cluster for which the managed scaling policy will be fetched. 
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct GetManagedScalingPolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManagedScalingPolicy", required: false, type: .structure)
+        ]
+
+        ///  Specifies the managed scaling policy that is attached to an Amazon EMR cluster. 
+        public let managedScalingPolicy: ManagedScalingPolicy?
+
+        public init(managedScalingPolicy: ManagedScalingPolicy? = nil) {
+            self.managedScalingPolicy = managedScalingPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedScalingPolicy = "ManagedScalingPolicy"
         }
     }
 
@@ -3390,6 +3463,23 @@ extension EMR {
         }
     }
 
+    public struct ManagedScalingPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeLimits", required: false, type: .structure)
+        ]
+
+        ///  The EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        public let computeLimits: ComputeLimits?
+
+        public init(computeLimits: ComputeLimits? = nil) {
+            self.computeLimits = computeLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeLimits = "ComputeLimits"
+        }
+    }
+
     public struct MetricDimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -3635,7 +3725,7 @@ extension EMR {
             AWSShapeMember(label: "BlockPublicAccessConfiguration", required: true, type: .structure)
         ]
 
-        /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.
+        /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region. 
         public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
 
         public init(blockPublicAccessConfiguration: BlockPublicAccessConfiguration) {
@@ -3652,6 +3742,36 @@ extension EMR {
     }
 
     public struct PutBlockPublicAccessConfigurationOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct PutManagedScalingPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "ManagedScalingPolicy", required: true, type: .structure)
+        ]
+
+        ///  Specifies the ID of an EMR cluster where the managed scaling policy is attached. 
+        public let clusterId: String
+        ///  Specifies the constraints for the managed scaling policy. 
+        public let managedScalingPolicy: ManagedScalingPolicy
+
+        public init(clusterId: String, managedScalingPolicy: ManagedScalingPolicy) {
+            self.clusterId = clusterId
+            self.managedScalingPolicy = managedScalingPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case managedScalingPolicy = "ManagedScalingPolicy"
+        }
+    }
+
+    public struct PutManagedScalingPolicyOutput: AWSShape {
 
 
         public init() {
@@ -3682,6 +3802,31 @@ extension EMR {
     }
 
     public struct RemoveAutoScalingPolicyOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct RemoveManagedScalingPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+        ]
+
+        ///  Specifies the ID of the cluster from which the managed scaling policy will be removed. 
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct RemoveManagedScalingPolicyOutput: AWSShape {
 
 
         public init() {
@@ -3733,6 +3878,7 @@ extension EMR {
             AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
             AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "ManagedScalingPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "NewSupportedProducts", required: false, type: .list), 
             AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
@@ -3771,6 +3917,8 @@ extension EMR {
         public let kerberosAttributes: KerberosAttributes?
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
         public let logUri: String?
+        ///  The specified managed scaling policy for an Amazon EMR cluster. 
+        public let managedScalingPolicy: ManagedScalingPolicy?
         /// The name of the job flow.
         public let name: String
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
@@ -3796,7 +3944,7 @@ extension EMR {
         /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -3809,6 +3957,7 @@ extension EMR {
             self.jobFlowRole = jobFlowRole
             self.kerberosAttributes = kerberosAttributes
             self.logUri = logUri
+            self.managedScalingPolicy = managedScalingPolicy
             self.name = name
             self.newSupportedProducts = newSupportedProducts
             self.releaseLabel = releaseLabel
@@ -3885,6 +4034,7 @@ extension EMR {
             case jobFlowRole = "JobFlowRole"
             case kerberosAttributes = "KerberosAttributes"
             case logUri = "LogUri"
+            case managedScalingPolicy = "ManagedScalingPolicy"
             case name = "Name"
             case newSupportedProducts = "NewSupportedProducts"
             case releaseLabel = "ReleaseLabel"

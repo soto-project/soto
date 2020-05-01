@@ -184,6 +184,11 @@ public struct ApiGatewayV2 {
         return client.send(operation: "DeleteVpcLink", path: "/v2/vpclinks/{vpcLinkId}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Exports a definition of an API in a particular output format and specification.
+    public func exportApi(_ input: ExportApiRequest) -> EventLoopFuture<ExportApiResponse> {
+        return client.send(operation: "ExportApi", path: "/v2/apis/{apiId}/exports/{specification}", httpMethod: "GET", input: input)
+    }
+
     ///  Gets an Api resource.
     public func getApi(_ input: GetApiRequest) -> EventLoopFuture<GetApiResponse> {
         return client.send(operation: "GetApi", path: "/v2/apis/{apiId}", httpMethod: "GET", input: input)

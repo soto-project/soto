@@ -27,6 +27,7 @@ extension ECR {
         case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
         case imagenotfound = "ImageNotFound"
         case missingdigestandtag = "MissingDigestAndTag"
+        case imagereferencedbymanifestlist = "ImageReferencedByManifestList"
         public var description: String { return self.rawValue }
     }
 
@@ -1232,7 +1233,7 @@ extension ECR {
         public let imageScanFindingsSummary: ImageScanFindingsSummary?
         /// The current state of the scan.
         public let imageScanStatus: ImageScanStatus?
-        /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
         public let imageTags: [String]?

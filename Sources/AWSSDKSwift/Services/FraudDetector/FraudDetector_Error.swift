@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for FraudDetector
 public enum FraudDetectorErrorType: AWSErrorType {
+    case conflictException(message: String?)
     case internalServerException(message: String?)
     case resourceNotFoundException(message: String?)
     case throttlingException(message: String?)
@@ -17,6 +18,8 @@ extension FraudDetectorErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
         case "ResourceNotFoundException":
@@ -34,6 +37,8 @@ extension FraudDetectorErrorType {
 extension FraudDetectorErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .internalServerException(let message):
             return "InternalServerException: \(message ?? "")"
         case .resourceNotFoundException(let message):

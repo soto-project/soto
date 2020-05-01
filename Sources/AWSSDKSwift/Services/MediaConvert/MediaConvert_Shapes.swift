@@ -1820,6 +1820,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum MxfAfdSignaling: String, CustomStringConvertible, Codable {
+        case noCopy = "NO_COPY"
+        case copyFromVideo = "COPY_FROM_VIDEO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NoiseReducerFilter: String, CustomStringConvertible, Codable {
         case bilateral = "BILATERAL"
         case mean = "MEAN"
@@ -3055,6 +3061,35 @@ extension MediaConvert {
         }
     }
 
+    public struct CaptionSourceFramerate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer)
+        ]
+
+        /// Specify the denominator of the fraction that represents the framerate for the setting Caption source framerate (CaptionSourceFramerate). Use this setting along with the setting Framerate numerator (framerateNumerator).
+        public let framerateDenominator: Int?
+        /// Specify the numerator of the fraction that represents the framerate for the setting Caption source framerate (CaptionSourceFramerate). Use this setting along with the setting Framerate denominator (framerateDenominator).
+        public let framerateNumerator: Int?
+
+        public init(framerateDenominator: Int? = nil, framerateNumerator: Int? = nil) {
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, max: 1001)
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name:"framerateNumerator", parent: name, max: 60000)
+            try validate(self.framerateNumerator, name:"framerateNumerator", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+        }
+    }
+
     public struct CaptionSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AncillarySourceSettings", location: .body(locationName: "ancillarySourceSettings"), required: false, type: .structure), 
@@ -3420,7 +3455,8 @@ extension MediaConvert {
             AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "MovSettings", location: .body(locationName: "movSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "Mp4Settings", location: .body(locationName: "mp4Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "MpdSettings", location: .body(locationName: "mpdSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "MpdSettings", location: .body(locationName: "mpdSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "MxfSettings", location: .body(locationName: "mxfSettings"), required: false, type: .structure)
         ]
 
         /// Settings for MP4 segments in CMAF
@@ -3439,8 +3475,10 @@ extension MediaConvert {
         public let mp4Settings: Mp4Settings?
         /// Settings for MP4 segments in DASH
         public let mpdSettings: MpdSettings?
+        /// MXF settings
+        public let mxfSettings: MxfSettings?
 
-        public init(cmfcSettings: CmfcSettings? = nil, container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil) {
+        public init(cmfcSettings: CmfcSettings? = nil, container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil, mxfSettings: MxfSettings? = nil) {
             self.cmfcSettings = cmfcSettings
             self.container = container
             self.f4vSettings = f4vSettings
@@ -3449,6 +3487,7 @@ extension MediaConvert {
             self.movSettings = movSettings
             self.mp4Settings = mp4Settings
             self.mpdSettings = mpdSettings
+            self.mxfSettings = mxfSettings
         }
 
         public func validate(name: String) throws {
@@ -3466,6 +3505,7 @@ extension MediaConvert {
             case movSettings = "movSettings"
             case mp4Settings = "mp4Settings"
             case mpdSettings = "mpdSettings"
+            case mxfSettings = "mxfSettings"
         }
     }
 
@@ -4860,24 +4900,29 @@ extension MediaConvert {
     public struct FileSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
+            AWSShapeMember(label: "Framerate", location: .body(locationName: "framerate"), required: false, type: .structure), 
             AWSShapeMember(label: "SourceFile", location: .body(locationName: "sourceFile"), required: false, type: .string), 
             AWSShapeMember(label: "TimeDelta", location: .body(locationName: "timeDelta"), required: false, type: .integer)
         ]
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
+        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing framerates between your input captions and input video, specify the framerate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
+        public let framerate: CaptionSourceFramerate?
         /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', and 'smi'.
         public let sourceFile: String?
         /// Specifies a time delta in seconds to offset the captions from the source file.
         public let timeDelta: Int?
 
-        public init(convert608To708: FileSourceConvert608To708? = nil, sourceFile: String? = nil, timeDelta: Int? = nil) {
+        public init(convert608To708: FileSourceConvert608To708? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil) {
             self.convert608To708 = convert608To708
+            self.framerate = framerate
             self.sourceFile = sourceFile
             self.timeDelta = timeDelta
         }
 
         public func validate(name: String) throws {
+            try self.framerate?.validate(name: "\(name).framerate")
             try validate(self.sourceFile, name:"sourceFile", parent: name, min: 14)
             try validate(self.sourceFile, name:"sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.timeDelta, name:"timeDelta", parent: name, max: 2147483647)
@@ -4886,6 +4931,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case convert608To708 = "convert608To708"
+            case framerate = "framerate"
             case sourceFile = "sourceFile"
             case timeDelta = "timeDelta"
         }
@@ -6129,7 +6175,7 @@ extension MediaConvert {
             AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"), required: false, type: .enum)
         ]
 
-        /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
+        /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public let stylePassthrough: ImscStylePassthrough?
 
         public init(stylePassthrough: ImscStylePassthrough? = nil) {
@@ -8213,6 +8259,23 @@ extension MediaConvert {
         }
     }
 
+    public struct MxfSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AfdSignaling", location: .body(locationName: "afdSignaling"), required: false, type: .enum)
+        ]
+
+        /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
+        public let afdSignaling: MxfAfdSignaling?
+
+        public init(afdSignaling: MxfAfdSignaling? = nil) {
+            self.afdSignaling = afdSignaling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afdSignaling = "afdSignaling"
+        }
+    }
+
     public struct NielsenConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BreakoutCode", location: .body(locationName: "breakoutCode"), required: false, type: .integer), 
@@ -9491,7 +9554,7 @@ extension MediaConvert {
             AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"), required: false, type: .enum)
         ]
 
-        /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
+        /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT) to the TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
 
         public init(stylePassthrough: TtmlStylePassthrough? = nil) {

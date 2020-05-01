@@ -1900,6 +1900,60 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct ExportApiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "ExportVersion", location: .querystring(locationName: "exportVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "IncludeExtensions", location: .querystring(locationName: "includeExtensions"), required: false, type: .boolean), 
+            AWSShapeMember(label: "OutputType", location: .querystring(locationName: "outputType"), required: true, type: .string), 
+            AWSShapeMember(label: "Specification", location: .uri(locationName: "specification"), required: true, type: .string), 
+            AWSShapeMember(label: "StageName", location: .querystring(locationName: "stageName"), required: false, type: .string)
+        ]
+
+        public let apiId: String
+        public let exportVersion: String?
+        public let includeExtensions: Bool?
+        public let outputType: String
+        public let specification: String
+        public let stageName: String?
+
+        public init(apiId: String, exportVersion: String? = nil, includeExtensions: Bool? = nil, outputType: String, specification: String, stageName: String? = nil) {
+            self.apiId = apiId
+            self.exportVersion = exportVersion
+            self.includeExtensions = includeExtensions
+            self.outputType = outputType
+            self.specification = specification
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case exportVersion = "exportVersion"
+            case includeExtensions = "includeExtensions"
+            case outputType = "outputType"
+            case specification = "specification"
+            case stageName = "stageName"
+        }
+    }
+
+    public struct ExportApiResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "body", required: false, type: .blob)
+        ]
+
+        public let body: Data?
+
+        public init(body: Data? = nil) {
+            self.body = body
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+        }
+    }
+
     public struct GetApiMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 

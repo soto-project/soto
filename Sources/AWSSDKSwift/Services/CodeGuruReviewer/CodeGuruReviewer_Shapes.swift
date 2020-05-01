@@ -6,9 +6,23 @@ import AWSSDKSwiftCore
 extension CodeGuruReviewer {
     //MARK: Enums
 
+    public enum JobState: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case pending = "Pending"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProviderType: String, CustomStringConvertible, Codable {
         case codecommit = "CodeCommit"
         case github = "GitHub"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Reaction: String, CustomStringConvertible, Codable {
+        case thumbsup = "ThumbsUp"
+        case thumbsdown = "ThumbsDown"
         public var description: String { return self.rawValue }
     }
 
@@ -20,6 +34,11 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case pullrequest = "PullRequest"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct AssociateRepositoryRequest: AWSShape {
@@ -28,7 +47,7 @@ extension CodeGuruReviewer {
             AWSShapeMember(label: "Repository", required: true, type: .structure)
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you want to add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically only need to interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. To add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDKs to call this operation, you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
         public let clientRequestToken: String?
         /// The repository to associate.
         public let repository: Repository
@@ -91,12 +110,272 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct CodeReview: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Metrics", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderType", required: false, type: .enum), 
+            AWSShapeMember(label: "PullRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "RepositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeType", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateReason", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the code review to describe. 
+        public let codeReviewArn: String?
+        ///  The time, in milliseconds since the epoch, when the code review was created. 
+        public let createdTimeStamp: TimeStamp?
+        ///  The time, in milliseconds since the epoch, when the code review was last updated. 
+        public let lastUpdatedTimeStamp: TimeStamp?
+        ///  The statistics from the code review. 
+        public let metrics: Metrics?
+        ///  The name of the code review. 
+        public let name: String?
+        ///  The owner of the repository. 
+        public let owner: String?
+        ///  The provider type of the repository association. 
+        public let providerType: ProviderType?
+        ///  The pull request ID for the code review. 
+        public let pullRequestId: String?
+        ///  The name of the repository. 
+        public let repositoryName: String?
+        ///  The type of the source code for the code review. 
+        public let sourceCodeType: SourceCodeType?
+        ///  The state of the code review. 
+        public let state: JobState?
+        ///  The reason for the state of the code review. 
+        public let stateReason: String?
+        ///  The type of code review. 
+        public let `type`: `Type`?
+
+        public init(codeReviewArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+            self.codeReviewArn = codeReviewArn
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
+            self.metrics = metrics
+            self.name = name
+            self.owner = owner
+            self.providerType = providerType
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+            self.sourceCodeType = sourceCodeType
+            self.state = state
+            self.stateReason = stateReason
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
+            case metrics = "Metrics"
+            case name = "Name"
+            case owner = "Owner"
+            case providerType = "ProviderType"
+            case pullRequestId = "PullRequestId"
+            case repositoryName = "RepositoryName"
+            case sourceCodeType = "SourceCodeType"
+            case state = "State"
+            case stateReason = "StateReason"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CodeReviewSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MetricsSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderType", required: false, type: .enum), 
+            AWSShapeMember(label: "PullRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "RepositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the code review to describe. 
+        public let codeReviewArn: String?
+        ///  The time, in milliseconds since the epoch, when the code review was created. 
+        public let createdTimeStamp: TimeStamp?
+        ///  The time, in milliseconds since the epoch, when the code review was last updated. 
+        public let lastUpdatedTimeStamp: TimeStamp?
+        ///  The statistics from the code review. 
+        public let metricsSummary: MetricsSummary?
+        ///  The name of the code review. 
+        public let name: String?
+        ///  The owner of the repository. 
+        public let owner: String?
+        ///  The provider type of the repository association. 
+        public let providerType: ProviderType?
+        ///  The pull request ID for the code review. 
+        public let pullRequestId: String?
+        ///  The name of the repository. 
+        public let repositoryName: String?
+        ///  The state of the code review. 
+        public let state: JobState?
+        ///  The type of the code review. 
+        public let `type`: `Type`?
+
+        public init(codeReviewArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, state: JobState? = nil, type: `Type`? = nil) {
+            self.codeReviewArn = codeReviewArn
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
+            self.metricsSummary = metricsSummary
+            self.name = name
+            self.owner = owner
+            self.providerType = providerType
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+            self.state = state
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
+            case metricsSummary = "MetricsSummary"
+            case name = "Name"
+            case owner = "Owner"
+            case providerType = "ProviderType"
+            case pullRequestId = "PullRequestId"
+            case repositoryName = "RepositoryName"
+            case state = "State"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CommitDiffSourceCodeType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationCommit", required: false, type: .string), 
+            AWSShapeMember(label: "SourceCommit", required: false, type: .string)
+        ]
+
+        ///  Destination Commit SHA 
+        public let destinationCommit: String?
+        ///  Source Commit SHA. 
+        public let sourceCommit: String?
+
+        public init(destinationCommit: String? = nil, sourceCommit: String? = nil) {
+            self.destinationCommit = destinationCommit
+            self.sourceCommit = sourceCommit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCommit = "DestinationCommit"
+            case sourceCommit = "SourceCommit"
+        }
+    }
+
+    public struct DescribeCodeReviewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", location: .uri(locationName: "CodeReviewArn"), required: true, type: .string)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the code review to describe. 
+        public let codeReviewArn: String
+
+        public init(codeReviewArn: String) {
+            self.codeReviewArn = codeReviewArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, max: 1600)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, min: 1)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+        }
+    }
+
+    public struct DescribeCodeReviewResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReview", required: false, type: .structure)
+        ]
+
+        ///  Information about the code review. 
+        public let codeReview: CodeReview?
+
+        public init(codeReview: CodeReview? = nil) {
+            self.codeReview = codeReview
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReview = "CodeReview"
+        }
+    }
+
+    public struct DescribeRecommendationFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", location: .uri(locationName: "CodeReviewArn"), required: true, type: .string), 
+            AWSShapeMember(label: "RecommendationId", location: .querystring(locationName: "RecommendationId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserId", location: .querystring(locationName: "UserId"), required: false, type: .string)
+        ]
+
+        ///  The Amazon Resource Name (ARN) that identifies the code review. 
+        public let codeReviewArn: String
+        ///  The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. 
+        public let recommendationId: String
+        ///  Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request. 
+        public let userId: String?
+
+        public init(codeReviewArn: String, recommendationId: String, userId: String? = nil) {
+            self.codeReviewArn = codeReviewArn
+            self.recommendationId = recommendationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, max: 1600)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, min: 1)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try validate(self.recommendationId, name:"recommendationId", parent: name, max: 64)
+            try validate(self.recommendationId, name:"recommendationId", parent: name, min: 1)
+            try validate(self.userId, name:"userId", parent: name, max: 256)
+            try validate(self.userId, name:"userId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case recommendationId = "RecommendationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct DescribeRecommendationFeedbackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecommendationFeedback", required: false, type: .structure)
+        ]
+
+        ///  The recommendation feedback given by the user. 
+        public let recommendationFeedback: RecommendationFeedback?
+
+        public init(recommendationFeedback: RecommendationFeedback? = nil) {
+            self.recommendationFeedback = recommendationFeedback
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendationFeedback = "RecommendationFeedback"
+        }
+    }
+
     public struct DescribeRepositoryAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationArn", location: .uri(locationName: "AssociationArn"), required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) identifying the association.
+        /// The Amazon Resource Name (ARN) identifying the association. You can retrieve this ARN by calling ListRepositories.
         public let associationArn: String
 
         public init(associationArn: String) {
@@ -106,7 +385,7 @@ extension CodeGuruReviewer {
         public func validate(name: String) throws {
             try validate(self.associationArn, name:"associationArn", parent: name, max: 1600)
             try validate(self.associationArn, name:"associationArn", parent: name, min: 1)
-            try validate(self.associationArn, name:"associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z]+:[\\w-]+$")
+            try validate(self.associationArn, name:"associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -146,7 +425,7 @@ extension CodeGuruReviewer {
         public func validate(name: String) throws {
             try validate(self.associationArn, name:"associationArn", parent: name, max: 1600)
             try validate(self.associationArn, name:"associationArn", parent: name, min: 1)
-            try validate(self.associationArn, name:"associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z]+:[\\w-]+$")
+            try validate(self.associationArn, name:"associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -171,6 +450,228 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct ListCodeReviewsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "ProviderTypes", location: .querystring(locationName: "ProviderTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "RepositoryNames", location: .querystring(locationName: "RepositoryNames"), required: false, type: .list), 
+            AWSShapeMember(label: "States", location: .querystring(locationName: "States"), required: false, type: .list), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "Type"), required: true, type: .enum)
+        ]
+
+        ///  The maximum number of results that are returned per call. The default is 100. 
+        public let maxResults: Int?
+        ///  If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. 
+        public let nextToken: String?
+        ///  List of provider types for filtering that needs to be applied before displaying the result. For example, "providerTypes=[GitHub]" will list code reviews from GitHub. 
+        public let providerTypes: [ProviderType]?
+        ///  List of repository names for filtering that needs to be applied before displaying the result. 
+        public let repositoryNames: [String]?
+        ///  List of states for filtering that needs to be applied before displaying the result. For example, "states=[Pending]" will list code reviews in the Pending state. 
+        public let states: [JobState]?
+        ///  The type of code reviews to list in the response. 
+        public let `type`: `Type`
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, providerTypes: [ProviderType]? = nil, repositoryNames: [String]? = nil, states: [JobState]? = nil, type: `Type`) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.providerTypes = providerTypes
+            self.repositoryNames = repositoryNames
+            self.states = states
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.providerTypes, name:"providerTypes", parent: name, max: 3)
+            try validate(self.providerTypes, name:"providerTypes", parent: name, min: 1)
+            try self.repositoryNames?.forEach {
+                try validate($0, name: "repositoryNames[]", parent: name, max: 100)
+                try validate($0, name: "repositoryNames[]", parent: name, min: 1)
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^\\S[\\w.-]*$")
+            }
+            try validate(self.repositoryNames, name:"repositoryNames", parent: name, max: 100)
+            try validate(self.repositoryNames, name:"repositoryNames", parent: name, min: 1)
+            try validate(self.states, name:"states", parent: name, max: 3)
+            try validate(self.states, name:"states", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case providerTypes = "ProviderTypes"
+            case repositoryNames = "RepositoryNames"
+            case states = "States"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListCodeReviewsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  A list of code reviews that meet the criteria of the request. 
+        public let codeReviewSummaries: [CodeReviewSummary]?
+        ///  Pagination token. 
+        public let nextToken: String?
+
+        public init(codeReviewSummaries: [CodeReviewSummary]? = nil, nextToken: String? = nil) {
+            self.codeReviewSummaries = codeReviewSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewSummaries = "CodeReviewSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRecommendationFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", location: .uri(locationName: "CodeReviewArn"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "RecommendationIds", location: .querystring(locationName: "RecommendationIds"), required: false, type: .list), 
+            AWSShapeMember(label: "UserIds", location: .querystring(locationName: "UserIds"), required: false, type: .list)
+        ]
+
+        ///  The Amazon Resource Name (ARN) that identifies the code review. 
+        public let codeReviewArn: String
+        ///  The maximum number of results that are returned per call. The default is 100. 
+        public let maxResults: Int?
+        ///  If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. 
+        public let nextToken: String?
+        ///  Filter on recommendationIds that need to be applied before displaying the result. This can be used to query all the recommendation feedback for a given recommendation. 
+        public let recommendationIds: [String]?
+        ///  Filter on userIds that need to be applied before displaying the result. This can be used to query all the recommendation feedback for a code review from a given user. 
+        public let userIds: [String]?
+
+        public init(codeReviewArn: String, maxResults: Int? = nil, nextToken: String? = nil, recommendationIds: [String]? = nil, userIds: [String]? = nil) {
+            self.codeReviewArn = codeReviewArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recommendationIds = recommendationIds
+            self.userIds = userIds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, max: 1600)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, min: 1)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try self.recommendationIds?.forEach {
+                try validate($0, name: "recommendationIds[]", parent: name, max: 64)
+                try validate($0, name: "recommendationIds[]", parent: name, min: 1)
+            }
+            try validate(self.recommendationIds, name:"recommendationIds", parent: name, max: 100)
+            try validate(self.recommendationIds, name:"recommendationIds", parent: name, min: 1)
+            try self.userIds?.forEach {
+                try validate($0, name: "userIds[]", parent: name, max: 256)
+                try validate($0, name: "userIds[]", parent: name, min: 1)
+            }
+            try validate(self.userIds, name:"userIds", parent: name, max: 100)
+            try validate(self.userIds, name:"userIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case recommendationIds = "RecommendationIds"
+            case userIds = "UserIds"
+        }
+    }
+
+    public struct ListRecommendationFeedbackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendationFeedbackSummaries", required: false, type: .list)
+        ]
+
+        ///  If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. 
+        public let nextToken: String?
+        ///  Recommendation feedback summaries corresponding to the code reivew ARN. 
+        public let recommendationFeedbackSummaries: [RecommendationFeedbackSummary]?
+
+        public init(nextToken: String? = nil, recommendationFeedbackSummaries: [RecommendationFeedbackSummary]? = nil) {
+            self.nextToken = nextToken
+            self.recommendationFeedbackSummaries = recommendationFeedbackSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommendationFeedbackSummaries = "RecommendationFeedbackSummaries"
+        }
+    }
+
+    public struct ListRecommendationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", location: .uri(locationName: "CodeReviewArn"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the code review to describe. 
+        public let codeReviewArn: String
+        ///  The maximum number of results that are returned per call. The default is 100. 
+        public let maxResults: Int?
+        ///  Pagination token. 
+        public let nextToken: String?
+
+        public init(codeReviewArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.codeReviewArn = codeReviewArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, max: 1600)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, min: 1)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRecommendationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendationSummaries", required: false, type: .list)
+        ]
+
+        ///  Pagination token. 
+        public let nextToken: String?
+        ///  List of recommendations for the requested code review. 
+        public let recommendationSummaries: [RecommendationSummary]?
+
+        public init(nextToken: String? = nil, recommendationSummaries: [RecommendationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.recommendationSummaries = recommendationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommendationSummaries = "RecommendationSummaries"
+        }
+    }
+
     public struct ListRepositoryAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
@@ -181,13 +682,13 @@ extension CodeGuruReviewer {
             AWSShapeMember(label: "States", location: .querystring(locationName: "State"), required: false, type: .list)
         ]
 
-        /// The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable. 
+        /// The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 25. If this parameter is not used, ListRepositoryAssociations returns up to 25 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// List of names to use as a filter.
+        /// List of repository names to use as a filter.
         public let names: [String]?
-        /// The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   Treat this token as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        /// List of owners to use as a filter. For AWS CodeCommit, the owner is the AWS account id. For GitHub, it is the GitHub account name.
+        /// List of owners to use as a filter. For GitHub, this is name of the GitHub account that was used to associate the repository. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository.
         public let owners: [String]?
         /// List of provider types to use as a filter.
         public let providerTypes: [ProviderType]?
@@ -260,6 +761,201 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct Metrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FindingsCount", required: false, type: .long), 
+            AWSShapeMember(label: "MeteredLinesOfCodeCount", required: false, type: .long)
+        ]
+
+        ///  Total number of recommendations found in the code review. 
+        public let findingsCount: Int64?
+        ///  Lines of code metered in the code review. 
+        public let meteredLinesOfCodeCount: Int64?
+
+        public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil) {
+            self.findingsCount = findingsCount
+            self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingsCount = "FindingsCount"
+            case meteredLinesOfCodeCount = "MeteredLinesOfCodeCount"
+        }
+    }
+
+    public struct MetricsSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FindingsCount", required: false, type: .long), 
+            AWSShapeMember(label: "MeteredLinesOfCodeCount", required: false, type: .long)
+        ]
+
+        ///  Total number of recommendations found in the code review. 
+        public let findingsCount: Int64?
+        ///  Lines of code metered in the code review. 
+        public let meteredLinesOfCodeCount: Int64?
+
+        public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil) {
+            self.findingsCount = findingsCount
+            self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingsCount = "FindingsCount"
+            case meteredLinesOfCodeCount = "MeteredLinesOfCodeCount"
+        }
+    }
+
+    public struct PutRecommendationFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", required: true, type: .string), 
+            AWSShapeMember(label: "Reactions", required: true, type: .list), 
+            AWSShapeMember(label: "RecommendationId", required: true, type: .string)
+        ]
+
+        ///  The Amazon Resource Name (ARN) that identifies the code review. 
+        public let codeReviewArn: String
+        ///  List for storing reactions. Reactions are utf-8 text code for emojis. If you send an empty list it clears all your feedback. 
+        public let reactions: [Reaction]
+        ///  The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. 
+        public let recommendationId: String
+
+        public init(codeReviewArn: String, reactions: [Reaction], recommendationId: String) {
+            self.codeReviewArn = codeReviewArn
+            self.reactions = reactions
+            self.recommendationId = recommendationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, max: 1600)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, min: 1)
+            try validate(self.codeReviewArn, name:"codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try validate(self.reactions, name:"reactions", parent: name, max: 1)
+            try validate(self.reactions, name:"reactions", parent: name, min: 0)
+            try validate(self.recommendationId, name:"recommendationId", parent: name, max: 64)
+            try validate(self.recommendationId, name:"recommendationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case reactions = "Reactions"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
+    public struct PutRecommendationFeedbackResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct RecommendationFeedback: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeReviewArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Reactions", required: false, type: .list), 
+            AWSShapeMember(label: "RecommendationId", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string)
+        ]
+
+        ///  The Amazon Resource Name (ARN) that identifies the code review. 
+        public let codeReviewArn: String?
+        ///  The time at which the feedback was created. 
+        public let createdTimeStamp: TimeStamp?
+        ///  The time at which the feedback was last updated. 
+        public let lastUpdatedTimeStamp: TimeStamp?
+        ///  List for storing reactions. Reactions are utf-8 text code for emojis. You can send an empty list to clear off all your feedback. 
+        public let reactions: [Reaction]?
+        ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback. 
+        public let recommendationId: String?
+        ///  The user principal that made the API call. 
+        public let userId: String?
+
+        public init(codeReviewArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
+            self.codeReviewArn = codeReviewArn
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
+            self.reactions = reactions
+            self.recommendationId = recommendationId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReviewArn = "CodeReviewArn"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
+            case reactions = "Reactions"
+            case recommendationId = "RecommendationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct RecommendationFeedbackSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reactions", required: false, type: .list), 
+            AWSShapeMember(label: "RecommendationId", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string)
+        ]
+
+        ///  List for storing reactions. Reactions are utf-8 text code for emojis. 
+        public let reactions: [Reaction]?
+        ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback. 
+        public let recommendationId: String?
+        ///  The identifier for the user that gave the feedback. 
+        public let userId: String?
+
+        public init(reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
+            self.reactions = reactions
+            self.recommendationId = recommendationId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reactions = "Reactions"
+            case recommendationId = "RecommendationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct RecommendationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EndLine", required: false, type: .integer), 
+            AWSShapeMember(label: "FilePath", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendationId", required: false, type: .string), 
+            AWSShapeMember(label: "StartLine", required: false, type: .integer)
+        ]
+
+        ///  A description of the recommendation generated by CodeGuru Reviewer for the lines of code between the start line and the end line. 
+        public let description: String?
+        ///  Last line where the recommendation is applicable in the source commit or source branch. For a single line comment the start line and end line values will be the same. 
+        public let endLine: Int?
+        /// Name of the file on which a recommendation is provided.
+        public let filePath: String?
+        ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback. 
+        public let recommendationId: String?
+        ///  Start line from where the recommendation is applicable in the source commit or source branch. 
+        public let startLine: Int?
+
+        public init(description: String? = nil, endLine: Int? = nil, filePath: String? = nil, recommendationId: String? = nil, startLine: Int? = nil) {
+            self.description = description
+            self.endLine = endLine
+            self.filePath = filePath
+            self.recommendationId = recommendationId
+            self.startLine = startLine
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endLine = "EndLine"
+            case filePath = "FilePath"
+            case recommendationId = "RecommendationId"
+            case startLine = "StartLine"
+        }
+    }
+
     public struct Repository: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeCommit", required: false, type: .structure)
@@ -296,7 +992,7 @@ extension CodeGuruReviewer {
 
         /// The Amazon Resource Name (ARN) identifying the repository association.
         public let associationArn: String?
-        /// The id of the repository association.
+        /// The ID of the repository association.
         public let associationId: String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
         public let createdTimeStamp: TimeStamp?
@@ -361,7 +1057,7 @@ extension CodeGuruReviewer {
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
-        /// The state of the repository association.  Associated  Amazon CodeGuru Reviewer is associated with the repository.   Associating  The association is in progress.   Failed  The association failed. For more information about troubleshooting (or why it failed), see [troubleshooting topic].   Disassociating  Amazon CodeGuru Reviewer is in the process of disassociating with the repository.   
+        /// The state of the repository association.  Associated  Amazon CodeGuru Reviewer is associated with the repository.   Associating  The association is in progress.   Failed  The association failed.   Disassociating  Amazon CodeGuru Reviewer is in the process of disassociating with the repository.   
         public let state: RepositoryAssociationState?
 
         public init(associationArn: String? = nil, associationId: String? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
@@ -382,6 +1078,23 @@ extension CodeGuruReviewer {
             case owner = "Owner"
             case providerType = "ProviderType"
             case state = "State"
+        }
+    }
+
+    public struct SourceCodeType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommitDiff", required: false, type: .structure)
+        ]
+
+        ///  The commit diff for the pull request. 
+        public let commitDiff: CommitDiffSourceCodeType?
+
+        public init(commitDiff: CommitDiffSourceCodeType? = nil) {
+            self.commitDiff = commitDiff
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitDiff = "CommitDiff"
         }
     }
 }

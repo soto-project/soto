@@ -219,6 +219,7 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(self.description, name:"description", parent: name, max: 500)
             try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "^.{0,500}$")
             try validate(self.name, name:"name", parent: name, max: 1600)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
@@ -281,6 +282,7 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(self.applicationId, name:"applicationId", parent: name, max: 1600)
             try validate(self.applicationId, name:"applicationId", parent: name, min: 1)
+            try validate(self.applicationId, name:"applicationId", parent: name, pattern: "^.{1,1600}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -435,7 +437,9 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
+            try validate(self.configurationId, name:"configurationId", parent: name, max: 1600)
             try validate(self.configurationId, name:"configurationId", parent: name, min: 1)
+            try validate(self.configurationId, name:"configurationId", parent: name, pattern: "^.{1,1600}$")
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, max: 256)
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, min: 1)
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, pattern: "[^:|]+")
@@ -477,9 +481,12 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
+            try validate(self.configurationId, name:"configurationId", parent: name, max: 1600)
             try validate(self.configurationId, name:"configurationId", parent: name, min: 1)
+            try validate(self.configurationId, name:"configurationId", parent: name, pattern: "^.{1,1600}$")
             try validate(self.description, name:"description", parent: name, max: 500)
             try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "^.{0,500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -556,11 +563,15 @@ extension MigrationHub {
             try self.applicationIds?.forEach {
                 try validate($0, name: "applicationIds[]", parent: name, max: 1600)
                 try validate($0, name: "applicationIds[]", parent: name, min: 1)
+                try validate($0, name: "applicationIds[]", parent: name, pattern: "^.{1,1600}$")
             }
             try validate(self.applicationIds, name:"applicationIds", parent: name, max: 100)
             try validate(self.applicationIds, name:"applicationIds", parent: name, min: 1)
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -622,6 +633,9 @@ extension MigrationHub {
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, max: 256)
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, min: 1)
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, pattern: "[^:|]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
             try validate(self.progressUpdateStream, name:"progressUpdateStream", parent: name, max: 50)
             try validate(self.progressUpdateStream, name:"progressUpdateStream", parent: name, min: 1)
             try validate(self.progressUpdateStream, name:"progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -687,6 +701,9 @@ extension MigrationHub {
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, max: 256)
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, min: 1)
             try validate(self.migrationTaskName, name:"migrationTaskName", parent: name, pattern: "[^:|]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
             try validate(self.progressUpdateStream, name:"progressUpdateStream", parent: name, max: 50)
             try validate(self.progressUpdateStream, name:"progressUpdateStream", parent: name, min: 1)
             try validate(self.progressUpdateStream, name:"progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -745,8 +762,12 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
             try validate(self.resourceName, name:"resourceName", parent: name, max: 1600)
             try validate(self.resourceName, name:"resourceName", parent: name, min: 1)
+            try validate(self.resourceName, name:"resourceName", parent: name, pattern: "^.{1,1600}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -797,6 +818,9 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -933,6 +957,7 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(self.applicationId, name:"applicationId", parent: name, max: 1600)
             try validate(self.applicationId, name:"applicationId", parent: name, min: 1)
+            try validate(self.applicationId, name:"applicationId", parent: name, pattern: "^.{1,1600}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1102,6 +1127,7 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, pattern: "^.{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1135,6 +1161,7 @@ extension MigrationHub {
             try validate(self.progressPercent, name:"progressPercent", parent: name, min: 0)
             try validate(self.statusDetail, name:"statusDetail", parent: name, max: 500)
             try validate(self.statusDetail, name:"statusDetail", parent: name, min: 0)
+            try validate(self.statusDetail, name:"statusDetail", parent: name, pattern: "^.{0,500}$")
         }
 
         private enum CodingKeys: String, CodingKey {

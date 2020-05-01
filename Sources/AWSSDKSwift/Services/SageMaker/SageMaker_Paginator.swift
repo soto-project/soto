@@ -161,7 +161,7 @@ extension SageMaker {
         return client.paginate(input: input, command: listWorkteams, tokenKey: \ListWorkteamsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Finds Amazon SageMaker resources that match a search query. Matching resource objects are returned as a list of SearchResult objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
+    ///  Finds Amazon SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
     public func searchPaginator(_ input: SearchRequest, onPage: @escaping (SearchResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: search, tokenKey: \SearchResponse.nextToken, onPage: onPage)
     }

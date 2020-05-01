@@ -358,7 +358,7 @@ extension OpsWorksCM {
         public let engineAttributes: [EngineAttribute]?
         ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
         public let engineModel: String?
-        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017. 
+        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
         public let engineVersion: String?
         ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
         public let instanceProfileArn: String
@@ -366,9 +366,9 @@ extension OpsWorksCM {
         public let instanceType: String
         ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH. 
         public let keyPair: String?
-        ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups    MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+        ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
         public let preferredBackupWindow: String?
-        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
+        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
         public let preferredMaintenanceWindow: String?
         ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
         public let securityGroupIds: [String]?
@@ -1115,7 +1115,7 @@ extension OpsWorksCM {
         public let engineAttributes: [EngineAttribute]?
         /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
         public let engineModel: String?
-        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017. 
+        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
         public let engineVersion: String?
         /// The instance profile ARN of the server. 
         public let instanceProfileArn: String?

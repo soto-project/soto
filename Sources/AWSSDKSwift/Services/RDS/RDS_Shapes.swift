@@ -38,11 +38,15 @@ extension RDS {
         case insufficientResourceLimits = "insufficient-resource-limits"
         case creating = "creating"
         case deleting = "deleting"
+        case suspended = "suspended"
+        case suspending = "suspending"
+        case reactivating = "reactivating"
         public var description: String { return self.rawValue }
     }
 
     public enum EngineFamily: String, CustomStringConvertible, Codable {
         case mysql = "MYSQL"
+        case postgresql = "POSTGRESQL"
         public var description: String { return self.rawValue }
     }
 
@@ -59,6 +63,21 @@ extension RDS {
         case dbSnapshot = "db-snapshot"
         case dbCluster = "db-cluster"
         case dbClusterSnapshot = "db-cluster-snapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetHealthReason: String, CustomStringConvertible, Codable {
+        case unreachable = "UNREACHABLE"
+        case connectionFailed = "CONNECTION_FAILED"
+        case authFailure = "AUTH_FAILURE"
+        case pendingProxyCapacity = "PENDING_PROXY_CAPACITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetState: String, CustomStringConvertible, Codable {
+        case registering = "REGISTERING"
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -547,7 +566,7 @@ extension RDS {
 
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
         public let connectionBorrowTimeout: Int?
-        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.  Default: no initialization query
+        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.   InitQuery is not currently supported for PostgreSQL. Default: no initialization query
         public let initQuery: String?
         /// The maximum size of the connection pool for each target in a target group. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. Default: 100 Constraints: between 1 and 100
         public let maxConnectionsPercent: Int?
@@ -584,7 +603,7 @@ extension RDS {
 
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public let connectionBorrowTimeout: Int?
-        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2. 
+        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.   InitQuery is not currently supported for PostgreSQL.
         public let initQuery: String?
         /// The maximum size of the connection pool for each target in a target group. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public let maxConnectionsPercent: Int?
@@ -1742,7 +1761,7 @@ extension RDS {
         public let dBProxyName: String
         /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
         public let debugLogging: Bool?
-        /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. Currently, this value is always MYSQL. The engine family applies to both RDS MySQL and Aurora MySQL.
+        /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. The engine family applies to MySQL and PostgreSQL for both RDS and Aurora.
         public let engineFamily: EngineFamily
         /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
         public let idleClientTimeout: Int?
@@ -3782,7 +3801,7 @@ extension RDS {
         public let debugLogging: Bool?
         /// The endpoint that you can use to connect to the proxy. You include the endpoint value in the connection string for a database client application.
         public let endpoint: String?
-        /// Currently, this value is always MYSQL. The engine family applies to both RDS MySQL and Aurora MySQL.
+        /// The engine family applies to MySQL and PostgreSQL for both RDS and Aurora.
         public let engineFamily: String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
         public let idleClientTimeout: Int?
@@ -3840,6 +3859,7 @@ extension RDS {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "RdsResourceId", required: false, type: .string), 
             AWSShapeMember(label: "TargetArn", required: false, type: .string), 
+            AWSShapeMember(label: "TargetHealth", required: false, type: .structure), 
             AWSShapeMember(label: "TrackedClusterId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
@@ -3852,16 +3872,19 @@ extension RDS {
         public let rdsResourceId: String?
         /// The Amazon Resource Name (ARN) for the RDS DB instance or Aurora DB cluster.
         public let targetArn: String?
+        /// Information about the connection health of the RDS Proxy target.
+        public let targetHealth: TargetHealth?
         /// The DB cluster identifier when the target represents an Aurora DB cluster. This field is blank when the target represents an RDS DB instance.
         public let trackedClusterId: String?
         /// Specifies the kind of database, such as an RDS DB instance or an Aurora DB cluster, that the target represents.
         public let `type`: TargetType?
 
-        public init(endpoint: String? = nil, port: Int? = nil, rdsResourceId: String? = nil, targetArn: String? = nil, trackedClusterId: String? = nil, type: TargetType? = nil) {
+        public init(endpoint: String? = nil, port: Int? = nil, rdsResourceId: String? = nil, targetArn: String? = nil, targetHealth: TargetHealth? = nil, trackedClusterId: String? = nil, type: TargetType? = nil) {
             self.endpoint = endpoint
             self.port = port
             self.rdsResourceId = rdsResourceId
             self.targetArn = targetArn
+            self.targetHealth = targetHealth
             self.trackedClusterId = trackedClusterId
             self.`type` = `type`
         }
@@ -3871,6 +3894,7 @@ extension RDS {
             case port = "Port"
             case rdsResourceId = "RdsResourceId"
             case targetArn = "TargetArn"
+            case targetHealth = "TargetHealth"
             case trackedClusterId = "TrackedClusterId"
             case `type` = "Type"
         }
@@ -6151,6 +6175,7 @@ extension RDS {
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZoneGroup", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "Engine", required: true, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
@@ -6161,6 +6186,8 @@ extension RDS {
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
 
+        /// The Availability Zone group associated with a Local Zone. Specify this parameter to retrieve available offerings for the Local Zones in the group. Omit this parameter to show the available offerings in the specified AWS Region.
+        public let availabilityZoneGroup: String?
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
         public let dBInstanceClass: String?
         /// The name of the engine to retrieve DB instance options for.
@@ -6178,7 +6205,8 @@ extension RDS {
         /// A value that indicates whether to show only VPC or non-VPC offerings.
         public let vpc: Bool?
 
-        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
+        public init(availabilityZoneGroup: String? = nil, dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
+            self.availabilityZoneGroup = availabilityZoneGroup
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
@@ -6190,6 +6218,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneGroup = "AvailabilityZoneGroup"
             case dBInstanceClass = "DBInstanceClass"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -6827,7 +6856,7 @@ extension RDS {
             AWSShapeMember(label: "WarningMessage", required: false, type: .string)
         ]
 
-        /// The data exported from the snapshot. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
+        /// The data exported from the snapshot. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.  
         public let exportOnly: [String]?
         /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to. 
         public let exportTaskIdentifier: String?
@@ -8694,6 +8723,7 @@ extension RDS {
 
     public struct OrderableDBInstanceOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZoneGroup", required: false, type: .string), 
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
             AWSShapeMember(label: "AvailableProcessorFeatures", required: false, type: .list, encoding: .list(member:"AvailableProcessorFeature")), 
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
@@ -8720,6 +8750,8 @@ extension RDS {
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
 
+        /// The Availability Zone group for a DB instance.
+        public let availabilityZoneGroup: String?
         /// A list of Availability Zones for a DB instance.
         public let availabilityZones: [AvailabilityZone]?
         /// A list of the available processor features for the DB instance class of a DB instance.
@@ -8762,14 +8794,15 @@ extension RDS {
         public let supportsKerberosAuthentication: Bool?
         /// True if a DB instance supports Performance Insights, otherwise false.
         public let supportsPerformanceInsights: Bool?
-        /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the specified instance class.
+        /// Whether Amazon RDS can automatically scale storage for DB instances that use the specified DB instance class.
         public let supportsStorageAutoscaling: Bool?
         /// Indicates whether a DB instance supports encrypted storage.
         public let supportsStorageEncryption: Bool?
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZoneGroup: String? = nil, availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+            self.availabilityZoneGroup = availabilityZoneGroup
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
             self.dBInstanceClass = dBInstanceClass
@@ -8797,6 +8830,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneGroup = "AvailabilityZoneGroup"
             case availabilityZones = "AvailabilityZones"
             case availableProcessorFeatures = "AvailableProcessorFeatures"
             case dBInstanceClass = "DBInstanceClass"
@@ -11170,7 +11204,7 @@ extension RDS {
             AWSShapeMember(label: "SourceArn", required: true, type: .string)
         ]
 
-        /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
+        /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.  
         public let exportOnly: [String]?
         /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is to be exported to. 
         public let exportTaskIdentifier: String
@@ -11388,6 +11422,33 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case tagList = "TagList"
+        }
+    }
+
+    public struct TargetHealth: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .enum), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// A description of the health of the RDS Proxy target. If the State is AVAILABLE, a description is not included.
+        public let description: String?
+        /// The reason for the current health State of the RDS Proxy target.
+        public let reason: TargetHealthReason?
+        /// The current state of the connection health lifecycle for the RDS Proxy target. The following is a typical lifecycle example for the states of an RDS Proxy target:   registering &gt; unavailable &gt; available &gt; unavailable &gt; available 
+        public let state: TargetState?
+
+        public init(description: String? = nil, reason: TargetHealthReason? = nil, state: TargetState? = nil) {
+            self.description = description
+            self.reason = reason
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case reason = "Reason"
+            case state = "State"
         }
     }
 
