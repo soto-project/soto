@@ -151,6 +151,11 @@ public struct RAM {
         return client.send(operation: "ListResourceSharePermissions", path: "/listresourcesharepermissions", httpMethod: "POST", input: input, on: eventLoop)
     }
 
+    ///  Lists the shareable resource types supported by AWS RAM.
+    public func listResourceTypes(_ input: ListResourceTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceTypesResponse> {
+        return client.send(operation: "ListResourceTypes", path: "/listresourcetypes", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
     ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
     public func listResources(_ input: ListResourcesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourcesResponse> {
         return client.send(operation: "ListResources", path: "/listresources", httpMethod: "POST", input: input, on: eventLoop)

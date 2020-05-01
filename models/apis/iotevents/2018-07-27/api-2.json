@@ -291,7 +291,8 @@
         "sqs":{"shape":"SqsAction"},
         "firehose":{"shape":"FirehoseAction"},
         "dynamoDB":{"shape":"DynamoDBAction"},
-        "dynamoDBv2":{"shape":"DynamoDBv2Action"}
+        "dynamoDBv2":{"shape":"DynamoDBv2Action"},
+        "iotSiteWise":{"shape":"IotSiteWiseAction"}
       }
     },
     "Actions":{
@@ -302,6 +303,43 @@
       "type":"string",
       "max":2048,
       "min":1
+    },
+    "AssetId":{"type":"string"},
+    "AssetPropertyAlias":{"type":"string"},
+    "AssetPropertyBooleanValue":{"type":"string"},
+    "AssetPropertyDoubleValue":{"type":"string"},
+    "AssetPropertyEntryId":{"type":"string"},
+    "AssetPropertyId":{"type":"string"},
+    "AssetPropertyIntegerValue":{"type":"string"},
+    "AssetPropertyOffsetInNanos":{"type":"string"},
+    "AssetPropertyQuality":{"type":"string"},
+    "AssetPropertyStringValue":{"type":"string"},
+    "AssetPropertyTimeInSeconds":{"type":"string"},
+    "AssetPropertyTimestamp":{
+      "type":"structure",
+      "required":["timeInSeconds"],
+      "members":{
+        "timeInSeconds":{"shape":"AssetPropertyTimeInSeconds"},
+        "offsetInNanos":{"shape":"AssetPropertyOffsetInNanos"}
+      }
+    },
+    "AssetPropertyValue":{
+      "type":"structure",
+      "required":["value"],
+      "members":{
+        "value":{"shape":"AssetPropertyVariant"},
+        "timestamp":{"shape":"AssetPropertyTimestamp"},
+        "quality":{"shape":"AssetPropertyQuality"}
+      }
+    },
+    "AssetPropertyVariant":{
+      "type":"structure",
+      "members":{
+        "stringValue":{"shape":"AssetPropertyStringValue"},
+        "integerValue":{"shape":"AssetPropertyIntegerValue"},
+        "doubleValue":{"shape":"AssetPropertyDoubleValue"},
+        "booleanValue":{"shape":"AssetPropertyBooleanValue"}
+      }
     },
     "Attribute":{
       "type":"structure",
@@ -725,6 +763,17 @@
       "members":{
         "inputName":{"shape":"InputName"},
         "payload":{"shape":"Payload"}
+      }
+    },
+    "IotSiteWiseAction":{
+      "type":"structure",
+      "required":["propertyValue"],
+      "members":{
+        "entryId":{"shape":"AssetPropertyEntryId"},
+        "assetId":{"shape":"AssetId"},
+        "propertyId":{"shape":"AssetPropertyId"},
+        "propertyAlias":{"shape":"AssetPropertyAlias"},
+        "propertyValue":{"shape":"AssetPropertyValue"}
       }
     },
     "IotTopicPublishAction":{

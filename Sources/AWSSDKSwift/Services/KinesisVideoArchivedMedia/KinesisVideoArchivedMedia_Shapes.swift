@@ -20,6 +20,12 @@ import Foundation
 extension KinesisVideoArchivedMedia {
     //MARK: Enums
 
+    public enum ClipFragmentSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContainerFormat: String, CustomStringConvertible, Codable {
         case fragmentedMp4 = "FRAGMENTED_MP4"
         case mpegTs = "MPEG_TS"
@@ -84,6 +90,42 @@ extension KinesisVideoArchivedMedia {
     }
 
     //MARK: Shapes
+
+    public struct ClipFragmentSelector: AWSEncodableShape {
+
+        /// The origin of the timestamps to use (Server or Producer).
+        public let fragmentSelectorType: ClipFragmentSelectorType
+        /// The range of timestamps to return.
+        public let timestampRange: ClipTimestampRange
+
+        public init(fragmentSelectorType: ClipFragmentSelectorType, timestampRange: ClipTimestampRange) {
+            self.fragmentSelectorType = fragmentSelectorType
+            self.timestampRange = timestampRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragmentSelectorType = "FragmentSelectorType"
+            case timestampRange = "TimestampRange"
+        }
+    }
+
+    public struct ClipTimestampRange: AWSEncodableShape {
+
+        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session. 
+        public let endTimestamp: TimeStamp
+        /// The starting timestamp in the range of timestamps for which to return fragments.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
+        public let startTimestamp: TimeStamp
+
+        public init(endTimestamp: TimeStamp, startTimestamp: TimeStamp) {
+            self.endTimestamp = endTimestamp
+            self.startTimestamp = startTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "EndTimestamp"
+            case startTimestamp = "StartTimestamp"
+        }
+    }
 
     public struct DASHFragmentSelector: AWSEncodableShape {
 
@@ -166,6 +208,61 @@ extension KinesisVideoArchivedMedia {
         private enum CodingKeys: String, CodingKey {
             case fragmentSelectorType = "FragmentSelectorType"
             case timestampRange = "TimestampRange"
+        }
+    }
+
+    public struct GetClipInput: AWSEncodableShape {
+
+        /// The time range of the requested clip and the source of the timestamps.
+        public let clipFragmentSelector: ClipFragmentSelector
+        /// The Amazon Resource Name (ARN) of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. 
+        public let streamARN: String?
+        /// The name of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. 
+        public let streamName: String?
+
+        public init(clipFragmentSelector: ClipFragmentSelector, streamARN: String? = nil, streamName: String? = nil) {
+            self.clipFragmentSelector = clipFragmentSelector
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clipFragmentSelector = "ClipFragmentSelector"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct GetClipOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let payloadPath: String = "payload"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob)
+        ]
+
+        /// The content type of the media in the requested clip.
+        public let contentType: String?
+        /// Traditional MP4 file that contains the media clip from the specified video stream. The output will contain the first 100 MB or the first 200 fragments from the specified start timestamp. For more information, see Kinesis Video Streams Limits. 
+        public let payload: Data?
+
+        public init(contentType: String? = nil, payload: Data? = nil) {
+            self.contentType = contentType
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "Content-Type"
+            case payload = "Payload"
         }
     }
 
@@ -423,7 +520,9 @@ extension KinesisVideoArchivedMedia {
         public func validate(name: String) throws {
             try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]+={0,2}")
             try validate(self.streamName, name: "streamName", parent: name, max: 256)
             try validate(self.streamName, name: "streamName", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")

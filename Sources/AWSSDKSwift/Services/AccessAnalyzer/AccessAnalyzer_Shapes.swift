@@ -28,6 +28,13 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum FindingSourceType: String, CustomStringConvertible, Codable {
+        case bucketAcl = "BUCKET_ACL"
+        case policy = "POLICY"
+        case s3AccessPoint = "S3_ACCESS_POINT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FindingStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -91,7 +98,7 @@ extension AccessAnalyzer {
         public let resourceOwnerAccount: String
         /// The type of the resource that was analyzed.
         public let resourceType: ResourceType
-        /// Indicates how the access that generated the finding is granted.
+        /// Indicates how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
         public let sharedVia: [String]?
         /// The current status of the finding generated from the analyzed resource.
         public let status: FindingStatus?
@@ -430,12 +437,14 @@ extension AccessAnalyzer {
         public let resourceOwnerAccount: String
         /// The type of the resource reported in the finding.
         public let resourceType: ResourceType
+        /// The sources of the finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
+        public let sources: [FindingSource]?
         /// The current status of the finding.
         public let status: FindingStatus
         /// The time at which the finding was updated.
         public let updatedAt: TimeStamp
 
-        public init(action: [String]? = nil, analyzedAt: TimeStamp, condition: [String: String], createdAt: TimeStamp, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, status: FindingStatus, updatedAt: TimeStamp) {
+        public init(action: [String]? = nil, analyzedAt: TimeStamp, condition: [String: String], createdAt: TimeStamp, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: TimeStamp) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -447,6 +456,7 @@ extension AccessAnalyzer {
             self.resource = resource
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
+            self.sources = sources
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -463,8 +473,41 @@ extension AccessAnalyzer {
             case resource = "resource"
             case resourceOwnerAccount = "resourceOwnerAccount"
             case resourceType = "resourceType"
+            case sources = "sources"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct FindingSource: AWSDecodableShape {
+
+        /// Includes details about how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
+        public let detail: FindingSourceDetail?
+        /// Indicates the type of access that generated the finding.
+        public let `type`: FindingSourceType
+
+        public init(detail: FindingSourceDetail? = nil, type: FindingSourceType) {
+            self.detail = detail
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detail = "detail"
+            case `type` = "type"
+        }
+    }
+
+    public struct FindingSourceDetail: AWSDecodableShape {
+
+        /// The ARN of the access point that generated the finding.
+        public let accessPointArn: String?
+
+        public init(accessPointArn: String? = nil) {
+            self.accessPointArn = accessPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "accessPointArn"
         }
     }
 
@@ -492,12 +535,14 @@ extension AccessAnalyzer {
         public let resourceOwnerAccount: String
         /// The type of the resource that the external principal has access to.
         public let resourceType: ResourceType
+        /// The sources of the finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
+        public let sources: [FindingSource]?
         /// The status of the finding.
         public let status: FindingStatus
         /// The time at which the finding was most recently updated.
         public let updatedAt: TimeStamp
 
-        public init(action: [String]? = nil, analyzedAt: TimeStamp, condition: [String: String], createdAt: TimeStamp, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, status: FindingStatus, updatedAt: TimeStamp) {
+        public init(action: [String]? = nil, analyzedAt: TimeStamp, condition: [String: String], createdAt: TimeStamp, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: TimeStamp) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -509,6 +554,7 @@ extension AccessAnalyzer {
             self.resource = resource
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
+            self.sources = sources
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -525,6 +571,7 @@ extension AccessAnalyzer {
             case resource = "resource"
             case resourceOwnerAccount = "resourceOwnerAccount"
             case resourceType = "resourceType"
+            case sources = "sources"
             case status = "status"
             case updatedAt = "updatedAt"
         }

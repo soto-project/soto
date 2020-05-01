@@ -5352,6 +5352,8 @@ extension RDS {
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
+        /// The Availability Zone group associated with a Local Zone. Specify this parameter to retrieve available offerings for the Local Zones in the group. Omit this parameter to show the available offerings in the specified AWS Region.
+        public let availabilityZoneGroup: String?
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
         public let dBInstanceClass: String?
         /// The name of the engine to retrieve DB instance options for.
@@ -5369,7 +5371,8 @@ extension RDS {
         /// A value that indicates whether to show only VPC or non-VPC offerings.
         public let vpc: Bool?
 
-        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
+        public init(availabilityZoneGroup: String? = nil, dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
+            self.availabilityZoneGroup = availabilityZoneGroup
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
@@ -5381,6 +5384,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneGroup = "AvailabilityZoneGroup"
             case dBInstanceClass = "DBInstanceClass"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -7544,6 +7548,8 @@ extension RDS {
             AWSMemberEncoding(label: "supportedEngineModes", location: .body(locationName: "SupportedEngineModes"), encoding: .list(member:"member"))
         ]
 
+        /// The Availability Zone group for a DB instance.
+        public let availabilityZoneGroup: String?
         /// A list of Availability Zones for a DB instance.
         public let availabilityZones: [AvailabilityZone]?
         /// A list of the available processor features for the DB instance class of a DB instance.
@@ -7586,14 +7592,15 @@ extension RDS {
         public let supportsKerberosAuthentication: Bool?
         /// True if a DB instance supports Performance Insights, otherwise false.
         public let supportsPerformanceInsights: Bool?
-        /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the specified instance class.
+        /// Whether Amazon RDS can automatically scale storage for DB instances that use the specified DB instance class.
         public let supportsStorageAutoscaling: Bool?
         /// Indicates whether a DB instance supports encrypted storage.
         public let supportsStorageEncryption: Bool?
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZoneGroup: String? = nil, availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+            self.availabilityZoneGroup = availabilityZoneGroup
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
             self.dBInstanceClass = dBInstanceClass
@@ -7621,6 +7628,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneGroup = "AvailabilityZoneGroup"
             case availabilityZones = "AvailabilityZones"
             case availableProcessorFeatures = "AvailableProcessorFeatures"
             case dBInstanceClass = "DBInstanceClass"

@@ -21,7 +21,7 @@ import NIO
 /**
 Client object for interacting with AWS Schemas service.
 
-AWS EventBridge Schemas
+Amazon EventBridge Schema Registry
 */
 public struct Schemas {
 
@@ -76,7 +76,7 @@ public struct Schemas {
         return client.send(operation: "CreateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a schema definition.
+    ///  Creates a schema definition. Inactive schemas will be deleted after two years.
     public func createSchema(_ input: CreateSchemaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSchemaResponse> {
         return client.send(operation: "CreateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -89,6 +89,11 @@ public struct Schemas {
     ///  Deletes a Registry.
     @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "DELETE", input: input, on: eventLoop)
+    }
+
+    ///  Delete the resource-based policy attached to the specified registry.
+    @discardableResult public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteResourcePolicy", path: "/v1/policy", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
     ///  Delete a schema definition.
@@ -131,6 +136,11 @@ public struct Schemas {
         return client.send(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: "POST", input: input, on: eventLoop)
     }
 
+    ///  Retrieves the resource-based policy attached to a given registry.
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePolicyResponse> {
+        return client.send(operation: "GetResourcePolicy", path: "/v1/policy", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
     ///  List the discoverers.
     public func listDiscoverers(_ input: ListDiscoverersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDiscoverersResponse> {
         return client.send(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: "GET", input: input, on: eventLoop)
@@ -156,13 +166,14 @@ public struct Schemas {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    public func lockServiceLinkedRole(_ input: LockServiceLinkedRoleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<LockServiceLinkedRoleResponse> {
-        return client.send(operation: "LockServiceLinkedRole", path: "/slr-deletion/lock", httpMethod: "POST", input: input, on: eventLoop)
-    }
-
     ///  Put code binding URI
     public func putCodeBinding(_ input: PutCodeBindingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutCodeBindingResponse> {
         return client.send(operation: "PutCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  The name of the policy.
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourcePolicyResponse> {
+        return client.send(operation: "PutResourcePolicy", path: "/v1/policy", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Search the schemas
@@ -185,10 +196,6 @@ public struct Schemas {
         return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    public func unlockServiceLinkedRole(_ input: UnlockServiceLinkedRoleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnlockServiceLinkedRoleResponse> {
-        return client.send(operation: "UnlockServiceLinkedRole", path: "/slr-deletion/unlock", httpMethod: "POST", input: input, on: eventLoop)
-    }
-
     ///  Removes tags from a resource.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input, on: eventLoop)
@@ -204,7 +211,7 @@ public struct Schemas {
         return client.send(operation: "UpdateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
-    ///  Updates the schema definition
+    ///  Updates the schema definition Inactive schemas will be deleted after two years.
     public func updateSchema(_ input: UpdateSchemaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSchemaResponse> {
         return client.send(operation: "UpdateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "PUT", input: input, on: eventLoop)
     }

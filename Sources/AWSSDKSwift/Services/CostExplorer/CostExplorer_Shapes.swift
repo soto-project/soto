@@ -42,10 +42,12 @@ extension CostExplorer {
         case az = "AZ"
         case instanceType = "INSTANCE_TYPE"
         case linkedAccount = "LINKED_ACCOUNT"
+        case linkedAccountName = "LINKED_ACCOUNT_NAME"
         case operation = "OPERATION"
         case purchaseType = "PURCHASE_TYPE"
         case region = "REGION"
         case service = "SERVICE"
+        case serviceCode = "SERVICE_CODE"
         case usageType = "USAGE_TYPE"
         case usageTypeGroup = "USAGE_TYPE_GROUP"
         case recordType = "RECORD_TYPE"
@@ -90,6 +92,16 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum MatchOption: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case startsWith = "STARTS_WITH"
+        case endsWith = "ENDS_WITH"
+        case contains = "CONTAINS"
+        case caseSensitive = "CASE_SENSITIVE"
+        case caseInsensitive = "CASE_INSENSITIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Metric: String, CustomStringConvertible, Codable {
         case blendedCost = "BLENDED_COST"
         case unblendedCost = "UNBLENDED_COST"
@@ -114,6 +126,12 @@ extension CostExplorer {
         case lightUtilization = "LIGHT_UTILIZATION"
         case mediumUtilization = "MEDIUM_UTILIZATION"
         case heavyUtilization = "HEAVY_UTILIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationTarget: String, CustomStringConvertible, Codable {
+        case sameInstanceFamily = "SAME_INSTANCE_FAMILY"
+        case crossInstanceFamily = "CROSS_INSTANCE_FAMILY"
         public var description: String { return self.rawValue }
     }
 
@@ -171,19 +189,22 @@ extension CostExplorer {
 
     public struct CostCategoryReference: AWSDecodableShape {
 
-        ///  The unique identifier for your Cost Category Reference. 
+        ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String?
         ///  The Cost Category's effective end date.
         public let effectiveEnd: String?
         ///  The Cost Category's effective start date.
         public let effectiveStart: String?
         public let name: String?
+        ///  The number of rules associated with a specific Cost Category. 
+        public let numberOfRules: Int?
 
-        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil) {
+        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil) {
             self.costCategoryArn = costCategoryArn
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
+            self.numberOfRules = numberOfRules
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -191,12 +212,13 @@ extension CostExplorer {
             case effectiveEnd = "EffectiveEnd"
             case effectiveStart = "EffectiveStart"
             case name = "Name"
+            case numberOfRules = "NumberOfRules"
         }
     }
 
     public struct CostCategoryRule: AWSEncodableShape & AWSDecodableShape {
 
-        /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead.
+        /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
         public let rule: Expression
         public let value: String
 
@@ -233,6 +255,11 @@ extension CostExplorer {
             try validate(self.key, name: "key", parent: name, max: 255)
             try validate(self.key, name: "key", parent: name, min: 1)
             try validate(self.key, name: "key", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, min: 0)
+                try validate($0, name: "values[]", parent: name, pattern: "[\\S\\s]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -287,7 +314,7 @@ extension CostExplorer {
 
     public struct CoverageCost: AWSDecodableShape {
 
-        /// How much an On-Demand instance cost.
+        /// How much an On-Demand Instance costs.
         public let onDemandCost: String?
 
         public init(onDemandCost: String? = nil) {
@@ -354,7 +381,7 @@ extension CostExplorer {
     public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
 
         public let name: String
-        ///  CreateCostCategoryDefinition supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead. Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
+        /// The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
@@ -463,7 +490,11 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try validate(self.end, name: "end", parent: name, max: 40)
+            try validate(self.end, name: "end", parent: name, min: 0)
             try validate(self.end, name: "end", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.start, name: "start", parent: name, max: 40)
+            try validate(self.start, name: "start", parent: name, min: 0)
             try validate(self.start, name: "start", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
         }
 
@@ -555,16 +586,28 @@ extension CostExplorer {
 
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones.
         public let key: Dimension?
-        /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values. Valid values for the SERVICE dimension are Amazon Elastic Compute Cloud - Compute, Amazon Elasticsearch Service, Amazon ElastiCache, Amazon Redshift, and Amazon Relational Database Service.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        public let matchOptions: [MatchOption]?
+        /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public let values: [String]?
 
-        public init(key: Dimension? = nil, values: [String]? = nil) {
+        public init(key: Dimension? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
             self.key = key
+            self.matchOptions = matchOptions
             self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, min: 0)
+                try validate($0, name: "values[]", parent: name, pattern: "[\\S\\s]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+            case matchOptions = "MatchOptions"
             case values = "Values"
         }
     }
@@ -779,7 +822,7 @@ extension CostExplorer {
 
         /// Return results that match both Dimension objects.
         public let and: [Expression]?
-        ///   Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).   The specific CostCategory used for Expression.
+        /// The filter based on CostCategory values.
         public let costCategories: CostCategoryValues?
         /// The specific Dimension to use for Expression.
         public let dimensions: DimensionValues?
@@ -804,10 +847,12 @@ extension CostExplorer {
                 try $0.validate(name: "\(name).and[]")
             }
             try self.costCategories?.validate(name: "\(name).costCategories")
+            try self.dimensions?.validate(name: "\(name).dimensions")
             try self.not?.validate(name: "\(name).not")
             try self.or?.forEach {
                 try $0.validate(name: "\(name).or[]")
             }
+            try self.tags?.validate(name: "\(name).tags")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -872,6 +917,17 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.metrics?.forEach {
+                try validate($0, name: "metrics[]", parent: name, max: 1024)
+                try validate($0, name: "metrics[]", parent: name, min: 0)
+                try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -933,6 +989,17 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.metrics?.forEach {
+                try validate($0, name: "metrics[]", parent: name, max: 1024)
+                try validate($0, name: "metrics[]", parent: name, min: 0)
+                try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1045,6 +1112,12 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.searchString, name: "searchString", parent: name, max: 1024)
+            try validate(self.searchString, name: "searchString", parent: name, min: 0)
+            try validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1085,7 +1158,7 @@ extension CostExplorer {
 
     public struct GetReservationCoverageRequest: AWSEncodableShape {
 
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2. Cost category is also supported.
         public let filter: Expression?
         /// The granularity of the AWS cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
@@ -1109,6 +1182,17 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.metrics?.forEach {
+                try validate($0, name: "metrics[]", parent: name, max: 1024)
+                try validate($0, name: "metrics[]", parent: name, min: 0)
+                try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1178,7 +1262,16 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name: "accountId", parent: name, max: 1024)
+            try validate(self.accountId, name: "accountId", parent: name, min: 0)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try validate(self.service, name: "service", parent: name, max: 1024)
+            try validate(self.service, name: "service", parent: name, min: 0)
+            try validate(self.service, name: "service", parent: name, pattern: "[\\S\\s]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1239,6 +1332,12 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1275,6 +1374,8 @@ extension CostExplorer {
 
     public struct GetRightsizingRecommendationRequest: AWSEncodableShape {
 
+        ///  Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or niether. 
+        public let configuration: RightsizingRecommendationConfiguration?
         public let filter: Expression?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextPageToken: String?
@@ -1283,7 +1384,8 @@ extension CostExplorer {
         /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is "AmazonEC2".
         public let service: String
 
-        public init(filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
+        public init(configuration: RightsizingRecommendationConfiguration? = nil, filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
+            self.configuration = configuration
             self.filter = filter
             self.nextPageToken = nextPageToken
             self.pageSize = pageSize
@@ -1292,10 +1394,17 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try validate(self.service, name: "service", parent: name, max: 1024)
+            try validate(self.service, name: "service", parent: name, min: 0)
+            try validate(self.service, name: "service", parent: name, pattern: "[\\S\\s]*")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
             case filter = "Filter"
             case nextPageToken = "NextPageToken"
             case pageSize = "PageSize"
@@ -1305,6 +1414,8 @@ extension CostExplorer {
 
     public struct GetRightsizingRecommendationResponse: AWSDecodableShape {
 
+        /// Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or niether. 
+        public let configuration: RightsizingRecommendationConfiguration?
         /// Information regarding this specific recommendation set.
         public let metadata: RightsizingRecommendationMetadata?
         /// The token to retrieve the next set of results.
@@ -1314,7 +1425,8 @@ extension CostExplorer {
         /// Summary of this recommendation set.
         public let summary: RightsizingRecommendationSummary?
 
-        public init(metadata: RightsizingRecommendationMetadata? = nil, nextPageToken: String? = nil, rightsizingRecommendations: [RightsizingRecommendation]? = nil, summary: RightsizingRecommendationSummary? = nil) {
+        public init(configuration: RightsizingRecommendationConfiguration? = nil, metadata: RightsizingRecommendationMetadata? = nil, nextPageToken: String? = nil, rightsizingRecommendations: [RightsizingRecommendation]? = nil, summary: RightsizingRecommendationSummary? = nil) {
+            self.configuration = configuration
             self.metadata = metadata
             self.nextPageToken = nextPageToken
             self.rightsizingRecommendations = rightsizingRecommendations
@@ -1322,6 +1434,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
             case metadata = "Metadata"
             case nextPageToken = "NextPageToken"
             case rightsizingRecommendations = "RightsizingRecommendations"
@@ -1331,7 +1444,7 @@ extension CostExplorer {
 
     public struct GetSavingsPlansCoverageRequest: AWSEncodableShape {
 
-        /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together.
+        /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together. Cost category is also supported.
         public let filter: Expression?
         /// The granularity of the Amazon Web Services cost data for your Savings Plans. Granularity can't be set if GroupBy is set. The GetSavingsPlansCoverage operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
@@ -1358,7 +1471,18 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.metrics?.forEach {
+                try validate($0, name: "metrics[]", parent: name, max: 1024)
+                try validate($0, name: "metrics[]", parent: name, min: 0)
+                try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1423,6 +1547,9 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try validate(self.pageSize, name: "pageSize", parent: name, min: 0)
         }
 
@@ -1481,6 +1608,9 @@ extension CostExplorer {
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1581,6 +1711,15 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.searchString, name: "searchString", parent: name, max: 1024)
+            try validate(self.searchString, name: "searchString", parent: name, min: 0)
+            try validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.tagKey, name: "tagKey", parent: name, max: 1024)
+            try validate(self.tagKey, name: "tagKey", parent: name, min: 0)
+            try validate(self.tagKey, name: "tagKey", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1703,6 +1842,12 @@ extension CostExplorer {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(self.key, name: "key", parent: name, max: 1024)
+            try validate(self.key, name: "key", parent: name, min: 0)
+            try validate(self.key, name: "key", parent: name, pattern: "[\\S\\s]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case `type` = "Type"
@@ -1743,11 +1888,14 @@ extension CostExplorer {
 
         ///  The date when the Cost Category was effective. 
         public let effectiveOn: String?
-        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.  You can use this information to retrieve the full Cost Category information using DescribeCostCategory.
+        ///  The number of entries a paginated response contains. 
+        public let maxResults: Int?
+        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size. 
         public let nextToken: String?
 
-        public init(effectiveOn: String? = nil, nextToken: String? = nil) {
+        public init(effectiveOn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.effectiveOn = effectiveOn
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
@@ -1755,10 +1903,16 @@ extension CostExplorer {
             try validate(self.effectiveOn, name: "effectiveOn", parent: name, max: 25)
             try validate(self.effectiveOn, name: "effectiveOn", parent: name, min: 20)
             try validate(self.effectiveOn, name: "effectiveOn", parent: name, pattern: "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(([+-]\\d\\d:\\d\\d)|Z)$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case effectiveOn = "EffectiveOn"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
@@ -2099,7 +2253,7 @@ extension CostExplorer {
 
     public struct ReservationPurchaseRecommendationMetadata: AWSDecodableShape {
 
-        /// The time stamp for when AWS made this recommendation.
+        /// The timestamp for when AWS made this recommendation.
         public let generationTimestamp: String?
         /// The ID for this specific recommendation.
         public let recommendationId: String?
@@ -2247,6 +2401,24 @@ extension CostExplorer {
         }
     }
 
+    public struct RightsizingRecommendationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        ///  The option to consider RI or Savings Plans discount benefits in your savings calculation. The default value is TRUE. 
+        public let benefitsConsidered: Bool
+        ///  The option to see recommendations within the same instance family, or recommendations for instances across other families. The default value is SAME_INSTANCE_FAMILY. 
+        public let recommendationTarget: RecommendationTarget
+
+        public init(benefitsConsidered: Bool, recommendationTarget: RecommendationTarget) {
+            self.benefitsConsidered = benefitsConsidered
+            self.recommendationTarget = recommendationTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case benefitsConsidered = "BenefitsConsidered"
+            case recommendationTarget = "RecommendationTarget"
+        }
+    }
+
     public struct RightsizingRecommendationMetadata: AWSDecodableShape {
 
         ///  The time stamp for when Amazon Web Services made this recommendation.
@@ -2340,7 +2512,7 @@ extension CostExplorer {
 
     public struct SavingsPlansCoverageData: AWSDecodableShape {
 
-        /// The percentage of your existing Savings Planscovered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
+        /// The percentage of your existing Savings Plans covered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
         public let coveragePercentage: String?
         /// The cost of your Amazon Web Services usage at the public On-Demand rate.
         public let onDemandCost: String?
@@ -2394,7 +2566,7 @@ extension CostExplorer {
         public let lookbackPeriodInDays: LookbackPeriodInDays?
         /// The payment option used to generate the recommendation.
         public let paymentOption: PaymentOption?
-        /// Details for the Savings Plans we recommend you to purchase to cover existing, Savings Plans eligible workloads.
+        /// Details for the Savings Plans we recommend that you purchase to cover existing Savings Plans eligible workloads.
         public let savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]?
         /// Summary metrics for your Savings Plans Recommendations. 
         public let savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary?
@@ -2709,16 +2881,31 @@ extension CostExplorer {
 
         /// The key for the tag.
         public let key: String?
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for only applicable for actions related to Cost Category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        public let matchOptions: [MatchOption]?
         /// The specific value of the tag.
         public let values: [String]?
 
-        public init(key: String? = nil, values: [String]? = nil) {
+        public init(key: String? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
             self.key = key
+            self.matchOptions = matchOptions
             self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name: "key", parent: name, max: 1024)
+            try validate(self.key, name: "key", parent: name, min: 0)
+            try validate(self.key, name: "key", parent: name, pattern: "[\\S\\s]*")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, min: 0)
+                try validate($0, name: "values[]", parent: name, pattern: "[\\S\\s]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+            case matchOptions = "MatchOptions"
             case values = "Values"
         }
     }
@@ -2779,7 +2966,7 @@ extension CostExplorer {
 
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
-        ///  UpdateCostCategoryDefinition supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead. Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
+        /// The Expression object used to categorize costs. For more information, see CostCategoryRule . 
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 

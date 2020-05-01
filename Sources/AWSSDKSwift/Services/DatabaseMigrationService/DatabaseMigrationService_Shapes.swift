@@ -333,14 +333,16 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with AWS DMS Endpoints in the AWS Database Migration Service User Guide. 
         public let extraConnectionAttributes: String?
-        /// Settings in JSON format for the target Apache Kafka endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to Apache Kafka in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
         public let kafkaSettings: KafkaSettings?
-        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For information about other available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
         public let kinesisSettings: KinesisSettings?
         /// An AWS KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
+        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
+        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings in the AWS Database Migration Service User Guide. 
+        public let neptuneSettings: NeptuneSettings?
         /// The password to be used to log in to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
@@ -359,7 +361,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, neptuneSettings: NeptuneSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -374,6 +376,7 @@ extension DatabaseMigrationService {
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
             self.mongoDbSettings = mongoDbSettings
+            self.neptuneSettings = neptuneSettings
             self.password = password
             self.port = port
             self.redshiftSettings = redshiftSettings
@@ -400,6 +403,7 @@ extension DatabaseMigrationService {
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
             case mongoDbSettings = "MongoDbSettings"
+            case neptuneSettings = "NeptuneSettings"
             case password = "Password"
             case port = "Port"
             case redshiftSettings = "RedshiftSettings"
@@ -612,18 +616,20 @@ extension DatabaseMigrationService {
         public let replicationInstanceArn: String
         /// An identifier for the replication task. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String
-        /// Overall settings for the task, in JSON format. For more information, see Task Settings in the AWS Database Migration User Guide. 
+        /// Overall settings for the task, in JSON format. For more information, see Specifying Task Settings for AWS Database Migration Service Tasks in the AWS Database Migration User Guide. 
         public let replicationTaskSettings: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
         public let sourceEndpointArn: String
-        /// The table mappings for the task, in JSON format. For more information, see Table Mapping in the AWS Database Migration User Guide. 
+        /// The table mappings for the task, in JSON format. For more information, see Using Table Mapping to Specify Task Settings in the AWS Database Migration User Guide. 
         public let tableMappings: String
         /// One or more tags to be assigned to the replication task.
         public let tags: [Tag]?
         /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
         public let targetEndpointArn: String
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration User Guide. 
+        public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -635,6 +641,7 @@ extension DatabaseMigrationService {
             self.tableMappings = tableMappings
             self.tags = tags
             self.targetEndpointArn = targetEndpointArn
+            self.taskData = taskData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -649,6 +656,7 @@ extension DatabaseMigrationService {
             case tableMappings = "TableMappings"
             case tags = "Tags"
             case targetEndpointArn = "TargetEndpointArn"
+            case taskData = "TaskData"
         }
     }
 
@@ -1379,7 +1387,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeReplicationSubnetGroupsMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe action.
+        /// Filters applied to the describe action. Valid filter names: replication-subnet-group-id
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1687,6 +1695,8 @@ extension DatabaseMigrationService {
         public let kmsKeyId: String?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
         public let mongoDbSettings: MongoDbSettings?
+        /// The settings for the MongoDB source endpoint. For more information, see the NeptuneSettings structure.
+        public let neptuneSettings: NeptuneSettings?
         /// The port value used to access the endpoint.
         public let port: Int?
         /// Settings for the Amazon Redshift endpoint.
@@ -1704,7 +1714,7 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, neptuneSettings: NeptuneSettings? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -1722,6 +1732,7 @@ extension DatabaseMigrationService {
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
             self.mongoDbSettings = mongoDbSettings
+            self.neptuneSettings = neptuneSettings
             self.port = port
             self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
@@ -1750,6 +1761,7 @@ extension DatabaseMigrationService {
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
             case mongoDbSettings = "MongoDbSettings"
+            case neptuneSettings = "NeptuneSettings"
             case port = "Port"
             case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
@@ -2025,12 +2037,14 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
         public let extraConnectionAttributes: String?
-        /// Settings in JSON format for the target Apache Kafka endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to Apache Kafka in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
         public let kafkaSettings: KafkaSettings?
-        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For information about other available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
         public let kinesisSettings: KinesisSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
+        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings in the AWS Database Migration Service User Guide. 
+        public let neptuneSettings: NeptuneSettings?
         /// The password to be used to login to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
@@ -2047,7 +2061,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, neptuneSettings: NeptuneSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2062,6 +2076,7 @@ extension DatabaseMigrationService {
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.mongoDbSettings = mongoDbSettings
+            self.neptuneSettings = neptuneSettings
             self.password = password
             self.port = port
             self.redshiftSettings = redshiftSettings
@@ -2087,6 +2102,7 @@ extension DatabaseMigrationService {
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case mongoDbSettings = "MongoDbSettings"
+            case neptuneSettings = "NeptuneSettings"
             case password = "Password"
             case port = "Port"
             case redshiftSettings = "RedshiftSettings"
@@ -2274,12 +2290,14 @@ extension DatabaseMigrationService {
         public let replicationTaskArn: String
         /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
-        /// JSON file that contains settings for the task, such as target metadata settings.
+        /// JSON file that contains settings for the task, such as task metadata settings.
         public let replicationTaskSettings: String?
         /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. When working with the DMS API, provide the JSON as the parameter value, for example: --table-mappings file://mappingfile.json 
         public let tableMappings: String?
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration User Guide. 
+        public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -2288,6 +2306,7 @@ extension DatabaseMigrationService {
             self.replicationTaskIdentifier = replicationTaskIdentifier
             self.replicationTaskSettings = replicationTaskSettings
             self.tableMappings = tableMappings
+            self.taskData = taskData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2299,6 +2318,7 @@ extension DatabaseMigrationService {
             case replicationTaskIdentifier = "ReplicationTaskIdentifier"
             case replicationTaskSettings = "ReplicationTaskSettings"
             case tableMappings = "TableMappings"
+            case taskData = "TaskData"
         }
     }
 
@@ -2371,6 +2391,44 @@ extension DatabaseMigrationService {
             case port = "Port"
             case serverName = "ServerName"
             case username = "Username"
+        }
+    }
+
+    public struct NeptuneSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The number of milliseconds for AWS DMS to wait to retry a bulk-load of migrated graph data to the Neptune target database before raising an error. The default is 250.
+        public let errorRetryDuration: Int?
+        /// If you want IAM authorization enabled for this endpoint, set this parameter to true and attach the appropriate role policy document to your service role specified by ServiceAccessRoleArn. The default is false.
+        public let iamAuthEnabled: Bool?
+        /// The maximum size in KB of migrated graph data stored in a CSV file before AWS DMS bulk-loads the data to the Neptune target database. The default is 1048576 KB. If successful, AWS DMS clears the bucket, ready to store the next batch of migrated graph data.
+        public let maxFileSize: Int?
+        /// The number of times for AWS DMS to retry a bulk-load of migrated graph data to the Neptune target database before raising an error. The default is 5.
+        public let maxRetryCount: Int?
+        /// A folder path where you where you want AWS DMS to store migrated graph data in the S3 bucket specified by S3BucketName 
+        public let s3BucketFolder: String
+        /// The name of the S3 bucket for AWS DMS to temporarily store migrated graph data in CSV files before bulk-loading it to the Neptune target database. AWS DMS maps the SQL source data to graph data before storing it in these CSV files.
+        public let s3BucketName: String
+        /// The ARN of the service role you have created for the Neptune target endpoint. For more information, see https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole in the AWS Database Migration Service User Guide. 
+        public let serviceAccessRoleArn: String?
+
+        public init(errorRetryDuration: Int? = nil, iamAuthEnabled: Bool? = nil, maxFileSize: Int? = nil, maxRetryCount: Int? = nil, s3BucketFolder: String, s3BucketName: String, serviceAccessRoleArn: String? = nil) {
+            self.errorRetryDuration = errorRetryDuration
+            self.iamAuthEnabled = iamAuthEnabled
+            self.maxFileSize = maxFileSize
+            self.maxRetryCount = maxRetryCount
+            self.s3BucketFolder = s3BucketFolder
+            self.s3BucketName = s3BucketName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorRetryDuration = "ErrorRetryDuration"
+            case iamAuthEnabled = "IamAuthEnabled"
+            case maxFileSize = "MaxFileSize"
+            case maxRetryCount = "MaxRetryCount"
+            case s3BucketFolder = "S3BucketFolder"
+            case s3BucketName = "S3BucketName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
     }
 
@@ -2928,8 +2986,10 @@ extension DatabaseMigrationService {
         public let tableMappings: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String?
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration User Guide. 
+        public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStopPosition = cdcStopPosition
             self.lastFailureMessage = lastFailureMessage
@@ -2947,6 +3007,7 @@ extension DatabaseMigrationService {
             self.stopReason = stopReason
             self.tableMappings = tableMappings
             self.targetEndpointArn = targetEndpointArn
+            self.taskData = taskData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2967,6 +3028,7 @@ extension DatabaseMigrationService {
             case stopReason = "StopReason"
             case tableMappings = "TableMappings"
             case targetEndpointArn = "TargetEndpointArn"
+            case taskData = "TaskData"
         }
     }
 
@@ -3304,13 +3366,16 @@ extension DatabaseMigrationService {
         public let engineDisplayName: String?
         /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", and "sqlserver".
         public let engineName: String?
+        /// The earliest AWS DMS engine version that supports this endpoint engine. Note that endpoint engines released with AWS DMS versions earlier than 3.1.1 do not return a value for this parameter.
+        public let replicationInstanceEngineMinimumVersion: String?
         /// Indicates if Change Data Capture (CDC) is supported.
         public let supportsCDC: Bool?
 
-        public init(endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, supportsCDC: Bool? = nil) {
+        public init(endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, replicationInstanceEngineMinimumVersion: String? = nil, supportsCDC: Bool? = nil) {
             self.endpointType = endpointType
             self.engineDisplayName = engineDisplayName
             self.engineName = engineName
+            self.replicationInstanceEngineMinimumVersion = replicationInstanceEngineMinimumVersion
             self.supportsCDC = supportsCDC
         }
 
@@ -3318,6 +3383,7 @@ extension DatabaseMigrationService {
             case endpointType = "EndpointType"
             case engineDisplayName = "EngineDisplayName"
             case engineName = "EngineName"
+            case replicationInstanceEngineMinimumVersion = "ReplicationInstanceEngineMinimumVersion"
             case supportsCDC = "SupportsCDC"
         }
     }

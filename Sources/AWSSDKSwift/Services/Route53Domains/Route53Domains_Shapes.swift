@@ -286,6 +286,8 @@ extension Route53Domains {
         case auIdType = "AU_ID_TYPE"
         case caLegalType = "CA_LEGAL_TYPE"
         case caBusinessEntityType = "CA_BUSINESS_ENTITY_TYPE"
+        case caLegalRepresentative = "CA_LEGAL_REPRESENTATIVE"
+        case caLegalRepresentativeCapacity = "CA_LEGAL_REPRESENTATIVE_CAPACITY"
         case esIdentification = "ES_IDENTIFICATION"
         case esIdentificationType = "ES_IDENTIFICATION_TYPE"
         case esLegalForm = "ES_LEGAL_FORM"
@@ -293,6 +295,7 @@ extension Route53Domains {
         case fiIdNumber = "FI_ID_NUMBER"
         case fiNationality = "FI_NATIONALITY"
         case fiOrganizationType = "FI_ORGANIZATION_TYPE"
+        case itNationality = "IT_NATIONALITY"
         case itPin = "IT_PIN"
         case itRegistrantEntityType = "IT_REGISTRANT_ENTITY_TYPE"
         case ruPassportData = "RU_PASSPORT_DATA"
@@ -330,6 +333,8 @@ extension Route53Domains {
         case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
         case renewDomain = "RENEW_DOMAIN"
         case pushDomain = "PUSH_DOMAIN"
+        case internalTransferOutDomain = "INTERNAL_TRANSFER_OUT_DOMAIN"
+        case internalTransferInDomain = "INTERNAL_TRANSFER_IN_DOMAIN"
         public var description: String { return self.rawValue }
     }
 
@@ -349,11 +354,47 @@ extension Route53Domains {
 
     //MARK: Shapes
 
+    public struct AcceptDomainTransferFromAnotherAwsAccountRequest: AWSEncodableShape {
+
+        /// The name of the domain that was specified when another AWS account submitted a TransferDomainToAnotherAwsAccount request. 
+        public let domainName: String
+        /// The password that was returned by the TransferDomainToAnotherAwsAccount request. 
+        public let password: String
+
+        public init(domainName: String, password: String) {
+            self.domainName = domainName
+            self.password = password
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name: "domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case password = "Password"
+        }
+    }
+
+    public struct AcceptDomainTransferFromAnotherAwsAccountResponse: AWSDecodableShape {
+
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
     public struct BillingRecord: AWSDecodableShape {
 
         /// The date that the operation was billed, in Unix format.
         public let billDate: TimeStamp?
-        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
+        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guide.
         public let domainName: String?
         /// The ID of the invoice that is associated with the billing record.
         public let invoiceId: String?
@@ -379,9 +420,41 @@ extension Route53Domains {
         }
     }
 
+    public struct CancelDomainTransferToAnotherAwsAccountRequest: AWSEncodableShape {
+
+        /// The name of the domain for which you want to cancel the transfer to another AWS account.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name: "domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct CancelDomainTransferToAnotherAwsAccountResponse: AWSDecodableShape {
+
+        /// The identifier that TransferDomainToAnotherAwsAccount returned to track the progress of the request. Because the transfer request was canceled, the value is no longer valid, and you can't use GetOperationDetail to query the operation status.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
     public struct CheckDomainAvailabilityRequest: AWSEncodableShape {
 
-        /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        /// The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:   Letters a through z. Domain names are not case sensitive.   Numbers 0 through 9.   Hyphen (-). You can't specify a hyphen at the beginning or end of a label.    Period (.) to separate the labels in the name, such as the . in example.com.   Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53. For more information, see Formatting Internationalized Domain Names. 
         public let domainName: String
         /// Reserved for future use.
         public let idnLangCode: String?
@@ -404,7 +477,7 @@ extension Route53Domains {
 
     public struct CheckDomainAvailabilityResponse: AWSDecodableShape {
 
-        /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
+        /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: DomainAvailability
 
         public init(availability: DomainAvailability) {
@@ -420,7 +493,7 @@ extension Route53Domains {
 
         /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
         public let authCode: String?
-        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:   Letters a through z. Domain names are not case sensitive.   Numbers 0 through 9.   Hyphen (-). You can't specify a hyphen at the beginning or end of a label.    Period (.) to separate the labels in the name, such as the . in example.com.  
         public let domainName: String
 
         public init(authCode: String? = nil, domainName: String) {
@@ -441,7 +514,7 @@ extension Route53Domains {
 
     public struct CheckDomainTransferabilityResponse: AWSDecodableShape {
 
-        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
+        /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
         public let transferability: DomainTransferability
 
         public init(transferability: DomainTransferability) {
@@ -461,7 +534,7 @@ extension Route53Domains {
         public let addressLine2: String?
         /// The city of the contact's address.
         public let city: String?
-        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can't enable privacy protection for the contact.
+        /// Indicates whether the contact is a person, company, association, or public organization. Note the following:   If you specify a value other than PERSON, you must also specify a value for OrganizationName.   For some TLDs, the privacy protection available depends on the value that you specify for Contact Type. For the privacy protection settings for your TLD, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide    For .es domains, if you specify PERSON, you must specify INDIVIDUAL for the value of ES_LEGAL_FORM.  
         public let contactType: ContactType?
         /// Code for the country of the contact's address.
         public let countryCode: CountryCode?
@@ -612,7 +685,7 @@ extension Route53Domains {
 
     public struct DisableDomainTransferLockResponse: AWSDecodableShape {
 
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -626,7 +699,7 @@ extension Route53Domains {
 
     public struct DomainSuggestion: AWSDecodableShape {
 
-        /// Whether the domain name is available for registering.  You can register only the domains that are designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
+        /// Whether the domain name is available for registering.  You can register only the domains that are designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: String?
         /// A suggested domain name.
         public let domainName: String?
@@ -648,7 +721,7 @@ extension Route53Domains {
         public let autoRenew: Bool?
         /// The name of the domain that the summary information applies to.
         public let domainName: String
-        /// Expiration date of the domain in Coordinated Universal Time (UTC).
+        /// Expiration date of the domain in Unix time format and Coordinated Universal Time (UTC).
         public let expiry: TimeStamp?
         /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public let transferLock: Bool?
@@ -741,9 +814,9 @@ extension Route53Domains {
 
     public struct ExtraParam: AWSEncodableShape & AWSDecodableShape {
 
-        /// Name of the additional parameter required by the top-level domain. Here are the top-level domains that require additional parameters and which parameters they require:    .com.au and .net.au: AU_ID_NUMBER and AU_ID_TYPE     .ca: BRAND_NUMBER, CA_LEGAL_TYPE, and CA_BUSINESS_ENTITY_TYPE     .es: ES_IDENTIFICATION, ES_IDENTIFICATION_TYPE, and ES_LEGAL_FORM     .fi: BIRTH_DATE_IN_YYYY_MM_DD, FI_BUSINESS_NUMBER, FI_ID_NUMBER, FI_NATIONALITY, and FI_ORGANIZATION_TYPE     .fr: BRAND_NUMBER, BIRTH_DEPARTMENT, BIRTH_DATE_IN_YYYY_MM_DD, BIRTH_COUNTRY, and BIRTH_CITY     .it: BIRTH_COUNTRY, IT_PIN, and IT_REGISTRANT_ENTITY_TYPE     .ru: BIRTH_DATE_IN_YYYY_MM_DD and RU_PASSPORT_DATA     .se: BIRTH_COUNTRY and SE_ID_NUMBER     .sg: SG_ID_NUMBER     .co.uk, .me.uk, and .org.uk: UK_CONTACT_TYPE and UK_COMPANY_NUMBER    In addition, many TLDs require VAT_NUMBER.
+        /// The name of an additional parameter that is required by a top-level domain. Here are the top-level domains that require additional parameters and the names of the parameters that they require:  .com.au and .net.au     AU_ID_NUMBER     AU_ID_TYPE  Valid values include the following:    ABN (Australian business number)    ACN (Australian company number)    TM (Trademark number)      .ca     BRAND_NUMBER     CA_BUSINESS_ENTITY_TYPE  Valid values include the following:    BANK (Bank)    COMMERCIAL_COMPANY (Commercial company)    COMPANY (Company)    COOPERATION (Cooperation)    COOPERATIVE (Cooperative)    COOPRIX (Cooprix)    CORP (Corporation)    CREDIT_UNION (Credit union)    FOMIA (Federation of mutual insurance associations)    INC (Incorporated)    LTD (Limited)    LTEE (Limitée)    LLC (Limited liability corporation)    LLP (Limited liability partnership)    LTE (Lte.)    MBA (Mutual benefit association)    MIC (Mutual insurance company)    NFP (Not-for-profit corporation)    SA (S.A.)    SAVINGS_COMPANY (Savings company)    SAVINGS_UNION (Savings union)    SARL (Société à responsabilité limitée)    TRUST (Trust)    ULC (Unlimited liability corporation)      CA_LEGAL_TYPE  When ContactType is PERSON, valid values include the following:    ABO (Aboriginal Peoples indigenous to Canada)    CCT (Canadian citizen)    LGR (Legal Representative of a Canadian Citizen or Permanent Resident)    RES (Permanent resident of Canada)   When ContactType is a value other than PERSON, valid values include the following:    ASS (Canadian unincorporated association)    CCO (Canadian corporation)    EDU (Canadian educational institution)    GOV (Government or government entity in Canada)    HOP (Canadian Hospital)    INB (Indian Band recognized by the Indian Act of Canada)    LAM (Canadian Library, Archive, or Museum)    MAJ (Her/His Majesty the Queen/King)    OMK (Official mark registered in Canada)    PLT (Canadian Political Party)    PRT (Partnership Registered in Canada)    TDM (Trademark registered in Canada)    TRD (Canadian Trade Union)    TRS (Trust established in Canada)      .es     ES_IDENTIFICATION  Specify the applicable value:    For contacts inside Spain: Enter your passport ID.    For contacts outside of Spain: Enter the VAT identification number for the company.  For .es domains, the value of ContactType must be PERSON.       ES_IDENTIFICATION_TYPE  Valid values include the following:    DNI_AND_NIF (For Spanish contacts)    NIE (For foreigners with legal residence)    OTHER (For contacts outside of Spain)      ES_LEGAL_FORM  Valid values include the following:    ASSOCIATION     CENTRAL_GOVERNMENT_BODY     CIVIL_SOCIETY     COMMUNITY_OF_OWNERS     COMMUNITY_PROPERTY     CONSULATE     COOPERATIVE     DESIGNATION_OF_ORIGIN_SUPERVISORY_COUNCIL     ECONOMIC_INTEREST_GROUP     EMBASSY     ENTITY_MANAGING_NATURAL_AREAS     FARM_PARTNERSHIP     FOUNDATION     GENERAL_AND_LIMITED_PARTNERSHIP     GENERAL_PARTNERSHIP     INDIVIDUAL     LIMITED_COMPANY     LOCAL_AUTHORITY     LOCAL_PUBLIC_ENTITY     MUTUAL_INSURANCE_COMPANY     NATIONAL_PUBLIC_ENTITY     ORDER_OR_RELIGIOUS_INSTITUTION     OTHERS (Only for contacts outside of Spain)     POLITICAL_PARTY     PROFESSIONAL_ASSOCIATION     PUBLIC_LAW_ASSOCIATION     PUBLIC_LIMITED_COMPANY     REGIONAL_GOVERNMENT_BODY     REGIONAL_PUBLIC_ENTITY     SAVINGS_BANK     SPANISH_OFFICE     SPORTS_ASSOCIATION     SPORTS_FEDERATION     SPORTS_LIMITED_COMPANY     TEMPORARY_ALLIANCE_OF_ENTERPRISES     TRADE_UNION     WORKER_OWNED_COMPANY     WORKER_OWNED_LIMITED_COMPANY       .fi     BIRTH_DATE_IN_YYYY_MM_DD     FI_BUSINESS_NUMBER     FI_ID_NUMBER     FI_NATIONALITY  Valid values include the following:    FINNISH     NOT_FINNISH       FI_ORGANIZATION_TYPE  Valid values include the following:    COMPANY     CORPORATION     GOVERNMENT     INSTITUTION     POLITICAL_PARTY     PUBLIC_COMMUNITY     TOWNSHIP       .fr     BIRTH_CITY     BIRTH_COUNTRY     BIRTH_DATE_IN_YYYY_MM_DD     BIRTH_DEPARTMENT: Specify the INSEE code that corresponds with the department where the contact was born. If the contact was born somewhere other than France or its overseas departments, specify 99. For more information, including a list of departments and the corresponding INSEE numbers, see the Wikipedia entry Departments of France.    BRAND_NUMBER     .it     IT_NATIONALITY     IT_PIN     IT_REGISTRANT_ENTITY_TYPE  Valid values include the following:    FOREIGNERS     FREELANCE_WORKERS (Freelance workers and professionals)    ITALIAN_COMPANIES (Italian companies and one-person companies)    NON_PROFIT_ORGANIZATIONS     OTHER_SUBJECTS     PUBLIC_ORGANIZATIONS       .ru     BIRTH_DATE_IN_YYYY_MM_DD     RU_PASSPORT_DATA     .se     BIRTH_COUNTRY     SE_ID_NUMBER     .sg     SG_ID_NUMBER     .co.uk, .me.uk, and .org.uk     UK_CONTACT_TYPE  Valid values include the following:    CRC (UK Corporation by Royal Charter)    FCORP (Non-UK Corporation)    FIND (Non-UK Individual, representing self)    FOTHER (Non-UK Entity that does not fit into any other category)    GOV (UK Government Body)    IND (UK Individual (representing self))    IP (UK Industrial/Provident Registered Company)    LLP (UK Limited Liability Partnership)    LTD (UK Limited Company)    OTHER (UK Entity that does not fit into any other category)    PLC (UK Public Limited Company)    PTNR (UK Partnership)    RCHAR (UK Registered Charity)    SCH (UK School)    STAT (UK Statutory Body)    STRA (UK Sole Trader)      UK_COMPANY_NUMBER      In addition, many TLDs require a VAT_NUMBER.
         public let name: ExtraParamName
-        /// Values corresponding to the additional parameter names required by some top-level domains.
+        /// The value that corresponds with the name of an extra parameter.
         public let value: String
 
         public init(name: ExtraParamName, value: String) {
@@ -827,13 +900,13 @@ extension Route53Domains {
         public let adminPrivacy: Bool?
         /// Specifies whether the domain registration is set to renew automatically.
         public let autoRenew: Bool?
-        /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
+        /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
         public let creationDate: TimeStamp?
         /// Reserved for future use.
         public let dnsSec: String?
         /// The name of a domain.
         public let domainName: String
-        /// The date when the registration for the domain is set to expire. The date and time is in Coordinated Universal time (UTC).
+        /// The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC).
         public let expirationDate: TimeStamp?
         /// The name of the domain.
         public let nameservers: [Nameserver]
@@ -847,7 +920,7 @@ extension Route53Domains {
         public let registrarUrl: String?
         /// Reserved for future use.
         public let registryDomainId: String?
-        /// Reseller of the domain. Domains registered or transferred using Amazon Route 53 domains will have "Amazon" as the reseller. 
+        /// Reseller of the domain. Domains registered or transferred using Route 53 domains will have "Amazon" as the reseller. 
         public let reseller: String?
         /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the ICANN website and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.)
         public let statusList: [String]?
@@ -855,7 +928,7 @@ extension Route53Domains {
         public let techContact: ContactDetail
         /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the technical contact.
         public let techPrivacy: Bool?
-        /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
+        /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
         public let updatedDate: TimeStamp?
         /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
         public let whoIsServer: String?
@@ -911,11 +984,11 @@ extension Route53Domains {
 
     public struct GetDomainSuggestionsRequest: AWSEncodableShape {
 
-        /// A domain name that you want to use as the basis for a list of possible domain names. The domain name must contain a top-level domain (TLD), such as .com, that Amazon Route 53 supports. For a list of TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide.
+        /// A domain name that you want to use as the basis for a list of possible domain names. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:   Letters a through z. Domain names are not case sensitive.   Numbers 0 through 9.   Hyphen (-). You can't specify a hyphen at the beginning or end of a label.    Period (.) to separate the labels in the name, such as the . in example.com.   Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53. 
         public let domainName: String
-        /// If OnlyAvailable is true, Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false, Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
+        /// If OnlyAvailable is true, Route 53 returns only domain names that are available. If OnlyAvailable is false, Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
         public let onlyAvailable: Bool
-        /// The number of suggested domain names that you want Amazon Route 53 to return.
+        /// The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50.
         public let suggestionCount: Int
 
         public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int) {
@@ -951,7 +1024,7 @@ extension Route53Domains {
 
     public struct GetOperationDetailRequest: AWSEncodableShape {
 
-        /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
+        /// The identifier for the operation for which you want to get the status. Route 53 returned the identifier in the response to the original request.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1048,7 +1121,7 @@ extension Route53Domains {
         public let marker: String?
         /// Number of domains to be returned. Default: 20
         public let maxItems: Int?
-        /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Coordinated Universal time (UTC).
+        /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
         public let submittedSince: TimeStamp?
 
         public init(marker: String? = nil, maxItems: Int? = nil, submittedSince: TimeStamp? = nil) {
@@ -1173,11 +1246,11 @@ extension Route53Domains {
 
     public struct RegisterDomainRequest: AWSEncodableShape {
 
-        /// Provides detailed contact information.
+        /// Provides detailed contact information. For information about the values that you specify for each element, see ContactDetail.
         public let adminContact: ContactDetail
         /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true 
         public let autoRenew: Bool?
-        /// The domain name that you want to register. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        /// The domain name that you want to register. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:   Letters a through z. Domain names are not case sensitive.   Numbers 0 through 9.   Hyphen (-). You can't specify a hyphen at the beginning or end of a label.    Period (.) to separate the labels in the name, such as the . in example.com.   Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53. For more information, see Formatting Internationalized Domain Names. 
         public let domainName: String
         /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
         public let durationInYears: Int
@@ -1189,9 +1262,9 @@ extension Route53Domains {
         public let privacyProtectRegistrantContact: Bool?
         /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
         public let privacyProtectTechContact: Bool?
-        /// Provides detailed contact information.
+        /// Provides detailed contact information. For information about the values that you specify for each element, see ContactDetail.
         public let registrantContact: ContactDetail
-        /// Provides detailed contact information.
+        /// Provides detailed contact information. For information about the values that you specify for each element, see ContactDetail.
         public let techContact: ContactDetail
 
         public init(adminContact: ContactDetail, autoRenew: Bool? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
@@ -1233,10 +1306,42 @@ extension Route53Domains {
 
     public struct RegisterDomainResponse: AWSDecodableShape {
 
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct RejectDomainTransferFromAnotherAwsAccountRequest: AWSEncodableShape {
+
+        /// The name of the domain that was specified when another AWS account submitted a TransferDomainToAnotherAwsAccount request. 
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name: "domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct RejectDomainTransferFromAnotherAwsAccountResponse: AWSDecodableShape {
+
+        /// The identifier that TransferDomainToAnotherAwsAccount returned to track the progress of the request. Because the transfer request was rejected, the value is no longer valid, and you can't use GetOperationDetail to query the operation status.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
             self.operationId = operationId
         }
 
@@ -1275,7 +1380,7 @@ extension Route53Domains {
 
     public struct RenewDomainResponse: AWSDecodableShape {
 
-        /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1289,7 +1394,7 @@ extension Route53Domains {
 
     public struct ResendContactReachabilityEmailRequest: AWSEncodableShape {
 
-        /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
+        /// The name of the domain for which you want Route 53 to resend a confirmation email to the registrant contact.
         public let domainName: String?
 
         public init(domainName: String? = nil) {
@@ -1385,7 +1490,7 @@ extension Route53Domains {
         public let authCode: String?
         /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true
         public let autoRenew: Bool?
-        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:   Letters a through z. Domain names are not case sensitive.   Numbers 0 through 9.   Hyphen (-). You can't specify a hyphen at the beginning or end of a label.    Period (.) to separate the labels in the name, such as the . in example.com.  
         public let domainName: String
         /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
         public let durationInYears: Int
@@ -1451,7 +1556,7 @@ extension Route53Domains {
 
     public struct TransferDomainResponse: AWSDecodableShape {
 
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1460,6 +1565,47 @@ extension Route53Domains {
 
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
+        }
+    }
+
+    public struct TransferDomainToAnotherAwsAccountRequest: AWSEncodableShape {
+
+        /// The account ID of the AWS account that you want to transfer the domain to, for example, 111122223333.
+        public let accountId: String
+        /// The name of the domain that you want to transfer from the current AWS account to another account.
+        public let domainName: String
+
+        public init(accountId: String, domainName: String) {
+            self.accountId = accountId
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^(\\d{12})$")
+            try validate(self.domainName, name: "domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct TransferDomainToAnotherAwsAccountResponse: AWSDecodableShape {
+
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
+        public let operationId: String?
+        /// To finish transferring a domain to another AWS account, the account that the domain is being transferred to must submit an AcceptDomainTransferFromAnotherAwsAccount request. The request must include the value of the Password element that was returned in the TransferDomainToAnotherAwsAccount response.
+        public let password: String?
+
+        public init(operationId: String? = nil, password: String? = nil) {
+            self.operationId = operationId
+            self.password = password
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+            case password = "Password"
         }
     }
 
@@ -1542,7 +1688,7 @@ extension Route53Domains {
 
     public struct UpdateDomainContactResponse: AWSDecodableShape {
 
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1581,7 +1727,7 @@ extension Route53Domains {
 
     public struct UpdateDomainNameserversResponse: AWSDecodableShape {
 
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1625,13 +1771,13 @@ extension Route53Domains {
 
     public struct ViewBillingRequest: AWSEncodableShape {
 
-        /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
+        /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
         public let end: TimeStamp?
         /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
         /// The number of billing records to be returned. Default: 20
         public let maxItems: Int?
-        /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
+        /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
         public let start: TimeStamp?
 
         public init(end: TimeStamp? = nil, marker: String? = nil, maxItems: Int? = nil, start: TimeStamp? = nil) {

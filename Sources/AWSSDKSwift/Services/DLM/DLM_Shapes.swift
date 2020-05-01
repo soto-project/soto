@@ -122,7 +122,7 @@ extension DLM {
 
     public struct CreateRule: AWSEncodableShape & AWSDecodableShape {
 
-        /// The interval between snapshots. The supported values are 2, 3, 4, 6, 8, 12, and 24.
+        /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and 24.
         public let interval: Int
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues

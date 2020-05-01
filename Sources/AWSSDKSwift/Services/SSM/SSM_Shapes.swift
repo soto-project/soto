@@ -51,6 +51,7 @@ extension SSM {
         case lastexecutedbefore = "LastExecutedBefore"
         case lastexecutedafter = "LastExecutedAfter"
         case associationname = "AssociationName"
+        case resourcegroupname = "ResourceGroupName"
         public var description: String { return self.rawValue }
     }
 
@@ -65,6 +66,12 @@ extension SSM {
         case pending = "Pending"
         case success = "Success"
         case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationSyncCompliance: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -181,6 +188,12 @@ extension SSM {
     public enum ComplianceStatus: String, CustomStringConvertible, Codable {
         case compliant = "COMPLIANT"
         case nonCompliant = "NON_COMPLIANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComplianceUploadType: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case partial = "PARTIAL"
         public var description: String { return self.rawValue }
     }
 
@@ -791,7 +804,7 @@ extension SSM {
         public let maxErrors: String?
         /// The name of the Systems Manager document.
         public let name: String?
-        /// An Amazon S3 bucket where you want to store the output details of the request.
+        /// An S3 bucket where you want to store the output details of the request.
         public let outputLocation: InstanceAssociationOutputLocation?
         /// Information about the association.
         public let overview: AssociationOverview?
@@ -801,10 +814,12 @@ extension SSM {
         public let scheduleExpression: String?
         /// The association status.
         public let status: AssociationStatus?
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+        public let syncCompliance: AssociationSyncCompliance?
         /// The instances targeted by the request. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, targets: [Target]? = nil) {
+        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -824,6 +839,7 @@ extension SSM {
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
             self.status = status
+            self.syncCompliance = syncCompliance
             self.targets = targets
         }
 
@@ -847,6 +863,7 @@ extension SSM {
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
             case status = "Status"
+            case syncCompliance = "SyncCompliance"
             case targets = "Targets"
         }
     }
@@ -1089,10 +1106,12 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The cron or rate schedule specified for the association when the association version was created.
         public let scheduleExpression: String?
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+        public let syncCompliance: AssociationSyncCompliance?
         /// The targets specified for the association when the association version was created. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -1105,6 +1124,7 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.syncCompliance = syncCompliance
             self.targets = targets
         }
 
@@ -1121,6 +1141,7 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case syncCompliance = "SyncCompliance"
             case targets = "Targets"
         }
     }
@@ -1344,7 +1365,7 @@ extension SSM {
         public let automationExecutionId: String?
         /// The status of the execution.
         public let automationExecutionStatus: AutomationExecutionStatus?
-        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple AWS Regions and accounts. For more information, see Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
+        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple AWS Regions and accounts. For more information, see Running Automation workflows in multiple AWS Regions and accounts in the AWS Systems Manager User Guide. 
         public let automationType: AutomationType?
         /// The action of the step that is currently running.
         public let currentAction: String?
@@ -1362,7 +1383,7 @@ extension SSM {
         public let executionStartTime: TimeStamp?
         /// The list of execution outputs as defined in the Automation document.
         public let failureMessage: String?
-        /// An Amazon S3 bucket where execution information is stored.
+        /// An S3 bucket where execution information is stored.
         public let logFile: String?
         /// The MaxConcurrency value specified by the user when starting the Automation.
         public let maxConcurrency: String?
@@ -1551,9 +1572,9 @@ extension SSM {
         public let expiresAfter: TimeStamp?
         /// The instance IDs against which this command was requested.
         public let instanceIds: [String]?
-        /// The maximum number of instances that are allowed to run the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Running Commands Using Systems Manager Run Command in the AWS Systems Manager User Guide.
+        /// The maximum number of instances that are allowed to run the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Running commands using Systems Manager Run Command in the AWS Systems Manager User Guide.
         public let maxConcurrency: String?
-        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see Running Commands Using Systems Manager Run Command in the AWS Systems Manager User Guide.
+        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see Running commands using Systems Manager Run Command in the AWS Systems Manager User Guide.
         public let maxErrors: String?
         /// Configurations for sending notifications about command status changes. 
         public let notificationConfig: NotificationConfig?
@@ -1561,7 +1582,7 @@ extension SSM {
         public let outputS3BucketName: String?
         /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Region of the S3 bucket.
         public let outputS3Region: String?
         /// The parameter values to be inserted in the document when running the command.
         public let parameters: [String: [String]]?
@@ -1571,7 +1592,7 @@ extension SSM {
         public let serviceRole: String?
         /// The status of the command.
         public let status: CommandStatus?
-        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any instance. This is a terminal state.  
+        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any instance. This is a terminal state.  
         public let statusDetails: String?
         /// The number of targets for the command.
         public let targetCount: Int?
@@ -1669,7 +1690,7 @@ extension SSM {
         public let documentVersion: String?
         /// The instance ID in which this invocation was requested.
         public let instanceId: String?
-        /// The name of the invocation target. For Amazon EC2 instances this is the value for the aws:Name tag. For on-premises instances, this is the name of the instance.
+        /// The name of the invocation target. For EC2 instances this is the value for the aws:Name tag. For on-premises instances, this is the name of the instance.
         public let instanceName: String?
         /// Configurations for sending notifications about command status changes on a per instance basis.
         public let notificationConfig: NotificationConfig?
@@ -1677,13 +1698,13 @@ extension SSM {
         public let requestedDateTime: TimeStamp?
         /// The IAM service role that Run Command uses to act on your behalf when sending notifications about command status changes on a per instance basis.
         public let serviceRole: String?
-        /// The URL to the plugin's StdErr file in Amazon S3, if the Amazon S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the Amazon S3 bucket was defined for the command.
+        /// The URL to the plugin's StdErr file in Amazon S3, if the S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the S3 bucket was defined for the command.
         public let standardErrorUrl: String?
-        /// The URL to the plugin's StdOut file in Amazon S3, if the Amazon S3 bucket was defined for the parent command. For an invocation, StandardOutputUrl is populated if there is just one plugin defined for the command, and the Amazon S3 bucket was defined for the command.
+        /// The URL to the plugin's StdOut file in Amazon S3, if the S3 bucket was defined for the parent command. For an invocation, StandardOutputUrl is populated if there is just one plugin defined for the command, and the S3 bucket was defined for the command.
         public let standardOutputUrl: String?
         /// Whether or not the invocation succeeded, failed, or is pending.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
         ///  Gets the trace output sent by the agent. 
         public let traceOutput: String?
@@ -1733,11 +1754,11 @@ extension SSM {
         public let name: String?
         /// Output of the plugin execution.
         public let output: String?
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
-        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
+        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the S3 bucket region.
         public let outputS3Region: String?
         /// A numeric response code generated after running the plugin. 
         public let responseCode: Int?
@@ -1747,11 +1768,11 @@ extension SSM {
         public let responseStartDateTime: TimeStamp?
         /// The URL for the complete text written by the plugin to stderr. If execution is not yet complete, then this string is empty.
         public let standardErrorUrl: String?
-        /// The URL for the complete text written by the plugin to stdout in Amazon S3. If the Amazon S3 bucket for the command was not specified, then this string is empty.
+        /// The URL for the complete text written by the plugin to stdout in Amazon S3. If the S3 bucket for the command was not specified, then this string is empty.
         public let standardOutputUrl: String?
         /// The status of this plugin. You can run a document with multiple plugins.
         public let status: CommandPluginStatus?
-        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
         public init(name: String? = nil, output: String? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, responseCode: Int? = nil, responseFinishDateTime: TimeStamp? = nil, responseStartDateTime: TimeStamp? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandPluginStatus? = nil, statusDetails: String? = nil) {
@@ -1975,7 +1996,7 @@ extension SSM {
         public let description: String?
         /// The date by which this activation request should expire. The default value is 24 hours.
         public let expirationDate: TimeStamp?
-        /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM Service Role for a Hybrid Environment in the AWS Systems Manager User Guide.
+        /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the AWS Systems Manager User Guide.
         public let iamRole: String
         /// Specify the maximum number of managed instances you want to register. The default value is 1 instance.
         public let registrationLimit: Int?
@@ -2073,16 +2094,18 @@ extension SSM {
         public let maxErrors: String?
         /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
-        /// An Amazon S3 bucket where you want to store the results of this request.
+        /// An S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
         /// A description of the parameters for a document. 
         public let parameters: [String: [String]]?
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT.  In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+        public let syncCompliance: AssociationSyncCompliance?
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
@@ -2094,6 +2117,7 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.syncCompliance = syncCompliance
             self.targets = targets
         }
 
@@ -2132,6 +2156,7 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case syncCompliance = "SyncCompliance"
             case targets = "Targets"
         }
     }
@@ -2172,16 +2197,18 @@ extension SSM {
         public let maxErrors: String?
         /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
-        /// An Amazon S3 bucket where you want to store the output details of the request.
+        /// An S3 bucket where you want to store the output details of the request.
         public let outputLocation: InstanceAssociationOutputLocation?
         /// The parameters for the runtime configuration of the document.
         public let parameters: [String: [String]]?
         /// A cron expression when the association will be applied to the target(s).
         public let scheduleExpression: String?
-        /// The targets (either instances or tags) for the association. You must specify a value for Targets if you don't specify a value for InstanceId.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+        public let syncCompliance: AssociationSyncCompliance?
+        /// The targets for the association. You can target instances by using tags, AWS Resource Groups, all instances in an AWS account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the AWS Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
@@ -2193,6 +2220,7 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.syncCompliance = syncCompliance
             self.targets = targets
         }
 
@@ -2231,6 +2259,7 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case syncCompliance = "SyncCompliance"
             case targets = "Targets"
         }
     }
@@ -2253,19 +2282,19 @@ extension SSM {
 
         /// A list of key and value pairs that describe attachments to a version of a document.
         public let attachments: [AttachmentsSource]?
-        /// A valid JSON or YAML string.
+        /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the AWS Systems Manager User Guide.    Create an SSM document (console)     Create an SSM document (AWS CLI)     Create an SSM document (API)   
         public let content: String
         /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
         /// The type of document to create.
         public let documentType: DocumentType?
-        /// A name for the Systems Manager document.  Do not use the following to begin the names of documents you create. They are reserved by AWS for use as document prefixes:    aws     amazon     amzn    
+        /// A name for the Systems Manager document.  You can't use the following strings as document name prefixes. These are reserved by AWS for use as document name prefixes:    aws     amazon     amzn    
         public let name: String
-        /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
+        /// A list of SSM documents required by a document. This parameter is used exclusively by AWS AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see AWS AppConfig in the AWS Systems Manager User Guide.
         public let requires: [DocumentRequires]?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an SSM document to identify the types of targets or the environment where it will run. In this case, you could specify the following key name/value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing SSM document, use the AddTagsToResource action. 
         public let tags: [Tag]?
-        /// Specify a target type to define the kinds of resources the document can run on. For example, to run a document on EC2 instances, specify the following value: /AWS::EC2::Instance. If you specify a value of '/' the document can run on all types of resources. If you don't specify a value, the document can't run on any resources. For a list of valid resource types, see AWS Resource Types Reference in the AWS CloudFormation User Guide. 
+        /// Specify a target type to define the kinds of resources the document can run on. For example, to run a document on EC2 instances, specify the following value: /AWS::EC2::Instance. If you specify a value of '/' the document can run on all types of resources. If you don't specify a value, the document can't run on any resources. For a list of valid resource types, see AWS resource and property types reference in the AWS CloudFormation User Guide. 
         public let targetType: String?
         /// An optional field specifying the version of the artifact you are creating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
@@ -2426,7 +2455,7 @@ extension SSM {
         public let description: String
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let notifications: [OpsItemNotification]?
-        /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
+        /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems manually in the AWS Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
         public let priority: Int?
@@ -2434,9 +2463,9 @@ extension SSM {
         public let relatedOpsItems: [RelatedOpsItem]?
         /// Specify a severity to assign to an OpsItem.
         public let severity: String?
-        /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager.
+        /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager.  The source name can't contain the following strings: aws, amazon, and amzn.  
         public let source: String
-        /// Optional metadata that you assign to a resource. You can restrict access to OpsItems by using an inline IAM policy that specifies tags. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Tags use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to an existing OpsItem, use the AddTagsToResource action. 
+        /// Optional metadata that you assign to a resource. You can restrict access to OpsItems by using an inline IAM policy that specifies tags. For more information, see Getting started with OpsCenter in the AWS Systems Manager User Guide. Tags use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to an existing OpsItem, use the AddTagsToResource action. 
         public let tags: [Tag]?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
@@ -2509,7 +2538,7 @@ extension SSM {
 
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
-        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package Name Formats for Approved and Rejected Patch Lists in the AWS Systems Manager User Guide.
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
         public let approvedPatches: [String]?
         /// Defines the compliance level for approved patches. This means that if an approved patch is reported as missing, this is the severity of the compliance violation. The default value is UNSPECIFIED.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
@@ -2525,7 +2554,7 @@ extension SSM {
         public let name: String
         /// Defines the operating system the patch baseline applies to. The Default value is WINDOWS.
         public let operatingSystem: OperatingSystem?
-        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package Name Formats for Approved and Rejected Patch Lists in the AWS Systems Manager User Guide.
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list.    ALLOW_AS_DEPENDENCY: A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.    BLOCK: Packages in the RejectedPatches list, and packages that include them as dependencies, are not installed under any circumstances. If a package was installed before it was added to the Rejected patches list, it is considered non-compliant with the patch baseline, and its status is reported as InstalledRejected.  
         public let rejectedPatchesAction: PatchAction?
@@ -2616,13 +2645,13 @@ extension SSM {
 
     public struct CreateResourceDataSyncRequest: AWSEncodableShape {
 
-        /// Amazon S3 configuration details for the sync.
+        /// Amazon S3 configuration details for the sync. This parameter is required if the SyncType value is SyncToDestination.
         public let s3Destination: ResourceDataSyncS3Destination?
         /// A name for the configuration.
         public let syncName: String
-        /// Specify information about the data sources to synchronize.
+        /// Specify information about the data sources to synchronize. This parameter is required if the SyncType value is SyncFromSource.
         public let syncSource: ResourceDataSyncSource?
-        /// Specify SyncToDestination to create a resource data sync that synchronizes data from multiple AWS Regions to an Amazon S3 bucket. Specify SyncFromSource to synchronize data from multiple AWS accounts and Regions, as listed in AWS Organizations.
+        /// Specify SyncToDestination to create a resource data sync that synchronizes data to an S3 bucket for Inventory. If you specify SyncToDestination, you must provide a value for S3Destination. Specify SyncFromSource to synchronize data from a single account and multiple Regions, or multiple AWS accounts and Regions, as listed in AWS Organizations for Explorer. If you specify SyncFromSource, you must provide a value for SyncSource. The default value is SyncToDestination.
         public let syncType: String?
 
         public init(s3Destination: ResourceDataSyncS3Destination? = nil, syncName: String, syncSource: ResourceDataSyncSource? = nil, syncType: String? = nil) {
@@ -2797,7 +2826,7 @@ extension SSM {
 
         /// Every DeleteInventory action is assigned a unique ID. This option returns a unique ID. You can use this ID to query the status of a delete operation. This option is useful for ensuring that a delete operation has completed before you begin other actions. 
         public let deletionId: String?
-        /// A summary of the delete operation. For more information about this summary, see Understanding the Delete Inventory Summary in the AWS Systems Manager User Guide.
+        /// A summary of the delete operation. For more information about this summary, see Deleting custom inventory in the AWS Systems Manager User Guide.
         public let deletionSummary: InventoryDeletionSummary?
         /// The name of the inventory data type specified in the request.
         public let typeName: String?
@@ -3558,7 +3587,7 @@ extension SSM {
 
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
         public let accountIds: [String]?
-        /// A list of of AWS accounts where the current document is shared and the version shared with each account.
+        /// A list of AWS accounts where the current document is shared and the version shared with each account.
         public let accountSharingInfoList: [AccountSharingInfo]?
 
         public init(accountIds: [String]? = nil, accountSharingInfoList: [AccountSharingInfo]? = nil) {
@@ -3756,9 +3785,9 @@ extension SSM {
 
     public struct DescribeInstanceInformationRequest: AWSEncodableShape {
 
-        /// One or more filters. Use a filter to return a more specific list of instances. You can filter on Amazon EC2 tag. Specify tags by using a key-value mapping.
+        /// One or more filters. Use a filter to return a more specific list of instances. You can filter based on tags applied to EC2 instances. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
         public let filters: [InstanceInformationStringFilter]?
-        /// This is a legacy method. We recommend that you don't use this method. Instead, use the InstanceInformationFilter action. The InstanceInformationFilter action enables you to return instance information by using tags that are specified as a key-value mapping.  If you do use this method, then you can't use the InstanceInformationFilter action. Using this method and the InstanceInformationFilter action causes an exception error. 
+        /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return instance information by filtering based on tags applied to managed instances.  Attempting to use InstanceInformationFilterList and Filters leads to an exception error.  
         public let instanceInformationFilterList: [InstanceInformationFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. 
         public let maxResults: Int?
@@ -4488,7 +4517,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
-        /// One or more filters to limit the reponse.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title Operations: Contains   Key: OperationalData* Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   *If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
+        /// One or more filters to limit the response.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title Operations: Contains   Key: OperationalData* Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   *If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
         public let opsItemFilters: [OpsItemFilter]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, opsItemFilters: [OpsItemFilter]? = nil) {
@@ -4879,7 +4908,7 @@ extension SSM {
 
     public struct DocumentDescription: AWSDecodableShape {
 
-        /// Details about the document attachments, including names, locations, sizes, etc.
+        /// Details about the document attachments, including names, locations, sizes, and so on.
         public let attachmentsInformation: [AttachmentInformation]?
         /// The date when the document was created.
         public let createdDate: TimeStamp?
@@ -4919,7 +4948,7 @@ extension SSM {
         public let statusInformation: String?
         /// The tags, or metadata, that have been applied to the document.
         public let tags: [Tag]?
-        /// The target type which defines the kinds of resources the document can run on. For example, /AWS::EC2::Instance. For a list of valid resource types, see AWS Resource Types Reference in the AWS CloudFormation User Guide. 
+        /// The target type which defines the kinds of resources the document can run on. For example, /AWS::EC2::Instance. For a list of valid resource types, see AWS resource and property types reference in the AWS CloudFormation User Guide. 
         public let targetType: String?
         /// The version of the artifact associated with the document.
         public let versionName: String?
@@ -5017,7 +5046,7 @@ extension SSM {
         public let schemaVersion: String?
         /// The tags, or metadata, that have been applied to the document.
         public let tags: [Tag]?
-        /// The target type which defines the kinds of resources the document can run on. For example, /AWS::EC2::Instance. For a list of valid resource types, see AWS Resource Types Reference in the AWS CloudFormation User Guide. 
+        /// The target type which defines the kinds of resources the document can run on. For example, /AWS::EC2::Instance. For a list of valid resource types, see AWS resource and property types reference in the AWS CloudFormation User Guide. 
         public let targetType: String?
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
@@ -5308,7 +5337,7 @@ extension SSM {
 
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
-        /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an Amazon EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
+        /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String
         /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned.
         public let pluginName: String?
@@ -5351,7 +5380,7 @@ extension SSM {
         public let executionEndDateTime: String?
         /// The date and time the plugin started running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedBefore filter.  aws ssm list-commands --filters key=InvokedBefore,value=2017-06-07T00:00:00Z  If the plugin has not started to run, the string is empty.
         public let executionStartDateTime: String?
-        /// The ID of the managed instance targeted by the command. A managed instance can be an Amazon EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
+        /// The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String?
         /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
@@ -5363,11 +5392,11 @@ extension SSM {
         public let standardErrorUrl: String?
         /// The first 24,000 characters written by the plugin to stdout. If the command has not finished running, if ExecutionStatus is neither Succeeded nor Failed, then this string is empty.
         public let standardOutputContent: String?
-        /// The URL for the complete text written by the plugin to stdout in Amazon S3. If an Amazon S3 bucket was not specified, then this string is empty.
+        /// The URL for the complete text written by the plugin to stdout in Amazon S3. If an S3 bucket was not specified, then this string is empty.
         public let standardOutputUrl: String?
         /// The status of this invocation plugin. This status can be different than StatusDetails.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success: The command or plugin was run successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, because the instance was stopped, or for similar reasons. The system will try to send the command again.   Success: The command or plugin ran successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
@@ -5539,7 +5568,7 @@ extension SSM {
         public let documentVersion: String?
         /// The name of the Systems Manager document.
         public let name: String
-        /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
+        /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document and can't be changed.
         public let versionName: String?
 
         public init(documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, name: String, versionName: String? = nil) {
@@ -5565,7 +5594,7 @@ extension SSM {
 
     public struct GetDocumentResult: AWSDecodableShape {
 
-        /// A description of the document attachments, including names, locations, sizes, etc.
+        /// A description of the document attachments, including names, locations, sizes, and so on.
         public let attachmentsContent: [AttachmentContent]?
         /// The contents of the Systems Manager document.
         public let content: String?
@@ -6589,7 +6618,7 @@ extension SSM {
 
     public struct GetServiceSettingRequest: AWSEncodableShape {
 
-        /// The ID of the service setting to get.
+        /// The ID of the service setting to get. The setting ID can be /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier.
         public let settingId: String
 
         public init(settingId: String) {
@@ -6666,7 +6695,7 @@ extension SSM {
 
     public struct InstanceAssociationOutputLocation: AWSEncodableShape & AWSDecodableShape {
 
-        /// An Amazon S3 bucket where you want to store the results of this request.
+        /// An S3 bucket where you want to store the results of this request.
         public let s3Location: S3OutputLocation?
 
         public init(s3Location: S3OutputLocation? = nil) {
@@ -6684,7 +6713,7 @@ extension SSM {
 
     public struct InstanceAssociationOutputUrl: AWSDecodableShape {
 
-        /// The URL of Amazon S3 bucket where you want to store the results of this request.
+        /// The URL of S3 bucket where you want to store the results of this request.
         public let s3OutputUrl: S3OutputUrl?
 
         public init(s3OutputUrl: S3OutputUrl? = nil) {
@@ -6718,7 +6747,7 @@ extension SSM {
         public let instanceId: String?
         /// The name of the association.
         public let name: String?
-        /// A URL for an Amazon S3 bucket where you want to store the results of this request.
+        /// A URL for an S3 bucket where you want to store the results of this request.
         public let outputUrl: InstanceAssociationOutputUrl?
         /// Status information about the instance association.
         public let status: String?
@@ -6766,7 +6795,7 @@ extension SSM {
         public let associationStatus: String?
         /// The fully qualified host name of the managed instance.
         public let computerName: String?
-        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instances. This call does not return the IAM role for Amazon EC2 instances. 
+        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instances. This call does not return the IAM role for EC2 instances. 
         public let iamRole: String?
         /// The instance ID. 
         public let instanceId: String?
@@ -6907,7 +6936,7 @@ extension SSM {
         public let installedPendingRebootCount: Int?
         /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
         public let installedRejectedCount: Int?
-        /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an Amazon S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the SSM Document AWS-RunPatchBaseline in the AWS Systems Manager User Guide.
+        /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the SSM document AWS-RunPatchBaseline in the AWS Systems Manager User Guide.
         public let installOverrideList: String?
         /// The ID of the managed instance the high-level patch compliance information was collected for.
         public let instanceId: String
@@ -7051,7 +7080,7 @@ extension SSM {
         public let deletionId: String?
         /// The UTC timestamp when the delete operation started.
         public let deletionStartTime: TimeStamp?
-        /// Information about the delete operation. For more information about this summary, see Understanding the Delete Inventory Summary in the AWS Systems Manager User Guide.
+        /// Information about the delete operation. For more information about this summary, see Understanding the delete inventory summary in the AWS Systems Manager User Guide.
         public let deletionSummary: InventoryDeletionSummary?
         /// The status of the operation. Possible values are InProgress and Complete.
         public let lastStatus: InventoryDeletionStatus?
@@ -7131,7 +7160,7 @@ extension SSM {
 
         /// The name of the filter key.
         public let key: String
-        /// The type of filter.
+        /// The type of filter.  The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the AWS Systems Manager User Guide. 
         public let `type`: InventoryQueryOperatorType?
         /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal 
         public let values: [String]
@@ -7362,7 +7391,7 @@ extension SSM {
 
     public struct LabelParameterVersionResult: AWSDecodableShape {
 
-        /// The label does not meet the requirements. For information about parameter label requirements, see Labeling Parameters in the AWS Systems Manager User Guide.
+        /// The label does not meet the requirements. For information about parameter label requirements, see Labeling parameters in the AWS Systems Manager User Guide.
         public let invalidLabels: [String]?
         /// The version of the parameter that has been labeled.
         public let parameterVersion: Int64?
@@ -7761,9 +7790,9 @@ extension SSM {
 
     public struct ListDocumentsRequest: AWSEncodableShape {
 
-        /// One or more filters. Use a filter to return a more specific list of results.
+        /// This data type is deprecated. Instead, use Filters.
         public let documentFilterList: [DocumentFilter]?
-        /// One or more filters. Use a filter to return a more specific list of results.
+        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, and DocumentType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.
         public let filters: [DocumentKeyValuesFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -8024,11 +8053,11 @@ extension SSM {
 
     public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
 
-        /// The name of an Amazon S3 bucket where execution logs are stored .
+        /// The name of an S3 bucket where execution logs are stored .
         public let s3BucketName: String
-        /// (Optional) The Amazon S3 bucket subfolder. 
+        /// (Optional) The S3 bucket subfolder. 
         public let s3KeyPrefix: String?
-        /// The region where the Amazon S3 bucket is located.
+        /// The Region where the S3 bucket is located.
         public let s3Region: String
 
         public init(s3BucketName: String, s3KeyPrefix: String? = nil, s3Region: String) {
@@ -8356,9 +8385,9 @@ extension SSM {
         public let documentVersion: String?
         /// Configurations for sending notifications about command status changes on a per-instance basis.
         public let notificationConfig: NotificationConfig?
-        /// The name of the Amazon S3 bucket.
+        /// The name of the S3 bucket.
         public let outputS3BucketName: String?
-        /// The Amazon S3 bucket subfolder.
+        /// The S3 bucket subfolder.
         public let outputS3KeyPrefix: String?
         /// The parameters for the RUN_COMMAND task execution.
         public let parameters: [String: [String]]?
@@ -8474,7 +8503,7 @@ extension SSM {
 
         /// A description of the task.
         public let description: String?
-        /// Information about an Amazon S3 bucket to write task-level logs to.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// Information about an S3 bucket to write task-level logs to.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
         /// The maximum number of targets this task can be run for, in parallel.
         public let maxConcurrency: String?
@@ -8660,7 +8689,7 @@ extension SSM {
 
         /// An Amazon Resource Name (ARN) for an Amazon Simple Notification Service (Amazon SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public let notificationArn: String?
-        /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Configuring Amazon SNS Notifications for AWS Systems Manager in the AWS Systems Manager User Guide.
+        /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Monitoring Systems Manager status changes using Amazon SNS notifications in the AWS Systems Manager User Guide.
         public let notificationEvents: [NotificationEvent]?
         /// Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. 
         public let notificationType: NotificationType?
@@ -8818,7 +8847,7 @@ extension SSM {
         public let lastModifiedTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let notifications: [OpsItemNotification]?
-        /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
+        /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems manually in the AWS Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
         /// The ID of the OpsItem.
         public let opsItemId: String?
@@ -8828,9 +8857,9 @@ extension SSM {
         public let relatedOpsItems: [RelatedOpsItem]?
         /// The severity of the OpsItem. Severity options range from 1 to 4.
         public let severity: String?
-        /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager. The impacted resource is a subset of source.
+        /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. The impacted resource is a subset of source.
         public let source: String?
-        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
+        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem details in the AWS Systems Manager User Guide.
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
@@ -9010,7 +9039,7 @@ extension SSM {
 
     public struct OutputSource: AWSDecodableShape {
 
-        /// The ID of the output source, for example the URL of an Amazon S3 bucket.
+        /// The ID of the output source, for example the URL of an S3 bucket.
         public let outputSourceId: String?
         /// The type of source where the association execution details are stored, for example, Amazon S3.
         public let outputSourceType: String?
@@ -9038,7 +9067,7 @@ extension SSM {
         public let selector: String?
         /// Applies to parameters that reference information in other AWS services. SourceResult is the raw result or response from the source.
         public let sourceResult: String?
-        /// The type of parameter. Valid values include the following: String, String list, Secure string.
+        /// The type of parameter. Valid values include the following: String, StringList, and SecureString.
         public let `type`: ParameterType?
         /// The parameter value.
         public let value: String?
@@ -9084,7 +9113,7 @@ extension SSM {
         public let lastModifiedUser: String?
         /// The name of the parameter.
         public let name: String?
-        /// Information about the policies assigned to a parameter.  Working with Parameter Policies in the AWS Systems Manager User Guide.
+        /// Information about the policies assigned to a parameter.  Assigning parameter policies in the AWS Systems Manager User Guide.
         public let policies: [ParameterInlinePolicy]?
         /// The parameter tier.
         public let tier: ParameterTier?
@@ -9166,7 +9195,7 @@ extension SSM {
         public let policies: [ParameterInlinePolicy]?
         /// The parameter tier.
         public let tier: ParameterTier?
-        /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
+        /// The type of parameter. Valid parameter types include the following: String, StringList, and SecureString.
         public let `type`: ParameterType?
         /// The parameter version.
         public let version: Int64?
@@ -9363,7 +9392,7 @@ extension SSM {
         public let kBId: String
         /// The severity of the patch (for example, Critical, Important, Moderate).
         public let severity: String
-        /// The state of the patch on the instance, such as INSTALLED or FAILED. For descriptions of each patch state, see About Patch Compliance in the AWS Systems Manager User Guide.
+        /// The state of the patch on the instance, such as INSTALLED or FAILED. For descriptions of each patch state, see About patch compliance in the AWS Systems Manager User Guide.
         public let state: PatchComplianceDataState
         /// The title of the patch.
         public let title: String
@@ -9483,11 +9512,11 @@ extension SSM {
 
     public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
 
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. 
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Ubuntu Server.
         public let approveAfterDays: Int?
-        /// Example API
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2020-12-31.
         public let approveUntilDate: String?
-        /// A compliance severity level for all approved patches in a patch baseline. Valid compliance severity levels include the following: Unspecified, Critical, High, Medium, Low, and Informational.
+        /// A compliance severity level for all approved patches in a patch baseline.
         public let complianceLevel: PatchComplianceLevel?
         /// For instances identified by the approval rule filters, enables a patch baseline to apply non-security updates available in the specified repository. The default value is 'false'. Applies to Linux instances only.
         public let enableNonSecurity: Bool?
@@ -9635,20 +9664,23 @@ extension SSM {
         public let executionSummary: ComplianceExecutionSummary
         /// MD5 or SHA-256 content hash. The content hash is used to determine if existing information should be overwritten or ignored. If the content hashes match, the request to put compliance information is ignored.
         public let itemContentHash: String?
-        /// Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, etc.
+        /// Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on.
         public let items: [ComplianceItemEntry]
         /// Specify an ID for this resource. For a managed instance, this is the instance ID.
         public let resourceId: String
         /// Specify the type of resource. ManagedInstance is currently the only supported resource type.
         public let resourceType: String
+        /// The mode for uploading compliance items. You can specify COMPLETE or PARTIAL. In COMPLETE mode, the system overwrites all existing compliance information for the resource. You must provide a full list of compliance items each time you send the request. In PARTIAL mode, the system overwrites compliance information for a specific association. The association must be configured with SyncCompliance set to MANUAL. By default, all requests use COMPLETE mode.  This attribute is only valid for association compliance. 
+        public let uploadType: ComplianceUploadType?
 
-        public init(complianceType: String, executionSummary: ComplianceExecutionSummary, itemContentHash: String? = nil, items: [ComplianceItemEntry], resourceId: String, resourceType: String) {
+        public init(complianceType: String, executionSummary: ComplianceExecutionSummary, itemContentHash: String? = nil, items: [ComplianceItemEntry], resourceId: String, resourceType: String, uploadType: ComplianceUploadType? = nil) {
             self.complianceType = complianceType
             self.executionSummary = executionSummary
             self.itemContentHash = itemContentHash
             self.items = items
             self.resourceId = resourceId
             self.resourceType = resourceType
+            self.uploadType = uploadType
         }
 
         public func validate(name: String) throws {
@@ -9675,6 +9707,7 @@ extension SSM {
             case items = "Items"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
+            case uploadType = "UploadType"
         }
     }
 
@@ -9735,15 +9768,15 @@ extension SSM {
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.  
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Requirements and Constraints for Parameter Names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName  
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see About requirements and constraints for parameter names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName  
         public let name: String
         /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
-        /// One or more policies to apply to a parameter. This action takes a JSON array. Parameter Store supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter does not affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy triggers a CloudWatch event if a parameter has not been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it has not been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see Working with Parameter Policies. 
+        /// One or more policies to apply to a parameter. This action takes a JSON array. Parameter Store supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter does not affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy triggers a CloudWatch event if a parameter has not been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it has not been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see Assigning parameter policies. 
         public let policies: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key name/value pairs:    Key=Resource,Value=S3bucket     Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an existing Systems Manager parameter, use the AddTagsToResource action. 
         public let tags: [Tag]?
-        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see About Advanced Parameters in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a Default Parameter Tier in the AWS Systems Manager User Guide.
+        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions. 
         public let `type`: ParameterType
@@ -9904,7 +9937,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register Targets with a Maintenance Window in the AWS Systems Manager User Guide.
+        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the AWS Systems Manager User Guide.
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
@@ -9970,7 +10003,7 @@ extension SSM {
         public let clientToken: String?
         /// An optional description for the task.
         public let description: String?
-        /// A structure containing information about an Amazon S3 bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// A structure containing information about an S3 bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
         /// The maximum number of targets this task can be run for in parallel.
         public let maxConcurrency: String
@@ -9980,7 +10013,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
         public let priority: Int?
-        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
+        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?    
         public let serviceRoleArn: String?
         /// The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
         public let targets: [Target]
@@ -10132,7 +10165,7 @@ extension SSM {
 
     public struct ResetServiceSettingRequest: AWSEncodableShape {
 
-        /// The ID of the service setting to reset.
+        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled.
         public let settingId: String
 
         public init(settingId: String) {
@@ -10280,7 +10313,7 @@ extension SSM {
         public let lastSyncStatusMessage: String?
         /// The last time the configuration attempted to sync (UTC).
         public let lastSyncTime: TimeStamp?
-        /// Configuration information for the target Amazon S3 bucket.
+        /// Configuration information for the target S3 bucket.
         public let s3Destination: ResourceDataSyncS3Destination?
         /// The date and time the configuration was created (UTC).
         public let syncCreatedTime: TimeStamp?
@@ -10290,7 +10323,7 @@ extension SSM {
         public let syncName: String?
         /// Information about the source where the data was synchronized. 
         public let syncSource: ResourceDataSyncSourceWithState?
-        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an Amazon S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from AWS Organizations or from multiple AWS Regions.
+        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from AWS Organizations or from multiple AWS Regions.
         public let syncType: String?
 
         public init(lastStatus: LastResourceDataSyncStatus? = nil, lastSuccessfulSyncTime: TimeStamp? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: TimeStamp? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, syncCreatedTime: TimeStamp? = nil, syncLastModifiedTime: TimeStamp? = nil, syncName: String? = nil, syncSource: ResourceDataSyncSourceWithState? = nil, syncType: String? = nil) {
@@ -10342,15 +10375,15 @@ extension SSM {
 
     public struct ResourceDataSyncS3Destination: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination Amazon S3 bucket.
+        /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination S3 bucket.
         public let aWSKMSKeyARN: String?
-        /// The name of the Amazon S3 bucket where the aggregated data is stored.
+        /// The name of the S3 bucket where the aggregated data is stored.
         public let bucketName: String
         /// Enables destination data sharing. By default, this field is null.
         public let destinationDataSharing: ResourceDataSyncDestinationDataSharing?
         /// An Amazon S3 prefix for the bucket.
         public let prefix: String?
-        /// The AWS Region with the Amazon S3 bucket targeted by the Resource Data Sync.
+        /// The AWS Region with the S3 bucket targeted by the Resource Data Sync.
         public let region: String
         /// A supported sync format. The following format is currently supported: JsonSerDe
         public let syncFormat: ResourceDataSyncS3Format
@@ -10496,7 +10529,7 @@ extension SSM {
 
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager Service Endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -10516,11 +10549,11 @@ extension SSM {
 
     public struct S3OutputLocation: AWSEncodableShape & AWSDecodableShape {
 
-        /// The name of the Amazon S3 bucket.
+        /// The name of the S3 bucket.
         public let outputS3BucketName: String?
-        /// The Amazon S3 bucket subfolder.
+        /// The S3 bucket subfolder.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Region of the S3 bucket.
         public let outputS3Region: String?
 
         public init(outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil) {
@@ -10546,7 +10579,7 @@ extension SSM {
 
     public struct S3OutputUrl: AWSDecodableShape {
 
-        /// A URL for an Amazon S3 bucket where you want to store the results of this request.
+        /// A URL for an S3 bucket where you want to store the results of this request.
         public let outputUrl: String?
 
         public init(outputUrl: String? = nil) {
@@ -10635,11 +10668,11 @@ extension SSM {
         public let documentName: String
         /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
-        /// The instance IDs where the command should run. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
+        /// The instance IDs where the command should run. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the AWS Systems Manager User Guide.
         public let instanceIds: [String]?
-        /// (Optional) The maximum number of instances that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using Concurrency Controls in the AWS Systems Manager User Guide.
+        /// (Optional) The maximum number of instances that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using concurrency controls in the AWS Systems Manager User Guide.
         public let maxConcurrency: String?
-        /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like 10 or a percentage like 10%. The default value is 0. For more information about how to use MaxErrors, see Using Error Controls in the AWS Systems Manager User Guide.
+        /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like 10 or a percentage like 10%. The default value is 0. For more information about how to use MaxErrors, see Using error controls in the AWS Systems Manager User Guide.
         public let maxErrors: String?
         /// Configurations for sending notifications.
         public let notificationConfig: NotificationConfig?
@@ -10647,13 +10680,13 @@ extension SSM {
         public let outputS3BucketName: String?
         /// The directory structure within the S3 bucket where the responses should be stored.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Region of the S3 bucket.
         public let outputS3Region: String?
         /// The required and optional parameters specified in the document being run.
         public let parameters: [String: [String]]?
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands.
         public let serviceRoleArn: String?
-        /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use targets, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
+        /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use targets, see Sending commands to a fleet in the AWS Systems Manager User Guide.
         public let targets: [Target]?
         /// If this time is reached and the command has not already started running, it will not run.
         public let timeoutSeconds: Int?
@@ -10947,7 +10980,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an automation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an automation to identify an environment or operating system. In this case, you could specify the following key name/value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource action. 
         public let tags: [Tag]?
-        /// A location is a combination of AWS Regions and/or AWS accounts where you want to run the Automation. Use this action to start an Automation in multiple Regions and multiple accounts. For more information, see Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
+        /// A location is a combination of AWS Regions and/or AWS accounts where you want to run the Automation. Use this action to start an Automation in multiple Regions and multiple accounts. For more information, see Running Automation workflows in multiple AWS Regions and accounts in the AWS Systems Manager User Guide. 
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps cannot be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -11075,7 +11108,7 @@ extension SSM {
 
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager Service Endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -11280,7 +11313,7 @@ extension SSM {
 
         /// User-defined criteria for sending commands that target instances that meet the criteria.
         public let key: String?
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include Amazon EC2 tags of ServerRole,WebServer. 
+        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer. 
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -11400,16 +11433,18 @@ extension SSM {
         public let maxErrors: String?
         /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String?
-        /// An Amazon S3 bucket where you want to store the results of this request.
+        /// An S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
         /// The parameters you want to update for the association. If you create a parameter using Parameter Store, you can reference the parameter using {{ssm:parameter-name}}
         public let parameters: [String: [String]]?
         /// The cron expression used to schedule the association that you want to update.
         public let scheduleExpression: String?
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+        public let syncCompliance: AssociationSyncCompliance?
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -11422,6 +11457,7 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.syncCompliance = syncCompliance
             self.targets = targets
         }
 
@@ -11462,6 +11498,7 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case syncCompliance = "SyncCompliance"
             case targets = "Targets"
         }
     }
@@ -11567,7 +11604,7 @@ extension SSM {
         public let content: String
         /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
         public let documentFormat: DocumentFormat?
-        /// (Required) The version of the document that you want to update. 
+        /// (Required) The latest version of the document that you want to update. The latest document version can be specified using the $LATEST variable or by the version number. Updating a previous version of a document is not supported.
         public let documentVersion: String?
         /// The name of the document that you want to update.
         public let name: String
@@ -11863,7 +11900,7 @@ extension SSM {
         public let priority: Int?
         /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWndow action are also required for this API request. Optional fields that are not specified are set to null.
         public let replace: Bool?
-        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
+        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?    
         public let serviceRoleArn: String?
         /// The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value. 
         public let targets: [Target]?
@@ -12049,7 +12086,7 @@ extension SSM {
         public let description: String?
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let notifications: [OpsItemNotification]?
-        /// Add new keys or edit existing key-value pairs of the OperationalData map in the OpsItem object. Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
+        /// Add new keys or edit existing key-value pairs of the OperationalData map in the OpsItem object. Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems manually in the AWS Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
         /// Keys that you want to remove from the OperationalData map.
         public let operationalDataToDelete: [String]?
@@ -12061,7 +12098,7 @@ extension SSM {
         public let relatedOpsItems: [RelatedOpsItem]?
         /// Specify a new severity for an OpsItem.
         public let severity: String?
-        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
+        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem details in the AWS Systems Manager User Guide.
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
@@ -12125,7 +12162,7 @@ extension SSM {
 
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
-        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package Name Formats for Approved and Rejected Patch Lists in the AWS Systems Manager User Guide.
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
         public let approvedPatches: [String]?
         /// Assigns a new compliance severity level to an existing patch baseline.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
@@ -12139,7 +12176,7 @@ extension SSM {
         public let globalFilters: PatchFilterGroup?
         /// The name of the patch baseline.
         public let name: String?
-        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package Name Formats for Approved and Rejected Patch Lists in the AWS Systems Manager User Guide.
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list.    ALLOW_AS_DEPENDENCY: A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.    BLOCK: Packages in the RejectedPatches list, and packages that include them as dependencies, are not installed under any circumstances. If a package was installed before it was added to the Rejected patches list, it is considered non-compliant with the patch baseline, and its status is reported as InstalledRejected.  
         public let rejectedPatchesAction: PatchAction?
@@ -12281,7 +12318,7 @@ extension SSM {
         public let syncName: String
         /// Specify information about the data sources to synchronize.
         public let syncSource: ResourceDataSyncSource
-        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an Amazon S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from AWS Organizations or from multiple AWS Regions.
+        /// The type of resource data sync. The supported SyncType is SyncFromSource.
         public let syncType: String
 
         public init(syncName: String, syncSource: ResourceDataSyncSource, syncType: String) {
@@ -12315,9 +12352,9 @@ extension SSM {
 
     public struct UpdateServiceSettingRequest: AWSEncodableShape {
 
-        /// The ID of the service setting to update.
+        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier   
         public let settingId: String
-        /// The new value to specify for the service setting.
+        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false.
         public let settingValue: String
 
         public init(settingId: String, settingValue: String) {

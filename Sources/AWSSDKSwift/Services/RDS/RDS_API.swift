@@ -58,6 +58,7 @@ public struct RDS {
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
+            serviceEndpoints: ["rds-fips.ca-central-1": "rds-fips.ca-central-1.amazonaws.com", "rds-fips.us-east-1": "rds-fips.us-east-1.amazonaws.com", "rds-fips.us-east-2": "rds-fips.us-east-2.amazonaws.com", "rds-fips.us-west-1": "rds-fips.us-west-1.amazonaws.com", "rds-fips.us-west-2": "rds-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [RDSErrorType.self],
             httpClientProvider: httpClientProvider
@@ -646,12 +647,12 @@ public struct RDS {
         return client.send(operation: "ResetDBParameterGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data to an Amazon Aurora MySQL DB Cluster in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters. 
+    ///  Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data to an Amazon Aurora MySQL DB Cluster in the Amazon Aurora User Guide.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func restoreDBClusterFromS3(_ input: RestoreDBClusterFromS3Message, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreDBClusterFromS3Result> {
         return client.send(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. This action only applies to Aurora DB clusters. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. This action only applies to Aurora DB clusters. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func restoreDBClusterFromSnapshot(_ input: RestoreDBClusterFromSnapshotMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreDBClusterFromSnapshotResult> {
         return client.send(operation: "RestoreDBClusterFromSnapshot", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
