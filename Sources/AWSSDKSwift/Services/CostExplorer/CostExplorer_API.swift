@@ -67,17 +67,17 @@ public struct CostExplorer {
     
     //MARK: API Calls
 
-    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Creates a new Cost Category with the requested name and rules.
+    ///  Creates a new Cost Category with the requested name and rules.
     public func createCostCategoryDefinition(_ input: CreateCostCategoryDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCostCategoryDefinitionResponse> {
         return client.send(operation: "CreateCostCategoryDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
+    ///  Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
     public func deleteCostCategoryDefinition(_ input: DeleteCostCategoryDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCostCategoryDefinitionResponse> {
         return client.send(operation: "DeleteCostCategoryDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that is active on a specific date. If there is no EffectiveOn specified, you’ll see a Cost Category that is effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. 
+    ///  Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that is active on a specific date. If there is no EffectiveOn specified, you’ll see a Cost Category that is effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. 
     public func describeCostCategoryDefinition(_ input: DescribeCostCategoryDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCostCategoryDefinitionResponse> {
         return client.send(operation: "DescribeCostCategoryDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -102,7 +102,7 @@ public struct CostExplorer {
         return client.send(operation: "GetDimensionValues", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Retrieves the reservation coverage for your account. This enables you to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's master account can see the coverage of the associated member accounts. For any time period, you can filter data about reservation usage by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY   To determine valid values for a dimension, use the GetDimensionValues operation. 
+    ///  Retrieves the reservation coverage for your account. This enables you to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's master account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY   To determine valid values for a dimension, use the GetDimensionValues operation. 
     public func getReservationCoverage(_ input: GetReservationCoverageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReservationCoverageResponse> {
         return client.send(operation: "GetReservationCoverage", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -122,7 +122,7 @@ public struct CostExplorer {
         return client.send(operation: "GetRightsizingRecommendation", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
+    ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
     public func getSavingsPlansCoverage(_ input: GetSavingsPlansCoverageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSavingsPlansCoverageResponse> {
         return client.send(operation: "GetSavingsPlansCoverage", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -152,12 +152,12 @@ public struct CostExplorer {
         return client.send(operation: "GetUsageForecast", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Returns the name, ARN and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. 
+    ///  Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     public func listCostCategoryDefinitions(_ input: ListCostCategoryDefinitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCostCategoryDefinitionsResponse> {
         return client.send(operation: "ListCostCategoryDefinitions", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
+    ///  Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
     public func updateCostCategoryDefinition(_ input: UpdateCostCategoryDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCostCategoryDefinitionResponse> {
         return client.send(operation: "UpdateCostCategoryDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }

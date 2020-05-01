@@ -20,7 +20,7 @@ import NIO
 
 extension Transfer {
 
-    ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
+    ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.
     public func listServersPaginator(
         _ input: ListServersRequest,
         on eventLoop: EventLoop? = nil,
@@ -40,7 +40,7 @@ extension Transfer {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists the users for the server that you specify by passing the ServerId parameter.
+    ///  Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     public func listUsersPaginator(
         _ input: ListUsersRequest,
         on eventLoop: EventLoop? = nil,

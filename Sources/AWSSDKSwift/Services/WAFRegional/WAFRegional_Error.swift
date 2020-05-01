@@ -20,6 +20,7 @@ import AWSSDKSwiftCore
 public enum WAFRegionalErrorType: AWSErrorType {
     case wAFBadRequestException(message: String?)
     case wAFDisallowedNameException(message: String?)
+    case wAFEntityMigrationException(message: String?)
     case wAFInternalErrorException(message: String?)
     case wAFInvalidAccountException(message: String?)
     case wAFInvalidOperationException(message: String?)
@@ -50,6 +51,8 @@ extension WAFRegionalErrorType {
             self = .wAFBadRequestException(message: message)
         case "WAFDisallowedNameException":
             self = .wAFDisallowedNameException(message: message)
+        case "WAFEntityMigrationException":
+            self = .wAFEntityMigrationException(message: message)
         case "WAFInternalErrorException":
             self = .wAFInternalErrorException(message: message)
         case "WAFInvalidAccountException":
@@ -97,6 +100,8 @@ extension WAFRegionalErrorType: CustomStringConvertible {
             return "WAFBadRequestException: \(message ?? "")"
         case .wAFDisallowedNameException(let message):
             return "WAFDisallowedNameException: \(message ?? "")"
+        case .wAFEntityMigrationException(let message):
+            return "WAFEntityMigrationException: \(message ?? "")"
         case .wAFInternalErrorException(let message):
             return "WAFInternalErrorException: \(message ?? "")"
         case .wAFInvalidAccountException(let message):

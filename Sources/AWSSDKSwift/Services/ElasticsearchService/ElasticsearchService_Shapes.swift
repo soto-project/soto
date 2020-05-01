@@ -2238,17 +2238,20 @@ extension ElasticsearchService {
         public let description: String?
         /// The new service software version if one is available.
         public let newVersion: String?
+        /// True if a service software is never automatically updated. False if a service software is automatically updated after AutomatedUpdateDate. 
+        public let optionalDeployment: Bool?
         /// True if you are able to update you service software version. False if you are not able to update your service software version. 
         public let updateAvailable: Bool?
         /// The status of your service software update. This field can take the following values: ELIGIBLE, PENDING_UPDATE, IN_PROGRESS, COMPLETED, and NOT_ELIGIBLE.
         public let updateStatus: DeploymentStatus?
 
-        public init(automatedUpdateDate: TimeStamp? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
+        public init(automatedUpdateDate: TimeStamp? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
             self.currentVersion = currentVersion
             self.description = description
             self.newVersion = newVersion
+            self.optionalDeployment = optionalDeployment
             self.updateAvailable = updateAvailable
             self.updateStatus = updateStatus
         }
@@ -2259,6 +2262,7 @@ extension ElasticsearchService {
             case currentVersion = "CurrentVersion"
             case description = "Description"
             case newVersion = "NewVersion"
+            case optionalDeployment = "OptionalDeployment"
             case updateAvailable = "UpdateAvailable"
             case updateStatus = "UpdateStatus"
         }

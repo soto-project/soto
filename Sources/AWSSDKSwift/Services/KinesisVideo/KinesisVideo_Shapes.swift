@@ -27,6 +27,7 @@ extension KinesisVideo {
         case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
         case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
         case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
+        case getClip = "GET_CLIP"
         public var description: String { return self.rawValue }
     }
 
@@ -70,7 +71,7 @@ extension KinesisVideo {
 
     public struct ChannelInfo: AWSDecodableShape {
 
-        /// The ARN of the signaling channel.
+        /// The Amazon Resource Name (ARN) of the signaling channel.
         public let channelARN: String?
         /// The name of the signaling channel.
         public let channelName: String?
@@ -132,13 +133,13 @@ extension KinesisVideo {
 
     public struct CreateSignalingChannelInput: AWSEncodableShape {
 
-        /// A name for the signaling channel that you are creating. It must be unique for each account and region.
+        /// A name for the signaling channel that you are creating. It must be unique for each AWS account and AWS Region.
         public let channelName: String
         /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type. 
         public let channelType: ChannelType?
         /// A structure containing the configuration for the SINGLE_MASTER channel type. 
         public let singleMasterConfiguration: SingleMasterConfiguration?
-        /// A set of tags (key/value pairs) that you want to associate with this channel.
+        /// A set of tags (key-value pairs) that you want to associate with this channel.
         public let tags: [Tag]?
 
         public init(channelName: String, channelType: ChannelType? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, tags: [Tag]? = nil) {
@@ -170,7 +171,7 @@ extension KinesisVideo {
 
     public struct CreateSignalingChannelOutput: AWSDecodableShape {
 
-        /// The ARN of the created channel.
+        /// The Amazon Resource Name (ARN) of the created channel.
         public let channelARN: String?
 
         public init(channelARN: String? = nil) {
@@ -213,6 +214,7 @@ extension KinesisVideo {
             try validate(self.deviceName, name: "deviceName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".+")
             try validate(self.mediaType, name: "mediaType", parent: name, max: 128)
             try validate(self.mediaType, name: "mediaType", parent: name, min: 1)
             try validate(self.mediaType, name: "mediaType", parent: name, pattern: "[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+(,[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+)*")
@@ -255,9 +257,9 @@ extension KinesisVideo {
 
     public struct DeleteSignalingChannelInput: AWSEncodableShape {
 
-        /// The ARN of the signaling channel that you want to delete.
+        /// The Amazon Resource Name (ARN) of the signaling channel that you want to delete.
         public let channelARN: String
-        /// The current version of the signaling channel that you want to delete. You can obtain the current version by invoking the DescribeSignalingChannel or ListSignalingChannels APIs.
+        /// The current version of the signaling channel that you want to delete. You can obtain the current version by invoking the DescribeSignalingChannel or ListSignalingChannels API operations.
         public let currentVersion: String?
 
         public init(channelARN: String, currentVersion: String? = nil) {
@@ -452,7 +454,7 @@ extension KinesisVideo {
 
     public struct GetSignalingChannelEndpointInput: AWSEncodableShape {
 
-        /// The ARN of the signalling channel for which you want to get an endpoint.
+        /// The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint.
         public let channelARN: String
         /// A structure containing the endpoint configuration for the SINGLE_MASTER channel type.
         public let singleMasterChannelEndpointConfiguration: SingleMasterChannelEndpointConfiguration?
@@ -591,7 +593,7 @@ extension KinesisVideo {
 
         /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags. 
         public let nextToken: String?
-        /// The ARN of the signaling channel for which you want to list tags.
+        /// The Amazon Resource Name (ARN) of the signaling channel for which you want to list tags.
         public let resourceARN: String
 
         public init(nextToken: String? = nil, resourceARN: String) {
@@ -843,7 +845,7 @@ extension KinesisVideo {
 
     public struct TagResourceInput: AWSEncodableShape {
 
-        /// The ARN of the signaling channel to which you want to add tags.
+        /// The Amazon Resource Name (ARN) of the signaling channel to which you want to add tags.
         public let resourceARN: String
         /// A list of tags to associate with the specified signaling channel. Each tag is a key-value pair.
         public let tags: [Tag]
@@ -927,7 +929,7 @@ extension KinesisVideo {
 
     public struct UntagResourceInput: AWSEncodableShape {
 
-        /// The ARN of the signaling channel from which you want to remove tags.
+        /// The Amazon Resource Name (ARN) of the signaling channel from which you want to remove tags.
         public let resourceARN: String
         /// A list of the keys of the tags that you want to remove.
         public let tagKeyList: [String]
@@ -1063,7 +1065,7 @@ extension KinesisVideo {
 
     public struct UpdateSignalingChannelInput: AWSEncodableShape {
 
-        /// The ARN of the signaling channel that you want to update.
+        /// The Amazon Resource Name (ARN) of the signaling channel that you want to update.
         public let channelARN: String
         /// The current version of the signaling channel that you want to update.
         public let currentVersion: String

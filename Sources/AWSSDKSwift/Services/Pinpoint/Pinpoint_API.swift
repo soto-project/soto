@@ -563,12 +563,12 @@ public struct Pinpoint {
         return client.send(operation: "UpdateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
-    ///  Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes (Attributes, Metrics, and UserAttributes properties) for an endpoint.
+    ///  Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     public func updateEndpoint(_ input: UpdateEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointResponse> {
         return client.send(operation: "UpdateEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
-    ///   Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes (Attributes, Metrics, and UserAttributes properties) for a batch of endpoints.
+    ///  Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     public func updateEndpointsBatch(_ input: UpdateEndpointsBatchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointsBatchResponse> {
         return client.send(operation: "UpdateEndpointsBatch", path: "/v1/apps/{application-id}/endpoints", httpMethod: "PUT", input: input, on: eventLoop)
     }

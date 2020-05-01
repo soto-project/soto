@@ -30,6 +30,16 @@ extension TranscribeService {
         return client.paginate(input: input, command: listMedicalTranscriptionJobs, tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Returns a list of vocabularies that match the specified criteria. You get the entire list of vocabularies if you don't enter a value in any of the request parameters.
+    public func listMedicalVocabulariesPaginator(
+        _ input: ListMedicalVocabulariesRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMedicalVocabulariesResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMedicalVocabularies, tokenKey: \ListMedicalVocabulariesResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Lists transcription jobs with the specified status.
     public func listTranscriptionJobsPaginator(
         _ input: ListTranscriptionJobsRequest,
@@ -69,6 +79,18 @@ extension TranscribeService.ListMedicalTranscriptionJobsRequest: AWSPaginateToke
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status
+        )
+
+    }
+}
+
+extension TranscribeService.ListMedicalVocabulariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListMedicalVocabulariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            stateEquals: self.stateEquals
         )
 
     }

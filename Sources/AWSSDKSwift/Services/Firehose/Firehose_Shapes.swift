@@ -25,6 +25,7 @@ extension Firehose {
         case gzip = "GZIP"
         case zip = "ZIP"
         case snappy = "Snappy"
+        case hadoopSnappy = "HADOOP_SNAPPY"
         public var description: String { return self.rawValue }
     }
 
@@ -46,6 +47,13 @@ extension Firehose {
         case invalidKmsKey = "INVALID_KMS_KEY"
         case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
         case kmsOptInRequired = "KMS_OPT_IN_REQUIRED"
+        case createEniFailed = "CREATE_ENI_FAILED"
+        case deleteEniFailed = "DELETE_ENI_FAILED"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
+        case securityGroupNotFound = "SECURITY_GROUP_NOT_FOUND"
+        case eniAccessDenied = "ENI_ACCESS_DENIED"
+        case subnetAccessDenied = "SUBNET_ACCESS_DENIED"
+        case securityGroupAccessDenied = "SECURITY_GROUP_ACCESS_DENIED"
         case unknownError = "UNKNOWN_ERROR"
         public var description: String { return self.rawValue }
     }
@@ -197,6 +205,15 @@ extension Firehose {
             self.logStreamName = logStreamName
         }
 
+        public func validate(name: String) throws {
+            try validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try validate(self.logGroupName, name: "logGroupName", parent: name, min: 0)
+            try validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]*")
+            try validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
+            try validate(self.logStreamName, name: "logStreamName", parent: name, min: 0)
+            try validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "[^:*]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case logGroupName = "LogGroupName"
@@ -220,7 +237,15 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try validate(self.copyOptions, name: "copyOptions", parent: name, max: 204800)
+            try validate(self.copyOptions, name: "copyOptions", parent: name, min: 0)
+            try validate(self.copyOptions, name: "copyOptions", parent: name, pattern: ".*")
+            try validate(self.dataTableColumns, name: "dataTableColumns", parent: name, max: 204800)
+            try validate(self.dataTableColumns, name: "dataTableColumns", parent: name, min: 0)
+            try validate(self.dataTableColumns, name: "dataTableColumns", parent: name, pattern: ".*")
+            try validate(self.dataTableName, name: "dataTableName", parent: name, max: 512)
             try validate(self.dataTableName, name: "dataTableName", parent: name, min: 1)
+            try validate(self.dataTableName, name: "dataTableName", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -311,11 +336,11 @@ extension Firehose {
 
         /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
         public let enabled: Bool?
-        /// Specifies the deserializer that you want Kinesis Data Firehose to use to convert the format of your data from JSON.
+        /// Specifies the deserializer that you want Kinesis Data Firehose to use to convert the format of your data from JSON. This parameter is required if Enabled is set to true.
         public let inputFormatConfiguration: InputFormatConfiguration?
-        /// Specifies the serializer that you want Kinesis Data Firehose to use to convert the format of your data to the Parquet or ORC format.
+        /// Specifies the serializer that you want Kinesis Data Firehose to use to convert the format of your data to the Parquet or ORC format. This parameter is required if Enabled is set to true.
         public let outputFormatConfiguration: OutputFormatConfiguration?
-        /// Specifies the AWS Glue Data Catalog table that contains the column information.
+        /// Specifies the AWS Glue Data Catalog table that contains the column information. This parameter is required if Enabled is set to true.
         public let schemaConfiguration: SchemaConfiguration?
 
         public init(enabled: Bool? = nil, inputFormatConfiguration: InputFormatConfiguration? = nil, outputFormatConfiguration: OutputFormatConfiguration? = nil, schemaConfiguration: SchemaConfiguration? = nil) {
@@ -459,7 +484,7 @@ extension Firehose {
 
         /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to AWS_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
         public let keyARN: String?
-        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a delivery stream that is already encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement.
+        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a CreateDeliveryStream or StartDeliveryStreamEncryption operation exceeds this limit, Kinesis Data Firehose throws a LimitExceededException.   To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see About Symmetric and Asymmetric CMKs in the AWS Key Management Service developer guide. 
         public let keyType: KeyType
 
         public init(keyARN: String? = nil, keyType: KeyType) {
@@ -500,6 +525,7 @@ extension Firehose {
             try validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.exclusiveStartDestinationId, name: "exclusiveStartDestinationId", parent: name, max: 100)
             try validate(self.exclusiveStartDestinationId, name: "exclusiveStartDestinationId", parent: name, min: 1)
+            try validate(self.exclusiveStartDestinationId, name: "exclusiveStartDestinationId", parent: name, pattern: "[a-zA-Z0-9-]+")
             try validate(self.limit, name: "limit", parent: name, max: 10000)
             try validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -633,8 +659,10 @@ extension Firehose {
         public let s3Configuration: S3DestinationConfiguration
         /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time. For Elasticsearch 7.x, don't specify a TypeName.
         public let typeName: String?
+        /// The details of the VPC of the Amazon ES destination.
+        public let vpcConfiguration: VpcConfiguration?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -647,10 +675,12 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
             self.typeName = typeName
+            self.vpcConfiguration = vpcConfiguration
         }
 
         public func validate(name: String) throws {
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, max: 512)
             try validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, min: 1)
             try validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "https:.*")
@@ -659,6 +689,7 @@ extension Firehose {
             try validate(self.domainARN, name: "domainARN", parent: name, pattern: "arn:.*")
             try validate(self.indexName, name: "indexName", parent: name, max: 80)
             try validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
@@ -667,6 +698,8 @@ extension Firehose {
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try validate(self.typeName, name: "typeName", parent: name, max: 100)
             try validate(self.typeName, name: "typeName", parent: name, min: 0)
+            try validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -682,6 +715,7 @@ extension Firehose {
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
             case typeName = "TypeName"
+            case vpcConfiguration = "VpcConfiguration"
         }
     }
 
@@ -711,8 +745,10 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription?
         /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x, there's no value for TypeName.
         public let typeName: String?
+        /// The details of the VPC of the Amazon ES destination.
+        public let vpcConfigurationDescription: VpcConfigurationDescription?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -725,6 +761,7 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
             self.typeName = typeName
+            self.vpcConfigurationDescription = vpcConfigurationDescription
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -740,6 +777,7 @@ extension Firehose {
             case s3BackupMode = "S3BackupMode"
             case s3DestinationDescription = "S3DestinationDescription"
             case typeName = "TypeName"
+            case vpcConfigurationDescription = "VpcConfigurationDescription"
         }
     }
 
@@ -784,6 +822,7 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, max: 512)
             try validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, min: 1)
             try validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "https:.*")
@@ -792,6 +831,7 @@ extension Firehose {
             try validate(self.domainARN, name: "domainARN", parent: name, pattern: "arn:.*")
             try validate(self.indexName, name: "indexName", parent: name, max: 80)
             try validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
@@ -800,6 +840,7 @@ extension Firehose {
             try self.s3Update?.validate(name: "\(name).s3Update")
             try validate(self.typeName, name: "typeName", parent: name, max: 100)
             try validate(self.typeName, name: "typeName", parent: name, min: 0)
+            try validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -905,8 +946,15 @@ extension Firehose {
             try validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
             try validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "arn:.*")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 1024)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 0)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, pattern: ".*")
+            try validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try validate(self.prefix, name: "prefix", parent: name, min: 0)
+            try validate(self.prefix, name: "prefix", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
@@ -1035,8 +1083,15 @@ extension Firehose {
             try validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
             try validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "arn:.*")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 1024)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 0)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, pattern: ".*")
+            try validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try validate(self.prefix, name: "prefix", parent: name, min: 0)
+            try validate(self.prefix, name: "prefix", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
@@ -1089,6 +1144,8 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.timestampFormats?.forEach {
+                try validate($0, name: "timestampFormats[]", parent: name, max: 1024)
+                try validate($0, name: "timestampFormats[]", parent: name, min: 1)
                 try validate($0, name: "timestampFormats[]", parent: name, pattern: "^(?!\\s*$).+")
             }
         }
@@ -1254,6 +1311,7 @@ extension Firehose {
             try validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.exclusiveStartTagKey, name: "exclusiveStartTagKey", parent: name, max: 128)
             try validate(self.exclusiveStartTagKey, name: "exclusiveStartTagKey", parent: name, min: 1)
+            try validate(self.exclusiveStartTagKey, name: "exclusiveStartTagKey", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*$")
             try validate(self.limit, name: "limit", parent: name, max: 50)
             try validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -1300,7 +1358,11 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.columnToJsonKeyMappings?.forEach {
+                try validate($0.key, name: "columnToJsonKeyMappings.key", parent: name, max: 1024)
+                try validate($0.key, name: "columnToJsonKeyMappings.key", parent: name, min: 1)
                 try validate($0.key, name: "columnToJsonKeyMappings.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "columnToJsonKeyMappings[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "columnToJsonKeyMappings[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "columnToJsonKeyMappings[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s*$).+")
             }
         }
@@ -1351,6 +1413,8 @@ extension Firehose {
         public func validate(name: String) throws {
             try validate(self.blockSizeBytes, name: "blockSizeBytes", parent: name, min: 67108864)
             try self.bloomFilterColumns?.forEach {
+                try validate($0, name: "bloomFilterColumns[]", parent: name, max: 1024)
+                try validate($0, name: "bloomFilterColumns[]", parent: name, min: 1)
                 try validate($0, name: "bloomFilterColumns[]", parent: name, pattern: "^\\S+$")
             }
             try validate(self.bloomFilterFalsePositiveProbability, name: "bloomFilterFalsePositiveProbability", parent: name, max: 1)
@@ -1498,6 +1562,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try validate(self.parameterValue, name: "parameterValue", parent: name, max: 512)
             try validate(self.parameterValue, name: "parameterValue", parent: name, min: 1)
+            try validate(self.parameterValue, name: "parameterValue", parent: name, pattern: "^(?!\\s*$).+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1681,10 +1746,14 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
             try validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$]+")
             try self.copyCommand.validate(name: "\(name).copyCommand")
+            try validate(self.password, name: "password", parent: name, max: 512)
             try validate(self.password, name: "password", parent: name, min: 6)
+            try validate(self.password, name: "password", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
@@ -1692,7 +1761,9 @@ extension Firehose {
             try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
             try self.s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try validate(self.username, name: "username", parent: name, max: 512)
             try validate(self.username, name: "username", parent: name, min: 1)
+            try validate(self.username, name: "username", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1800,10 +1871,14 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
             try validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$]+")
             try self.copyCommand?.validate(name: "\(name).copyCommand")
+            try validate(self.password, name: "password", parent: name, max: 512)
             try validate(self.password, name: "password", parent: name, min: 6)
+            try validate(self.password, name: "password", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
@@ -1811,7 +1886,9 @@ extension Firehose {
             try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
             try self.s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
             try self.s3Update?.validate(name: "\(name).s3Update")
+            try validate(self.username, name: "username", parent: name, max: 512)
             try validate(self.username, name: "username", parent: name, min: 1)
+            try validate(self.username, name: "username", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1883,7 +1960,14 @@ extension Firehose {
             try validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
             try validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "arn:.*")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 1024)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 0)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, pattern: ".*")
+            try validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try validate(self.prefix, name: "prefix", parent: name, min: 0)
+            try validate(self.prefix, name: "prefix", parent: name, pattern: ".*")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
@@ -1978,7 +2062,14 @@ extension Firehose {
             try validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
             try validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "arn:.*")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 1024)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 0)
+            try validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, pattern: ".*")
+            try validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try validate(self.prefix, name: "prefix", parent: name, min: 0)
+            try validate(self.prefix, name: "prefix", parent: name, pattern: ".*")
             try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
@@ -2021,11 +2112,23 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 1024)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try validate(self.catalogId, name: "catalogId", parent: name, pattern: "^\\S+$")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 1024)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try validate(self.databaseName, name: "databaseName", parent: name, pattern: "^\\S+$")
+            try validate(self.region, name: "region", parent: name, max: 1024)
+            try validate(self.region, name: "region", parent: name, min: 1)
             try validate(self.region, name: "region", parent: name, pattern: "^\\S+$")
+            try validate(self.roleARN, name: "roleARN", parent: name, max: 1024)
+            try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try validate(self.roleARN, name: "roleARN", parent: name, pattern: "^\\S+$")
+            try validate(self.tableName, name: "tableName", parent: name, max: 1024)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
             try validate(self.tableName, name: "tableName", parent: name, pattern: "^\\S+$")
+            try validate(self.versionId, name: "versionId", parent: name, max: 1024)
+            try validate(self.versionId, name: "versionId", parent: name, min: 1)
             try validate(self.versionId, name: "versionId", parent: name, pattern: "^\\S+$")
         }
 
@@ -2110,8 +2213,15 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
             try validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try validate(self.hECEndpoint, name: "hECEndpoint", parent: name, max: 2048)
+            try validate(self.hECEndpoint, name: "hECEndpoint", parent: name, min: 0)
+            try validate(self.hECEndpoint, name: "hECEndpoint", parent: name, pattern: ".*")
+            try validate(self.hECToken, name: "hECToken", parent: name, max: 2048)
+            try validate(self.hECToken, name: "hECToken", parent: name, min: 0)
+            try validate(self.hECToken, name: "hECToken", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
@@ -2210,8 +2320,15 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
             try validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try validate(self.hECEndpoint, name: "hECEndpoint", parent: name, max: 2048)
+            try validate(self.hECEndpoint, name: "hECEndpoint", parent: name, min: 0)
+            try validate(self.hECEndpoint, name: "hECEndpoint", parent: name, pattern: ".*")
+            try validate(self.hECToken, name: "hECToken", parent: name, max: 2048)
+            try validate(self.hECToken, name: "hECToken", parent: name, min: 0)
+            try validate(self.hECToken, name: "hECToken", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.s3Update?.validate(name: "\(name).s3Update")
@@ -2325,8 +2442,10 @@ extension Firehose {
         public func validate(name: String) throws {
             try validate(self.key, name: "key", parent: name, max: 128)
             try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.key, name: "key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*$")
             try validate(self.value, name: "value", parent: name, max: 256)
             try validate(self.value, name: "value", parent: name, min: 0)
+            try validate(self.value, name: "value", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2391,6 +2510,7 @@ extension Firehose {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*$")
             }
             try validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -2446,6 +2566,7 @@ extension Firehose {
             try validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.destinationId, name: "destinationId", parent: name, max: 100)
             try validate(self.destinationId, name: "destinationId", parent: name, min: 1)
+            try validate(self.destinationId, name: "destinationId", parent: name, pattern: "[a-zA-Z0-9-]+")
             try self.elasticsearchDestinationUpdate?.validate(name: "\(name).elasticsearchDestinationUpdate")
             try self.extendedS3DestinationUpdate?.validate(name: "\(name).extendedS3DestinationUpdate")
             try self.redshiftDestinationUpdate?.validate(name: "\(name).redshiftDestinationUpdate")
@@ -2469,5 +2590,73 @@ extension Firehose {
         public init() {
         }
 
+    }
+
+    public struct VpcConfiguration: AWSEncodableShape {
+
+        /// The ARN of the IAM role that you want the delivery stream to use to create endpoints in the destination VPC.
+        public let roleARN: String
+        /// The IDs of the security groups that you want Kinesis Data Firehose to use when it creates ENIs in the VPC of the Amazon ES destination.
+        public let securityGroupIds: [String]
+        /// The IDs of the subnets that you want Kinesis Data Firehose to use to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Kinesis Data Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Kinesis Data Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Kinesis Data Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Kinesis Data Firehose can create up to three ENIs for this delivery stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces  in the Amazon VPC Quotas topic.
+        public let subnetIds: [String]
+
+        public init(roleARN: String, securityGroupIds: [String], subnetIds: [String]) {
+            self.roleARN = roleARN
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^\\S+$")
+            }
+            try validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 1024)
+                try validate($0, name: "subnetIds[]", parent: name, min: 1)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^\\S+$")
+            }
+            try validate(self.subnetIds, name: "subnetIds", parent: name, max: 16)
+            try validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleARN = "RoleARN"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct VpcConfigurationDescription: AWSDecodableShape {
+
+        /// The ARN of the IAM role that you want the delivery stream uses to create endpoints in the destination VPC.
+        public let roleARN: String
+        /// The IDs of the security groups that Kinesis Data Firehose uses when it creates ENIs in the VPC of the Amazon ES destination.
+        public let securityGroupIds: [String]
+        /// The IDs of the subnets that Kinesis Data Firehose uses to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Kinesis Data Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Kinesis Data Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Kinesis Data Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Kinesis Data Firehose can create up to three ENIs for this delivery stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces  in the Amazon VPC Quotas topic.
+        public let subnetIds: [String]
+        /// The ID of the Amazon ES destination's VPC.
+        public let vpcId: String
+
+        public init(roleARN: String, securityGroupIds: [String], subnetIds: [String], vpcId: String) {
+            self.roleARN = roleARN
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleARN = "RoleARN"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
     }
 }

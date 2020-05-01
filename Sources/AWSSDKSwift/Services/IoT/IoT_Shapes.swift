@@ -143,6 +143,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateMode: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case sniOnly = "SNI_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
@@ -872,6 +878,9 @@ extension IoT {
             try validate(self.jobId, name: "jobId", parent: name, max: 64)
             try validate(self.jobId, name: "jobId", parent: name, min: 1)
             try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.targets.forEach {
+                try validate($0, name: "targets[]", parent: name, max: 2048)
+            }
             try validate(self.targets, name: "targets", parent: name, min: 1)
         }
 
@@ -1270,6 +1279,7 @@ extension IoT {
         public func validate(name: String) throws {
             try validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1306,9 +1316,9 @@ extension IoT {
         /// The type of action for which the principal is being authorized.
         public let actionType: ActionType?
         /// The resources for which the principal is being authorized to perform the specified action.
-        public let resources: [String]?
+        public let resources: [String]
 
-        public init(actionType: ActionType? = nil, resources: [String]? = nil) {
+        public init(actionType: ActionType? = nil, resources: [String]) {
             self.actionType = actionType
             self.resources = resources
         }
@@ -1854,14 +1864,17 @@ extension IoT {
         public let certificateArn: String?
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String?
+        /// The mode of the certificate.
+        public let certificateMode: CertificateMode?
         /// The date and time the certificate was created.
         public let creationDate: TimeStamp?
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
 
-        public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil, status: CertificateStatus? = nil) {
+        public init(certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, creationDate: TimeStamp? = nil, status: CertificateStatus? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
+            self.certificateMode = certificateMode
             self.creationDate = creationDate
             self.status = status
         }
@@ -1869,6 +1882,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
+            case certificateMode = "certificateMode"
             case creationDate = "creationDate"
             case status = "status"
         }
@@ -1882,6 +1896,8 @@ extension IoT {
         public let certificateArn: String?
         /// The ID of the certificate.
         public let certificateId: String?
+        /// The mode of the certificate.
+        public let certificateMode: CertificateMode?
         /// The certificate data, in PEM format.
         public let certificatePem: String?
         /// The date and time the certificate was created.
@@ -1903,10 +1919,11 @@ extension IoT {
         /// When the certificate is valid.
         public let validity: CertificateValidity?
 
-        public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
+        public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
             self.caCertificateId = caCertificateId
             self.certificateArn = certificateArn
             self.certificateId = certificateId
+            self.certificateMode = certificateMode
             self.certificatePem = certificatePem
             self.creationDate = creationDate
             self.customerVersion = customerVersion
@@ -1923,6 +1940,7 @@ extension IoT {
             case caCertificateId = "caCertificateId"
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
+            case certificateMode = "certificateMode"
             case certificatePem = "certificatePem"
             case creationDate = "creationDate"
             case customerVersion = "customerVersion"
@@ -2161,16 +2179,19 @@ extension IoT {
         public let signingDisabled: Bool?
         /// The status of the create authorizer request.
         public let status: AuthorizerStatus?
+        /// Metadata which can be used to manage the custom authorizer.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: [Tag]?
         /// The name of the token key used to extract the token from the HTTP headers.
         public let tokenKeyName: String?
         /// The public keys used to verify the digital signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerFunctionArn: String, authorizerName: String, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerFunctionArn: String, authorizerName: String, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tags: [Tag]? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
             self.signingDisabled = signingDisabled
             self.status = status
+            self.tags = tags
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
         }
@@ -2179,6 +2200,9 @@ extension IoT {
             try validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.tokenKeyName, name: "tokenKeyName", parent: name, max: 128)
             try validate(self.tokenKeyName, name: "tokenKeyName", parent: name, min: 1)
             try validate(self.tokenKeyName, name: "tokenKeyName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -2194,6 +2218,7 @@ extension IoT {
             case authorizerFunctionArn = "authorizerFunctionArn"
             case signingDisabled = "signingDisabled"
             case status = "status"
+            case tags = "tags"
             case tokenKeyName = "tokenKeyName"
             case tokenSigningPublicKeys = "tokenSigningPublicKeys"
         }
@@ -2240,6 +2265,9 @@ extension IoT {
             try validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.billingGroupProperties?.validate(name: "\(name).billingGroupProperties")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2353,6 +2381,9 @@ extension IoT {
             }
             try validate(self.stringValues, name: "stringValues", parent: name, max: 100)
             try validate(self.stringValues, name: "stringValues", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2394,17 +2425,20 @@ extension IoT {
         public let domainName: String?
         /// The ARNs of the certificates that AWS IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for AWS-managed domains.
         public let serverCertificateArns: [String]?
-        /// The type of service delivered by the endpoint.
+        /// The type of service delivered by the endpoint.  AWS IoT Core currently supports only the DATA service type. 
         public let serviceType: ServiceType?
+        /// Metadata which can be used to manage the domain configuration.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: [Tag]?
         /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for AWS-managed domains.
         public let validationCertificateArn: String?
 
-        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serviceType: ServiceType? = nil, validationCertificateArn: String? = nil) {
+        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serviceType: ServiceType? = nil, tags: [Tag]? = nil, validationCertificateArn: String? = nil) {
             self.authorizerConfig = authorizerConfig
             self.domainConfigurationName = domainConfigurationName
             self.domainName = domainName
             self.serverCertificateArns = serverCertificateArns
             self.serviceType = serviceType
+            self.tags = tags
             self.validationCertificateArn = validationCertificateArn
         }
 
@@ -2422,6 +2456,9 @@ extension IoT {
             }
             try validate(self.serverCertificateArns, name: "serverCertificateArns", parent: name, max: 1)
             try validate(self.serverCertificateArns, name: "serverCertificateArns", parent: name, min: 0)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.validationCertificateArn, name: "validationCertificateArn", parent: name, max: 2048)
             try validate(self.validationCertificateArn, name: "validationCertificateArn", parent: name, min: 1)
             try validate(self.validationCertificateArn, name: "validationCertificateArn", parent: name, pattern: "arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/?[a-zA-Z0-9/-]+")
@@ -2432,6 +2469,7 @@ extension IoT {
             case domainName = "domainName"
             case serverCertificateArns = "serverCertificateArns"
             case serviceType = "serviceType"
+            case tags = "tags"
             case validationCertificateArn = "validationCertificateArn"
         }
     }
@@ -2486,6 +2524,9 @@ extension IoT {
             try validate(self.indexName, name: "indexName", parent: name, min: 1)
             try validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -2589,6 +2630,12 @@ extension IoT {
             try validate(self.jobId, name: "jobId", parent: name, min: 1)
             try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.targets.forEach {
+                try validate($0, name: "targets[]", parent: name, max: 2048)
+            }
             try validate(self.targets, name: "targets", parent: name, min: 1)
         }
 
@@ -2696,6 +2743,9 @@ extension IoT {
             try self.actionParams.validate(name: "\(name).actionParams")
             try validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2781,6 +2831,9 @@ extension IoT {
             try validate(self.protocols, name: "protocols", parent: name, min: 1)
             try validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.targets, name: "targets", parent: name, min: 1)
         }
 
@@ -2837,20 +2890,27 @@ extension IoT {
         public let policyDocument: String
         /// The policy name.
         public let policyName: String
+        /// Metadata which can be used to manage the policy.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: [Tag]?
 
-        public init(policyDocument: String, policyName: String) {
+        public init(policyDocument: String, policyName: String, tags: [Tag]? = nil) {
             self.policyDocument = policyDocument
             self.policyName = policyName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.policyName, name: "policyName", parent: name, max: 128)
             try validate(self.policyName, name: "policyName", parent: name, min: 1)
             try validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "policyDocument"
+            case tags = "tags"
         }
     }
 
@@ -2989,6 +3049,8 @@ extension IoT {
         public let description: String?
         /// True to enable the fleet provisioning template, otherwise false.
         public let enabled: Bool?
+        /// Creates a pre-provisioning hook template.
+        public let preProvisioningHook: ProvisioningHook?
         /// The role ARN for the role associated with the fleet provisioning template. This IoT role grants permission to provision a device.
         public let provisioningRoleArn: String
         /// Metadata which can be used to manage the fleet provisioning template.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
@@ -2998,9 +3060,10 @@ extension IoT {
         /// The name of the fleet provisioning template.
         public let templateName: String
 
-        public init(description: String? = nil, enabled: Bool? = nil, provisioningRoleArn: String, tags: [Tag]? = nil, templateBody: String, templateName: String) {
+        public init(description: String? = nil, enabled: Bool? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String, tags: [Tag]? = nil, templateBody: String, templateName: String) {
             self.description = description
             self.enabled = enabled
+            self.preProvisioningHook = preProvisioningHook
             self.provisioningRoleArn = provisioningRoleArn
             self.tags = tags
             self.templateBody = templateBody
@@ -3011,8 +3074,12 @@ extension IoT {
             try validate(self.description, name: "description", parent: name, max: 500)
             try validate(self.description, name: "description", parent: name, min: 0)
             try validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]*")
+            try self.preProvisioningHook?.validate(name: "\(name).preProvisioningHook")
             try validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, max: 2048)
             try validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, min: 20)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.templateName, name: "templateName", parent: name, max: 36)
             try validate(self.templateName, name: "templateName", parent: name, min: 1)
             try validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3021,6 +3088,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case enabled = "enabled"
+            case preProvisioningHook = "preProvisioningHook"
             case provisioningRoleArn = "provisioningRoleArn"
             case tags = "tags"
             case templateBody = "templateBody"
@@ -3117,11 +3185,14 @@ extension IoT {
         public let roleAlias: String
         /// The role ARN.
         public let roleArn: String
+        /// Metadata which can be used to manage the role alias.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: [Tag]?
 
-        public init(credentialDurationSeconds: Int? = nil, roleAlias: String, roleArn: String) {
+        public init(credentialDurationSeconds: Int? = nil, roleAlias: String, roleArn: String, tags: [Tag]? = nil) {
             self.credentialDurationSeconds = credentialDurationSeconds
             self.roleAlias = roleAlias
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -3132,11 +3203,15 @@ extension IoT {
             try validate(self.roleAlias, name: "roleAlias", parent: name, pattern: "[\\w=,@-]+")
             try validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentialDurationSeconds = "credentialDurationSeconds"
             case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -3190,6 +3265,9 @@ extension IoT {
             try validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, max: 128)
             try validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, min: 1)
             try validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3258,6 +3336,9 @@ extension IoT {
             try validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3324,6 +3405,9 @@ extension IoT {
             try validate(self.streamId, name: "streamId", parent: name, max: 128)
             try validate(self.streamId, name: "streamId", parent: name, min: 1)
             try validate(self.streamId, name: "streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3385,6 +3469,9 @@ extension IoT {
             try validate(self.parentGroupName, name: "parentGroupName", parent: name, max: 128)
             try validate(self.parentGroupName, name: "parentGroupName", parent: name, min: 1)
             try validate(self.parentGroupName, name: "parentGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -3429,7 +3516,7 @@ extension IoT {
         public let attributePayload: AttributePayload?
         /// The name of the billing group the thing will be added to.
         public let billingGroupName: String?
-        /// The name of the thing to create.
+        /// The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing.
         public let thingName: String
         /// The name of the thing type associated with the new thing.
         public let thingTypeName: String?
@@ -3502,6 +3589,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5206,6 +5296,8 @@ extension IoT {
         public let enabled: Bool?
         /// The date when the fleet provisioning template was last modified.
         public let lastModifiedDate: TimeStamp?
+        /// Gets information about a pre-provisioned hook.
+        public let preProvisioningHook: ProvisioningHook?
         /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
         public let provisioningRoleArn: String?
         /// The ARN of the fleet provisioning template.
@@ -5215,12 +5307,13 @@ extension IoT {
         /// The name of the fleet provisioning template.
         public let templateName: String?
 
-        public init(creationDate: TimeStamp? = nil, defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: TimeStamp? = nil, provisioningRoleArn: String? = nil, templateArn: String? = nil, templateBody: String? = nil, templateName: String? = nil) {
+        public init(creationDate: TimeStamp? = nil, defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: TimeStamp? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String? = nil, templateArn: String? = nil, templateBody: String? = nil, templateName: String? = nil) {
             self.creationDate = creationDate
             self.defaultVersionId = defaultVersionId
             self.description = description
             self.enabled = enabled
             self.lastModifiedDate = lastModifiedDate
+            self.preProvisioningHook = preProvisioningHook
             self.provisioningRoleArn = provisioningRoleArn
             self.templateArn = templateArn
             self.templateBody = templateBody
@@ -5233,6 +5326,7 @@ extension IoT {
             case description = "description"
             case enabled = "enabled"
             case lastModifiedDate = "lastModifiedDate"
+            case preProvisioningHook = "preProvisioningHook"
             case provisioningRoleArn = "provisioningRoleArn"
             case templateArn = "templateArn"
             case templateBody = "templateBody"
@@ -5658,7 +5752,7 @@ extension IoT {
         public let attributes: [String: String]?
         /// The name of the billing group the thing belongs to.
         public let billingGroupName: String?
-        /// The default client ID.
+        /// The default MQTT client ID. For a typical device, the thing name is also used as the default MQTT client ID. Although we don’t require a mapping between a thing's registry name and its use of MQTT client IDs, certificates, or shadow state, we recommend that you choose a thing name and use it as the MQTT client ID for the registry and the Device Shadow service. This lets you better organize your AWS IoT fleet without removing the flexibility of the underlying device certificate model or shadows.
         public let defaultClientId: String?
         /// The ARN of the thing to describe.
         public let thingArn: String?
@@ -7266,6 +7360,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.exponentialRate?.validate(name: "\(name).exponentialRate")
+            try validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, max: 1000)
             try validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, min: 1)
         }
 
@@ -9872,7 +9967,7 @@ extension IoT {
 
         /// A unique identifier for the dimension.
         public let dimensionName: String
-        /// Defines how the dimensionValues of a dimension are interpreted. For example, for DimensionType TOPIC_FILTER, with IN operator, a message will be counted only if its topic matches one of the topic filters. With NOT_IN Operator, a message will be counted only if it doesn't match any of the topic filters. The operator is optional: if it's not provided (is null), it will be interpreted as IN.
+        /// Defines how the dimensionValues of a dimension are interpreted. For example, for dimension type TOPIC_FILTER, the IN operator, a message will be counted only if its topic matches one of the topic filters. With NOT_IN operator, a message will be counted only if it doesn't match any of the topic filters. The operator is optional: if it's not provided (is null), it will be interpreted as IN.
         public let `operator`: DimensionValueOperator?
 
         public init(dimensionName: String, operator: DimensionValueOperator? = nil) {
@@ -10363,6 +10458,31 @@ extension IoT {
         }
     }
 
+    public struct ProvisioningHook: AWSEncodableShape & AWSDecodableShape {
+
+        /// The payload that was sent to the target function.  Note: Only Lambda functions are currently supported.
+        public let payloadVersion: String?
+        /// The ARN of the target function.  Note: Only Lambda functions are currently supported.
+        public let targetArn: String
+
+        public init(payloadVersion: String? = nil, targetArn: String) {
+            self.payloadVersion = payloadVersion
+            self.targetArn = targetArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.payloadVersion, name: "payloadVersion", parent: name, max: 32)
+            try validate(self.payloadVersion, name: "payloadVersion", parent: name, min: 10)
+            try validate(self.payloadVersion, name: "payloadVersion", parent: name, pattern: "^[0-9-]+$")
+            try validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payloadVersion = "payloadVersion"
+            case targetArn = "targetArn"
+        }
+    }
+
     public struct ProvisioningTemplateSummary: AWSDecodableShape {
 
         /// The date when the fleet provisioning template summary was created.
@@ -10527,14 +10647,17 @@ extension IoT {
         public let registrationConfig: RegistrationConfig?
         /// A boolean value that specifies if the CA certificate is set to active.
         public let setAsActive: Bool?
+        /// Metadata which can be used to manage the CA certificate.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: [Tag]?
         /// The private key verification certificate.
         public let verificationCertificate: String
 
-        public init(allowAutoRegistration: Bool? = nil, caCertificate: String, registrationConfig: RegistrationConfig? = nil, setAsActive: Bool? = nil, verificationCertificate: String) {
+        public init(allowAutoRegistration: Bool? = nil, caCertificate: String, registrationConfig: RegistrationConfig? = nil, setAsActive: Bool? = nil, tags: [Tag]? = nil, verificationCertificate: String) {
             self.allowAutoRegistration = allowAutoRegistration
             self.caCertificate = caCertificate
             self.registrationConfig = registrationConfig
             self.setAsActive = setAsActive
+            self.tags = tags
             self.verificationCertificate = verificationCertificate
         }
 
@@ -10542,6 +10665,9 @@ extension IoT {
             try validate(self.caCertificate, name: "caCertificate", parent: name, max: 65536)
             try validate(self.caCertificate, name: "caCertificate", parent: name, min: 1)
             try self.registrationConfig?.validate(name: "\(name).registrationConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.verificationCertificate, name: "verificationCertificate", parent: name, max: 65536)
             try validate(self.verificationCertificate, name: "verificationCertificate", parent: name, min: 1)
         }
@@ -10549,6 +10675,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case caCertificate = "caCertificate"
             case registrationConfig = "registrationConfig"
+            case tags = "tags"
             case verificationCertificate = "verificationCertificate"
         }
     }
@@ -10618,9 +10745,50 @@ extension IoT {
         }
     }
 
+    public struct RegisterCertificateWithoutCARequest: AWSEncodableShape {
+
+        /// The certificate data, in PEM format.
+        public let certificatePem: String
+        /// The status of the register certificate request.
+        public let status: CertificateStatus?
+
+        public init(certificatePem: String, status: CertificateStatus? = nil) {
+            self.certificatePem = certificatePem
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
+            try validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificatePem = "certificatePem"
+            case status = "status"
+        }
+    }
+
+    public struct RegisterCertificateWithoutCAResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the registered certificate.
+        public let certificateArn: String?
+        /// The ID of the registered certificate. (The last part of the certificate ARN contains the certificate ID.
+        public let certificateId: String?
+
+        public init(certificateArn: String? = nil, certificateId: String? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case certificateId = "certificateId"
+        }
+    }
+
     public struct RegisterThingRequest: AWSEncodableShape {
 
-        /// The parameters for provisioning a thing. See Programmatic Provisioning for more information.
+        /// The parameters for provisioning a thing. See Provisioning Templates for more information.
         public let parameters: [String: String]?
         /// The provisioning template. See Provisioning Devices That Have Device Certificates for more information.
         public let templateBody: String
@@ -10638,7 +10806,7 @@ extension IoT {
 
     public struct RegisterThingResponse: AWSDecodableShape {
 
-        /// .
+        /// The certificate data, in PEM format.
         public let certificatePem: String?
         /// ARNs for the generated resources.
         public let resourceArns: [String: String]?
@@ -11840,13 +12008,21 @@ extension IoT {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag's key.
-        public let key: String?
+        public let key: String
         /// The tag's value.
         public let value: String?
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name: "key", parent: name, max: 128)
+            try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name: "value", parent: name, max: 256)
+            try validate(self.value, name: "value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11865,6 +12041,12 @@ extension IoT {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12029,7 +12211,7 @@ extension IoT {
         public let tlsContext: TlsContext?
         /// The token returned by your custom authentication service.
         public let token: String?
-        /// The signature made with the token and your custom authentication service's private key.
+        /// The signature made with the token and your custom authentication service's private key. This value must be Base-64-encoded.
         public let tokenSignature: String?
 
         public init(authorizerName: String, httpContext: HttpContext? = nil, mqttContext: MqttContext? = nil, tlsContext: TlsContext? = nil, token: String? = nil, tokenSignature: String? = nil) {
@@ -12687,6 +12869,14 @@ extension IoT {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tagKeys = "tagKeys"
@@ -13277,16 +13467,22 @@ extension IoT {
         public let description: String?
         /// True to enable the fleet provisioning template, otherwise false.
         public let enabled: Bool?
+        /// Updates the pre-provisioning hook template.
+        public let preProvisioningHook: ProvisioningHook?
         /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
         public let provisioningRoleArn: String?
+        /// Removes pre-provisioning hook template.
+        public let removePreProvisioningHook: Bool?
         /// The name of the fleet provisioning template.
         public let templateName: String
 
-        public init(defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, provisioningRoleArn: String? = nil, templateName: String) {
+        public init(defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String? = nil, removePreProvisioningHook: Bool? = nil, templateName: String) {
             self.defaultVersionId = defaultVersionId
             self.description = description
             self.enabled = enabled
+            self.preProvisioningHook = preProvisioningHook
             self.provisioningRoleArn = provisioningRoleArn
+            self.removePreProvisioningHook = removePreProvisioningHook
             self.templateName = templateName
         }
 
@@ -13294,6 +13490,7 @@ extension IoT {
             try validate(self.description, name: "description", parent: name, max: 500)
             try validate(self.description, name: "description", parent: name, min: 0)
             try validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]*")
+            try self.preProvisioningHook?.validate(name: "\(name).preProvisioningHook")
             try validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, max: 2048)
             try validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, min: 20)
             try validate(self.templateName, name: "templateName", parent: name, max: 36)
@@ -13305,7 +13502,9 @@ extension IoT {
             case defaultVersionId = "defaultVersionId"
             case description = "description"
             case enabled = "enabled"
+            case preProvisioningHook = "preProvisioningHook"
             case provisioningRoleArn = "provisioningRoleArn"
+            case removePreProvisioningHook = "removePreProvisioningHook"
         }
     }
 
@@ -13709,7 +13908,7 @@ extension IoT {
         public let expectedVersion: Int64?
         /// Remove a thing type association. If true, the association is removed.
         public let removeThingType: Bool?
-        /// The name of the thing to update.
+        /// The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing.
         public let thingName: String
         /// The name of the thing type.
         public let thingTypeName: String?

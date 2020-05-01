@@ -20,6 +20,12 @@ import Foundation
 extension GuardDuty {
     //MARK: Enums
 
+    public enum AdminStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disableInProgress = "DISABLE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DestinationType: String, CustomStringConvertible, Codable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
@@ -120,7 +126,7 @@ extension GuardDuty {
 
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
-        /// This value is used to validate the master account to the member account.
+        /// The value that is used to validate the master account to the member account.
         public let invitationId: String
         /// The account ID of the master GuardDuty account whose invitation you're accepting.
         public let masterId: String
@@ -152,7 +158,7 @@ extension GuardDuty {
 
     public struct AccessKeyDetails: AWSDecodableShape {
 
-        /// Access key ID of the user.
+        /// The access key ID of the user.
         public let accessKeyId: String?
         /// The principal ID of the user.
         public let principalId: String?
@@ -178,9 +184,9 @@ extension GuardDuty {
 
     public struct AccountDetail: AWSEncodableShape {
 
-        /// Member account ID.
+        /// The member account ID.
         public let accountId: String
-        /// Member account's email address.
+        /// The email address of the member account.
         public let email: String
 
         public init(accountId: String, email: String) {
@@ -203,7 +209,7 @@ extension GuardDuty {
 
     public struct Action: AWSDecodableShape {
 
-        /// GuardDuty Finding activity type.
+        /// The GuardDuty finding activity type.
         public let actionType: String?
         /// Information about the AWS_API_CALL action described in this finding.
         public let awsApiCallAction: AwsApiCallAction?
@@ -231,6 +237,24 @@ extension GuardDuty {
         }
     }
 
+    public struct AdminAccount: AWSDecodableShape {
+
+        /// The AWS account ID for the account.
+        public let adminAccountId: String?
+        /// Indicates whether the account is enabled as the delegated administrator.
+        public let adminStatus: AdminStatus?
+
+        public init(adminAccountId: String? = nil, adminStatus: AdminStatus? = nil) {
+            self.adminAccountId = adminAccountId
+            self.adminStatus = adminStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "adminAccountId"
+            case adminStatus = "adminStatus"
+        }
+    }
+
     public struct ArchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -238,7 +262,7 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
         public let detectorId: String
-        /// IDs of the findings that you want to archive.
+        /// The IDs of the findings that you want to archive.
         public let findingIds: [String]
 
         public init(detectorId: String, findingIds: [String]) {
@@ -272,15 +296,15 @@ extension GuardDuty {
 
     public struct AwsApiCallAction: AWSDecodableShape {
 
-        /// AWS API name.
+        /// The AWS API name.
         public let api: String?
-        /// AWS API caller type.
+        /// The AWS API caller type.
         public let callerType: String?
-        /// Domain information for the AWS API call.
+        /// The domain information for the AWS API call.
         public let domainDetails: DomainDetails?
-        /// Remote IP information of the connection.
+        /// The remote IP information of the connection.
         public let remoteIpDetails: RemoteIpDetails?
-        /// AWS service name whose API was invoked.
+        /// The AWS service name whose API was invoked.
         public let serviceName: String?
 
         public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
@@ -302,7 +326,7 @@ extension GuardDuty {
 
     public struct City: AWSDecodableShape {
 
-        /// City name of the remote IP address.
+        /// The city name of the remote IP address.
         public let cityName: String?
 
         public init(cityName: String? = nil) {
@@ -316,17 +340,17 @@ extension GuardDuty {
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
 
-        /// Represents an equal condition to be applied to a single field when querying for findings.
+        /// Represents an equal  condition to be applied to a single field when querying for findings.
         public let equals: [String]?
         /// Represents a greater than condition to be applied to a single field when querying for findings.
         public let greaterThan: Int64?
-        /// Represents a greater than equal condition to be applied to a single field when querying for findings.
+        /// Represents a greater than or equal condition to be applied to a single field when querying for findings.
         public let greaterThanOrEqual: Int64?
         /// Represents a less than condition to be applied to a single field when querying for findings.
         public let lessThan: Int64?
-        /// Represents a less than equal condition to be applied to a single field when querying for findings.
+        /// Represents a less than or equal condition to be applied to a single field when querying for findings.
         public let lessThanOrEqual: Int64?
-        /// Represents an not equal condition to be applied to a single field when querying for findings.
+        /// Represents a not equal  condition to be applied to a single field when querying for findings.
         public let notEquals: [String]?
 
         public init(equals: [String]? = nil, greaterThan: Int64? = nil, greaterThanOrEqual: Int64? = nil, lessThan: Int64? = nil, lessThanOrEqual: Int64? = nil, notEquals: [String]? = nil) {
@@ -350,9 +374,9 @@ extension GuardDuty {
 
     public struct Country: AWSDecodableShape {
 
-        /// Country code of the remote IP address.
+        /// The country code of the remote IP address.
         public let countryCode: String?
-        /// Country name of the remote IP address.
+        /// The country name of the remote IP address.
         public let countryName: String?
 
         public init(countryCode: String? = nil, countryName: String? = nil) {
@@ -370,9 +394,9 @@ extension GuardDuty {
 
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// A boolean value that specifies whether the detector is to be enabled.
+        /// A Boolean value that specifies whether the detector is to be enabled.
         public let enable: Bool
-        /// A enum value that specifies how frequently customer got Finding updates published.
+        /// An enum value that specifies how frequently updated findings are exported.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
@@ -428,9 +452,9 @@ extension GuardDuty {
         public let clientToken: String?
         /// The description of the filter.
         public let description: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a filter.
+        /// The unique ID of the detector of the GuardDuty account that you want to create a filter for.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings.
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.  
         public let findingCriteria: FindingCriteria
         /// The name of the filter.
         public let name: String
@@ -499,17 +523,17 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// A boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
+        /// A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
         public let activate: Bool
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet.
+        /// The unique ID of the detector of the GuardDuty account that you want to create an IPSet for.
         public let detectorId: String
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        /// The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
-        /// The user friendly name to identify the IPSet. This name is displayed in all findings that are triggered by activity that involves IP addresses included in this IPSet.
+        /// The user-friendly name to identify the IPSet.  Allowed characters are alphanumerics, spaces, hyphens (-), and underscores (_).
         public let name: String
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
@@ -572,7 +596,7 @@ extension GuardDuty {
 
         /// A list of account ID and email address pairs of the accounts that you want to associate with the master GuardDuty account.
         public let accountDetails: [AccountDetail]
-        /// The unique ID of the detector of the GuardDuty account with which you want to associate member accounts.
+        /// The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
         public let detectorId: String
 
         public init(accountDetails: [AccountDetail], detectorId: String) {
@@ -597,7 +621,7 @@ extension GuardDuty {
 
     public struct CreateMembersResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that include the accountIds of the unprocessed accounts and a result string that explains why each was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -616,9 +640,9 @@ extension GuardDuty {
 
         /// The idempotency token for the request.
         public let clientToken: String?
-        /// Properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
+        /// The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
         public let destinationProperties: DestinationProperties
-        /// The type of resource for the publishing destination. Currently only S3 is supported.
+        /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported.
         public let destinationType: DestinationType
         /// The ID of the GuardDuty detector associated with the publishing destination.
         public let detectorId: String
@@ -646,7 +670,7 @@ extension GuardDuty {
 
     public struct CreatePublishingDestinationResponse: AWSDecodableShape {
 
-        /// The ID of the publishing destination created.
+        /// The ID of the publishing destination that is created.
         public let destinationId: String
 
         public init(destinationId: String) {
@@ -665,7 +689,7 @@ extension GuardDuty {
 
         /// The ID of the detector to create sample findings for.
         public let detectorId: String
-        /// Types of sample findings to generate.
+        /// The types of sample findings to generate.
         public let findingTypes: [String]?
 
         public init(detectorId: String, findingTypes: [String]? = nil) {
@@ -702,19 +726,19 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// A boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
+        /// A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
         public let activate: Bool
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a threatIntelSet.
+        /// The unique ID of the detector of the GuardDuty account that you want to create a threatIntelSet for.
         public let detectorId: String
         /// The format of the file that contains the ThreatIntelSet.
         public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+        /// The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
-        /// A user-friendly ThreatIntelSet name that is displayed in all finding generated by activity that involves IP addresses included in this ThreatIntelSet.
+        /// A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
         public let name: String
-        /// The tags to be added to a new Threat List resource.
+        /// The tags to be added to a new threat list resource.
         public let tags: [String: String]?
 
         public init(activate: Bool, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, format: ThreatIntelSetFormat, location: String, name: String, tags: [String: String]? = nil) {
@@ -793,7 +817,7 @@ extension GuardDuty {
 
     public struct DeclineInvitationsResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -839,9 +863,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
         ]
 
-        /// The unique ID of the detector the filter is associated with.
+        /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
-        /// The name of the filter you want to delete.
+        /// The name of the filter that you want to delete.
         public let filterName: String
 
         public init(detectorId: String, filterName: String) {
@@ -922,7 +946,7 @@ extension GuardDuty {
 
     public struct DeleteInvitationsResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -1017,9 +1041,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 
-        /// The unique ID of the detector the threatIntelSet is associated with.
+        /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
-        /// The unique ID of the threatIntelSet you want to delete.
+        /// The unique ID of the threatIntelSet that you want to delete.
         public let threatIntelSetId: String
 
         public init(detectorId: String, threatIntelSetId: String) {
@@ -1041,6 +1065,44 @@ extension GuardDuty {
         public init() {
         }
 
+    }
+
+    public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+        ]
+
+        /// The ID of the detector to retrieve information about the delegated administrator from.
+        public let detectorId: String
+
+        public init(detectorId: String) {
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
+
+        /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization.
+        public let autoEnable: Bool
+        /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator master account.
+        public let memberAccountLimitReached: Bool
+
+        public init(autoEnable: Bool, memberAccountLimitReached: Bool) {
+            self.autoEnable = autoEnable
+            self.memberAccountLimitReached = memberAccountLimitReached
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+            case memberAccountLimitReached = "memberAccountLimitReached"
+        }
     }
 
     public struct DescribePublishingDestinationRequest: AWSEncodableShape {
@@ -1073,7 +1135,7 @@ extension GuardDuty {
         public let destinationId: String
         /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
         public let destinationProperties: DestinationProperties
-        /// The type of the publishing destination. Currently, only S3 is supported.
+        /// The type of publishing destination. Currently, only Amazon S3 buckets are supported.
         public let destinationType: DestinationType
         /// The time, in epoch millisecond format, at which GuardDuty was first unable to publish findings to the destination.
         public let publishingFailureStartTimestamp: Int64
@@ -1101,7 +1163,7 @@ extension GuardDuty {
 
         /// The unique ID of the publishing destination.
         public let destinationId: String
-        /// The type of resource used for the publishing destination. Currently, only S3 is supported.
+        /// The type of resource used for the publishing destination. Currently, only Amazon S3 buckets are supported.
         public let destinationType: DestinationType
         /// The status of the publishing destination.
         public let status: PublishingStatus
@@ -1137,6 +1199,28 @@ extension GuardDuty {
         }
     }
 
+    public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
+
+        /// The AWS Account ID for the Organizations account to be disabled as a GuardDuty delegated administrator.
+        public let adminAccountId: String
+
+        public init(adminAccountId: String) {
+            self.adminAccountId = adminAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "adminAccountId"
+        }
+    }
+
+    public struct DisableOrganizationAdminAccountResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -1170,9 +1254,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from master.
+        /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the master account.
         public let accountIds: [String]
-        /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from master.
+        /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the master account.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -1198,7 +1282,7 @@ extension GuardDuty {
 
     public struct DisassociateMembersResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -1212,7 +1296,7 @@ extension GuardDuty {
 
     public struct DnsRequestAction: AWSDecodableShape {
 
-        /// Domain information for the API request.
+        /// The domain information for the API request.
         public let domain: String?
 
         public init(domain: String? = nil) {
@@ -1226,7 +1310,7 @@ extension GuardDuty {
 
     public struct DomainDetails: AWSDecodableShape {
 
-        /// Domain information for the AWS API call.
+        /// The domain information for the AWS API call.
         public let domain: String?
 
         public init(domain: String? = nil) {
@@ -1236,6 +1320,28 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case domain = "domain"
         }
+    }
+
+    public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
+
+        /// The AWS Account ID for the Organizations account to be enabled as a GuardDuty delegated administrator.
+        public let adminAccountId: String
+
+        public init(adminAccountId: String) {
+            self.adminAccountId = adminAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "adminAccountId"
+        }
+    }
+
+    public struct EnableOrganizationAdminAccountResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct Evidence: AWSDecodableShape {
@@ -1256,11 +1362,11 @@ extension GuardDuty {
 
         /// The ID of the account in which the finding was generated.
         public let accountId: String
-        /// The ARN for the finding.
+        /// The ARN of the finding.
         public let arn: String
         /// The confidence score for the finding.
         public let confidence: Double?
-        /// The time and date at which the finding was created.
+        /// The time and date when the finding was created.
         public let createdAt: String
         /// The description of the finding.
         public let description: String?
@@ -1268,7 +1374,7 @@ extension GuardDuty {
         public let id: String
         /// The partition associated with the finding.
         public let partition: String?
-        /// The Region in which the finding was generated.
+        /// The Region where the finding was generated.
         public let region: String
         public let resource: Resource
         /// The version of the schema used for the finding.
@@ -1276,11 +1382,11 @@ extension GuardDuty {
         public let service: Service?
         /// The severity of the finding.
         public let severity: Double
-        /// The title for the finding.
+        /// The title of the finding.
         public let title: String?
-        /// The type of the finding.
+        /// The type of finding.
         public let `type`: String
-        /// The time and date at which the finding was laste updated.
+        /// The time and date when the finding was last updated.
         public let updatedAt: String
 
         public init(accountId: String, arn: String, confidence: Double? = nil, createdAt: String, description: String? = nil, id: String, partition: String? = nil, region: String, resource: Resource, schemaVersion: String, service: Service? = nil, severity: Double, title: String? = nil, type: String, updatedAt: String) {
@@ -1336,7 +1442,7 @@ extension GuardDuty {
 
     public struct FindingStatistics: AWSDecodableShape {
 
-        /// Represents a map of severity to count statistic for a set of findings
+        /// Represents a map of severity to count statistics for a set of findings.
         public let countBySeverity: [String: Int]?
 
         public init(countBySeverity: [String: Int]? = nil) {
@@ -1350,9 +1456,9 @@ extension GuardDuty {
 
     public struct GeoLocation: AWSDecodableShape {
 
-        /// Latitude information of remote IP address.
+        /// The latitude information of the remote IP address.
         public let lat: Double?
-        /// Longitude information of remote IP address.
+        /// The longitude information of the remote IP address.
         public let lon: Double?
 
         public init(lat: Double? = nil, lon: Double? = nil) {
@@ -1388,9 +1494,9 @@ extension GuardDuty {
 
     public struct GetDetectorResponse: AWSDecodableShape {
 
-        /// Detector creation timestamp.
+        /// The timestamp of when the detector was created.
         public let createdAt: String?
-        /// Finding publishing frequency.
+        /// The publishing frequency of the finding.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The GuardDuty service role.
         public let serviceRole: String
@@ -1398,7 +1504,7 @@ extension GuardDuty {
         public let status: DetectorStatus
         /// The tags of the detector resource.
         public let tags: [String: String]?
-        /// Detector last update timestamp.
+        /// The last-updated timestamp for the detector.
         public let updatedAt: String?
 
         public init(createdAt: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
@@ -1426,7 +1532,7 @@ extension GuardDuty {
             AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
         ]
 
-        /// The unique ID of the detector the filter is associated with.
+        /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
         /// The name of the filter you want to get.
         public let filterName: String
@@ -1485,7 +1591,7 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
         public let detectorId: String
-        /// IDs of the findings that you want to retrieve.
+        /// The IDs of the findings that you want to retrieve.
         public let findingIds: [String]
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
@@ -1534,9 +1640,9 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
         public let detectorId: String
-        /// Represents the criteria used for querying findings.
+        /// Represents the criteria that is used for querying findings.
         public let findingCriteria: FindingCriteria?
-        /// Types of finding statistics to retrieve.
+        /// The types of finding statistics to retrieve.
         public let findingStatisticTypes: [FindingStatisticType]
 
         public init(detectorId: String, findingCriteria: FindingCriteria? = nil, findingStatisticTypes: [FindingStatisticType]) {
@@ -1560,7 +1666,7 @@ extension GuardDuty {
 
     public struct GetFindingsStatisticsResponse: AWSDecodableShape {
 
-        /// Finding statistics object.
+        /// The finding statistics object.
         public let findingStatistics: FindingStatistics
 
         public init(findingStatistics: FindingStatistics) {
@@ -1578,7 +1684,7 @@ extension GuardDuty {
             AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
         ]
 
-        /// The unique ID of the detector the ipSet is associated with.
+        /// The unique ID of the detector that the IPSet is associated with.
         public let detectorId: String
         /// The unique ID of the IPSet to retrieve.
         public let ipSetId: String
@@ -1600,13 +1706,13 @@ extension GuardDuty {
 
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        /// The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
-        /// The user friendly name for the IPSet.
+        /// The user-friendly name for the IPSet.
         public let name: String
-        /// The status of ipSet file uploaded.
+        /// The status of IPSet file that was uploaded.
         public let status: IpSetStatus
-        /// The tags of the IP set resource.
+        /// The tags of the IPSet resource.
         public let tags: [String: String]?
 
         public init(format: IpSetFormat, location: String, name: String, status: IpSetStatus, tags: [String: String]? = nil) {
@@ -1670,7 +1776,7 @@ extension GuardDuty {
 
     public struct GetMasterAccountResponse: AWSDecodableShape {
 
-        /// Master account details.
+        /// The master account details.
         public let master: Master
 
         public init(master: Master) {
@@ -1717,7 +1823,7 @@ extension GuardDuty {
 
         /// A list of members.
         public let members: [Member]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(members: [Member], unprocessedAccounts: [UnprocessedAccount]) {
@@ -1737,9 +1843,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 
-        /// The unique ID of the detector the threatIntelSet is associated with.
+        /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
-        /// The unique ID of the threatIntelSet you want to get.
+        /// The unique ID of the threatIntelSet that you want to get.
         public let threatIntelSetId: String
 
         public init(detectorId: String, threatIntelSetId: String) {
@@ -1759,13 +1865,13 @@ extension GuardDuty {
 
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+        /// The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
-        /// A user-friendly ThreatIntelSet name that is displayed in all finding generated by activity that involves IP addresses included in this ThreatIntelSet.
+        /// A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
         public let name: String
         /// The status of threatIntelSet file uploaded.
         public let status: ThreatIntelSetStatus
-        /// The tags of the Threat List resource.
+        /// The tags of the threat list resource.
         public let tags: [String: String]?
 
         public init(format: ThreatIntelSetFormat, location: String, name: String, status: ThreatIntelSetStatus, tags: [String: String]? = nil) {
@@ -1787,9 +1893,9 @@ extension GuardDuty {
 
     public struct IamInstanceProfile: AWSDecodableShape {
 
-        /// AWS EC2 instance profile ARN.
+        /// The profile ARN of the EC2 instance.
         public let arn: String?
-        /// AWS EC2 instance profile ID.
+        /// The profile ID of the EC2 instance.
         public let id: String?
 
         public init(arn: String? = nil, id: String? = nil) {
@@ -1805,7 +1911,7 @@ extension GuardDuty {
 
     public struct InstanceDetails: AWSDecodableShape {
 
-        /// The availability zone of the EC2 instance.
+        /// The Availability Zone of the EC2 instance.
         public let availabilityZone: String?
         /// The profile information of the EC2 instance.
         public let iamInstanceProfile: IamInstanceProfile?
@@ -1821,7 +1927,7 @@ extension GuardDuty {
         public let instanceType: String?
         /// The launch time of the EC2 instance.
         public let launchTime: String?
-        /// The network interface information of the EC2 instance.
+        /// The elastic network interface information of the EC2 instance.
         public let networkInterfaces: [NetworkInterface]?
         /// The Amazon Resource Name (ARN) of the AWS Outpost. Only applicable to AWS Outposts instances.
         public let outpostArn: String?
@@ -1867,11 +1973,11 @@ extension GuardDuty {
 
     public struct Invitation: AWSDecodableShape {
 
-        /// The ID of the account from which the invitations was sent.
+        /// The ID of the account that the invitation was sent from.
         public let accountId: String?
         /// The ID of the invitation. This value is used to validate the inviter account to the member account.
         public let invitationId: String?
-        /// Timestamp at which the invitation was sent.
+        /// The timestamp when the invitation was sent.
         public let invitedAt: String?
         /// The status of the relationship between the inviter and invitee accounts.
         public let relationshipStatus: String?
@@ -1898,9 +2004,9 @@ extension GuardDuty {
 
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
         public let accountIds: [String]
-        /// The unique ID of the detector of the GuardDuty account with which you want to invite members.
+        /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
         public let detectorId: String
-        /// A boolean value that specifies whether you want to disable email notification to the accounts that you’re inviting to GuardDuty as members.
+        /// A Boolean value that specifies whether you want to disable email notification to the accounts that you’re inviting to GuardDuty as members.
         public let disableEmailNotification: Bool?
         /// The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members.
         public let message: String?
@@ -1932,7 +2038,7 @@ extension GuardDuty {
 
     public struct InviteMembersResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -1950,9 +2056,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
+        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1970,9 +2076,9 @@ extension GuardDuty {
 
     public struct ListDetectorsResponse: AWSDecodableShape {
 
-        /// A list of detector Ids.
+        /// A list of detector IDs.
         public let detectorIds: [String]
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
         public init(detectorIds: [String], nextToken: String? = nil) {
@@ -1993,11 +2099,11 @@ extension GuardDuty {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The unique ID of the detector the filter is associated with.
+        /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
+        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2018,9 +2124,9 @@ extension GuardDuty {
 
     public struct ListFiltersResponse: AWSDecodableShape {
 
-        /// A list of filter names
+        /// A list of filter names.
         public let filterNames: [String]
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
         public init(filterNames: [String], nextToken: String? = nil) {
@@ -2041,11 +2147,11 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
-        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
+        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
@@ -2075,9 +2181,9 @@ extension GuardDuty {
 
     public struct ListFindingsResponse: AWSDecodableShape {
 
-        /// The IDs of the findings you are listing.
+        /// The IDs of the findings that you're listing.
         public let findingIds: [String]
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
         public init(findingIds: [String], nextToken: String? = nil) {
@@ -2098,11 +2204,11 @@ extension GuardDuty {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The unique ID of the detector the ipSet is associated with.
+        /// The unique ID of the detector that the IPSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2125,7 +2231,7 @@ extension GuardDuty {
 
         /// The IDs of the IPSet resources.
         public let ipSetIds: [String]
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
         public init(ipSetIds: [String], nextToken: String? = nil) {
@@ -2145,9 +2251,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
+        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2167,7 +2273,7 @@ extension GuardDuty {
 
         /// A list of invitation descriptions.
         public let invitations: [Invitation]?
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
@@ -2193,9 +2299,9 @@ extension GuardDuty {
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// Specifies whether to only return associated members or to return all members (including members which haven't been invited yet or have been disassociated).
+        /// Specifies what member accounts the response includes based on their relationship status with the master account. The default value is "true". If set to "false" the response includes all existing member accounts (including members who haven't been invited yet or have been disassociated).
         public let onlyAssociated: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
@@ -2219,7 +2325,7 @@ extension GuardDuty {
 
         /// A list of members.
         public let members: [Member]?
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
         public init(members: [Member]? = nil, nextToken: String? = nil) {
@@ -2229,6 +2335,48 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case members = "members"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOrganizationAdminAccountsResponse: AWSDecodableShape {
+
+        /// An AdminAccounts object that includes a list of accounts configured as GuardDuty delegated administrators.
+        public let adminAccounts: [AdminAccount]?
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+
+        public init(adminAccounts: [AdminAccount]? = nil, nextToken: String? = nil) {
+            self.adminAccounts = adminAccounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccounts = "adminAccounts"
             case nextToken = "nextToken"
         }
     }
@@ -2244,7 +2392,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
-        /// A token to use for paginating results returned in the repsonse. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2265,9 +2413,9 @@ extension GuardDuty {
 
     public struct ListPublishingDestinationsResponse: AWSDecodableShape {
 
-        /// A Destinations obect that includes information about each publishing destination returned.
+        /// A Destinations object that includes information about each publishing destination returned.
         public let destinations: [Destination]
-        /// A token to use for paginating results returned in the repsonse. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
         public init(destinations: [Destination], nextToken: String? = nil) {
@@ -2286,7 +2434,7 @@ extension GuardDuty {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the given GuardDuty resource 
+        /// The Amazon Resource Name (ARN) for the given GuardDuty resource. 
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2321,11 +2469,11 @@ extension GuardDuty {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The unique ID of the detector the threatIntelSet is associated with.
+        /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
+        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2346,7 +2494,7 @@ extension GuardDuty {
 
     public struct ListThreatIntelSetsResponse: AWSDecodableShape {
 
-        /// Pagination parameter to be used on the next list operation to retrieve more items.
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
         /// The IDs of the ThreatIntelSet resources.
         public let threatIntelSetIds: [String]
@@ -2364,7 +2512,7 @@ extension GuardDuty {
 
     public struct LocalIpDetails: AWSDecodableShape {
 
-        /// IPV4 remote address of the connection.
+        /// The IPv4 local address of the connection.
         public let ipAddressV4: String?
 
         public init(ipAddressV4: String? = nil) {
@@ -2378,9 +2526,9 @@ extension GuardDuty {
 
     public struct LocalPortDetails: AWSDecodableShape {
 
-        /// Port number of the local connection.
+        /// The port number of the local connection.
         public let port: Int?
-        /// Port name of the local connection.
+        /// The port name of the local connection.
         public let portName: String?
 
         public init(port: Int? = nil, portName: String? = nil) {
@@ -2396,11 +2544,11 @@ extension GuardDuty {
 
     public struct Master: AWSDecodableShape {
 
-        /// The ID of the account used as the Master account.
+        /// The ID of the account used as the master account.
         public let accountId: String?
-        /// This value is used to validate the master account to the member account.
+        /// The value used to validate the master account to the member account.
         public let invitationId: String?
-        /// Timestamp at which the invitation was sent.
+        /// The timestamp when the invitation was sent.
         public let invitedAt: String?
         /// The status of the relationship between the master and member accounts.
         public let relationshipStatus: String?
@@ -2422,19 +2570,19 @@ extension GuardDuty {
 
     public struct Member: AWSDecodableShape {
 
-        /// Member account ID.
+        /// The ID of the member account.
         public let accountId: String
-        /// Member account's detector ID.
+        /// The detector ID of the member account.
         public let detectorId: String?
-        /// Member account's email address.
+        /// The email address of the member account.
         public let email: String
-        /// Timestamp at which the invitation was sent
+        /// The timestamp when the invitation was sent.
         public let invitedAt: String?
-        /// Master account ID.
+        /// The master account ID.
         public let masterId: String
         /// The status of the relationship between the member and the master.
         public let relationshipStatus: String
-        /// Member last updated timestamp.
+        /// The last-updated timestamp of the member.
         public let updatedAt: String
 
         public init(accountId: String, detectorId: String? = nil, email: String, invitedAt: String? = nil, masterId: String, relationshipStatus: String, updatedAt: String) {
@@ -2460,19 +2608,19 @@ extension GuardDuty {
 
     public struct NetworkConnectionAction: AWSDecodableShape {
 
-        /// Network connection blocked information.
+        /// Indicates whether EC2 blocked the network connection to your instance.
         public let blocked: Bool?
-        /// Network connection direction.
+        /// The network connection direction.
         public let connectionDirection: String?
-        /// Local IP information of the connection.
+        /// The local IP information of the connection.
         public let localIpDetails: LocalIpDetails?
-        /// Local port information of the connection.
+        /// The local port information of the connection.
         public let localPortDetails: LocalPortDetails?
-        /// Network connection protocol.
+        /// The network connection protocol.
         public let `protocol`: String?
-        /// Remote IP information of the connection.
+        /// The remote IP information of the connection.
         public let remoteIpDetails: RemoteIpDetails?
-        /// Remote port information of the connection.
+        /// The remote port information of the connection.
         public let remotePortDetails: RemotePortDetails?
 
         public init(blocked: Bool? = nil, connectionDirection: String? = nil, localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
@@ -2498,21 +2646,21 @@ extension GuardDuty {
 
     public struct NetworkInterface: AWSDecodableShape {
 
-        /// A list of EC2 instance IPv6 address information.
+        /// A list of IPv6 addresses for the EC2 instance.
         public let ipv6Addresses: [String]?
-        /// The ID of the network interface
+        /// The ID of the network interface.
         public let networkInterfaceId: String?
-        /// Private DNS name of the EC2 instance.
+        /// The private DNS name of the EC2 instance.
         public let privateDnsName: String?
-        /// Private IP address of the EC2 instance.
+        /// The private IP address of the EC2 instance.
         public let privateIpAddress: String?
         /// Other private IP address information of the EC2 instance.
         public let privateIpAddresses: [PrivateIpAddressDetails]?
-        /// Public DNS name of the EC2 instance.
+        /// The public DNS name of the EC2 instance.
         public let publicDnsName: String?
-        /// Public IP address of the EC2 instance.
+        /// The public IP address of the EC2 instance.
         public let publicIp: String?
-        /// Security groups associated with the EC2 instance.
+        /// The security groups associated with the EC2 instance.
         public let securityGroups: [SecurityGroup]?
         /// The subnet ID of the EC2 instance.
         public let subnetId: String?
@@ -2548,13 +2696,13 @@ extension GuardDuty {
 
     public struct Organization: AWSDecodableShape {
 
-        /// Autonomous system number of the internet provider of the remote IP address.
+        /// The Autonomous System Number (ASN) of the internet provider of the remote IP address.
         public let asn: String?
-        /// Organization that registered this ASN.
+        /// The organization that registered this ASN.
         public let asnOrg: String?
-        /// ISP information for the internet provider.
+        /// The ISP information for the internet provider.
         public let isp: String?
-        /// Name of the internet provider.
+        /// The name of the internet provider.
         public let org: String?
 
         public init(asn: String? = nil, asnOrg: String? = nil, isp: String? = nil, org: String? = nil) {
@@ -2574,9 +2722,9 @@ extension GuardDuty {
 
     public struct PortProbeAction: AWSDecodableShape {
 
-        /// Port probe blocked information.
+        /// Indicates whether EC2 blocked the port probe to the instance, such as with an ACL.
         public let blocked: Bool?
-        /// A list of port probe details objects.
+        /// A list of objects related to port probe details.
         public let portProbeDetails: [PortProbeDetail]?
 
         public init(blocked: Bool? = nil, portProbeDetails: [PortProbeDetail]? = nil) {
@@ -2592,11 +2740,11 @@ extension GuardDuty {
 
     public struct PortProbeDetail: AWSDecodableShape {
 
-        /// Local IP information of the connection.
+        /// The local IP information of the connection.
         public let localIpDetails: LocalIpDetails?
-        /// Local port information of the connection.
+        /// The local port information of the connection.
         public let localPortDetails: LocalPortDetails?
-        /// Remote IP information of the connection.
+        /// The remote IP information of the connection.
         public let remoteIpDetails: RemoteIpDetails?
 
         public init(localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
@@ -2614,9 +2762,9 @@ extension GuardDuty {
 
     public struct PrivateIpAddressDetails: AWSDecodableShape {
 
-        /// Private DNS name of the EC2 instance.
+        /// The private DNS name of the EC2 instance.
         public let privateDnsName: String?
-        /// Private IP address of the EC2 instance.
+        /// The private IP address of the EC2 instance.
         public let privateIpAddress: String?
 
         public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
@@ -2632,9 +2780,9 @@ extension GuardDuty {
 
     public struct ProductCode: AWSDecodableShape {
 
-        /// Product code information.
+        /// The product code information.
         public let code: String?
-        /// Product code type.
+        /// The product code type.
         public let productType: String?
 
         public init(code: String? = nil, productType: String? = nil) {
@@ -2650,15 +2798,15 @@ extension GuardDuty {
 
     public struct RemoteIpDetails: AWSDecodableShape {
 
-        /// City information of the remote IP address.
+        /// The city information of the remote IP address.
         public let city: City?
-        /// Country code of the remote IP address.
+        /// The country code of the remote IP address.
         public let country: Country?
-        /// Location information of the remote IP address.
+        /// The location information of the remote IP address.
         public let geoLocation: GeoLocation?
-        /// IPV4 remote address of the connection.
+        /// The IPv4 remote address of the connection.
         public let ipAddressV4: String?
-        /// ISP Organization information of the remote IP address.
+        /// The ISP organization information of the remote IP address.
         public let organization: Organization?
 
         public init(city: City? = nil, country: Country? = nil, geoLocation: GeoLocation? = nil, ipAddressV4: String? = nil, organization: Organization? = nil) {
@@ -2680,9 +2828,9 @@ extension GuardDuty {
 
     public struct RemotePortDetails: AWSDecodableShape {
 
-        /// Port number of the remote connection.
+        /// The port number of the remote connection.
         public let port: Int?
-        /// Port name of the remote connection.
+        /// The port name of the remote connection.
         public let portName: String?
 
         public init(port: Int? = nil, portName: String? = nil) {
@@ -2702,7 +2850,7 @@ extension GuardDuty {
         public let accessKeyDetails: AccessKeyDetails?
         /// The information about the EC2 instance associated with the activity that prompted GuardDuty to generate a finding.
         public let instanceDetails: InstanceDetails?
-        /// The type of the AWS resource.
+        /// The type of AWS resource.
         public let resourceType: String?
 
         public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil) {
@@ -2720,9 +2868,9 @@ extension GuardDuty {
 
     public struct SecurityGroup: AWSDecodableShape {
 
-        /// EC2 instance's security group ID.
+        /// The security group ID of the EC2 instance.
         public let groupId: String?
-        /// EC2 instance's security group name.
+        /// The security group name of the EC2 instance.
         public let groupName: String?
 
         public init(groupId: String? = nil, groupName: String? = nil) {
@@ -2738,25 +2886,25 @@ extension GuardDuty {
 
     public struct Service: AWSDecodableShape {
 
-        /// Information about the activity described in a finding.
+        /// Information about the activity that is described in a finding.
         public let action: Action?
         /// Indicates whether this finding is archived.
         public let archived: Bool?
-        /// Total count of the occurrences of this finding type.
+        /// The total count of the occurrences of this finding type.
         public let count: Int?
-        /// Detector ID for the GuardDuty service.
+        /// The detector ID for the GuardDuty service.
         public let detectorId: String?
-        /// First seen timestamp of the activity that prompted GuardDuty to generate this finding.
+        /// The first-seen timestamp of the activity that prompted GuardDuty to generate this finding.
         public let eventFirstSeen: String?
-        /// Last seen timestamp of the activity that prompted GuardDuty to generate this finding.
+        /// The last-seen timestamp of the activity that prompted GuardDuty to generate this finding.
         public let eventLastSeen: String?
         /// An evidence object associated with the service.
         public let evidence: Evidence?
-        /// Resource role information for this finding.
+        /// The resource role information for this finding.
         public let resourceRole: String?
         /// The name of the AWS service (GuardDuty) that generated a finding.
         public let serviceName: String?
-        /// Feedback left about the finding.
+        /// Feedback that was submitted about the finding.
         public let userFeedback: String?
 
         public init(action: Action? = nil, archived: Bool? = nil, count: Int? = nil, detectorId: String? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
@@ -2788,9 +2936,9 @@ extension GuardDuty {
 
     public struct SortCriteria: AWSEncodableShape {
 
-        /// Represents the finding attribute (for example, accountId) by which to sort findings.
+        /// Represents the finding attribute (for example, accountId) to sort findings by.
         public let attributeName: String?
-        /// Order by which the sorted findings are to be displayed.
+        /// The order by which the sorted findings are to be displayed.
         public let orderBy: OrderBy?
 
         public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
@@ -2837,7 +2985,7 @@ extension GuardDuty {
 
     public struct StartMonitoringMembersResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -2854,9 +3002,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to stop monitoring.
+        /// A list of account IDs for the member accounts to stop monitoring.
         public let accountIds: [String]
-        /// The unique ID of the detector of the GuardDuty account that you want to stop from monitor members' findings.
+        /// The unique ID of the detector associated with the GuardDuty master account that is monitoring member accounts.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -2882,7 +3030,7 @@ extension GuardDuty {
 
     public struct StopMonitoringMembersResponse: AWSDecodableShape {
 
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        /// A list of objects that contain an accountId for each account that could not be processed, and a result string that indicates why the account was not processed. 
         public let unprocessedAccounts: [UnprocessedAccount]
 
         public init(unprocessedAccounts: [UnprocessedAccount]) {
@@ -2896,9 +3044,9 @@ extension GuardDuty {
 
     public struct Tag: AWSDecodableShape {
 
-        /// EC2 instance tag key.
+        /// The EC2 instance tag key.
         public let key: String?
-        /// EC2 instance tag value.
+        /// The EC2 instance tag value.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -2975,7 +3123,7 @@ extension GuardDuty {
 
         /// The ID of the detector associated with the findings to unarchive.
         public let detectorId: String
-        /// IDs of the findings to unarchive.
+        /// The IDs of the findings to unarchive.
         public let findingIds: [String]
 
         public init(detectorId: String, findingIds: [String]) {
@@ -3009,7 +3157,7 @@ extension GuardDuty {
 
     public struct UnprocessedAccount: AWSDecodableShape {
 
-        /// AWS Account ID.
+        /// The AWS account ID.
         public let accountId: String
         /// A reason why the account hasn't been processed.
         public let result: String
@@ -3072,7 +3220,7 @@ extension GuardDuty {
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
         public let enable: Bool?
-        /// A enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
+        /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
         public init(detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
@@ -3170,7 +3318,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The feedback for the finding.
         public let feedback: Feedback
-        /// IDs of the findings that you want to mark as useful or not useful.
+        /// The IDs of the findings that you want to mark as useful or not useful.
         public let findingIds: [String]
 
         public init(comments: String? = nil, detectorId: String, feedback: Feedback, findingIds: [String]) {
@@ -3212,13 +3360,13 @@ extension GuardDuty {
             AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
         ]
 
-        /// The updated boolean value that specifies whether the IPSet is active or not.
+        /// The updated Boolean value that specifies whether the IPSet is active or not.
         public let activate: Bool?
         /// The detectorID that specifies the GuardDuty service whose IPSet you want to update.
         public let detectorId: String
         /// The unique ID that specifies the IPSet that you want to update.
         public let ipSetId: String
-        /// The updated URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+        /// The updated URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String?
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
@@ -3255,17 +3403,50 @@ extension GuardDuty {
 
     }
 
+    public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+        ]
+
+        /// Indicates whether to automatically enable member accounts in the organization.
+        public let autoEnable: Bool
+        /// The ID of the detector to update the delegated administrator for.
+        public let detectorId: String
+
+        public init(autoEnable: Bool, detectorId: String) {
+            self.autoEnable = autoEnable
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+        }
+    }
+
+    public struct UpdateOrganizationConfigurationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdatePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")), 
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// The ID of the detector associated with the publishing destinations to update.
+        /// The ID of the publishing destination to update.
         public let destinationId: String
         /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
         public let destinationProperties: DestinationProperties?
-        /// The ID of the 
+        /// The ID of the detector associated with the publishing destinations to update.
         public let detectorId: String
 
         public init(destinationId: String, destinationProperties: DestinationProperties? = nil, detectorId: String) {
@@ -3298,11 +3479,11 @@ extension GuardDuty {
             AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 
-        /// The updated boolean value that specifies whether the ThreateIntelSet is active or not.
+        /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
         public let activate: Bool?
         /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
         public let detectorId: String
-        /// The updated URI of the file that contains the ThreateIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        /// The updated URI of the file that contains the ThreateIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String?
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
         public let name: String?

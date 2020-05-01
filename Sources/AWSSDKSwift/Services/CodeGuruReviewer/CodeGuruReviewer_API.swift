@@ -66,9 +66,19 @@ public struct CodeGuruReviewer {
     
     //MARK: API Calls
 
-    ///  Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
+    ///  Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request raised within the repository. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
     public func associateRepository(_ input: AssociateRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateRepositoryResponse> {
         return client.send(operation: "AssociateRepository", path: "/associations", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///   Returns the metadaata associated with the code review along with its status.
+    public func describeCodeReview(_ input: DescribeCodeReviewRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCodeReviewResponse> {
+        return client.send(operation: "DescribeCodeReview", path: "/codereviews/{CodeReviewArn}", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
+    ///   Describes the customer feedback for a CodeGuru Reviewer recommendation. 
+    public func describeRecommendationFeedback(_ input: DescribeRecommendationFeedbackRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecommendationFeedbackResponse> {
+        return client.send(operation: "DescribeRecommendationFeedback", path: "/feedback/{CodeReviewArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Describes a repository association.
@@ -81,8 +91,28 @@ public struct CodeGuruReviewer {
         return client.send(operation: "DisassociateRepository", path: "/associations/{AssociationArn}", httpMethod: "DELETE", input: input, on: eventLoop)
     }
 
+    ///   Lists all the code reviews that the customer has created in the past 90 days. 
+    public func listCodeReviews(_ input: ListCodeReviewsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCodeReviewsResponse> {
+        return client.send(operation: "ListCodeReviews", path: "/codereviews", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
+    ///   Lists the customer feedback for a CodeGuru Reviewer recommendation for all users. This API will be used from the console to extract the previously given feedback by the user to pre-populate the feedback emojis for all recommendations. 
+    public func listRecommendationFeedback(_ input: ListRecommendationFeedbackRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecommendationFeedbackResponse> {
+        return client.send(operation: "ListRecommendationFeedback", path: "/feedback/{CodeReviewArn}/RecommendationFeedback", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
+    ///   Returns the list of all recommendations for a completed code review. 
+    public func listRecommendations(_ input: ListRecommendationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecommendationsResponse> {
+        return client.send(operation: "ListRecommendations", path: "/codereviews/{CodeReviewArn}/Recommendations", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
     ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
     public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
         return client.send(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
+    ///   Stores customer feedback for a CodeGuru-Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. 
+    public func putRecommendationFeedback(_ input: PutRecommendationFeedbackRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRecommendationFeedbackResponse> {
+        return client.send(operation: "PutRecommendationFeedback", path: "/feedback", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

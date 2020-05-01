@@ -197,6 +197,19 @@ extension TranscribeStreamingService {
         }
     }
 
+    public struct ServiceUnavailableException: AWSDecodableShape {
+
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct StartStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "audioStream"
@@ -331,14 +344,17 @@ extension TranscribeStreamingService {
         public let internalFailureException: InternalFailureException?
         /// Your client has exceeded one of the Amazon Transcribe limits, typically the limit on audio length. Break your audio stream into smaller chunks and try your request again.
         public let limitExceededException: LimitExceededException?
+        /// Service is currently unavailable. Try your request later.
+        public let serviceUnavailableException: ServiceUnavailableException?
         /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream. 
         public let transcriptEvent: TranscriptEvent?
 
-        public init(badRequestException: BadRequestException? = nil, conflictException: ConflictException? = nil, internalFailureException: InternalFailureException? = nil, limitExceededException: LimitExceededException? = nil, transcriptEvent: TranscriptEvent? = nil) {
+        public init(badRequestException: BadRequestException? = nil, conflictException: ConflictException? = nil, internalFailureException: InternalFailureException? = nil, limitExceededException: LimitExceededException? = nil, serviceUnavailableException: ServiceUnavailableException? = nil, transcriptEvent: TranscriptEvent? = nil) {
             self.badRequestException = badRequestException
             self.conflictException = conflictException
             self.internalFailureException = internalFailureException
             self.limitExceededException = limitExceededException
+            self.serviceUnavailableException = serviceUnavailableException
             self.transcriptEvent = transcriptEvent
         }
 
@@ -347,6 +363,7 @@ extension TranscribeStreamingService {
             case conflictException = "ConflictException"
             case internalFailureException = "InternalFailureException"
             case limitExceededException = "LimitExceededException"
+            case serviceUnavailableException = "ServiceUnavailableException"
             case transcriptEvent = "TranscriptEvent"
         }
     }

@@ -151,7 +151,7 @@ extension StorageGateway {
 
     public struct AddCacheInput: AWSEncodableShape {
 
-        /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
+        /// An array of strings that identify disks that are to be configured as working storage. Each string has a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
         public let gatewayARN: String
 
@@ -230,7 +230,7 @@ extension StorageGateway {
 
     public struct AddUploadBufferInput: AWSEncodableShape {
 
-        /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
+        /// An array of strings that identify disks that are to be configured as working storage. Each string has a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
         public let gatewayARN: String
 
@@ -269,7 +269,7 @@ extension StorageGateway {
 
     public struct AddWorkingStorageInput: AWSEncodableShape {
 
-        /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
+        /// An array of strings that identify disks that are to be configured as working storage. Each string has a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
         public let gatewayARN: String
 
@@ -308,7 +308,7 @@ extension StorageGateway {
 
     public struct AssignTapePoolInput: AWSEncodableShape {
 
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String
         /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool.
         public let tapeARN: String
@@ -404,6 +404,59 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case targetARN = "TargetARN"
             case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct AutomaticTapeCreationPolicyInfo: AWSDecodableShape {
+
+        /// An automatic tape creation policy consists of a list of automatic tape creation rules. This returns the rules that determine when and how to automatically create new tapes.
+        public let automaticTapeCreationRules: [AutomaticTapeCreationRule]?
+        public let gatewayARN: String?
+
+        public init(automaticTapeCreationRules: [AutomaticTapeCreationRule]? = nil, gatewayARN: String? = nil) {
+            self.automaticTapeCreationRules = automaticTapeCreationRules
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticTapeCreationRules = "AutomaticTapeCreationRules"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct AutomaticTapeCreationRule: AWSEncodableShape & AWSDecodableShape {
+
+        /// The minimum number of available virtual tapes that the gateway maintains at all times. If the number of tapes on the gateway goes below this value, the gateway creates as many new tapes as are needed to have MinimumNumTapes on the gateway.
+        public let minimumNumTapes: Int
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the Amazon S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
+        public let poolId: String
+        /// A prefix that you append to the barcode of the virtual tape that you are creating. This prefix makes the barcode unique.  The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. 
+        public let tapeBarcodePrefix: String
+        /// The size, in bytes, of the virtual tape capacity.
+        public let tapeSizeInBytes: Int64
+
+        public init(minimumNumTapes: Int, poolId: String, tapeBarcodePrefix: String, tapeSizeInBytes: Int64) {
+            self.minimumNumTapes = minimumNumTapes
+            self.poolId = poolId
+            self.tapeBarcodePrefix = tapeBarcodePrefix
+            self.tapeSizeInBytes = tapeSizeInBytes
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minimumNumTapes, name: "minimumNumTapes", parent: name, max: 10)
+            try validate(self.minimumNumTapes, name: "minimumNumTapes", parent: name, min: 1)
+            try validate(self.poolId, name: "poolId", parent: name, max: 100)
+            try validate(self.poolId, name: "poolId", parent: name, min: 1)
+            try validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, max: 4)
+            try validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, min: 1)
+            try validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, pattern: "^[A-Z]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumNumTapes = "MinimumNumTapes"
+            case poolId = "PoolId"
+            case tapeBarcodePrefix = "TapeBarcodePrefix"
+            case tapeSizeInBytes = "TapeSizeInBytes"
         }
     }
 
@@ -577,9 +630,9 @@ extension StorageGateway {
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.
         public let clientToken: String
         public let gatewayARN: String
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
         public let networkInterfaceId: String
@@ -670,9 +723,9 @@ extension StorageGateway {
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
         public let guessMIMETypeEnabled: Bool?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The ARN of the backed storage used for storing file data. 
         public let locationARN: String
@@ -717,7 +770,7 @@ extension StorageGateway {
             try validate(self.clientList, name: "clientList", parent: name, min: 1)
             try validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try validate(self.clientToken, name: "clientToken", parent: name, min: 5)
-            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
@@ -784,11 +837,11 @@ extension StorageGateway {
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
         public let guessMIMETypeEnabled: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example, @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The ARN of the backed storage used for storing file data. 
         public let locationARN: String
@@ -840,7 +893,7 @@ extension StorageGateway {
             try validate(self.authentication, name: "authentication", parent: name, min: 5)
             try validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try validate(self.clientToken, name: "clientToken", parent: name, min: 5)
-            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
@@ -1012,9 +1065,9 @@ extension StorageGateway {
         /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
         public let diskId: String
         public let gatewayARN: String
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
         public let networkInterfaceId: String
@@ -1095,17 +1148,17 @@ extension StorageGateway {
 
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS KMS Key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
         /// A list of up to 50 tags that can be assigned to a virtual tape that has a barcode. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
         public let tags: [Tag]?
         /// The barcode that you want to assign to the tape.  Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. 
         public let tapeBarcode: String
-        /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
+        /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 bytes). 
         public let tapeSizeInBytes: Int64
 
         public init(gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcode: String, tapeSizeInBytes: Int64) {
@@ -1164,19 +1217,19 @@ extension StorageGateway {
         public let clientToken: String
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The number of virtual tapes that you want to create.
         public let numTapesToCreate: Int
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
         /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
         public let tags: [Tag]?
         /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique.  The prefix must be 1 to 4 characters in length and must be one of the uppercase letters from A to Z. 
         public let tapeBarcodePrefix: String
-        /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
+        /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 bytes). 
         public let tapeSizeInBytes: Int64
 
         public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64) {
@@ -1234,6 +1287,37 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case tapeARNs = "TapeARNs"
+        }
+    }
+
+    public struct DeleteAutomaticTapeCreationPolicyInput: AWSEncodableShape {
+
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DeleteAutomaticTapeCreationPolicyOutput: AWSDecodableShape {
+
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
@@ -1624,7 +1708,7 @@ extension StorageGateway {
 
     public struct DescribeCacheOutput: AWSDecodableShape {
 
-        /// The amount of cache in bytes allocated to the a gateway.
+        /// The amount of cache in bytes allocated to a gateway.
         public let cacheAllocatedInBytes: Int64?
         /// The file share's contribution to the overall percentage of the gateway's cache that has not been persisted to AWS. The sample is taken at the end of the reporting period.
         public let cacheDirtyPercentage: Double?
@@ -1634,7 +1718,7 @@ extension StorageGateway {
         public let cacheMissPercentage: Double?
         /// Percent use of the gateway's cache storage. This metric applies only to the gateway-cached volume setup. The sample is taken at the end of the reporting period.
         public let cacheUsedPercentage: Double?
-        /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
+        /// An array of strings that identify disks that are to be configured as working storage. Each string has a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]?
         public let gatewayARN: String?
 
@@ -1661,7 +1745,7 @@ extension StorageGateway {
 
     public struct DescribeCachediSCSIVolumesInput: AWSEncodableShape {
 
-        /// An array of strings where each string represents the Amazon Resource Name (ARN) of a cached volume. All of the specified cached volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
+        /// An array of strings where each string represents the Amazon Resource Name (ARN) of a cached volume. All of the specified cached volumes must be from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
 
         public init(volumeARNs: [String]) {
@@ -2041,7 +2125,7 @@ extension StorageGateway {
 
     public struct DescribeStorediSCSIVolumesInput: AWSEncodableShape {
 
-        /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
+        /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must be from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
 
         public init(volumeARNs: [String]) {
@@ -2076,7 +2160,7 @@ extension StorageGateway {
 
     public struct DescribeTapeArchivesInput: AWSEncodableShape {
 
-        /// Specifies that the number of virtual tapes descried be limited to the specified number.
+        /// Specifies that the number of virtual tapes described be limited to the specified number.
         public let limit: Int?
         /// An opaque string that indicates the position at which to begin describing virtual tapes.
         public let marker: String?
@@ -2316,7 +2400,7 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
         public let marker: String?
-        /// An array of VTL device objects composed of the Amazon Resource Name(ARN) of the VTL devices.
+        /// An array of VTL device objects composed of the Amazon Resource Name (ARN) of the VTL devices.
         public let vTLDevices: [VTLDevice]?
 
         public init(gatewayARN: String? = nil, marker: String? = nil, vTLDevices: [VTLDevice]? = nil) {
@@ -2650,9 +2734,41 @@ extension StorageGateway {
         }
     }
 
+    public struct ListAutomaticTapeCreationPoliciesInput: AWSEncodableShape {
+
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct ListAutomaticTapeCreationPoliciesOutput: AWSDecodableShape {
+
+        /// Gets a listing of information about the gateway's automatic tape creation policies, including the automatic tape creation rules and the gateway that is using the policies.
+        public let automaticTapeCreationPolicyInfos: [AutomaticTapeCreationPolicyInfo]?
+
+        public init(automaticTapeCreationPolicyInfos: [AutomaticTapeCreationPolicyInfo]? = nil) {
+            self.automaticTapeCreationPolicyInfos = automaticTapeCreationPolicyInfos
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticTapeCreationPolicyInfos = "AutomaticTapeCreationPolicyInfos"
+        }
+    }
+
     public struct ListFileSharesInput: AWSEncodableShape {
 
-        /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
+        /// The Amazon Resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
         public let gatewayARN: String?
         /// The maximum number of file shares to return in the response. The value must be an integer with a value greater than zero. Optional.
         public let limit: Int?
@@ -3048,7 +3164,7 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
         public let guessMIMETypeEnabled: Bool?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
         public let kMSEncrypted: Bool?
         public let kMSKey: String?
         public let locationARN: String?
@@ -3216,7 +3332,7 @@ extension StorageGateway {
 
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
         public let resourceARN: String
-        /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key/value pair.
+        /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key-value pair.
         public let tagKeys: [String]
 
         public init(resourceARN: String, tagKeys: [String]) {
@@ -3716,7 +3832,7 @@ extension StorageGateway {
     public struct Tape: AWSDecodableShape {
 
         public let kMSKey: String?
-        /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S# Glacier Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
@@ -3815,7 +3931,7 @@ extension StorageGateway {
 
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String?
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
         /// The Amazon Resource Name (ARN) of a virtual tape.
         public let tapeARN: String?
@@ -3868,6 +3984,46 @@ extension StorageGateway {
             case tapeRecoveryPointTime = "TapeRecoveryPointTime"
             case tapeSizeInBytes = "TapeSizeInBytes"
             case tapeStatus = "TapeStatus"
+        }
+    }
+
+    public struct UpdateAutomaticTapeCreationPolicyInput: AWSEncodableShape {
+
+        ///  An automatic tape creation policy consists of a list of automatic tape creation rules. The rules determine when and how to automatically create new tapes. 
+        public let automaticTapeCreationRules: [AutomaticTapeCreationRule]
+        public let gatewayARN: String
+
+        public init(automaticTapeCreationRules: [AutomaticTapeCreationRule], gatewayARN: String) {
+            self.automaticTapeCreationRules = automaticTapeCreationRules
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try self.automaticTapeCreationRules.forEach {
+                try $0.validate(name: "\(name).automaticTapeCreationRules[]")
+            }
+            try validate(self.automaticTapeCreationRules, name: "automaticTapeCreationRules", parent: name, max: 10)
+            try validate(self.automaticTapeCreationRules, name: "automaticTapeCreationRules", parent: name, min: 1)
+            try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticTapeCreationRules = "AutomaticTapeCreationRules"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateAutomaticTapeCreationPolicyOutput: AWSDecodableShape {
+
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
@@ -4116,9 +4272,9 @@ extension StorageGateway {
         public let fileShareARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
         public let guessMIMETypeEnabled: Bool?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional. 
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional. 
         public let kMSKey: String?
         /// The default values for the file share. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
@@ -4151,7 +4307,7 @@ extension StorageGateway {
             }
             try validate(self.clientList, name: "clientList", parent: name, max: 100)
             try validate(self.clientList, name: "clientList", parent: name, min: 1)
-            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
@@ -4205,9 +4361,9 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server-side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
         public let objectACL: ObjectACL?
@@ -4244,7 +4400,7 @@ extension StorageGateway {
             try validate(self.adminUserList, name: "adminUserList", parent: name, max: 100)
             try validate(self.adminUserList, name: "adminUserList", parent: name, min: 0)
             try validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
-            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)

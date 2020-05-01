@@ -891,6 +891,11 @@ public struct IoT {
         return client.send(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: "POST", input: input, on: eventLoop)
     }
 
+    ///  Register a certificate that does not have a certificate authority (CA).
+    public func registerCertificateWithoutCA(_ input: RegisterCertificateWithoutCARequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterCertificateWithoutCAResponse> {
+        return client.send(operation: "RegisterCertificateWithoutCA", path: "/certificate/register-no-ca", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
     ///  Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause throttle errors. Please contact AWS Customer Support to raise your throttling limits if necessary.
     public func registerThing(_ input: RegisterThingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterThingResponse> {
         return client.send(operation: "RegisterThing", path: "/things", httpMethod: "POST", input: input, on: eventLoop)
