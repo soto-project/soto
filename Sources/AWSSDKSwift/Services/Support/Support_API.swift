@@ -54,6 +54,7 @@ public struct Support {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSSupport_20130415",
             service: "support",
             serviceProtocol: .json(version: "1.1"),

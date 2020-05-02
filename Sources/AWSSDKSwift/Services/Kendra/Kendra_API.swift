@@ -54,6 +54,7 @@ public struct Kendra {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSKendraFrontendService",
             service: "kendra",
             serviceProtocol: .json(version: "1.1"),

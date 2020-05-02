@@ -54,6 +54,7 @@ public struct DirectoryService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "DirectoryService_20150416",
             service: "ds",
             serviceProtocol: .json(version: "1.1"),

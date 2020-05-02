@@ -54,6 +54,7 @@ public struct GroundStation {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "groundstation",
             serviceProtocol: .restjson,
             apiVersion: "2019-05-23",

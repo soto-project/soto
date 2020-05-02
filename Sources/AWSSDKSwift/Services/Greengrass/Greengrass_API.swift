@@ -54,6 +54,7 @@ public struct Greengrass {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "greengrass",
             serviceProtocol: .restjson,
             apiVersion: "2017-06-07",

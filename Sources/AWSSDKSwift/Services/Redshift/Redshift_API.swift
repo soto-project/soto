@@ -54,6 +54,7 @@ public struct Redshift {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "redshift",
             serviceProtocol: .query,
             apiVersion: "2012-12-01",

@@ -54,6 +54,7 @@ public struct StorageGateway {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "StorageGateway_20130630",
             service: "storagegateway",
             serviceProtocol: .json(version: "1.1"),

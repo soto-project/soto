@@ -54,6 +54,7 @@ public struct CodeCommit {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "CodeCommit_20150413",
             service: "codecommit",
             serviceProtocol: .json(version: "1.1"),

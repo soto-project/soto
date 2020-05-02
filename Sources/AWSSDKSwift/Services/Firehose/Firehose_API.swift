@@ -54,6 +54,7 @@ public struct Firehose {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Firehose_20150804",
             service: "firehose",
             serviceProtocol: .json(version: "1.1"),

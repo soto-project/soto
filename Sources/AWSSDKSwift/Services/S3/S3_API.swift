@@ -54,6 +54,7 @@ public struct S3 {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "s3",
             serviceProtocol: .restxml,
             apiVersion: "2006-03-01",

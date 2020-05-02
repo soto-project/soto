@@ -53,6 +53,7 @@ public struct KinesisVideo {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "kinesisvideo",
             serviceProtocol: .restjson,
             apiVersion: "2017-09-30",

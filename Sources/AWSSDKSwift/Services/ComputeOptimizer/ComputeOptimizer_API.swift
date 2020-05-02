@@ -54,6 +54,7 @@ public struct ComputeOptimizer {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "ComputeOptimizerService",
             service: "compute-optimizer",
             serviceProtocol: .json(version: "1.0"),

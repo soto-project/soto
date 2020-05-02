@@ -54,6 +54,7 @@ public struct CloudFormation {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "cloudformation",
             serviceProtocol: .query,
             apiVersion: "2010-05-15",

@@ -55,6 +55,7 @@ public struct APIGateway {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "apigateway",
             serviceProtocol: .restjson,
             apiVersion: "2015-07-09",

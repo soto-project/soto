@@ -54,6 +54,7 @@ public struct Comprehend {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Comprehend_20171127",
             service: "comprehend",
             serviceProtocol: .json(version: "1.1"),

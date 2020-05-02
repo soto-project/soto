@@ -54,6 +54,7 @@ public struct ResourceGroupsTaggingAPI {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "ResourceGroupsTaggingAPI_20170126",
             service: "tagging",
             serviceProtocol: .json(version: "1.1"),

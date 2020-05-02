@@ -54,6 +54,7 @@ public struct DataSync {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "FmrsService",
             service: "datasync",
             serviceProtocol: .json(version: "1.1"),

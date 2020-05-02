@@ -54,6 +54,7 @@ public struct Macie {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "MacieService",
             service: "macie",
             serviceProtocol: .json(version: "1.1"),

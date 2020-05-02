@@ -54,6 +54,7 @@ public struct CodeStarNotifications {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "codestar-notifications",
             serviceProtocol: .restjson,
             apiVersion: "2019-10-15",

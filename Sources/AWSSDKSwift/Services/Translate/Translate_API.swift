@@ -54,6 +54,7 @@ public struct Translate {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSShineFrontendService_20170701",
             service: "translate",
             serviceProtocol: .json(version: "1.1"),

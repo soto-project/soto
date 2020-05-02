@@ -54,6 +54,7 @@ public struct OpsWorksCM {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "OpsWorksCM_V2016_11_01",
             service: "opsworks-cm",
             serviceProtocol: .json(version: "1.1"),

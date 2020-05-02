@@ -54,6 +54,7 @@ public struct DynamoDBStreams {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "DynamoDBStreams_20120810",
             service: "streams.dynamodb",
             signingName: "dynamodb",

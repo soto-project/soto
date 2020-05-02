@@ -54,6 +54,7 @@ public struct SSOOIDC {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "oidc",
             signingName: "awsssooidc",
             serviceProtocol: .restjson,

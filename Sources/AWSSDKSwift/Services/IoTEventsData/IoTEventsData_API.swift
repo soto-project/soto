@@ -54,6 +54,7 @@ public struct IoTEventsData {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "data.iotevents",
             signingName: "ioteventsdata",
             serviceProtocol: .restjson,

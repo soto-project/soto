@@ -55,6 +55,7 @@ public struct S3Control {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "s3-control",
             signingName: "s3",
             serviceProtocol: .restxml,

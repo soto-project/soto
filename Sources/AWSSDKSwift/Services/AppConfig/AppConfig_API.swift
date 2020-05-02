@@ -54,6 +54,7 @@ public struct AppConfig {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "appconfig",
             serviceProtocol: .restjson,
             apiVersion: "2019-10-09",

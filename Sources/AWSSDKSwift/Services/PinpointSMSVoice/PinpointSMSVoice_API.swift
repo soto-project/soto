@@ -54,6 +54,7 @@ public struct PinpointSMSVoice {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "sms-voice.pinpoint",
             signingName: "sms-voice",
             serviceProtocol: .restjson,

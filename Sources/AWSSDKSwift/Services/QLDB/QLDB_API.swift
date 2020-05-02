@@ -54,6 +54,7 @@ public struct QLDB {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "qldb",
             serviceProtocol: .restjson,
             apiVersion: "2019-01-02",

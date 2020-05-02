@@ -54,6 +54,7 @@ public struct FSx {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSSimbaAPIService_v20180301",
             service: "fsx",
             serviceProtocol: .json(version: "1.1"),

@@ -54,6 +54,7 @@ public struct CloudWatch {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "monitoring",
             serviceProtocol: .query,
             apiVersion: "2010-08-01",

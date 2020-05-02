@@ -54,6 +54,7 @@ public struct MediaPackageVod {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mediapackage-vod",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-07",

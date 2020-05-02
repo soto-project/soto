@@ -54,6 +54,7 @@ public struct ElasticsearchService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "es",
             serviceProtocol: .restjson,
             apiVersion: "2015-01-01",

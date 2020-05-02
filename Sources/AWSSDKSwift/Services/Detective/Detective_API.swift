@@ -54,6 +54,7 @@ public struct Detective {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "api.detective",
             signingName: "detective",
             serviceProtocol: .restjson,

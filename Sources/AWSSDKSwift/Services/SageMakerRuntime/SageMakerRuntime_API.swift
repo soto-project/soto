@@ -54,6 +54,7 @@ public struct SageMakerRuntime {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "runtime.sagemaker",
             signingName: "sagemaker",
             serviceProtocol: .restjson,

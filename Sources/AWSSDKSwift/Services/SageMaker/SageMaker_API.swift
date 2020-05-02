@@ -54,6 +54,7 @@ public struct SageMaker {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "SageMaker",
             service: "api.sagemaker",
             signingName: "sagemaker",

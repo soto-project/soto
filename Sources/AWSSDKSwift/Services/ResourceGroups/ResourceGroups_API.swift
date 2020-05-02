@@ -54,6 +54,7 @@ public struct ResourceGroups {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "resource-groups",
             serviceProtocol: .restjson,
             apiVersion: "2017-11-27",

@@ -54,6 +54,7 @@ public struct WAFV2 {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSWAF_20190729",
             service: "wafv2",
             serviceProtocol: .json(version: "1.1"),

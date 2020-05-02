@@ -54,6 +54,7 @@ public struct ElasticBeanstalk {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elasticbeanstalk",
             serviceProtocol: .query,
             apiVersion: "2010-12-01",

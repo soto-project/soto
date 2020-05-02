@@ -54,6 +54,7 @@ public struct CloudSearch {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "cloudsearch",
             serviceProtocol: .query,
             apiVersion: "2013-01-01",

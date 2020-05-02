@@ -54,6 +54,7 @@ public struct ELB {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elasticloadbalancing",
             serviceProtocol: .query,
             apiVersion: "2012-06-01",

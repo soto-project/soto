@@ -54,6 +54,7 @@ public struct WorkDocs {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "workdocs",
             serviceProtocol: .restjson,
             apiVersion: "2016-05-01",

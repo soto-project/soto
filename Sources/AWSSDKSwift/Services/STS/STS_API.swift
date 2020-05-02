@@ -54,6 +54,7 @@ public struct STS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "sts",
             serviceProtocol: .query,
             apiVersion: "2011-06-15",

@@ -54,6 +54,7 @@ public struct FraudDetector {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSHawksNestServiceFacade",
             service: "frauddetector",
             serviceProtocol: .json(version: "1.1"),

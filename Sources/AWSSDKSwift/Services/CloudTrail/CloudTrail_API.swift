@@ -54,6 +54,7 @@ public struct CloudTrail {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101",
             service: "cloudtrail",
             serviceProtocol: .json(version: "1.1"),

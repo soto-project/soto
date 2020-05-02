@@ -54,6 +54,7 @@ public struct Schemas {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "schemas",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",

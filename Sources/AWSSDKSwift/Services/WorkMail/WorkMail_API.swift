@@ -54,6 +54,7 @@ public struct WorkMail {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "WorkMailService",
             service: "workmail",
             serviceProtocol: .json(version: "1.1"),

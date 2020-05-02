@@ -54,6 +54,7 @@ public struct Lambda {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "lambda",
             serviceProtocol: .restjson,
             apiVersion: "2015-03-31",

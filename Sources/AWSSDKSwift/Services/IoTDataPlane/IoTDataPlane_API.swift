@@ -54,6 +54,7 @@ public struct IoTDataPlane {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "data.iot",
             signingName: "iotdata",
             serviceProtocol: .restjson,

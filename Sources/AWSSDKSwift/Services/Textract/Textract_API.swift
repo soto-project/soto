@@ -54,6 +54,7 @@ public struct Textract {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Textract",
             service: "textract",
             serviceProtocol: .json(version: "1.1"),

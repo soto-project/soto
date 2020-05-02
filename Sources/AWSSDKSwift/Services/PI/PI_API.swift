@@ -54,6 +54,7 @@ public struct PI {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "PerformanceInsightsv20180227",
             service: "pi",
             serviceProtocol: .json(version: "1.1"),

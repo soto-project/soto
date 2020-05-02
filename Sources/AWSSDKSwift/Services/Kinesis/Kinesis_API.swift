@@ -54,6 +54,7 @@ public struct Kinesis {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Kinesis_20131202",
             service: "kinesis",
             serviceProtocol: .json(version: "1.1"),

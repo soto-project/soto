@@ -54,6 +54,7 @@ public struct QLDBSession {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "QLDBSession",
             service: "session.qldb",
             signingName: "qldb",

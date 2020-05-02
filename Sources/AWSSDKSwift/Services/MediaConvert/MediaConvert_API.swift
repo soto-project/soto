@@ -54,6 +54,7 @@ public struct MediaConvert {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mediaconvert",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",

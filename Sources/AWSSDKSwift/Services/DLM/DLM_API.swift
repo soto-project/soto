@@ -54,6 +54,7 @@ public struct DLM {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "dlm",
             serviceProtocol: .restjson,
             apiVersion: "2018-01-12",

@@ -54,6 +54,7 @@ public struct EFS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elasticfilesystem",
             serviceProtocol: .restjson,
             apiVersion: "2015-02-01",

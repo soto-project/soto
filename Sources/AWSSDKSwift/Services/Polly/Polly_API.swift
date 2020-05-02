@@ -54,6 +54,7 @@ public struct Polly {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "polly",
             serviceProtocol: .restjson,
             apiVersion: "2016-06-10",

@@ -54,6 +54,7 @@ public struct AutoScaling {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "autoscaling",
             serviceProtocol: .query,
             apiVersion: "2011-01-01",

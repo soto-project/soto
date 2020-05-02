@@ -54,6 +54,7 @@ public struct CloudDirectory {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "clouddirectory",
             serviceProtocol: .restjson,
             apiVersion: "2017-01-11",

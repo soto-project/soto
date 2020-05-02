@@ -54,6 +54,7 @@ public struct Route53Resolver {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Route53Resolver",
             service: "route53resolver",
             serviceProtocol: .json(version: "1.1"),

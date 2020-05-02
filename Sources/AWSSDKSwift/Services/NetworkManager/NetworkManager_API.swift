@@ -54,6 +54,7 @@ public struct NetworkManager {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "networkmanager",
             serviceProtocol: .restjson,
             apiVersion: "2019-07-05",

@@ -54,6 +54,7 @@ public struct Personalize {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonPersonalize",
             service: "personalize",
             serviceProtocol: .json(version: "1.1"),

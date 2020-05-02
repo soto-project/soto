@@ -54,6 +54,7 @@ public struct AugmentedAIRuntime {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "a2i-runtime.sagemaker",
             signingName: "sagemaker",
             serviceProtocol: .restjson,

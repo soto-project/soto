@@ -54,6 +54,7 @@ public struct CognitoSync {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "cognito-sync",
             serviceProtocol: .restjson,
             apiVersion: "2014-06-30",

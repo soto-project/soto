@@ -54,6 +54,7 @@ public struct Outposts {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "outposts",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-03",

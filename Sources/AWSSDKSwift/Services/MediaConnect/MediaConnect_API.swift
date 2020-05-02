@@ -54,6 +54,7 @@ public struct MediaConnect {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mediaconnect",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-14",

@@ -54,6 +54,7 @@ public struct SSM {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonSSM",
             service: "ssm",
             serviceProtocol: .json(version: "1.1"),

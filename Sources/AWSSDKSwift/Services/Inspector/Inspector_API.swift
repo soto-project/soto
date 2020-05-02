@@ -54,6 +54,7 @@ public struct Inspector {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "InspectorService",
             service: "inspector",
             serviceProtocol: .json(version: "1.1"),

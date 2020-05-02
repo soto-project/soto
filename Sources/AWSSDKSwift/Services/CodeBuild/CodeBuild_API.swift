@@ -54,6 +54,7 @@ public struct CodeBuild {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "CodeBuild_20161006",
             service: "codebuild",
             serviceProtocol: .json(version: "1.1"),

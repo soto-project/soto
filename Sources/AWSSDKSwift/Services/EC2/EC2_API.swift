@@ -54,6 +54,7 @@ public struct EC2 {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "ec2",
             serviceProtocol: .ec2,
             apiVersion: "2016-11-15",

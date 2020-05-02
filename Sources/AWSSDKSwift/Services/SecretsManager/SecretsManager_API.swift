@@ -54,6 +54,7 @@ public struct SecretsManager {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "secretsmanager",
             service: "secretsmanager",
             serviceProtocol: .json(version: "1.1"),

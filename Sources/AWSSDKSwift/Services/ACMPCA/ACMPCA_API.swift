@@ -54,6 +54,7 @@ public struct ACMPCA {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "ACMPrivateCA",
             service: "acm-pca",
             serviceProtocol: .json(version: "1.1"),

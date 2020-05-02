@@ -54,6 +54,7 @@ public struct WAFRegional {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSWAF_Regional_20161128",
             service: "waf-regional",
             serviceProtocol: .json(version: "1.1"),

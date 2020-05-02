@@ -54,6 +54,7 @@ public struct ECR {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonEC2ContainerRegistry_V20150921",
             service: "api.ecr",
             signingName: "ecr",

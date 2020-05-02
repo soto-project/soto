@@ -54,6 +54,7 @@ public struct SNS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "sns",
             serviceProtocol: .query,
             apiVersion: "2010-03-31",

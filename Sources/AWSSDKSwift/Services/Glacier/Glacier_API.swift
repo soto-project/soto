@@ -55,6 +55,7 @@ public struct Glacier {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "glacier",
             serviceProtocol: .restjson,
             apiVersion: "2012-06-01",

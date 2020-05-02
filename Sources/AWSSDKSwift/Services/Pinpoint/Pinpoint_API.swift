@@ -54,6 +54,7 @@ public struct Pinpoint {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "pinpoint",
             signingName: "mobiletargeting",
             serviceProtocol: .restjson,

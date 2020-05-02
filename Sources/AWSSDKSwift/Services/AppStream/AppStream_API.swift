@@ -54,6 +54,7 @@ public struct AppStream {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "PhotonAdminProxyService",
             service: "appstream2",
             signingName: "appstream",

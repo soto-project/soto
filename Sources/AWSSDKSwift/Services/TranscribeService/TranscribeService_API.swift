@@ -54,6 +54,7 @@ public struct TranscribeService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Transcribe",
             service: "transcribe",
             serviceProtocol: .json(version: "1.1"),

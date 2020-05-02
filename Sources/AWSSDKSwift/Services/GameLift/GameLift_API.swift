@@ -54,6 +54,7 @@ public struct GameLift {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "GameLift",
             service: "gamelift",
             serviceProtocol: .json(version: "1.1"),

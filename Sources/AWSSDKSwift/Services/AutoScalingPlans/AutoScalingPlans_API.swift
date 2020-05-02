@@ -54,6 +54,7 @@ public struct AutoScalingPlans {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AnyScaleScalingPlannerFrontendService",
             service: "autoscaling-plans",
             serviceProtocol: .json(version: "1.1"),

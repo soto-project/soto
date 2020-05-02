@@ -54,6 +54,7 @@ public struct EventBridge {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSEvents",
             service: "events",
             serviceProtocol: .json(version: "1.1"),

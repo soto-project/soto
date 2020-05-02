@@ -54,6 +54,7 @@ public struct ComprehendMedical {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "ComprehendMedical_20181030",
             service: "comprehendmedical",
             serviceProtocol: .json(version: "1.1"),

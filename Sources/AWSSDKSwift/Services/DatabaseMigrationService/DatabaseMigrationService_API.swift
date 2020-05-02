@@ -54,6 +54,7 @@ public struct DatabaseMigrationService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonDMSv20160101",
             service: "dms",
             serviceProtocol: .json(version: "1.1"),

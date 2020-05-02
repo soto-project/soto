@@ -54,6 +54,7 @@ public struct Snowball {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSIESnowballJobManagementService",
             service: "snowball",
             serviceProtocol: .json(version: "1.1"),

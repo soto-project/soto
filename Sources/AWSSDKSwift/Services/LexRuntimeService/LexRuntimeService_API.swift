@@ -54,6 +54,7 @@ public struct LexRuntimeService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "runtime.lex",
             signingName: "lex",
             serviceProtocol: .restjson,

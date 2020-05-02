@@ -54,6 +54,7 @@ public struct CognitoIdentity {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSCognitoIdentityService",
             service: "cognito-identity",
             serviceProtocol: .json(version: "1.1"),

@@ -54,6 +54,7 @@ public struct ApplicationDiscoveryService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSPoseidonService_V2015_11_01",
             service: "discovery",
             serviceProtocol: .json(version: "1.1"),

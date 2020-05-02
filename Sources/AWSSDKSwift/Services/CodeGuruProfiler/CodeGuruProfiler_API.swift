@@ -54,6 +54,7 @@ public struct CodeGuruProfiler {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "codeguru-profiler",
             serviceProtocol: .restjson,
             apiVersion: "2019-07-18",

@@ -54,6 +54,7 @@ public struct Synthetics {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "synthetics",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-11",

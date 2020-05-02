@@ -54,6 +54,7 @@ public struct ECS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonEC2ContainerServiceV20141113",
             service: "ecs",
             serviceProtocol: .json(version: "1.1"),

@@ -54,6 +54,7 @@ public struct MediaLive {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "medialive",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-14",

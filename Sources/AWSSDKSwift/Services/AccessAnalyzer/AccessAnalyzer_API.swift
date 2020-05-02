@@ -54,6 +54,7 @@ public struct AccessAnalyzer {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "access-analyzer",
             serviceProtocol: .restjson,
             apiVersion: "2019-11-01",

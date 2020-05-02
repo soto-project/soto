@@ -54,6 +54,7 @@ public struct CognitoIdentityProvider {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSCognitoIdentityProviderService",
             service: "cognito-idp",
             serviceProtocol: .json(version: "1.1"),

@@ -54,6 +54,7 @@ public struct CodeDeploy {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "CodeDeploy_20141006",
             service: "codedeploy",
             serviceProtocol: .json(version: "1.1"),

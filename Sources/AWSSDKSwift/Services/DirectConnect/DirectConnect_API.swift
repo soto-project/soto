@@ -54,6 +54,7 @@ public struct DirectConnect {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "OvertureService",
             service: "directconnect",
             serviceProtocol: .json(version: "1.1"),

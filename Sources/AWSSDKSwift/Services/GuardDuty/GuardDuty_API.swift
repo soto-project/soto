@@ -54,6 +54,7 @@ public struct GuardDuty {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "guardduty",
             serviceProtocol: .restjson,
             apiVersion: "2017-11-28",

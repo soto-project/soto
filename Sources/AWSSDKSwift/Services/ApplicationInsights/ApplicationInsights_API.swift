@@ -54,6 +54,7 @@ public struct ApplicationInsights {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "EC2WindowsBarleyService",
             service: "applicationinsights",
             serviceProtocol: .json(version: "1.1"),

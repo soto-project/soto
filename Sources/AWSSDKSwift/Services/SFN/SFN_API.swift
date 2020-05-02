@@ -54,6 +54,7 @@ public struct SFN {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSStepFunctions",
             service: "states",
             serviceProtocol: .json(version: "1.0"),

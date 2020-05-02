@@ -54,6 +54,7 @@ public struct CloudSearchDomain {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "cloudsearchdomain",
             signingName: "cloudsearch",
             serviceProtocol: .restjson,

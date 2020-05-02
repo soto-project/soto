@@ -66,6 +66,7 @@ public struct AppMesh {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "appmesh",
             serviceProtocol: .restjson,
             apiVersion: "2019-01-25",

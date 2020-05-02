@@ -54,6 +54,7 @@ public struct FMS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSFMS_20180101",
             service: "fms",
             serviceProtocol: .json(version: "1.1"),

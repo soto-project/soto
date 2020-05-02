@@ -54,6 +54,7 @@ public struct EKS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "eks",
             serviceProtocol: .restjson,
             apiVersion: "2017-11-01",

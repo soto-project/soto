@@ -54,6 +54,7 @@ public struct SMS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSServerMigrationService_V2016_10_24",
             service: "sms",
             serviceProtocol: .json(version: "1.1"),

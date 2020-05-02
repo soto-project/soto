@@ -54,6 +54,7 @@ public struct ElastiCache {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elasticache",
             serviceProtocol: .query,
             apiVersion: "2015-02-02",

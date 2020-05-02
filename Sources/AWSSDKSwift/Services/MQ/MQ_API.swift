@@ -54,6 +54,7 @@ public struct MQ {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mq",
             serviceProtocol: .restjson,
             apiVersion: "2017-11-27",

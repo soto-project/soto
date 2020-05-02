@@ -54,6 +54,7 @@ public struct ForecastQueryService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonForecastRuntime",
             service: "forecastquery",
             signingName: "forecast",

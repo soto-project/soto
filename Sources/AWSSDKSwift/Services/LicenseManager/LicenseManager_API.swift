@@ -54,6 +54,7 @@ public struct LicenseManager {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSLicenseManager",
             service: "license-manager",
             serviceProtocol: .json(version: "1.1"),

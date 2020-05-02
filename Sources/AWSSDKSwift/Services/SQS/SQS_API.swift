@@ -54,6 +54,7 @@ public struct SQS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "sqs",
             serviceProtocol: .query,
             apiVersion: "2012-11-05",

@@ -54,6 +54,7 @@ public struct Batch {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "batch",
             serviceProtocol: .restjson,
             apiVersion: "2016-08-10",

@@ -54,6 +54,7 @@ public struct MediaStoreData {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "data.mediastore",
             signingName: "mediastore",
             serviceProtocol: .restjson,

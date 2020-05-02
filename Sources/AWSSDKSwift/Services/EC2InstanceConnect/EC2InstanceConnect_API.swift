@@ -54,6 +54,7 @@ public struct EC2InstanceConnect {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSEC2InstanceConnectService",
             service: "ec2-instance-connect",
             serviceProtocol: .json(version: "1.1"),
