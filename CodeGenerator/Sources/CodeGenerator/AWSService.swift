@@ -50,19 +50,26 @@ struct AWSService {
 
     /// Service endpoints from API and Endpoints structure
     var serviceEndpoints: [(key: String, value: String)] {
-        // create dictionary of endpoint name to Endpoint from across all partitions
-        let serviceEndpoints: [(key: String, value: Endpoints.Service.Endpoint)] = endpoints.partitions.reduce([]) { value, partition in
+        // create dictionary of endpoint name to Endpoint and partition from across all partitions
+        struct EndpointInfo {
+            let endpoint: Endpoints.Service.Endpoint
+            let partition: String
+        }
+        let serviceEndpoints: [(key: String, value: EndpointInfo)] = endpoints.partitions.reduce([]) { value, partition in
             let endpoints = partition.services[api.metadata.endpointPrefix]?.endpoints
-            return value + (endpoints?.map {(key: $0.key, value: $0.value)} ?? [])
+            return value + (endpoints?.map {(key: $0.key, value: EndpointInfo(endpoint: $0.value, partition: partition.partition))} ?? [])
         }
         let partitionEndpoints = self.partitionEndpoints
+        let partitionEndpointSet = Set<String>(partitionEndpoints.map { $0.value.endpoint })
         return serviceEndpoints.compactMap {
-            if partitionEndpoints[$0.key] == nil && Region(rawValue: $0.key) == nil {
+            // if service endpoint isn't in the set of partition endpoints or a region name return nil
+            if partitionEndpointSet.contains($0.key) == false && Region(rawValue: $0.key) == nil {
                 return nil
             }
-            if let hostname = $0.value.hostname {
+            // if endpoint has a hostname return that
+            if let hostname = $0.value.endpoint.hostname {
                 return (key: $0.key, value: hostname)
-            } else if partitionEndpoints[$0.key] != nil {
+            } else if partitionEndpoints[$0.value.partition] != nil {
                 // if there is a partition endpoint, then default this regions endpoint to ensure partition endpoint doesn't override it.
                 // Only an issue for S3 at the moment.
                 return (key: $0.key, value: "\(api.metadata.endpointPrefix).\($0.key).amazonaws.com")
@@ -72,14 +79,14 @@ struct AWSService {
     }
 
     // return dictionary of partition endpoints keyed by endpoint name
-    var partitionEndpoints: [String: (partition: String, region: Region)] {
-        var partitionEndpoints: [String: (partition: String, region: Region)] = [:]
+    var partitionEndpoints: [String: (endpoint: String, region: Region)] {
+        var partitionEndpoints: [String: (endpoint: String, region: Region)] = [:]
         endpoints.partitions.forEach {
             if let endpoint = $0.services[api.metadata.endpointPrefix]?.partitionEndpoint {
                 guard let region = $0.services[api.metadata.endpointPrefix]?.endpoints[endpoint]?.credentialScope?.region else {
                     preconditionFailure("Found partition endpoint without a credential scope region")
                 }
-                partitionEndpoints[endpoint] = (partition: $0.partition, region: region)
+                partitionEndpoints[$0.partition] = (endpoint: endpoint, region: region)
             }
         }
         return partitionEndpoints
@@ -253,7 +260,7 @@ extension AWSService {
             context["serviceEndpoints"] = endpoints
         }
         context["partitionEndpoints"] = partitionEndpoints
-            .map { (partition: $0.value.partition, endpoint: $0.key, region: $0.value.region) }
+            .map { (partition: $0.key, endpoint: $0.value.endpoint, region: $0.value.region) }
             .sorted { $0.partition < $1.partition }
             .map { ".\($0.partition.toSwiftRegionEnumCase()): (endpoint: \"\($0.endpoint)\", region: .\($0.region.rawValue.toSwiftRegionEnumCase()))" }
         
