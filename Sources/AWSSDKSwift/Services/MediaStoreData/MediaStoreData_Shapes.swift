@@ -167,7 +167,7 @@ extension MediaStoreData {
         ]
 
         /// The bytes of the object. 
-        public let body: Data?
+        public let body: AWSPayload?
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The length of the object in bytes.
@@ -183,7 +183,7 @@ extension MediaStoreData {
         /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
         public let statusCode: Int
 
-        public init(body: Data? = nil, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, statusCode: Int) {
+        public init(body: AWSPayload? = nil, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, statusCode: Int) {
             self.body = body
             self.cacheControl = cacheControl
             self.contentLength = contentLength

@@ -128,11 +128,11 @@ extension AppConfig {
         /// The configuration version.
         public let configurationVersion: String?
         /// The content of the configuration or the configuration data.
-        public let content: Data?
+        public let content: AWSPayload?
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
 
-        public init(configurationVersion: String? = nil, content: Data? = nil, contentType: String? = nil) {
+        public init(configurationVersion: String? = nil, content: AWSPayload? = nil, contentType: String? = nil) {
             self.configurationVersion = configurationVersion
             self.content = content
             self.contentType = contentType

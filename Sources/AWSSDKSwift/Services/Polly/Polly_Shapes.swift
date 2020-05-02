@@ -713,13 +713,13 @@ extension Polly {
         ]
 
         ///  Stream containing the synthesized speech. 
-        public let audioStream: Data?
+        public let audioStream: AWSPayload?
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.    
         public let contentType: String?
         /// Number of characters synthesized.
         public let requestCharacters: Int?
 
-        public init(audioStream: Data? = nil, contentType: String? = nil, requestCharacters: Int? = nil) {
+        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, requestCharacters: Int? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.requestCharacters = requestCharacters

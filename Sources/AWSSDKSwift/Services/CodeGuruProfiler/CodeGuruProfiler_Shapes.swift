@@ -342,9 +342,9 @@ extension CodeGuruProfiler {
         /// The content type of the profile in the payload. It is either application/json or the default application/x-amzn-ion.
         public let contentType: String
         /// Information about the profile.
-        public let profile: Data
+        public let profile: AWSPayload
 
-        public init(contentEncoding: String? = nil, contentType: String, profile: Data) {
+        public init(contentEncoding: String? = nil, contentType: String, profile: AWSPayload) {
             self.contentEncoding = contentEncoding
             self.contentType = contentType
             self.profile = profile

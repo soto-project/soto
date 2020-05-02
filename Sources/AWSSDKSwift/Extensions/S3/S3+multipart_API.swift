@@ -15,11 +15,6 @@
 import AWSSDKSwiftCore
 import NIO
 
-import struct Foundation.Data
-import class Foundation.FileHandle
-import class Foundation.FileManager
-import struct Foundation.URL
-
 //MARK: Multipart
 
 extension S3ErrorType {
@@ -51,7 +46,7 @@ extension S3 {
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
         on eventLoop: EventLoop,
-        outputStream: @escaping (Data, Int64, EventLoop) -> EventLoopFuture<Void>
+        outputStream: @escaping (ByteBuffer, Int64, EventLoop) -> EventLoopFuture<Void>
     ) -> EventLoopFuture<Int64> {
 
         let promise = eventLoop.makePromise(of: Int64.self)
@@ -91,7 +86,7 @@ extension S3 {
                 }
 
                 let newOffset = offset + Int64(partSize)
-                multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body, fileSize, eventLoop))
+                multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body.asBytebuffer(), fileSize, eventLoop))
             }
             future.whenFailure { error in
                 promise.fail(error)
@@ -145,7 +140,6 @@ extension S3 {
     ) -> EventLoopFuture<Int64> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        let byteBufferAllocator = ByteBufferAllocator()
         let threadPool: NIOThreadPool
         switch threadPoolProvider {
         case .createNew:
@@ -160,12 +154,10 @@ extension S3 {
             (fileHandle) -> EventLoopFuture<Int64> in
             var progressValue: Int64 = 0
 
-            let download = self.multipartDownload(input, partSize: partSize, on: eventLoop) { data, fileSize, eventLoop in
-                // frustratingly we don't return a byte buffer from AWSClient yet so have to allocate a new ByteBuffer to pass to fileIO.write()
-                var byteBuffer = byteBufferAllocator.buffer(capacity: data.count)
-                byteBuffer.writeBytes(data)
+            let download = self.multipartDownload(input, partSize: partSize, on: eventLoop) { byteBuffer, fileSize, eventLoop in
+                let bufferSize = byteBuffer.readableBytes
                 return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
-                    progressValue += Int64(data.count)
+                    progressValue += Int64(bufferSize)
                     try progress(Double(progressValue) / Double(fileSize))
                 }
             }
