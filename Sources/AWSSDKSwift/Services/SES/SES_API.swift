@@ -54,6 +54,7 @@ public struct SES {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "email",
             signingName: "ses",
             serviceProtocol: .query,

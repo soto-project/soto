@@ -54,6 +54,7 @@ public struct Route53Domains {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Route53Domains_v20140515",
             service: "route53domains",
             serviceProtocol: .json(version: "1.1"),

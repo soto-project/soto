@@ -54,12 +54,12 @@ public struct Inspector {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "InspectorService",
             service: "inspector",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-02-16",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "inspector-fips.us-east-1.amazonaws.com", "fips-us-east-2": "inspector-fips.us-east-2.amazonaws.com", "fips-us-west-1": "inspector-fips.us-west-1.amazonaws.com", "fips-us-west-2": "inspector-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [InspectorErrorType.self],
             httpClientProvider: httpClientProvider

@@ -36,6 +36,7 @@ public struct WAF {
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
@@ -43,6 +44,7 @@ public struct WAF {
         accessKeyId: String? = nil,
         secretAccessKey: String? = nil,
         sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
@@ -52,13 +54,14 @@ public struct WAF {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: nil,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSWAF_20150824",
             service: "waf",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-24",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-fips": "waf-fips.amazonaws.com", "aws-global": "waf.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-global": "waf.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             middlewares: middlewares,
             possibleErrorTypes: [WAFErrorType.self],
             httpClientProvider: httpClientProvider

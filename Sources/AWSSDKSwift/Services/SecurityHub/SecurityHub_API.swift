@@ -54,6 +54,7 @@ public struct SecurityHub {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "securityhub",
             serviceProtocol: .restjson,
             apiVersion: "2018-10-26",

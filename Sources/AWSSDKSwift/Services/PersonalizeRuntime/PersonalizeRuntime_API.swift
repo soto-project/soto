@@ -53,6 +53,7 @@ public struct PersonalizeRuntime {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "personalize-runtime",
             signingName: "personalize",
             serviceProtocol: .restjson,

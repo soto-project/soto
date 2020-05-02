@@ -54,11 +54,11 @@ public struct ELB {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elasticloadbalancing",
             serviceProtocol: .query,
             apiVersion: "2012-06-01",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "elasticloadbalancing-fips.us-east-1.amazonaws.com", "fips-us-east-2": "elasticloadbalancing-fips.us-east-2.amazonaws.com", "fips-us-west-1": "elasticloadbalancing-fips.us-west-1.amazonaws.com", "fips-us-west-2": "elasticloadbalancing-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ELBErrorType.self],
             httpClientProvider: httpClientProvider

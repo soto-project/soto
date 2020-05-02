@@ -54,6 +54,7 @@ public struct IoTEvents {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "iotevents",
             serviceProtocol: .restjson,
             apiVersion: "2018-07-27",

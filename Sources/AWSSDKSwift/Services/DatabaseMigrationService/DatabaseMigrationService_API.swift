@@ -54,12 +54,12 @@ public struct DatabaseMigrationService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonDMSv20160101",
             service: "dms",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-01",
             endpoint: endpoint,
-            serviceEndpoints: ["dms-fips": "dms-fips.us-west-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [DatabaseMigrationServiceErrorType.self],
             httpClientProvider: httpClientProvider

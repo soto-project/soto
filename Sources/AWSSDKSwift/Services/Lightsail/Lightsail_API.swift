@@ -54,6 +54,7 @@ public struct Lightsail {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Lightsail_20161128",
             service: "lightsail",
             serviceProtocol: .json(version: "1.1"),

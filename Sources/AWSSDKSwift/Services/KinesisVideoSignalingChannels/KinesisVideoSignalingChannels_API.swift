@@ -54,6 +54,7 @@ public struct KinesisVideoSignalingChannels {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "kinesisvideo",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-04",

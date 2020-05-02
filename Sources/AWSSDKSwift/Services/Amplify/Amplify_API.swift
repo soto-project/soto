@@ -54,6 +54,7 @@ public struct Amplify {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "amplify",
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",

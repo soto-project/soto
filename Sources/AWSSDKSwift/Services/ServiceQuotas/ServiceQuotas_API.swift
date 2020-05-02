@@ -54,6 +54,7 @@ public struct ServiceQuotas {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "ServiceQuotasV20190624",
             service: "servicequotas",
             serviceProtocol: .json(version: "1.1"),

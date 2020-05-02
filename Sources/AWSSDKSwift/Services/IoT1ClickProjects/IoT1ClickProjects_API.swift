@@ -54,6 +54,7 @@ public struct IoT1ClickProjects {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "projects.iot1click",
             signingName: "iot1click",
             serviceProtocol: .restjson,

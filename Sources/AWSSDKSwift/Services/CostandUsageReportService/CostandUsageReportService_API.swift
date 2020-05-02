@@ -54,6 +54,7 @@ public struct CostandUsageReportService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSOrigamiServiceGatewayService",
             service: "cur",
             serviceProtocol: .json(version: "1.1"),

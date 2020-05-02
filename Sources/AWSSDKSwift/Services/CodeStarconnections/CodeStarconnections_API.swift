@@ -54,6 +54,7 @@ public struct CodeStarconnections {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "com.amazonaws.codestar.connections.CodeStar_connections_20191201",
             service: "codestar-connections",
             serviceProtocol: .json(version: "1.0"),

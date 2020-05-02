@@ -54,6 +54,7 @@ public struct WorkSpaces {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "WorkspacesService",
             service: "workspaces",
             serviceProtocol: .json(version: "1.1"),

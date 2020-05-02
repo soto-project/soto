@@ -54,12 +54,12 @@ public struct ComprehendMedical {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "ComprehendMedical_20181030",
             service: "comprehendmedical",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-30",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "comprehendmedical-fips.us-east-1.amazonaws.com", "fips-us-east-2": "comprehendmedical-fips.us-east-2.amazonaws.com", "fips-us-west-2": "comprehendmedical-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ComprehendMedicalErrorType.self],
             httpClientProvider: httpClientProvider

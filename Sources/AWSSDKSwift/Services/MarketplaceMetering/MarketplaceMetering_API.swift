@@ -54,6 +54,7 @@ public struct MarketplaceMetering {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSMPMeteringService",
             service: "metering.marketplace",
             signingName: "aws-marketplace",

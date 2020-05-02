@@ -54,6 +54,7 @@ public struct MarketplaceEntitlementService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSMPEntitlementService",
             service: "entitlement.marketplace",
             signingName: "aws-marketplace",

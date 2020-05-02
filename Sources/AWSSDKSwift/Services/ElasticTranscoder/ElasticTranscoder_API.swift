@@ -54,6 +54,7 @@ public struct ElasticTranscoder {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elastictranscoder",
             serviceProtocol: .restjson,
             apiVersion: "2012-09-25",

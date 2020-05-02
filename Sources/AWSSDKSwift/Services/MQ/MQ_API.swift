@@ -54,11 +54,11 @@ public struct MQ {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mq",
             serviceProtocol: .restjson,
             apiVersion: "2017-11-27",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "mq-fips.us-east-1.amazonaws.com", "fips-us-east-2": "mq-fips.us-east-2.amazonaws.com", "fips-us-west-1": "mq-fips.us-west-1.amazonaws.com", "fips-us-west-2": "mq-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [MQErrorType.self],
             httpClientProvider: httpClientProvider

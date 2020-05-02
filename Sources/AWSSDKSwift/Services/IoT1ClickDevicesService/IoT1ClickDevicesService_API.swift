@@ -56,6 +56,7 @@ public struct IoT1ClickDevicesService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "devices.iot1click",
             signingName: "iot1click",
             serviceProtocol: .restjson,

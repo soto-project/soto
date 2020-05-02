@@ -54,6 +54,7 @@ public struct RDSDataService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "rds-data",
             serviceProtocol: .restjson,
             apiVersion: "2018-08-01",

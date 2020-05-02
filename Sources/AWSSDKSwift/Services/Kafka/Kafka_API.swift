@@ -54,6 +54,7 @@ public struct Kafka {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "kafka",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-14",

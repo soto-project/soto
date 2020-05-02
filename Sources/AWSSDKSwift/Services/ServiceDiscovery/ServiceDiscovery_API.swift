@@ -54,6 +54,7 @@ public struct ServiceDiscovery {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Route53AutoNaming_v20170314",
             service: "servicediscovery",
             serviceProtocol: .json(version: "1.1"),

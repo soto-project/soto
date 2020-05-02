@@ -54,6 +54,7 @@ public struct MediaPackage {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mediapackage",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-12",

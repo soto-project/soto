@@ -54,6 +54,7 @@ public struct ElasticInference {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "api.elastic-inference",
             signingName: "elastic-inference",
             serviceProtocol: .restjson,

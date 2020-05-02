@@ -54,6 +54,7 @@ public struct IoT {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "iot",
             signingName: "execute-api",
             serviceProtocol: .restjson,

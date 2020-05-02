@@ -54,6 +54,7 @@ public struct WorkMailMessageFlow {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "workmailmessageflow",
             serviceProtocol: .restjson,
             apiVersion: "2019-05-01",

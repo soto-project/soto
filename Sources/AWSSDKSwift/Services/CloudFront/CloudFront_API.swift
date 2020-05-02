@@ -36,6 +36,7 @@ public struct CloudFront {
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
@@ -43,6 +44,7 @@ public struct CloudFront {
         accessKeyId: String? = nil,
         secretAccessKey: String? = nil,
         sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
@@ -52,12 +54,13 @@ public struct CloudFront {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: nil,
+            partition: region?.partition ?? .aws,
             service: "cloudfront",
             serviceProtocol: .restxml,
             apiVersion: "2019-03-26",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-cn-global": "cloudfront.cn-northwest-1.amazonaws.com.cn", "aws-global": "cloudfront.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
             middlewares: middlewares,
             possibleErrorTypes: [CloudFrontErrorType.self],
             httpClientProvider: httpClientProvider

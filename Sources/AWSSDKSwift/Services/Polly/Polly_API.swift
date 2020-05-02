@@ -54,11 +54,11 @@ public struct Polly {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "polly",
             serviceProtocol: .restjson,
             apiVersion: "2016-06-10",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "polly-fips.us-east-1.amazonaws.com", "fips-us-east-2": "polly-fips.us-east-2.amazonaws.com", "fips-us-west-1": "polly-fips.us-west-1.amazonaws.com", "fips-us-west-2": "polly-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [PollyErrorType.self],
             httpClientProvider: httpClientProvider

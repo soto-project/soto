@@ -54,6 +54,7 @@ public struct ApiGatewayManagementApi {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "execute-api",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-29",

@@ -54,11 +54,11 @@ public struct ElastiCache {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "elasticache",
             serviceProtocol: .query,
             apiVersion: "2015-02-02",
             endpoint: endpoint,
-            serviceEndpoints: ["fips": "elasticache-fips.us-west-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ElastiCacheErrorType.self],
             httpClientProvider: httpClientProvider

@@ -54,6 +54,7 @@ public struct Signer {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "signer",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-25",

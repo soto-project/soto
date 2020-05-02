@@ -50,20 +50,46 @@ struct AWSService {
 
     /// Service endpoints from API and Endpoints structure
     var serviceEndpoints: [(key: String, value: String)] {
-        guard let serviceEndpoints = endpoints.partitions[0].services[api.metadata.endpointPrefix]?.endpoints else { return [] }
+        // create dictionary of endpoint name to Endpoint and partition from across all partitions
+        struct EndpointInfo {
+            let endpoint: Endpoints.Service.Endpoint
+            let partition: String
+        }
+        let serviceEndpoints: [(key: String, value: EndpointInfo)] = endpoints.partitions.reduce([]) { value, partition in
+            let endpoints = partition.services[api.metadata.endpointPrefix]?.endpoints
+            return value + (endpoints?.map {(key: $0.key, value: EndpointInfo(endpoint: $0.value, partition: partition.partition))} ?? [])
+        }
+        let partitionEndpoints = self.partitionEndpoints
+        let partitionEndpointSet = Set<String>(partitionEndpoints.map { $0.value.endpoint })
         return serviceEndpoints.compactMap {
-            if let hostname = $0.value.hostname {
+            // if service endpoint isn't in the set of partition endpoints or a region name return nil
+            if partitionEndpointSet.contains($0.key) == false && Region(rawValue: $0.key) == nil {
+                return nil
+            }
+            // if endpoint has a hostname return that
+            if let hostname = $0.value.endpoint.hostname {
                 return (key: $0.key, value: hostname)
-            } else if partitionEndpoint != nil {
-                // if there is a partition endpoint, then default this regions endpoint to ensure partition endpoint doesn't override it. Only an issue for S3 at the moment.
+            } else if partitionEndpoints[$0.value.partition] != nil {
+                // if there is a partition endpoint, then default this regions endpoint to ensure partition endpoint doesn't override it.
+                // Only an issue for S3 at the moment.
                 return (key: $0.key, value: "\(api.metadata.endpointPrefix).\($0.key).amazonaws.com")
             }
             return nil
         }
     }
 
-    var partitionEndpoint: String? {
-        return endpoints.partitions[0].services[api.metadata.endpointPrefix]?.partitionEndpoint
+    // return dictionary of partition endpoints keyed by endpoint name
+    var partitionEndpoints: [String: (endpoint: String, region: Region)] {
+        var partitionEndpoints: [String: (endpoint: String, region: Region)] = [:]
+        endpoints.partitions.forEach {
+            if let endpoint = $0.services[api.metadata.endpointPrefix]?.partitionEndpoint {
+                guard let region = $0.services[api.metadata.endpointPrefix]?.endpoints[endpoint]?.credentialScope?.region else {
+                    preconditionFailure("Found partition endpoint without a credential scope region")
+                }
+                partitionEndpoints[$0.partition] = (endpoint: endpoint, region: region)
+            }
+        }
+        return partitionEndpoints
     }
 
     /// Get middleware name
@@ -193,6 +219,12 @@ extension AWSService {
         let type: String
     }
 
+    struct PartitionEndpoint {
+        let partition: String
+        let endpoint: String
+        let region: String
+    }
+    
     /// generate operations context
     func generateOperationContext(_ operation: Operation, name: String) -> OperationContext {
         return OperationContext(
@@ -221,11 +253,17 @@ extension AWSService {
         }
         context["protocol"] = serviceProtocol
         context["apiVersion"] = api.metadata.apiVersion
-        let endpoints = serviceEndpoints.sorted { $0.key < $1.key }.map { return "\"\($0.key)\": \"\($0.value)\"" }
+        let endpoints = serviceEndpoints
+            .sorted { $0.key < $1.key }
+            .map { "\"\($0.key)\": \"\($0.value)\"" }
         if endpoints.count > 0 {
             context["serviceEndpoints"] = endpoints
         }
-        context["partitionEndpoint"] = partitionEndpoint
+        context["partitionEndpoints"] = partitionEndpoints
+            .map { (partition: $0.key, endpoint: $0.value.endpoint, region: $0.value.region) }
+            .sorted { $0.partition < $1.partition }
+            .map { ".\($0.partition.toSwiftRegionEnumCase()): (endpoint: \"\($0.endpoint)\", region: .\($0.region.rawValue.toSwiftRegionEnumCase()))" }
+        
         context["middlewareClass"] = middleware
 
         if !errors.isEmpty {

@@ -54,6 +54,7 @@ public struct AppSync {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "appsync",
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",

@@ -54,6 +54,7 @@ public struct Cloud9 {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSCloud9WorkspaceManagementService",
             service: "cloud9",
             serviceProtocol: .json(version: "1.1"),

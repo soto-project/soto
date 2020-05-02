@@ -54,6 +54,7 @@ public struct MarketplaceCatalog {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "catalog.marketplace",
             signingName: "aws-marketplace",
             serviceProtocol: .restjson,

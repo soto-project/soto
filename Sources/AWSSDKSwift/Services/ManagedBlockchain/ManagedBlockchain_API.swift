@@ -54,6 +54,7 @@ public struct ManagedBlockchain {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "managedblockchain",
             serviceProtocol: .restjson,
             apiVersion: "2018-09-24",

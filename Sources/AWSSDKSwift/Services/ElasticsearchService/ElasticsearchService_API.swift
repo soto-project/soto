@@ -54,11 +54,11 @@ public struct ElasticsearchService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "es",
             serviceProtocol: .restjson,
             apiVersion: "2015-01-01",
             endpoint: endpoint,
-            serviceEndpoints: ["fips": "es-fips.us-west-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ElasticsearchServiceErrorType.self],
             httpClientProvider: httpClientProvider

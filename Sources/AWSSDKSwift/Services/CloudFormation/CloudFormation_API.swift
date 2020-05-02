@@ -54,11 +54,11 @@ public struct CloudFormation {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "cloudformation",
             serviceProtocol: .query,
             apiVersion: "2010-05-15",
             endpoint: endpoint,
-            serviceEndpoints: ["us-east-1-fips": "cloudformation-fips.us-east-1.amazonaws.com", "us-east-2-fips": "cloudformation-fips.us-east-2.amazonaws.com", "us-west-1-fips": "cloudformation-fips.us-west-1.amazonaws.com", "us-west-2-fips": "cloudformation-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [CloudFormationErrorType.self],
             httpClientProvider: httpClientProvider

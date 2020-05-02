@@ -54,6 +54,7 @@ public struct LakeFormation {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSLakeFormation",
             service: "lakeformation",
             serviceProtocol: .json(version: "1.1"),

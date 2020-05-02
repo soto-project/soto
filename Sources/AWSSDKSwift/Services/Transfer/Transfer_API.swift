@@ -54,6 +54,7 @@ public struct Transfer {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "TransferService",
             service: "transfer",
             serviceProtocol: .json(version: "1.1"),

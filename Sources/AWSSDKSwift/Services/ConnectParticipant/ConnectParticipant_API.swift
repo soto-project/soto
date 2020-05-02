@@ -54,6 +54,7 @@ public struct ConnectParticipant {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "participant.connect",
             signingName: "execute-api",
             serviceProtocol: .restjson,

@@ -53,6 +53,7 @@ public struct PersonalizeEvents {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "personalize-events",
             signingName: "personalize",
             serviceProtocol: .restjson,

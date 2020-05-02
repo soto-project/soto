@@ -54,6 +54,7 @@ public struct MarketplaceCommerceAnalytics {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "MarketplaceCommerceAnalytics20150701",
             service: "marketplacecommerceanalytics",
             serviceProtocol: .json(version: "1.1"),

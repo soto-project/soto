@@ -36,6 +36,7 @@ public struct Route53 {
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
@@ -43,6 +44,7 @@ public struct Route53 {
         accessKeyId: String? = nil,
         secretAccessKey: String? = nil,
         sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
@@ -52,12 +54,13 @@ public struct Route53 {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: nil,
+            partition: region?.partition ?? .aws,
             service: "route53",
             serviceProtocol: .restxml,
             apiVersion: "2013-04-01",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "route53.amazonaws.com"],
-            partitionEndpoint: "aws-global",
+            serviceEndpoints: ["aws-global": "route53.amazonaws.com", "aws-iso-global": "route53.c2s.ic.gov", "aws-us-gov-global": "route53.us-gov.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             middlewares: middlewares,
             possibleErrorTypes: [Route53ErrorType.self],
             httpClientProvider: httpClientProvider

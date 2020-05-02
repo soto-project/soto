@@ -54,6 +54,7 @@ public struct IoTAnalytics {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "iotanalytics",
             serviceProtocol: .restjson,
             apiVersion: "2017-11-27",

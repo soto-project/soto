@@ -54,12 +54,12 @@ public struct Kinesis {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Kinesis_20131202",
             service: "kinesis",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-12-02",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "kinesis-fips.us-east-1.amazonaws.com", "fips-us-east-2": "kinesis-fips.us-east-2.amazonaws.com", "fips-us-west-1": "kinesis-fips.us-west-1.amazonaws.com", "fips-us-west-2": "kinesis-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [KinesisErrorType.self],
             httpClientProvider: httpClientProvider

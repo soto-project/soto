@@ -54,6 +54,7 @@ public struct EBS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "ebs",
             serviceProtocol: .restjson,
             apiVersion: "2019-11-02",

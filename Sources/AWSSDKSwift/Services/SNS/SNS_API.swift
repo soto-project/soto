@@ -54,11 +54,11 @@ public struct SNS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "sns",
             serviceProtocol: .query,
             apiVersion: "2010-03-31",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "sns-fips.us-east-1.amazonaws.com", "fips-us-east-2": "sns-fips.us-east-2.amazonaws.com", "fips-us-west-1": "sns-fips.us-west-1.amazonaws.com", "fips-us-west-2": "sns-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SNSErrorType.self],
             httpClientProvider: httpClientProvider

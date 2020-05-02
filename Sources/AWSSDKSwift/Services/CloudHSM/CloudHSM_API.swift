@@ -54,6 +54,7 @@ public struct CloudHSM {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "CloudHsmFrontendService",
             service: "cloudhsm",
             serviceProtocol: .json(version: "1.1"),

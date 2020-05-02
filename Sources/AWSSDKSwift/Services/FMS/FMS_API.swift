@@ -54,12 +54,12 @@ public struct FMS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSFMS_20180101",
             service: "fms",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-01",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-ap-northeast-1": "fms-fips.ap-northeast-1.amazonaws.com", "fips-ap-northeast-2": "fms-fips.ap-northeast-2.amazonaws.com", "fips-ap-south-1": "fms-fips.ap-south-1.amazonaws.com", "fips-ap-southeast-1": "fms-fips.ap-southeast-1.amazonaws.com", "fips-ap-southeast-2": "fms-fips.ap-southeast-2.amazonaws.com", "fips-ca-central-1": "fms-fips.ca-central-1.amazonaws.com", "fips-eu-central-1": "fms-fips.eu-central-1.amazonaws.com", "fips-eu-west-1": "fms-fips.eu-west-1.amazonaws.com", "fips-eu-west-2": "fms-fips.eu-west-2.amazonaws.com", "fips-eu-west-3": "fms-fips.eu-west-3.amazonaws.com", "fips-sa-east-1": "fms-fips.sa-east-1.amazonaws.com", "fips-us-east-1": "fms-fips.us-east-1.amazonaws.com", "fips-us-east-2": "fms-fips.us-east-2.amazonaws.com", "fips-us-west-1": "fms-fips.us-west-1.amazonaws.com", "fips-us-west-2": "fms-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [FMSErrorType.self],
             httpClientProvider: httpClientProvider

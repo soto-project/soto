@@ -54,6 +54,7 @@ public struct TranscribeStreamingService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "transcribestreaming",
             signingName: "transcribe",
             serviceProtocol: .restjson,

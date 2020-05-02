@@ -54,12 +54,12 @@ public struct EventBridge {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSEvents",
             service: "events",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-07",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "events-fips.us-east-1.amazonaws.com", "fips-us-east-2": "events-fips.us-east-2.amazonaws.com", "fips-us-west-1": "events-fips.us-west-1.amazonaws.com", "fips-us-west-2": "events-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [EventBridgeErrorType.self],
             httpClientProvider: httpClientProvider

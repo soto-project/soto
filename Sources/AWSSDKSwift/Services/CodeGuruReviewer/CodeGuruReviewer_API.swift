@@ -54,6 +54,7 @@ public struct CodeGuruReviewer {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "codeguru-reviewer",
             serviceProtocol: .restjson,
             apiVersion: "2019-09-19",

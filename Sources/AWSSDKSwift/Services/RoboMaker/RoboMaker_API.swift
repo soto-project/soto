@@ -54,6 +54,7 @@ public struct RoboMaker {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "robomaker",
             serviceProtocol: .restjson,
             apiVersion: "2018-06-29",

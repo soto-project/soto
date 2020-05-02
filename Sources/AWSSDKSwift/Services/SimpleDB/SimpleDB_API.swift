@@ -54,6 +54,7 @@ public struct SimpleDB {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "sdb",
             serviceProtocol: .query,
             apiVersion: "2009-04-15",

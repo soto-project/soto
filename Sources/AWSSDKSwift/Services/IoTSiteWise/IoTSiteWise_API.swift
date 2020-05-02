@@ -54,6 +54,7 @@ public struct IoTSiteWise {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "iotsitewise",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",

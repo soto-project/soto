@@ -54,6 +54,7 @@ public struct DeviceFarm {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "DeviceFarm_20150623",
             service: "devicefarm",
             serviceProtocol: .json(version: "1.1"),

@@ -54,6 +54,7 @@ public struct ForecastService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonForecast",
             service: "forecast",
             serviceProtocol: .json(version: "1.1"),

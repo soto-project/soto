@@ -54,6 +54,7 @@ public struct QuickSight {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "quicksight",
             serviceProtocol: .restjson,
             apiVersion: "2018-04-01",

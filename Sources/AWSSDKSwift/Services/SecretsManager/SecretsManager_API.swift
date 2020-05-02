@@ -54,12 +54,12 @@ public struct SecretsManager {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "secretsmanager",
             service: "secretsmanager",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-17",
             endpoint: endpoint,
-            serviceEndpoints: ["us-east-1-fips": "secretsmanager-fips.us-east-1.amazonaws.com", "us-east-2-fips": "secretsmanager-fips.us-east-2.amazonaws.com", "us-west-1-fips": "secretsmanager-fips.us-west-1.amazonaws.com", "us-west-2-fips": "secretsmanager-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SecretsManagerErrorType.self],
             httpClientProvider: httpClientProvider

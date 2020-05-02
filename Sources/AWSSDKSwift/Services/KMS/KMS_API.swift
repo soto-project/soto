@@ -54,6 +54,7 @@ public struct KMS {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "TrentService",
             service: "kms",
             serviceProtocol: .json(version: "1.1"),

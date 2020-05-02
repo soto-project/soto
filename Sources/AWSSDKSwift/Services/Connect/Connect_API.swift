@@ -54,6 +54,7 @@ public struct Connect {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "connect",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-08",

@@ -54,6 +54,7 @@ public struct CloudHSMV2 {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "BaldrApiService",
             service: "cloudhsmv2",
             signingName: "cloudhsm",

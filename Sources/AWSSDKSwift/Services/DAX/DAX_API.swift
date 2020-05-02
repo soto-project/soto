@@ -54,6 +54,7 @@ public struct DAX {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AmazonDAXV3",
             service: "dax",
             serviceProtocol: .json(version: "1.1"),

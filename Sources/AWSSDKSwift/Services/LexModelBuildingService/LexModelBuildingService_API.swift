@@ -54,6 +54,7 @@ public struct LexModelBuildingService {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "models.lex",
             signingName: "lex",
             serviceProtocol: .restjson,

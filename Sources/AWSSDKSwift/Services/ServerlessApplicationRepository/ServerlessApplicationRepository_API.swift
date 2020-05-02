@@ -73,6 +73,7 @@ public struct ServerlessApplicationRepository {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "serverlessrepo",
             serviceProtocol: .restjson,
             apiVersion: "2017-09-08",

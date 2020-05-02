@@ -54,6 +54,7 @@ public struct IoTSecureTunneling {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "IoTSecuredTunneling",
             service: "api.tunneling.iot",
             signingName: "IoTSecuredTunneling",

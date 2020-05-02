@@ -54,6 +54,7 @@ public struct XRay {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "xray",
             serviceProtocol: .restjson,
             apiVersion: "2016-04-12",

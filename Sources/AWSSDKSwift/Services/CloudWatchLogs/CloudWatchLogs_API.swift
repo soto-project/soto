@@ -54,6 +54,7 @@ public struct CloudWatchLogs {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Logs_20140328",
             service: "logs",
             serviceProtocol: .json(version: "1.1"),

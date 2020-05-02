@@ -54,6 +54,7 @@ public struct MigrationHubConfig {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "AWSMigrationHubMultiAccountService",
             service: "migrationhub-config",
             signingName: "mgh",

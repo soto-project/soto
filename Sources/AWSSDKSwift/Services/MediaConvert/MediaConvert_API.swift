@@ -54,10 +54,12 @@ public struct MediaConvert {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mediaconvert",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
             endpoint: endpoint,
+            serviceEndpoints: ["cn-northwest-1": "subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn"],
             middlewares: middlewares,
             possibleErrorTypes: [MediaConvertErrorType.self],
             httpClientProvider: httpClientProvider

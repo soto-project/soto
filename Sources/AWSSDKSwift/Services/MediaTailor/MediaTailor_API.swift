@@ -54,6 +54,7 @@ public struct MediaTailor {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "api.mediatailor",
             signingName: "mediatailor",
             serviceProtocol: .restjson,

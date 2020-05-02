@@ -54,12 +54,12 @@ public struct Firehose {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "Firehose_20150804",
             service: "firehose",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-04",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "firehose-fips.us-east-1.amazonaws.com", "fips-us-east-2": "firehose-fips.us-east-2.amazonaws.com", "fips-us-west-1": "firehose-fips.us-west-1.amazonaws.com", "fips-us-west-2": "firehose-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [FirehoseErrorType.self],
             httpClientProvider: httpClientProvider

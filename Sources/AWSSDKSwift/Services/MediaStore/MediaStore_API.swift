@@ -54,6 +54,7 @@ public struct MediaStore {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             amzTarget: "MediaStore_20170901",
             service: "mediastore",
             serviceProtocol: .json(version: "1.1"),

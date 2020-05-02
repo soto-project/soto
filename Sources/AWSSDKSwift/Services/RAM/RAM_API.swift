@@ -54,6 +54,7 @@ public struct RAM {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "ram",
             serviceProtocol: .restjson,
             apiVersion: "2018-01-04",

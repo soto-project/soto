@@ -54,6 +54,7 @@ public struct MobileAnalytics {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "mobileanalytics",
             serviceProtocol: .restjson,
             apiVersion: "2014-06-05",

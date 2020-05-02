@@ -54,6 +54,7 @@ public struct WorkLink {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "worklink",
             serviceProtocol: .restjson,
             apiVersion: "2018-09-25",

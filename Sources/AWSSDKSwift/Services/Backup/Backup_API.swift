@@ -54,6 +54,7 @@ public struct Backup {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
+            partition: region?.partition ?? .aws,
             service: "backup",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-15",
