@@ -1603,9 +1603,9 @@ extension ApiGatewayV2 {
             AWSMemberEncoding(label: "body", encoding: .blob)
         ]
 
-        public let body: Data?
+        public let body: AWSPayload?
 
-        public init(body: Data? = nil) {
+        public init(body: AWSPayload? = nil) {
             self.body = body
         }
 

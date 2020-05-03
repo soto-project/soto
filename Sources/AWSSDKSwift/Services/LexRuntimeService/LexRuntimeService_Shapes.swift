@@ -390,7 +390,7 @@ extension LexRuntimeService {
         ]
 
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
-        public let audioStream: Data?
+        public let audioStream: AWSPayload?
         /// Content type as specified in the Accept HTTP header in the request.
         public let contentType: String?
         /// Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit the user's intent. Consider the following examples:   For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialog state.     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.  For example, Amazon Lex wants user confirmation before fulfilling an intent. Instead of a simple "yes" or "no" response, a user might respond with additional information. For example, "yes, but make it a thick crust pizza" or "no, I want to order a drink." Amazon Lex can process such additional information (in these examples, update the crust type slot or change the intent from OrderPizza to OrderDrink).     ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.   For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the request.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons, including that the user does not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or if the Lambda function fails to fulfill the intent.   
@@ -414,7 +414,7 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
 
-        public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.dialogState = dialogState
@@ -608,7 +608,7 @@ extension LexRuntimeService {
         ]
 
         /// The audio version of the message to convey to the user.
-        public let audioStream: Data?
+        public let audioStream: AWSPayload?
         /// Content type as specified in the Accept HTTP header in the request.
         public let contentType: String?
         ///     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response to confirm the intent before fulfilling an intent.    ElicitIntent - Amazon Lex wants to elicit the user's intent.    ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.    Failed - Conveys that the conversation with the user has failed. This can happen for various reasons, including the user does not provide an appropriate response to prompts from the service, or if the Lambda function fails to fulfill the intent.    Fulfilled - Conveys that the Lambda function has sucessfully fulfilled the intent.    ReadyForFulfillment - Conveys that the client has to fulfill the intent.  
@@ -628,7 +628,7 @@ extension LexRuntimeService {
         /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.dialogState = dialogState

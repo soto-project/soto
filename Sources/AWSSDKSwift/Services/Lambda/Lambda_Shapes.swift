@@ -1668,11 +1668,11 @@ extension Lambda {
         /// The last 4 KB of the execution log, which is base64 encoded.
         public let logResult: String?
         /// The response from the function, or an error object.
-        public let payload: Data?
+        public let payload: AWSPayload?
         /// The HTTP status code is in the 200 range for a successful request. For the RequestResponse invocation type, this status code is 200. For the Event invocation type, this status code is 202. For the DryRun invocation type, the status code is 204.
         public let statusCode: Int?
 
-        public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: Data? = nil, statusCode: Int? = nil) {
+        public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: AWSPayload? = nil, statusCode: Int? = nil) {
             self.executedVersion = executedVersion
             self.functionError = functionError
             self.logResult = logResult

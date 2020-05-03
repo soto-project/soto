@@ -85,7 +85,7 @@ extension SageMakerRuntime {
         ]
 
         /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats—Inference.
-        public let body: Data
+        public let body: AWSPayload
         /// The MIME type of the inference returned in the response body.
         public let contentType: String?
         /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back.  This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python SDK.
@@ -93,7 +93,7 @@ extension SageMakerRuntime {
         /// Identifies the production variant that was invoked.
         public let invokedProductionVariant: String?
 
-        public init(body: Data, contentType: String? = nil, customAttributes: String? = nil, invokedProductionVariant: String? = nil) {
+        public init(body: AWSPayload, contentType: String? = nil, customAttributes: String? = nil, invokedProductionVariant: String? = nil) {
             self.body = body
             self.contentType = contentType
             self.customAttributes = customAttributes

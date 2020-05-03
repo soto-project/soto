@@ -532,9 +532,9 @@ extension Schemas {
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob)
         ]
 
-        public let body: Data?
+        public let body: AWSPayload?
 
-        public init(body: Data? = nil) {
+        public init(body: AWSPayload? = nil) {
             self.body = body
         }
 

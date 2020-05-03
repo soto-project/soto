@@ -469,11 +469,10 @@ class Shape: Decodable, Patchable {
     func postProcess() {
         switch self.type {
         case .structure(let structure):
-            if self.usedInInput {
-                if let payload = self.payload {
-                    if case .blob(let min, let max) = structure.members[payload]?.shape.type {
-                        structure.members[payload]!.shape = Shape(type: .payload(min: min, max: max), name: "AWSPayload")
-                    }
+            // set raw payloads to be a payload object
+            if let payload = self.payload {
+                if case .blob(let min, let max) = structure.members[payload]?.shape.type {
+                    structure.members[payload]!.shape = Shape(type: .payload(min: min, max: max), name: "AWSPayload")
                 }
             }
 

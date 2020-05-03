@@ -109,7 +109,7 @@ extension EBS {
         ]
 
         /// The data content of the block.
-        public let blockData: Data?
+        public let blockData: AWSPayload?
         /// The checksum generated for the block, which is Base64 encoded.
         public let checksum: String?
         /// The algorithm used to generate the checksum for the block, such as SHA256.
@@ -117,7 +117,7 @@ extension EBS {
         /// The size of the data in the block.
         public let dataLength: Int?
 
-        public init(blockData: Data? = nil, checksum: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, dataLength: Int? = nil) {
+        public init(blockData: AWSPayload? = nil, checksum: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, dataLength: Int? = nil) {
             self.blockData = blockData
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm
