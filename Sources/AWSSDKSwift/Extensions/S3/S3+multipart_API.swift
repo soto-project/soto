@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import AWSSDKSwiftCore
+import Foundation
 import NIO
 
 //MARK: Multipart
@@ -74,7 +75,7 @@ extension S3 {
                 sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                 versionId: input.versionId
             )
-            let future = getObject(getRequest).and(prevPartSave)
+            let future = getObject(getRequest, on: eventLoop).and(prevPartSave)
 
             future.whenSuccess { (output, _) in
                 // should never happen
@@ -107,7 +108,7 @@ extension S3 {
             sSECustomerKeyMD5: input.sSECustomerKeyMD5,
             versionId: input.versionId
         )
-        let result = headObject(headRequest)
+        let result = headObject(headRequest, on: eventLoop)
             .map { (object) -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
@@ -194,7 +195,7 @@ extension S3 {
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
 
         // initialize multipart upload
-        let result = createMultipartUpload(input).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
+        let result = createMultipartUpload(input, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
             guard let uploadId = upload.uploadId else {
                 return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId)
             }
@@ -208,7 +209,7 @@ extension S3 {
                         requestPayer: input.requestPayer,
                         uploadId: uploadId
                     )
-                    return self.completeMultipartUpload(request)
+                    return self.completeMultipartUpload(request, on: eventLoop)
                 }
                 .flatMapErrorThrowing { error in
                     // if failure then abort the multipart upload
@@ -218,7 +219,7 @@ extension S3 {
                         requestPayer: input.requestPayer,
                         uploadId: uploadId
                     )
-                    _ = self.abortMultipartUpload(request)
+                    _ = self.abortMultipartUpload(request, on: eventLoop)
                     throw error
                 }
         }
@@ -301,7 +302,6 @@ extension S3 {
     ) -> EventLoopFuture<[S3.CompletedPart]> {
         let promise = eventLoop.makePromise(of: [S3.CompletedPart].self)
         var completedParts: [S3.CompletedPart] = []
-
         // function uploading part of a file and queueing up upload of the next part
         func multipartUploadPart(partNumber: Int, uploadId: String, body: ByteBuffer) {
             let request = S3.UploadPartRequest(
@@ -317,7 +317,7 @@ extension S3 {
                 uploadId: uploadId
             )
             // request upload future
-            let uploadResult = self.uploadPart(request).map { output -> [S3.CompletedPart] in
+            let uploadResult = self.uploadPart(request, on: eventLoop).map { output -> [S3.CompletedPart] in
                 let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
                 completedParts.append(part)
                 return completedParts
@@ -326,7 +326,6 @@ extension S3 {
             // load data EventLoopFuture
             let result = inputStream(eventLoop)
                 .and(uploadResult)
-                // upload data
                 .map { (data, parts) -> Void in
                     guard data.readableBytes > 0 else {
                         return promise.succeed(parts)
