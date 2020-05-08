@@ -116,9 +116,15 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = try TestData(#function, client: client)
 
+            // create buffer
+            let dataSize = 10 * 1024 * 1024
+            var data = Data(count: dataSize)
+            for i in 0..<dataSize {
+                data[i] = UInt8.random(in: 0...255)
+            }
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
-                body: .data(testData.bodyData),
+                body: .data(data),
                 bucket: testData.bucket,
                 contentLength: Int64(testData.bodyData.count),
                 key: testData.key
@@ -128,10 +134,12 @@ class S3Tests: XCTestCase {
             let filename = testData.key
             let size = try client.multipartDownload(
                 S3.GetObjectRequest(bucket: testData.bucket, key: testData.key),
-                partSize: 5,
+                partSize: 1024*1024,
                 filename: filename
-            ).wait()
-            XCTAssert(size == Int64(testData.bodyData.count))
+            ) { progress in
+                print("Progress \(progress*100)%")
+            }.wait()
+            XCTAssert(size == Int64(data.count))
             XCTAssert(FileManager.default.fileExists(atPath: filename))
             try FileManager.default.removeItem(atPath: filename)
         }
@@ -176,7 +184,9 @@ class S3Tests: XCTestCase {
             let filename = testData.key
             try data.write(to: URL(fileURLWithPath: filename))
 
-            _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: filename).wait()
+            _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: filename) { progress in
+                print("Progress \(progress*100)%")
+            }.wait()
             let object = try client.getObject(S3.GetObjectRequest(bucket: testData.bucket, key: filename)).wait()
 
             XCTAssertEqual(object.body?.asData(), data)

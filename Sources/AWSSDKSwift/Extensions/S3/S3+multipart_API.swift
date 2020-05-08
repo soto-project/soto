@@ -100,7 +100,7 @@ extension S3 {
             sSECustomerKeyMD5: input.sSECustomerKeyMD5,
             versionId: input.versionId
         )
-        let result = headObject(headRequest, on: eventLoop)
+        headObject(headRequest, on: eventLoop)
             .map { (object) -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
@@ -249,21 +249,24 @@ extension S3 {
         return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
             (fileHandle, fileRegion) -> EventLoopFuture<CompleteMultipartUploadOutput> in
             var progressAmount: Int64 = 0
+            var prevProgressAmount: Int64 = 0
 
             let fileSize = fileRegion.readableBytes
 
             let upload = self.multipartUpload(input, on: eventLoop) { eventLoop in
                 eventLoop.submit {
-                    try progress(Double(progressAmount) / Double(fileSize))
+                    try progress(Double(prevProgressAmount) / Double(fileSize))
                 }.flatMap { _ in
                     return fileIO.read(fileHandle: fileHandle, byteCount: partSize, allocator: byteBufferAllocator, eventLoop: eventLoop)
                 }.map { buffer in
+                    prevProgressAmount = progressAmount
                     progressAmount += Int64(buffer.readableBytes)
                     return buffer
                 }
             }
 
             upload.whenComplete { _ in
+                try? progress(Double(prevProgressAmount) / Double(fileSize))
                 if case .createNew = threadPoolProvider {
                     threadPool.shutdownGracefully() { _ in }
                 }
@@ -314,7 +317,7 @@ extension S3 {
             }
 
             // load data EventLoopFuture
-            let result = inputStream(eventLoop)
+            inputStream(eventLoop)
                 .and(uploadResult)
                 .map { (data, parts) -> Void in
                     guard data.readableBytes > 0 else {
@@ -325,7 +328,7 @@ extension S3 {
         }
 
         // read first block and initiate first upload with result
-        let result = inputStream(eventLoop).map { (buffer) -> Void in
+        inputStream(eventLoop).map { (buffer) -> Void in
             guard buffer.readableBytes > 0 else {
                 return promise.succeed([])
             }
