@@ -56,12 +56,7 @@ extension S3 {
         func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: EventLoopFuture<Void>) {
             // have we downloaded everything
             guard fileSize > offset else {
-                prevPartSave.whenSuccess {
-                    return promise.succeed(fileSize)
-                }
-                prevPartSave.whenFailure { error in
-                    return promise.fail(error)
-                }
+                prevPartSave.map { fileSize }.cascade(to: promise)
                 return
             }
 
@@ -75,23 +70,20 @@ extension S3 {
                 sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                 versionId: input.versionId
             )
-            let future = getObject(getRequest, on: eventLoop).and(prevPartSave)
+            getObject(getRequest, on: eventLoop)
+                .and(prevPartSave)
+                .map { (output, _) -> () in
+                    // should never happen
+                    guard let body = output.body else {
+                        return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
+                    }
+                    guard let length = output.contentLength, length > 0 else {
+                        return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
+                    }
 
-            future.whenSuccess { (output, _) in
-                // should never happen
-                guard let body = output.body else {
-                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
-                }
-                guard let length = output.contentLength, length > 0 else {
-                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
-                }
-
-                let newOffset = offset + Int64(partSize)
-                multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body.asBytebuffer(), fileSize, eventLoop))
-            }
-            future.whenFailure { error in
-                promise.fail(error)
-            }
+                    let newOffset = offset + Int64(partSize)
+                    multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body.asBytebuffer(), fileSize, eventLoop))
+            }.cascadeFailure(to: promise)
         }
 
         // get object size before downloading
@@ -115,10 +107,8 @@ extension S3 {
                 }
                 // download file
                 multipartDownloadPart(fileSize: contentLength, offset: 0, prevPartSave: eventLoop.makeSucceededFuture(()))
-            }
-        result.whenFailure { error in
-            promise.fail(error)
-        }
+        }.cascadeFailure(to: promise)
+
         return promise.futureResult
     }
 
@@ -331,10 +321,7 @@ extension S3 {
                         return promise.succeed(parts)
                     }
                     multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId, body: data)
-                }
-            result.whenFailure { error in
-                promise.fail(error)
-            }
+            }.cascadeFailure(to: promise)
         }
 
         // read first block and initiate first upload with result
@@ -344,10 +331,8 @@ extension S3 {
             }
             // Multipart uploads part numbers start at 1 not 0
             multipartUploadPart(partNumber: 1, uploadId: uploadId, body: buffer)
-        }
-        result.whenFailure { error in
-            promise.fail(error)
-        }
+        }.cascadeFailure(to: promise)
+
         return promise.futureResult
     }
 }
