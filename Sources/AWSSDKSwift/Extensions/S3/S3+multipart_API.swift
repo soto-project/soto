@@ -56,12 +56,7 @@ extension S3 {
         func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: EventLoopFuture<Void>) {
             // have we downloaded everything
             guard fileSize > offset else {
-                prevPartSave.whenSuccess {
-                    return promise.succeed(fileSize)
-                }
-                prevPartSave.whenFailure { error in
-                    return promise.fail(error)
-                }
+                prevPartSave.map { fileSize }.cascade(to: promise)
                 return
             }
 
@@ -75,23 +70,20 @@ extension S3 {
                 sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                 versionId: input.versionId
             )
-            let future = getObject(getRequest, on: eventLoop).and(prevPartSave)
+            getObject(getRequest, on: eventLoop)
+                .and(prevPartSave)
+                .map { (output, _) -> () in
+                    // should never happen
+                    guard let body = output.body else {
+                        return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
+                    }
+                    guard let length = output.contentLength, length > 0 else {
+                        return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
+                    }
 
-            future.whenSuccess { (output, _) in
-                // should never happen
-                guard let body = output.body else {
-                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
-                }
-                guard let length = output.contentLength, length > 0 else {
-                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
-                }
-
-                let newOffset = offset + Int64(partSize)
-                multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body.asBytebuffer(), fileSize, eventLoop))
-            }
-            future.whenFailure { error in
-                promise.fail(error)
-            }
+                    let newOffset = offset + Int64(partSize)
+                    multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body.asBytebuffer(), fileSize, eventLoop))
+            }.cascadeFailure(to: promise)
         }
 
         // get object size before downloading
@@ -108,17 +100,15 @@ extension S3 {
             sSECustomerKeyMD5: input.sSECustomerKeyMD5,
             versionId: input.versionId
         )
-        let result = headObject(headRequest, on: eventLoop)
+        headObject(headRequest, on: eventLoop)
             .map { (object) -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
                 }
                 // download file
                 multipartDownloadPart(fileSize: contentLength, offset: 0, prevPartSave: eventLoop.makeSucceededFuture(()))
-            }
-        result.whenFailure { error in
-            promise.fail(error)
-        }
+        }.cascadeFailure(to: promise)
+
         return promise.futureResult
     }
 
@@ -259,21 +249,24 @@ extension S3 {
         return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
             (fileHandle, fileRegion) -> EventLoopFuture<CompleteMultipartUploadOutput> in
             var progressAmount: Int64 = 0
+            var prevProgressAmount: Int64 = 0
 
             let fileSize = fileRegion.readableBytes
 
             let upload = self.multipartUpload(input, on: eventLoop) { eventLoop in
                 eventLoop.submit {
-                    try progress(Double(progressAmount) / Double(fileSize))
+                    try progress(Double(prevProgressAmount) / Double(fileSize))
                 }.flatMap { _ in
                     return fileIO.read(fileHandle: fileHandle, byteCount: partSize, allocator: byteBufferAllocator, eventLoop: eventLoop)
                 }.map { buffer in
+                    prevProgressAmount = progressAmount
                     progressAmount += Int64(buffer.readableBytes)
                     return buffer
                 }
             }
 
             upload.whenComplete { _ in
+                try? progress(Double(prevProgressAmount) / Double(fileSize))
                 if case .createNew = threadPoolProvider {
                     threadPool.shutdownGracefully() { _ in }
                 }
@@ -324,30 +317,25 @@ extension S3 {
             }
 
             // load data EventLoopFuture
-            let result = inputStream(eventLoop)
+            inputStream(eventLoop)
                 .and(uploadResult)
                 .map { (data, parts) -> Void in
                     guard data.readableBytes > 0 else {
                         return promise.succeed(parts)
                     }
                     multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId, body: data)
-                }
-            result.whenFailure { error in
-                promise.fail(error)
-            }
+            }.cascadeFailure(to: promise)
         }
 
         // read first block and initiate first upload with result
-        let result = inputStream(eventLoop).map { (buffer) -> Void in
+        inputStream(eventLoop).map { (buffer) -> Void in
             guard buffer.readableBytes > 0 else {
                 return promise.succeed([])
             }
             // Multipart uploads part numbers start at 1 not 0
             multipartUploadPart(partNumber: 1, uploadId: uploadId, body: buffer)
-        }
-        result.whenFailure { error in
-            promise.fail(error)
-        }
+        }.cascadeFailure(to: promise)
+
         return promise.futureResult
     }
 }
