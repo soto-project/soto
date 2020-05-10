@@ -7,6 +7,9 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tag: ['nightly-bionic', 'nightly-focal', 'nightly-centos8', 'nightly-amazonlinux2']
     services:
       localstack:
         image: localstack/localstack
@@ -19,7 +22,7 @@ jobs:
           --health-retries 5
           --workdir /opt/code/localstack/
     container:
-      image: swiftlang/swift:nightly-master
+      image: swiftlang/swift:${{ matrix.tag }}
       env:
         APIGATEWAY_ENDPOINT : "http://localstack:4567"
         DYNAMODB_ENDPOINT   : "http://localstack:4569"
@@ -33,9 +36,15 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Install dependencies
+    - name: Install dependencies (Ubuntu)
+      if: ${{ matrix.tag == 'nightly-bionic' || matrix.tag == 'nightly-focal'}}
       run: |
         apt-get update -qq
         apt-get install -q -y tzdata zlib1g-dev
+    - name: Install dependencies (Amazon Linux2/CentOS8)
+      if: ${{ matrix.tag == 'nightly-amazonlinux2' || matrix.tag == 'nightly-centos8'}}
+      run: |
+        yum -y update
+        yum -y install zlib-devel
     - name: Test
-      run: swift test -Xswiftc -DDEBUG
+      run: swift test
