@@ -93,7 +93,7 @@ public struct EBS {
     //MARK: Streaming API Calls
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
-    public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return client.send(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", input: input, stream: stream)
+    public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
+        return client.send(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", input: input, on: eventLoop, stream: stream)
     }
 }

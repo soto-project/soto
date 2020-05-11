@@ -515,9 +515,11 @@ class S3Tests: XCTestCase {
     }
 
     func testStreamObject() {
-        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
         defer {
             XCTAssertNoThrow(try httpClient.syncShutdown())
+            XCTAssertNoThrow(try elg.syncShutdownGracefully())
         }
         let s3 = S3(
             accessKeyId: "key",
@@ -542,7 +544,9 @@ class S3Tests: XCTestCase {
             _ = try s3.putObject(putRequest).wait()
 
             let getRequest = S3.GetObjectRequest(bucket: testData.bucket, key: "tempfile")
-            _ = try s3.getObjectStreaming(getRequest) { byteBuffer, eventLoop in
+            let runOnEventLoop = httpClient.eventLoopGroup.next()
+            _ = try s3.getObjectStreaming(getRequest, on: runOnEventLoop) { byteBuffer, eventLoop in
+                XCTAssertTrue(eventLoop === runOnEventLoop)
                 var byteBuffer = byteBuffer
                 byteBufferCollate.writeBuffer(&byteBuffer)
                 return eventLoop.makeSucceededFuture(())
@@ -552,6 +556,7 @@ class S3Tests: XCTestCase {
         }
     }
 
+    // This doesnt work with LocalStack
     func testSelectObjectContent() {
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         defer {

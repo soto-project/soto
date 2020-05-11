@@ -123,7 +123,7 @@ public struct Polly {
     //MARK: Streaming API Calls
 
     ///  Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works.
-    public func synthesizeSpeechStreaming(_ input: SynthesizeSpeechInput, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SynthesizeSpeechOutput> {
-        return client.send(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: "POST", input: input, stream: stream)
+    public func synthesizeSpeechStreaming(_ input: SynthesizeSpeechInput, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SynthesizeSpeechOutput> {
+        return client.send(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: "POST", input: input, on: eventLoop, stream: stream)
     }
 }

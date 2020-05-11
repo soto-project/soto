@@ -115,8 +115,8 @@ public struct {{ name }} {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}{% if op.streaming %}, stream: stream{% endif %})
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
     }
 {%endfor %}
 {%endif %}
