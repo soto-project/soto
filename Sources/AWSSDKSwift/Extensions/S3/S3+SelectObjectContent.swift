@@ -26,7 +26,7 @@ public enum S3SelectError: Error {
     case selectContentError(String)
 }
 
-extension S3.SelectObjectContentEventStream: AWSClientStreamable {
+extension S3.SelectObjectContentEventStream {
     public static func consume(byteBuffer: inout ByteBuffer) throws -> Self? {
         
         // read header values from ByteBuffer. Format is uint8 name length, name, 7, uint16 value length, value
@@ -130,6 +130,27 @@ extension S3 {
     ///   - stream: callback to process events streamed
     /// - Returns: Response structure
     public func selectObjectContentEventStream(_ input: SelectObjectContentRequest, _ stream: @escaping (SelectObjectContentEventStream, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SelectObjectContentOutput> {
-        return client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input, stream: stream)
+        // byte buffer for storing unprocessed data
+        var selectByteBuffer: ByteBuffer? = nil
+        return client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
+            var byteBuffer = byteBuffer
+            if var selectByteBuffer2 = selectByteBuffer {
+                selectByteBuffer2.writeBuffer(&byteBuffer)
+                byteBuffer = selectByteBuffer2
+                selectByteBuffer = nil
+            }
+            do {
+                if let event = try SelectObjectContentEventStream.consume(byteBuffer: &byteBuffer) {
+                    if byteBuffer.readableBytes > 0 {
+                        selectByteBuffer = byteBuffer
+                    }
+                    return stream(event, eventLoop)
+                }
+            } catch {
+                return eventLoop.makeFailedFuture(error)
+            }
+            selectByteBuffer = byteBuffer
+            return eventLoop.makeSucceededFuture(())
+        }
     }
 }
