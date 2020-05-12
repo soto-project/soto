@@ -29,8 +29,10 @@ enum Region: String, Decodable {
     case euwest2 = "eu-west-2"
     case eucentral1 = "eu-central-1"
     case eunorth1 = "eu-north-1"
+    case eusouth1 = "eu-south-1"
     case saeast1 = "sa-east-1"
     case mesouth1 = "me-south-1"
+    case afsouth1 = "af-south-1"
 
     case cnnorth1 = "cn-north-1"
     case cnnorthwest1 = "cn-northwest-1"
@@ -72,6 +74,7 @@ struct Endpoints: Decodable {
             var protocols: [String]?
             var signatureVersions: [SignatureVersion]?
         }
+        var defaults: Endpoint?
         var endpoints: [String: Endpoint]
         var isRegionalized: Bool?
         var partitionEndpoint: String?

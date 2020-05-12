@@ -12346,24 +12346,24 @@ extension SageMaker {
 
     public struct ResourceSpec: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the environment.
-        public let environmentArn: String?
         /// The instance type.
         public let instanceType: AppInstanceType?
+        /// The Amazon Resource Name (ARN) of the image created on the instance.
+        public let sageMakerImageArn: String?
 
-        public init(environmentArn: String? = nil, instanceType: AppInstanceType? = nil) {
-            self.environmentArn = environmentArn
+        public init(instanceType: AppInstanceType? = nil, sageMakerImageArn: String? = nil) {
             self.instanceType = instanceType
+            self.sageMakerImageArn = sageMakerImageArn
         }
 
         public func validate(name: String) throws {
-            try validate(self.environmentArn, name: "environmentArn", parent: name, max: 256)
-            try validate(self.environmentArn, name: "environmentArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:environment/[a-z0-9]([-.]?[a-z0-9])*$")
+            try validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, max: 256)
+            try validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-z0-9]([-.]?[a-z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentArn = "EnvironmentArn"
             case instanceType = "InstanceType"
+            case sageMakerImageArn = "SageMakerImageArn"
         }
     }
 

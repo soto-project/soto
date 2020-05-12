@@ -2920,7 +2920,7 @@ extension S3 {
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// Object data.
-        public let body: Data?
+        public let body: AWSPayload?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Specifies presentational information for the object.
@@ -2979,7 +2979,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acceptRanges: String? = nil, body: Data? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSPayload? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.cacheControl = cacheControl
@@ -3246,10 +3246,10 @@ extension S3 {
         ]
 
         /// A Bencoded dictionary as defined by the BitTorrent specification
-        public let body: Data?
+        public let body: AWSPayload?
         public let requestCharged: RequestCharged?
 
-        public init(body: Data? = nil, requestCharged: RequestCharged? = nil) {
+        public init(body: AWSPayload? = nil, requestCharged: RequestCharged? = nil) {
             self.body = body
             self.requestCharged = requestCharged
         }

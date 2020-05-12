@@ -72,6 +72,8 @@ extension IoTEvents {
         public let firehose: FirehoseAction?
         /// Sends AWS IoT Events input, which passes information about the detector model instance and the event that triggered the action.
         public let iotEvents: IotEventsAction?
+        /// Sends information about the detector model instance and the event that triggered the action to an asset property in AWS IoT SiteWise .
+        public let iotSiteWise: IotSiteWiseAction?
         /// Publishes an MQTT message with the given topic to the AWS IoT message broker.
         public let iotTopicPublish: IotTopicPublishAction?
         /// Calls a Lambda function, passing in information about the detector model instance and the event that triggered the action.
@@ -87,12 +89,13 @@ extension IoTEvents {
         /// Sends information about the detector model instance and the event that triggered the action to an Amazon SQS queue.
         public let sqs: SqsAction?
 
-        public init(clearTimer: ClearTimerAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
+        public init(clearTimer: ClearTimerAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
             self.clearTimer = clearTimer
             self.dynamoDB = dynamoDB
             self.dynamoDBv2 = dynamoDBv2
             self.firehose = firehose
             self.iotEvents = iotEvents
+            self.iotSiteWise = iotSiteWise
             self.iotTopicPublish = iotTopicPublish
             self.lambda = lambda
             self.resetTimer = resetTimer
@@ -123,6 +126,7 @@ extension IoTEvents {
             case dynamoDBv2 = "dynamoDBv2"
             case firehose = "firehose"
             case iotEvents = "iotEvents"
+            case iotSiteWise = "iotSiteWise"
             case iotTopicPublish = "iotTopicPublish"
             case lambda = "lambda"
             case resetTimer = "resetTimer"
@@ -130,6 +134,72 @@ extension IoTEvents {
             case setVariable = "setVariable"
             case sns = "sns"
             case sqs = "sqs"
+        }
+    }
+
+    public struct AssetPropertyTimestamp: AWSEncodableShape & AWSDecodableShape {
+
+        /// The nanosecond offset converted from timeInSeconds. The valid range is between 0-999999999. You can also specify an expression.
+        public let offsetInNanos: String?
+        /// The timestamp, in seconds, in the Unix epoch format. The valid range is between 1-31556889864403199. You can also specify an expression.
+        public let timeInSeconds: String
+
+        public init(offsetInNanos: String? = nil, timeInSeconds: String) {
+            self.offsetInNanos = offsetInNanos
+            self.timeInSeconds = timeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offsetInNanos = "offsetInNanos"
+            case timeInSeconds = "timeInSeconds"
+        }
+    }
+
+    public struct AssetPropertyValue: AWSEncodableShape & AWSDecodableShape {
+
+        /// The quality of the asset property value. The value must be GOOD, BAD, or UNCERTAIN. You can also specify an expression.
+        public let quality: String?
+        /// The timestamp associated with the asset property value. The default is the current event time.
+        public let timestamp: AssetPropertyTimestamp?
+        /// The value to send to an asset property.
+        public let value: AssetPropertyVariant
+
+        public init(quality: String? = nil, timestamp: AssetPropertyTimestamp? = nil, value: AssetPropertyVariant) {
+            self.quality = quality
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quality = "quality"
+            case timestamp = "timestamp"
+            case value = "value"
+        }
+    }
+
+    public struct AssetPropertyVariant: AWSEncodableShape & AWSDecodableShape {
+
+        /// The asset property value is a Boolean value that must be TRUE or FALSE. You can also specify an expression. If you use an expression, the evaluated result should be a Boolean value.
+        public let booleanValue: String?
+        /// The asset property value is a double. You can also specify an expression. If you use an expression, the evaluated result should be a double.
+        public let doubleValue: String?
+        /// The asset property value is an integer. You can also specify an expression. If you use an expression, the evaluated result should be an integer.
+        public let integerValue: String?
+        /// The asset property value is a string. You can also specify an expression. If you use an expression, the evaluated result should be a string.
+        public let stringValue: String?
+
+        public init(booleanValue: String? = nil, doubleValue: String? = nil, integerValue: String? = nil, stringValue: String? = nil) {
+            self.booleanValue = booleanValue
+            self.doubleValue = doubleValue
+            self.integerValue = integerValue
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case integerValue = "integerValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -894,6 +964,36 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case inputName = "inputName"
             case payload = "payload"
+        }
+    }
+
+    public struct IotSiteWiseAction: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ID of the asset that has the specified property. You can specify an expression.
+        public let assetId: String?
+        /// A unique identifier for this entry. You can use the entry ID to track which data entry causes an error in case of failure. The default is a new unique identifier. You can also specify an expression.
+        public let entryId: String?
+        /// The alias of the asset property. You can also specify an expression.
+        public let propertyAlias: String?
+        /// The ID of the asset property. You can specify an expression.
+        public let propertyId: String?
+        /// The value to send to the asset property. This value contains timestamp, quality, and value (TQV) information. 
+        public let propertyValue: AssetPropertyValue
+
+        public init(assetId: String? = nil, entryId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, propertyValue: AssetPropertyValue) {
+            self.assetId = assetId
+            self.entryId = entryId
+            self.propertyAlias = propertyAlias
+            self.propertyId = propertyId
+            self.propertyValue = propertyValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
+            case propertyValue = "propertyValue"
         }
     }
 

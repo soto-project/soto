@@ -1834,6 +1834,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum MxfAfdSignaling: String, CustomStringConvertible, Codable {
+        case noCopy = "NO_COPY"
+        case copyFromVideo = "COPY_FROM_VIDEO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NoiseReducerFilter: String, CustomStringConvertible, Codable {
         case bilateral = "BILATERAL"
         case mean = "MEAN"
@@ -3258,8 +3264,10 @@ extension MediaConvert {
         public let mp4Settings: Mp4Settings?
         /// Settings for MP4 segments in DASH
         public let mpdSettings: MpdSettings?
+        /// MXF settings
+        public let mxfSettings: MxfSettings?
 
-        public init(cmfcSettings: CmfcSettings? = nil, container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil) {
+        public init(cmfcSettings: CmfcSettings? = nil, container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil, mxfSettings: MxfSettings? = nil) {
             self.cmfcSettings = cmfcSettings
             self.container = container
             self.f4vSettings = f4vSettings
@@ -3268,6 +3276,7 @@ extension MediaConvert {
             self.movSettings = movSettings
             self.mp4Settings = mp4Settings
             self.mpdSettings = mpdSettings
+            self.mxfSettings = mxfSettings
         }
 
         public func validate(name: String) throws {
@@ -3285,6 +3294,7 @@ extension MediaConvert {
             case movSettings = "movSettings"
             case mp4Settings = "mp4Settings"
             case mpdSettings = "mpdSettings"
+            case mxfSettings = "mxfSettings"
         }
     }
 
@@ -5529,7 +5539,7 @@ extension MediaConvert {
 
     public struct ImscDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
+        /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public let stylePassthrough: ImscStylePassthrough?
 
         public init(stylePassthrough: ImscStylePassthrough? = nil) {
@@ -7284,6 +7294,20 @@ extension MediaConvert {
         }
     }
 
+    public struct MxfSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
+        public let afdSignaling: MxfAfdSignaling?
+
+        public init(afdSignaling: MxfAfdSignaling? = nil) {
+            self.afdSignaling = afdSignaling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afdSignaling = "afdSignaling"
+        }
+    }
+
     public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
@@ -8358,7 +8382,7 @@ extension MediaConvert {
 
     public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
+        /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT) to the TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
 
         public init(stylePassthrough: TtmlStylePassthrough? = nil) {

@@ -241,6 +241,20 @@ extension Schemas {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "registryName", location: .querystring(locationName: "registryName"))
+        ]
+
+        public let registryName: String?
+
+        public init(registryName: String? = nil) {
+            self.registryName = registryName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
@@ -466,6 +480,7 @@ extension Schemas {
         public let discovererId: String?
         /// The ARN of the event bus.
         public let sourceArn: String?
+        /// The state of the discoverer.
         public let state: DiscovererState?
         /// Tags associated with the resource.
         public let tags: [String: String]?
@@ -517,9 +532,9 @@ extension Schemas {
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob)
         ]
 
-        public let body: Data?
+        public let body: AWSPayload?
 
-        public init(body: Data? = nil) {
+        public init(body: AWSPayload? = nil) {
             self.body = body
         }
 
@@ -563,6 +578,36 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "registryName", location: .querystring(locationName: "registryName"))
+        ]
+
+        public let registryName: String?
+
+        public init(registryName: String? = nil) {
+            self.registryName = registryName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+
+        public let policy: String?
+        public let revisionId: String?
+
+        public init(policy: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
         }
     }
 
@@ -738,56 +783,14 @@ extension Schemas {
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
 
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(tags: [String: String]) {
+        public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct LockServiceLinkedRoleRequest: AWSEncodableShape {
-
-        public let roleArn: String
-        public let timeout: Int
-
-        public init(roleArn: String, timeout: Int) {
-            self.roleArn = roleArn
-            self.timeout = timeout
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
-            try validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try validate(self.timeout, name: "timeout", parent: name, max: 29000)
-            try validate(self.timeout, name: "timeout", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case timeout = "Timeout"
-        }
-    }
-
-    public struct LockServiceLinkedRoleResponse: AWSDecodableShape {
-
-        public let canBeDeleted: Bool?
-        public let reasonOfFailure: String?
-        public let relatedResources: [DiscovererSummary]?
-
-        public init(canBeDeleted: Bool? = nil, reasonOfFailure: String? = nil, relatedResources: [DiscovererSummary]? = nil) {
-            self.canBeDeleted = canBeDeleted
-            self.reasonOfFailure = reasonOfFailure
-            self.relatedResources = relatedResources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case canBeDeleted = "CanBeDeleted"
-            case reasonOfFailure = "ReasonOfFailure"
-            case relatedResources = "RelatedResources"
+            case tags = "tags"
         }
     }
 
@@ -833,6 +836,43 @@ extension Schemas {
             case lastModified = "LastModified"
             case schemaVersion = "SchemaVersion"
             case status = "Status"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "registryName", location: .querystring(locationName: "registryName"))
+        ]
+
+        public let policy: String
+        public let registryName: String?
+        public let revisionId: String?
+
+        public init(policy: String, registryName: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.registryName = registryName
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+
+        public let policy: String?
+        public let revisionId: String?
+
+        public init(policy: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
         }
     }
 
@@ -938,6 +978,7 @@ extension Schemas {
 
     public struct SearchSchemaVersionSummary: AWSDecodableShape {
 
+        /// The date the schema version was created.
         public let createdDate: TimeStamp?
         /// The version number of the schema
         public let schemaVersion: String?
@@ -1068,32 +1109,6 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
-    }
-
-    public struct UnlockServiceLinkedRoleRequest: AWSEncodableShape {
-
-        public let roleArn: String
-
-        public init(roleArn: String) {
-            self.roleArn = roleArn
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
-            try validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-        }
-    }
-
-    public struct UnlockServiceLinkedRoleResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

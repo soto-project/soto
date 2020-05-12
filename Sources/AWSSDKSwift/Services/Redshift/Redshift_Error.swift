@@ -79,6 +79,7 @@ public enum RedshiftErrorType: AWSErrorType {
     case invalidSubscriptionStateFault(message: String?)
     case invalidTableRestoreArgumentFault(message: String?)
     case invalidTagFault(message: String?)
+    case invalidUsageLimitFault(message: String?)
     case invalidVPCNetworkStateFault(message: String?)
     case limitExceededFault(message: String?)
     case numberOfNodesPerClusterLimitExceededFault(message: String?)
@@ -122,6 +123,8 @@ public enum RedshiftErrorType: AWSErrorType {
     case unknownSnapshotCopyRegionFault(message: String?)
     case unsupportedOperationFault(message: String?)
     case unsupportedOptionFault(message: String?)
+    case usageLimitAlreadyExistsFault(message: String?)
+    case usageLimitNotFoundFault(message: String?)
 }
 
 extension RedshiftErrorType {
@@ -253,6 +256,8 @@ extension RedshiftErrorType {
             self = .invalidTableRestoreArgumentFault(message: message)
         case "InvalidTagFault":
             self = .invalidTagFault(message: message)
+        case "InvalidUsageLimit":
+            self = .invalidUsageLimitFault(message: message)
         case "InvalidVPCNetworkStateFault":
             self = .invalidVPCNetworkStateFault(message: message)
         case "LimitExceededFault":
@@ -339,6 +344,10 @@ extension RedshiftErrorType {
             self = .unsupportedOperationFault(message: message)
         case "UnsupportedOptionFault":
             self = .unsupportedOptionFault(message: message)
+        case "UsageLimitAlreadyExists":
+            self = .usageLimitAlreadyExistsFault(message: message)
+        case "UsageLimitNotFound":
+            self = .usageLimitNotFoundFault(message: message)
         default:
             return nil
         }
@@ -470,6 +479,8 @@ extension RedshiftErrorType: CustomStringConvertible {
             return "InvalidTableRestoreArgument: \(message ?? "")"
         case .invalidTagFault(let message):
             return "InvalidTagFault: \(message ?? "")"
+        case .invalidUsageLimitFault(let message):
+            return "InvalidUsageLimit: \(message ?? "")"
         case .invalidVPCNetworkStateFault(let message):
             return "InvalidVPCNetworkStateFault: \(message ?? "")"
         case .limitExceededFault(let message):
@@ -556,6 +567,10 @@ extension RedshiftErrorType: CustomStringConvertible {
             return "UnsupportedOperation: \(message ?? "")"
         case .unsupportedOptionFault(let message):
             return "UnsupportedOptionFault: \(message ?? "")"
+        case .usageLimitAlreadyExistsFault(let message):
+            return "UsageLimitAlreadyExists: \(message ?? "")"
+        case .usageLimitNotFoundFault(let message):
+            return "UsageLimitNotFound: \(message ?? "")"
         }
     }
 }

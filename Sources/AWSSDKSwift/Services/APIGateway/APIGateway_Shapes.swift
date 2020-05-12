@@ -1795,13 +1795,13 @@ extension APIGateway {
         ]
 
         /// The binary blob response to GetExport, which contains the export.
-        public let body: Data?
+        public let body: AWSPayload?
         /// The content-disposition header value in the HTTP response.
         public let contentDisposition: String?
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
         public let contentType: String?
 
-        public init(body: Data? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
+        public init(body: AWSPayload? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
             self.body = body
             self.contentDisposition = contentDisposition
             self.contentType = contentType
@@ -3828,13 +3828,13 @@ extension APIGateway {
         ]
 
         /// The binary blob response to GetSdk, which contains the generated SDK.
-        public let body: Data?
+        public let body: AWSPayload?
         /// The content-disposition header value in the HTTP response.
         public let contentDisposition: String?
         /// The content-type header value in the HTTP response.
         public let contentType: String?
 
-        public init(body: Data? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
+        public init(body: AWSPayload? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
             self.body = body
             self.contentDisposition = contentDisposition
             self.contentType = contentType

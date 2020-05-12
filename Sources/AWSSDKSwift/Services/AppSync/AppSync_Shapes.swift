@@ -1261,9 +1261,9 @@ extension AppSync {
         ]
 
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
-        public let schema: Data?
+        public let schema: AWSPayload?
 
-        public init(schema: Data? = nil) {
+        public init(schema: AWSPayload? = nil) {
             self.schema = schema
         }
 

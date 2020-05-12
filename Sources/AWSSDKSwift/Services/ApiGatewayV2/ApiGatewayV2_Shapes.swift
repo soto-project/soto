@@ -1567,6 +1567,53 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct ExportApiRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "exportVersion", location: .querystring(locationName: "exportVersion")), 
+            AWSMemberEncoding(label: "includeExtensions", location: .querystring(locationName: "includeExtensions")), 
+            AWSMemberEncoding(label: "outputType", location: .querystring(locationName: "outputType")), 
+            AWSMemberEncoding(label: "specification", location: .uri(locationName: "specification")), 
+            AWSMemberEncoding(label: "stageName", location: .querystring(locationName: "stageName"))
+        ]
+
+        public let apiId: String
+        public let exportVersion: String?
+        public let includeExtensions: Bool?
+        public let outputType: String
+        public let specification: String
+        public let stageName: String?
+
+        public init(apiId: String, exportVersion: String? = nil, includeExtensions: Bool? = nil, outputType: String, specification: String, stageName: String? = nil) {
+            self.apiId = apiId
+            self.exportVersion = exportVersion
+            self.includeExtensions = includeExtensions
+            self.outputType = outputType
+            self.specification = specification
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExportApiResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let payloadPath: String = "body"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob)
+        ]
+
+        public let body: AWSPayload?
+
+        public init(body: AWSPayload? = nil) {
+            self.body = body
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+        }
+    }
+
     public struct GetApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
