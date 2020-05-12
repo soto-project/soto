@@ -29,6 +29,9 @@ extension API {
             ReplacePatch3(keyPath1: \.shapes["HttpVersion"], keyPath2: \.type.enum, keyPath3: \.cases[0], value: "HTTP1_1", originalValue: "http1.1"),
             ReplacePatch3(keyPath1: \.shapes["HttpVersion"], keyPath2: \.type.enum, keyPath3: \.cases[1], value: "HTTP2", originalValue: "http2"),
         ],
+        "CloudTrail": [
+            ReplacePatch2(keyPath1: \.shapes["Date"], keyPath2: \.type, value: .timestamp(.unixTimestamp), originalValue: .timestamp(.iso8601))
+        ],
         "CloudWatch": [
             // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
             ReplacePatch2(

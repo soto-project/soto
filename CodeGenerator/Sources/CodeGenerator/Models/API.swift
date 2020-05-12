@@ -308,6 +308,12 @@ class Shape: Decodable, Patchable {
             var flattened: Bool?
         }
 
+        enum TimeStampFormat: String, Decodable {
+            case iso8601
+            case unixTimestamp
+            case unspecified
+        }
+
         class EnumType: Patchable {
             var cases: [String]
             init(cases: [String]) {
@@ -326,7 +332,7 @@ class Shape: Decodable, Patchable {
         case double(min: Double? = nil, max: Double? = nil)
         case float(min: Float? = nil, max: Float? = nil)
         case boolean
-        case timestamp
+        case timestamp(TimeStampFormat)
         case `enum`(EnumType)
 
         // added so we can access enum type through keypaths
@@ -392,7 +398,8 @@ class Shape: Decodable, Patchable {
             case "boolean":
                 self = .boolean
             case "timestamp":
-                self = .timestamp
+                let format = try container.decodeIfPresent(TimeStampFormat.self, forKey: .timestampFormat)
+                self = .timestamp(format ?? .unspecified)
             default:
                 throw DecodingError.typeMismatch(
                     ShapeType.self,
@@ -413,6 +420,7 @@ class Shape: Decodable, Patchable {
             case member
             case key
             case value
+            case timestampFormat
         }
     }
 

@@ -1758,9 +1758,7 @@ extension Redshift {
     }
 
     public struct CreateUsageLimitMessage: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number. 
         public let amount: Int64
@@ -1775,7 +1773,8 @@ extension Redshift {
         /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly. 
         public let period: UsageLimitPeriod?
         /// A list of tag instances.
-        public let tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         public init(amount: Int64, breachAction: UsageLimitBreachAction? = nil, clusterIdentifier: String, featureType: UsageLimitFeatureType, limitType: UsageLimitLimitType, period: UsageLimitPeriod? = nil, tags: [Tag]? = nil) {
             self.amount = amount
@@ -2965,10 +2964,8 @@ extension Redshift {
     }
 
     public struct DescribeUsageLimitsMessage: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
+        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
+        public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
         /// The identifier of the cluster for which you want to describe usage limits.
         public let clusterIdentifier: String?
@@ -2979,9 +2976,11 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching usage limit objects that are associated with the specified key or keys. For example, suppose that you have parameter groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the usage limit objects have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        @OptionalCoding<ArrayCoder<_TagKeysEncoding, String>>
+        public var tagKeys: [String]?
         /// A tag value or values for which you want to return all matching usage limit objects that are associated with the specified tag value or values. For example, suppose that you have parameter groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the usage limit objects that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        @OptionalCoding<ArrayCoder<_TagValuesEncoding, String>>
+        public var tagValues: [String]?
         /// The identifier of the usage limit to describe.
         public let usageLimitId: String?
 
@@ -5833,9 +5832,7 @@ extension Redshift {
     }
 
     public struct UsageLimit: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
         public let amount: Int64?
@@ -5850,7 +5847,8 @@ extension Redshift {
         /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly. 
         public let period: UsageLimitPeriod?
         /// A list of tag instances.
-        public let tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The identifier of the usage limit.
         public let usageLimitId: String?
 
@@ -5878,14 +5876,12 @@ extension Redshift {
     }
 
     public struct UsageLimitList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "usageLimits", location: .body(locationName: "UsageLimits"), encoding: .list(member:"member"))
-        ]
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// Contains the output from the DescribeUsageLimits action. 
-        public let usageLimits: [UsageLimit]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var usageLimits: [UsageLimit]?
 
         public init(marker: String? = nil, usageLimits: [UsageLimit]? = nil) {
             self.marker = marker

@@ -240,7 +240,7 @@ extension AWSService {
         let endpoint: String
         let region: String
     }
-    
+
     /// generate operations context
     func generateOperationContext(_ operation: Operation, name: String) -> OperationContext {
         return OperationContext(
@@ -279,7 +279,7 @@ extension AWSService {
             .map { (partition: $0.key, endpoint: $0.value.endpoint, region: $0.value.region) }
             .sorted { $0.partition < $1.partition }
             .map { ".\($0.partition.toSwiftRegionEnumCase()): (endpoint: \"\($0.endpoint)\", region: .\($0.region.rawValue.toSwiftRegionEnumCase()))" }
-        
+
         context["middlewareClass"] = middleware
 
         if !errors.isEmpty {
@@ -298,7 +298,7 @@ extension AWSService {
             return ($0 ?? false) || isRegionalized
         } ?? true
         context["regionalized"] = isRegionalized
-        
+
         // Operations
         var operationContexts: [OperationContext] = []
         for operation in api.operations {
@@ -457,7 +457,6 @@ extension AWSService {
     }
 
     func generatePropertyWrapper(_ member: Shape.Member, name: String) -> String? {
-        guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
         let codingWrapper: String
         if member.required {
             codingWrapper = "@Coding"
@@ -472,6 +471,7 @@ extension AWSService {
 
         switch member.shape.type {
         case .list(let list):
+            guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
             guard list.flattened != true && member.flattened != true else { return nil }
             let entryName = getArrayEntryName(list)
             if entryName == "member"  {
@@ -480,11 +480,21 @@ extension AWSService {
                 return "\(codingWrapper)<ArrayCoder<\(encodingName(name)), \(list.member.shape.swiftTypeName)>>"
             }
         case .map(let map):
+            guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
             let names = getDictionaryEntryNames(map, member: member)
             if names.entry == "entry" && names.key == "key" && names.value == "value" {
                 return "\(codingWrapper)<DefaultDictionaryCoder>"
             } else {
                 return "\(codingWrapper)<DictionaryCoder<\(encodingName(name)), \(map.key.shape.swiftTypeName), \(map.value.shape.swiftTypeName)>>"
+            }
+        case .timestamp(let format):
+            switch format {
+            case .iso8601:
+                return "\(codingWrapper)<ISO8601TimeStampCoder>"
+            case .unixTimestamp:
+                return "\(codingWrapper)<UnixEpochTimeStampCoder>"
+            case .unspecified:
+                return nil
             }
         default:
             return nil

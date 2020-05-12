@@ -277,7 +277,8 @@ extension CloudTrail {
         /// The AWS service that the request was made to.
         public let eventSource: String?
         /// The date and time of the event returned.
-        public let eventTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var eventTime: TimeStamp?
         /// Information about whether the event is a write event or a read event. 
         public let readOnly: String?
         /// A list of resources referenced by the event returned.
@@ -448,7 +449,8 @@ extension CloudTrail {
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
         public let latestCloudWatchLogsDeliveryError: String?
         /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var latestCloudWatchLogsDeliveryTime: TimeStamp?
         /// This field is no longer in use.
         public let latestDeliveryAttemptSucceeded: String?
         /// This field is no longer in use.
@@ -456,11 +458,13 @@ extension CloudTrail {
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
         public let latestDeliveryError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public let latestDeliveryTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var latestDeliveryTime: TimeStamp?
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
         public let latestDigestDeliveryError: String?
         /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public let latestDigestDeliveryTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var latestDigestDeliveryTime: TimeStamp?
         /// This field is no longer in use.
         public let latestNotificationAttemptSucceeded: String?
         /// This field is no longer in use.
@@ -468,11 +472,14 @@ extension CloudTrail {
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
         public let latestNotificationError: String?
         /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public let latestNotificationTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var latestNotificationTime: TimeStamp?
         /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public let startLoggingTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var startLoggingTime: TimeStamp?
         /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public let stopLoggingTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var stopLoggingTime: TimeStamp?
         /// This field is no longer in use.
         public let timeLoggingStarted: String?
         /// This field is no longer in use.
@@ -536,11 +543,13 @@ extension CloudTrail {
     public struct ListPublicKeysRequest: AWSEncodableShape {
 
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        public let endTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var endTime: TimeStamp?
         /// Reserved for future use.
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        public let startTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var startTime: TimeStamp?
 
         public init(endTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
@@ -662,7 +671,8 @@ extension CloudTrail {
     public struct LookupEventsRequest: AWSEncodableShape {
 
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        public let endTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var endTime: TimeStamp?
         /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory, no Insights events are returned.
         public let eventCategory: EventCategory?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
@@ -672,7 +682,8 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        public let startTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var startTime: TimeStamp?
 
         public init(endTime: TimeStamp? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
@@ -721,9 +732,11 @@ extension CloudTrail {
         /// The fingerprint of the public key.
         public let fingerprint: String?
         /// The ending time of validity of the public key.
-        public let validityEndTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var validityEndTime: TimeStamp?
         /// The starting time of validity of the public key.
-        public let validityStartTime: TimeStamp?
+        @OptionalCoding<UnixEpochTimeStampCoder>
+        public var validityStartTime: TimeStamp?
         /// The DER encoded public key value in PKCS#1 format.
         public let value: Data?
 

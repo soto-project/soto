@@ -202,7 +202,8 @@ extension Chime {
         /// The AWS account ID.
         public let awsAccountId: String
         /// The Amazon Chime account creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The default license for the Amazon Chime account.
         public let defaultLicense: License?
         /// The Amazon Chime account name.
@@ -747,7 +748,8 @@ extension Chime {
         /// The bot type.
         public let botType: BotType?
         /// The bot creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// When true, the bot is stopped from running in your account.
         public let disabled: Bool?
         /// The bot display name.
@@ -755,7 +757,8 @@ extension Chime {
         /// The security token used to authenticate Amazon Chime with the outgoing event endpoint.
         public let securityToken: String?
         /// The updated bot timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
         /// The unique ID for the bot user.
         public let userId: String?
 
@@ -2201,7 +2204,8 @@ extension Chime {
         /// The default outbound calling name for the account.
         public let callingName: String?
         /// The updated outbound calling name timestamp, in ISO 8601 format.
-        public let callingNameUpdatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var callingNameUpdatedTimestamp: TimeStamp?
 
         public init(callingName: String? = nil, callingNameUpdatedTimestamp: TimeStamp? = nil) {
             self.callingName = callingName
@@ -3750,9 +3754,11 @@ extension Chime {
         /// The phone number capabilities.
         public let capabilities: PhoneNumberCapabilities?
         /// The phone number creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The deleted phone number timestamp, in ISO 8601 format.
-        public let deletionTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var deletionTimestamp: TimeStamp?
         /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
         /// The phone number ID.
@@ -3764,7 +3770,8 @@ extension Chime {
         /// The phone number type.
         public let `type`: PhoneNumberType?
         /// The updated phone number timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
 
         public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, createdTimestamp: TimeStamp? = nil, deletionTimestamp: TimeStamp? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: TimeStamp? = nil) {
             self.associations = associations
@@ -3800,7 +3807,8 @@ extension Chime {
     public struct PhoneNumberAssociation: AWSDecodableShape {
 
         /// The timestamp of the phone number association, in ISO 8601 format.
-        public let associatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var associatedTimestamp: TimeStamp?
         /// Defines the association with an Amazon Chime account ID, user ID, Amazon Chime Voice Connector ID, or Amazon Chime Voice Connector group ID.
         public let name: PhoneNumberAssociationName?
         /// Contains the ID for the entity specified in Name.
@@ -3878,7 +3886,8 @@ extension Chime {
     public struct PhoneNumberOrder: AWSDecodableShape {
 
         /// The phone number order creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
         public let orderedPhoneNumbers: [OrderedPhoneNumber]?
         /// The phone number order ID.
@@ -3888,7 +3897,8 @@ extension Chime {
         /// The status of the phone number order.
         public let status: PhoneNumberOrderStatus?
         /// The updated phone number order timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
 
         public init(createdTimestamp: TimeStamp? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: TimeStamp? = nil) {
             self.createdTimestamp = createdTimestamp
@@ -3940,9 +3950,11 @@ extension Chime {
         /// The proxy session capabilities.
         public let capabilities: [Capability]?
         /// The created timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The ended timestamp, in ISO 8601 format.
-        public let endedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var endedTimestamp: TimeStamp?
         /// The number of minutes allowed for the proxy session.
         public let expiryMinutes: Int?
         /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
@@ -3960,7 +3972,8 @@ extension Chime {
         /// The status of the proxy session.
         public let status: ProxySessionStatus?
         /// The updated timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String?
 
@@ -4395,13 +4408,15 @@ extension Chime {
         /// The identifier of the room creator.
         public let createdBy: String?
         /// The room creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The room name.
         public let name: String?
         /// The room ID.
         public let roomId: String?
         /// The room update timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
 
         public init(accountId: String? = nil, createdBy: String? = nil, createdTimestamp: TimeStamp? = nil, name: String? = nil, roomId: String? = nil, updatedTimestamp: TimeStamp? = nil) {
             self.accountId = accountId
@@ -4432,7 +4447,8 @@ extension Chime {
         /// The room ID.
         public let roomId: String?
         /// The room membership update timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
 
         public init(invitedBy: String? = nil, member: Member? = nil, role: RoomMembershipRole? = nil, roomId: String? = nil, updatedTimestamp: TimeStamp? = nil) {
             self.invitedBy = invitedBy
@@ -4731,7 +4747,8 @@ extension Chime {
         /// The source IP address.
         public let source: String?
         /// The timestamp, in ISO 8601 format.
-        public let timestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var timestamp: TimeStamp?
 
         public init(source: String? = nil, timestamp: TimeStamp? = nil) {
             self.source = source
@@ -5408,7 +5425,8 @@ extension Chime {
         /// The display name of the user.
         public let displayName: String?
         /// Date and time when the user is invited to the Amazon Chime account, in ISO 8601 format.
-        public let invitedOn: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var invitedOn: TimeStamp?
         /// The license type for the user.
         public let licenseType: License?
         /// The user's personal meeting PIN.
@@ -5418,7 +5436,8 @@ extension Chime {
         /// The primary phone number associated with the user.
         public let primaryProvisionedNumber: String?
         /// Date and time when the user is registered, in ISO 8601 format.
-        public let registeredOn: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var registeredOn: TimeStamp?
         /// The user ID.
         public let userId: String
         /// The user invite status.
@@ -5502,7 +5521,8 @@ extension Chime {
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
         /// The Amazon Chime Voice Connector creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The name of the Amazon Chime Voice Connector.
         public let name: String?
         /// The outbound host name for the Amazon Chime Voice Connector.
@@ -5510,7 +5530,8 @@ extension Chime {
         /// Designates whether encryption is required for the Amazon Chime Voice Connector.
         public let requireEncryption: Bool?
         /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String?
 
@@ -5538,11 +5559,13 @@ extension Chime {
     public struct VoiceConnectorGroup: AWSDecodableShape {
 
         /// The Amazon Chime Voice Connector group creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdTimestamp: TimeStamp?
         /// The name of the Amazon Chime Voice Connector group.
         public let name: String?
         /// The updated Amazon Chime Voice Connector group timestamp, in ISO 8601 format.
-        public let updatedTimestamp: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedTimestamp: TimeStamp?
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String?
         /// The Amazon Chime Voice Connectors to which to route inbound calls.
