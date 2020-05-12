@@ -71,8 +71,8 @@ class AWSRequestTests: XCTestCase {
         do {
             _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
             XCTFail()
-        } catch AWSClientError.validationError(let message) {
-            print(message ?? "")
+        } catch let error as AWSClientError where error == .validationError {
+            print(error.message ?? "")
         } catch {
             XCTFail(error.localizedDescription)
         }
