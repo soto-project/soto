@@ -73,12 +73,10 @@ extension AutoScaling {
     //MARK: Shapes
 
     public struct ActivitiesType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
-        ]
 
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
-        public let activities: [Activity]
+        @Coding<DefaultArrayCoder>
+        public var activities: [Activity]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
@@ -190,14 +188,12 @@ extension AutoScaling {
     }
 
     public struct AttachInstancesQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceIds: [String]?
 
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -230,14 +226,12 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancerTargetGroupsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupARNs", location: .body(locationName: "TargetGroupARNs"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
-        public let targetGroupARNs: [String]
+        @Coding<DefaultArrayCoder>
+        public var targetGroupARNs: [String]
 
         public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -270,14 +264,12 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancersType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
-        public let loadBalancerNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]
 
         public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -302,23 +294,14 @@ extension AutoScaling {
     }
 
     public struct AutoScalingGroup: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "enabledMetrics", location: .body(locationName: "EnabledMetrics"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "suspendedProcesses", location: .body(locationName: "SuspendedProcesses"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "targetGroupARNs", location: .body(locationName: "TargetGroupARNs"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "terminationPolicies", location: .body(locationName: "TerminationPolicies"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public let autoScalingGroupARN: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group.
-        public let availabilityZones: [String]
+        @Coding<DefaultArrayCoder>
+        public var availabilityZones: [String]
         /// The date and time the group was created.
         public let createdTime: TimeStamp
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.
@@ -326,19 +309,22 @@ extension AutoScaling {
         /// The desired size of the group.
         public let desiredCapacity: Int
         /// The metrics enabled for the group.
-        public let enabledMetrics: [EnabledMetric]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var enabledMetrics: [EnabledMetric]?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
         public let healthCheckType: String
         /// The EC2 instances associated with the group.
-        public let instances: [Instance]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instances: [Instance]?
         /// The name of the associated launch configuration.
         public let launchConfigurationName: String?
         /// The launch template for the group.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more load balancers associated with the group.
-        public let loadBalancerNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]?
         /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 604800.
         public let maxInstanceLifetime: Int?
         /// The maximum size of the group.
@@ -356,13 +342,17 @@ extension AutoScaling {
         /// The current state of the group when DeleteAutoScalingGroup is in progress.
         public let status: String?
         /// The suspended processes associated with the group.
-        public let suspendedProcesses: [SuspendedProcess]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var suspendedProcesses: [SuspendedProcess]?
         /// The tags for the group.
-        public let tags: [TagDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [TagDescription]?
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
-        public let targetGroupARNs: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var targetGroupARNs: [String]?
         /// The termination policies for the group.
-        public let terminationPolicies: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var terminationPolicies: [String]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public let vPCZoneIdentifier: String?
 
@@ -426,12 +416,10 @@ extension AutoScaling {
     }
 
     public struct AutoScalingGroupNamesType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "autoScalingGroupNames", location: .body(locationName: "AutoScalingGroupNames"), encoding: .list(member:"member"))
-        ]
 
         /// The names of the Auto Scaling groups. Each name can be a maximum of 1600 characters. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords parameter. If you omit this parameter, all Auto Scaling groups are described.
-        public let autoScalingGroupNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var autoScalingGroupNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -460,12 +448,10 @@ extension AutoScaling {
     }
 
     public struct AutoScalingGroupsType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "autoScalingGroups", location: .body(locationName: "AutoScalingGroups"), encoding: .list(member:"member"))
-        ]
 
         /// The groups.
-        public let autoScalingGroups: [AutoScalingGroup]
+        @Coding<DefaultArrayCoder>
+        public var autoScalingGroups: [AutoScalingGroup]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
@@ -531,12 +517,10 @@ extension AutoScaling {
     }
 
     public struct AutoScalingInstancesType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "autoScalingInstances", location: .body(locationName: "AutoScalingInstances"), encoding: .list(member:"member"))
-        ]
 
         /// The instances.
-        public let autoScalingInstances: [AutoScalingInstanceDetails]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var autoScalingInstances: [AutoScalingInstanceDetails]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
@@ -552,12 +536,10 @@ extension AutoScaling {
     }
 
     public struct BatchDeleteScheduledActionAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "failedScheduledActions", location: .body(locationName: "FailedScheduledActions"), encoding: .list(member:"member"))
-        ]
 
         /// The names of the scheduled actions that could not be deleted, including an error message.
-        public let failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
 
         public init(failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledActions = failedScheduledActions
@@ -569,14 +551,12 @@ extension AutoScaling {
     }
 
     public struct BatchDeleteScheduledActionType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledActionNames", location: .body(locationName: "ScheduledActionNames"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the scheduled actions to delete. The maximum number allowed is 50. 
-        public let scheduledActionNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var scheduledActionNames: [String]
 
         public init(autoScalingGroupName: String, scheduledActionNames: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -601,12 +581,10 @@ extension AutoScaling {
     }
 
     public struct BatchPutScheduledUpdateGroupActionAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "failedScheduledUpdateGroupActions", location: .body(locationName: "FailedScheduledUpdateGroupActions"), encoding: .list(member:"member"))
-        ]
 
         /// The names of the scheduled actions that could not be created or updated, including an error message.
-        public let failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
 
         public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
@@ -618,14 +596,12 @@ extension AutoScaling {
     }
 
     public struct BatchPutScheduledUpdateGroupActionType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledUpdateGroupActions", location: .body(locationName: "ScheduledUpdateGroupActions"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more scheduled actions. The maximum number allowed is 50.
-        public let scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]
+        @Coding<DefaultArrayCoder>
+        public var scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]
 
         public init(autoScalingGroupName: String, scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -736,19 +712,12 @@ extension AutoScaling {
     }
 
     public struct CreateAutoScalingGroupType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "lifecycleHookSpecificationList", location: .body(locationName: "LifecycleHookSpecificationList"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "targetGroupARNs", location: .body(locationName: "TargetGroupARNs"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "terminationPolicies", location: .body(locationName: "TerminationPolicies"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group. This name must be unique per Region per account.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets for VPCZoneIdentifier. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into EC2-Classic.
-        public let availabilityZones: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var availabilityZones: [String]?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
         /// The number of Amazon EC2 instances that the Auto Scaling group attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
@@ -764,9 +733,11 @@ extension AutoScaling {
         /// The launch template to use to launch instances. For more information, see LaunchTemplateSpecification in the Amazon EC2 Auto Scaling API Reference. If you do not specify LaunchTemplate, you must specify one of the following parameters: InstanceId, LaunchConfigurationName, or MixedInstancesPolicy.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more lifecycle hooks.
-        public let lifecycleHookSpecificationList: [LifecycleHookSpecification]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var lifecycleHookSpecificationList: [LifecycleHookSpecification]?
         /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers and Network Load Balancers, specify a list of target groups using the TargetGroupARNs property instead. For more information, see Using a Load Balancer with an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-        public let loadBalancerNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]?
         /// The maximum amount of time, in seconds, that an instance can be in service. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 604800.
         public let maxInstanceLifetime: Int?
         /// The maximum size of the group.
@@ -782,11 +753,14 @@ extension AutoScaling {
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-Linked Roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
         /// One or more tags. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
-        public let tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
         /// The Amazon Resource Names (ARN) of the target groups to associate with the Auto Scaling group. Instances are registered as targets in a target group, and traffic is routed to the target group. For more information, see Using a Load Balancer with an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-        public let targetGroupARNs: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var targetGroupARNs: [String]?
         /// One or more termination policies used to select the instance to terminate. These policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Amazon EC2 Auto Scaling User Guide.
-        public let terminationPolicies: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for your virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into a VPC.
         public let vPCZoneIdentifier: String?
 
@@ -895,20 +869,17 @@ extension AutoScaling {
     }
 
     public struct CreateLaunchConfigurationType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMappings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "classicLinkVPCSecurityGroups", location: .body(locationName: "ClassicLinkVPCSecurityGroups"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
-        ]
 
         /// For Auto Scaling groups that are running in a virtual private cloud (VPC), specifies whether to assign a public IP address to the group's instances. If you specify true, each instance in the Auto Scaling group receives a unique public IP address. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, you must specify at least one subnet for VPCZoneIdentifier when you create your group.  If the instance is launched into a default subnet, the default is to assign a public IP address, unless you disabled the option to assign a public IP address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IP address, unless you enabled the option to assign a public IP address on the subnet. 
         public let associatePublicIpAddress: Bool?
         /// A block device mapping, which specifies the block devices for the instance. You can specify virtual devices and EBS volumes. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
-        public let blockDeviceMappings: [BlockDeviceMapping]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var blockDeviceMappings: [BlockDeviceMapping]?
         /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux Instances and Linking EC2-Classic Instances to a VPC in the Amazon EC2 Auto Scaling User Guide. This parameter can only be used if you are launching EC2-Classic instances.
         public let classicLinkVPCId: String?
         /// The IDs of one or more security groups for the specified ClassicLink-enabled VPC. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux Instances and Linking EC2-Classic Instances to a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify the ClassicLinkVPCId parameter, you must specify this parameter.
-        public let classicLinkVPCSecurityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var classicLinkVPCSecurityGroups: [String]?
         /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux Instances. The default value is false.
         public let ebsOptimized: Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM Role for Applications That Run on Amazon EC2 Instances in the Amazon EC2 Auto Scaling User Guide.
@@ -932,7 +903,8 @@ extension AutoScaling {
         /// The ID of the RAM disk to select.
         public let ramdiskId: String?
         /// A list that contains the security groups to assign to the instances in the Auto Scaling group. [EC2-VPC] Specify the security group IDs. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide. [EC2-Classic] Specify either the security group names or the security group IDs. For more information, see Amazon EC2 Security Groups in the Amazon EC2 User Guide for Linux Instances.
-        public let securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Launching Spot Instances in Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.  When you change your maximum price by creating a new launch configuration, running instances will continue to run as long as the maximum price for those running instances is higher than the current Spot price. 
         public let spotPrice: String?
         /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
@@ -1030,12 +1002,10 @@ extension AutoScaling {
     }
 
     public struct CreateOrUpdateTagsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// One or more tags.
-        public let tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(tags: [Tag]) {
             self.tags = tags
@@ -1053,12 +1023,10 @@ extension AutoScaling {
     }
 
     public struct CustomizedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
-        ]
 
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
-        public let dimensions: [MetricDimension]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var dimensions: [MetricDimension]?
         /// The name of the metric.
         public let metricName: String
         /// The namespace of the metric.
@@ -1226,12 +1194,10 @@ extension AutoScaling {
     }
 
     public struct DeleteTagsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// One or more tags.
-        public let tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(tags: [Tag]) {
             self.tags = tags
@@ -1275,12 +1241,10 @@ extension AutoScaling {
     }
 
     public struct DescribeAdjustmentTypesAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "adjustmentTypes", location: .body(locationName: "AdjustmentTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The policy adjustment types.
-        public let adjustmentTypes: [AdjustmentType]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var adjustmentTypes: [AdjustmentType]?
 
         public init(adjustmentTypes: [AdjustmentType]? = nil) {
             self.adjustmentTypes = adjustmentTypes
@@ -1292,12 +1256,10 @@ extension AutoScaling {
     }
 
     public struct DescribeAutoScalingInstancesType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
-        ]
 
         /// The IDs of the instances. You can specify up to MaxRecords IDs. If you omit this parameter, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error.
-        public let instanceIds: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceIds: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1326,12 +1288,10 @@ extension AutoScaling {
     }
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "autoScalingNotificationTypes", location: .body(locationName: "AutoScalingNotificationTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The notification types.
-        public let autoScalingNotificationTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var autoScalingNotificationTypes: [String]?
 
         public init(autoScalingNotificationTypes: [String]? = nil) {
             self.autoScalingNotificationTypes = autoScalingNotificationTypes
@@ -1343,12 +1303,10 @@ extension AutoScaling {
     }
 
     public struct DescribeLifecycleHookTypesAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lifecycleHookTypes", location: .body(locationName: "LifecycleHookTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The lifecycle hook types.
-        public let lifecycleHookTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var lifecycleHookTypes: [String]?
 
         public init(lifecycleHookTypes: [String]? = nil) {
             self.lifecycleHookTypes = lifecycleHookTypes
@@ -1360,12 +1318,10 @@ extension AutoScaling {
     }
 
     public struct DescribeLifecycleHooksAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lifecycleHooks", location: .body(locationName: "LifecycleHooks"), encoding: .list(member:"member"))
-        ]
 
         /// The lifecycle hooks for the specified group.
-        public let lifecycleHooks: [LifecycleHook]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var lifecycleHooks: [LifecycleHook]?
 
         public init(lifecycleHooks: [LifecycleHook]? = nil) {
             self.lifecycleHooks = lifecycleHooks
@@ -1377,14 +1333,12 @@ extension AutoScaling {
     }
 
     public struct DescribeLifecycleHooksType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lifecycleHookNames", location: .body(locationName: "LifecycleHookNames"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
-        public let lifecycleHookNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var lifecycleHookNames: [String]?
 
         public init(autoScalingGroupName: String, lifecycleHookNames: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -1439,12 +1393,10 @@ extension AutoScaling {
     }
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancerTargetGroups", location: .body(locationName: "LoadBalancerTargetGroups"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the target groups.
-        public let loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
@@ -1489,12 +1441,10 @@ extension AutoScaling {
     }
 
     public struct DescribeLoadBalancersResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
-        ]
 
         /// The load balancers.
-        public let loadBalancers: [LoadBalancerState]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var loadBalancers: [LoadBalancerState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
@@ -1510,15 +1460,13 @@ extension AutoScaling {
     }
 
     public struct DescribeMetricCollectionTypesAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "granularities", location: .body(locationName: "Granularities"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
-        ]
 
         /// The granularities for the metrics.
-        public let granularities: [MetricGranularityType]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var granularities: [MetricGranularityType]?
         /// One or more metrics.
-        public let metrics: [MetricCollectionType]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var metrics: [MetricCollectionType]?
 
         public init(granularities: [MetricGranularityType]? = nil, metrics: [MetricCollectionType]? = nil) {
             self.granularities = granularities
@@ -1532,14 +1480,12 @@ extension AutoScaling {
     }
 
     public struct DescribeNotificationConfigurationsAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "notificationConfigurations", location: .body(locationName: "NotificationConfigurations"), encoding: .list(member:"member"))
-        ]
 
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The notification configurations.
-        public let notificationConfigurations: [NotificationConfiguration]
+        @Coding<DefaultArrayCoder>
+        public var notificationConfigurations: [NotificationConfiguration]
 
         public init(nextToken: String? = nil, notificationConfigurations: [NotificationConfiguration]) {
             self.nextToken = nextToken
@@ -1553,12 +1499,10 @@ extension AutoScaling {
     }
 
     public struct DescribeNotificationConfigurationsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "autoScalingGroupNames", location: .body(locationName: "AutoScalingGroupNames"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
-        public let autoScalingGroupNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var autoScalingGroupNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1587,10 +1531,6 @@ extension AutoScaling {
     }
 
     public struct DescribePoliciesType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "policyTypes", location: .body(locationName: "PolicyTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -1599,9 +1539,11 @@ extension AutoScaling {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The names of one or more policies. If you omit this parameter, all policies are described. If a group name is provided, the results are limited to that group. This list is limited to 50 items. If you specify an unknown policy name, it is ignored with no error.
-        public let policyNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyNames: [String]?
         /// One or more policy types. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling.
-        public let policyTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var policyTypes: [String]?
 
         public init(autoScalingGroupName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, policyNames: [String]? = nil, policyTypes: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -1638,12 +1580,10 @@ extension AutoScaling {
     }
 
     public struct DescribeScalingActivitiesType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activityIds", location: .body(locationName: "ActivityIds"), encoding: .list(member:"member"))
-        ]
 
         /// The activity IDs of the desired scaling activities. You can specify up to 50 IDs. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group.
-        public let activityIds: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var activityIds: [String]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -1677,9 +1617,6 @@ extension AutoScaling {
     }
 
     public struct DescribeScheduledActionsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledActionNames", location: .body(locationName: "ScheduledActionNames"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -1690,7 +1627,8 @@ extension AutoScaling {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The names of one or more scheduled actions. You can specify up to 50 actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error.
-        public let scheduledActionNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var scheduledActionNames: [String]?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
         public let startTime: TimeStamp?
 
@@ -1726,12 +1664,10 @@ extension AutoScaling {
     }
 
     public struct DescribeTagsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"member"))
-        ]
 
         /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
-        public let filters: [Filter]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var filters: [Filter]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1758,12 +1694,10 @@ extension AutoScaling {
     }
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "terminationPolicyTypes", location: .body(locationName: "TerminationPolicyTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
-        public let terminationPolicyTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var terminationPolicyTypes: [String]?
 
         public init(terminationPolicyTypes: [String]? = nil) {
             self.terminationPolicyTypes = terminationPolicyTypes
@@ -1775,12 +1709,10 @@ extension AutoScaling {
     }
 
     public struct DetachInstancesAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
-        ]
 
         /// The activities related to detaching the instances from the Auto Scaling group.
-        public let activities: [Activity]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var activities: [Activity]?
 
         public init(activities: [Activity]? = nil) {
             self.activities = activities
@@ -1792,14 +1724,12 @@ extension AutoScaling {
     }
 
     public struct DetachInstancesQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceIds: [String]?
         /// Indicates whether the Auto Scaling group decrements the desired capacity value by the number of instances detached.
         public let shouldDecrementDesiredCapacity: Bool
 
@@ -1836,14 +1766,12 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancerTargetGroupsType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroupARNs", location: .body(locationName: "TargetGroupARNs"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
-        public let targetGroupARNs: [String]
+        @Coding<DefaultArrayCoder>
+        public var targetGroupARNs: [String]
 
         public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -1876,14 +1804,12 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancersType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
-        public let loadBalancerNames: [String]
+        @Coding<DefaultArrayCoder>
+        public var loadBalancerNames: [String]
 
         public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -1908,14 +1834,12 @@ extension AutoScaling {
     }
 
     public struct DisableMetricsCollectionQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more of the following metrics. If you omit this parameter, all metrics are disabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
-        public let metrics: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var metrics: [String]?
 
         public init(autoScalingGroupName: String, metrics: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -1986,16 +1910,14 @@ extension AutoScaling {
     }
 
     public struct EnableMetricsCollectionQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
         public let granularity: String
         /// One or more of the following metrics. If you omit this parameter, all metrics are enabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
-        public let metrics: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var metrics: [String]?
 
         public init(autoScalingGroupName: String, granularity: String, metrics: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -2043,12 +1965,10 @@ extension AutoScaling {
     }
 
     public struct EnterStandbyAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
-        ]
 
         /// The activities related to moving instances into Standby mode.
-        public let activities: [Activity]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var activities: [Activity]?
 
         public init(activities: [Activity]? = nil) {
             self.activities = activities
@@ -2060,14 +1980,12 @@ extension AutoScaling {
     }
 
     public struct EnterStandbyQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceIds: [String]?
         /// Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
         public let shouldDecrementDesiredCapacity: Bool
 
@@ -2135,12 +2053,10 @@ extension AutoScaling {
     }
 
     public struct ExitStandbyAnswer: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
-        ]
 
         /// The activities related to moving instances out of Standby mode.
-        public let activities: [Activity]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var activities: [Activity]?
 
         public init(activities: [Activity]? = nil) {
             self.activities = activities
@@ -2152,14 +2068,12 @@ extension AutoScaling {
     }
 
     public struct ExitStandbyQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceIds: [String]?
 
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -2206,14 +2120,12 @@ extension AutoScaling {
     }
 
     public struct Filter: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
         public let name: String?
         /// The value of the filter.
-        public let values: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
@@ -2335,20 +2247,17 @@ extension AutoScaling {
     }
 
     public struct LaunchConfiguration: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMappings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "classicLinkVPCSecurityGroups", location: .body(locationName: "ClassicLinkVPCSecurityGroups"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
-        ]
 
         /// For Auto Scaling groups that are running in a VPC, specifies whether to assign a public IP address to the group's instances. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
         public let associatePublicIpAddress: Bool?
         /// A block device mapping, which specifies the block devices for the instance. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
-        public let blockDeviceMappings: [BlockDeviceMapping]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var blockDeviceMappings: [BlockDeviceMapping]?
         /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux Instances and Linking EC2-Classic Instances to a VPC in the Amazon EC2 Auto Scaling User Guide.
         public let classicLinkVPCId: String?
         /// The IDs of one or more security groups for the VPC specified in ClassicLinkVPCId. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux Instances and Linking EC2-Classic Instances to a VPC in the Amazon EC2 Auto Scaling User Guide.
-        public let classicLinkVPCSecurityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var classicLinkVPCSecurityGroups: [String]?
         /// The creation date and time for the launch configuration.
         public let createdTime: TimeStamp
         /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux Instances.
@@ -2374,7 +2283,8 @@ extension AutoScaling {
         /// The ID of the RAM disk associated with the AMI.
         public let ramdiskId: String?
         /// A list that contains the security groups to assign to the instances in the Auto Scaling group. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
-        public let securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Launching Spot Instances in Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
         public let spotPrice: String?
         /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
@@ -2446,12 +2356,10 @@ extension AutoScaling {
     }
 
     public struct LaunchConfigurationNamesType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchConfigurationNames", location: .body(locationName: "LaunchConfigurationNames"), encoding: .list(member:"member"))
-        ]
 
         /// The launch configuration names. If you omit this parameter, all launch configurations are described.
-        public let launchConfigurationNames: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var launchConfigurationNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -2480,12 +2388,10 @@ extension AutoScaling {
     }
 
     public struct LaunchConfigurationsType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchConfigurations", location: .body(locationName: "LaunchConfigurations"), encoding: .list(member:"member"))
-        ]
 
         /// The launch configurations.
-        public let launchConfigurations: [LaunchConfiguration]
+        @Coding<DefaultArrayCoder>
+        public var launchConfigurations: [LaunchConfiguration]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
@@ -2501,14 +2407,12 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplate: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "overrides", location: .body(locationName: "Overrides"), encoding: .list(member:"member"))
-        ]
 
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
         /// An optional setting. Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type. You can specify between 1 and 20 instance types.
-        public let overrides: [LaunchTemplateOverrides]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var overrides: [LaunchTemplateOverrides]?
 
         public init(launchTemplateSpecification: LaunchTemplateSpecification? = nil, overrides: [LaunchTemplateOverrides]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
@@ -2816,14 +2720,12 @@ extension AutoScaling {
     }
 
     public struct PoliciesType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scalingPolicies", location: .body(locationName: "ScalingPolicies"), encoding: .list(member:"member"))
-        ]
 
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scaling policies.
-        public let scalingPolicies: [ScalingPolicy]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var scalingPolicies: [ScalingPolicy]?
 
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.nextToken = nextToken
@@ -2837,12 +2739,10 @@ extension AutoScaling {
     }
 
     public struct PolicyARNType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alarms", location: .body(locationName: "Alarms"), encoding: .list(member:"member"))
-        ]
 
         /// The CloudWatch alarms created for the target tracking scaling policy.
-        public let alarms: [Alarm]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var alarms: [Alarm]?
         /// The Amazon Resource Name (ARN) of the policy.
         public let policyARN: String?
 
@@ -2896,12 +2796,10 @@ extension AutoScaling {
     }
 
     public struct ProcessesType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "processes", location: .body(locationName: "Processes"), encoding: .list(member:"member"))
-        ]
 
         /// The names of the process types.
-        public let processes: [ProcessType]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var processes: [ProcessType]?
 
         public init(processes: [ProcessType]? = nil) {
             self.processes = processes
@@ -2981,14 +2879,12 @@ extension AutoScaling {
     }
 
     public struct PutNotificationConfigurationType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "notificationTypes", location: .body(locationName: "NotificationTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The type of event that causes the notification to be sent. For more information about notification types supported by Amazon EC2 Auto Scaling, see DescribeAutoScalingNotificationTypes.
-        public let notificationTypes: [String]
+        @Coding<DefaultArrayCoder>
+        public var notificationTypes: [String]
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
         public let topicARN: String
 
@@ -3020,9 +2916,6 @@ extension AutoScaling {
     }
 
     public struct PutScalingPolicyType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "stepAdjustments", location: .body(locationName: "StepAdjustments"), encoding: .list(member:"member"))
-        ]
 
         /// Specifies whether the ScalingAdjustment parameter is an absolute number or a percentage of the current capacity. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Valid only if the policy type is StepScaling or SimpleScaling. For more information, see Scaling Adjustment Types in the Amazon EC2 Auto Scaling User Guide.
         public let adjustmentType: String?
@@ -3047,7 +2940,8 @@ extension AutoScaling {
         /// The amount by which a simple scaling policy scales the Auto Scaling group in response to an alarm breach. The adjustment is based on the value that you specified in the AdjustmentType parameter (either an absolute number or a percentage). A positive value adds to the current capacity and a negative value subtracts from the current capacity. For exact capacity, you must specify a positive value. Conditional: If you specify SimpleScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach. Conditional: If you specify StepScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
-        public let stepAdjustments: [StepAdjustment]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var stepAdjustments: [StepAdjustment]?
         /// A target tracking scaling policy. Includes support for predefined or customized metrics. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Conditional: If you specify TargetTrackingScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
@@ -3210,15 +3104,12 @@ extension AutoScaling {
     }
 
     public struct ScalingPolicy: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alarms", location: .body(locationName: "Alarms"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "stepAdjustments", location: .body(locationName: "StepAdjustments"), encoding: .list(member:"member"))
-        ]
 
         /// The adjustment type, which specifies how ScalingAdjustment is interpreted. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         /// The CloudWatch alarms related to the policy.
-        public let alarms: [Alarm]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var alarms: [Alarm]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start.
@@ -3242,7 +3133,8 @@ extension AutoScaling {
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach.
-        public let stepAdjustments: [StepAdjustment]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var stepAdjustments: [StepAdjustment]?
         /// A target tracking scaling policy.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
@@ -3284,14 +3176,12 @@ extension AutoScaling {
     }
 
     public struct ScalingProcessQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scalingProcesses", location: .body(locationName: "ScalingProcesses"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
-        public let scalingProcesses: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var scalingProcesses: [String]?
 
         public init(autoScalingGroupName: String, scalingProcesses: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
@@ -3316,14 +3206,12 @@ extension AutoScaling {
     }
 
     public struct ScheduledActionsType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledUpdateGroupActions", location: .body(locationName: "ScheduledUpdateGroupActions"), encoding: .list(member:"member"))
-        ]
 
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scheduled actions.
-        public let scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]?
 
         public init(nextToken: String? = nil, scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]? = nil) {
             self.nextToken = nextToken
@@ -3501,14 +3389,12 @@ extension AutoScaling {
     }
 
     public struct SetInstanceProtectionQuery: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more instance IDs.
-        public let instanceIds: [String]
+        @Coding<DefaultArrayCoder>
+        public var instanceIds: [String]
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
 
@@ -3648,14 +3534,12 @@ extension AutoScaling {
     }
 
     public struct TagsType: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// One or more tags.
-        public let tags: [TagDescription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [TagDescription]?
 
         public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
             self.nextToken = nextToken
@@ -3723,15 +3607,12 @@ extension AutoScaling {
     }
 
     public struct UpdateAutoScalingGroupType: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "terminationPolicies", location: .body(locationName: "TerminationPolicies"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group.
-        public let availabilityZones: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var availabilityZones: [String]?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. This cooldown period is not used when a scaling-specific cooldown is specified. Cooldown periods are not supported for target tracking scaling policies, step scaling policies, or scheduled scaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
         /// The number of EC2 instances that should be running in the Auto Scaling group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
@@ -3759,7 +3640,8 @@ extension AutoScaling {
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. For more information, see Service-Linked Roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
         /// A standalone termination policy or a list of termination policies used to select the instance to terminate. The policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Amazon EC2 Auto Scaling User Guide.
-        public let terminationPolicies: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones.
         public let vPCZoneIdentifier: String?
 

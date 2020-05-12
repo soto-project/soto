@@ -314,7 +314,7 @@ let package = Package(
         .target(name: "AWSDynamoDB", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/DynamoDB"),
         .target(name: "AWSDynamoDBStreams", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/DynamoDBStreams"),
         .target(name: "AWSEBS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/EBS"),
-        .target(name: "AWSEC2", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/EC2"),
+        .target(name: "AWSEC2", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/EC2", "Extensions/EC2"]),
         .target(name: "AWSEC2InstanceConnect", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/EC2InstanceConnect"),
         .target(name: "AWSECR", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ECR"),
         .target(name: "AWSECS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ECS"),

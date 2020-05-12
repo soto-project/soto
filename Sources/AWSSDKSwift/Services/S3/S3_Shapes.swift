@@ -463,12 +463,11 @@ extension S3 {
 
     public struct AccessControlPolicy: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant"))
-        ]
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// A list of grants.
-        public let grants: [Grant]?
+        @OptionalCoding<ArrayCoder<_GrantsEncoding, Grant>>
+        public var grants: [Grant]?
         /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
 
@@ -498,9 +497,6 @@ extension S3 {
     }
 
     public struct AnalyticsAndOperator: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
-        ]
 
         /// The prefix to use when evaluating an AND predicate: The prefix that an object must have to be included in the metrics results.
         public let prefix: String?
@@ -638,9 +634,6 @@ extension S3 {
 
     public struct BucketLifecycleConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
-        ]
 
         /// A lifecycle rule for individual objects in an Amazon S3 bucket.
         public let rules: [LifecycleRule]
@@ -676,9 +669,6 @@ extension S3 {
 
     public struct CORSConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cORSRules", location: .body(locationName: "CORSRule"), encoding: .flatList)
-        ]
 
         /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
         public let cORSRules: [CORSRule]
@@ -693,12 +683,6 @@ extension S3 {
     }
 
     public struct CORSRule: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "allowedHeaders", location: .body(locationName: "AllowedHeader"), encoding: .flatList), 
-            AWSMemberEncoding(label: "allowedMethods", location: .body(locationName: "AllowedMethod"), encoding: .flatList), 
-            AWSMemberEncoding(label: "allowedOrigins", location: .body(locationName: "AllowedOrigin"), encoding: .flatList), 
-            AWSMemberEncoding(label: "exposeHeaders", location: .body(locationName: "ExposeHeader"), encoding: .flatList)
-        ]
 
         /// Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed.
         public let allowedHeaders: [String]?
@@ -797,9 +781,6 @@ extension S3 {
     }
 
     public struct CloudFunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList)
-        ]
 
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
         public let cloudFunction: String?
@@ -930,9 +911,6 @@ extension S3 {
 
     public struct CompletedMultipartUpload: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parts", location: .body(locationName: "Part"), encoding: .flatList)
-        ]
 
         /// Array of CompletedPart data types.
         public let parts: [CompletedPart]?
@@ -1076,7 +1054,7 @@ extension S3 {
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
             AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-"), encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
             AWSMemberEncoding(label: "metadataDirective", location: .header(locationName: "x-amz-metadata-directive")), 
             AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
             AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
@@ -1339,7 +1317,6 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")), 
             AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")), 
-            AWSMemberEncoding(label: "bucket", location: .body(locationName: "Bucket")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
             AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
             AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
@@ -1414,7 +1391,7 @@ extension S3 {
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
             AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-"), encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
             AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
             AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
             AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
@@ -1545,9 +1522,6 @@ extension S3 {
 
     public struct Delete: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "objects", location: .body(locationName: "Object"), encoding: .flatList)
-        ]
 
         /// The objects to delete.
         public let objects: [ObjectIdentifier]
@@ -1902,8 +1876,6 @@ extension S3 {
 
     public struct DeleteObjectsOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deleted", location: .body(locationName: "Deleted"), encoding: .flatList), 
-            AWSMemberEncoding(label: "errors", location: .body(locationName: "Error"), encoding: .flatList), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
 
@@ -2192,12 +2164,11 @@ extension S3 {
     }
 
     public struct GetBucketAclOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant"))
-        ]
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// A list of grants.
-        public let grants: [Grant]?
+        @OptionalCoding<ArrayCoder<_GrantsEncoding, Grant>>
+        public var grants: [Grant]?
         /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
 
@@ -2266,9 +2237,6 @@ extension S3 {
     }
 
     public struct GetBucketCorsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cORSRules", location: .body(locationName: "CORSRule"), encoding: .flatList)
-        ]
 
         /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
         public let cORSRules: [CORSRule]?
@@ -2369,9 +2337,6 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleConfigurationOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
-        ]
 
         /// Container for a lifecycle rule.
         public let rules: [LifecycleRule]?
@@ -2401,9 +2366,6 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
-        ]
 
         /// Container for a lifecycle rule.
         public let rules: [Rule]?
@@ -2673,12 +2635,11 @@ extension S3 {
     }
 
     public struct GetBucketTaggingOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag"))
-        ]
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Contains the tag set.
-        public let tagSet: [Tag]
+        @Coding<ArrayCoder<_TagSetEncoding, Tag>>
+        public var tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
             self.tagSet = tagSet
@@ -2705,9 +2666,6 @@ extension S3 {
     }
 
     public struct GetBucketVersioningOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mFADelete", location: .body(locationName: "MfaDelete"))
-        ]
 
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
         public let mFADelete: MFADeleteStatus?
@@ -2741,9 +2699,7 @@ extension S3 {
     }
 
     public struct GetBucketWebsiteOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routingRules", location: .body(locationName: "RoutingRules"), encoding: .list(member:"RoutingRule"))
-        ]
+        public struct _RoutingRulesEncoding: ArrayCoderProperties { static public let member = "RoutingRule" }
 
         /// The name of the error document for the website.
         public let errorDocument: ErrorDocument?
@@ -2752,7 +2708,8 @@ extension S3 {
         /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
-        public let routingRules: [RoutingRule]?
+        @OptionalCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>
+        public var routingRules: [RoutingRule]?
 
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
             self.errorDocument = errorDocument
@@ -2786,12 +2743,13 @@ extension S3 {
 
     public struct GetObjectAclOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// A list of grants.
-        public let grants: [Grant]?
+        @OptionalCoding<ArrayCoder<_GrantsEncoding, Grant>>
+        public var grants: [Grant]?
         ///  Container for the bucket owner's display name and ID.
         public let owner: Owner?
         public let requestCharged: RequestCharged?
@@ -2940,7 +2898,7 @@ extension S3 {
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
             AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
             AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-"), encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
             AWSMemberEncoding(label: "missingMeta", location: .header(locationName: "x-amz-missing-meta")), 
             AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
             AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
@@ -3231,12 +3189,13 @@ extension S3 {
 
     public struct GetObjectTaggingOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag")), 
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Contains the tag set.
-        public let tagSet: [Tag]
+        @Coding<ArrayCoder<_TagSetEncoding, Tag>>
+        public var tagSet: [Tag]
         /// The versionId of the object for which you got the tagging information.
         public let versionId: String?
 
@@ -3395,9 +3354,6 @@ extension S3 {
 
     public struct Grantee: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://www.w3.org/2001/XMLSchema-instance"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "type", location: .body(locationName: "xsi:type"))
-        ]
 
         /// Screen name of the grantee.
         public let displayName: String?
@@ -3456,7 +3412,7 @@ extension S3 {
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
             AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
             AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-"), encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
             AWSMemberEncoding(label: "missingMeta", location: .header(locationName: "x-amz-missing-meta")), 
             AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
             AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
@@ -3719,9 +3675,7 @@ extension S3 {
 
     public struct InventoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionalFields", location: .body(locationName: "OptionalFields"), encoding: .list(member:"Field"))
-        ]
+        public struct _OptionalFieldsEncoding: ArrayCoderProperties { static public let member = "Field" }
 
         /// Contains information about where to publish the inventory results.
         public let destination: InventoryDestination
@@ -3734,7 +3688,8 @@ extension S3 {
         /// Specifies whether the inventory is enabled or disabled. If set to True, an inventory list is generated. If set to False, no inventory list is generated.
         public let isEnabled: Bool
         /// Contains the optional fields that are included in the inventory results.
-        public let optionalFields: [InventoryOptionalField]?
+        @OptionalCoding<ArrayCoder<_OptionalFieldsEncoding, InventoryOptionalField>>
+        public var optionalFields: [InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
         public let schedule: InventorySchedule
 
@@ -3774,10 +3729,6 @@ extension S3 {
     }
 
     public struct InventoryEncryption: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ssekms", location: .body(locationName: "SSE-KMS")), 
-            AWSMemberEncoding(label: "sses3", location: .body(locationName: "SSE-S3"))
-        ]
 
         /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
         public let ssekms: SSEKMS?
@@ -3882,10 +3833,6 @@ extension S3 {
     }
 
     public struct LambdaFunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList), 
-            AWSMemberEncoding(label: "lambdaFunctionArn", location: .body(locationName: "CloudFunction"))
-        ]
 
         /// The Amazon S3 bucket event for which to invoke the AWS Lambda function. For more information, see Supported Event Types in the Amazon Simple Storage Service Developer Guide.
         public let events: [Event]
@@ -3911,9 +3858,6 @@ extension S3 {
 
     public struct LifecycleConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
-        ]
 
         /// Specifies lifecycle configuration rules for an Amazon S3 bucket. 
         public let rules: [Rule]
@@ -3950,10 +3894,6 @@ extension S3 {
     }
 
     public struct LifecycleRule: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "noncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), encoding: .flatList), 
-            AWSMemberEncoding(label: "transitions", location: .body(locationName: "Transition"), encoding: .flatList)
-        ]
 
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
@@ -3997,9 +3937,6 @@ extension S3 {
     }
 
     public struct LifecycleRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
-        ]
 
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
@@ -4050,9 +3987,6 @@ extension S3 {
     }
 
     public struct ListBucketAnalyticsConfigurationsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), encoding: .flatList)
-        ]
 
         /// The list of analytics configurations for a bucket.
         public let analyticsConfigurationList: [AnalyticsConfiguration]?
@@ -4098,9 +4032,6 @@ extension S3 {
     }
 
     public struct ListBucketInventoryConfigurationsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), encoding: .flatList)
-        ]
 
         /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
         public let continuationToken: String?
@@ -4146,9 +4077,6 @@ extension S3 {
     }
 
     public struct ListBucketMetricsConfigurationsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), encoding: .flatList)
-        ]
 
         /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
         public let continuationToken: String?
@@ -4194,12 +4122,11 @@ extension S3 {
     }
 
     public struct ListBucketsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "buckets", location: .body(locationName: "Buckets"), encoding: .list(member:"Bucket"))
-        ]
+        public struct _BucketsEncoding: ArrayCoderProperties { static public let member = "Bucket" }
 
         /// The list of buckets owned by the requestor.
-        public let buckets: [Bucket]?
+        @OptionalCoding<ArrayCoder<_BucketsEncoding, Bucket>>
+        public var buckets: [Bucket]?
         /// The owner of the buckets listed.
         public let owner: Owner?
 
@@ -4215,10 +4142,6 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
-            AWSMemberEncoding(label: "uploads", location: .body(locationName: "Upload"), encoding: .flatList)
-        ]
 
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
@@ -4315,11 +4238,6 @@ extension S3 {
     }
 
     public struct ListObjectVersionsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
-            AWSMemberEncoding(label: "deleteMarkers", location: .body(locationName: "DeleteMarker"), encoding: .flatList), 
-            AWSMemberEncoding(label: "versions", location: .body(locationName: "Version"), encoding: .flatList)
-        ]
 
         /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
@@ -4420,10 +4338,6 @@ extension S3 {
     }
 
     public struct ListObjectsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
-            AWSMemberEncoding(label: "contents", location: .body(locationName: "Contents"), encoding: .flatList)
-        ]
 
         /// All of the keys rolled up in a common prefix count as a single return when calculating the number of returns.  A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
@@ -4512,10 +4426,6 @@ extension S3 {
     }
 
     public struct ListObjectsV2Output: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
-            AWSMemberEncoding(label: "contents", location: .body(locationName: "Contents"), encoding: .flatList)
-        ]
 
         /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns. 
         public let commonPrefixes: [CommonPrefix]?
@@ -4624,7 +4534,6 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")), 
             AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")), 
-            AWSMemberEncoding(label: "parts", location: .body(locationName: "Part"), encoding: .flatList), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
 
@@ -4730,14 +4639,13 @@ extension S3 {
     }
 
     public struct LoggingEnabled: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGrants", location: .body(locationName: "TargetGrants"), encoding: .list(member:"Grant"))
-        ]
+        public struct _TargetGrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String
         /// Container for granting information.
-        public let targetGrants: [TargetGrant]?
+        @OptionalCoding<ArrayCoder<_TargetGrantsEncoding, TargetGrant>>
+        public var targetGrants: [TargetGrant]?
         /// A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket.
         public let targetPrefix: String
 
@@ -4791,9 +4699,6 @@ extension S3 {
     }
 
     public struct MetricsAndOperator: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
-        ]
 
         /// The prefix used when evaluating an AND predicate.
         public let prefix: String?
@@ -4935,11 +4840,6 @@ extension S3 {
 
     public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), encoding: .flatList), 
-            AWSMemberEncoding(label: "queueConfigurations", location: .body(locationName: "QueueConfiguration"), encoding: .flatList), 
-            AWSMemberEncoding(label: "topicConfigurations", location: .body(locationName: "TopicConfiguration"), encoding: .flatList)
-        ]
 
         /// Describes the AWS Lambda functions to invoke and the events for which to invoke them.
         public let lambdaFunctionConfigurations: [LambdaFunctionConfiguration]?
@@ -4985,9 +4885,6 @@ extension S3 {
     }
 
     public struct NotificationConfigurationFilter: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "key", location: .body(locationName: "S3Key"))
-        ]
 
         public let key: S3KeyFilter?
 
@@ -5254,9 +5151,6 @@ extension S3 {
     }
 
     public struct PolicyStatus: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "isPublic", location: .body(locationName: "IsPublic"))
-        ]
 
         /// The policy status for this bucket. TRUE indicates that this bucket is public. FALSE indicates that the bucket is not public.
         public let isPublic: Bool?
@@ -5308,12 +5202,6 @@ extension S3 {
 
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
-            AWSMemberEncoding(label: "blockPublicPolicy", location: .body(locationName: "BlockPublicPolicy")), 
-            AWSMemberEncoding(label: "ignorePublicAcls", location: .body(locationName: "IgnorePublicAcls")), 
-            AWSMemberEncoding(label: "restrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"))
-        ]
 
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
         public let blockPublicAcls: Bool?
@@ -6131,7 +6019,7 @@ extension S3 {
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
             AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-"), encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
             AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
             AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
             AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
@@ -6394,10 +6282,6 @@ extension S3 {
     }
 
     public struct QueueConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList), 
-            AWSMemberEncoding(label: "queueArn", location: .body(locationName: "Queue"))
-        ]
 
         /// A collection of bucket events for which to send notifications
         public let events: [Event]
@@ -6422,9 +6306,6 @@ extension S3 {
     }
 
     public struct QueueConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList)
-        ]
 
         /// A collection of bucket events for which to send notifications
         public let events: [Event]?
@@ -6509,9 +6390,6 @@ extension S3 {
 
     public struct ReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 assumes when replicating objects. For more information, see How to Set Up Replication in the Amazon Simple Storage Service Developer Guide.
         public let role: String
@@ -6579,9 +6457,6 @@ extension S3 {
     }
 
     public struct ReplicationRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
-        ]
 
         /// An object key name prefix that identifies the subset of objects to which the rule applies.
         public let prefix: String?
@@ -6853,9 +6728,6 @@ extension S3 {
     }
 
     public struct S3KeyFilter: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filterRules", location: .body(locationName: "FilterRule"), encoding: .flatList)
-        ]
 
         public let filterRules: [FilterRule]?
 
@@ -6869,13 +6741,12 @@ extension S3 {
     }
 
     public struct S3Location: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlList", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant")), 
-            AWSMemberEncoding(label: "userMetadata", location: .body(locationName: "UserMetadata"), encoding: .list(member:"MetadataEntry"))
-        ]
+        public struct _AccessControlListEncoding: ArrayCoderProperties { static public let member = "Grant" }
+        public struct _UserMetadataEncoding: ArrayCoderProperties { static public let member = "MetadataEntry" }
 
         /// A list of grants that control access to the staged results.
-        public let accessControlList: [Grant]?
+        @OptionalCoding<ArrayCoder<_AccessControlListEncoding, Grant>>
+        public var accessControlList: [Grant]?
         /// The name of the bucket where the restore results will be placed.
         public let bucketName: String
         /// The canned ACL to apply to the restore results.
@@ -6888,7 +6759,8 @@ extension S3 {
         /// The tag-set that is applied to the restore results.
         public let tagging: Tagging?
         /// A list of metadata to store with the restore results in S3.
-        public let userMetadata: [MetadataEntry]?
+        @OptionalCoding<ArrayCoder<_UserMetadataEncoding, MetadataEntry>>
+        public var userMetadata: [MetadataEntry]?
 
         public init(accessControlList: [Grant]? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, encryption: Encryption? = nil, prefix: String, storageClass: StorageClass? = nil, tagging: Tagging? = nil, userMetadata: [MetadataEntry]? = nil) {
             self.accessControlList = accessControlList
@@ -7113,9 +6985,6 @@ extension S3 {
 
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
-        ]
 
         /// Container for information about a particular server-side encryption configuration rule.
         public let rules: [ServerSideEncryptionRule]
@@ -7263,12 +7132,11 @@ extension S3 {
 
     public struct Tagging: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag"))
-        ]
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A collection for a set of tags
-        public let tagSet: [Tag]
+        @Coding<ArrayCoder<_TagSetEncoding, Tag>>
+        public var tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
             self.tagSet = tagSet
@@ -7304,10 +7172,6 @@ extension S3 {
     }
 
     public struct TopicConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList), 
-            AWSMemberEncoding(label: "topicArn", location: .body(locationName: "Topic"))
-        ]
 
         /// The Amazon S3 bucket event about which to send notifications. For more information, see Supported Event Types in the Amazon Simple Storage Service Developer Guide.
         public let events: [Event]
@@ -7332,9 +7196,6 @@ extension S3 {
     }
 
     public struct TopicConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList)
-        ]
 
         /// A collection of events related to objects
         public let events: [Event]?
@@ -7611,9 +7472,6 @@ extension S3 {
 
     public struct VersioningConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mFADelete", location: .body(locationName: "MfaDelete"))
-        ]
 
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
         public let mFADelete: MFADelete?
@@ -7633,9 +7491,7 @@ extension S3 {
 
     public struct WebsiteConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routingRules", location: .body(locationName: "RoutingRules"), encoding: .list(member:"RoutingRule"))
-        ]
+        public struct _RoutingRulesEncoding: ArrayCoderProperties { static public let member = "RoutingRule" }
 
         /// The name of the error document for the website.
         public let errorDocument: ErrorDocument?
@@ -7644,7 +7500,8 @@ extension S3 {
         /// The redirect behavior for every request to this bucket's website endpoint.  If you specify this property, you can't specify any other property. 
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
-        public let routingRules: [RoutingRule]?
+        @OptionalCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>
+        public var routingRules: [RoutingRule]?
 
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
             self.errorDocument = errorDocument

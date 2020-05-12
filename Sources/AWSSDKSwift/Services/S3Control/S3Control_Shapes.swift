@@ -222,8 +222,7 @@ extension S3Control {
     public struct CreateJobRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id"))
         ]
 
         public let accountId: String
@@ -244,7 +243,8 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
         /// An optional set of tags to associate with the job when it is created.
-        public let tags: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [S3Tag]?
 
         public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
@@ -606,12 +606,10 @@ extension S3Control {
     }
 
     public struct GetJobTaggingResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The set of tags associated with the job.
-        public let tags: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [S3Tag]?
 
         public init(tags: [S3Tag]? = nil) {
             self.tags = tags
@@ -661,9 +659,6 @@ extension S3Control {
     }
 
     public struct JobDescriptor: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "failureReasons", location: .body(locationName: "FailureReasons"), encoding: .list(member:"member"))
-        ]
 
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public let confirmationRequired: Bool?
@@ -672,7 +667,8 @@ extension S3Control {
         /// The description for this job, if one was provided in this job's Create Job request.
         public let description: String?
         /// If the specified job failed, this field contains information describing the failure.
-        public let failureReasons: [JobFailure]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var failureReasons: [JobFailure]?
         /// The Amazon Resource Name (ARN) for this job.
         public let jobArn: String?
         /// The ID for the specified job.
@@ -854,12 +850,10 @@ extension S3Control {
     }
 
     public struct JobManifestSpec: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fields", location: .body(locationName: "Fields"), encoding: .list(member:"member"))
-        ]
 
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
-        public let fields: [JobManifestFieldName]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
 
@@ -1025,12 +1019,11 @@ extension S3Control {
     }
 
     public struct ListAccessPointsResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointList", location: .body(locationName: "AccessPointList"), encoding: .list(member:"AccessPoint"))
-        ]
+        public struct _AccessPointListEncoding: ArrayCoderProperties { static public let member = "AccessPoint" }
 
         /// Contains identification and configuration information for one or more access points associated with the specified bucket.
-        public let accessPointList: [AccessPoint]?
+        @OptionalCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>>
+        public var accessPointList: [AccessPoint]?
         /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
@@ -1048,7 +1041,7 @@ extension S3Control {
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
-            AWSMemberEncoding(label: "jobStatuses", location: .querystring(locationName: "jobStatuses"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "jobStatuses", location: .querystring(locationName: "jobStatuses")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
@@ -1080,12 +1073,10 @@ extension S3Control {
     }
 
     public struct ListJobsResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
-        ]
 
         /// The list of current jobs and jobs that have ended within the last 30 days.
-        public let jobs: [JobListDescriptor]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
 
@@ -1101,9 +1092,6 @@ extension S3Control {
     }
 
     public struct PolicyStatus: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "isPublic", location: .body(locationName: "IsPublic"))
-        ]
 
         public let isPublic: Bool?
 
@@ -1118,12 +1106,6 @@ extension S3Control {
 
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
-            AWSMemberEncoding(label: "blockPublicPolicy", location: .body(locationName: "BlockPublicPolicy")), 
-            AWSMemberEncoding(label: "ignorePublicAcls", location: .body(locationName: "IgnorePublicAcls")), 
-            AWSMemberEncoding(label: "restrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"))
-        ]
 
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
         public let blockPublicAcls: Bool?
@@ -1184,8 +1166,7 @@ extension S3Control {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
         /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to replace tags on.
@@ -1193,7 +1174,8 @@ extension S3Control {
         /// The ID for the job whose tags you want to replace.
         public let jobId: String
         /// The set of tags to associate with the job.
-        public let tags: [S3Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [S3Tag]
 
         public init(accountId: String, jobId: String, tags: [S3Tag]) {
             self.accountId = accountId
@@ -1251,11 +1233,9 @@ extension S3Control {
     }
 
     public struct S3AccessControlList: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "grants", location: .body(locationName: "Grants"), encoding: .list(member:"member"))
-        ]
 
-        public let grants: [S3Grant]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
 
         public init(grants: [S3Grant]? = nil, owner: S3ObjectOwner) {
@@ -1297,17 +1277,15 @@ extension S3Control {
     }
 
     public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlGrants", location: .body(locationName: "AccessControlGrants"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "newObjectTagging", location: .body(locationName: "NewObjectTagging"), encoding: .list(member:"member"))
-        ]
 
-        public let accessControlGrants: [S3Grant]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
         public let metadataDirective: S3MetadataDirective?
         public let modifiedSinceConstraint: TimeStamp?
         public let newObjectMetadata: S3ObjectMetadata?
-        public let newObjectTagging: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var newObjectTagging: [S3Tag]?
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
         public let objectLockMode: S3ObjectLockMode?
         public let objectLockRetainUntilDate: TimeStamp?
@@ -1443,9 +1421,6 @@ extension S3Control {
     }
 
     public struct S3ObjectMetadata: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userMetadata", location: .body(locationName: "UserMetadata"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         public let cacheControl: String?
         public let contentDisposition: String?
@@ -1457,7 +1432,8 @@ extension S3Control {
         public let httpExpiresDate: TimeStamp?
         public let requesterCharged: Bool?
         public let sSEAlgorithm: S3SSEAlgorithm?
-        public let userMetadata: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var userMetadata: [String: String]?
 
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
@@ -1550,11 +1526,9 @@ extension S3Control {
     }
 
     public struct S3SetObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"member"))
-        ]
 
-        public let tagSet: [S3Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tagSet: [S3Tag]?
 
         public init(tagSet: [S3Tag]? = nil) {
             self.tagSet = tagSet

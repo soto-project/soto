@@ -123,16 +123,6 @@ extension CloudHSM {
     }
 
     public struct CreateHsmRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .body(locationName: "ClientToken")), 
-            AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
-            AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
-            AWSMemberEncoding(label: "iamRoleArn", location: .body(locationName: "IamRoleArn")), 
-            AWSMemberEncoding(label: "sshKey", location: .body(locationName: "SshKey")), 
-            AWSMemberEncoding(label: "subnetId", location: .body(locationName: "SubnetId")), 
-            AWSMemberEncoding(label: "subscriptionType", location: .body(locationName: "SubscriptionType")), 
-            AWSMemberEncoding(label: "syslogIp", location: .body(locationName: "SyslogIp"))
-        ]
 
         /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
         public let clientToken: String?
@@ -269,9 +259,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHsmRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn"))
-        ]
 
         /// The ARN of the HSM to delete.
         public let hsmArn: String
@@ -823,14 +810,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHsmRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
-            AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
-            AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn")), 
-            AWSMemberEncoding(label: "iamRoleArn", location: .body(locationName: "IamRoleArn")), 
-            AWSMemberEncoding(label: "subnetId", location: .body(locationName: "SubnetId")), 
-            AWSMemberEncoding(label: "syslogIp", location: .body(locationName: "SyslogIp"))
-        ]
 
         /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
         public let eniIp: String?

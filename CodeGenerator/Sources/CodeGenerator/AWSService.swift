@@ -115,6 +115,8 @@ struct AWSService {
 
 //MARK: Generate contexts
 
+protocol EncodingPropertiesContext {}
+
 extension AWSService {
     struct ErrorContext {
         let `enum`: String
@@ -150,12 +152,25 @@ extension AWSService {
         let values: [EnumMemberContext]
     }
 
+    struct ArrayEncodingPropertiesContext: EncodingPropertiesContext {
+        let name: String
+        let member: String
+    }
+
+    struct DictionaryEncodingPropertiesContext: EncodingPropertiesContext {
+        let name: String
+        let entry: String?
+        let key: String
+        let value: String
+    }
+
     struct MemberContext {
         let variable: String
         let locationPath: String
         let parameter: String
         let required: Bool
         let `default`: String?
+        let propertyWrapper: String?
         let type: String
         let comment: [String.SubSequence]
         var duplicate: Bool
@@ -208,6 +223,7 @@ extension AWSService {
         let shapeProtocol: String
         let payload: String?
         let namespace: String?
+        let encoding: [EncodingPropertiesContext]
         let members: [MemberContext]
         let awsShapeMembers: [AWSShapeMemberContext]
         let codingKeys: [CodingKeysContext]
@@ -424,6 +440,78 @@ extension AWSService {
         )
     }
 
+    func getArrayEntryName(_ list: Shape.ShapeType.ListType) -> String {
+        return list.member.locationName ?? "member"
+    }
+
+    func getDictionaryEntryNames(_ map: Shape.ShapeType.MapType, member: Shape.Member) -> (entry: String?, key: String, value: String) {
+        if map.flattened == true || member.flattened == true {
+            return (entry: nil, key: map.key.locationName ?? "key", value: map.value.locationName ?? "value")
+        } else {
+            return (entry: "entry", key: map.key.locationName ?? "key", value: map.value.locationName ?? "value")
+        }
+    }
+
+    func encodingName(_ name: String) -> String {
+        return "_\(name)Encoding"
+    }
+
+    func generatePropertyWrapper(_ member: Shape.Member, name: String) -> String? {
+        guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
+        let codingWrapper: String
+        if member.required {
+            codingWrapper = "@Coding"
+        } else {
+            codingWrapper = "@OptionalCoding"
+        }
+
+        // if not located in body don't generate collection encoding property wrapper
+        if let location = member.location {
+            guard case .body = location else { return nil }
+        }
+
+        switch member.shape.type {
+        case .list(let list):
+            guard list.flattened != true && member.flattened != true else { return nil }
+            let entryName = getArrayEntryName(list)
+            if entryName == "member"  {
+                return "\(codingWrapper)<DefaultArrayCoder>"
+            } else {
+                return "\(codingWrapper)<ArrayCoder<\(encodingName(name)), \(list.member.shape.swiftTypeName)>>"
+            }
+        case .map(let map):
+            let names = getDictionaryEntryNames(map, member: member)
+            if names.entry == "entry" && names.key == "key" && names.value == "value" {
+                return "\(codingWrapper)<DefaultDictionaryCoder>"
+            } else {
+                return "\(codingWrapper)<DictionaryCoder<\(encodingName(name)), \(map.key.shape.swiftTypeName), \(map.value.shape.swiftTypeName)>>"
+            }
+        default:
+            return nil
+        }
+    }
+
+    /// Generate encoding contexts
+    func generateEncodingPropertyContext(_ member: Shape.Member, name: String) -> EncodingPropertiesContext? {
+        guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
+        if let location = member.location {
+            guard case .body = location else { return nil }
+        }
+        switch member.shape.type {
+            case .list(let list):
+                guard list.flattened != true && member.flattened != true else { return nil }
+                let entryName = getArrayEntryName(list)
+                guard entryName != "member" else { return nil }
+                return ArrayEncodingPropertiesContext(name: encodingName(name), member: entryName)
+            case .map(let map):
+                let names = getDictionaryEntryNames(map, member: member)
+                guard names.entry != "entry" || names.key != "key" || names.value != "value" else { return nil }
+                return DictionaryEncodingPropertiesContext(name: encodingName(name), entry: names.entry, key: names.key, value: names.value)
+            default:
+                return nil
+        }
+    }
+
     /// return if shape has a recursive reference (function only tests 2 levels)
     func doesShapeHaveRecursiveOwnReference(_ shape: Shape, type: Shape.ShapeType.StructureType) -> Bool {
         let hasRecursiveOwnReference = type.members.values.contains(where: { member in
@@ -471,6 +559,7 @@ extension AWSService {
             parameter: name.toSwiftLabelCase(),
             required: member.required,
             default: defaultValue,
+            propertyWrapper: generatePropertyWrapper(member, name: name),
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
             comment: memberDocs ?? [],
             duplicate: false
@@ -509,14 +598,14 @@ extension AWSService {
             break
         }
 
-        guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
+        /*guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
 
         switch member.shape.type {
         case .list(let list):
             if list.flattened == true || member.flattened == true {
                 return ".flatList"
             } else {
-                return ".list(member:\"\(list.member.locationName ?? "member")\")"
+                return ".list(member:\"\(getArrayEntryName(list))\")"
             }
         case .map(let map):
             if map.flattened == true || member.flattened == true {
@@ -526,7 +615,7 @@ extension AWSService {
             }
         default:
             break
-        }
+        }*/
         return nil
     }
 
@@ -534,14 +623,14 @@ extension AWSService {
     func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> AWSShapeMemberContext? {
         let isPayload = (shape.payload == name)
         let encoding = getEncoding(for: member, isPayload: isPayload)
-        var locationName: String? = member.getLocationName()
+        var locationName: String? = member.locationName
         let location = member.location ?? .body
 
         if ((isPayload && shape.usedInOutput) || encoding != nil || (location != .body)) && locationName == nil {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
-        if location == .body && locationName == name.toSwiftLabelCase() {
+        if location == .body && (locationName == name.toSwiftLabelCase() || !isPayload) {
             locationName = nil
         }
         guard locationName != nil || encoding != nil else { return nil }
@@ -658,6 +747,7 @@ extension AWSService {
 
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: Shape.ShapeType.StructureType) -> StructureContext {
+        var encodingContexts: [EncodingPropertiesContext] = []
         var memberContexts: [MemberContext] = []
         var codingKeyContexts: [CodingKeysContext] = []
         var awsShapeMemberContexts: [AWSShapeMemberContext] = []
@@ -694,6 +784,10 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
+            if let encodingContext = generateEncodingPropertyContext(member.value, name: member.key) {
+                encodingContexts.append(encodingContext)
+            }
+
             if let awsShapeMemberContext = generateAWSShapeMemberContext(
                 member.value,
                 name: member.key,
@@ -721,6 +815,7 @@ extension AWSService {
             shapeProtocol: shapeProtocol,
             payload: shape.payload?.toSwiftLabelCase(),
             namespace: shape.xmlNamespace?.uri,
+            encoding: encodingContexts,
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,
             codingKeys: codingKeyContexts,
@@ -758,7 +853,6 @@ extension AWSService {
         context["shapes"] = shapeContexts
         return context
     }
-
 }
 
 //MARK: Extensions

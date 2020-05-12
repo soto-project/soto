@@ -23,15 +23,13 @@ extension SNS {
     //MARK: Shapes
 
     public struct AddPermissionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .body(locationName: "ActionName"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "aWSAccountId", location: .body(locationName: "AWSAccountId"), encoding: .list(member:"member"))
-        ]
 
         /// The action you want to allow for the specified principal(s). Valid values: Any Amazon SNS action name, for example Publish.
-        public let actionName: [String]
+        @Coding<DefaultArrayCoder>
+        public var actionName: [String]
         /// The AWS account IDs of the users (principals) who will be given access to the specified actions. The users must have AWS accounts, but do not need to be signed up for this service.
-        public let aWSAccountId: [String]
+        @Coding<DefaultArrayCoder>
+        public var aWSAccountId: [String]
         /// A unique identifier for the new policy statement.
         public let label: String
         /// The ARN of the topic whose access control policy you wish to modify.
@@ -131,12 +129,10 @@ extension SNS {
     }
 
     public struct CreatePlatformApplicationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// For a list of attributes, see SetPlatformApplicationAttributes 
-        public let attributes: [String: String]
+        @Coding<DefaultDictionaryCoder>
+        public var attributes: [String: String]
         /// Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
         public let name: String
         /// The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and FCM (Firebase Cloud Messaging).
@@ -170,12 +166,10 @@ extension SNS {
     }
 
     public struct CreatePlatformEndpointInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// For a list of attributes, see SetEndpointAttributes.
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
         /// Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
         public let customUserData: String?
         /// PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint.
@@ -199,17 +193,15 @@ extension SNS {
     }
 
     public struct CreateTopicInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
         /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
         public let name: String
         /// The list of tags to add to a new topic.  To be able to tag a topic on creation, you must have the sns:CreateTopic and sns:TagResource permissions. 
-        public let tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(attributes: [String: String]? = nil, name: String, tags: [Tag]? = nil) {
             self.attributes = attributes
@@ -287,12 +279,10 @@ extension SNS {
     }
 
     public struct Endpoint: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// Attributes for endpoint.
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
         /// EndpointArn for mobile app and device.
         public let endpointArn: String?
 
@@ -322,12 +312,10 @@ extension SNS {
     }
 
     public struct GetEndpointAttributesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// Attributes include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  The device token for the iOS platform is returned in lowercase.   
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
 
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
@@ -353,12 +341,10 @@ extension SNS {
     }
 
     public struct GetPlatformApplicationAttributesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// Attributes include the following:    EventEndpointCreated – Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.  
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
 
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
@@ -370,12 +356,10 @@ extension SNS {
     }
 
     public struct GetSMSAttributesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", encoding: .list(member:"member"))
-        ]
 
         /// A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
-        public let attributes: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var attributes: [String]?
 
         public init(attributes: [String]? = nil) {
             self.attributes = attributes
@@ -387,12 +371,10 @@ extension SNS {
     }
 
     public struct GetSMSAttributesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// The SMS attribute names and their values.
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
 
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
@@ -418,12 +400,10 @@ extension SNS {
     }
 
     public struct GetSubscriptionAttributesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of the subscription's attributes. Attributes in this map include the following:    ConfirmationWasAuthenticated – true if the subscription confirmation request was authenticated.    DeliveryPolicy – The JSON serialization of the subscription's delivery policy.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults.    FilterPolicy – The filter policy JSON that is assigned to the subscription.    Owner – The AWS account ID of the subscription's owner.    PendingConfirmation – true if the subscription hasn't been confirmed. To confirm a pending subscription, call the ConfirmSubscription action with a confirmation token.    RawMessageDelivery – true if raw message delivery is enabled for the subscription. Raw messages are free of JSON formatting and can be sent to HTTP/S and Amazon SQS endpoints.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.    SubscriptionArn – The subscription's ARN.    TopicArn – The topic ARN that the subscription is associated with.  
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
 
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
@@ -449,12 +429,10 @@ extension SNS {
     }
 
     public struct GetTopicAttributesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of the topic's attributes. Attributes in this map include the following:    DeliveryPolicy – The JSON serialization of the topic's delivery policy.    DisplayName – The human-readable name used in the From field for notifications to email and email-json endpoints.    Owner – The AWS account ID of the topic's owner.    Policy – The JSON serialization of the topic's access control policy.    SubscriptionsConfirmed – The number of confirmed subscriptions for the topic.    SubscriptionsDeleted – The number of deleted subscriptions for the topic.    SubscriptionsPending – The number of subscriptions pending confirmation for the topic.    TopicArn – The topic's ARN.    EffectiveDeliveryPolicy – Yhe JSON serialization of the effective delivery policy, taking system defaults into account.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.  
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
 
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
@@ -484,12 +462,10 @@ extension SNS {
     }
 
     public struct ListEndpointsByPlatformApplicationResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpoints", location: .body(locationName: "Endpoints"), encoding: .list(member:"member"))
-        ]
 
         /// Endpoints returned for ListEndpointsByPlatformApplication action.
-        public let endpoints: [Endpoint]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var endpoints: [Endpoint]?
         /// NextToken string is returned when calling ListEndpointsByPlatformApplication action if additional records are available after the first page results.
         public let nextToken: String?
 
@@ -519,14 +495,12 @@ extension SNS {
     }
 
     public struct ListPhoneNumbersOptedOutResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumbers", encoding: .list(member:"member"))
-        ]
 
         /// A NextToken string is returned when you call the ListPhoneNumbersOptedOut action if additional records are available after the first page of results.
         public let nextToken: String?
         /// A list of phone numbers that are opted out of receiving SMS messages. The list is paginated, and each page can contain up to 100 phone numbers.
-        public let phoneNumbers: [String]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var phoneNumbers: [String]?
 
         public init(nextToken: String? = nil, phoneNumbers: [String]? = nil) {
             self.nextToken = nextToken
@@ -554,14 +528,12 @@ extension SNS {
     }
 
     public struct ListPlatformApplicationsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "platformApplications", location: .body(locationName: "PlatformApplications"), encoding: .list(member:"member"))
-        ]
 
         /// NextToken string is returned when calling ListPlatformApplications action if additional records are available after the first page results.
         public let nextToken: String?
         /// Platform applications returned when calling ListPlatformApplications action.
-        public let platformApplications: [PlatformApplication]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var platformApplications: [PlatformApplication]?
 
         public init(nextToken: String? = nil, platformApplications: [PlatformApplication]? = nil) {
             self.nextToken = nextToken
@@ -593,14 +565,12 @@ extension SNS {
     }
 
     public struct ListSubscriptionsByTopicResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptions", location: .body(locationName: "Subscriptions"), encoding: .list(member:"member"))
-        ]
 
         /// Token to pass along to the next ListSubscriptionsByTopic request. This element is returned if there are more subscriptions to retrieve.
         public let nextToken: String?
         /// A list of subscriptions.
-        public let subscriptions: [Subscription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var subscriptions: [Subscription]?
 
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
@@ -628,14 +598,12 @@ extension SNS {
     }
 
     public struct ListSubscriptionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptions", location: .body(locationName: "Subscriptions"), encoding: .list(member:"member"))
-        ]
 
         /// Token to pass along to the next ListSubscriptions request. This element is returned if there are more subscriptions to retrieve.
         public let nextToken: String?
         /// A list of subscriptions.
-        public let subscriptions: [Subscription]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var subscriptions: [Subscription]?
 
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
@@ -668,12 +636,10 @@ extension SNS {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The tags associated with the specified topic.
-        public let tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
@@ -699,14 +665,12 @@ extension SNS {
     }
 
     public struct ListTopicsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "topics", location: .body(locationName: "Topics"), encoding: .list(member:"member"))
-        ]
 
         /// Token to pass along to the next ListTopics request. This element is returned if there are additional topics to retrieve.
         public let nextToken: String?
         /// A list of topic ARNs.
-        public let topics: [Topic]?
+        @OptionalCoding<DefaultArrayCoder>
+        public var topics: [Topic]?
 
         public init(nextToken: String? = nil, topics: [Topic]? = nil) {
             self.nextToken = nextToken
@@ -764,12 +728,10 @@ extension SNS {
     }
 
     public struct PlatformApplication: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// Attributes for platform application object.
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
         /// PlatformApplicationArn for platform application object.
         public let platformApplicationArn: String?
 
@@ -785,14 +747,13 @@ extension SNS {
     }
 
     public struct PublishInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageAttributes", location: .body(locationName: "MessageAttributes"), encoding: .map(entry:"entry", key: "Name", value: "Value"))
-        ]
+        public struct _MessageAttributesEncoding: DictionaryCoderProperties { static public let entry: String? = "entry"; static public let key = "Name"; static public let value = "Value" }
 
         /// The message you want to send. If you are publishing to a topic and you want to send the same message to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter.   Constraints:   With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 characters).   For SMS, each message can contain up to 140 characters. This character limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries. The total size limit for a single SMS Publish action is 1,600 characters.   JSON-specific constraints:   Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values.   The values will be parsed (unescaped) before they are used in outgoing messages.   Outbound notifications are JSON encoded (meaning that the characters will be reescaped for sending).   Values have a minimum length of 0 (the empty string, "", is allowed).   Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes).   Non-string values will cause the key to be ignored.   Keys that do not correspond to supported transport protocols are ignored.   Duplicate keys are not allowed.   Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).  
         public let message: String
         /// Message attributes for Publish action.
-        public let messageAttributes: [String: MessageAttributeValue]?
+        @OptionalCoding<DictionaryCoder<_MessageAttributesEncoding, String, MessageAttributeValue>>
+        public var messageAttributes: [String: MessageAttributeValue]?
         /// Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json, the value of the Message parameter must:    be a syntactically valid JSON object; and   contain at least a top-level JSON key of "default" with a value that is a string.   You can define other top-level keys that define the message you want to send to a specific transport protocol (e.g., "http"). Valid value: json 
         public let messageStructure: String?
         /// The phone number to which you want to deliver an SMS message. Use E.164 format. If you don't specify a value for the PhoneNumber parameter, you must specify a value for the TargetArn or TopicArn parameters.
@@ -858,12 +819,10 @@ extension SNS {
     }
 
     public struct SetEndpointAttributesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of the endpoint attributes. Attributes in this map include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  
-        public let attributes: [String: String]
+        @Coding<DefaultDictionaryCoder>
+        public var attributes: [String: String]
         /// EndpointArn used for SetEndpointAttributes action.
         public let endpointArn: String
 
@@ -879,12 +838,10 @@ extension SNS {
     }
 
     public struct SetPlatformApplicationAttributesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of the platform application attributes. Attributes in this map include the following:    PlatformCredential – The credential received from the notification service. For APNS/APNS_SANDBOX, PlatformCredential is private key. For FCM, PlatformCredential is "API key". For ADM, PlatformCredential is "client secret".    PlatformPrincipal – The principal received from the notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is SSL certificate. For FCM, PlatformPrincipal is not applicable. For ADM, PlatformPrincipal is "client id".    EventEndpointCreated – Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.    SuccessFeedbackRoleArn – IAM role ARN used to give Amazon SNS write access to use CloudWatch Logs on your behalf.    FailureFeedbackRoleArn – IAM role ARN used to give Amazon SNS write access to use CloudWatch Logs on your behalf.    SuccessFeedbackSampleRate – Sample rate percentage (0-100) of successfully delivered messages.  
-        public let attributes: [String: String]
+        @Coding<DefaultDictionaryCoder>
+        public var attributes: [String: String]
         /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
         public let platformApplicationArn: String
 
@@ -900,12 +857,10 @@ extension SNS {
     }
 
     public struct SetSMSAttributesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
-        public let attributes: [String: String]
+        @Coding<DefaultDictionaryCoder>
+        public var attributes: [String: String]
 
         public init(attributes: [String: String]) {
             self.attributes = attributes
@@ -969,12 +924,10 @@ extension SNS {
     }
 
     public struct SubscribeInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.  
-        public let attributes: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder>
+        public var attributes: [String: String]?
         /// The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the endpoint is an URL beginning with http://    For the https protocol, the endpoint is a URL beginning with https://    For the email protocol, the endpoint is an email address   For the email-json protocol, the endpoint is an email address   For the sms protocol, the endpoint is a phone number of an SMS-enabled device   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an Amazon Lambda function.  
         public let endpoint: String?
         /// The protocol you want to use. Supported protocols include:    http – delivery of JSON-encoded message via HTTP POST    https – delivery of JSON-encoded message via HTTPS POST    email – delivery of message via SMTP    email-json – delivery of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded message to an EndpointArn for a mobile app and device.    lambda – delivery of JSON-encoded message to an Amazon Lambda function.  
@@ -1071,14 +1024,12 @@ extension SNS {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The ARN of the topic to which to add tags.
         public let resourceArn: String
         /// The tags to be added to the specified topic. A tag consists of a required key and an optional value.
-        public let tags: [Tag]
+        @Coding<DefaultArrayCoder>
+        public var tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
@@ -1136,14 +1087,12 @@ extension SNS {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
-        ]
 
         /// The ARN of the topic from which to remove tags.
         public let resourceArn: String
         /// The list of tag keys to remove from the specified topic.
-        public let tagKeys: [String]
+        @Coding<DefaultArrayCoder>
+        public var tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn

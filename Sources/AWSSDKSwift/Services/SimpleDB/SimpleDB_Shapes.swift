@@ -47,9 +47,6 @@ extension SimpleDB {
     }
 
     public struct BatchDeleteAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Item"), encoding: .flatList)
-        ]
 
         /// The name of the domain in which the attributes are being deleted.
         public let domainName: String
@@ -68,9 +65,6 @@ extension SimpleDB {
     }
 
     public struct BatchPutAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Item"), encoding: .flatList)
-        ]
 
         /// The name of the domain in which the attributes are being stored.
         public let domainName: String
@@ -121,10 +115,6 @@ extension SimpleDB {
     }
 
     public struct DeletableItem: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList), 
-            AWSMemberEncoding(label: "name", location: .body(locationName: "ItemName"))
-        ]
 
         public let attributes: [DeletableAttribute]?
         public let name: String
@@ -141,9 +131,6 @@ extension SimpleDB {
     }
 
     public struct DeleteAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
-        ]
 
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
         public let attributes: [DeletableAttribute]?
@@ -236,9 +223,6 @@ extension SimpleDB {
     }
 
     public struct GetAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeName"), encoding: .flatList)
-        ]
 
         /// The names of the attributes.
         public let attributeNames: [String]?
@@ -265,9 +249,6 @@ extension SimpleDB {
     }
 
     public struct GetAttributesResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
-        ]
 
         /// The list of attributes returned by the operation.
         public let attributes: [Attribute]?
@@ -282,9 +263,6 @@ extension SimpleDB {
     }
 
     public struct Item: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
-        ]
 
         public let alternateNameEncoding: String?
         /// A list of attributes.
@@ -324,9 +302,6 @@ extension SimpleDB {
     }
 
     public struct ListDomainsResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainName"), encoding: .flatList)
-        ]
 
         /// A list of domain names that match the expression.
         public let domainNames: [String]?
@@ -345,9 +320,6 @@ extension SimpleDB {
     }
 
     public struct PutAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
-        ]
 
         /// The list of attributes.
         public let attributes: [ReplaceableAttribute]
@@ -396,10 +368,6 @@ extension SimpleDB {
     }
 
     public struct ReplaceableItem: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList), 
-            AWSMemberEncoding(label: "name", location: .body(locationName: "ItemName"))
-        ]
 
         /// The list of attributes for a replaceable item.
         public let attributes: [ReplaceableAttribute]
@@ -440,9 +408,6 @@ extension SimpleDB {
     }
 
     public struct SelectResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Item"), encoding: .flatList)
-        ]
 
         /// A list of items that match the select expression.
         public let items: [Item]?

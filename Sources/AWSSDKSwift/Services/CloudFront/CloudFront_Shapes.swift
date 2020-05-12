@@ -118,14 +118,13 @@ extension CloudFront {
     //MARK: Shapes
 
     public struct ActiveTrustedSigners: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Signer"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Signer" }
 
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this distribution have active CloudFront key pairs. If not, Enabled is false.
         public let enabled: Bool
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type.
-        public let items: [Signer]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, Signer>>
+        public var items: [Signer]?
         /// The number of trusted signers specified in the TrustedSigners complex type.
         public let quantity: Int
 
@@ -161,12 +160,11 @@ extension CloudFront {
     }
 
     public struct Aliases: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CNAME"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "CNAME" }
 
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
         public let quantity: Int
 
@@ -182,13 +180,12 @@ extension CloudFront {
     }
 
     public struct AllowedMethods: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Method"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Method" }
 
         public let cachedMethods: CachedMethods?
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
-        public let items: [Method]
+        @Coding<ArrayCoder<_ItemsEncoding, Method>>
+        public var items: [Method]
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int
 
@@ -267,12 +264,11 @@ extension CloudFront {
     }
 
     public struct CacheBehaviors: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CacheBehavior"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "CacheBehavior" }
 
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
-        public let items: [CacheBehavior]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, CacheBehavior>>
+        public var items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution. 
         public let quantity: Int
 
@@ -288,12 +284,11 @@ extension CloudFront {
     }
 
     public struct CachedMethods: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Method"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Method" }
 
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
-        public let items: [Method]
+        @Coding<ArrayCoder<_ItemsEncoding, Method>>
+        public var items: [Method]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
         public let quantity: Int
 
@@ -350,14 +345,13 @@ extension CloudFront {
     }
 
     public struct CloudFrontOriginAccessIdentityList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CloudFrontOriginAccessIdentitySummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "CloudFrontOriginAccessIdentitySummary" }
 
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
         public let isTruncated: Bool
         /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
-        public let items: [CloudFrontOriginAccessIdentitySummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, CloudFrontOriginAccessIdentitySummary>>
+        public var items: [CloudFrontOriginAccessIdentitySummary]?
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
         public let marker: String
         /// The maximum number of origin access identities you want in the response body. 
@@ -449,12 +443,11 @@ extension CloudFront {
     }
 
     public struct ContentTypeProfiles: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"ContentTypeProfile"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "ContentTypeProfile" }
 
         /// Items in a field-level encryption content type-profile mapping. 
-        public let items: [ContentTypeProfile]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, ContentTypeProfile>>
+        public var items: [ContentTypeProfile]?
         /// The number of field-level encryption content type-profile mappings. 
         public let quantity: Int
 
@@ -470,12 +463,11 @@ extension CloudFront {
     }
 
     public struct CookieNames: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Name" }
 
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior. It must contain the same number of items that is specified in the Quantity field. When you set Forward = whitelist (in the CookiePreferences object), this field must contain at least one item.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior. The value must equal the number of items that are in the Items field. When you set Forward = whitelist (in the CookiePreferences object), this value must be 1 or higher.
         public let quantity: Int
 
@@ -978,12 +970,11 @@ extension CloudFront {
     }
 
     public struct CustomErrorResponses: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CustomErrorResponse"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "CustomErrorResponse" }
 
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
-        public let items: [CustomErrorResponse]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, CustomErrorResponse>>
+        public var items: [CustomErrorResponse]?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
         public let quantity: Int
 
@@ -999,12 +990,11 @@ extension CloudFront {
     }
 
     public struct CustomHeaders: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginCustomHeader"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "OriginCustomHeader" }
 
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
-        public let items: [OriginCustomHeader]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, OriginCustomHeader>>
+        public var items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
         public let quantity: Int
 
@@ -1225,14 +1215,13 @@ extension CloudFront {
     }
 
     public struct Distribution: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasICPRecordals", location: .body(locationName: "AliasICPRecordals"), encoding: .list(member:"AliasICPRecordal"))
-        ]
+        public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { static public let member = "AliasICPRecordal" }
 
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
         public let activeTrustedSigners: ActiveTrustedSigners
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
-        public let aliasICPRecordals: [AliasICPRecordal]?
+        @OptionalCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
+        public var aliasICPRecordals: [AliasICPRecordal]?
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
@@ -1382,14 +1371,13 @@ extension CloudFront {
     }
 
     public struct DistributionList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"DistributionSummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "DistributionSummary" }
 
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
         /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: [DistributionSummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, DistributionSummary>>
+        public var items: [DistributionSummary]?
         /// The value you provided for the Marker request parameter.
         public let marker: String
         /// The value you provided for the MaxItems request parameter.
@@ -1419,14 +1407,13 @@ extension CloudFront {
     }
 
     public struct DistributionSummary: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasICPRecordals", location: .body(locationName: "AliasICPRecordals"), encoding: .list(member:"AliasICPRecordal"))
-        ]
+        public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { static public let member = "AliasICPRecordal" }
 
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
-        public let aliasICPRecordals: [AliasICPRecordal]?
+        @OptionalCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
+        public var aliasICPRecordals: [AliasICPRecordal]?
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
         /// A complex type that contains zero or more CacheBehavior elements.
@@ -1512,12 +1499,11 @@ extension CloudFront {
     }
 
     public struct EncryptionEntities: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"EncryptionEntity"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "EncryptionEntity" }
 
         /// An array of field patterns in a field-level encryption content type-profile mapping. 
-        public let items: [EncryptionEntity]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, EncryptionEntity>>
+        public var items: [EncryptionEntity]?
         /// Number of field pattern items in a field-level encryption content type-profile mapping. 
         public let quantity: Int
 
@@ -1604,12 +1590,11 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldLevelEncryptionSummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "FieldLevelEncryptionSummary" }
 
         /// An array of field-level encryption items.
-        public let items: [FieldLevelEncryptionSummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionSummary>>
+        public var items: [FieldLevelEncryptionSummary]?
         /// The maximum number of elements you want in the response body. 
         public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your configurations where you left off.
@@ -1682,12 +1667,11 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionProfileList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldLevelEncryptionProfileSummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "FieldLevelEncryptionProfileSummary" }
 
         /// The field-level encryption profile items.
-        public let items: [FieldLevelEncryptionProfileSummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionProfileSummary>>
+        public var items: [FieldLevelEncryptionProfileSummary]?
         /// The maximum number of field-level encryption profiles you want in the response body. 
         public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your profiles where you left off.
@@ -1771,12 +1755,11 @@ extension CloudFront {
     }
 
     public struct FieldPatterns: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldPattern"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "FieldPattern" }
 
         /// An array of the field-level encryption field patterns.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of field-level encryption field patterns.
         public let quantity: Int
 
@@ -1818,12 +1801,11 @@ extension CloudFront {
     }
 
     public struct GeoRestriction: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Location"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Location" }
 
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
@@ -2349,12 +2331,11 @@ extension CloudFront {
     }
 
     public struct Headers: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Name" }
 
         /// A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0, omit Items.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.      Forward a whitelist of headers you specify: Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.    Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.   Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:    S3 bucket: See HTTP Request Headers That CloudFront Removes or Updates     Custom origin: See HTTP Request Headers and CloudFront Behavior   
         public let quantity: Int
 
@@ -2415,14 +2396,13 @@ extension CloudFront {
     }
 
     public struct InvalidationList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"InvalidationSummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "InvalidationSummary" }
 
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
         public let isTruncated: Bool
         /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
-        public let items: [InvalidationSummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, InvalidationSummary>>
+        public var items: [InvalidationSummary]?
         /// The value that you provided for the Marker request parameter.
         public let marker: String
         /// The value that you provided for the MaxItems request parameter.
@@ -2474,12 +2454,11 @@ extension CloudFront {
     }
 
     public struct KeyPairIds: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"KeyPairId"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "KeyPairId" }
 
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let quantity: Int
 
@@ -2517,12 +2496,11 @@ extension CloudFront {
     }
 
     public struct LambdaFunctionAssociations: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"LambdaFunctionAssociation"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "LambdaFunctionAssociation" }
 
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: [LambdaFunctionAssociation]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, LambdaFunctionAssociation>>
+        public var items: [LambdaFunctionAssociation]?
         /// The number of Lambda function associations for this cache behavior.
         public let quantity: Int
 
@@ -3025,12 +3003,11 @@ extension CloudFront {
     }
 
     public struct OriginGroupMembers: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginGroupMember"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "OriginGroupMember" }
 
         /// Items (origins) in an origin group.
-        public let items: [OriginGroupMember]
+        @Coding<ArrayCoder<_ItemsEncoding, OriginGroupMember>>
+        public var items: [OriginGroupMember]
         /// The number of origins in an origin group.
         public let quantity: Int
 
@@ -3051,12 +3028,11 @@ extension CloudFront {
     }
 
     public struct OriginGroups: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginGroup"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "OriginGroup" }
 
         /// The items (origin groups) in a distribution.
-        public let items: [OriginGroup]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, OriginGroup>>
+        public var items: [OriginGroup]?
         /// The number of origin groups.
         public let quantity: Int
 
@@ -3078,12 +3054,11 @@ extension CloudFront {
     }
 
     public struct OriginSslProtocols: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"SslProtocol"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "SslProtocol" }
 
         /// A list that contains allowed SSL/TLS protocols for this distribution.
-        public let items: [SslProtocol]
+        @Coding<ArrayCoder<_ItemsEncoding, SslProtocol>>
+        public var items: [SslProtocol]
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
         public let quantity: Int
 
@@ -3099,12 +3074,11 @@ extension CloudFront {
     }
 
     public struct Origins: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Origin"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Origin" }
 
         /// A complex type that contains origins or origin groups for this distribution.
-        public let items: [Origin]
+        @Coding<ArrayCoder<_ItemsEncoding, Origin>>
+        public var items: [Origin]
         /// The number of origins or origin groups for this distribution.
         public let quantity: Int
 
@@ -3124,12 +3098,11 @@ extension CloudFront {
     }
 
     public struct Paths: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Path"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Path" }
 
         /// A complex type that contains a list of the paths that you want to invalidate.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of invalidation paths specified for the objects that you want to invalidate.
         public let quantity: Int
 
@@ -3194,12 +3167,11 @@ extension CloudFront {
     }
 
     public struct PublicKeyList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"PublicKeySummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "PublicKeySummary" }
 
         /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
-        public let items: [PublicKeySummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, PublicKeySummary>>
+        public var items: [PublicKeySummary]?
         /// The maximum number of public keys you want in the response body. 
         public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
@@ -3289,12 +3261,11 @@ extension CloudFront {
     }
 
     public struct QueryArgProfiles: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"QueryArgProfile"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "QueryArgProfile" }
 
         /// Number of items for query argument-profile mapping for field-level encryption.
-        public let items: [QueryArgProfile]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, QueryArgProfile>>
+        public var items: [QueryArgProfile]?
         /// Number of profiles for query argument-profile mapping for field-level encryption.
         public let quantity: Int
 
@@ -3310,12 +3281,11 @@ extension CloudFront {
     }
 
     public struct QueryStringCacheKeys: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Name" }
 
         /// A list that contains the query string parameters that you want CloudFront to use as a basis for caching for a cache behavior. If Quantity is 0, you can omit Items. 
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of whitelisted query string parameters for a cache behavior.
         public let quantity: Int
 
@@ -3395,12 +3365,11 @@ extension CloudFront {
     }
 
     public struct StatusCodes: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"StatusCode"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "StatusCode" }
 
         /// The items (status codes) for an origin group.
-        public let items: [Int]
+        @Coding<ArrayCoder<_ItemsEncoding, Int>>
+        public var items: [Int]
         /// The number of status codes.
         public let quantity: Int
 
@@ -3524,14 +3493,13 @@ extension CloudFront {
     }
 
     public struct StreamingDistributionList: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"StreamingDistributionSummary"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "StreamingDistributionSummary" }
 
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
         public let isTruncated: Bool
         /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: [StreamingDistributionSummary]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, StreamingDistributionSummary>>
+        public var items: [StreamingDistributionSummary]?
         /// The value you provided for the Marker request parameter. 
         public let marker: String
         /// The value you provided for the MaxItems request parameter. 
@@ -3665,12 +3633,11 @@ extension CloudFront {
 
     public struct TagKeys: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Key"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Key" }
 
         ///  A complex type that contains Tag key elements.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
 
         public init(items: [String]? = nil) {
             self.items = items
@@ -3719,12 +3686,11 @@ extension CloudFront {
 
     public struct Tags: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Tag"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         ///  A complex type that contains Tag elements.
-        public let items: [Tag]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, Tag>>
+        public var items: [Tag]?
 
         public init(items: [Tag]? = nil) {
             self.items = items
@@ -3742,14 +3708,13 @@ extension CloudFront {
     }
 
     public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"AwsAccountNumber"))
-        ]
+        public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "AwsAccountNumber" }
 
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
         public let enabled: Bool
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: [String]?
+        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
         /// The number of trusted signers for this cache behavior.
         public let quantity: Int
 
