@@ -592,9 +592,11 @@ extension ManagedBlockchain {
     public struct Invitation: AWSDecodableShape {
 
         /// The date and time that the invitation was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// The date and time that the invitation expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, the invitee can no longer create a member and join the network using this InvitationId.
-        public let expirationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var expirationDate: TimeStamp?
         /// The unique identifier for the invitation.
         public let invitationId: String?
         public let networkSummary: NetworkSummary?
@@ -985,7 +987,8 @@ extension ManagedBlockchain {
     public struct Member: AWSDecodableShape {
 
         /// The date and time that the member was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// An optional description for the member.
         public let description: String?
         /// Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.
@@ -1165,7 +1168,8 @@ extension ManagedBlockchain {
     public struct MemberSummary: AWSDecodableShape {
 
         /// The date and time that the member was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// An optional description of the member.
         public let description: String?
         /// The unique identifier of the member.
@@ -1199,7 +1203,8 @@ extension ManagedBlockchain {
     public struct Network: AWSDecodableShape {
 
         /// The date and time that the network was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// Attributes of the blockchain framework for the network.
         public let description: String?
         /// The blockchain framework that the network uses.
@@ -1309,7 +1314,8 @@ extension ManagedBlockchain {
     public struct NetworkSummary: AWSDecodableShape {
 
         /// The date and time that the network was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// An optional description of the network.
         public let description: String?
         /// The blockchain framework that the network uses.
@@ -1349,7 +1355,8 @@ extension ManagedBlockchain {
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
         /// The date and time that the node was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// Attributes of the blockchain framework being used.
         public let frameworkAttributes: NodeFrameworkAttributes?
         /// The unique identifier of the node.
@@ -1479,7 +1486,8 @@ extension ManagedBlockchain {
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
         /// The date and time that the node was created.
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// The unique identifier of the node.
         public let id: String?
         /// The EC2 instance type for the node.
@@ -1509,11 +1517,13 @@ extension ManagedBlockchain {
         /// The actions to perform on the network if the proposal is APPROVED.
         public let actions: ProposalActions?
         ///  The date and time that the proposal was created. 
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         /// The description of the proposal.
         public let description: String?
         ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions are not carried out. 
-        public let expirationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var expirationDate: TimeStamp?
         /// The unique identifier of the network for which the proposal is made.
         public let networkId: String?
         ///  The current total of NO votes cast on the proposal by members. 
@@ -1589,11 +1599,13 @@ extension ManagedBlockchain {
     public struct ProposalSummary: AWSDecodableShape {
 
         ///  The date and time that the proposal was created. 
-        public let creationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationDate: TimeStamp?
         ///  The description of the proposal. 
         public let description: String?
         ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions are not carried out. 
-        public let expirationDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var expirationDate: TimeStamp?
         ///  The unique identifier of the proposal. 
         public let proposalId: String?
         ///  The unique identifier of the member that created the proposal. 

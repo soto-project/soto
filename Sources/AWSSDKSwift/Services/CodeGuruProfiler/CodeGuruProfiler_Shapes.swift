@@ -74,7 +74,8 @@ extension CodeGuruProfiler {
         /// The time period.
         public let period: AggregationPeriod?
         /// The start time.
-        public let start: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var start: TimeStamp?
 
         public init(period: AggregationPeriod? = nil, start: TimeStamp? = nil) {
             self.period = period
@@ -523,7 +524,8 @@ extension CodeGuruProfiler {
     public struct ProfileTime: AWSDecodableShape {
 
         /// The start time of the profile.
-        public let start: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var start: TimeStamp?
 
         public init(start: TimeStamp? = nil) {
             self.start = start
@@ -540,13 +542,15 @@ extension CodeGuruProfiler {
         /// The Amazon Resource Name (ARN) identifying the profiling group.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the profiling group was created.
-        public let createdAt: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdAt: TimeStamp?
         /// The name of the profiling group.
         public let name: String?
         /// The status of the profiling group.
         public let profilingStatus: ProfilingStatus?
         /// The time, in milliseconds since the epoch, when the profiling group was last updated.
-        public let updatedAt: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var updatedAt: TimeStamp?
 
         public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, updatedAt: TimeStamp? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
@@ -570,9 +574,11 @@ extension CodeGuruProfiler {
     public struct ProfilingStatus: AWSDecodableShape {
 
         /// The time, in milliseconds since the epoch, when the latest agent was orchestrated.
-        public let latestAgentOrchestratedAt: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var latestAgentOrchestratedAt: TimeStamp?
         /// The time, in milliseconds since the epoch, when the latest agent was reported..
-        public let latestAgentProfileReportedAt: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var latestAgentProfileReportedAt: TimeStamp?
         /// The latest aggregated profile
         public let latestAggregatedProfile: AggregatedProfileTime?
 

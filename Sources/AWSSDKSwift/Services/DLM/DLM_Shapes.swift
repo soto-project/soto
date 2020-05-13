@@ -389,9 +389,11 @@ extension DLM {
     public struct LifecyclePolicy: AWSDecodableShape {
 
         /// The local date and time when the lifecycle policy was created.
-        public let dateCreated: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var dateCreated: TimeStamp?
         /// The local date and time when the lifecycle policy was last modified.
-        public let dateModified: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var dateModified: TimeStamp?
         /// The description of the lifecycle policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.

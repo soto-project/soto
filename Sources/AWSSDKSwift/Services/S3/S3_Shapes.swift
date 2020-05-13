@@ -3874,7 +3874,8 @@ extension S3 {
     public struct LifecycleExpiration: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        public let date: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var date: TimeStamp?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public let days: Int?
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
@@ -4993,7 +4994,8 @@ extension S3 {
         /// Indicates the Retention mode for the specified object.
         public let mode: ObjectLockRetentionMode?
         /// The date on which this Object Lock Retention will expire.
-        public let retainUntilDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var retainUntilDate: TimeStamp?
 
         public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
             self.mode = mode
@@ -7219,7 +7221,8 @@ extension S3 {
     public struct Transition: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
-        public let date: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var date: TimeStamp?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
         public let days: Int?
         /// The storage class to which you want the object to transition.

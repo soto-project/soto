@@ -145,7 +145,8 @@ extension ApiGatewayV2 {
         /// A CORS configuration. Supported only for HTTP APIs.
         public let corsConfiguration: Cors?
         /// The timestamp when the API was created.
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         /// The description of the API.
         public let description: String?
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
@@ -414,7 +415,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -565,7 +567,8 @@ extension ApiGatewayV2 {
     public struct CreateDeploymentResponse: AWSDecodableShape {
 
         public let autoDeployed: Bool?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
@@ -1076,12 +1079,14 @@ extension ApiGatewayV2 {
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
         public let clientCertificateId: String?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let defaultRouteSettings: RouteSettings?
         public let deploymentId: String?
         public let description: String?
         public let lastDeploymentStatusMessage: String?
-        public let lastUpdatedDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var lastUpdatedDate: TimeStamp?
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
@@ -1146,7 +1151,8 @@ extension ApiGatewayV2 {
 
     public struct CreateVpcLinkResponse: AWSDecodableShape {
 
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let name: String?
         public let securityGroupIds: [String]?
         public let subnetIds: [String]?
@@ -1466,7 +1472,8 @@ extension ApiGatewayV2 {
         /// Specifies whether a deployment was automatically released.
         public let autoDeployed: Bool?
         /// The date and time when the Deployment resource was created.
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         /// The identifier for the deployment.
         public let deploymentId: String?
         /// The status of the deployment: PENDING, FAILED, or SUCCEEDED.
@@ -1530,7 +1537,8 @@ extension ApiGatewayV2 {
         /// The user-friendly name of the certificate that will be used by the edge-optimized endpoint for this domain name.
         public let certificateName: String?
         /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
-        public let certificateUploadDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var certificateUploadDate: TimeStamp?
         /// The status of the domain name migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the domain name migration.
@@ -1709,7 +1717,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -1898,7 +1907,8 @@ extension ApiGatewayV2 {
     public struct GetDeploymentResponse: AWSDecodableShape {
 
         public let autoDeployed: Bool?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
@@ -2549,12 +2559,14 @@ extension ApiGatewayV2 {
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
         public let clientCertificateId: String?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let defaultRouteSettings: RouteSettings?
         public let deploymentId: String?
         public let description: String?
         public let lastDeploymentStatusMessage: String?
-        public let lastUpdatedDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var lastUpdatedDate: TimeStamp?
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
@@ -2674,7 +2686,8 @@ extension ApiGatewayV2 {
 
     public struct GetVpcLinkResponse: AWSDecodableShape {
 
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let name: String?
         public let securityGroupIds: [String]?
         public let subnetIds: [String]?
@@ -2769,7 +2782,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -3029,7 +3043,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -3208,7 +3223,8 @@ extension ApiGatewayV2 {
         /// The identifier of a client certificate for a Stage. Supported only for WebSocket APIs.
         public let clientCertificateId: String?
         /// The timestamp when the stage was created.
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         /// Default route settings for the stage.
         public let defaultRouteSettings: RouteSettings?
         /// The identifier of the Deployment that the Stage is associated with. Can't be updated if autoDeploy is enabled.
@@ -3218,7 +3234,8 @@ extension ApiGatewayV2 {
         /// Describes the status of the last deployment of a stage. Supported only for stages with autoDeploy enabled.
         public let lastDeploymentStatusMessage: String?
         /// The timestamp when the stage was last updated.
-        public let lastUpdatedDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var lastUpdatedDate: TimeStamp?
         /// Route settings for the stage, by routeKey.
         public let routeSettings: [String: RouteSettings]?
         /// The name of the stage.
@@ -3438,7 +3455,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -3592,7 +3610,8 @@ extension ApiGatewayV2 {
     public struct UpdateDeploymentResponse: AWSDecodableShape {
 
         public let autoDeployed: Bool?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
@@ -4114,12 +4133,14 @@ extension ApiGatewayV2 {
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
         public let clientCertificateId: String?
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let defaultRouteSettings: RouteSettings?
         public let deploymentId: String?
         public let description: String?
         public let lastDeploymentStatusMessage: String?
-        public let lastUpdatedDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var lastUpdatedDate: TimeStamp?
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
@@ -4180,7 +4201,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateVpcLinkResponse: AWSDecodableShape {
 
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         public let name: String?
         public let securityGroupIds: [String]?
         public let subnetIds: [String]?
@@ -4218,7 +4240,8 @@ extension ApiGatewayV2 {
     public struct VpcLink: AWSDecodableShape {
 
         /// The timestamp when the VPC link was created.
-        public let createdDate: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var createdDate: TimeStamp?
         /// The name of the VPC link.
         public let name: String
         /// A list of security group IDs for the VPC link.

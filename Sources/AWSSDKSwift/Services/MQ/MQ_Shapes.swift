@@ -172,7 +172,8 @@ extension MQ {
         /// The status of the broker.
         public let brokerState: BrokerState?
         /// The time when the broker was created.
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         /// Required. The deployment mode of the broker.
         public let deploymentMode: DeploymentMode?
         /// The broker's instance type.
@@ -204,7 +205,8 @@ extension MQ {
         /// Required. The ARN of the configuration.
         public let arn: String?
         /// Required. The date and time of the configuration revision.
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         /// Required. The description of the configuration.
         public let description: String?
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
@@ -266,7 +268,8 @@ extension MQ {
     public struct ConfigurationRevision: AWSDecodableShape {
 
         /// Required. The date and time of the configuration revision.
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         /// The description of the configuration revision.
         public let description: String?
         /// Required. The revision number of the configuration.
@@ -409,7 +412,8 @@ extension MQ {
     public struct CreateConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?
@@ -670,7 +674,8 @@ extension MQ {
         public let brokerName: String?
         public let brokerState: BrokerState?
         public let configurations: Configurations?
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         public let deploymentMode: DeploymentMode?
         public let encryptionOptions: EncryptionOptions?
         public let engineType: EngineType?
@@ -760,7 +765,8 @@ extension MQ {
     public struct DescribeConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         public let description: String?
         public let engineType: EngineType?
         public let engineVersion: String?
@@ -814,7 +820,8 @@ extension MQ {
     public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
 
         public let configurationId: String?
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         public let data: String?
         public let description: String?
 
@@ -1305,7 +1312,8 @@ extension MQ {
     public struct UpdateConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
-        public let created: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var created: TimeStamp?
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?

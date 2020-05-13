@@ -239,7 +239,8 @@ extension Kafka {
         /// The name of the cluster.
         public let clusterName: String?
         /// The time when the cluster was created.
-        public let creationTime: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp?
         /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
         /// The current version of the MSK cluster. Cluster versions aren't simple integers. You can obtain the current version by describing the cluster. An example version is KTVPDKIKX0DER.
@@ -308,9 +309,11 @@ extension Kafka {
         /// ARN of the cluster.
         public let clusterArn: String?
         /// The time at which operation was created.
-        public let creationTime: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp?
         /// The time at which the operation finished.
-        public let endTime: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var endTime: TimeStamp?
         /// Describes the error if the operation fails.
         public let errorInfo: ErrorInfo?
         /// ARN of the cluster operation.
@@ -355,7 +358,8 @@ extension Kafka {
 
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String
-        public let creationTime: TimeStamp
+        @Coding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp
         /// The description of the configuration.
         public let description: String
         /// An array of the versions of Apache Kafka with which you can use this MSK configuration. You can use this configuration for an MSK cluster only if the Apache Kafka version specified for the cluster appears in this array.
@@ -405,7 +409,8 @@ extension Kafka {
     public struct ConfigurationRevision: AWSDecodableShape {
 
         /// The time when the configuration revision was created.
-        public let creationTime: TimeStamp
+        @Coding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp
         /// The description of the configuration revision.
         public let description: String?
         /// The revision number.
@@ -540,7 +545,8 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        public let creationTime: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp?
         /// Latest revision of the configuration.
         public let latestRevision: ConfigurationRevision?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
@@ -671,7 +677,8 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        public let creationTime: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp?
         /// The description of the configuration.
         public let description: String?
         /// The versions of Apache Kafka with which you can use this MSK configuration.
@@ -722,7 +729,8 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        public let creationTime: TimeStamp?
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var creationTime: TimeStamp?
         /// The description of the configuration.
         public let description: String?
         /// The revision number.
