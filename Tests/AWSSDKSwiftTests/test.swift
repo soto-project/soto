@@ -25,8 +25,8 @@ func attempt(function: () throws -> Void) {
         print(type, context)
         XCTFail()
     } catch let error as NIO.ChannelError {
-        XCTFail(error.localizedDescription)
+        XCTFail("\(error)")
     } catch {
-        XCTFail(error.localizedDescription)
+        XCTFail("\(error)")
     }
 }

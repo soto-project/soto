@@ -748,11 +748,11 @@ extension SQS {
     public struct SendMessageBatchResult: AWSDecodableShape {
 
         /// A list of  BatchResultErrorEntry  items with error details about each message that can't be enqueued.
-        public let failed: [BatchResultErrorEntry]?
+        public let failed: [BatchResultErrorEntry]
         /// A list of  SendMessageBatchResultEntry  items.
-        public let successful: [SendMessageBatchResultEntry]?
+        public let successful: [SendMessageBatchResultEntry]
 
-        public init(failed: [BatchResultErrorEntry]? = nil, successful: [SendMessageBatchResultEntry]? = nil) {
+        public init(failed: [BatchResultErrorEntry], successful: [SendMessageBatchResultEntry]) {
             self.failed = failed
             self.successful = successful
         }

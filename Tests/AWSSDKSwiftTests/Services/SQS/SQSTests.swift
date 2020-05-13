@@ -133,11 +133,24 @@ class SQSTests: XCTestCase {
         }
     }
 
+    func testSendBatch() {
+        // tests decoding of empty xml arrays
+        attempt {
+            let testData = try TestData(#function, client: client)
+
+            let messageBody = "Testing, testing,1,2,1,2"
+            let sendMessageBatchRequest = SQS.SendMessageBatchRequest(entries: [.init(id:"msg1", messageBody: messageBody)], queueUrl: testData.queueUrl)
+            let messageId = try client.sendMessageBatch(sendMessageBatchRequest).wait()
+        }
+    }
+
+
     static var allTests: [(String, (SQSTests) -> () throws -> Void)] {
         return [
             ("testSendReceiveAndDelete", testSendReceiveAndDelete),
             ("testGetQueueAttributes", testGetQueueAttributes),
             ("testTestPercentEncodedCharacters", testTestPercentEncodedCharacters),
+            ("testSendBatch", testSendBatch),
         ]
     }
 }
