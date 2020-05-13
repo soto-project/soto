@@ -96,10 +96,6 @@ extension API {
             AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "cn-northwest-1"),
             AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "me-south-1"),
         ],
-        "SQS": [
-            RemovePatch3(keyPath1: \.shapes["SendMessageBatchResult"], keyPath2: \.type.structure, keyPath3: \.required, value: "Successful"),
-            RemovePatch3(keyPath1: \.shapes["SendMessageBatchResult"], keyPath2: \.type.structure, keyPath3: \.required, value: "Failed"),
-        ],
     ]
 
     // structure defining a model patch
