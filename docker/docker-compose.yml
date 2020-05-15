@@ -19,6 +19,7 @@ services:
     environment:
       - APIGATEWAY_ENDPOINT=http://localstack:4567
       - DYNAMODB_ENDPOINT=http://localstack:4569
+      - EC2_ENDPOINT=http://localstack:4597
       - IAM_ENDPOINT=http://localstack:4593
       - S3_ENDPOINT=http://localstack:4572
       - SNS_ENDPOINT=http://localstack:4575
