@@ -122,7 +122,9 @@ struct CodeGenerator {
                 defer { group.leave() }
                 do {
                     let service = try AWSService(api: model.api, docs: model.docs, paginators: model.paginators, endpoints: endpoints)
-                    try self.generateFiles(with: service)
+                    if self.command.output {
+                        try self.generateFiles(with: service)
+                    }
                 } catch {
                     print("\(error)")
                     exit(1)

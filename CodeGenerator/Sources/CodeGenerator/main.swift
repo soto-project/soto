@@ -26,6 +26,9 @@ struct CodeGeneratorCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "Only output files for specified module")
     var module: String?
     
+    @Flag(name: .long, default: true, inversion: .prefixedNo, help: "Output files")
+    var output: Bool
+    
     static var rootPath: String {
         return #file
             .split(separator: "/", omittingEmptySubsequences: false)
