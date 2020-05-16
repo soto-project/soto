@@ -54,7 +54,8 @@ public struct ServerlessApplicationRepository {
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
-    ///     - region: Region of server you want to communicate with
+    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
+    ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
@@ -63,6 +64,7 @@ public struct ServerlessApplicationRepository {
         secretAccessKey: String? = nil,
         sessionToken: String? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
+        partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
@@ -72,7 +74,7 @@ public struct ServerlessApplicationRepository {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
-            partition: region?.partition ?? .aws,
+            partition: region?.partition ?? partition,
             service: "serverlessrepo",
             serviceProtocol: .restjson,
             apiVersion: "2017-09-08",
