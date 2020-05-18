@@ -38,7 +38,7 @@ jobs:
       localstack:
         image: localstack/localstack
         env:
-          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
+          SERVICES: 'apigateway,dynamodb,ec2,iam,s3,sns,sqs,ssm'
         options: >-
           --health-cmd "awslocal s3 ls"
           --health-interval 10s

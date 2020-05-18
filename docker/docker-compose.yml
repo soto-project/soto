@@ -30,7 +30,7 @@ services:
   localstack:
     image: localstack/localstack
     environment:
-      - SERVICES=apigateway,dynamodb,iam,s3,sns,sqs,ssm
+      - SERVICES=apigateway,dynamodb,ec2,iam,s3,sns,sqs,ssm
     volumes:
       - "/tmp/localstack:/tmp/localstack"
 

@@ -32,9 +32,11 @@ class EC2Tests: XCTestCase {
 
     func testRunInstances() {
         attempt {
-            let request = EC2.RunInstancesRequest(maxCount: 1, minCount: 1)
-            let response = try ec2.runInstances(request).wait()
-            print(response)
+            let imageRequest = EC2.DescribeImagesRequest(filters: .init([/*EC2.Filter(name: "name", values: ["*ubuntu-bionic-18.04-amd64-server*"]),*/ EC2.Filter(name: "state", values: ["available"])]))
+            let imageResponse = try ec2.describeImages(imageRequest).wait()
+//            let request = EC2.RunInstancesRequest(instanceInitiatedShutdownBehavior:.stop, maxCount: 1, minCount: 1)
+//            let response = try ec2.runInstances(request).wait()
+            print(imageResponse)
         }
     }
     
