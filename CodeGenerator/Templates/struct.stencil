@@ -3,6 +3,9 @@
 {%if struct.payload %}
         /// The key for the payload
         public static let payloadPath: String = "{{struct.payload}}"
+{%if struct.payloadOptions %}
+        public static let options: PayloadOptions = [{{struct.payloadOptions}}]
+{%endif %}
 {%endif %}
 {%if struct.namespace %}
         public static let _xmlNamespace: String? = "{{struct.namespace}}"

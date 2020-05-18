@@ -1692,6 +1692,7 @@ extension Lambda {
     public struct InvokeAsyncRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "invokeArgs"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "invokeArgs", location: .body(locationName: "InvokeArgs"), encoding: .blob)

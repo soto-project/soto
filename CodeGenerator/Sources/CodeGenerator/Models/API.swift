@@ -116,6 +116,7 @@ extension API {
                 if let xmlNamespace = input.xmlNamespace {
                     inputShape.xmlNamespace = xmlNamespace
                 }
+                inputShape.authtype = operation.authType
                 try setShapeUsedIn(shape: inputShape, input: true, output: false)
             }
             if let output = operation.output {
@@ -125,7 +126,7 @@ extension API {
 
         // post processing of shapes
         for shape in shapes {
-            shape.value.postProcess()
+            shape.value.postProcess(api: self)
         }
     }
 
@@ -195,6 +196,7 @@ class Operation: Decodable, Patchable {
     var input: Input?
     var output: Output?
     var errors: [Error]
+    var authType: String?
     var deprecated: Bool
     var deprecatedMessage: String?
 
@@ -205,6 +207,7 @@ class Operation: Decodable, Patchable {
         self.input = try container.decodeIfPresent(Input.self, forKey: .input)
         self.output = try container.decodeIfPresent(Output.self, forKey: .output)
         self.errors = try container.decodeIfPresent([Error].self, forKey: .errors) ?? []
+        self.authType = try container.decodeIfPresent(String.self, forKey: .authType)
         self.deprecated = try container.decodeIfPresent(Bool.self, forKey: .deprecated) ?? false
         self.deprecatedMessage = try container.decodeIfPresent(String.self, forKey: .deprecatedMessage)
     }
@@ -215,6 +218,7 @@ class Operation: Decodable, Patchable {
         case input
         case output
         case errors
+        case authType = "authtype"
         case deprecated
         case deprecatedMessage
     }
@@ -242,6 +246,7 @@ class Shape: Decodable, Patchable {
         var xmlNamespace: API.XMLNamespace?
         var flattened: Bool?
         var idempotencyToken: Bool?
+        var streaming: Bool?
         // set after decode in postProcess stage
         var required: Bool = false
         var shape: Shape!
@@ -254,6 +259,7 @@ class Shape: Decodable, Patchable {
             case xmlNamespace
             case flattened
             case idempotencyToken
+            case streaming
         }
     }
 
@@ -420,6 +426,7 @@ class Shape: Decodable, Patchable {
             case member
             case key
             case value
+            case streaming
             case timestampFormat
         }
     }
@@ -429,10 +436,12 @@ class Shape: Decodable, Patchable {
     var xmlNamespace: API.XMLNamespace?
     var error: Error?
     var exception: Bool?
+    var streaming: Bool?
     // set after decode in postProcess stage
     var usedInInput: Bool
     var usedInOutput: Bool
     var name: String!
+    var authtype: String?
 
     init(type: ShapeType, name: String) {
         self.type = type
@@ -450,6 +459,7 @@ class Shape: Decodable, Patchable {
         self.xmlNamespace = try container.decodeIfPresent(API.XMLNamespace.self, forKey: .xmlNamespace)
         self.error = try container.decodeIfPresent(Error.self, forKey: .error)
         self.exception = try container.decodeIfPresent(Bool.self, forKey: .exception)
+        self.streaming = try container.decodeIfPresent(Bool.self, forKey: .streaming)
         self.type = try ShapeType(from: decoder)
     }
 
@@ -474,12 +484,16 @@ class Shape: Decodable, Patchable {
     }
 
     /// post process
-    func postProcess() {
+    func postProcess(api: API) {
         switch self.type {
         case .structure(let structure):
             // set raw payloads to be a payload object
             if let payload = self.payload {
                 if case .blob(let min, let max) = structure.members[payload]?.shape.type {
+                    // pass streaming flag down to member struct
+                    if structure.members[payload]?.shape.streaming == true {
+                        structure.members[payload]?.streaming = true
+                    }
                     structure.members[payload]!.shape = Shape(type: .payload(min: min, max: max), name: "AWSPayload")
                 }
             }
@@ -495,5 +509,6 @@ class Shape: Decodable, Patchable {
         case xmlNamespace
         case error
         case exception
+        case streaming
     }
 }

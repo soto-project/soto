@@ -2883,6 +2883,7 @@ extension S3 {
     public struct GetObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")), 
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
@@ -3240,6 +3241,7 @@ extension S3 {
     public struct GetObjectTorrentOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
@@ -6004,6 +6006,7 @@ extension S3 {
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
@@ -7416,6 +7419,7 @@ extension S3 {
     public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 

@@ -610,6 +610,7 @@ extension Glacier {
     public struct GetJobOutputOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "Accept-Ranges")), 
             AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
@@ -1715,6 +1716,7 @@ extension Glacier {
     public struct UploadArchiveInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
@@ -1778,6 +1780,7 @@ extension Glacier {
     public struct UploadMultipartPartInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String = "body"
+        public static let options: PayloadOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "body", encoding: .blob), 
