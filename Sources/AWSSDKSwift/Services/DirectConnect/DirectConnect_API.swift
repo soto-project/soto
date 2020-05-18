@@ -38,6 +38,7 @@ public struct DirectConnect {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - retryController: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -47,6 +48,7 @@ public struct DirectConnect {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
+        retryController: RetryController = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -62,6 +64,7 @@ public struct DirectConnect {
             apiVersion: "2012-10-25",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "directconnect.us-gov-east-1.amazonaws.com", "us-gov-west-1": "directconnect.us-gov-west-1.amazonaws.com"],
+            retryController: retryController,
             middlewares: middlewares,
             possibleErrorTypes: [DirectConnectErrorType.self],
             httpClientProvider: httpClientProvider

@@ -38,6 +38,7 @@ public struct WAFRegional {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - retryController: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -47,6 +48,7 @@ public struct WAFRegional {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
+        retryController: RetryController = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -62,6 +64,7 @@ public struct WAFRegional {
             apiVersion: "2016-11-28",
             endpoint: endpoint,
             serviceEndpoints: ["ap-east-1": "waf-regional.ap-east-1.amazonaws.com", "ap-northeast-1": "waf-regional.ap-northeast-1.amazonaws.com", "ap-northeast-2": "waf-regional.ap-northeast-2.amazonaws.com", "ap-south-1": "waf-regional.ap-south-1.amazonaws.com", "ap-southeast-1": "waf-regional.ap-southeast-1.amazonaws.com", "ap-southeast-2": "waf-regional.ap-southeast-2.amazonaws.com", "ca-central-1": "waf-regional.ca-central-1.amazonaws.com", "eu-central-1": "waf-regional.eu-central-1.amazonaws.com", "eu-north-1": "waf-regional.eu-north-1.amazonaws.com", "eu-west-1": "waf-regional.eu-west-1.amazonaws.com", "eu-west-2": "waf-regional.eu-west-2.amazonaws.com", "eu-west-3": "waf-regional.eu-west-3.amazonaws.com", "me-south-1": "waf-regional.me-south-1.amazonaws.com", "sa-east-1": "waf-regional.sa-east-1.amazonaws.com", "us-east-1": "waf-regional.us-east-1.amazonaws.com", "us-east-2": "waf-regional.us-east-2.amazonaws.com", "us-gov-west-1": "waf-regional.us-gov-west-1.amazonaws.com", "us-west-1": "waf-regional.us-west-1.amazonaws.com", "us-west-2": "waf-regional.us-west-2.amazonaws.com"],
+            retryController: retryController,
             middlewares: middlewares,
             possibleErrorTypes: [WAFRegionalErrorType.self],
             httpClientProvider: httpClientProvider
