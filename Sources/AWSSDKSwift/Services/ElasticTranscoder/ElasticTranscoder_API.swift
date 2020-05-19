@@ -38,6 +38,7 @@ public struct ElasticTranscoder {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -47,6 +48,7 @@ public struct ElasticTranscoder {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
+        retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -60,6 +62,7 @@ public struct ElasticTranscoder {
             serviceProtocol: .restjson,
             apiVersion: "2012-09-25",
             endpoint: endpoint,
+            retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [ElasticTranscoderErrorType.self],
             httpClientProvider: httpClientProvider

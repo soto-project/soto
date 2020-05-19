@@ -37,6 +37,7 @@ public struct MTurk {
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -45,6 +46,7 @@ public struct MTurk {
         sessionToken: String? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
+        retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -59,6 +61,7 @@ public struct MTurk {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-17",
             endpoint: endpoint,
+            retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [MTurkErrorType.self],
             httpClientProvider: httpClientProvider

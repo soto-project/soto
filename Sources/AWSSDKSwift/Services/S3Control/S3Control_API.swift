@@ -38,6 +38,7 @@ public struct S3Control {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -47,6 +48,7 @@ public struct S3Control {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
+        retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -63,6 +65,7 @@ public struct S3Control {
             apiVersion: "2018-08-20",
             endpoint: endpoint,
             serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "cn-north-1": "s3-control.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "s3-control.cn-northwest-1.amazonaws.com.cn", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-north-1": "s3-control.eu-north-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-gov-east-1": "s3-control.us-gov-east-1.amazonaws.com", "us-gov-west-1": "s3-control.us-gov-west-1.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com"],
+            retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [S3ControlErrorType.self],
             httpClientProvider: httpClientProvider
