@@ -38,7 +38,7 @@ public struct STS {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryController: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
+    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -48,7 +48,7 @@ public struct STS {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
-        retryController: RetryController = JitterRetry(),
+        retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -64,7 +64,7 @@ public struct STS {
             endpoint: endpoint,
             serviceEndpoints: ["af-south-1": "sts.af-south-1.amazonaws.com", "ap-east-1": "sts.ap-east-1.amazonaws.com", "ap-northeast-1": "sts.ap-northeast-1.amazonaws.com", "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com", "ap-south-1": "sts.ap-south-1.amazonaws.com", "ap-southeast-1": "sts.ap-southeast-1.amazonaws.com", "ap-southeast-2": "sts.ap-southeast-2.amazonaws.com", "aws-global": "sts.amazonaws.com", "ca-central-1": "sts.ca-central-1.amazonaws.com", "eu-central-1": "sts.eu-central-1.amazonaws.com", "eu-north-1": "sts.eu-north-1.amazonaws.com", "eu-south-1": "sts.eu-south-1.amazonaws.com", "eu-west-1": "sts.eu-west-1.amazonaws.com", "eu-west-2": "sts.eu-west-2.amazonaws.com", "eu-west-3": "sts.eu-west-3.amazonaws.com", "me-south-1": "sts.me-south-1.amazonaws.com", "sa-east-1": "sts.sa-east-1.amazonaws.com", "us-east-1": "sts.us-east-1.amazonaws.com", "us-east-2": "sts.us-east-2.amazonaws.com", "us-west-1": "sts.us-west-1.amazonaws.com", "us-west-2": "sts.us-west-2.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            retryController: retryController,
+            retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [STSErrorType.self],
             httpClientProvider: httpClientProvider

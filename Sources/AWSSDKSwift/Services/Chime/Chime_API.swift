@@ -37,7 +37,7 @@ public struct Chime {
     ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryController: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
+    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -46,7 +46,7 @@ public struct Chime {
         sessionToken: String? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
-        retryController: RetryController = JitterRetry(),
+        retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -62,7 +62,7 @@ public struct Chime {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "service.chime.aws.amazon.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            retryController: retryController,
+            retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [ChimeErrorType.self],
             httpClientProvider: httpClientProvider

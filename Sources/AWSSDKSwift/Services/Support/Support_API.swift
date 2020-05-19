@@ -38,7 +38,7 @@ public struct Support {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryController: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
+    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
@@ -48,7 +48,7 @@ public struct Support {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
-        retryController: RetryController = JitterRetry(),
+        retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
@@ -65,7 +65,7 @@ public struct Support {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "support.cn-north-1.amazonaws.com.cn", "aws-global": "support.us-east-1.amazonaws.com", "aws-iso-b-global": "support.us-isob-east-1.sc2s.sgov.gov", "aws-iso-global": "support.us-iso-east-1.c2s.ic.gov", "aws-us-gov-global": "support.us-gov-west-1.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorth1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
-            retryController: retryController,
+            retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [SupportErrorType.self],
             httpClientProvider: httpClientProvider
