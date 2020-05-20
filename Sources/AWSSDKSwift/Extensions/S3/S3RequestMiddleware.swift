@@ -123,7 +123,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     func metadataFixup(response: inout AWSResponse) {
         // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
         switch response.body {
-        case .buffer(_), .empty:
+        case .raw(_), .empty:
             var metadata: [String: String] = [:]
             for (key, value) in response.headers {
                 if key.hasPrefix("x-amz-meta-"), let value = value as? String {

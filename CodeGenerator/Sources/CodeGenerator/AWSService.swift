@@ -222,6 +222,7 @@ extension AWSService {
         let name: String
         let shapeProtocol: String
         let payload: String?
+        var payloadOptions: String?
         let namespace: String?
         let encoding: [EncodingPropertiesContext]
         let members: [MemberContext]
@@ -597,7 +598,7 @@ extension AWSService {
         )
     }
 
-    /// Return encoding string for shap member
+    /// Return encoding string for shape member
     func getEncoding(for member: Shape.Member, isPayload: Bool) -> String? {
         switch member.shape.type {
         case .blob, .payload:
@@ -764,6 +765,7 @@ extension AWSService {
         var validationContexts: [ValidationContext] = []
         var usedLocationPath: [String] = []
         var shapeProtocol: String
+        var shapePayloadOptions: [String] = []
 
         if shape.usedInInput {
             shapeProtocol = "AWSEncodableShape"
@@ -776,8 +778,15 @@ extension AWSService {
             preconditionFailure("AWSShape has to be used in either input or output")
         }
 
-        if shape.payload != nil {
+        if let payload = shape.payload {
             shapeProtocol += " & AWSShapeWithPayload"
+            
+            if type.members[payload]?.streaming == true {
+                shapePayloadOptions.append("allowStreaming")
+                if shape.authtype == "v4-unsigned-body" {
+                    shapePayloadOptions.append("allowChunkedStreaming")
+                }
+            }
         }
 
         let members = type.members.map { (key: $0.key, value: $0.value) }.sorted { $0.key.lowercased() < $1.key.lowercased() }
@@ -824,6 +833,7 @@ extension AWSService {
             name: shape.swiftTypeName,
             shapeProtocol: shapeProtocol,
             payload: shape.payload?.toSwiftLabelCase(),
+            payloadOptions: shapePayloadOptions.count > 0 ? shapePayloadOptions.map {".\($0)"}.joined(separator: ", ") : nil,
             namespace: shape.xmlNamespace?.uri,
             encoding: encodingContexts,
             members: memberContexts,

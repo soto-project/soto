@@ -74,7 +74,7 @@ extension S3 {
                 .and(prevPartSave)
                 .map { (output, _) -> () in
                     // should never happen
-                    guard let body = output.body else {
+                    guard let body = output.body, let byteBuffer = body.asByteBuffer() else {
                         return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
                     }
                     guard let length = output.contentLength, length > 0 else {
@@ -82,7 +82,7 @@ extension S3 {
                     }
 
                     let newOffset = offset + Int64(partSize)
-                    multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body.asBytebuffer(), fileSize, eventLoop))
+                    multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(byteBuffer, fileSize, eventLoop))
             }.cascadeFailure(to: promise)
         }
 

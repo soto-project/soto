@@ -20,7 +20,7 @@ func attempt(function: () throws -> Void) {
     do {
         try function()
     } catch let error as AWSErrorType {
-        XCTFail(error.description)
+        XCTFail("\(error)")
     } catch DecodingError.typeMismatch(let type, let context) {
         print(type, context)
         XCTFail()

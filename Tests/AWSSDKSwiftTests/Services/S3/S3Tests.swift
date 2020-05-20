@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
+import AsyncHTTPClient
 import NIO
 import XCTest
 
@@ -262,6 +263,50 @@ class S3Tests: XCTestCase {
         }
     }
 
+    func testStreamPutObject() {
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        defer {
+            XCTAssertNoThrow(try httpClient.syncShutdown())
+        }
+        let s3 = S3(
+            accessKeyId: "key",
+            secretAccessKey: "secret",
+            region: .euwest1,
+            endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
+            httpClientProvider: .shared(httpClient)
+        )
+
+        attempt {
+            let testData = try TestData(#function, client: s3)
+            // create buffer
+            let dataSize = 240*1024
+            var data = Data(count: dataSize)
+            for i in 0..<dataSize {
+                data[i] = UInt8.random(in:0...255)
+            }
+            var byteBuffer = ByteBufferAllocator().buffer(capacity: dataSize)
+            byteBuffer.writeBytes(data)
+
+            let blockSize = 64*1024
+            let payload = AWSPayload.stream(size: dataSize) { eventLoop in
+                let size = min(blockSize, byteBuffer.readableBytes)
+                if size == 0 {
+                    return eventLoop.makeSucceededFuture(byteBuffer)
+                }
+                let slice = byteBuffer.readSlice(length: size)!
+                return eventLoop.makeSucceededFuture(slice)
+            }
+            
+            let putRequest = S3.PutObjectRequest(body: payload, bucket: testData.bucket, key: "tempfile")
+            _ = try s3.putObject(putRequest).wait()
+
+            let getRequest = S3.GetObjectRequest(bucket: testData.bucket, key: "tempfile")
+            let response = try s3.getObject(getRequest).wait()
+
+            XCTAssertEqual(data, response.body?.asData())
+        }
+    }
+
     /// test bucket location is correctly returned.
     func testGetBucketLocation() {
         attempt {
@@ -449,6 +494,7 @@ class S3Tests: XCTestCase {
             ("testGetObject", testGetObject),
             ("testMultiPartDownload", testMultiPartDownload),
             ("testMultiPartUpload", testMultiPartUpload),
+            ("testStreamPutObject", testStreamPutObject),
             ("testGetBucketLocation", testGetBucketLocation),
             ("testLifecycleRule", testLifecycleRule),
             ("testMetaData", testMetaData),

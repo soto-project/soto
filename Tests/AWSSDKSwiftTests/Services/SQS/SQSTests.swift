@@ -140,7 +140,7 @@ class SQSTests: XCTestCase {
 
             let messageBody = "Testing, testing,1,2,1,2"
             let sendMessageBatchRequest = SQS.SendMessageBatchRequest(entries: [.init(id:"msg1", messageBody: messageBody)], queueUrl: testData.queueUrl)
-            let messageId = try client.sendMessageBatch(sendMessageBatchRequest).wait()
+            _ = try client.sendMessageBatch(sendMessageBatchRequest).wait()
         }
     }
 
