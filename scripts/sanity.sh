@@ -16,10 +16,23 @@
 set -eu
 here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+function check_all_services_in_package() {
+    for folder in $here/../Sources/AWSSDKSwift/Services/*; do
+        service=$(basename $folder)
+        if [ -z "$(grep ".target(name: \"AWS$service" $here/../Package.swift)" ]; then
+            echo "$service is not in Package.swift"
+            exit -1
+        fi
+    done
+}
+
 function replace_acceptable_years() {
     # this needs to replace all acceptable forms with 'YEARS'
     sed -e 's/20[12][78901]-20[12][8901]/YEARS/' -e 's/20[12][8901]/YEARS/' -e '/^#!/ d'
 }
+
+echo "=> Checking services in Package.swift... "
+check_all_services_in_package
 
 printf "=> Checking license headers... "
 tmp=$(mktemp /tmp/.aws-sdk-swift-core-sanity_XXXXXX)
