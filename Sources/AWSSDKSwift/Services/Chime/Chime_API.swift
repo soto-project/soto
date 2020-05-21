@@ -331,6 +331,11 @@ public struct Chime {
         return client.send(operation: "GetProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
+    ///  Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide.
+    public func getRetentionSettings(_ input: GetRetentionSettingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRetentionSettingsResponse> {
+        return client.send(operation: "GetRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
     ///  Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     public func getRoom(_ input: GetRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoomResponse> {
         return client.send(operation: "GetRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: "GET", input: input, on: eventLoop)
@@ -481,6 +486,11 @@ public struct Chime {
         return client.send(operation: "PutEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
+    ///  Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide.
+    public func putRetentionSettings(_ input: PutRetentionSettingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRetentionSettingsResponse> {
+        return client.send(operation: "PutRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: "PUT", input: input, on: eventLoop)
+    }
+
     ///  Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorLoggingConfigurationResponse> {
         return client.send(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: "PUT", input: input, on: eventLoop)
@@ -509,6 +519,16 @@ public struct Chime {
     ///  Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
     @discardableResult public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "PutVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=put", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Redacts the specified message from the specified Amazon Chime conversation.
+    public func redactConversationMessage(_ input: RedactConversationMessageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactConversationMessageResponse> {
+        return client.send(operation: "RedactConversationMessage", path: "/accounts/{accountId}/conversations/{conversationId}/messages/{messageId}?operation=redact", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Redacts the specified message from the specified Amazon Chime chat room.
+    public func redactRoomMessage(_ input: RedactRoomMessageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactRoomMessageResponse> {
+        return client.send(operation: "RedactRoomMessage", path: "/accounts/{accountId}/rooms/{roomId}/messages/{messageId}?operation=redact", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Regenerates the security token for a bot.

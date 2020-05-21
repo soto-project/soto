@@ -97,7 +97,7 @@ public struct Lightsail {
         return client.send(operation: "AttachStaticIp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Closes the public ports on a specific Amazon Lightsail instance. The close instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
+    ///  Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CloseInstancePublicPortsResult> {
         return client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -382,7 +382,7 @@ public struct Lightsail {
         return client.send(operation: "GetInstanceMetricData", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Returns the port states for a specific virtual private server, or instance.
+    ///  Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses allowed to connect to the instance through the ports, and the protocol.
     public func getInstancePortStates(_ input: GetInstancePortStatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInstancePortStatesResult> {
         return client.send(operation: "GetInstancePortStates", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -537,7 +537,7 @@ public struct Lightsail {
         return client.send(operation: "IsVpcPeered", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Adds public ports to an Amazon Lightsail instance. The open instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
+    ///  Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func openInstancePublicPorts(_ input: OpenInstancePublicPortsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<OpenInstancePublicPortsResult> {
         return client.send(operation: "OpenInstancePublicPorts", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -552,7 +552,7 @@ public struct Lightsail {
         return client.send(operation: "PutAlarm", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
+    ///  Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutInstancePublicPortsResult> {
         return client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -572,7 +572,7 @@ public struct Lightsail {
         return client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Sends a verification request to an email contact method to ensure it’s owned by the requester. SMS contact methods don’t need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid. 
+    ///  Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid. 
     public func sendContactMethodVerification(_ input: SendContactMethodVerificationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendContactMethodVerificationResult> {
         return client.send(operation: "SendContactMethodVerification", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }

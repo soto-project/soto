@@ -60,7 +60,7 @@ extension WorkMail {
         return client.paginate(input: input, command: listMailboxPermissions, tokenKey: \ListMailboxPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns summaries of the customer's non-deleted organizations.
+    ///  Returns summaries of the customer's organizations.
     public func listOrganizationsPaginator(
         _ input: ListOrganizationsRequest,
         on eventLoop: EventLoop? = nil,

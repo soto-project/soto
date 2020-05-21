@@ -62,6 +62,7 @@ public struct CloudFormation {
             serviceProtocol: .query,
             apiVersion: "2010-05-15",
             endpoint: endpoint,
+            serviceEndpoints: ["us-gov-east-1": "cloudformation.us-gov-east-1.amazonaws.com", "us-gov-west-1": "cloudformation.us-gov-west-1.amazonaws.com"],
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [CloudFormationErrorType.self],

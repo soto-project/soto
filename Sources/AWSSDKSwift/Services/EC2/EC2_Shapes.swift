@@ -217,6 +217,7 @@ extension EC2 {
     public enum ClientVpnAuthenticationType: String, CustomStringConvertible, Codable {
         case certificateAuthentication = "certificate-authentication"
         case directoryServiceAuthentication = "directory-service-authentication"
+        case federatedAuthentication = "federated-authentication"
         public var description: String { return self.rawValue }
     }
 
@@ -929,6 +930,15 @@ extension EC2 {
         case inf12Xlarge = "inf1.2xlarge"
         case inf16Xlarge = "inf1.6xlarge"
         case inf124Xlarge = "inf1.24xlarge"
+        case m6gMetal = "m6g.metal"
+        case m6gMedium = "m6g.medium"
+        case m6gLarge = "m6g.large"
+        case m6gXlarge = "m6g.xlarge"
+        case m6g2Xlarge = "m6g.2xlarge"
+        case m6g4Xlarge = "m6g.4xlarge"
+        case m6g8Xlarge = "m6g.8xlarge"
+        case m6g12Xlarge = "m6g.12xlarge"
+        case m6g16Xlarge = "m6g.16xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -2999,7 +3009,7 @@ extension EC2 {
 
     public struct AuthorizeClientVpnIngressRequest: AWSEncodableShape {
 
-        /// The ID of the Active Directory group to grant access.
+        /// The ID of the group to grant access to, for example, the Active Directory group or identity provider (IdP) group.
         public let accessGroupId: String?
         /// Indicates whether to grant access to all clients. Use true to grant all clients who successfully establish a VPN connection access to the network.
         public let authorizeAllGroups: Bool?
@@ -4087,19 +4097,23 @@ extension EC2 {
 
         /// Information about the Active Directory, if applicable.
         public let activeDirectory: DirectoryServiceAuthentication?
+        /// Information about the IAM SAML identity provider, if applicable.
+        public let federatedAuthentication: FederatedAuthentication?
         /// Information about the authentication certificates, if applicable.
         public let mutualAuthentication: CertificateAuthentication?
         /// The authentication type used.
         public let `type`: ClientVpnAuthenticationType?
 
-        public init(activeDirectory: DirectoryServiceAuthentication? = nil, mutualAuthentication: CertificateAuthentication? = nil, type: ClientVpnAuthenticationType? = nil) {
+        public init(activeDirectory: DirectoryServiceAuthentication? = nil, federatedAuthentication: FederatedAuthentication? = nil, mutualAuthentication: CertificateAuthentication? = nil, type: ClientVpnAuthenticationType? = nil) {
             self.activeDirectory = activeDirectory
+            self.federatedAuthentication = federatedAuthentication
             self.mutualAuthentication = mutualAuthentication
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectory = "activeDirectory"
+            case federatedAuthentication = "federatedAuthentication"
             case mutualAuthentication = "mutualAuthentication"
             case `type` = "type"
         }
@@ -4109,19 +4123,23 @@ extension EC2 {
 
         /// Information about the Active Directory to be used, if applicable. You must provide this information if Type is directory-service-authentication.
         public let activeDirectory: DirectoryServiceAuthenticationRequest?
+        /// Information about the IAM SAML identity provider to be used, if applicable. You must provide this information if Type is federated-authentication.
+        public let federatedAuthentication: FederatedAuthenticationRequest?
         /// Information about the authentication certificates to be used, if applicable. You must provide this information if Type is certificate-authentication.
         public let mutualAuthentication: CertificateAuthenticationRequest?
-        /// The type of client authentication to be used. Specify certificate-authentication to use certificate-based authentication, or directory-service-authentication to use Active Directory authentication.
+        /// The type of client authentication to be used.
         public let `type`: ClientVpnAuthenticationType?
 
-        public init(activeDirectory: DirectoryServiceAuthenticationRequest? = nil, mutualAuthentication: CertificateAuthenticationRequest? = nil, type: ClientVpnAuthenticationType? = nil) {
+        public init(activeDirectory: DirectoryServiceAuthenticationRequest? = nil, federatedAuthentication: FederatedAuthenticationRequest? = nil, mutualAuthentication: CertificateAuthenticationRequest? = nil, type: ClientVpnAuthenticationType? = nil) {
             self.activeDirectory = activeDirectory
+            self.federatedAuthentication = federatedAuthentication
             self.mutualAuthentication = mutualAuthentication
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectory = "ActiveDirectory"
+            case federatedAuthentication = "FederatedAuthentication"
             case mutualAuthentication = "MutualAuthentication"
             case `type` = "Type"
         }
@@ -5395,7 +5413,7 @@ extension EC2 {
         public let logDestination: String?
         /// Specifies the type of destination to which the flow log data is to be published. Flow log data can be published to CloudWatch Logs or Amazon S3. To publish flow log data to CloudWatch Logs, specify cloud-watch-logs. To publish flow log data to Amazon S3, specify s3. If you specify LogDestinationType as s3, do not specify DeliverLogsPermissionArn or LogGroupName. Default: cloud-watch-logs 
         public let logDestinationType: LogDestinationType?
-        /// The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow Log Records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must specify at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the AWS CLI, use single quotation marks (' ') to surround the parameter value. Only applicable to flow logs that are published to an Amazon S3 bucket.
+        /// The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow Log Records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must specify at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the AWS CLI, use single quotation marks (' ') to surround the parameter value.
         public let logFormat: String?
         /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. If you specify LogDestinationType as s3, do not specify DeliverLogsPermissionArn or LogGroupName.
         public let logGroupName: String?
@@ -5717,13 +5735,17 @@ extension EC2 {
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
+        /// If the launch template contains parameters or parameter combinations that are not valid, an error code and an error message are returned for each issue that's found.
+        public let warning: ValidationWarning?
 
-        public init(launchTemplate: LaunchTemplate? = nil) {
+        public init(launchTemplate: LaunchTemplate? = nil, warning: ValidationWarning? = nil) {
             self.launchTemplate = launchTemplate
+            self.warning = warning
         }
 
         private enum CodingKeys: String, CodingKey {
             case launchTemplate = "launchTemplate"
+            case warning = "warning"
         }
     }
 
@@ -5777,13 +5799,17 @@ extension EC2 {
 
         /// Information about the launch template version.
         public let launchTemplateVersion: LaunchTemplateVersion?
+        /// If the new version of the launch template contains parameters or parameter combinations that are not valid, an error code and an error message are returned for each issue that's found.
+        public let warning: ValidationWarning?
 
-        public init(launchTemplateVersion: LaunchTemplateVersion? = nil) {
+        public init(launchTemplateVersion: LaunchTemplateVersion? = nil, warning: ValidationWarning? = nil) {
             self.launchTemplateVersion = launchTemplateVersion
+            self.warning = warning
         }
 
         private enum CodingKeys: String, CodingKey {
             case launchTemplateVersion = "launchTemplateVersion"
+            case warning = "warning"
         }
     }
 
@@ -5828,23 +5854,29 @@ extension EC2 {
     }
 
     public struct CreateLocalGatewayRouteTableVpcAssociationRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String
+        /// The tags to assign to the local gateway route table VPC association.
+        @OptionalCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC.
         public let vpcId: String
 
-        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String, vpcId: String) {
+        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
+            self.tagSpecifications = tagSpecifications
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case localGatewayRouteTableId = "LocalGatewayRouteTableId"
+            case tagSpecifications = "TagSpecification"
             case vpcId = "VpcId"
         }
     }
@@ -6456,7 +6488,7 @@ extension EC2 {
 
     public struct CreateSubnetRequest: AWSEncodableShape {
 
-        /// The Availability Zone or Local Zone for the subnet. Default: AWS selects one for you. If you create more than one subnet in your VPC, we do not necessarily select a different zone for each subnet. To create a subnet in a Local Zone, set this value to the Local Zone ID, for example us-west-2-lax-1a. For information about the Regions that support Local Zones, see Available Regions in the Amazon Elastic Compute Cloud User Guide.
+        /// The Availability Zone or Local Zone for the subnet. Default: AWS selects one for you. If you create more than one subnet in your VPC, we do not necessarily select a different zone for each subnet. To create a subnet in a Local Zone, set this value to the Local Zone ID, for example us-west-2-lax-1a. For information about the Regions that support Local Zones, see Available Regions in the Amazon Elastic Compute Cloud User Guide. To create a subnet in an Outpost, set this value to the Availability Zone for the Outpost and specify the Outpost ARN.
         public let availabilityZone: String?
         /// The AZ ID or the Local Zone ID of the subnet.
         public let availabilityZoneId: String?
@@ -6466,7 +6498,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.
         public let ipv6CidrBlock: String?
-        /// The Amazon Resource Name (ARN) of the Outpost.
+        /// The Amazon Resource Name (ARN) of the Outpost. If you specify an Outpost ARN, you must also specify the Availability Zone of the Outpost subnet.
         public let outpostArn: String?
         /// The ID of the VPC.
         public let vpcId: String
@@ -11977,7 +12009,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.
+        /// One or more filters.    local-gateway-id - The ID of a local gateway.    local-gateway-route-table-id - The ID of the local gateway route table.    local-gateway-route-table-virtual-interface-group-association-id - The ID of the association.    local-gateway-route-table-virtual-interface-group-id - The ID of the virtual interface group.    state - The state of the association.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the associations.
@@ -12036,7 +12068,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.
+        /// One or more filters.    local-gateway-id - The ID of a local gateway.    local-gateway-route-table-id - The ID of the local gateway route table.    local-gateway-route-table-vpc-association-id - The ID of the association.    state - The state of the association.    vpc-id - The ID of the VPC.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the associations.
@@ -12095,7 +12127,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.
+        /// One or more filters.    local-gateway-id - The ID of a local gateway.    local-gateway-route-table-id - The ID of a local gateway route table.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    state - The state of the local gateway route table.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the local gateway route tables.
@@ -12154,7 +12186,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.
+        /// One or more filters.    local-gateway-id - The ID of a local gateway.    local-gateway-virtual-interface-id - The ID of the virtual interface.    local-gateway-virtual-interface-group-id - The ID of the virtual interface group.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the virtual interface groups.
@@ -12275,7 +12307,7 @@ extension EC2 {
         /// One or more filters.
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The IDs of the local gateways.
+        /// One or more filters.    local-gateway-id - The ID of a local gateway.    local-gateway-route-table-id - The ID of the local gateway route table.    local-gateway-route-table-virtual-interface-group-association-id - The ID of the association.    local-gateway-route-table-virtual-interface-group-id - The ID of the virtual interface group.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    state - The state of the association.  
         @OptionalCoding<ArrayCoder<_LocalGatewayIdsEncoding, String>>
         public var localGatewayIds: [String]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -16040,7 +16072,7 @@ extension EC2 {
 
     public struct DisassociateRouteTableRequest: AWSEncodableShape {
 
-        /// The association ID representing the current association between the route table and subnet.
+        /// The association ID representing the current association between the route table and subnet or gateway.
         public let associationId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17351,6 +17383,34 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case error = "error"
             case reservedInstancesId = "reservedInstancesId"
+        }
+    }
+
+    public struct FederatedAuthentication: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
+        public let samlProviderArn: String?
+
+        public init(samlProviderArn: String? = nil) {
+            self.samlProviderArn = samlProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case samlProviderArn = "samlProviderArn"
+        }
+    }
+
+    public struct FederatedAuthenticationRequest: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
+        public let sAMLProviderArn: String?
+
+        public init(sAMLProviderArn: String? = nil) {
+            self.sAMLProviderArn = sAMLProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderArn = "SAMLProviderArn"
         }
     }
 
@@ -23931,19 +23991,27 @@ extension EC2 {
 
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address).  If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API.
         public let assignIpv6AddressOnCreation: AttributeBooleanValue?
-        /// Specify true to indicate that ENIs attached to instances created in the specified subnet should be assigned a public IPv4 address.
+        /// The customer-owned IPv4 address pool associated with the subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
+        public let customerOwnedIpv4Pool: String?
+        /// Specify true to indicate that network interfaces attached to instances created in the specified subnet should be assigned a customer-owned IPv4 address. When this value is true, you must specify the customer-owned IP pool using CustomerOwnedIpv4Pool.
+        public let mapCustomerOwnedIpOnLaunch: AttributeBooleanValue?
+        /// Specify true to indicate that network interfaces attached to instances created in the specified subnet should be assigned a public IPv4 address.
         public let mapPublicIpOnLaunch: AttributeBooleanValue?
         /// The ID of the subnet.
         public let subnetId: String
 
-        public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, subnetId: String) {
+        public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, customerOwnedIpv4Pool: String? = nil, mapCustomerOwnedIpOnLaunch: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, subnetId: String) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
+            self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
+            self.mapCustomerOwnedIpOnLaunch = mapCustomerOwnedIpOnLaunch
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
             self.subnetId = subnetId
         }
 
         private enum CodingKeys: String, CodingKey {
             case assignIpv6AddressOnCreation = "AssignIpv6AddressOnCreation"
+            case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
+            case mapCustomerOwnedIpOnLaunch = "MapCustomerOwnedIpOnLaunch"
             case mapPublicIpOnLaunch = "MapPublicIpOnLaunch"
             case subnetId = "subnetId"
         }
@@ -28755,7 +28823,7 @@ extension EC2 {
         /// The user data to make available to the instance. For more information, see Running Commands on Your Linux Instance at Launch (Linux) and Adding User Data (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
 
-        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = nil, cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maxCount: Int, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
+        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maxCount: Int, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
             self.additionalInfo = additionalInfo
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
@@ -30941,11 +31009,15 @@ extension EC2 {
         public let availableIpAddressCount: Int?
         /// The IPv4 CIDR block assigned to the subnet.
         public let cidrBlock: String?
+        /// The customer-owned IPv4 address pool associated with the subnet.
+        public let customerOwnedIpv4Pool: String?
         /// Indicates whether this is the default subnet for the Availability Zone.
         public let defaultForAz: Bool?
         /// Information about the IPv6 CIDR blocks associated with the subnet.
         @OptionalCoding<ArrayCoder<_Ipv6CidrBlockAssociationSetEncoding, SubnetIpv6CidrBlockAssociation>>
         public var ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]?
+        /// Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives a customer-owned IPv4 address.
+        public let mapCustomerOwnedIpOnLaunch: Bool?
         /// Indicates whether instances launched in this subnet receive a public IPv4 address.
         public let mapPublicIpOnLaunch: Bool?
         /// The Amazon Resource Name (ARN) of the Outpost.
@@ -30964,14 +31036,16 @@ extension EC2 {
         /// The ID of the VPC the subnet is in.
         public let vpcId: String?
 
-        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, defaultForAz: Bool? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, customerOwnedIpv4Pool: String? = nil, defaultForAz: Bool? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, mapCustomerOwnedIpOnLaunch: Bool? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableIpAddressCount = availableIpAddressCount
             self.cidrBlock = cidrBlock
+            self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.defaultForAz = defaultForAz
             self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
+            self.mapCustomerOwnedIpOnLaunch = mapCustomerOwnedIpOnLaunch
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
             self.outpostArn = outpostArn
             self.ownerId = ownerId
@@ -30988,8 +31062,10 @@ extension EC2 {
             case availabilityZoneId = "availabilityZoneId"
             case availableIpAddressCount = "availableIpAddressCount"
             case cidrBlock = "cidrBlock"
+            case customerOwnedIpv4Pool = "customerOwnedIpv4Pool"
             case defaultForAz = "defaultForAz"
             case ipv6CidrBlockAssociationSet = "ipv6CidrBlockAssociationSet"
+            case mapCustomerOwnedIpOnLaunch = "mapCustomerOwnedIpOnLaunch"
             case mapPublicIpOnLaunch = "mapPublicIpOnLaunch"
             case outpostArn = "outpostArn"
             case ownerId = "ownerId"
@@ -32881,6 +32957,40 @@ extension EC2 {
             case defaultVCpus = "defaultVCpus"
             case validCores = "validCores"
             case validThreadsPerCore = "validThreadsPerCore"
+        }
+    }
+
+    public struct ValidationError: AWSDecodableShape {
+
+        /// The error code that indicates why the parameter or parameter combination is not valid. For more information about error codes, see Error Codes.
+        public let code: String?
+        /// The error message that describes why the parameter or parameter combination is not valid. For more information about error messages, see Error Codes.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct ValidationWarning: AWSDecodableShape {
+        public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
+
+        /// The error codes and error messages.
+        @OptionalCoding<ArrayCoder<_ErrorsEncoding, ValidationError>>
+        public var errors: [ValidationError]?
+
+        public init(errors: [ValidationError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errorSet"
         }
     }
 

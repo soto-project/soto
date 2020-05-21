@@ -80,7 +80,7 @@ extension GuardDuty {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists the accounts configured as AWS Organization delegated administrators.
+    ///  Lists the accounts configured as GuardDuty delegated administrators.
     public func listOrganizationAdminAccountsPaginator(
         _ input: ListOrganizationAdminAccountsRequest,
         on eventLoop: EventLoop? = nil,

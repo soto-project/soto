@@ -100,6 +100,13 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
+    public enum NotificationTarget: String, CustomStringConvertible, Codable {
+        case eventbridge = "EventBridge"
+        case sns = "SNS"
+        case sqs = "SQS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NumberSelectionBehavior: String, CustomStringConvertible, Codable {
         case prefersticky = "PreferSticky"
         case avoidsticky = "AvoidSticky"
@@ -798,6 +805,25 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case cdrBucket = "CdrBucket"
+        }
+    }
+
+    public struct ConversationRetentionSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The number of days for which to retain chat conversation messages.
+        public let retentionDays: Int?
+
+        public init(retentionDays: Int? = nil) {
+            self.retentionDays = retentionDays
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.retentionDays, name: "retentionDays", parent: name, max: 5475)
+            try validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionDays = "RetentionDays"
         }
     }
 
@@ -2257,6 +2283,44 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case proxySession = "ProxySession"
+        }
+    }
+
+    public struct GetRetentionSettingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRetentionSettingsResponse: AWSDecodableShape {
+
+        /// The timestamp representing the time at which the specified items are permanently deleted, in ISO 8601 format.
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var initiateDeletionTimestamp: TimeStamp?
+        /// The retention settings.
+        public let retentionSettings: RetentionSettings?
+
+        public init(initiateDeletionTimestamp: TimeStamp? = nil, retentionSettings: RetentionSettings? = nil) {
+            self.initiateDeletionTimestamp = initiateDeletionTimestamp
+            self.retentionSettings = retentionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiateDeletionTimestamp = "InitiateDeletionTimestamp"
+            case retentionSettings = "RetentionSettings"
         }
     }
 
@@ -4056,6 +4120,50 @@ extension Chime {
         }
     }
 
+    public struct PutRetentionSettingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The retention settings.
+        public let retentionSettings: RetentionSettings
+
+        public init(accountId: String, retentionSettings: RetentionSettings) {
+            self.accountId = accountId
+            self.retentionSettings = retentionSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.retentionSettings.validate(name: "\(name).retentionSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionSettings = "RetentionSettings"
+        }
+    }
+
+    public struct PutRetentionSettingsResponse: AWSDecodableShape {
+
+        /// The timestamp representing the time at which the specified items are permanently deleted, in ISO 8601 format.
+        @OptionalCoding<ISO8601TimeStampCoder>
+        public var initiateDeletionTimestamp: TimeStamp?
+        /// The retention settings.
+        public let retentionSettings: RetentionSettings?
+
+        public init(initiateDeletionTimestamp: TimeStamp? = nil, retentionSettings: RetentionSettings? = nil) {
+            self.initiateDeletionTimestamp = initiateDeletionTimestamp
+            self.retentionSettings = retentionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiateDeletionTimestamp = "InitiateDeletionTimestamp"
+            case retentionSettings = "RetentionSettings"
+        }
+    }
+
     public struct PutVoiceConnectorLoggingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
@@ -4293,6 +4401,80 @@ extension Chime {
         }
     }
 
+    public struct RedactConversationMessageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "conversationId", location: .uri(locationName: "conversationId")), 
+            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The conversation ID.
+        public let conversationId: String
+        /// The message ID.
+        public let messageId: String
+
+        public init(accountId: String, conversationId: String, messageId: String) {
+            self.accountId = accountId
+            self.conversationId = conversationId
+            self.messageId = messageId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.conversationId, name: "conversationId", parent: name, pattern: ".*\\S.*")
+            try validate(self.messageId, name: "messageId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RedactConversationMessageResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct RedactRoomMessageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId")), 
+            AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The message ID.
+        public let messageId: String
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, messageId: String, roomId: String) {
+            self.accountId = accountId
+            self.messageId = messageId
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.messageId, name: "messageId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RedactRoomMessageResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct RegenerateSecurityTokenRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
@@ -4401,6 +4583,29 @@ extension Chime {
         }
     }
 
+    public struct RetentionSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The chat conversation retention settings.
+        public let conversationRetentionSettings: ConversationRetentionSettings?
+        /// The chat room retention settings.
+        public let roomRetentionSettings: RoomRetentionSettings?
+
+        public init(conversationRetentionSettings: ConversationRetentionSettings? = nil, roomRetentionSettings: RoomRetentionSettings? = nil) {
+            self.conversationRetentionSettings = conversationRetentionSettings
+            self.roomRetentionSettings = roomRetentionSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.conversationRetentionSettings?.validate(name: "\(name).conversationRetentionSettings")
+            try self.roomRetentionSettings?.validate(name: "\(name).roomRetentionSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationRetentionSettings = "ConversationRetentionSettings"
+            case roomRetentionSettings = "RoomRetentionSettings"
+        }
+    }
+
     public struct Room: AWSDecodableShape {
 
         /// The Amazon Chime account ID.
@@ -4464,6 +4669,25 @@ extension Chime {
             case role = "Role"
             case roomId = "RoomId"
             case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
+    public struct RoomRetentionSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The number of days for which to retain chat room messages.
+        public let retentionDays: Int?
+
+        public init(retentionDays: Int? = nil) {
+            self.retentionDays = retentionDays
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.retentionDays, name: "retentionDays", parent: name, max: 5475)
+            try validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionDays = "RetentionDays"
         }
     }
 
@@ -4552,19 +4776,39 @@ extension Chime {
         public let dataRetentionInHours: Int
         /// When true, media streaming to Amazon Kinesis is turned off.
         public let disabled: Bool?
+        /// The streaming notification targets.
+        public let streamingNotificationTargets: [StreamingNotificationTarget]?
 
-        public init(dataRetentionInHours: Int, disabled: Bool? = nil) {
+        public init(dataRetentionInHours: Int, disabled: Bool? = nil, streamingNotificationTargets: [StreamingNotificationTarget]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
+            self.streamingNotificationTargets = streamingNotificationTargets
         }
 
         public func validate(name: String) throws {
             try validate(self.dataRetentionInHours, name: "dataRetentionInHours", parent: name, min: 0)
+            try validate(self.streamingNotificationTargets, name: "streamingNotificationTargets", parent: name, max: 3)
+            try validate(self.streamingNotificationTargets, name: "streamingNotificationTargets", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataRetentionInHours = "DataRetentionInHours"
             case disabled = "Disabled"
+            case streamingNotificationTargets = "StreamingNotificationTargets"
+        }
+    }
+
+    public struct StreamingNotificationTarget: AWSEncodableShape & AWSDecodableShape {
+
+        /// The streaming notification target.
+        public let notificationTarget: NotificationTarget
+
+        public init(notificationTarget: NotificationTarget) {
+            self.notificationTarget = notificationTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationTarget = "NotificationTarget"
         }
     }
 

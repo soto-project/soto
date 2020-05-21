@@ -319,6 +319,7 @@ extension Lightsail {
         case tcp = "tcp"
         case all = "all"
         case udp = "udp"
+        case icmp = "icmp"
         public var description: String { return self.rawValue }
     }
 
@@ -565,15 +566,15 @@ extension Lightsail {
         public let period: Int?
         /// The Lightsail resource type (e.g., Alarm).
         public let resourceType: ResourceType?
-        /// The current state of the alarm. An alarm has the following possible states:    ALARM — The metric is outside of the defined threshold.    INSUFFICIENT_DATA — The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK — The metric is within the defined threshold.  
+        /// The current state of the alarm. An alarm has the following possible states:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.  
         public let state: AlarmState?
-        /// The statistic for the metric associated with the alarm. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
+        /// The statistic for the metric associated with the alarm. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.  
         public let statistic: MetricStatistic?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail alarm. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// The value against which the specified statistic is compared.
         public let threshold: Double?
-        /// Specifies how the alarm handles missing data points. An alarm can treat missing data in the following ways:    breaching — Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching — Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore — Ignore the missing data. Maintains the current alarm state.    missing — Missing data is treated as missing.  
+        /// Specifies how the alarm handles missing data points. An alarm can treat missing data in the following ways:    breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore - Ignore the missing data. Maintains the current alarm state.    missing - Missing data is treated as missing.  
         public let treatMissingData: TreatMissingData?
         /// The unit of the metric associated with the alarm.
         public let unit: MetricUnit?
@@ -645,7 +646,7 @@ extension Lightsail {
 
     public struct AllocateStaticIpResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -687,7 +688,7 @@ extension Lightsail {
 
     public struct AttachDiskResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -726,7 +727,7 @@ extension Lightsail {
 
     public struct AttachInstancesToLoadBalancerResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -763,7 +764,7 @@ extension Lightsail {
 
     public struct AttachLoadBalancerTlsCertificateResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -800,7 +801,7 @@ extension Lightsail {
 
     public struct AttachStaticIpResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1006,9 +1007,9 @@ extension Lightsail {
 
     public struct CloseInstancePublicPortsRequest: AWSEncodableShape {
 
-        /// The name of the instance on which you're attempting to close the public ports.
+        /// The name of the instance for which to close ports.
         public let instanceName: String
-        /// Information about the public port you are trying to close.
+        /// An object to describe the ports to close for the specified instance.
         public let portInfo: PortInfo
 
         public init(instanceName: String, portInfo: PortInfo) {
@@ -1029,7 +1030,7 @@ extension Lightsail {
 
     public struct CloseInstancePublicPortsResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1120,7 +1121,7 @@ extension Lightsail {
         public let `protocol`: ContactProtocol?
         /// The Lightsail resource type (e.g., ContactMethod).
         public let resourceType: ResourceType?
-        /// The current status of the contact method. A contact method has the following possible status:    PendingVerification — The contact method has not yet been verified, and the verification has not yet expired.    Valid — The contact method has been verified.    InValid — An attempt was made to verify the contact method, but the verification has expired.  
+        /// The current status of the contact method. A contact method has the following possible status:    PendingVerification - The contact method has not yet been verified, and the verification has not yet expired.    Valid - The contact method has been verified.    InValid - An attempt was made to verify the contact method, but the verification has expired.  
         public let status: ContactMethodStatus?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail contact method. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
@@ -1191,7 +1192,7 @@ extension Lightsail {
 
     public struct CopySnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1225,7 +1226,7 @@ extension Lightsail {
 
     public struct CreateCloudFormationStackResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1239,7 +1240,7 @@ extension Lightsail {
 
     public struct CreateContactMethodRequest: AWSEncodableShape {
 
-        /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 in Wikipedia.
+        /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 on Wikipedia.
         public let contactEndpoint: String
         /// The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following AWS Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest AWS Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
         public let `protocol`: ContactProtocol
@@ -1262,7 +1263,7 @@ extension Lightsail {
 
     public struct CreateContactMethodResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1331,7 +1332,7 @@ extension Lightsail {
 
     public struct CreateDiskFromSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1383,7 +1384,7 @@ extension Lightsail {
 
     public struct CreateDiskResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1429,7 +1430,7 @@ extension Lightsail {
 
     public struct CreateDiskSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1465,7 +1466,7 @@ extension Lightsail {
 
     public struct CreateDomainEntryResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1497,7 +1498,7 @@ extension Lightsail {
 
     public struct CreateDomainResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1538,7 +1539,7 @@ extension Lightsail {
 
     public struct CreateInstanceSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1622,7 +1623,7 @@ extension Lightsail {
 
     public struct CreateInstancesFromSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1687,7 +1688,7 @@ extension Lightsail {
 
     public struct CreateInstancesResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1725,7 +1726,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
@@ -1777,7 +1778,7 @@ extension Lightsail {
         public func validate(name: String) throws {
             try validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try validate(self.instancePort, name: "instancePort", parent: name, max: 65535)
-            try validate(self.instancePort, name: "instancePort", parent: name, min: 0)
+            try validate(self.instancePort, name: "instancePort", parent: name, min: -1)
             try validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -1794,7 +1795,7 @@ extension Lightsail {
 
     public struct CreateLoadBalancerResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1843,7 +1844,7 @@ extension Lightsail {
 
     public struct CreateLoadBalancerTlsCertificateResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1909,7 +1910,7 @@ extension Lightsail {
 
     public struct CreateRelationalDatabaseFromSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1981,7 +1982,7 @@ extension Lightsail {
 
     public struct CreateRelationalDatabaseResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2022,7 +2023,7 @@ extension Lightsail {
 
     public struct CreateRelationalDatabaseSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2054,7 +2055,7 @@ extension Lightsail {
 
     public struct DeleteAlarmResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2091,7 +2092,7 @@ extension Lightsail {
 
     public struct DeleteAutoSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2119,7 +2120,7 @@ extension Lightsail {
 
     public struct DeleteContactMethodResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2155,7 +2156,7 @@ extension Lightsail {
 
     public struct DeleteDiskResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2187,7 +2188,7 @@ extension Lightsail {
 
     public struct DeleteDiskSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2223,7 +2224,7 @@ extension Lightsail {
 
     public struct DeleteDomainEntryResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -2251,7 +2252,7 @@ extension Lightsail {
 
     public struct DeleteDomainResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -2287,7 +2288,7 @@ extension Lightsail {
 
     public struct DeleteInstanceResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2319,7 +2320,7 @@ extension Lightsail {
 
     public struct DeleteInstanceSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2351,7 +2352,7 @@ extension Lightsail {
 
     public struct DeleteKeyPairResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -2383,7 +2384,7 @@ extension Lightsail {
 
     public struct DeleteKnownHostKeysResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2415,7 +2416,7 @@ extension Lightsail {
 
     public struct DeleteLoadBalancerResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2456,7 +2457,7 @@ extension Lightsail {
 
     public struct DeleteLoadBalancerTlsCertificateResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2497,7 +2498,7 @@ extension Lightsail {
 
     public struct DeleteRelationalDatabaseResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2529,7 +2530,7 @@ extension Lightsail {
 
     public struct DeleteRelationalDatabaseSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2579,7 +2580,7 @@ extension Lightsail {
 
     public struct DetachDiskResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2618,7 +2619,7 @@ extension Lightsail {
 
     public struct DetachInstancesFromLoadBalancerResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2650,7 +2651,7 @@ extension Lightsail {
 
     public struct DetachStaticIpResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2686,7 +2687,7 @@ extension Lightsail {
 
     public struct DisableAddOnResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -3028,7 +3029,7 @@ extension Lightsail {
 
     public struct EnableAddOnResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -3144,7 +3145,7 @@ extension Lightsail {
 
     public struct ExportSnapshotResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -3667,15 +3668,15 @@ extension Lightsail {
         public let endTime: TimeStamp
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
-        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     CPUUtilization  — The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn  — The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut  — The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed  — Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance  — Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System  — Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.  
+        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     CPUUtilization  - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn  - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut  - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed  - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance  - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System  - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.  
         public let metricName: InstanceMetricName
         /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
         /// The start time of the time period.
         public let startTime: TimeStamp
-        /// The statistic for the metric. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.  
         public let statistics: [MetricStatistic]
-        /// The unit for the metric data request. Valid units depend on the metric data being required. For the valid units with each available metric, see the metricName parameter.
+        /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units to specify with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
         public init(endTime: TimeStamp, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
@@ -3725,7 +3726,7 @@ extension Lightsail {
 
     public struct GetInstancePortStatesRequest: AWSEncodableShape {
 
-        /// The name of the instance.
+        /// The name of the instance for which to return firewall port states.
         public let instanceName: String
 
         public init(instanceName: String) {
@@ -3743,7 +3744,7 @@ extension Lightsail {
 
     public struct GetInstancePortStatesResult: AWSDecodableShape {
 
-        /// Information about the port states resulting from your request.
+        /// An array of objects that describe the firewall port states for the specified instance.
         public let portStates: [InstancePortState]?
 
         public init(portStates: [InstancePortState]? = nil) {
@@ -3985,13 +3986,13 @@ extension Lightsail {
         public let endTime: TimeStamp
         /// The name of the load balancer.
         public let loadBalancerName: String
-        /// The metric for which you want to return information. Valid load balancer metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     ClientTLSNegotiationErrorCount  — The number of TLS connections initiated by the client that did not establish a session with the load balancer due to a TLS error generated by the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     HealthyHostCount  — The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.     HTTPCode_Instance_2XX_Count  — The number of HTTP 2XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_3XX_Count  — The number of HTTP 3XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_4XX_Count  — The number of HTTP 4XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_5XX_Count  — The number of HTTP 5XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_4XX_Count  — The number of HTTP 4XX client error codes that originated from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests were not received by the target instance. This count does not include response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_5XX_Count  — The number of HTTP 5XX server error codes that originated from the load balancer. This does not include any response codes generated by the target instance. This metric is reported if there are no healthy instances attached to the load balancer, or if the request rate exceeds the capacity of the instances (spillover) or the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     InstanceResponseTime  — The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     RejectedConnectionCount  — The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     RequestCount  — The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     UnhealthyHostCount  — The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.  
+        /// The metric for which you want to return information. Valid load balancer metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer due to a TLS error generated by the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.     HTTPCode_Instance_2XX_Count  - The number of HTTP 2XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_3XX_Count  - The number of HTTP 3XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_4XX_Count  - The number of HTTP 4XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_5XX_Count  - The number of HTTP 5XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originated from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests were not received by the target instance. This count does not include response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originated from the load balancer. This does not include any response codes generated by the target instance. This metric is reported if there are no healthy instances attached to the load balancer, or if the request rate exceeds the capacity of the instances (spillover) or the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.  
         public let metricName: LoadBalancerMetricName
         /// The granularity, in seconds, of the returned data points.
         public let period: Int
         /// The start time of the period.
         public let startTime: TimeStamp
-        /// The statistic for the metric. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.  
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being required. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
@@ -4157,7 +4158,7 @@ extension Lightsail {
 
     public struct GetOperationResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -4195,7 +4196,7 @@ extension Lightsail {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
@@ -4227,7 +4228,7 @@ extension Lightsail {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
@@ -4517,7 +4518,7 @@ extension Lightsail {
 
         /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp
-        /// The metric for which you want to return information. Valid relational database metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. All relational database metric data is available in 1-minute (60 seconds) granularity.     CPUUtilization  — The percentage of CPU utilization currently in use on the database.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     DatabaseConnections  — The number of database connections in use.  Statistics: The most useful statistics are Maximum and Sum.  Unit: The published unit is Count.     DiskQueueDepth  — The number of outstanding IOs (read/write requests) that are waiting to access the disk.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     FreeStorageSpace  — The amount of available storage space.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkReceiveThroughput  — The incoming (Receive) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.     NetworkTransmitThroughput  — The outgoing (Transmit) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.  
+        /// The metric for which you want to return information. Valid relational database metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. All relational database metric data is available in 1-minute (60 seconds) granularity.     CPUUtilization  - The percentage of CPU utilization currently in use on the database.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     DatabaseConnections  - The number of database connections in use.  Statistics: The most useful statistics are Maximum and Sum.  Unit: The published unit is Count.     DiskQueueDepth  - The number of outstanding IOs (read/write requests) that are waiting to access the disk.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     FreeStorageSpace  - The amount of available storage space.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkReceiveThroughput  - The incoming (Receive) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.     NetworkTransmitThroughput  - The outgoing (Transmit) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.  
         public let metricName: RelationalDatabaseMetricName
         /// The granularity, in seconds, of the returned data points. All relational database metric data is available in 1-minute (60 seconds) granularity.
         public let period: Int
@@ -4525,7 +4526,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// The start of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
         public let startTime: TimeStamp
-        /// The statistic for the metric. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.  
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being required. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
@@ -4869,7 +4870,7 @@ extension Lightsail {
 
     public struct ImportKeyPairResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5027,7 +5028,7 @@ extension Lightsail {
         public let availabilityZone: String
         /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
         public let instanceType: String
-        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:   DEFAULT — Use the default firewall settings from the image.   INSTANCE — Use the firewall settings from the source Lightsail instance.   NONE — Default to Amazon EC2.   CLOSED — All ports closed.  
+        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:    DEFAULT - Use the default firewall settings from the Lightsail instance blueprint.    INSTANCE - Use the configured firewall settings from the source Lightsail instance.    NONE - Use the default Amazon EC2 security group.    CLOSED - All ports closed.    If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your instance, that configuration is not carried over to your new Amazon EC2 instance. 
         public let portInfoSource: PortInfoSourceType
         /// The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack.
         public let sourceName: String
@@ -5120,25 +5121,31 @@ extension Lightsail {
 
     public struct InstancePortInfo: AWSDecodableShape {
 
-        /// The access direction (inbound or outbound).
+        /// The access direction (inbound or outbound).  Lightsail currently supports only inbound access direction. 
         public let accessDirection: AccessDirection?
-        /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
+        /// The location from which access is allowed. For example, Anywhere (0.0.0.0/0), or Custom if a specific IP address or range of IP addresses is allowed.
         public let accessFrom: String?
         /// The type of access (Public or Private).
         public let accessType: PortAccessType?
-        /// The common name.
+        /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
+        public let cidrListAliases: [String]?
+        /// The IP address, or range of IP addresses in CIDR notation, that are allowed to connect to an instance through the ports, and the protocol. Lightsail supports IPv4 addresses. For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        public let cidrs: [String]?
+        /// The common name of the port information.
         public let commonName: String?
-        /// The first port in the range.
+        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - 8 (to configure Ping)  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let fromPort: Int?
-        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
+        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached.  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let `protocol`: NetworkProtocol?
-        /// The last port in the range.
+        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - -1 (to configure Ping)  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let toPort: Int?
 
-        public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, commonName: String? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
+        public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, cidrListAliases: [String]? = nil, cidrs: [String]? = nil, commonName: String? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
             self.accessDirection = accessDirection
             self.accessFrom = accessFrom
             self.accessType = accessType
+            self.cidrListAliases = cidrListAliases
+            self.cidrs = cidrs
             self.commonName = commonName
             self.fromPort = fromPort
             self.`protocol` = `protocol`
@@ -5149,6 +5156,8 @@ extension Lightsail {
             case accessDirection = "accessDirection"
             case accessFrom = "accessFrom"
             case accessType = "accessType"
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
             case commonName = "commonName"
             case fromPort = "fromPort"
             case `protocol` = "protocol"
@@ -5158,16 +5167,22 @@ extension Lightsail {
 
     public struct InstancePortState: AWSDecodableShape {
 
-        /// The first port in the range.
+        /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
+        public let cidrListAliases: [String]?
+        /// The IP address, or range of IP addresses in CIDR notation, that are allowed to connect to an instance through the ports, and the protocol. Lightsail supports IPv4 addresses. For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        public let cidrs: [String]?
+        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - 8 (to configure Ping)  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let fromPort: Int?
-        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
+        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached.  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let `protocol`: NetworkProtocol?
-        /// Specifies whether the instance port is open or closed.
+        /// Specifies whether the instance port is open or closed.  The port state for Lightsail instances is always open. 
         public let state: PortState?
-        /// The last port in the range.
+        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - -1 (to configure Ping)  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let toPort: Int?
 
-        public init(fromPort: Int? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int? = nil) {
+        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int? = nil) {
+            self.cidrListAliases = cidrListAliases
+            self.cidrs = cidrs
             self.fromPort = fromPort
             self.`protocol` = `protocol`
             self.state = state
@@ -5175,6 +5190,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
             case fromPort = "fromPort"
             case `protocol` = "protocol"
             case state = "state"
@@ -5722,9 +5739,9 @@ extension Lightsail {
 
     public struct OpenInstancePublicPortsRequest: AWSEncodableShape {
 
-        /// The name of the instance for which you want to open the public ports.
+        /// The name of the instance for which to open ports.
         public let instanceName: String
-        /// An array of key-value pairs containing information about the port mappings.
+        /// An object to describe the ports to open for the specified instance.
         public let portInfo: PortInfo
 
         public init(instanceName: String, portInfo: PortInfo) {
@@ -5745,7 +5762,7 @@ extension Lightsail {
 
     public struct OpenInstancePublicPortsResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5843,7 +5860,7 @@ extension Lightsail {
 
     public struct PeerVpcResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5901,14 +5918,20 @@ extension Lightsail {
 
     public struct PortInfo: AWSEncodableShape {
 
-        /// The first port in the range.
+        /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
+        public let cidrListAliases: [String]?
+        /// The IP address, or range of IP addresses in CIDR notation, that are allowed to connect to an instance through the ports, and the protocol. Lightsail supports IPv4 addresses. Examples:   To allow the IP address 192.0.2.44, specify 192.0.2.44 or 192.0.2.44/32.    To allow the IP addresses 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        public let cidrs: [String]?
+        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - 8 (to configure Ping)  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let fromPort: Int?
-        /// The protocol. 
+        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached.  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let `protocol`: NetworkProtocol?
-        /// The last port in the range.
+        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - -1 (to configure Ping)  Ping is the only communication supported through the ICMP protocol in Lightsail. To configure ping, specify the fromPort parameter as 8, and the toPort parameter as -1.   
         public let toPort: Int?
 
-        public init(fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
+        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
+            self.cidrListAliases = cidrListAliases
+            self.cidrs = cidrs
             self.fromPort = fromPort
             self.`protocol` = `protocol`
             self.toPort = toPort
@@ -5916,12 +5939,14 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
-            try validate(self.fromPort, name: "fromPort", parent: name, min: 0)
+            try validate(self.fromPort, name: "fromPort", parent: name, min: -1)
             try validate(self.toPort, name: "toPort", parent: name, max: 65535)
-            try validate(self.toPort, name: "toPort", parent: name, min: 0)
+            try validate(self.toPort, name: "toPort", parent: name, min: -1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
             case fromPort = "fromPort"
             case `protocol` = "protocol"
             case toPort = "toPort"
@@ -5946,11 +5971,11 @@ extension Lightsail {
         public let monitoredResourceName: String
         /// Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this parameter.
         public let notificationEnabled: Bool?
-        /// The alarm states that trigger a notification. An alarm has the following possible states:    ALARM — The metric is outside of the defined threshold.    INSUFFICIENT_DATA — The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK — The metric is within the defined threshold.   When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state.   If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification.   If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't specify this parameter.
+        /// The alarm states that trigger a notification. An alarm has the following possible states:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.   When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state.   If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification.   If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't specify this parameter.
         public let notificationTriggers: [AlarmState]?
         /// The value against which the specified statistic is compared.
         public let threshold: Double
-        /// Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways:    breaching — Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching — Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore — Ignore the missing data. Maintains the current alarm state.    missing — Missing data is treated as missing.   If treatMissingData is not specified, the default behavior of missing is used.
+        /// Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways:    breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore - Ignore the missing data. Maintains the current alarm state.    missing - Missing data is treated as missing.   If treatMissingData is not specified, the default behavior of missing is used.
         public let treatMissingData: TreatMissingData?
 
         public init(alarmName: String, comparisonOperator: ComparisonOperator, contactProtocols: [ContactProtocol]? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int, metricName: MetricName, monitoredResourceName: String, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, threshold: Double, treatMissingData: TreatMissingData? = nil) {
@@ -5989,7 +6014,7 @@ extension Lightsail {
 
     public struct PutAlarmResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6003,9 +6028,9 @@ extension Lightsail {
 
     public struct PutInstancePublicPortsRequest: AWSEncodableShape {
 
-        /// The Lightsail instance name of the public port(s) you are setting.
+        /// The name of the instance for which to open ports.
         public let instanceName: String
-        /// Specifies information about the public port(s).
+        /// An array of objects to describe the ports to open for the specified instance.
         public let portInfos: [PortInfo]
 
         public init(instanceName: String, portInfos: [PortInfo]) {
@@ -6028,7 +6053,7 @@ extension Lightsail {
 
     public struct PutInstancePublicPortsResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -6060,7 +6085,7 @@ extension Lightsail {
 
     public struct RebootInstanceResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6092,7 +6117,7 @@ extension Lightsail {
 
     public struct RebootRelationalDatabaseResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6530,7 +6555,7 @@ extension Lightsail {
 
     public struct ReleaseStaticIpResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6576,7 +6601,7 @@ extension Lightsail {
 
     public struct SendContactMethodVerificationResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6608,7 +6633,7 @@ extension Lightsail {
 
     public struct StartInstanceResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6640,7 +6665,7 @@ extension Lightsail {
 
     public struct StartRelationalDatabaseResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6722,7 +6747,7 @@ extension Lightsail {
 
     public struct StopInstanceResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6759,7 +6784,7 @@ extension Lightsail {
 
     public struct StopRelationalDatabaseResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6818,7 +6843,7 @@ extension Lightsail {
 
     public struct TagResourceResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6834,7 +6859,7 @@ extension Lightsail {
 
         /// The name of the alarm to test.
         public let alarmName: String
-        /// The alarm state to test. An alarm has the following possible states that can be tested:    ALARM — The metric is outside of the defined threshold.    INSUFFICIENT_DATA — The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK — The metric is within the defined threshold.  
+        /// The alarm state to test. An alarm has the following possible states that can be tested:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.  
         public let state: AlarmState
 
         public init(alarmName: String, state: AlarmState) {
@@ -6854,7 +6879,7 @@ extension Lightsail {
 
     public struct TestAlarmResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6876,7 +6901,7 @@ extension Lightsail {
 
     public struct UnpeerVpcResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -6917,7 +6942,7 @@ extension Lightsail {
 
     public struct UntagResourceResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6953,7 +6978,7 @@ extension Lightsail {
 
     public struct UpdateDomainEntryResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6995,7 +7020,7 @@ extension Lightsail {
 
     public struct UpdateLoadBalancerAttributeResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -7031,7 +7056,7 @@ extension Lightsail {
 
     public struct UpdateRelationalDatabaseParametersResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -7099,7 +7124,7 @@ extension Lightsail {
 
     public struct UpdateRelationalDatabaseResult: AWSDecodableShape {
 
-        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {

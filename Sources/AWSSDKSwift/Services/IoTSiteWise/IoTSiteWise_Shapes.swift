@@ -856,7 +856,7 @@ extension IoTSiteWise {
 
     public struct BatchPutAssetPropertyValueRequest: AWSEncodableShape {
 
-        /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
         public let entries: [PutAssetPropertyValueEntry]
 
         public init(entries: [PutAssetPropertyValueEntry]) {
@@ -2854,9 +2854,9 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The ID of the asset model by which to filter the list of assets. Omit the assetModelId to list all assets (of all models).
+        /// The ID of the asset model by which to filter the list of assets. This parameter is required if you choose ALL for filter.
         public let assetModelId: String?
-        /// The hierarchy level by which to filter the requested list of assets.
+        /// The filter for the requested list of assets. Choose one of the following options. Defaults to ALL.    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.  
         public let filter: ListAssetsFilter?
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
@@ -3555,7 +3555,7 @@ extension IoTSiteWise {
         public let propertyAlias: String?
         /// The ID of the asset property for this entry.
         public let propertyId: String?
-        /// The list of property values to upload. You can specify up to 10 propertyValues array elements.  For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The list of property values to upload. You can specify up to 10 propertyValues array elements. 
         public let propertyValues: [AssetPropertyValue]
 
         public init(assetId: String? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, propertyValues: [AssetPropertyValue]) {
@@ -3919,11 +3919,11 @@ extension IoTSiteWise {
         public let assetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide. If you omit this parameter, the alias is removed from the property.
         public let propertyAlias: String?
         /// The ID of the asset property to be updated.
         public let propertyId: String
-        /// The updated MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with Other Services in the AWS IoT SiteWise User Guide.
+        /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with Other Services in the AWS IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
         public let propertyNotificationState: PropertyNotificationState?
 
         public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil) {

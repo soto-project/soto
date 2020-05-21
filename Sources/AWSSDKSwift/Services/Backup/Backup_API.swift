@@ -131,7 +131,7 @@ public struct Backup {
         return client.send(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    ///  Returns information about a saved resource, including the last time it was backed-up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
+    ///  Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
     public func describeProtectedResource(_ input: DescribeProtectedResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProtectedResourceOutput> {
         return client.send(operation: "DescribeProtectedResource", path: "/resources/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
     }
@@ -139,6 +139,11 @@ public struct Backup {
     ///  Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
     public func describeRecoveryPoint(_ input: DescribeRecoveryPointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecoveryPointOutput> {
         return client.send(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
+    ///  Returns the current service opt-in settings for the region. If the service has a value set to true, AWS Backup will attempt to protect that service's resources in this region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup will not attempt to protect that service's resources in this region.
+    public func describeRegionSettings(_ input: DescribeRegionSettingsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegionSettingsOutput> {
+        return client.send(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Returns metadata associated with a restore job that is specified by a job ID.
@@ -246,7 +251,7 @@ public struct Backup {
         return client.send(operation: "ListRestoreJobs", path: "/restore-jobs/", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.
+    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.   ListTags are currently only supported with Amazon EFS backups. 
     public func listTags(_ input: ListTagsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsOutput> {
         return client.send(operation: "ListTags", path: "/tags/{resourceArn}/", httpMethod: "GET", input: input, on: eventLoop)
     }
@@ -299,5 +304,10 @@ public struct Backup {
     ///  Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecoveryPointLifecycleOutput> {
         return client.send(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Updates the current service opt-in settings for the region. If the service has a value set to true, AWS Backup will attempt to protect that service's resources in this region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup will not attempt to protect that service's resources in this region.
+    @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: "PUT", input: input, on: eventLoop)
     }
 }

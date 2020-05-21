@@ -31,6 +31,7 @@ extension CodeGuruReviewer {
     public enum ProviderType: String, CustomStringConvertible, Codable {
         case codecommit = "CodeCommit"
         case github = "GitHub"
+        case bitbucket = "Bitbucket"
         public var description: String { return self.rawValue }
     }
 
@@ -835,18 +836,23 @@ extension CodeGuruReviewer {
 
     public struct Repository: AWSEncodableShape {
 
+        ///  Information about a Bitbucket Cloud repository. 
+        public let bitbucket: ThirdPartySourceRepository?
         /// Information about an AWS CodeCommit repository.
         public let codeCommit: CodeCommitRepository?
 
-        public init(codeCommit: CodeCommitRepository? = nil) {
+        public init(bitbucket: ThirdPartySourceRepository? = nil, codeCommit: CodeCommitRepository? = nil) {
+            self.bitbucket = bitbucket
             self.codeCommit = codeCommit
         }
 
         public func validate(name: String) throws {
+            try self.bitbucket?.validate(name: "\(name).bitbucket")
             try self.codeCommit?.validate(name: "\(name).codeCommit")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bitbucket = "Bitbucket"
             case codeCommit = "CodeCommit"
         }
     }
@@ -857,6 +863,8 @@ extension CodeGuruReviewer {
         public let associationArn: String?
         /// The ID of the repository association.
         public let associationId: String?
+        ///  The Amazon Resource Name (ARN) identifying the repository connection. 
+        public let connectionArn: String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
         public let createdTimeStamp: TimeStamp?
         /// The time, in milliseconds since the epoch, when the repository association was last updated.
@@ -872,9 +880,10 @@ extension CodeGuruReviewer {
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
+            self.connectionArn = connectionArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.name = name
@@ -887,6 +896,7 @@ extension CodeGuruReviewer {
         private enum CodingKeys: String, CodingKey {
             case associationArn = "AssociationArn"
             case associationId = "AssociationId"
+            case connectionArn = "ConnectionArn"
             case createdTimeStamp = "CreatedTimeStamp"
             case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
             case name = "Name"
@@ -903,6 +913,8 @@ extension CodeGuruReviewer {
         public let associationArn: String?
         /// The repository association ID.
         public let associationId: String?
+        ///  The Amazon Resource Name (ARN) identifying the repository connection. 
+        public let connectionArn: String?
         /// The time, in milliseconds since the epoch, since the repository association was last updated. 
         public let lastUpdatedTimeStamp: TimeStamp?
         /// The name of the repository association.
@@ -914,9 +926,10 @@ extension CodeGuruReviewer {
         /// The state of the repository association.  Associated  Amazon CodeGuru Reviewer is associated with the repository.   Associating  The association is in progress.   Failed  The association failed.   Disassociating  Amazon CodeGuru Reviewer is in the process of disassociating with the repository.   
         public let state: RepositoryAssociationState?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
+            self.connectionArn = connectionArn
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.name = name
             self.owner = owner
@@ -927,6 +940,7 @@ extension CodeGuruReviewer {
         private enum CodingKeys: String, CodingKey {
             case associationArn = "AssociationArn"
             case associationId = "AssociationId"
+            case connectionArn = "ConnectionArn"
             case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
             case name = "Name"
             case owner = "Owner"
@@ -946,6 +960,40 @@ extension CodeGuruReviewer {
 
         private enum CodingKeys: String, CodingKey {
             case commitDiff = "CommitDiff"
+        }
+    }
+
+    public struct ThirdPartySourceRepository: AWSEncodableShape {
+
+        ///  The Amazon Resource Name (ARN) identifying the repository connection. 
+        public let connectionArn: String
+        ///  The name of the third party source repository. 
+        public let name: String
+        ///  The username of the owner of the repository. 
+        public let owner: String
+
+        public init(connectionArn: String, name: String, owner: String) {
+            self.connectionArn = connectionArn
+            self.name = name
+            self.owner = owner
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
+            try validate(self.connectionArn, name: "connectionArn", parent: name, min: 0)
+            try validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+            try validate(self.name, name: "name", parent: name, max: 100)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
+            try validate(self.owner, name: "owner", parent: name, max: 100)
+            try validate(self.owner, name: "owner", parent: name, min: 1)
+            try validate(self.owner, name: "owner", parent: name, pattern: "^\\S(.*\\S)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case name = "Name"
+            case owner = "Owner"
         }
     }
 }

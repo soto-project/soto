@@ -2271,7 +2271,7 @@ extension SageMaker {
         public let appType: AppType
         /// The domain ID.
         public let domainId: String
-        /// The instance type and quantity.
+        /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let resourceSpec: ResourceSpec?
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
         public let tags: [Tag]?
@@ -2509,7 +2509,7 @@ extension SageMaker {
         public let defaultUserSettings: UserSettings
         /// A name for the domain.
         public let domainName: String
-        /// The AWS Key Management Service encryption key ID.
+        /// The AWS Key Management Service (KMS) encryption key ID. Encryption with a customer master key (CMK) is not supported.
         public let homeEfsFileSystemKmsKeyId: String?
         /// Security setting to limit to a set of subnets.
         public let subnetIds: [String]
@@ -4366,7 +4366,7 @@ extension SageMaker {
 
         /// The domain ID.
         public let domainId: String
-        /// The retention policy for this domain, which specifies which resources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). 
+        /// The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). 
         public let retentionPolicy: RetentionPolicy?
 
         public init(domainId: String, retentionPolicy: RetentionPolicy? = nil) {
@@ -4893,7 +4893,7 @@ extension SageMaker {
         public let lastHealthCheckTimestamp: TimeStamp?
         /// The timestamp of the last user's activity.
         public let lastUserActivityTimestamp: TimeStamp?
-        /// The instance type and quantity.
+        /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let resourceSpec: ResourceSpec?
         /// The status.
         public let status: AppStatus?
@@ -6696,7 +6696,7 @@ extension SageMaker {
         public let domainId: String?
         /// The failure reason.
         public let failureReason: String?
-        /// The homa Amazon Elastic File System (EFS) Uid.
+        /// The home Amazon Elastic File System (EFS) Uid.
         public let homeEfsFileSystemUid: String?
         /// The last modified time.
         public let lastModifiedTime: TimeStamp?
@@ -8142,7 +8142,7 @@ extension SageMaker {
 
     public struct JupyterServerAppSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// The instance type and quantity.
+        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let defaultResourceSpec: ResourceSpec?
 
         public init(defaultResourceSpec: ResourceSpec? = nil) {
@@ -8160,7 +8160,7 @@ extension SageMaker {
 
     public struct KernelGatewayAppSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// The instance type and quantity.
+        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let defaultResourceSpec: ResourceSpec?
 
         public init(defaultResourceSpec: ResourceSpec? = nil) {
@@ -11396,11 +11396,14 @@ extension SageMaker {
 
     public struct NetworkConfig: AWSEncodableShape & AWSDecodableShape {
 
+        /// Whether to encrypt all communications between distributed processing jobs. Choose True to encrypt communications. Encryption provides greater security for distributed processing jobs, but the processing might take longer.
+        public let enableInterContainerTrafficEncryption: Bool?
         /// Whether to allow inbound and outbound network calls to and from the containers used for the processing job.
         public let enableNetworkIsolation: Bool?
         public let vpcConfig: VpcConfig?
 
-        public init(enableNetworkIsolation: Bool? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, vpcConfig: VpcConfig? = nil) {
+            self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
             self.vpcConfig = vpcConfig
         }
@@ -11410,6 +11413,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableNetworkIsolation = "EnableNetworkIsolation"
             case vpcConfig = "VpcConfig"
         }
@@ -12189,9 +12193,9 @@ extension SageMaker {
         /// A RenderableTask object containing a representative task to render.
         public let task: RenderableTask
         /// A Template object containing the worker UI template to render.
-        public let uiTemplate: UiTemplate
+        public let uiTemplate: UiTemplate?
 
-        public init(roleArn: String, task: RenderableTask, uiTemplate: UiTemplate) {
+        public init(roleArn: String, task: RenderableTask, uiTemplate: UiTemplate? = nil) {
             self.roleArn = roleArn
             self.task = task
             self.uiTemplate = uiTemplate
@@ -12202,7 +12206,7 @@ extension SageMaker {
             try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.task.validate(name: "\(name).task")
-            try self.uiTemplate.validate(name: "\(name).uiTemplate")
+            try self.uiTemplate?.validate(name: "\(name).uiTemplate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12348,7 +12352,7 @@ extension SageMaker {
 
         /// The instance type.
         public let instanceType: AppInstanceType?
-        /// The Amazon Resource Name (ARN) of the image created on the instance.
+        /// The Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let sageMakerImageArn: String?
 
         public init(instanceType: AppInstanceType? = nil, sageMakerImageArn: String? = nil) {
@@ -12369,7 +12373,7 @@ extension SageMaker {
 
     public struct RetentionPolicy: AWSEncodableShape {
 
-        /// The home Amazon Elastic File System (EFS).
+        /// The default is Retain, which specifies to keep the data stored on the EFS volume. Specify Delete to delete the data stored on the EFS volume.
         public let homeEfsFileSystem: RetentionType?
 
         public init(homeEfsFileSystem: RetentionType? = nil) {
@@ -13026,7 +13030,7 @@ extension SageMaker {
 
     public struct TensorBoardAppSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// The instance type and quantity.
+        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let defaultResourceSpec: ResourceSpec?
 
         public init(defaultResourceSpec: ResourceSpec? = nil) {
@@ -14088,9 +14092,9 @@ extension SageMaker {
     public struct UiConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket location of the UI template. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
-        public let uiTemplateS3Uri: String
+        public let uiTemplateS3Uri: String?
 
-        public init(uiTemplateS3Uri: String) {
+        public init(uiTemplateS3Uri: String? = nil) {
             self.uiTemplateS3Uri = uiTemplateS3Uri
         }
 

@@ -41,6 +41,13 @@ extension TranscribeStreamingService {
         public var description: String { return self.rawValue }
     }
 
+    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
+        case remove = "remove"
+        case mask = "mask"
+        case tag = "tag"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct Alternative: AWSDecodableShape {
@@ -138,12 +145,15 @@ extension TranscribeStreamingService {
         public let startTime: Double?
         /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio.
         public let `type`: ItemType?
+        /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your real-time stream. If true then a word in the item matches your vocabulary filter.
+        public let vocabularyFilterMatch: Bool?
 
-        public init(content: String? = nil, endTime: Double? = nil, startTime: Double? = nil, type: ItemType? = nil) {
+        public init(content: String? = nil, endTime: Double? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
             self.content = content
             self.endTime = endTime
             self.startTime = startTime
             self.`type` = `type`
+            self.vocabularyFilterMatch = vocabularyFilterMatch
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -151,6 +161,7 @@ extension TranscribeStreamingService {
             case endTime = "EndTime"
             case startTime = "StartTime"
             case `type` = "Type"
+            case vocabularyFilterMatch = "VocabularyFilterMatch"
         }
     }
 
@@ -218,6 +229,8 @@ extension TranscribeStreamingService {
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")), 
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")), 
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")), 
+            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")), 
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-name")), 
             AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
         ]
 
@@ -231,15 +244,21 @@ extension TranscribeStreamingService {
         public let mediaSampleRateHertz: Int
         /// A identifier for the transcription session. Use this parameter when you want to retry a session. If you don't provide a session ID, Amazon Transcribe will generate one for you and return it in the response.
         public let sessionId: String?
+        /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks those words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags them. The tag appears as VocabularyFilterMatch equal to True 
+        public let vocabularyFilterMethod: VocabularyFilterMethod?
+        /// The name of the vocabulary filter you've created that is unique to your AWS accountf. Provide the name in this field to successfully use it in a stream.
+        public let vocabularyFilterName: String?
         /// The name of the vocabulary to use when processing the transcription job.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, sessionId: String? = nil, vocabularyName: String? = nil) {
+        public init(audioStream: AudioStream, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.sessionId = sessionId
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
             self.vocabularyName = vocabularyName
         }
 
@@ -247,6 +266,9 @@ extension TranscribeStreamingService {
             try validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
             try validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
+            try validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
+            try validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
             try validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -267,6 +289,8 @@ extension TranscribeStreamingService {
             AWSMemberEncoding(label: "requestId", location: .header(locationName: "x-amzn-request-id")), 
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")), 
             AWSMemberEncoding(label: "transcriptResultStream", location: .body(locationName: "TranscriptResultStream")), 
+            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")), 
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-name")), 
             AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
         ]
 
@@ -282,16 +306,22 @@ extension TranscribeStreamingService {
         public let sessionId: String?
         /// Represents the stream of transcription events from Amazon Transcribe to your application.
         public let transcriptResultStream: TranscriptResultStream?
-        /// The name of the vocabulary used when processing the job.
+        /// The vocabulary filtering method used in the real-time stream.
+        public let vocabularyFilterMethod: VocabularyFilterMethod?
+        /// The name of the vocabulary filter used in your real-time stream.
+        public let vocabularyFilterName: String?
+        /// The name of the vocabulary used when processing the stream.
         public let vocabularyName: String?
 
-        public init(languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, requestId: String? = nil, sessionId: String? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyName: String? = nil) {
+        public init(languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, requestId: String? = nil, sessionId: String? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.requestId = requestId
             self.sessionId = sessionId
             self.transcriptResultStream = transcriptResultStream
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
             self.vocabularyName = vocabularyName
         }
 
@@ -302,6 +332,8 @@ extension TranscribeStreamingService {
             case requestId = "x-amzn-request-id"
             case sessionId = "x-amzn-transcribe-session-id"
             case transcriptResultStream = "TranscriptResultStream"
+            case vocabularyFilterMethod = "x-amzn-transcribe-vocabulary-filter-method"
+            case vocabularyFilterName = "x-amzn-transcribe-vocabulary-filter-name"
             case vocabularyName = "x-amzn-transcribe-vocabulary-name"
         }
     }

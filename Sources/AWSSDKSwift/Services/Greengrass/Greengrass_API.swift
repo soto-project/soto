@@ -62,6 +62,7 @@ public struct Greengrass {
             serviceProtocol: .restjson,
             apiVersion: "2017-06-07",
             endpoint: endpoint,
+            serviceEndpoints: ["us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"],
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [GreengrassErrorType.self],

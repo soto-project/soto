@@ -28,9 +28,9 @@ AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy to mo
          Kubernetes on AWS, and Amazon EC2.
          
             App Mesh supports microservice applications that use service discovery naming for their
-            components. For more information about service discovery on Amazon ECS, see Service Discovery in the
-               Amazon Elastic Container Service Developer Guide. Kubernetes kube-dns and
-               coredns are supported. For more information, see DNS
+            components. For more information about service discovery on Amazon ECS, see Service Discovery in the Amazon Elastic Container Service Developer Guide. Kubernetes
+               kube-dns and coredns are supported. For more information,
+            see DNS
                for Services and Pods in the Kubernetes documentation.
          
 */
@@ -83,35 +83,32 @@ public struct AppMesh {
     
     //MARK: API Calls
 
-    ///  Creates a service mesh. A service mesh is a logical boundary for network traffic between
-    ///           the services that reside within it.
-    ///           After you create your service mesh, you can create virtual services, virtual nodes,
-    ///           virtual routers, and routes to distribute traffic between the applications in your
-    ///           mesh.
+    ///  Creates a service mesh.
+    ///            A service mesh is a logical boundary for network traffic between services that are
+    ///           represented by resources within the mesh. After you create your service mesh, you can
+    ///           create virtual services, virtual nodes, virtual routers, and routes to distribute traffic
+    ///           between the applications in your mesh.
+    ///           For more information about service meshes, see Service meshes.
     public func createMesh(_ input: CreateMeshInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeshOutput> {
         return client.send(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates a route that is associated with a virtual router.
-    ///           You can use the prefix parameter in your route specification for path-based
-    ///           routing of requests. For example, if your virtual service name is
-    ///              my-service.local and you want the route to match requests to
-    ///              my-service.local/metrics, your prefix should be
-    ///           /metrics.
-    ///           If your route matches a request, you can distribute traffic to one or more target
-    ///           virtual nodes with relative weighting.
+    ///            You can route several different protocols and define a retry policy for a route.
+    ///           Traffic can be routed to one or more virtual nodes.
     ///           For more information about routes, see Routes.
     public func createRoute(_ input: CreateRouteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRouteOutput> {
         return client.send(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates a virtual node within a service mesh.
-    ///           A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
+    ///            A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
     ///           service or a Kubernetes deployment. When you create a virtual node, you can specify the
-    ///           service discovery information for your task group.
-    ///           Any inbound traffic that your virtual node expects should be specified as a
-    ///              listener. Any outbound traffic that your virtual node expects to reach
-    ///           should be specified as a backend.
+    ///           service discovery information for your task group, and whether the proxy running in a task
+    ///           group will communicate with other proxies using Transport Layer Security (TLS).
+    ///           You define a listener for any inbound traffic that your virtual node
+    ///           expects. Any virtual service that your virtual node expects to communicate to is specified
+    ///           as a backend.
     ///           The response metadata for your new virtual node contains the arn that is
     ///           associated with the virtual node. Set this value (either the full ARN or the truncated
     ///           resource name: for example, mesh/default/virtualNode/simpleapp) as the
@@ -124,18 +121,18 @@ public struct AppMesh {
     ///                 APPMESH_VIRTUAL_NODE_NAME with the
     ///                 APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
     ///           
-    ///           For more information about virtual nodes, see Virtual Nodes.
+    ///           For more information about virtual nodes, see Virtual nodes.
     public func createVirtualNode(_ input: CreateVirtualNodeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVirtualNodeOutput> {
         return client.send(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Creates a virtual router within a service mesh.
-    ///           Any inbound traffic that your virtual router expects should be specified as a
-    ///              listener. 
-    ///           Virtual routers handle traffic for one or more virtual services within your mesh. After
-    ///           you create your virtual router, create and associate routes for your virtual router that
-    ///           direct incoming requests to different virtual nodes.
-    ///           For more information about virtual routers, see Virtual Routers.
+    ///           Specify a listener for any inbound traffic that your virtual router
+    ///           receives. Create a virtual router for each protocol and port that you need to route.
+    ///           Virtual routers handle traffic for one or more virtual services within your mesh. After you
+    ///           create your virtual router, create and associate routes for your virtual router that direct
+    ///           incoming requests to different virtual nodes.
+    ///           For more information about virtual routers, see Virtual routers.
     public func createVirtualRouter(_ input: CreateVirtualRouterInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVirtualRouterOutput> {
         return client.send(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "PUT", input: input, on: eventLoop)
     }
@@ -146,7 +143,7 @@ public struct AppMesh {
     ///           service by its virtualServiceName, and those requests are routed to the
     ///           virtual node or virtual router that is specified as the provider for the virtual
     ///           service.
-    ///           For more information about virtual services, see Virtual Services.
+    ///           For more information about virtual services, see Virtual services.
     public func createVirtualService(_ input: CreateVirtualServiceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVirtualServiceOutput> {
         return client.send(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "PUT", input: input, on: eventLoop)
     }

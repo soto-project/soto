@@ -352,6 +352,40 @@ extension ComprehendMedical {
         }
     }
 
+    public struct DescribeICD10CMInferenceJobRequest: AWSEncodableShape {
+
+        /// The identifier that Amazon Comprehend Medical generated for the job. The StartICD10CMInferenceJob operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeICD10CMInferenceJobResponse: AWSDecodableShape {
+
+        /// An object that contains the properties associated with a detection job.
+        public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
+
+        public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
+            self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
+        }
+    }
+
     public struct DescribePHIDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Comprehend Medical generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
@@ -373,6 +407,40 @@ extension ComprehendMedical {
     }
 
     public struct DescribePHIDetectionJobResponse: AWSDecodableShape {
+
+        /// An object that contains the properties associated with a detection job.
+        public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
+
+        public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
+            self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
+        }
+    }
+
+    public struct DescribeRxNormInferenceJobRequest: AWSEncodableShape {
+
+        /// The identifier that Amazon Comprehend Medical generated for the job. The StartRxNormInferenceJob operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeRxNormInferenceJobResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with a detection job.
         public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
@@ -850,6 +918,53 @@ extension ComprehendMedical {
         }
     }
 
+    public struct ListICD10CMInferenceJobsRequest: AWSEncodableShape {
+
+        /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: ComprehendMedicalAsyncJobFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListICD10CMInferenceJobsResponse: AWSDecodableShape {
+
+        /// A list containing the properties of each job that is returned.
+        public let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
+            self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobPropertiesList = "ComprehendMedicalAsyncJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListPHIDetectionJobsRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
@@ -882,6 +997,53 @@ extension ComprehendMedical {
     public struct ListPHIDetectionJobsResponse: AWSDecodableShape {
 
         /// A list containing the properties of each job returned.
+        public let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
+            self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobPropertiesList = "ComprehendMedicalAsyncJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRxNormInferenceJobsRequest: AWSEncodableShape {
+
+        /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: ComprehendMedicalAsyncJobFilter?
+        /// Identifies the next page of results to return.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRxNormInferenceJobsResponse: AWSDecodableShape {
+
+        /// The maximum number of results to return in each page. The default is 100.
         public let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]?
         /// Identifies the next page of results to return.
         public let nextToken: String?
@@ -1124,6 +1286,75 @@ extension ComprehendMedical {
         }
     }
 
+    public struct StartICD10CMInferenceJobRequest: AWSEncodableShape {
+
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        public let dataAccessRoleArn: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
+        public let kMSKey: String?
+        /// The language of the input documents. All documents must be in the same language.
+        public let languageCode: LanguageCode
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+
+        public init(clientRequestToken: String? = StartICD10CMInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.kMSKey = kMSKey
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case kMSKey = "KMSKey"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+        }
+    }
+
+    public struct StartICD10CMInferenceJobResponse: AWSDecodableShape {
+
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the StartICD10CMInferenceJob operation.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct StartPHIDetectionJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
@@ -1193,6 +1424,75 @@ extension ComprehendMedical {
         }
     }
 
+    public struct StartRxNormInferenceJobRequest: AWSEncodableShape {
+
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        public let dataAccessRoleArn: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
+        public let kMSKey: String?
+        /// The language of the input documents. All documents must be in the same language.
+        public let languageCode: LanguageCode
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+
+        public init(clientRequestToken: String? = StartRxNormInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.kMSKey = kMSKey
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case kMSKey = "KMSKey"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+        }
+    }
+
+    public struct StartRxNormInferenceJobResponse: AWSDecodableShape {
+
+        /// The identifier of the job.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct StopEntitiesDetectionV2JobRequest: AWSEncodableShape {
 
         /// The identifier of the medical entities job to stop.
@@ -1227,6 +1527,40 @@ extension ComprehendMedical {
         }
     }
 
+    public struct StopICD10CMInferenceJobRequest: AWSEncodableShape {
+
+        /// The identifier of the job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopICD10CMInferenceJobResponse: AWSDecodableShape {
+
+        /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeICD10CMInferenceJob operation.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct StopPHIDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier of the PHI detection job to stop.
@@ -1250,6 +1584,40 @@ extension ComprehendMedical {
     public struct StopPHIDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier of the PHI detection job that was stopped.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopRxNormInferenceJobRequest: AWSEncodableShape {
+
+        /// The identifier of the job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopRxNormInferenceJobResponse: AWSDecodableShape {
+
+        /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeRxNormInferenceJob operation.
         public let jobId: String?
 
         public init(jobId: String? = nil) {

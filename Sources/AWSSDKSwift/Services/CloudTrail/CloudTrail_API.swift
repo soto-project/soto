@@ -63,6 +63,7 @@ public struct CloudTrail {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-11-01",
             endpoint: endpoint,
+            serviceEndpoints: ["us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com", "us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com"],
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [CloudTrailErrorType.self],

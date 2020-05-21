@@ -156,6 +156,11 @@ public struct MediaLive {
         return client.send(operation: "DescribeInput", path: "/prod/inputs/{inputId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
+    ///  Gets the details for the input device
+    public func describeInputDevice(_ input: DescribeInputDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputDeviceResponse> {
+        return client.send(operation: "DescribeInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
     ///  Produces a summary of an Input Security Group
     public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputSecurityGroupResponse> {
         return client.send(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "GET", input: input, on: eventLoop)
@@ -189,6 +194,11 @@ public struct MediaLive {
     ///  Produces list of channels that have been created
     public func listChannels(_ input: ListChannelsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
         return client.send(operation: "ListChannels", path: "/prod/channels", httpMethod: "GET", input: input, on: eventLoop)
+    }
+
+    ///  List input devices
+    public func listInputDevices(_ input: ListInputDevicesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputDevicesResponse> {
+        return client.send(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: "GET", input: input, on: eventLoop)
     }
 
     ///  Produces a list of Input Security Groups for an account
@@ -264,6 +274,11 @@ public struct MediaLive {
     ///  Updates an input.
     public func updateInput(_ input: UpdateInputRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInputResponse> {
         return client.send(operation: "UpdateInput", path: "/prod/inputs/{inputId}", httpMethod: "PUT", input: input, on: eventLoop)
+    }
+
+    ///  Updates the parameters for the input device.
+    public func updateInputDevice(_ input: UpdateInputDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInputDeviceResponse> {
+        return client.send(operation: "UpdateInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: "PUT", input: input, on: eventLoop)
     }
 
     ///  Update an Input Security Group's Whilelists.

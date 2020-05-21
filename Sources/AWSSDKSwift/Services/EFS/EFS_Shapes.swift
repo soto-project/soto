@@ -1042,21 +1042,22 @@ extension EFS {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// Specifies the EFS resource that you want to remove tags from.
         public let resourceId: String
         /// The keys of the key:value tag pairs that you want to remove from the specified EFS resource.
-        public let tagKeys: [String]?
+        public let tagKeys: [String]
 
-        public init(resourceId: String, tagKeys: [String]? = nil) {
+        public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
         }
 
         public func validate(name: String) throws {
-            try self.tagKeys?.forEach {
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -1064,9 +1065,7 @@ extension EFS {
             try validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateFileSystemRequest: AWSEncodableShape {

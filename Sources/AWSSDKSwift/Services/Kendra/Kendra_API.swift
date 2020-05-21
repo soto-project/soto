@@ -97,6 +97,11 @@ public struct Kendra {
         return client.send(operation: "CreateIndex", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
+    ///  Deletes an Amazon Kendra data source. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the operation is set to DELETING. For more information, see Deleting Data Sources.
+    @discardableResult public func deleteDataSource(_ input: DeleteDataSourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteDataSource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
     ///  Removes an FAQ from an index.
     @discardableResult public func deleteFaq(_ input: DeleteFaqRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteFaq", path: "/", httpMethod: "POST", input: input, on: eventLoop)
@@ -142,6 +147,11 @@ public struct Kendra {
         return client.send(operation: "ListIndices", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
+    ///  Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources can have tags associated with them.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
     ///  Searches an active index. Use this API to search your documents using query. The Query operation enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results.  Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter.
     public func query(_ input: QueryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryResult> {
         return client.send(operation: "Query", path: "/", httpMethod: "POST", input: input, on: eventLoop)
@@ -160,6 +170,16 @@ public struct Kendra {
     ///  Enables you to provide feedback to Amazon Kendra to improve the performance of the service. 
     @discardableResult public func submitFeedback(_ input: SubmitFeedbackRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "SubmitFeedback", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Adds the specified tag to the specified index, FAQ, or data source resource. If the tag already exists, the existing value is replaced with the new value.
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Removes a tag from an index, FAQ, or a data source.
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
     ///  Updates an existing Amazon Kendra data source.

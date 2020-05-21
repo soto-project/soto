@@ -406,9 +406,9 @@ extension WorkMail {
         /// The name of the access control rule.
         public let name: String
         /// The identifier for the organization.
-        public let organizationId: String?
+        public let organizationId: String
 
-        public init(name: String, organizationId: String? = nil) {
+        public init(name: String, organizationId: String) {
             self.name = name
             self.organizationId = organizationId
         }

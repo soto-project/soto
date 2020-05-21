@@ -382,6 +382,8 @@ extension SSM {
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
         case suse = "SUSE"
         case centos = "CENTOS"
+        case oracleLinux = "ORACLE_LINUX"
+        case debian = "DEBIAN"
         public var description: String { return self.rawValue }
     }
 
@@ -1598,8 +1600,10 @@ extension SSM {
         public let targetCount: Int?
         /// An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
         public let targets: [Target]?
+        /// The TimeoutSeconds value specified for a command.
+        public let timeoutSeconds: Int?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil) {
+        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
             self.comment = comment
@@ -1623,6 +1627,7 @@ extension SSM {
             self.statusDetails = statusDetails
             self.targetCount = targetCount
             self.targets = targets
+            self.timeoutSeconds = timeoutSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1649,6 +1654,7 @@ extension SSM {
             case statusDetails = "StatusDetails"
             case targetCount = "TargetCount"
             case targets = "Targets"
+            case timeoutSeconds = "TimeoutSeconds"
         }
     }
 
@@ -2282,7 +2288,7 @@ extension SSM {
 
         /// A list of key and value pairs that describe attachments to a version of a document.
         public let attachments: [AttachmentsSource]?
-        /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the AWS Systems Manager User Guide.    Create an SSM document (console)     Create an SSM document (AWS CLI)     Create an SSM document (API)   
+        /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the AWS Systems Manager User Guide.    Create an SSM document (AWS API)     Create an SSM document (AWS CLI)     Create an SSM document (API)   
         public let content: String
         /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
@@ -7508,7 +7514,7 @@ extension SSM {
         public let commandId: String?
         /// (Optional) If set this returns the response of the command executions and any command output. By default this is set to False. 
         public let details: Bool?
-        /// (Optional) One or more filters. Use a filter to return a more specific list of results. Note that the DocumentName filter is not supported for ListCommandInvocations.
+        /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
         /// (Optional) The command execution details for a specific instance ID.
         public let instanceId: String?
@@ -7792,7 +7798,7 @@ extension SSM {
 
         /// This data type is deprecated. Instead, use Filters.
         public let documentFilterList: [DocumentFilter]?
-        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, and DocumentType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.
+        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, and TargetType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.
         public let filters: [DocumentKeyValuesFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -9059,6 +9065,8 @@ extension SSM {
 
         /// The Amazon Resource Name (ARN) of the parameter.
         public let arn: String?
+        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        public let dataType: String?
         /// Date the parameter was last changed or updated and the parameter version was created.
         public let lastModifiedDate: TimeStamp?
         /// The name of the parameter.
@@ -9074,8 +9082,9 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(arn: String? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, selector: String? = nil, sourceResult: String? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
+        public init(arn: String? = nil, dataType: String? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, selector: String? = nil, sourceResult: String? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.arn = arn
+            self.dataType = dataType
             self.lastModifiedDate = lastModifiedDate
             self.name = name
             self.selector = selector
@@ -9087,6 +9096,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+            case dataType = "DataType"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
             case selector = "Selector"
@@ -9101,6 +9111,8 @@ extension SSM {
 
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
+        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        public let dataType: String?
         /// Information about the parameter.
         public let description: String?
         /// The ID of the query key used for this parameter.
@@ -9124,8 +9136,9 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
+        public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
+            self.dataType = dataType
             self.description = description
             self.keyId = keyId
             self.labels = labels
@@ -9141,6 +9154,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPattern = "AllowedPattern"
+            case dataType = "DataType"
             case description = "Description"
             case keyId = "KeyId"
             case labels = "Labels"
@@ -9181,6 +9195,8 @@ extension SSM {
 
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
+        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        public let dataType: String?
         /// Description of the parameter actions.
         public let description: String?
         /// The ID of the query key used for this parameter.
@@ -9200,8 +9216,9 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, version: Int64? = nil) {
+        public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
+            self.dataType = dataType
             self.description = description
             self.keyId = keyId
             self.lastModifiedDate = lastModifiedDate
@@ -9215,6 +9232,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPattern = "AllowedPattern"
+            case dataType = "DataType"
             case description = "Description"
             case keyId = "KeyId"
             case lastModifiedDate = "LastModifiedDate"
@@ -9245,7 +9263,7 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.key, name: "key", parent: name, max: 132)
             try validate(self.key, name: "key", parent: name, min: 1)
-            try validate(self.key, name: "key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier")
+            try validate(self.key, name: "key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType")
             try validate(self.option, name: "option", parent: name, max: 10)
             try validate(self.option, name: "option", parent: name, min: 1)
             try self.values?.forEach {
@@ -9764,6 +9782,8 @@ extension SSM {
 
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$ 
         public let allowedPattern: String?
+        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Systems Manager validates the parameter value you provide against that data type. The required format is ami-12345abcdeEXAMPLE. For more information, see Native parameter support for Amazon Machine Image IDs in the AWS Systems Manager User Guide.
+        public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Do not enter personally identifiable information in this field. 
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.  
@@ -9779,12 +9799,13 @@ extension SSM {
         /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions. 
-        public let `type`: ParameterType
+        public let `type`: ParameterType?
         /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
         public let value: String
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType, value: String) {
+        public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String) {
             self.allowedPattern = allowedPattern
+            self.dataType = dataType
             self.description = description
             self.keyId = keyId
             self.name = name
@@ -9799,6 +9820,8 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.allowedPattern, name: "allowedPattern", parent: name, max: 1024)
             try validate(self.allowedPattern, name: "allowedPattern", parent: name, min: 0)
+            try validate(self.dataType, name: "dataType", parent: name, max: 128)
+            try validate(self.dataType, name: "dataType", parent: name, min: 0)
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.description, name: "description", parent: name, min: 0)
             try validate(self.keyId, name: "keyId", parent: name, max: 256)
@@ -9816,6 +9839,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPattern = "AllowedPattern"
+            case dataType = "DataType"
             case description = "Description"
             case keyId = "KeyId"
             case name = "Name"

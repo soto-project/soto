@@ -1025,14 +1025,17 @@ extension ECR {
         public let imageId: ImageIdentifier?
         /// The image manifest associated with the image.
         public let imageManifest: String?
+        /// The media type associated with the image manifest.
+        public let imageManifestMediaType: String?
         /// The AWS account ID associated with the registry containing the image.
         public let registryId: String?
         /// The name of the repository associated with the image.
         public let repositoryName: String?
 
-        public init(imageId: ImageIdentifier? = nil, imageManifest: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(imageId: ImageIdentifier? = nil, imageManifest: String? = nil, imageManifestMediaType: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.imageManifest = imageManifest
+            self.imageManifestMediaType = imageManifestMediaType
             self.registryId = registryId
             self.repositoryName = repositoryName
         }
@@ -1040,6 +1043,7 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case imageId = "imageId"
             case imageManifest = "imageManifest"
+            case imageManifestMediaType = "imageManifestMediaType"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
         }
@@ -1508,6 +1512,8 @@ extension ECR {
 
         /// The image manifest corresponding to the image to be uploaded.
         public let imageManifest: String
+        /// The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
+        public let imageManifestMediaType: String?
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
         public let imageTag: String?
         /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
@@ -1515,8 +1521,9 @@ extension ECR {
         /// The name of the repository in which to put the image.
         public let repositoryName: String
 
-        public init(imageManifest: String, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
+        public init(imageManifest: String, imageManifestMediaType: String? = nil, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.imageManifest = imageManifest
+            self.imageManifestMediaType = imageManifestMediaType
             self.imageTag = imageTag
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -1535,6 +1542,7 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case imageManifest = "imageManifest"
+            case imageManifestMediaType = "imageManifestMediaType"
             case imageTag = "imageTag"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
@@ -1751,7 +1759,7 @@ extension ECR {
 
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
-        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR Repository Policy Examples in the Amazon Elastic Container Registry User Guide.
+        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
         public let policyText: String
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1989,9 +1997,9 @@ extension ECR {
 
         /// The base64-encoded layer part payload.
         public let layerPartBlob: Data
-        /// The integer value of the first byte of the layer part.
+        /// The position of the first byte of the layer part witin the overall image layer.
         public let partFirstByte: Int64
-        /// The integer value of the last byte of the layer part.
+        /// The position of the last byte of the layer part within the overall image layer.
         public let partLastByte: Int64
         /// The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?

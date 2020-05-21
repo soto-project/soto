@@ -202,7 +202,7 @@ public struct WorkMail {
         return client.send(operation: "ListMailboxPermissions", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Returns summaries of the customer's non-deleted organizations.
+    ///  Returns summaries of the customer's organizations.
     public func listOrganizations(_ input: ListOrganizationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationsResponse> {
         return client.send(operation: "ListOrganizations", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
