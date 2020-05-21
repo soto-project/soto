@@ -20,6 +20,12 @@ import Foundation
 extension QLDB {
     //MARK: Enums
 
+    public enum ErrorCause: String, CustomStringConvertible, Codable {
+        case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
+        case iamPermissionRevoked = "IAM_PERMISSION_REVOKED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportStatus: String, CustomStringConvertible, Codable {
         case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
@@ -47,7 +53,58 @@ extension QLDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum StreamStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case canceled = "CANCELED"
+        case failed = "FAILED"
+        case impaired = "IMPAIRED"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
+
+    public struct CancelJournalKinesisStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
+        ]
+
+        /// The name of the ledger.
+        public let ledgerName: String
+        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        public let streamId: String
+
+        public init(ledgerName: String, streamId: String) {
+            self.ledgerName = ledgerName
+            self.streamId = streamId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try validate(self.streamId, name: "streamId", parent: name, max: 22)
+            try validate(self.streamId, name: "streamId", parent: name, min: 22)
+            try validate(self.streamId, name: "streamId", parent: name, pattern: "^[A-Za-z-0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelJournalKinesisStreamResponse: AWSDecodableShape {
+
+        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        public let streamId: String?
+
+        public init(streamId: String? = nil) {
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamId = "StreamId"
+        }
+    }
 
     public struct CreateLedgerRequest: AWSEncodableShape {
 
@@ -136,6 +193,48 @@ extension QLDB {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeJournalKinesisStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
+        ]
+
+        /// The name of the ledger.
+        public let ledgerName: String
+        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        public let streamId: String
+
+        public init(ledgerName: String, streamId: String) {
+            self.ledgerName = ledgerName
+            self.streamId = streamId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try validate(self.streamId, name: "streamId", parent: name, max: 22)
+            try validate(self.streamId, name: "streamId", parent: name, min: 22)
+            try validate(self.streamId, name: "streamId", parent: name, pattern: "^[A-Za-z-0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeJournalKinesisStreamResponse: AWSDecodableShape {
+
+        /// Information about the QLDB journal stream returned by a DescribeJournalS3Export request.
+        public let stream: JournalKinesisStreamDescription?
+
+        public init(stream: JournalKinesisStreamDescription? = nil) {
+            self.stream = stream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stream = "Stream"
+        }
     }
 
     public struct DescribeJournalS3ExportRequest: AWSEncodableShape {
@@ -432,6 +531,60 @@ extension QLDB {
         }
     }
 
+    public struct JournalKinesisStreamDescription: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the QLDB journal stream.
+        public let arn: String?
+        /// The date and time, in epoch time format, when the QLDB journal stream was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
+        public let creationTime: TimeStamp?
+        /// The error message that describes the reason that a stream has a status of IMPAIRED or FAILED. This is not applicable to streams that have other status values.
+        public let errorCause: ErrorCause?
+        /// The exclusive date and time that specifies when the stream ends. If this parameter is blank, the stream runs indefinitely until you cancel it.
+        public let exclusiveEndTime: TimeStamp?
+        /// The inclusive start date and time from which to start streaming journal data.
+        public let inclusiveStartTime: TimeStamp?
+        /// The configuration settings of the Amazon Kinesis Data Streams destination for your QLDB journal stream.
+        public let kinesisConfiguration: KinesisConfiguration
+        /// The name of the ledger.
+        public let ledgerName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal stream to write data records to a Kinesis Data Streams resource.
+        public let roleArn: String
+        /// The current state of the QLDB journal stream.
+        public let status: StreamStatus
+        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        public let streamId: String
+        /// The user-defined name of the QLDB journal stream.
+        public let streamName: String
+
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, errorCause: ErrorCause? = nil, exclusiveEndTime: TimeStamp? = nil, inclusiveStartTime: TimeStamp? = nil, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, status: StreamStatus, streamId: String, streamName: String) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.errorCause = errorCause
+            self.exclusiveEndTime = exclusiveEndTime
+            self.inclusiveStartTime = inclusiveStartTime
+            self.kinesisConfiguration = kinesisConfiguration
+            self.ledgerName = ledgerName
+            self.roleArn = roleArn
+            self.status = status
+            self.streamId = streamId
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case errorCause = "ErrorCause"
+            case exclusiveEndTime = "ExclusiveEndTime"
+            case inclusiveStartTime = "InclusiveStartTime"
+            case kinesisConfiguration = "KinesisConfiguration"
+            case ledgerName = "LedgerName"
+            case roleArn = "RoleArn"
+            case status = "Status"
+            case streamId = "StreamId"
+            case streamName = "StreamName"
+        }
+    }
+
     public struct JournalS3ExportDescription: AWSDecodableShape {
 
         /// The exclusive end date and time for the range of journal contents that are specified in the original export request.
@@ -473,6 +626,29 @@ extension QLDB {
         }
     }
 
+    public struct KinesisConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// Enables QLDB to publish multiple stream records in a single Kinesis Data Streams record. To learn more, see KPL Key Concepts in the Amazon Kinesis Data Streams Developer Guide.
+        public let aggregationEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the Kinesis data stream resource.
+        public let streamArn: String
+
+        public init(aggregationEnabled: Bool? = nil, streamArn: String) {
+            self.aggregationEnabled = aggregationEnabled
+            self.streamArn = streamArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.streamArn, name: "streamArn", parent: name, max: 1600)
+            try validate(self.streamArn, name: "streamArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationEnabled = "AggregationEnabled"
+            case streamArn = "StreamArn"
+        }
+    }
+
     public struct LedgerSummary: AWSDecodableShape {
 
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -492,6 +668,58 @@ extension QLDB {
             case creationDateTime = "CreationDateTime"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct ListJournalKinesisStreamsForLedgerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+        ]
+
+        /// The name of the ledger.
+        public let ledgerName: String
+        /// The maximum number of results to return in a single ListJournalKinesisStreamsForLedger request. (The actual number of results returned might be fewer.)
+        public let maxResults: Int?
+        /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalKinesisStreamsForLedger call, you should use that value as input here.
+        public let nextToken: String?
+
+        public init(ledgerName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.ledgerName = ledgerName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListJournalKinesisStreamsForLedgerResponse: AWSDecodableShape {
+
+        ///   If NextToken is empty, the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, more results are available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalKinesisStreamsForLedger call.  
+        public let nextToken: String?
+        /// The array of QLDB journal stream descriptors that are associated with the given ledger.
+        public let streams: [JournalKinesisStreamDescription]?
+
+        public init(nextToken: String? = nil, streams: [JournalKinesisStreamDescription]? = nil) {
+            self.nextToken = nextToken
+            self.streams = streams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case streams = "Streams"
         }
     }
 
@@ -673,7 +901,7 @@ extension QLDB {
 
     public struct S3EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) for a customer master key (CMK) in AWS Key Management Service (AWS KMS). You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
+        /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in AWS Key Management Service (AWS KMS). Amazon QLDB does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see Protecting Data Using Server-Side Encryption in the Amazon S3 Developer Guide.
         public let objectEncryptionType: S3ObjectEncryptionType
@@ -722,6 +950,78 @@ extension QLDB {
             case bucket = "Bucket"
             case encryptionConfiguration = "EncryptionConfiguration"
             case prefix = "Prefix"
+        }
+    }
+
+    public struct StreamJournalToKinesisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name"))
+        ]
+
+        /// The exclusive date and time that specifies when the stream ends. If you keep this parameter blank, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z 
+        public let exclusiveEndTime: TimeStamp?
+        /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
+        public let inclusiveStartTime: TimeStamp
+        /// The configuration settings of the Kinesis Data Streams destination for your stream request.
+        public let kinesisConfiguration: KinesisConfiguration
+        /// The name of the ledger.
+        public let ledgerName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal stream to write data records to a Kinesis Data Streams resource.
+        public let roleArn: String
+        /// The name that you want to assign to the QLDB journal stream. User-defined names can help identify and indicate the purpose of a stream. Your stream name must be unique among other active streams for a given ledger. If you try to create a stream with the same name and configuration of an active, existing stream for the same ledger, QLDB simply returns the existing stream. Stream names have the same naming constraints as ledger names, as defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
+        public let streamName: String
+        /// The key-value pairs to add as tags to the stream that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
+        public let tags: [String: String]?
+
+        public init(exclusiveEndTime: TimeStamp? = nil, inclusiveStartTime: TimeStamp, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, streamName: String, tags: [String: String]? = nil) {
+            self.exclusiveEndTime = exclusiveEndTime
+            self.inclusiveStartTime = inclusiveStartTime
+            self.kinesisConfiguration = kinesisConfiguration
+            self.ledgerName = ledgerName
+            self.roleArn = roleArn
+            self.streamName = streamName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.kinesisConfiguration.validate(name: "\(name).kinesisConfiguration")
+            try validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
+            try validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
+            try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try validate(self.streamName, name: "streamName", parent: name, max: 32)
+            try validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try validate(self.streamName, name: "streamName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveEndTime = "ExclusiveEndTime"
+            case inclusiveStartTime = "InclusiveStartTime"
+            case kinesisConfiguration = "KinesisConfiguration"
+            case roleArn = "RoleArn"
+            case streamName = "StreamName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StreamJournalToKinesisResponse: AWSDecodableShape {
+
+        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        public let streamId: String?
+
+        public init(streamId: String? = nil) {
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamId = "StreamId"
         }
     }
 

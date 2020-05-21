@@ -20,6 +20,16 @@ import NIO
 
 extension CloudFormation {
 
+    ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see AWS CloudFormation Limits in the AWS CloudFormation User Guide.
+    public func describeAccountLimitsPaginator(
+        _ input: DescribeAccountLimitsInput,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAccountLimitsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeAccountLimits, tokenKey: \DescribeAccountLimitsOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the AWS CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). 
     public func describeStackEventsPaginator(
         _ input: DescribeStackEventsInput,
@@ -50,6 +60,16 @@ extension CloudFormation {
         return client.paginate(input: input, command: describeStacks, tokenKey: \DescribeStacksOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Returns the ID and status of each active change set for a stack. For example, AWS CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
+    public func listChangeSetsPaginator(
+        _ input: ListChangeSetsInput,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListChangeSetsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listChangeSets, tokenKey: \ListChangeSetsOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
     public func listExportsPaginator(
         _ input: ListExportsInput,
@@ -70,6 +90,16 @@ extension CloudFormation {
         return client.paginate(input: input, command: listImports, tokenKey: \ListImportsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region.
+    public func listStackInstancesPaginator(
+        _ input: ListStackInstancesInput,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStackInstancesOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listStackInstances, tokenKey: \ListStackInstancesOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
     public func listStackResourcesPaginator(
         _ input: ListStackResourcesInput,
@@ -78,6 +108,36 @@ extension CloudFormation {
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStackResources, tokenKey: \ListStackResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Returns summary information about the results of a stack set operation. 
+    public func listStackSetOperationResultsPaginator(
+        _ input: ListStackSetOperationResultsInput,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStackSetOperationResultsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listStackSetOperationResults, tokenKey: \ListStackSetOperationResultsOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Returns summary information about operations performed on a stack set. 
+    public func listStackSetOperationsPaginator(
+        _ input: ListStackSetOperationsInput,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStackSetOperationsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listStackSetOperations, tokenKey: \ListStackSetOperationsOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Returns summary information about stack sets that are associated with the user.
+    public func listStackSetsPaginator(
+        _ input: ListStackSetsInput,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStackSetsOutput,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listStackSets, tokenKey: \ListStackSetsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
@@ -122,6 +182,15 @@ extension CloudFormation {
 
 }
 
+extension CloudFormation.DescribeAccountLimitsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeAccountLimitsInput {
+        return .init(
+            nextToken: token
+        )
+
+    }
+}
+
 extension CloudFormation.DescribeStackEventsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStackEventsInput {
         return .init(
@@ -154,6 +223,16 @@ extension CloudFormation.DescribeStacksInput: AWSPaginateToken {
     }
 }
 
+extension CloudFormation.ListChangeSetsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListChangeSetsInput {
+        return .init(
+            nextToken: token,
+            stackName: self.stackName
+        )
+
+    }
+}
+
 extension CloudFormation.ListExportsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListExportsInput {
         return .init(
@@ -173,11 +252,58 @@ extension CloudFormation.ListImportsInput: AWSPaginateToken {
     }
 }
 
+extension CloudFormation.ListStackInstancesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackInstancesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stackInstanceAccount: self.stackInstanceAccount,
+            stackInstanceRegion: self.stackInstanceRegion,
+            stackSetName: self.stackSetName
+        )
+
+    }
+}
+
 extension CloudFormation.ListStackResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackResourcesInput {
         return .init(
             nextToken: token,
             stackName: self.stackName
+        )
+
+    }
+}
+
+extension CloudFormation.ListStackSetOperationResultsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetOperationResultsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            operationId: self.operationId,
+            stackSetName: self.stackSetName
+        )
+
+    }
+}
+
+extension CloudFormation.ListStackSetOperationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetOperationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stackSetName: self.stackSetName
+        )
+
+    }
+}
+
+extension CloudFormation.ListStackSetsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
 
     }

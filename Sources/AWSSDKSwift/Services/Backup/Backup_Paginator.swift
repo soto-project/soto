@@ -130,7 +130,7 @@ extension Backup {
         return client.paginate(input: input, command: listRestoreJobs, tokenKey: \ListRestoreJobsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.
+    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.   ListTags are currently only supported with Amazon EFS backups. 
     public func listTagsPaginator(
         _ input: ListTagsInput,
         on eventLoop: EventLoop? = nil,

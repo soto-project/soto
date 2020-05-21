@@ -256,9 +256,10 @@ extension AppMesh {
 
     public struct ClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
 
-        /// Whether the policy is enforced. The default is True, if a value isn't specified.
+        /// Whether the policy is enforced. The default is True, if a value isn't
+        ///          specified.
         public let enforce: Bool?
-        /// The range of ports that the policy is enforced for.
+        /// One or more ports that the policy is enforced for.
         public let ports: [Int]?
         /// A reference to an object that represents a TLS validation context.
         public let validation: TlsValidationContext
@@ -365,8 +366,8 @@ extension AppMesh {
         ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
-        /// The name of the virtual router in which to create the route. If the virtual router is in a shared mesh,
-        ///          then you must be the owner of the virtual router resource.
+        /// The name of the virtual router in which to create the route. If the virtual router is in
+        ///          a shared mesh, then you must be the owner of the virtual router resource.
         public let virtualRouterName: String
 
         public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
@@ -1201,7 +1202,7 @@ extension AppMesh {
 
         /// Specify at least one of the valid values.
         public let grpcRetryEvents: [GrpcRetryPolicyEvent]?
-        /// Specify at least one of the following values.
+        /// Specify at least one of the following values. 
         ///          
         ///             
         ///                
@@ -1317,7 +1318,8 @@ extension AppMesh {
 
         /// An object that represents the data to match from the request.
         public let metadata: [GrpcRouteMetadata]?
-        /// The method name to match from the request. If you specify a name, you must also specify a serviceName.
+        /// The method name to match from the request. If you specify a name, you must also specify
+        ///          a serviceName.
         public let methodName: String?
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
@@ -1462,13 +1464,15 @@ extension AppMesh {
         public let healthyThreshold: Int
         /// The time period in milliseconds between each health check execution.
         public let intervalMillis: Int64
-        /// The destination path for the health check request. This value is only used if the specified 
-        ///          protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
+        /// The destination path for the health check request. This value is only used if the
+        ///          specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
         public let path: String?
         /// The destination port for the health check request. This port must match the port defined
         ///          in the PortMapping for the listener.
         public let port: Int?
-        /// The protocol for the health check request. If you specify grpc, then your service must conform to the GRPC Health Checking Protocol.
+        /// The protocol for the health check request. If you specify grpc, then your
+        ///          service must conform to the GRPC Health
+        ///             Checking Protocol.
         public let `protocol`: PortProtocol
         /// The amount of time to wait when receiving a response from the health check, in
         ///          milliseconds.
@@ -1513,7 +1517,7 @@ extension AppMesh {
 
     public struct HttpRetryPolicy: AWSEncodableShape & AWSDecodableShape {
 
-        /// Specify at least one of the following values.
+        /// Specify at least one of the following values. 
         ///          
         ///             
         ///                
@@ -2120,15 +2124,18 @@ extension AppMesh {
         ///          
         ///             
         ///                
-        ///                   STRICT – Listener only accepts connections with TLS enabled. 
+        ///                   STRICT – Listener only accepts connections with TLS
+        ///                enabled. 
         ///             
         ///             
         ///                
-        ///                   PERMISSIVE – Listener accepts connections with or without TLS enabled.
+        ///                   PERMISSIVE – Listener accepts connections with or
+        ///                without TLS enabled.
         ///             
         ///             
         ///                
-        ///                   DISABLED –  Listener only accepts connections without TLS. 
+        ///                   DISABLED – Listener only accepts connections without
+        ///                TLS. 
         ///             
         ///          
         public let mode: ListenerTlsMode
@@ -2188,7 +2195,8 @@ extension AppMesh {
 
         /// The certificate chain for the certificate.
         public let certificateChain: String
-        /// The private key for a certificate stored on the file system of the virtual node that the proxy is running on.
+        /// The private key for a certificate stored on the file system of the virtual node that the
+        ///          proxy is running on.
         public let privateKey: String
 
         public init(certificateChain: String, privateKey: String) {
@@ -2275,27 +2283,36 @@ extension AppMesh {
 
         /// The full Amazon Resource Name (ARN) of the service mesh.
         public let arn: String
+        public let createdAt: TimeStamp
+        public let lastUpdatedAt: TimeStamp
         /// The name of the service mesh.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
         public let meshOwner: String
         /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
         public let resourceOwner: String
+        public let version: Int64
 
-        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64) {
             self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.resourceOwner = resourceOwner
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
             case meshName = "meshName"
             case meshOwner = "meshOwner"
             case resourceOwner = "resourceOwner"
+            case version = "version"
         }
     }
 
@@ -2362,7 +2379,7 @@ extension AppMesh {
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
         public let meshOwner: String
         /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
         public let resourceOwner: String
         /// The unique identifier for the resource.
         public let uid: String
@@ -2429,34 +2446,43 @@ extension AppMesh {
 
         /// The full Amazon Resource Name (ARN) for the route.
         public let arn: String
+        public let createdAt: TimeStamp
+        public let lastUpdatedAt: TimeStamp
         /// The name of the service mesh that the route resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
         public let meshOwner: String
         /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
         public let resourceOwner: String
         /// The name of the route.
         public let routeName: String
+        public let version: Int64
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
 
-        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, routeName: String, virtualRouterName: String) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, routeName: String, version: Int64, virtualRouterName: String) {
             self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.resourceOwner = resourceOwner
             self.routeName = routeName
+            self.version = version
             self.virtualRouterName = virtualRouterName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
             case meshName = "meshName"
             case meshOwner = "meshOwner"
             case resourceOwner = "resourceOwner"
             case routeName = "routeName"
+            case version = "version"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -2681,7 +2707,8 @@ extension AppMesh {
 
     public struct TlsValidationContextFileTrust: AWSEncodableShape & AWSDecodableShape {
 
-        /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
+        /// The certificate trust chain for a certificate stored on the file system of the virtual
+        ///          node that the proxy is running on.
         public let certificateChain: String
 
         public init(certificateChain: String) {
@@ -2700,7 +2727,8 @@ extension AppMesh {
 
     public struct TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
 
-        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
+        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM)
+        ///          certificate.
         public let acm: TlsValidationContextAcmTrust?
         /// An object that represents a TLS validation context trust for a local file.
         public let file: TlsValidationContextFileTrust?
@@ -3082,30 +3110,39 @@ extension AppMesh {
 
         /// The full Amazon Resource Name (ARN) for the virtual node.
         public let arn: String
+        public let createdAt: TimeStamp
+        public let lastUpdatedAt: TimeStamp
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
         public let meshOwner: String
         /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
         public let resourceOwner: String
+        public let version: Int64
         /// The name of the virtual node.
         public let virtualNodeName: String
 
-        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, virtualNodeName: String) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualNodeName: String) {
             self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.resourceOwner = resourceOwner
+            self.version = version
             self.virtualNodeName = virtualNodeName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
             case meshName = "meshName"
             case meshOwner = "meshOwner"
             case resourceOwner = "resourceOwner"
+            case version = "version"
             case virtualNodeName = "virtualNodeName"
         }
     }
@@ -3135,14 +3172,14 @@ extension AppMesh {
         public let backendDefaults: BackendDefaults?
         /// The backends that the virtual node is expected to send outbound traffic to.
         public let backends: [Backend]?
-        /// The listener that the virtual node is expected to receive inbound traffic from.
-        ///          You can specify one listener.
+        /// The listener that the virtual node is expected to receive inbound traffic from. You can
+        ///          specify one listener.
         public let listeners: [Listener]?
         /// The inbound and outbound access logging information for the virtual node.
         public let logging: Logging?
         /// The service discovery information for the virtual node. If your virtual node does not
-        ///          expect ingress traffic, you can omit this parameter. If you specify a listener,
-        ///          then you must specify service discovery information.
+        ///          expect ingress traffic, you can omit this parameter. If you specify a
+        ///          listener, then you must specify service discovery information.
         public let serviceDiscovery: ServiceDiscovery?
 
         public init(backendDefaults: BackendDefaults? = nil, backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
@@ -3241,30 +3278,39 @@ extension AppMesh {
 
         /// The full Amazon Resource Name (ARN) for the virtual router.
         public let arn: String
+        public let createdAt: TimeStamp
+        public let lastUpdatedAt: TimeStamp
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
         public let meshOwner: String
         /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
         public let resourceOwner: String
+        public let version: Int64
         /// The name of the virtual router.
         public let virtualRouterName: String
 
-        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, virtualRouterName: String) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualRouterName: String) {
             self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.resourceOwner = resourceOwner
+            self.version = version
             self.virtualRouterName = virtualRouterName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
             case meshName = "meshName"
             case meshOwner = "meshOwner"
             case resourceOwner = "resourceOwner"
+            case version = "version"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -3290,8 +3336,8 @@ extension AppMesh {
 
     public struct VirtualRouterSpec: AWSEncodableShape & AWSDecodableShape {
 
-        /// The listeners that the virtual router is expected to receive inbound traffic from.
-        ///          You can specify one listener.
+        /// The listeners that the virtual router is expected to receive inbound traffic from. You
+        ///          can specify one listener.
         public let listeners: [VirtualRouterListener]?
 
         public init(listeners: [VirtualRouterListener]? = nil) {
@@ -3403,30 +3449,39 @@ extension AppMesh {
 
         /// The full Amazon Resource Name (ARN) for the virtual service.
         public let arn: String
+        public let createdAt: TimeStamp
+        public let lastUpdatedAt: TimeStamp
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
         public let meshOwner: String
         /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
         public let resourceOwner: String
+        public let version: Int64
         /// The name of the virtual service.
         public let virtualServiceName: String
 
-        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, virtualServiceName: String) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualServiceName: String) {
             self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
             self.meshName = meshName
             self.meshOwner = meshOwner
             self.resourceOwner = resourceOwner
+            self.version = version
             self.virtualServiceName = virtualServiceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
             case meshName = "meshName"
             case meshOwner = "meshOwner"
             case resourceOwner = "resourceOwner"
+            case version = "version"
             case virtualServiceName = "virtualServiceName"
         }
     }

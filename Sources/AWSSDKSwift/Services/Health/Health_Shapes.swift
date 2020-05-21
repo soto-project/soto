@@ -32,6 +32,13 @@ extension Health {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventScopeCode: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case accountSpecific = "ACCOUNT_SPECIFIC"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventStatusCode: String, CustomStringConvertible, Codable {
         case open = "open"
         case closed = "closed"
@@ -145,16 +152,19 @@ extension Health {
 
         /// A JSON set of elements of the affected accounts.
         public let affectedAccounts: [String]?
+        public let eventScopeCode: EventScopeCode?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(affectedAccounts: [String]? = nil, nextToken: String? = nil) {
+        public init(affectedAccounts: [String]? = nil, eventScopeCode: EventScopeCode? = nil, nextToken: String? = nil) {
             self.affectedAccounts = affectedAccounts
+            self.eventScopeCode = eventScopeCode
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case affectedAccounts = "affectedAccounts"
+            case eventScopeCode = "eventScopeCode"
             case nextToken = "nextToken"
         }
     }
@@ -696,8 +706,8 @@ extension Health {
             try validate(self.entityArns, name: "entityArns", parent: name, max: 100)
             try validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
-                try validate($0, name: "entityValues[]", parent: name, max: 256)
-                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+                try validate($0, name: "entityValues[]", parent: name, max: 1224)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
             try validate(self.entityValues, name: "entityValues", parent: name, max: 100)
             try validate(self.entityValues, name: "entityValues", parent: name, min: 1)
@@ -732,6 +742,7 @@ extension Health {
         public let availabilityZone: String?
         /// The date and time that the event ended.
         public let endTime: TimeStamp?
+        public let eventScopeCode: EventScopeCode?
         /// The category of the event. Possible values are issue, scheduledChange, and accountNotification.
         public let eventTypeCategory: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -747,10 +758,11 @@ extension Health {
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
-        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: TimeStamp? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: TimeStamp? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.endTime = endTime
+            self.eventScopeCode = eventScopeCode
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
@@ -764,6 +776,7 @@ extension Health {
             case arn = "arn"
             case availabilityZone = "availabilityZone"
             case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
             case eventTypeCategory = "eventTypeCategory"
             case eventTypeCode = "eventTypeCode"
             case lastUpdatedTime = "lastUpdatedTime"
@@ -777,11 +790,11 @@ extension Health {
     public struct EventAccountFilter: AWSEncodableShape {
 
         /// The 12-digit AWS account numbers that contains the affected entities.
-        public let awsAccountId: String
+        public let awsAccountId: String?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String
 
-        public init(awsAccountId: String, eventArn: String) {
+        public init(awsAccountId: String? = nil, eventArn: String) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
         }
@@ -935,8 +948,8 @@ extension Health {
             try validate(self.entityArns, name: "entityArns", parent: name, max: 100)
             try validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
-                try validate($0, name: "entityValues[]", parent: name, max: 256)
-                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+                try validate($0, name: "entityValues[]", parent: name, max: 1224)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
             try validate(self.entityValues, name: "entityValues", parent: name, max: 100)
             try validate(self.entityValues, name: "entityValues", parent: name, min: 1)
@@ -1090,6 +1103,7 @@ extension Health {
         public let arn: String?
         /// The date and time that the event ended.
         public let endTime: TimeStamp?
+        public let eventScopeCode: EventScopeCode?
         /// The category of the event type.
         public let eventTypeCategory: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -1105,9 +1119,10 @@ extension Health {
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
-        public init(arn: String? = nil, endTime: TimeStamp? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+        public init(arn: String? = nil, endTime: TimeStamp? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.endTime = endTime
+            self.eventScopeCode = eventScopeCode
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
@@ -1120,6 +1135,7 @@ extension Health {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
             case eventTypeCategory = "eventTypeCategory"
             case eventTypeCode = "eventTypeCode"
             case lastUpdatedTime = "lastUpdatedTime"
@@ -1230,8 +1246,8 @@ extension Health {
             try validate(self.entityArns, name: "entityArns", parent: name, max: 100)
             try validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
-                try validate($0, name: "entityValues[]", parent: name, max: 256)
-                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+                try validate($0, name: "entityValues[]", parent: name, max: 1224)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
             try validate(self.entityValues, name: "entityValues", parent: name, max: 100)
             try validate(self.entityValues, name: "entityValues", parent: name, min: 1)

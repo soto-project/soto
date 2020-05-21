@@ -617,6 +617,11 @@ public struct Glue {
         return client.send(operation: "StopTrigger", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
+    ///  Stops the execution of the specified workflow run.
+    public func stopWorkflowRun(_ input: StopWorkflowRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopWorkflowRunResponse> {
+        return client.send(operation: "StopWorkflowRun", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
     ///  Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS Glue, you can tag only certain resources. For information about what resources you can tag, see AWS Tags in AWS Glue.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)

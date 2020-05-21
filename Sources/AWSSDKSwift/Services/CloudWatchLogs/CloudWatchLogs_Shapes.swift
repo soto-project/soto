@@ -321,6 +321,37 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DeleteQueryDefinitionRequest: AWSEncodableShape {
+
+        public let queryDefinitionId: String
+
+        public init(queryDefinitionId: String) {
+            self.queryDefinitionId = queryDefinitionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
+            try validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryDefinitionId = "queryDefinitionId"
+        }
+    }
+
+    public struct DeleteQueryDefinitionResponse: AWSDecodableShape {
+
+        public let success: Bool?
+
+        public init(success: Bool? = nil) {
+            self.success = success
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case success = "success"
+        }
+    }
+
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
 
         /// The name of the policy to be revoked. This parameter is required.
@@ -707,6 +738,50 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case queries = "queries"
+        }
+    }
+
+    public struct DescribeQueryDefinitionsRequest: AWSEncodableShape {
+
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let queryDefinitionNamePrefix: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryDefinitionNamePrefix: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryDefinitionNamePrefix = queryDefinitionNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, max: 255)
+            try validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, min: 1)
+            try validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, pattern: "^([^:*\\/]+\\/?)*[^:*\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queryDefinitionNamePrefix = "queryDefinitionNamePrefix"
+        }
+    }
+
+    public struct DescribeQueryDefinitionsResponse: AWSDecodableShape {
+
+        public let nextToken: String?
+        public let queryDefinitions: [QueryDefinition]?
+
+        public init(nextToken: String? = nil, queryDefinitions: [QueryDefinition]? = nil) {
+            self.nextToken = nextToken
+            self.queryDefinitions = queryDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case queryDefinitions = "queryDefinitions"
         }
     }
 
@@ -1447,7 +1522,7 @@ extension CloudWatchLogs {
         public let defaultValue: Double?
         /// The name of the CloudWatch metric.
         public let metricName: String
-        /// The namespace of the CloudWatch metric.
+        /// A custom namespace to contain your metric in CloudWatch. Use namespaces to group together metrics that are similar. For more information, see Namespaces.
         public let metricNamespace: String
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
         public let metricValue: String
@@ -1667,6 +1742,56 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct PutQueryDefinitionRequest: AWSEncodableShape {
+
+        public let logGroupNames: [String]?
+        public let name: String
+        public let queryDefinitionId: String?
+        public let queryString: String
+
+        public init(logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryString: String) {
+            self.logGroupNames = logGroupNames
+            self.name = name
+            self.queryDefinitionId = queryDefinitionId
+            self.queryString = queryString
+        }
+
+        public func validate(name: String) throws {
+            try self.logGroupNames?.forEach {
+                try validate($0, name: "logGroupNames[]", parent: name, max: 512)
+                try validate($0, name: "logGroupNames[]", parent: name, min: 1)
+                try validate($0, name: "logGroupNames[]", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            }
+            try validate(self.name, name: "name", parent: name, max: 255)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^([^:*\\/]+\\/?)*[^:*\\/]+$")
+            try validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
+            try validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 0)
+            try validate(self.queryString, name: "queryString", parent: name, max: 10000)
+            try validate(self.queryString, name: "queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupNames = "logGroupNames"
+            case name = "name"
+            case queryDefinitionId = "queryDefinitionId"
+            case queryString = "queryString"
+        }
+    }
+
+    public struct PutQueryDefinitionResponse: AWSDecodableShape {
+
+        public let queryDefinitionId: String?
+
+        public init(queryDefinitionId: String? = nil) {
+            self.queryDefinitionId = queryDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryDefinitionId = "queryDefinitionId"
+        }
+    }
+
     public struct PutResourcePolicyRequest: AWSEncodableShape {
 
         /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
@@ -1771,6 +1896,31 @@ extension CloudWatchLogs {
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct QueryDefinition: AWSDecodableShape {
+
+        public let lastModified: Int64?
+        public let logGroupNames: [String]?
+        public let name: String?
+        public let queryDefinitionId: String?
+        public let queryString: String?
+
+        public init(lastModified: Int64? = nil, logGroupNames: [String]? = nil, name: String? = nil, queryDefinitionId: String? = nil, queryString: String? = nil) {
+            self.lastModified = lastModified
+            self.logGroupNames = logGroupNames
+            self.name = name
+            self.queryDefinitionId = queryDefinitionId
+            self.queryString = queryString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModified = "lastModified"
+            case logGroupNames = "logGroupNames"
+            case name = "name"
+            case queryDefinitionId = "queryDefinitionId"
+            case queryString = "queryString"
         }
     }
 
@@ -1942,7 +2092,7 @@ extension CloudWatchLogs {
                 try validate($0, name: "logGroupNames[]", parent: name, min: 1)
                 try validate($0, name: "logGroupNames[]", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             }
-            try validate(self.queryString, name: "queryString", parent: name, max: 2048)
+            try validate(self.queryString, name: "queryString", parent: name, max: 10000)
             try validate(self.queryString, name: "queryString", parent: name, min: 0)
             try validate(self.startTime, name: "startTime", parent: name, min: 0)
         }

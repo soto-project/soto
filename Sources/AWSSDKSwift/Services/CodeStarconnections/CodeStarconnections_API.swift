@@ -91,4 +91,19 @@ public struct CodeStarconnections {
     public func listConnections(_ input: ListConnectionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectionsOutput> {
         return client.send(operation: "ListConnections", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
+
+    ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
+    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
+
+    ///  Removes tags from an AWS resource.
+    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+    }
 }

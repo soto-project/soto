@@ -351,12 +351,12 @@ public struct EC2 {
         return client.send(operation: "CreateKeyPair", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request.
+    ///  Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launching an instance from a launch templatein the Amazon Elastic Compute Cloud User Guide.
     public func createLaunchTemplate(_ input: CreateLaunchTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLaunchTemplateResult> {
         return client.send(operation: "CreateLaunchTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a new version for a launch template. You can specify an existing version of launch template from which to base the new version. Launch template versions are numbered in the order in which they are created. You cannot specify, change, or replace the numbering of launch template versions.
+    ///  Creates a new version for a launch template. You can specify an existing version of launch template from which to base the new version. Launch template versions are numbered in the order in which they are created. You cannot specify, change, or replace the numbering of launch template versions. For more information, see Managing launch template versionsin the Amazon Elastic Compute Cloud User Guide.
     public func createLaunchTemplateVersion(_ input: CreateLaunchTemplateVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLaunchTemplateVersionResult> {
         return client.send(operation: "CreateLaunchTemplateVersion", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -761,7 +761,7 @@ public struct EC2 {
         return client.send(operation: "DeleteVpcPeeringConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfigure the customer gateway using the new configuration information returned with the new VPN connection ID.
+    ///  Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfigure the customer gateway device using the new configuration information returned with the new VPN connection ID. For certificate-based authentication, delete all AWS Certificate Manager (ACM) private certificates used for the AWS-side tunnel endpoints for the VPN connection before deleting the VPN connection.
     @discardableResult public func deleteVpnConnection(_ input: DeleteVpnConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVpnConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -1416,7 +1416,7 @@ public struct EC2 {
         return client.send(operation: "DisableVpcClassicLink", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///  Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.
     public func disableVpcClassicLinkDnsSupport(_ input: DisableVpcClassicLinkDnsSupportRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableVpcClassicLinkDnsSupportResult> {
         return client.send(operation: "DisableVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -1436,7 +1436,7 @@ public struct EC2 {
         return client.send(operation: "DisassociateIamInstanceProfile", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Disassociates a subnet from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
+    ///  Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     @discardableResult public func disassociateRouteTable(_ input: DisassociateRouteTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "DisassociateRouteTable", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -1491,7 +1491,7 @@ public struct EC2 {
         return client.send(operation: "EnableVpcClassicLink", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.
     public func enableVpcClassicLinkDnsSupport(_ input: EnableVpcClassicLinkDnsSupportRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableVpcClassicLinkDnsSupportResult> {
         return client.send(operation: "EnableVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -1806,7 +1806,7 @@ public struct EC2 {
         return client.send(operation: "ModifyVpcTenancy", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Modifies the target gateway of an AWS Site-to-Site VPN connection. The following migration options are available:   An existing virtual private gateway to a new virtual private gateway   An existing virtual private gateway to a transit gateway   An existing transit gateway to a new transit gateway   An existing transit gateway to a virtual private gateway   Before you perform the migration to the new gateway, you must configure the new gateway. Use CreateVpnGateway to create a virtual private gateway, or CreateTransitGateway to create a transit gateway. This step is required when you migrate from a virtual private gateway with static routes to a transit gateway.  You must delete the static routes before you migrate to the new gateway. Keep a copy of the static route before you delete it. You will need to add back these routes to the transit gateway after the VPN connection migration is complete. After you migrate to the new gateway, you might need to modify your VPC route table. Use CreateRoute and DeleteRoute to make the changes described in VPN Gateway Target Modification Required VPC Route Table Updates in the AWS Site-to-Site VPN User Guide.  When the new gateway is a transit gateway, modify the transit gateway route table to allow traffic between the VPC and the AWS Site-to-Site VPN connection. Use CreateTransitGatewayRoute to add the routes.  If you deleted VPN static routes, you must add the static routes to the transit gateway route table. After you perform this operation, the AWS VPN endpoint's IP addresses on the AWS side and the tunnel options remain intact. Your AWS Site-to-Site VPN connection will be temporarily unavailable for a brief period while we provision the new endpoints.
+    ///  Modifies the customer gateway or the target gateway of an AWS Site-to-Site VPN connection. To modify the target gateway, the following migration options are available:   An existing virtual private gateway to a new virtual private gateway   An existing virtual private gateway to a transit gateway   An existing transit gateway to a new transit gateway   An existing transit gateway to a virtual private gateway   Before you perform the migration to the new gateway, you must configure the new gateway. Use CreateVpnGateway to create a virtual private gateway, or CreateTransitGateway to create a transit gateway. This step is required when you migrate from a virtual private gateway with static routes to a transit gateway.  You must delete the static routes before you migrate to the new gateway. Keep a copy of the static route before you delete it. You will need to add back these routes to the transit gateway after the VPN connection migration is complete. After you migrate to the new gateway, you might need to modify your VPC route table. Use CreateRoute and DeleteRoute to make the changes described in VPN Gateway Target Modification Required VPC Route Table Updates in the AWS Site-to-Site VPN User Guide.  When the new gateway is a transit gateway, modify the transit gateway route table to allow traffic between the VPC and the AWS Site-to-Site VPN connection. Use CreateTransitGatewayRoute to add the routes.  If you deleted VPN static routes, you must add the static routes to the transit gateway route table. After you perform this operation, the AWS VPN endpoint's IP addresses on the AWS side and the tunnel options remain intact. Your AWS Site-to-Site VPN connection will be temporarily unavailable for a brief period while we provision the new endpoints.
     public func modifyVpnConnection(_ input: ModifyVpnConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyVpnConnectionResult> {
         return client.send(operation: "ModifyVpnConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }

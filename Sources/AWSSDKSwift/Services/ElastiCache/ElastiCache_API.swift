@@ -121,7 +121,7 @@ public struct ElastiCache {
         return client.send(operation: "CreateCacheSubnetGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis, you can create cross-region read replica clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupId is the name of the Global Datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.  
+    ///  Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis, you can create cross-region read replica clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global Datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.  
     public func createGlobalReplicationGroup(_ input: CreateGlobalReplicationGroupMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGlobalReplicationGroupResult> {
         return client.send(operation: "CreateGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -166,7 +166,7 @@ public struct ElastiCache {
         return client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Deleting a Global Datastore is a two-step process:    First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global Datastore.   Once the Global Datastore contains only the primary cluster, you can use DeleteGlobalReplicationGroup API to delete the Global Datastore while retainining the primary cluster using Retain…= true.   Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.  This operation is valid for Redis only. 
+    ///  Deleting a Global Datastore is a two-step process:    First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global Datastore.   Once the Global Datastore contains only the primary cluster, you can use DeleteGlobalReplicationGroup API to delete the Global Datastore while retainining the primary cluster using Retain…= true.   Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.
     public func deleteGlobalReplicationGroup(_ input: DeleteGlobalReplicationGroupMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGlobalReplicationGroupResult> {
         return client.send(operation: "DeleteGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -261,7 +261,7 @@ public struct ElastiCache {
         return client.send(operation: "DisassociateGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Used to failover the primary region to a selected secondary region.
+    ///  Used to failover the primary region to a selected secondary region. The selected secondary region will be come primary, and all other clusters will become secondary.
     public func failoverGlobalReplicationGroup(_ input: FailoverGlobalReplicationGroupMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FailoverGlobalReplicationGroupResult> {
         return client.send(operation: "FailoverGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -306,7 +306,7 @@ public struct ElastiCache {
         return client.send(operation: "ModifyGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Modifies the settings for a replication group. For Redis (cluster mode enabled) clusters, this operation cannot be used to change a cluster's node type or engine version. For more information, see:    Scaling for Amazon ElastiCache for Redis (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis only. 
+    ///  Modifies the settings for a replication group.    Scaling for Amazon ElastiCache for Redis (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis only. 
     public func modifyReplicationGroup(_ input: ModifyReplicationGroupMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReplicationGroupResult> {
         return client.send(operation: "ModifyReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -321,7 +321,7 @@ public struct ElastiCache {
         return client.send(operation: "PurchaseReservedCacheNodesOffering", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Redistribute slots to ensure unifirom distribution across existing shards in the cluster.
+    ///  Redistribute slots to ensure uniform distribution across existing shards in the cluster.
     public func rebalanceSlotsInGlobalReplicationGroup(_ input: RebalanceSlotsInGlobalReplicationGroupMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebalanceSlotsInGlobalReplicationGroupResult> {
         return client.send(operation: "RebalanceSlotsInGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }

@@ -73,8 +73,9 @@ extension Glue {
 
     public enum CrawlState: String, CustomStringConvertible, Codable {
         case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
+        case cancelling = "CANCELLING"
         case cancelled = "CANCELLED"
+        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
@@ -291,6 +292,8 @@ extension Glue {
     public enum WorkflowRunStatus: String, CustomStringConvertible, Codable {
         case running = "RUNNING"
         case completed = "COMPLETED"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -1290,7 +1293,7 @@ extension Glue {
         public let jobName: String?
         /// A logical operator.
         public let logicalOperator: LogicalOperator?
-        /// The condition state. Currently, the values supported are SUCCEEDED, STOPPED, TIMEOUT, and FAILED.
+        /// The condition state. Currently, the only job states that a trigger can listen for are SUCCEEDED, STOPPED, FAILED, and TIMEOUT. The only crawler states that a trigger can listen for are SUCCEEDED, FAILED, and CANCELLED.
         public let state: JobRunState?
 
         public init(crawlerName: String? = nil, crawlState: CrawlState? = nil, jobName: String? = nil, logicalOperator: LogicalOperator? = nil, state: JobRunState? = nil) {
@@ -6232,7 +6235,7 @@ extension Glue {
         public let id: String?
         /// The name of the job definition being used in this run.
         public let jobName: String?
-        /// The current state of the job run.
+        /// The current state of the job run. For more information about the statuses of jobs that have terminated abnormally, see AWS Glue Job Run Statuses.
         public let jobRunState: JobRunState?
         /// The last time that this job run was modified.
         public let lastModifiedOn: TimeStamp?
@@ -8186,6 +8189,41 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
+    }
+
+    public struct StopWorkflowRunRequest: AWSEncodableShape {
+
+        /// The name of the workflow to stop.
+        public let name: String
+        /// The ID of the workflow run to stop.
+        public let runId: String
+
+        public init(name: String, runId: String) {
+            self.name = name
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 255)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.runId, name: "runId", parent: name, max: 255)
+            try validate(self.runId, name: "runId", parent: name, min: 1)
+            try validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case runId = "RunId"
+        }
+    }
+
+    public struct StopWorkflowRunResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct StorageDescriptor: AWSEncodableShape & AWSDecodableShape {

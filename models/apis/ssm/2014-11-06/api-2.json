@@ -2612,7 +2612,8 @@
         "DeliveryTimedOutCount":{"shape":"DeliveryTimedOutCount"},
         "ServiceRole":{"shape":"ServiceRole"},
         "NotificationConfig":{"shape":"NotificationConfig"},
-        "CloudWatchOutputConfig":{"shape":"CloudWatchOutputConfig"}
+        "CloudWatchOutputConfig":{"shape":"CloudWatchOutputConfig"},
+        "TimeoutSeconds":{"shape":"TimeoutSeconds"}
       }
     },
     "CommandFilter":{
@@ -6625,7 +6626,9 @@
         "UBUNTU",
         "REDHAT_ENTERPRISE_LINUX",
         "SUSE",
-        "CENTOS"
+        "CENTOS",
+        "ORACLE_LINUX",
+        "DEBIAN"
       ]
     },
     "OpsAggregator":{
@@ -7028,7 +7031,8 @@
         "Selector":{"shape":"PSParameterSelector"},
         "SourceResult":{"shape":"String"},
         "LastModifiedDate":{"shape":"DateTime"},
-        "ARN":{"shape":"String"}
+        "ARN":{"shape":"String"},
+        "DataType":{"shape":"ParameterDataType"}
       }
     },
     "ParameterAlreadyExists":{
@@ -7037,6 +7041,11 @@
         "message":{"shape":"String"}
       },
       "exception":true
+    },
+    "ParameterDataType":{
+      "type":"string",
+      "max":128,
+      "min":0
     },
     "ParameterDescription":{
       "type":"string",
@@ -7057,7 +7066,8 @@
         "Version":{"shape":"PSParameterVersion"},
         "Labels":{"shape":"ParameterLabelList"},
         "Tier":{"shape":"ParameterTier"},
-        "Policies":{"shape":"ParameterPolicyList"}
+        "Policies":{"shape":"ParameterPolicyList"},
+        "DataType":{"shape":"ParameterDataType"}
       }
     },
     "ParameterHistoryList":{
@@ -7119,7 +7129,8 @@
         "AllowedPattern":{"shape":"AllowedPattern"},
         "Version":{"shape":"PSParameterVersion"},
         "Tier":{"shape":"ParameterTier"},
-        "Policies":{"shape":"ParameterPolicyList"}
+        "Policies":{"shape":"ParameterPolicyList"},
+        "DataType":{"shape":"ParameterDataType"}
       }
     },
     "ParameterMetadataList":{
@@ -7169,7 +7180,7 @@
       "type":"string",
       "max":132,
       "min":1,
-      "pattern":"tag:.+|Name|Type|KeyId|Path|Label|Tier"
+      "pattern":"tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType"
     },
     "ParameterStringFilterList":{
       "type":"list",
@@ -7707,8 +7718,7 @@
       "type":"structure",
       "required":[
         "Name",
-        "Value",
-        "Type"
+        "Value"
       ],
       "members":{
         "Name":{"shape":"PSParameterName"},
@@ -7723,7 +7733,8 @@
         "AllowedPattern":{"shape":"AllowedPattern"},
         "Tags":{"shape":"TagList"},
         "Tier":{"shape":"ParameterTier"},
-        "Policies":{"shape":"ParameterPolicies"}
+        "Policies":{"shape":"ParameterPolicies"},
+        "DataType":{"shape":"ParameterDataType"}
       }
     },
     "PutParameterResult":{

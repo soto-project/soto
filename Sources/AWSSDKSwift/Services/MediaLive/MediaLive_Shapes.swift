@@ -256,6 +256,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeviceSettingsSyncState: String, CustomStringConvertible, Codable {
+        case synced = "SYNCED"
+        case syncing = "SYNCING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DvbSdtOutputSdt: String, CustomStringConvertible, Codable {
         case sdtFollow = "SDT_FOLLOW"
         case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
@@ -910,6 +916,48 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum InputDeviceActiveInput: String, CustomStringConvertible, Codable {
+        case hdmi = "HDMI"
+        case sdi = "SDI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeviceConfiguredInput: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case hdmi = "HDMI"
+        case sdi = "SDI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeviceConnectionState: String, CustomStringConvertible, Codable {
+        case disconnected = "DISCONNECTED"
+        case connected = "CONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeviceIpScheme: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dhcp = "DHCP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeviceScanType: String, CustomStringConvertible, Codable {
+        case interlaced = "INTERLACED"
+        case progressive = "PROGRESSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeviceState: String, CustomStringConvertible, Codable {
+        case idle = "IDLE"
+        case streaming = "STREAMING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeviceType: String, CustomStringConvertible, Codable {
+        case hd = "HD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputFilter: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
         case disabled = "DISABLED"
@@ -1011,6 +1059,7 @@ extension MediaLive {
         case urlPull = "URL_PULL"
         case mp4File = "MP4_FILE"
         case mediaconnect = "MEDIACONNECT"
+        case inputDevice = "INPUT_DEVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -1420,6 +1469,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Smpte2038DataPreference: String, CustomStringConvertible, Codable {
+        case ignore = "IGNORE"
+        case prefer = "PREFER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TemporalFilterPostFilterSharpening: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
         case disabled = "DISABLED"
@@ -1430,13 +1485,6 @@ extension MediaLive {
     public enum TemporalFilterStrength: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
         case strength1 = "STRENGTH_1"
-        case strength10 = "STRENGTH_10"
-        case strength11 = "STRENGTH_11"
-        case strength12 = "STRENGTH_12"
-        case strength13 = "STRENGTH_13"
-        case strength14 = "STRENGTH_14"
-        case strength15 = "STRENGTH_15"
-        case strength16 = "STRENGTH_16"
         case strength2 = "STRENGTH_2"
         case strength3 = "STRENGTH_3"
         case strength4 = "STRENGTH_4"
@@ -1445,6 +1493,13 @@ extension MediaLive {
         case strength7 = "STRENGTH_7"
         case strength8 = "STRENGTH_8"
         case strength9 = "STRENGTH_9"
+        case strength10 = "STRENGTH_10"
+        case strength11 = "STRENGTH_11"
+        case strength12 = "STRENGTH_12"
+        case strength13 = "STRENGTH_13"
+        case strength14 = "STRENGTH_14"
+        case strength15 = "STRENGTH_15"
+        case strength16 = "STRENGTH_16"
         public var description: String { return self.rawValue }
     }
 
@@ -2666,6 +2721,7 @@ extension MediaLive {
     public struct CreateInputRequest: AWSEncodableShape {
 
         public let destinations: [InputDestinationRequest]?
+        public let inputDevices: [InputDeviceSettings]?
         public let inputSecurityGroups: [String]?
         public let mediaConnectFlows: [MediaConnectFlowRequest]?
         public let name: String?
@@ -2676,8 +2732,9 @@ extension MediaLive {
         public let `type`: InputType?
         public let vpc: InputVpcRequest?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
+            self.inputDevices = inputDevices
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
@@ -2691,6 +2748,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
+            case inputDevices = "inputDevices"
             case inputSecurityGroups = "inputSecurityGroups"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
@@ -3238,6 +3296,60 @@ extension MediaLive {
         }
     }
 
+    public struct DescribeInputDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputDeviceId", location: .uri(locationName: "inputDeviceId"))
+        ]
+
+        public let inputDeviceId: String
+
+        public init(inputDeviceId: String) {
+            self.inputDeviceId = inputDeviceId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeInputDeviceResponse: AWSDecodableShape {
+
+        public let arn: String?
+        public let connectionState: InputDeviceConnectionState?
+        public let deviceSettingsSyncState: DeviceSettingsSyncState?
+        public let hdDeviceSettings: InputDeviceHdSettings?
+        public let id: String?
+        public let macAddress: String?
+        public let name: String?
+        public let networkSettings: InputDeviceNetworkSettings?
+        public let serialNumber: String?
+        public let `type`: InputDeviceType?
+
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+            self.arn = arn
+            self.connectionState = connectionState
+            self.deviceSettingsSyncState = deviceSettingsSyncState
+            self.hdDeviceSettings = hdDeviceSettings
+            self.id = id
+            self.macAddress = macAddress
+            self.name = name
+            self.networkSettings = networkSettings
+            self.serialNumber = serialNumber
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case connectionState = "connectionState"
+            case deviceSettingsSyncState = "deviceSettingsSyncState"
+            case hdDeviceSettings = "hdDeviceSettings"
+            case id = "id"
+            case macAddress = "macAddress"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case serialNumber = "serialNumber"
+            case `type` = "type"
+        }
+    }
+
     public struct DescribeInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
@@ -3259,6 +3371,7 @@ extension MediaLive {
         public let destinations: [InputDestination]?
         public let id: String?
         public let inputClass: InputClass?
+        public let inputDevices: [InputDeviceSettings]?
         public let inputSourceType: InputSourceType?
         public let mediaConnectFlows: [MediaConnectFlow]?
         public let name: String?
@@ -3269,12 +3382,13 @@ extension MediaLive {
         public let tags: [String: String]?
         public let `type`: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
+            self.inputDevices = inputDevices
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
@@ -3292,6 +3406,7 @@ extension MediaLive {
             case destinations = "destinations"
             case id = "id"
             case inputClass = "inputClass"
+            case inputDevices = "inputDevices"
             case inputSourceType = "inputSourceType"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
@@ -4164,8 +4279,8 @@ extension MediaLive {
         /// Settings for system actions when input is lost.
         public let inputLossBehavior: InputLossBehavior?
         /// Indicates how MediaLive pipelines are synchronized.
-        /// PIPELINELOCKING - MediaLive will attempt to synchronize the output of each pipeline to the other.
-        /// EPOCHLOCKING - MediaLive will attempt to synchronize the output of each pipeline to the Unix epoch.
+        /// PIPELINE_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the other.
+        /// EPOCH_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the Unix epoch.
         public let outputLockingMode: GlobalConfigurationOutputLockingMode?
         /// Indicates whether the rate of frames emitted by the Live encoder should be paced by its system clock (which optionally may be locked to another source via NTP) or should be locked to the clock of the source that is providing the input stream.
         public let outputTimingSource: GlobalConfigurationOutputTimingSource?
@@ -4247,7 +4362,7 @@ extension MediaLive {
         public let colorSpaceSettings: H264ColorSpaceSettings?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
         public let entropyEncoding: H264EntropyEncoding?
-        /// Settings associated with the specified filter.
+        /// Optional filters that you can apply to an encode.
         public let filterSettings: H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
@@ -4294,7 +4409,9 @@ extension MediaLive {
         public let parNumerator: Int?
         /// H.264 Profile.
         public let profile: H264Profile?
-        /// If set to "ENHANCEDQUALITY," improves visual quality at an increased output cost. If this video is being delivered to a MediaLive Multiplex, "ENHANCEDQUALITY" is always used.
+        /// Leave as STANDARD_QUALITY or choose a different value (which might result in additional costs to run the channel).
+        /// - ENHANCED_QUALITY: Produces a slightly better video quality without an increase in the bitrate. Has an effect only when the Rate control mode is QVBR or CBR. If this channel is in a MediaLive multiplex, the value must be ENHANCED_QUALITY.
+        /// - STANDARD_QUALITY: Valid for any Rate control mode.
         public let qualityLevel: H264QualityLevel?
         /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality level field and Max bitrate field that suit your most important viewing devices. Recommended values are:
         /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
@@ -4836,9 +4953,9 @@ extension MediaLive {
         /// If "vod", all segments are indexed and kept permanently in the destination and manifest. If "live", only the number segments specified in keepSegments and indexNSegments are kept; newer segments replace older segments, which may prevent players from rewinding all the way to the beginning of the event.
         /// VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
         public let mode: HlsMode?
-        /// MANIFESTSANDSEGMENTS: Generates manifests (master manifest, if applicable, and media manifests) for this output group.
-        /// VARIANTMANIFESTSANDSEGMENTS: Generates media manifests for this output group, but not a master manifest.
-        /// SEGMENTSONLY: Does not generate any manifests for this output group.
+        /// MANIFESTS_AND_SEGMENTS: Generates manifests (master manifest, if applicable, and media manifests) for this output group.
+        /// VARIANT_MANIFESTS_AND_SEGMENTS: Generates media manifests for this output group, but not a master manifest.
+        /// SEGMENTS_ONLY: Does not generate any manifests for this output group.
         public let outputSelection: HlsOutputSelection?
         /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files. The value is calculated as follows: either the program date and time are initialized using the input timecode source, or the time is initialized using the input timecode source and the date is initialized using the timestampOffset.
         public let programDateTime: HlsProgramDateTime?
@@ -4862,8 +4979,8 @@ extension MediaLive {
         public let timedMetadataId3Period: Int?
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
         public let timestampDeltaMilliseconds: Int?
-        /// SEGMENTEDFILES: Emit the program as segments - multiple .ts media files.
-        /// SINGLEFILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
+        /// SEGMENTED_FILES: Emit the program as segments - multiple .ts media files.
+        /// SINGLE_FILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public let tsFileMode: HlsTsFileMode?
 
         public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlContent1: String? = nil, baseUrlManifest: String? = nil, baseUrlManifest1: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, hlsId3SegmentTagging: HlsId3SegmentTaggingState? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
@@ -5187,6 +5304,8 @@ extension MediaLive {
         /// STANDARD - MediaLive expects two sources to be connected to this input. If the channel is also STANDARD, both sources will be ingested. If the channel is SINGLE_PIPELINE, only the first source will be ingested; the second source will always be ignored, even if the first source fails.
         /// SINGLE_PIPELINE - You can connect only one source to this input. If the ChannelClass is also  SINGLE_PIPELINE, this value is valid. If the ChannelClass is STANDARD, this value is not valid because the channel requires two sources in the input.
         public let inputClass: InputClass?
+        /// Settings for the input devices.
+        public let inputDevices: [InputDeviceSettings]?
         /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes
         /// during input switch actions. Presently, this functionality only works with MP4_FILE inputs.
         public let inputSourceType: InputSourceType?
@@ -5205,12 +5324,13 @@ extension MediaLive {
         public let tags: [String: String]?
         public let `type`: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
+            self.inputDevices = inputDevices
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
@@ -5228,6 +5348,7 @@ extension MediaLive {
             case destinations = "destinations"
             case id = "id"
             case inputClass = "inputClass"
+            case inputDevices = "inputDevices"
             case inputSourceType = "inputSourceType"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
@@ -5377,6 +5498,174 @@ extension MediaLive {
         }
     }
 
+    public struct InputDeviceConfigurableSettings: AWSEncodableShape {
+
+        /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
+        public let configuredInput: InputDeviceConfiguredInput?
+        /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
+        public let maxBitrate: Int?
+
+        public init(configuredInput: InputDeviceConfiguredInput? = nil, maxBitrate: Int? = nil) {
+            self.configuredInput = configuredInput
+            self.maxBitrate = maxBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredInput = "configuredInput"
+            case maxBitrate = "maxBitrate"
+        }
+    }
+
+    public struct InputDeviceHdSettings: AWSDecodableShape {
+
+        /// If you specified Auto as the configured input, specifies which of the sources is currently active (SDI or HDMI).
+        public let activeInput: InputDeviceActiveInput?
+        /// The source at the input device that is currently active. You can specify this source.
+        public let configuredInput: InputDeviceConfiguredInput?
+        /// The state of the input device.
+        public let deviceState: InputDeviceState?
+        /// The frame rate of the video source.
+        public let framerate: Double?
+        /// The height of the video source, in pixels.
+        public let height: Int?
+        /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
+        public let maxBitrate: Int?
+        /// The scan type of the video source.
+        public let scanType: InputDeviceScanType?
+        /// The width of the video source, in pixels.
+        public let width: Int?
+
+        public init(activeInput: InputDeviceActiveInput? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, maxBitrate: Int? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
+            self.activeInput = activeInput
+            self.configuredInput = configuredInput
+            self.deviceState = deviceState
+            self.framerate = framerate
+            self.height = height
+            self.maxBitrate = maxBitrate
+            self.scanType = scanType
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeInput = "activeInput"
+            case configuredInput = "configuredInput"
+            case deviceState = "deviceState"
+            case framerate = "framerate"
+            case height = "height"
+            case maxBitrate = "maxBitrate"
+            case scanType = "scanType"
+            case width = "width"
+        }
+    }
+
+    public struct InputDeviceNetworkSettings: AWSDecodableShape {
+
+        /// The DNS addresses of the input device.
+        public let dnsAddresses: [String]?
+        /// The network gateway IP address.
+        public let gateway: String?
+        /// The IP address of the input device.
+        public let ipAddress: String?
+        /// Specifies whether the input device has been configured (outside of MediaLive) to use a dynamic IP address assignment (DHCP) or a static IP address.
+        public let ipScheme: InputDeviceIpScheme?
+        /// The subnet mask of the input device.
+        public let subnetMask: String?
+
+        public init(dnsAddresses: [String]? = nil, gateway: String? = nil, ipAddress: String? = nil, ipScheme: InputDeviceIpScheme? = nil, subnetMask: String? = nil) {
+            self.dnsAddresses = dnsAddresses
+            self.gateway = gateway
+            self.ipAddress = ipAddress
+            self.ipScheme = ipScheme
+            self.subnetMask = subnetMask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsAddresses = "dnsAddresses"
+            case gateway = "gateway"
+            case ipAddress = "ipAddress"
+            case ipScheme = "ipScheme"
+            case subnetMask = "subnetMask"
+        }
+    }
+
+    public struct InputDeviceRequest: AWSEncodableShape {
+
+        /// The unique ID for the device.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct InputDeviceSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The unique ID for the device.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct InputDeviceSummary: AWSDecodableShape {
+
+        /// The unique ARN of the input device.
+        public let arn: String?
+        /// The state of the connection between the input device and AWS.
+        public let connectionState: InputDeviceConnectionState?
+        /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
+        public let deviceSettingsSyncState: DeviceSettingsSyncState?
+        /// Settings that describe an input device that is type HD.
+        public let hdDeviceSettings: InputDeviceHdSettings?
+        /// The unique ID of the input device.
+        public let id: String?
+        /// The network MAC address of the input device.
+        public let macAddress: String?
+        /// A name that you specify for the input device.
+        public let name: String?
+        /// Network settings for the input device.
+        public let networkSettings: InputDeviceNetworkSettings?
+        /// The unique serial number of the input device.
+        public let serialNumber: String?
+        /// The type of the input device.
+        public let `type`: InputDeviceType?
+
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+            self.arn = arn
+            self.connectionState = connectionState
+            self.deviceSettingsSyncState = deviceSettingsSyncState
+            self.hdDeviceSettings = hdDeviceSettings
+            self.id = id
+            self.macAddress = macAddress
+            self.name = name
+            self.networkSettings = networkSettings
+            self.serialNumber = serialNumber
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case connectionState = "connectionState"
+            case deviceSettingsSyncState = "deviceSettingsSyncState"
+            case hdDeviceSettings = "hdDeviceSettings"
+            case id = "id"
+            case macAddress = "macAddress"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case serialNumber = "serialNumber"
+            case `type` = "type"
+        }
+    }
+
     public struct InputLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// key used to extract the password from EC2 Parameter store
@@ -5491,12 +5780,16 @@ extension MediaLive {
         public let inputFilter: InputFilter?
         /// Input settings.
         public let networkInputSettings: NetworkInputSettings?
+        /// Specifies whether to extract applicable ancillary data from a SMPTE-2038 source in this input. Applicable data types are captions, timecode, AFD, and SCTE-104 messages.
+        /// - PREFER: Extract from SMPTE-2038 if present in this input, otherwise extract from another source (if any).
+        /// - IGNORE: Never extract any ancillary data from SMPTE-2038.
+        public let smpte2038DataPreference: Smpte2038DataPreference?
         /// Loop input if it is a file. This allows a file input to be streamed indefinitely.
         public let sourceEndBehavior: InputSourceEndBehavior?
         /// Informs which video elementary stream to decode for input types that have multiple available.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, smpte2038DataPreference: Smpte2038DataPreference? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
             self.deblockFilter = deblockFilter
@@ -5504,6 +5797,7 @@ extension MediaLive {
             self.filterStrength = filterStrength
             self.inputFilter = inputFilter
             self.networkInputSettings = networkInputSettings
+            self.smpte2038DataPreference = smpte2038DataPreference
             self.sourceEndBehavior = sourceEndBehavior
             self.videoSelector = videoSelector
         }
@@ -5529,6 +5823,7 @@ extension MediaLive {
             case filterStrength = "filterStrength"
             case inputFilter = "inputFilter"
             case networkInputSettings = "networkInputSettings"
+            case smpte2038DataPreference = "smpte2038DataPreference"
             case sourceEndBehavior = "sourceEndBehavior"
             case videoSelector = "videoSelector"
         }
@@ -5723,6 +6018,44 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListInputDevicesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInputDevicesResponse: AWSDecodableShape {
+
+        public let inputDevices: [InputDeviceSummary]?
+        public let nextToken: String?
+
+        public init(inputDevices: [InputDeviceSummary]? = nil, nextToken: String? = nil) {
+            self.inputDevices = inputDevices
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputDevices = "inputDevices"
             case nextToken = "nextToken"
         }
     }
@@ -6127,7 +6460,7 @@ extension MediaLive {
         /// When a segmentation style of "resetCadence" is selected and a segment is truncated due to an avail, we will reset the segmentation cadence. This means the subsequent segment will have a duration of $segmentationTime seconds.
         /// When a segmentation style of "maintainCadence" is selected and a segment is truncated due to an avail, we will not reset the segmentation cadence. This means the subsequent segment will likely be truncated as well. However, all segments after that will have a duration of $segmentationTime seconds. Note that EBP lookahead is a slight exception to this rule.
         public let segmentationStyle: M2tsSegmentationStyle?
-        /// The length in seconds of each segment. Required unless markers is set to None_.
+        /// The length in seconds of each segment. Required unless markers is set to _none_.
         public let segmentationTime: Double?
         /// When set to passthrough, timed metadata will be passed through from input to output.
         public let timedMetadataBehavior: M2tsTimedMetadataBehavior?
@@ -6443,7 +6776,7 @@ extension MediaLive {
 
     public struct MsSmoothGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// The value of the "Acquisition Point Identity" element used in each message placed in the sparse track.  Only enabled if sparseTrackType is not "none".
+        /// The ID to include in each message in the sparse track. Ignored if sparseTrackType is NONE.
         public let acquisitionPointId: String?
         /// If set to passthrough for an audio-only MS Smooth output, the fragment absolute time will be set to the current timecode. This option does not write timecodes to the audio elementary stream.
         public let audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl?
@@ -6478,7 +6811,10 @@ extension MediaLive {
         public let segmentationMode: SmoothGroupSegmentationMode?
         /// Number of milliseconds to delay the output from the second pipeline.
         public let sendDelayMs: Int?
-        /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs. scte35WithoutSegmentation is the same as scte35, except EML will not start a new segment at a SCTE-35 marker. It will still encode an IDR frame at a SCTE-35 marker.
+        /// Identifies the type of data to place in the sparse track:
+        /// - SCTE35: Insert SCTE-35 messages from the source content. With each message, insert an IDR frame to start a new segment.
+        /// - SCTE35_WITHOUT_SEGMENTATION: Insert SCTE-35 messages from the source content. With each message, insert an IDR frame but don't start a new segment.
+        /// - NONE: Don't generate a sparse track for any outputs in this output group.
         public let sparseTrackType: SmoothGroupSparseTrackType?
         /// When set to send, send stream manifest so publishing point doesn't start until all streams start.
         public let streamManifestBehavior: SmoothGroupStreamManifestBehavior?
@@ -8513,9 +8849,11 @@ extension MediaLive {
 
     public struct TemporalFilterSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// If set to "ENABLED," applies post-filter sharpening to improve visual quality. This is most beneficial when using a noisy or compressed input source and low output bitrates.
+        /// If you enable this filter, the results are the following:
+        /// - If the source content is noisy (it contains excessive digital artifacts), the filter cleans up the source.
+        /// - If the source content is already clean, the filter tends to decrease the bitrate, especially when the rate control mode is QVBR.
         public let postFilterSharpening: TemporalFilterPostFilterSharpening?
-        /// Filter strength. A higher value produces stronger filtering.
+        /// Choose a filter strength. We recommend a strength of 1 or 2. A higher strength might take out good information, resulting in an image that is overly soft.
         public let strength: TemporalFilterStrength?
 
         public init(postFilterSharpening: TemporalFilterPostFilterSharpening? = nil, strength: TemporalFilterStrength? = nil) {
@@ -8743,12 +9081,74 @@ extension MediaLive {
         }
     }
 
+    public struct UpdateInputDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputDeviceId", location: .uri(locationName: "inputDeviceId"))
+        ]
+
+        public let hdDeviceSettings: InputDeviceConfigurableSettings?
+        public let inputDeviceId: String
+        public let name: String?
+
+        public init(hdDeviceSettings: InputDeviceConfigurableSettings? = nil, inputDeviceId: String, name: String? = nil) {
+            self.hdDeviceSettings = hdDeviceSettings
+            self.inputDeviceId = inputDeviceId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hdDeviceSettings = "hdDeviceSettings"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateInputDeviceResponse: AWSDecodableShape {
+
+        public let arn: String?
+        public let connectionState: InputDeviceConnectionState?
+        public let deviceSettingsSyncState: DeviceSettingsSyncState?
+        public let hdDeviceSettings: InputDeviceHdSettings?
+        public let id: String?
+        public let macAddress: String?
+        public let name: String?
+        public let networkSettings: InputDeviceNetworkSettings?
+        public let serialNumber: String?
+        public let `type`: InputDeviceType?
+
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+            self.arn = arn
+            self.connectionState = connectionState
+            self.deviceSettingsSyncState = deviceSettingsSyncState
+            self.hdDeviceSettings = hdDeviceSettings
+            self.id = id
+            self.macAddress = macAddress
+            self.name = name
+            self.networkSettings = networkSettings
+            self.serialNumber = serialNumber
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case connectionState = "connectionState"
+            case deviceSettingsSyncState = "deviceSettingsSyncState"
+            case hdDeviceSettings = "hdDeviceSettings"
+            case id = "id"
+            case macAddress = "macAddress"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case serialNumber = "serialNumber"
+            case `type` = "type"
+        }
+    }
+
     public struct UpdateInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
         ]
 
         public let destinations: [InputDestinationRequest]?
+        public let inputDevices: [InputDeviceRequest]?
         public let inputId: String
         public let inputSecurityGroups: [String]?
         public let mediaConnectFlows: [MediaConnectFlowRequest]?
@@ -8756,8 +9156,9 @@ extension MediaLive {
         public let roleArn: String?
         public let sources: [InputSourceRequest]?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
             self.destinations = destinations
+            self.inputDevices = inputDevices
             self.inputId = inputId
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
@@ -8768,6 +9169,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
+            case inputDevices = "inputDevices"
             case inputSecurityGroups = "inputSecurityGroups"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
@@ -8963,9 +9365,9 @@ extension MediaLive {
         public let height: Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
         public let name: String
-        /// Indicates how to respond to the AFD values in the input stream. RESPOND causes input video to be clipped, depending on the AFD value, input display aspect ratio, and output display aspect ratio, and (except for FRAMECAPTURE codec) includes the values in the output. PASSTHROUGH (does not apply to FRAMECAPTURE codec) ignores the AFD values and includes the values in the output, so input video is not clipped. NONE ignores the AFD values and does not include the values through to the output, so input video is not clipped.
+        /// Indicates how to respond to the AFD values in the input stream. RESPOND causes input video to be clipped, depending on the AFD value, input display aspect ratio, and output display aspect ratio, and (except for FRAME_CAPTURE codec) includes the values in the output. PASSTHROUGH (does not apply to FRAME_CAPTURE codec) ignores the AFD values and includes the values in the output, so input video is not clipped. NONE ignores the AFD values and does not include the values through to the output, so input video is not clipped.
         public let respondToAfd: VideoDescriptionRespondToAfd?
-        /// STRETCHTOOUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
+        /// STRETCH_TO_OUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
         public let scalingBehavior: VideoDescriptionScalingBehavior?
         /// Changes the strength of the anti-alias filter used for scaling. 0 is the softest setting, 100 is the sharpest. A setting of 50 is recommended for most content.
         public let sharpness: Int?

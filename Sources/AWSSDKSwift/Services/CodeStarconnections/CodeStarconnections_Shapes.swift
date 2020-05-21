@@ -42,7 +42,7 @@ extension CodeStarconnections {
         public let connectionName: String?
         /// The current status of the connection. 
         public let connectionStatus: ConnectionStatus?
-        /// The name of the external provider where your third-party code repository is configured. For Bitbucket, this is the account ID of the owner of the Bitbucket repository.
+        /// The identifier of the external provider where your third-party code repository is configured. For Bitbucket, this is the account ID of the owner of the Bitbucket repository.
         public let ownerAccountId: String?
         /// The name of the external provider where your third-party code repository is configured. Currently, the valid provider type is Bitbucket.
         public let providerType: ProviderType?
@@ -70,20 +70,29 @@ extension CodeStarconnections {
         public let connectionName: String
         /// The name of the external provider where your third-party code repository is configured. Currently, the valid provider type is Bitbucket.
         public let providerType: ProviderType
+        /// The key-value pair to use when tagging the resource.
+        public let tags: [Tag]?
 
-        public init(connectionName: String, providerType: ProviderType) {
+        public init(connectionName: String, providerType: ProviderType, tags: [Tag]? = nil) {
             self.connectionName = connectionName
             self.providerType = providerType
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.connectionName, name: "connectionName", parent: name, max: 32)
             try validate(self.connectionName, name: "connectionName", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
             case providerType = "ProviderType"
+            case tags = "Tags"
         }
     }
 
@@ -91,13 +100,17 @@ extension CodeStarconnections {
 
         /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String
+        /// Specifies the tags applied to the resource.
+        public let tags: [Tag]?
 
-        public init(connectionArn: String) {
+        public init(connectionArn: String, tags: [Tag]? = nil) {
             self.connectionArn = connectionArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionArn = "ConnectionArn"
+            case tags = "Tags"
         }
     }
 
@@ -179,11 +192,10 @@ extension CodeStarconnections {
         }
 
         public func validate(name: String) throws {
-            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 5000)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=\\-\\\\/]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -209,5 +221,136 @@ extension CodeStarconnections {
             case connections = "Connections"
             case nextToken = "NextToken"
         }
+    }
+
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+
+        /// A list of tag key and value pairs associated with the specified resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
+        /// The tag's key.
+        public let key: String
+        /// The tag's value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name: "key", parent: name, max: 128)
+            try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.value, name: "value", parent: name, max: 256)
+            try validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
+        public let resourceArn: String
+        /// The tags you want to modify or add to the resource.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource to remove tags from.
+        public let resourceArn: String
+        /// The list of keys for the tags to be removed from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 }

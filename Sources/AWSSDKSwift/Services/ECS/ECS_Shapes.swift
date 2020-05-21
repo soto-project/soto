@@ -126,6 +126,11 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnvironmentFileType: String, CustomStringConvertible, Codable {
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
         case fluentd = "fluentd"
         case fluentbit = "fluentbit"
@@ -698,6 +703,8 @@ extension ECS {
         public let entryPoint: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plaintext environment variables for sensitive information, such as credential data. 
         public let environment: [KeyValuePair]?
+        /// A list of files containing the environment variables to pass to a container. This parameter maps to the --env-file option to docker run. You can specify up to ten environment files. The file must have a .env file extension. Each line in an environment file should contain an environment variable in VARIABLE=VALUE format. Lines beginning with # are treated as comments and are ignored. For more information on the environment variable file syntax, see Declare default environment variables in file. If there are environment variables specified using the environment parameter in a container definition, they take precedence over the variables contained within an environment file. If multiple environment files are specified that contain the same variable, they are processed from the top down. It is recommended to use unique variable names. For more information, see Specifying Environment Variables in the Amazon Elastic Container Service Developer Guide. This field is not valid for containers in tasks using the Fargate launch type.
+        public let environmentFiles: [EnvironmentFile]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, then its failure does not affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that is composed of multiple containers, you should group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see Application Architecture in the Amazon Elastic Container Service Developer Guide.
         public let essential: Bool?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container. This parameter maps to ExtraHosts in the Create a container section of the Docker Remote API and the --add-host option to docker run.  This parameter is not supported for Windows containers or tasks that use the awsvpc network mode. 
@@ -755,7 +762,7 @@ extension ECS {
         /// The working directory in which to run commands inside the container. This parameter maps to WorkingDir in the Create a container section of the Docker Remote API and the --workdir option to docker run.
         public let workingDirectory: String?
 
-        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, firelensConfiguration: FirelensConfiguration? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, environmentFiles: [EnvironmentFile]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, firelensConfiguration: FirelensConfiguration? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.cpu = cpu
             self.dependsOn = dependsOn
@@ -766,6 +773,7 @@ extension ECS {
             self.dockerSecurityOptions = dockerSecurityOptions
             self.entryPoint = entryPoint
             self.environment = environment
+            self.environmentFiles = environmentFiles
             self.essential = essential
             self.extraHosts = extraHosts
             self.firelensConfiguration = firelensConfiguration
@@ -807,6 +815,7 @@ extension ECS {
             case dockerSecurityOptions = "dockerSecurityOptions"
             case entryPoint = "entryPoint"
             case environment = "environment"
+            case environmentFiles = "environmentFiles"
             case essential = "essential"
             case extraHosts = "extraHosts"
             case firelensConfiguration = "firelensConfiguration"
@@ -942,6 +951,8 @@ extension ECS {
         public let cpu: Int?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
         public let environment: [KeyValuePair]?
+        /// A list of files containing the environment variables to pass to a container, instead of the value from the container definition.
+        public let environmentFiles: [EnvironmentFile]?
         /// The hard limit (in MiB) of memory to present to the container, instead of the default value from the task definition. If your container attempts to exceed the memory specified here, the container is killed. You must also specify a container name.
         public let memory: Int?
         /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition. You must also specify a container name.
@@ -951,10 +962,11 @@ extension ECS {
         /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
         public let resourceRequirements: [ResourceRequirement]?
 
-        public init(command: [String]? = nil, cpu: Int? = nil, environment: [KeyValuePair]? = nil, memory: Int? = nil, memoryReservation: Int? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, environment: [KeyValuePair]? = nil, environmentFiles: [EnvironmentFile]? = nil, memory: Int? = nil, memoryReservation: Int? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
             self.command = command
             self.cpu = cpu
             self.environment = environment
+            self.environmentFiles = environmentFiles
             self.memory = memory
             self.memoryReservation = memoryReservation
             self.name = name
@@ -965,6 +977,7 @@ extension ECS {
             case command = "command"
             case cpu = "cpu"
             case environment = "environment"
+            case environmentFiles = "environmentFiles"
             case memory = "memory"
             case memoryReservation = "memoryReservation"
             case name = "name"
@@ -2054,6 +2067,24 @@ extension ECS {
         }
     }
 
+    public struct EnvironmentFile: AWSEncodableShape & AWSDecodableShape {
+
+        /// The file type to use. The only supported value is s3.
+        public let `type`: EnvironmentFileType
+        /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the environment variable file.
+        public let value: String
+
+        public init(type: EnvironmentFileType, value: String) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case value = "value"
+        }
+    }
+
     public struct Failure: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the failed resource.
@@ -2194,7 +2225,7 @@ extension ECS {
 
     public struct KernelCapabilities: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  If you are using tasks that use the Fargate launch type, the add parameter is not supported.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
+        /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  The SYS_PTRACE capability is supported for tasks that use the Fargate launch type if they are also using platform version 1.4.0. The other capabilities are not supported for any platform versions.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let add: [String]?
         /// The Linux capabilities for the container that have been removed from the default configuration provided by Docker. This parameter maps to CapDrop in the Create a container section of the Docker Remote API and the --cap-drop option to docker run. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let drop: [String]?
@@ -2230,7 +2261,7 @@ extension ECS {
 
     public struct LinuxParameters: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  If you are using tasks that use the Fargate launch type, capabilities is supported but the add parameter is not supported. 
+        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  For tasks that use the Fargate launch type, capabilities is supported for all platform versions but the add parameter is only supported if using platform version 1.4.0 or later. 
         public let capabilities: KernelCapabilities?
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.  If you are using tasks that use the Fargate launch type, the devices parameter is not supported. 
         public let devices: [Device]?

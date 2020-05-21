@@ -220,6 +220,8 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The tags associated with the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
@@ -227,7 +229,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -238,6 +240,7 @@ extension Imagebuilder {
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.supportedOsVersions = supportedOsVersions
             self.tags = tags
             self.`type` = `type`
             self.version = version
@@ -254,6 +257,7 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
             case `type` = "type"
             case version = "version"
@@ -294,6 +298,8 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The tags associated with the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
@@ -301,7 +307,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.dateCreated = dateCreated
@@ -309,6 +315,7 @@ extension Imagebuilder {
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.supportedOsVersions = supportedOsVersions
             self.tags = tags
             self.`type` = `type`
             self.version = version
@@ -322,6 +329,7 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
             case `type` = "type"
             case version = "version"
@@ -342,18 +350,21 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let `type`: ComponentType?
         /// The semantic version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.description = description
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.supportedOsVersions = supportedOsVersions
             self.`type` = `type`
             self.version = version
         }
@@ -365,6 +376,7 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
             case `type` = "type"
             case version = "version"
         }
@@ -388,12 +400,14 @@ extension Imagebuilder {
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
         public let semanticVersion: String
+        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The tags of the component.
         public let tags: [String: String]?
         /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
 
-        public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
             self.data = data
@@ -402,6 +416,7 @@ extension Imagebuilder {
             self.name = name
             self.platform = platform
             self.semanticVersion = semanticVersion
+            self.supportedOsVersions = supportedOsVersions
             self.tags = tags
             self.uri = uri
         }
@@ -419,6 +434,11 @@ extension Imagebuilder {
             try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.supportedOsVersions?.forEach {
+                try validate($0, name: "supportedOsVersions[]", parent: name, min: 1)
+            }
+            try validate(self.supportedOsVersions, name: "supportedOsVersions", parent: name, max: 25)
+            try validate(self.supportedOsVersions, name: "supportedOsVersions", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -436,6 +456,7 @@ extension Imagebuilder {
             case name = "name"
             case platform = "platform"
             case semanticVersion = "semanticVersion"
+            case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
             case uri = "uri"
         }

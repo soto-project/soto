@@ -60,7 +60,7 @@ extension IoTSiteWise {
         return client.paginate(input: input, command: listAssetModels, tokenKey: \ListAssetModelsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Retrieves a paginated list of asset summaries.
+    ///  Retrieves a paginated list of asset summaries. You can use this operation to do the following:   List assets based on a specific asset model.   List top-level assets.   You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.
     public func listAssetsPaginator(
         _ input: ListAssetsRequest,
         on eventLoop: EventLoop? = nil,

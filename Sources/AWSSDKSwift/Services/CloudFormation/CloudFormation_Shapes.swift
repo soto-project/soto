@@ -1741,6 +1741,8 @@ extension CloudFormation {
         public let documentationUrl: String?
         /// The Amazon Resource Name (ARN) of the IAM execution role used to register the type. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your resource type with the appropriate credentials.
         public let executionRoleArn: String?
+        /// Whether the specified type version is set as the default version.
+        public let isDefaultVersion: Bool?
         /// When the specified type version was registered.
         public let lastUpdated: TimeStamp?
         /// Contains logging configuration information for a type.
@@ -1760,13 +1762,14 @@ extension CloudFormation {
         /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.  
         public let visibility: Visibility?
 
-        public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, lastUpdated: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
+        public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isDefaultVersion: Bool? = nil, lastUpdated: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
             self.arn = arn
             self.defaultVersionId = defaultVersionId
             self.deprecatedStatus = deprecatedStatus
             self.description = description
             self.documentationUrl = documentationUrl
             self.executionRoleArn = executionRoleArn
+            self.isDefaultVersion = isDefaultVersion
             self.lastUpdated = lastUpdated
             self.loggingConfig = loggingConfig
             self.provisioningType = provisioningType
@@ -1785,6 +1788,7 @@ extension CloudFormation {
             case description = "Description"
             case documentationUrl = "DocumentationUrl"
             case executionRoleArn = "ExecutionRoleArn"
+            case isDefaultVersion = "IsDefaultVersion"
             case lastUpdated = "LastUpdated"
             case loggingConfig = "LoggingConfig"
             case provisioningType = "ProvisioningType"
@@ -4442,6 +4446,8 @@ extension CloudFormation {
         public let arn: String?
         /// The description of the type version.
         public let description: String?
+        /// Whether the specified type version is set as the default version.
+        public let isDefaultVersion: Bool?
         /// When the version was registered.
         public let timeCreated: TimeStamp?
         /// The kind of type.
@@ -4451,9 +4457,10 @@ extension CloudFormation {
         /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
         public let versionId: String?
 
-        public init(arn: String? = nil, description: String? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, isDefaultVersion: Bool? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.description = description
+            self.isDefaultVersion = isDefaultVersion
             self.timeCreated = timeCreated
             self.`type` = `type`
             self.typeName = typeName
@@ -4463,6 +4470,7 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
+            case isDefaultVersion = "IsDefaultVersion"
             case timeCreated = "TimeCreated"
             case `type` = "Type"
             case typeName = "TypeName"

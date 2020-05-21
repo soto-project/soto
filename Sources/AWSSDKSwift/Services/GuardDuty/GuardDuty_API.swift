@@ -166,7 +166,7 @@ public struct GuardDuty {
         return client.send(operation: "DescribePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    ///  Disables GuardDuty administrator permissions for an AWS account within the Organization.
+    ///  Disables an AWS account within the Organization as the GuardDuty delegated administrator.
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
         return client.send(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -181,7 +181,7 @@ public struct GuardDuty {
         return client.send(operation: "DisassociateMembers", path: "/detector/{detectorId}/member/disassociate", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Enables GuardDuty administrator permissions for an AWS account within the organization.
+    ///  Enables an AWS account within the organization as the GuardDuty delegated administrator.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return client.send(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -266,7 +266,7 @@ public struct GuardDuty {
         return client.send(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: "GET", input: input, on: eventLoop)
     }
 
-    ///  Lists the accounts configured as AWS Organization delegated administrators.
+    ///  Lists the accounts configured as GuardDuty delegated administrators.
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
         return client.send(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: "GET", input: input, on: eventLoop)
     }

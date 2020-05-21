@@ -467,7 +467,7 @@ extension SecurityHub {
         public let imagePullCredentialsType: String?
         /// The credentials for access to a private registry.
         public let registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential?
-        /// The type of build environment to use for related builds. The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and Europe (Frankfurt). The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia). Valid values: WINDOWS_CONTAINER | LINUX_CONTAINER | LINUX_GPU_CONTAINER | ARM_CONTAINER 
+        /// The type of build environment to use for related builds. The environment type ARM_CONTAINER is available only in Regions US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and Europe (Frankfurt). The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). The environment type LINUX_GPU_CONTAINER is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). Valid values: WINDOWS_CONTAINER | LINUX_CONTAINER | LINUX_GPU_CONTAINER | ARM_CONTAINER 
         public let `type`: String?
 
         public init(certificate: String? = nil, imagePullCredentialsType: String? = nil, registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential? = nil, type: String? = nil) {
@@ -521,7 +521,7 @@ extension SecurityHub {
         public let gitCloneDepth: Int?
         /// Whether to ignore SSL warnings while connecting to the project source code.
         public let insecureSsl: Bool?
-        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the buildspec file (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an S3 input bucket, one of the following.   The path to the ZIP file that contains the source code (for example, bucket-name/path/to/object-name.zip).    The path to the folder that contains the source code (for example, bucket-name/path/to/source-code/folder/).     For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file.   
+        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec file (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an S3 input bucket, one of the following.   The path to the ZIP file that contains the source code (for example, bucket-name/path/to/object-name.zip).    The path to the folder that contains the source code (for example, bucket-name/path/to/source-code/folder/).     For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec file.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec file.   
         public let location: String?
         /// The type of repository that contains the source code to be built. Valid values are:    BITBUCKET - The source code is in a Bitbucket repository.    CODECOMMIT - The source code is in an AWS CodeCommit repository.    CODEPIPELINE - The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB - The source code is in a GitHub repository.    GITHUB_ENTERPRISE - The source code is in a GitHub Enterprise repository.    NO_SOURCE - The project does not have input source code.    S3 - The source code is in an S3 input bucket.   
         public let `type`: String?
@@ -846,7 +846,7 @@ extension SecurityHub {
 
     public struct AwsEc2SecurityGroupIpRange: AWSEncodableShape & AWSDecodableShape {
 
-        /// The IPv4 CIDR range. You can either specify either a CIDR range or a source security group, but not both. To specify a single IPv4 address, use the /32 prefix length.
+        /// The IPv4 CIDR range. You can specify either a CIDR range or a source security group, but not both. To specify a single IPv4 address, use the /32 prefix length.
         public let cidrIp: String?
 
         public init(cidrIp: String? = nil) {
@@ -864,7 +864,7 @@ extension SecurityHub {
 
     public struct AwsEc2SecurityGroupIpv6Range: AWSEncodableShape & AWSDecodableShape {
 
-        /// The IPv6 CIDR range. You can either specify either a CIDR range or a source security group, but not both. To specify a single IPv6 address, use the /128 prefix length.
+        /// The IPv6 CIDR range. You can specify either a CIDR range or a source security group, but not both. To specify a single IPv6 address, use the /128 prefix length.
         public let cidrIpv6: String?
 
         public init(cidrIpv6: String? = nil) {
@@ -1570,7 +1570,7 @@ extension SecurityHub {
 
     public struct AwsLambdaLayerVersionDetails: AWSEncodableShape & AWSDecodableShape {
 
-        /// The layer's compatible runtimes. Maximum number of 5 items. Valid values: nodejs10.x | nodejs12.x | java8 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | dotnetcore1.0 | dotnetcore2.1 | go1.x | ruby2.5 | provided 
+        /// The layer's compatible runtimes. Maximum number of five items. Valid values: nodejs10.x | nodejs12.x | java8 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | dotnetcore1.0 | dotnetcore2.1 | go1.x | ruby2.5 | provided 
         public let compatibleRuntimes: [String]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000. 
         public let createdDate: String?
@@ -1603,7 +1603,7 @@ extension SecurityHub {
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB instance.
         public let roleArn: String?
-        /// Describes the state of the association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB instance.    INVALID - the IAM role ARN is associated with the DB instance, but the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.   
+        /// Describes the state of the association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB instance.    INVALID - The IAM role ARN is associated with the DB instance. But the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.   
         public let status: String?
 
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
@@ -1860,7 +1860,7 @@ extension SecurityHub {
 
     public struct AwsS3BucketServerSideEncryptionRule: AWSEncodableShape & AWSDecodableShape {
 
-        /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption is applied.
+        /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT object request doesn't specify any server-side encryption, this default encryption is applied.
         public let applyServerSideEncryptionByDefault: AwsS3BucketServerSideEncryptionByDefault?
 
         public init(applyServerSideEncryptionByDefault: AwsS3BucketServerSideEncryptionByDefault? = nil) {
@@ -1935,7 +1935,7 @@ extension SecurityHub {
         public let description: String
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
         public let firstObservedAt: String?
-        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plug-in, etc. 
+        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc. 
         public let generatorId: String
         /// The security findings provider-specific identifier for a finding.
         public let id: String
@@ -2046,6 +2046,7 @@ extension SecurityHub {
                 try $0.validate(name: "\(name).resources[]")
             }
             try validate(self.schemaVersion, name: "schemaVersion", parent: name, pattern: ".*\\S.*")
+            try self.severity.validate(name: "\(name).severity")
             try validate(self.sourceUrl, name: "sourceUrl", parent: name, pattern: ".*\\S.*")
             try self.threatIntelIndicators?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicators[]")
@@ -2114,7 +2115,7 @@ extension SecurityHub {
         public let description: [StringFilter]?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
         public let firstObservedAt: [DateFilter]?
-        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plug-in, etc.
+        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public let generatorId: [StringFilter]?
         /// The security findings provider-specific identifier for a finding.
         public let id: [StringFilter]?
@@ -2698,7 +2699,7 @@ extension SecurityHub {
 
     public struct AwsSnsTopicDetails: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK.
+        /// The ID of an AWS managed customer master key (CMK) for Amazon SNS or a custom CMK.
         public let kmsMasterKeyId: String?
         /// The subscription's owner.
         public let owner: String?
@@ -2760,7 +2761,7 @@ extension SecurityHub {
         public let deadLetterTargetArn: String?
         /// The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again.
         public let kmsDataKeyReusePeriodSeconds: Int?
-        /// The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK.
+        /// The ID of an AWS managed customer master key (CMK) for Amazon SQS or a custom CMK.
         public let kmsMasterKeyId: String?
         /// The name of the new queue.
         public let queueName: String?
@@ -2788,7 +2789,7 @@ extension SecurityHub {
 
     public struct AwsWafWebAclDetails: AWSEncodableShape & AWSDecodableShape {
 
-        /// The action to perform if none of the Rules contained in the WebACL match.
+        /// The action to perform if none of the rules contained in the WebACL match.
         public let defaultAction: String?
         /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
         public let name: String?
@@ -2823,15 +2824,15 @@ extension SecurityHub {
 
     public struct AwsWafWebAclRule: AWSEncodableShape & AWSDecodableShape {
 
-        /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. 
+        /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the rule. 
         public let action: WafAction?
         /// Rules to exclude from a rule group.
         public let excludedRules: [WafExcludedRule]?
         /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction. 
         public let overrideAction: WafOverrideAction?
-        /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values do not need to be consecutive.
+        /// Specifies the order in which the rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a WebACL, the values do not need to be consecutive.
         public let priority: Int?
-        /// The identifier for a Rule.
+        /// The identifier for a rule.
         public let ruleId: String?
         /// The rule type. Valid values: REGULAR | RATE_BASED | GROUP  The default is REGULAR.
         public let `type`: String?
@@ -3092,25 +3093,32 @@ extension SecurityHub {
 
     public struct Compliance: AWSEncodableShape & AWSDecodableShape {
 
-        /// List of requirements that are related to a standards control.
+        /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
         public let relatedRequirements: [String]?
-        /// The result of a standards check.
+        /// The result of a standards check. The valid values for Status are as follows.      PASSED - Standards check passed for all evaluated resources.    WARNING - Some information is missing or this check is not supported for your configuration.    FAILED - Standards check failed for at least one evaluated resource.    NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the AWS Config evaluation was NOT_APPLICABLE. If the AWS Config evaluation result was NOT_APPLICABLE, then after 3 days, Security Hub automatically archives the finding.    
         public let status: ComplianceStatus?
+        /// For findings generated from controls, a list of reasons behind the value of Status. For the list of status reason codes and their meanings, see Standards-related information in the ASFF in the AWS Security Hub User Guide. 
+        public let statusReasons: [StatusReason]?
 
-        public init(relatedRequirements: [String]? = nil, status: ComplianceStatus? = nil) {
+        public init(relatedRequirements: [String]? = nil, status: ComplianceStatus? = nil, statusReasons: [StatusReason]? = nil) {
             self.relatedRequirements = relatedRequirements
             self.status = status
+            self.statusReasons = statusReasons
         }
 
         public func validate(name: String) throws {
             try self.relatedRequirements?.forEach {
                 try validate($0, name: "relatedRequirements[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.statusReasons?.forEach {
+                try $0.validate(name: "\(name).statusReasons[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case relatedRequirements = "RelatedRequirements"
             case status = "Status"
+            case statusReasons = "StatusReasons"
         }
     }
 
@@ -3817,7 +3825,7 @@ extension SecurityHub {
 
         /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
         public let enableDefaultStandards: Bool?
-        /// The tags to add to the Hub resource when you enable Security Hub.
+        /// The tags to add to the hub resource when you enable Security Hub.
         public let tags: [String: String]?
 
         public init(enableDefaultStandards: Bool? = nil, tags: [String: String]? = nil) {
@@ -4921,7 +4929,7 @@ extension SecurityHub {
         public let awsCodeBuildProject: AwsCodeBuildProjectDetails?
         /// Details about an Amazon EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
-        /// Details for an AWS EC2 network interface.
+        /// Details for an Amazon EC2 network interface.
         public let awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails?
         /// Details for an EC2 security group.
         public let awsEc2SecurityGroup: AwsEc2SecurityGroupDetails?
@@ -4939,9 +4947,9 @@ extension SecurityHub {
         public let awsLambdaFunction: AwsLambdaFunctionDetails?
         /// Details for a Lambda layer version.
         public let awsLambdaLayerVersion: AwsLambdaLayerVersionDetails?
-        /// Details for an RDS database instance.
+        /// Details for an Amazon RDS database instance.
         public let awsRdsDbInstance: AwsRdsDbInstanceDetails?
-        /// Details about an Amazon S3 Bucket related to a finding.
+        /// Details about an Amazon S3 bucket related to a finding.
         public let awsS3Bucket: AwsS3BucketDetails?
         /// Details about an Amazon S3 object related to a finding.
         public let awsS3Object: AwsS3ObjectDetails?
@@ -5053,18 +5061,26 @@ extension SecurityHub {
         public let label: SeverityLabel?
         /// Deprecated. This attribute is being deprecated. Instead of providing Normalized, provide Label. If you provide Normalized and do not provide Label, Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL   
         public let normalized: Int?
-        /// The native severity as defined by the AWS service or integrated partner product that generated the finding.
+        /// The native severity from the finding product that generated the finding.
+        public let original: String?
+        /// Deprecated. This attribute is being deprecated. Instead of providing Product, provide Original. The native severity as defined by the AWS service or integrated partner product that generated the finding.
         public let product: Double?
 
-        public init(label: SeverityLabel? = nil, normalized: Int? = nil, product: Double? = nil) {
+        public init(label: SeverityLabel? = nil, normalized: Int? = nil, original: String? = nil, product: Double? = nil) {
             self.label = label
             self.normalized = normalized
+            self.original = original
             self.product = product
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.original, name: "original", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case label = "Label"
             case normalized = "Normalized"
+            case original = "Original"
             case product = "Product"
         }
     }
@@ -5244,6 +5260,29 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case standardsArn = "StandardsArn"
             case standardsInput = "StandardsInput"
+        }
+    }
+
+    public struct StatusReason: AWSEncodableShape & AWSDecodableShape {
+
+        /// The corresponding description for the status reason code.
+        public let description: String?
+        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see Standards-related information in the ASFF in the AWS Security Hub User Guide. 
+        public let reasonCode: String
+
+        public init(description: String? = nil, reasonCode: String) {
+            self.description = description
+            self.reasonCode = reasonCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try validate(self.reasonCode, name: "reasonCode", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case reasonCode = "ReasonCode"
         }
     }
 
@@ -5541,7 +5580,7 @@ extension SecurityHub {
 
     public struct WafAction: AWSEncodableShape & AWSDecodableShape {
 
-        /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW - AWS WAF allows requests    BLOCK - AWS WAF blocks requests    COUNT - AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
+        /// Specifies how you want AWS WAF to respond to requests that match the settings in a rule. Valid settings include the following:    ALLOW - AWS WAF allows requests    BLOCK - AWS WAF blocks requests    COUNT - AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
         public let `type`: String?
 
         public init(type: String? = nil) {

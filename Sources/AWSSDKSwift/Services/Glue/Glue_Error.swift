@@ -29,6 +29,7 @@ public enum GlueErrorType: AWSErrorType {
     case entityNotFoundException(message: String?)
     case glueEncryptionException(message: String?)
     case idempotentParameterMismatchException(message: String?)
+    case illegalWorkflowStateException(message: String?)
     case internalServiceException(message: String?)
     case invalidInputException(message: String?)
     case mLTransformNotReadyException(message: String?)
@@ -71,6 +72,8 @@ extension GlueErrorType {
             self = .glueEncryptionException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
+        case "IllegalWorkflowStateException":
+            self = .illegalWorkflowStateException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
         case "InvalidInputException":
@@ -124,6 +127,8 @@ extension GlueErrorType: CustomStringConvertible {
             return "GlueEncryptionException: \(message ?? "")"
         case .idempotentParameterMismatchException(let message):
             return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .illegalWorkflowStateException(let message):
+            return "IllegalWorkflowStateException: \(message ?? "")"
         case .internalServiceException(let message):
             return "InternalServiceException: \(message ?? "")"
         case .invalidInputException(let message):

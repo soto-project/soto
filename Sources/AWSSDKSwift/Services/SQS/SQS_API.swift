@@ -62,6 +62,7 @@ public struct SQS {
             serviceProtocol: .query,
             apiVersion: "2012-11-05",
             endpoint: endpoint,
+            serviceEndpoints: ["us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com", "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com"],
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             possibleErrorTypes: [SQSErrorType.self],

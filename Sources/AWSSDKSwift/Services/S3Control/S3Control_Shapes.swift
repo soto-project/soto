@@ -74,6 +74,8 @@ extension S3Control {
         case s3putobjectacl = "S3PutObjectAcl"
         case s3putobjecttagging = "S3PutObjectTagging"
         case s3initiaterestoreobject = "S3InitiateRestoreObject"
+        case s3putobjectlegalhold = "S3PutObjectLegalHold"
+        case s3putobjectretention = "S3PutObjectRetention"
         public var description: String { return self.rawValue }
     }
 
@@ -125,6 +127,12 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3ObjectLockRetentionMode: String, CustomStringConvertible, Codable {
+        case compliance = "COMPLIANCE"
+        case governance = "GOVERNANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3Permission: String, CustomStringConvertible, Codable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
@@ -158,9 +166,9 @@ extension S3Control {
         public let bucket: String
         /// The name of this access point.
         public let name: String
-        /// Indicates whether this access point allows access from the public Internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public Internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public Internet, subject to the access point and bucket access policies.
+        /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
         public let networkOrigin: NetworkOrigin
-        /// The Virtual Private Cloud (VPC) configuration for this access point, if one exists.
+        /// The virtual private cloud (VPC) configuration for this access point, if one exists.
         public let vpcConfiguration: VpcConfiguration?
 
         public init(bucket: String, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
@@ -192,7 +200,7 @@ extension S3Control {
         /// The name you want to assign to this access point.
         public let name: String
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified Virtual Private Cloud (VPC).
+        /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).
         public let vpcConfiguration: VpcConfiguration?
 
         public init(accountId: String, bucket: String, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
@@ -205,6 +213,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.bucket, name: "bucket", parent: name, max: 255)
             try validate(self.bucket, name: "bucket", parent: name, min: 3)
             try validate(self.name, name: "name", parent: name, max: 50)
@@ -240,9 +249,9 @@ extension S3Control {
         public let priority: Int
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
-        /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
+        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
-        /// An optional set of tags to associate with the job when it is created.
+        /// A set of tags to associate with the Amazon S3 Batch Operations job. This is an optional parameter. 
         @OptionalCoding<DefaultArrayCoder>
         public var tags: [S3Tag]?
 
@@ -261,6 +270,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try validate(self.description, name: "description", parent: name, max: 256)
@@ -272,6 +282,7 @@ extension S3Control {
             try self.report.validate(name: "\(name).report")
             try validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[^:]+:iam::\\d{12}:role/.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -322,6 +333,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -347,6 +359,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -360,9 +373,9 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to remove tags from.
+        /// The AWS account ID associated with the Amazon S3 Batch Operations job.
         public let accountId: String
-        /// The ID for the job whose tags you want to delete.
+        /// The ID for the Amazon S3 Batch Operations job whose tags you want to delete.
         public let jobId: String
 
         public init(accountId: String, jobId: String) {
@@ -372,8 +385,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.jobId, name: "jobId", parent: name, max: 36)
             try validate(self.jobId, name: "jobId", parent: name, min: 5)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -401,6 +416,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -423,8 +439,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.jobId, name: "jobId", parent: name, max: 36)
             try validate(self.jobId, name: "jobId", parent: name, min: 5)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -462,6 +480,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -501,6 +520,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -540,6 +560,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -555,10 +576,10 @@ extension S3Control {
         public let creationDate: TimeStamp?
         /// The name of the specified access point.
         public let name: String?
-        /// Indicates whether this access point allows access from the public Internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public Internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public Internet, subject to the access point and bucket access policies.
+        /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
         public let networkOrigin: NetworkOrigin?
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        /// Contains the Virtual Private Cloud (VPC) configuration for the specified access point.
+        /// Contains the virtual private cloud (VPC) configuration for the specified access point.
         public let vpcConfiguration: VpcConfiguration?
 
         public init(bucket: String? = nil, creationDate: TimeStamp? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
@@ -586,9 +607,9 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to retrieve tags for.
+        /// The AWS account ID associated with the Amazon S3 Batch Operations job.
         public let accountId: String
-        /// The ID for the job whose tags you want to retrieve.
+        /// The ID for the Amazon S3 Batch Operations job whose tags you want to retrieve.
         public let jobId: String
 
         public init(accountId: String, jobId: String) {
@@ -598,8 +619,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.jobId, name: "jobId", parent: name, max: 36)
             try validate(self.jobId, name: "jobId", parent: name, min: 5)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -607,7 +630,7 @@ extension S3Control {
 
     public struct GetJobTaggingResult: AWSDecodableShape {
 
-        /// The set of tags associated with the job.
+        /// The set of tags associated with the Amazon S3 Batch Operations job.
         @OptionalCoding<DefaultArrayCoder>
         public var tags: [S3Tag]?
 
@@ -653,6 +676,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -683,7 +707,7 @@ extension S3Control {
         public let progressSummary: JobProgressSummary?
         /// Contains the configuration information for the job-completion report if you requested one in the Create Job request.
         public let report: JobReport?
-        /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role assigned to execute the tasks for this job.
+        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role assigned to execute the tasks for this job.
         public let roleArn: String?
         /// The current status of the specified job.
         public let status: JobStatus?
@@ -838,6 +862,7 @@ extension S3Control {
             try validate(self.eTag, name: "eTag", parent: name, min: 1)
             try validate(self.objectArn, name: "objectArn", parent: name, max: 2000)
             try validate(self.objectArn, name: "objectArn", parent: name, min: 1)
+            try validate(self.objectArn, name: "objectArn", parent: name, pattern: "arn:[^:]+:s3:.*")
             try validate(self.objectVersionId, name: "objectVersionId", parent: name, max: 2000)
             try validate(self.objectVersionId, name: "objectVersionId", parent: name, min: 1)
         }
@@ -878,14 +903,18 @@ extension S3Control {
         public let s3PutObjectAcl: S3SetObjectAclOperation?
         /// Directs the specified job to execute a PUT Copy object call on each object in the manifest.
         public let s3PutObjectCopy: S3CopyObjectOperation?
+        public let s3PutObjectLegalHold: S3SetObjectLegalHoldOperation?
+        public let s3PutObjectRetention: S3SetObjectRetentionOperation?
         /// Directs the specified job to execute a PUT Object tagging call on each object in the manifest.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
 
-        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
+        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
             self.s3PutObjectAcl = s3PutObjectAcl
             self.s3PutObjectCopy = s3PutObjectCopy
+            self.s3PutObjectLegalHold = s3PutObjectLegalHold
+            self.s3PutObjectRetention = s3PutObjectRetention
             self.s3PutObjectTagging = s3PutObjectTagging
         }
 
@@ -902,6 +931,8 @@ extension S3Control {
             case s3InitiateRestoreObject = "S3InitiateRestoreObject"
             case s3PutObjectAcl = "S3PutObjectAcl"
             case s3PutObjectCopy = "S3PutObjectCopy"
+            case s3PutObjectLegalHold = "S3PutObjectLegalHold"
+            case s3PutObjectRetention = "S3PutObjectRetention"
             case s3PutObjectTagging = "S3PutObjectTagging"
         }
     }
@@ -949,6 +980,7 @@ extension S3Control {
         public func validate(name: String) throws {
             try validate(self.bucket, name: "bucket", parent: name, max: 128)
             try validate(self.bucket, name: "bucket", parent: name, min: 1)
+            try validate(self.bucket, name: "bucket", parent: name, pattern: "arn:[^:]+:s3:.*")
             try validate(self.prefix, name: "prefix", parent: name, max: 512)
             try validate(self.prefix, name: "prefix", parent: name, min: 1)
         }
@@ -974,6 +1006,7 @@ extension S3Control {
         public func validate(name: String) throws {
             try validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
             try validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try validate(self.functionArn, name: "functionArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1007,6 +1040,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.bucket, name: "bucket", parent: name, max: 255)
             try validate(self.bucket, name: "bucket", parent: name, min: 3)
             try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
@@ -1063,10 +1097,12 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1153,6 +1189,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -1169,11 +1206,11 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to replace tags on.
+        /// The AWS account ID associated with the Amazon S3 Batch Operations job.
         public let accountId: String
-        /// The ID for the job whose tags you want to replace.
+        /// The ID for the Amazon S3 Batch Operations job whose tags you want to replace.
         public let jobId: String
-        /// The set of tags to associate with the job.
+        /// The set of tags to associate with the Amazon S3 Batch Operations job.
         @Coding<DefaultArrayCoder>
         public var tags: [S3Tag]
 
@@ -1185,8 +1222,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.jobId, name: "jobId", parent: name, max: 36)
             try validate(self.jobId, name: "jobId", parent: name, min: 5)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1225,6 +1264,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1286,8 +1326,11 @@ extension S3Control {
         public let newObjectMetadata: S3ObjectMetadata?
         @OptionalCoding<DefaultArrayCoder>
         public var newObjectTagging: [S3Tag]?
+        /// The Legal Hold status to be applied to all objects in the Batch Operations job.
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
+        /// The Retention mode to be applied to all objects in the Batch Operations job.
         public let objectLockMode: S3ObjectLockMode?
+        /// The date when the applied Object Retention configuration will expire on all objects in the Batch Operations job.
         public let objectLockRetainUntilDate: TimeStamp?
         public let redirectLocation: String?
         public let requesterPays: Bool?
@@ -1332,6 +1375,7 @@ extension S3Control {
             try validate(self.targetKeyPrefix, name: "targetKeyPrefix", parent: name, min: 1)
             try validate(self.targetResource, name: "targetResource", parent: name, max: 128)
             try validate(self.targetResource, name: "targetResource", parent: name, min: 1)
+            try validate(self.targetResource, name: "targetResource", parent: name, pattern: "arn:[^:]+:s3:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1417,6 +1461,20 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case expirationInDays = "ExpirationInDays"
             case glacierJobTier = "GlacierJobTier"
+        }
+    }
+
+    public struct S3ObjectLockLegalHold: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Legal Hold status to be applied to all objects in the Batch Operations job.
+        public let status: S3ObjectLockLegalHoldStatus
+
+        public init(status: S3ObjectLockLegalHoldStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -1508,6 +1566,24 @@ extension S3Control {
         }
     }
 
+    public struct S3Retention: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Retention mode to be applied to all objects in the Batch Operations job.
+        public let mode: S3ObjectLockRetentionMode?
+        /// The date when the applied Object Retention will expire on all objects in the Batch Operations job.
+        public let retainUntilDate: TimeStamp?
+
+        public init(mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
+            self.mode = mode
+            self.retainUntilDate = retainUntilDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case retainUntilDate = "RetainUntilDate"
+        }
+    }
+
     public struct S3SetObjectAclOperation: AWSEncodableShape & AWSDecodableShape {
 
         public let accessControlPolicy: S3AccessControlPolicy?
@@ -1522,6 +1598,38 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
+        }
+    }
+
+    public struct S3SetObjectLegalHoldOperation: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Legal Hold contains the status to be applied to all objects in the Batch Operations job.
+        public let legalHold: S3ObjectLockLegalHold
+
+        public init(legalHold: S3ObjectLockLegalHold) {
+            self.legalHold = legalHold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case legalHold = "LegalHold"
+        }
+    }
+
+    public struct S3SetObjectRetentionOperation: AWSEncodableShape & AWSDecodableShape {
+
+        /// Indicates if the operation should be applied to objects in the Batch Operations job even if they have Governance-type Object Lock in place.
+        public let bypassGovernanceRetention: Bool?
+        /// Amazon S3 object lock Retention contains the retention mode to be applied to all objects in the Batch Operations job.
+        public let retention: S3Retention
+
+        public init(bypassGovernanceRetention: Bool? = nil, retention: S3Retention) {
+            self.bypassGovernanceRetention = bypassGovernanceRetention
+            self.retention = retention
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypassGovernanceRetention = "BypassGovernanceRetention"
+            case retention = "Retention"
         }
     }
 
@@ -1558,7 +1666,9 @@ extension S3Control {
         public func validate(name: String) throws {
             try validate(self.key, name: "key", parent: name, max: 1024)
             try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:=+\\-@%]*)$")
             try validate(self.value, name: "value", parent: name, max: 1024)
+            try validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:=+\\-@%]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1588,8 +1698,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.jobId, name: "jobId", parent: name, max: 36)
             try validate(self.jobId, name: "jobId", parent: name, min: 5)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
             try validate(self.priority, name: "priority", parent: name, max: 2147483647)
             try validate(self.priority, name: "priority", parent: name, min: 0)
         }
@@ -1640,8 +1752,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.jobId, name: "jobId", parent: name, max: 36)
             try validate(self.jobId, name: "jobId", parent: name, min: 5)
+            try validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
             try validate(self.statusUpdateReason, name: "statusUpdateReason", parent: name, max: 256)
             try validate(self.statusUpdateReason, name: "statusUpdateReason", parent: name, min: 1)
         }

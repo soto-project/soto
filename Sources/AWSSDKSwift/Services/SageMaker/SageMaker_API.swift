@@ -88,7 +88,7 @@ public struct SageMaker {
         return client.send(operation: "CreateAlgorithm", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a running App for the specified UserProfile. Supported Apps are JupyterServer and KernelGateway. This operation is automatically invoked by Amazon SageMaker Amazon SageMaker Studio (Studio) upon access to the associated Studio Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. Apps will automatically terminate and be deleted when stopped from within Studio, or when the DeleteApp API is manually called. UserProfiles are limited to 5 concurrently running Apps at a time.
+    ///  Creates a running App for the specified UserProfile. Supported Apps are JupyterServer, KernelGateway, and TensorBoard. This operation is automatically invoked by Amazon SageMaker Studio upon access to the associated Studio Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. Apps will automatically terminate and be deleted when stopped from within Studio, or when the DeleteApp API is manually called. UserProfiles are limited to 5 concurrently running Apps at a time.
     public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
         return client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -108,7 +108,7 @@ public struct SageMaker {
         return client.send(operation: "CreateCompilationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a Domain for Amazon SageMaker Amazon SageMaker Studio (Studio), which can be accessed by end-users in a web browser. A Domain has an associated directory, list of authorized users, and a variety of security, application, policies, and Amazon Virtual Private Cloud configurations. An AWS account is limited to one Domain, per region. Users within a domain can share notebook files and other artifacts with each other. When a Domain is created, an Amazon Elastic File System (EFS) is also created for use by all of the users within the Domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. 
+    ///  Creates a Domain for Amazon SageMaker Studio, which can be accessed by end-users in a web browser. A Domain has an associated directory, list of authorized users, and a variety of security, application, policies, and Amazon Virtual Private Cloud configurations. An AWS account is limited to one Domain, per region. Users within a domain can share notebook files and other artifacts with each other. When a Domain is created, an Amazon Elastic File System (EFS) is also created for use by all of the users within the Domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. 
     public func createDomain(_ input: CreateDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
         return client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -173,7 +173,7 @@ public struct SageMaker {
         return client.send(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Amazon SageMaker Studio (Studio), and granted access to all of the Apps and files associated with that Amazon Elastic File System (EFS). This operation can only be called when AuthMode equals IAM. 
+    ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with that Amazon Elastic File System (EFS). This operation can only be called when AuthMode equals IAM. 
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePresignedDomainUrlResponse> {
         return client.send(operation: "CreatePresignedDomainUrl", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -208,7 +208,7 @@ public struct SageMaker {
         return client.send(operation: "CreateTrialComponent", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Creates a new user profile. A user profile represents a single user within a Domain, and is the main way to reference a "person" for the purposes of sharing, reporting and other user-oriented features. This entity is created during on-boarding. If an administrator invites a person by email or imports them from SSO, a new UserProfile is automatically created. This entity is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory. 
+    ///  Creates a user profile. A user profile represents a single user within a Domain, and is the main way to reference a "person" for the purposes of sharing, reporting and other user-oriented features. This entity is created during on-boarding to Amazon SageMaker Studio. If an administrator invites a person by email or imports them from SSO, a UserProfile is automatically created.   This entity is the primary holder of settings for an individual user and, through the domain, has a reference to the user's private Amazon Elastic File System (EFS) home directory. 
     public func createUserProfile(_ input: CreateUserProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserProfileResponse> {
         return client.send(operation: "CreateUserProfile", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
@@ -233,7 +233,7 @@ public struct SageMaker {
         return client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }
 
-    ///  Used to delete a domain. If you on-boarded with IAM mode, you will need to delete your domain to on-board again using SSO. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. 
+    ///  Used to delete a domain. Use with caution. If RetentionPolicy is set to Delete, all of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. 
     @discardableResult public func deleteDomain(_ input: DeleteDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input, on: eventLoop)
     }

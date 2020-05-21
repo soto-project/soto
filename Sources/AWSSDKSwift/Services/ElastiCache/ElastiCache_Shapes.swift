@@ -117,6 +117,9 @@ extension ElastiCache {
         case stopping = "stopping"
         case stopped = "stopped"
         case complete = "complete"
+        case scheduling = "scheduling"
+        case scheduled = "scheduled"
+        case notApplicable = "not-applicable"
         public var description: String { return self.rawValue }
     }
 
@@ -1159,7 +1162,7 @@ extension ElastiCache {
 
         /// Provides details of the Global Datastore
         public let globalReplicationGroupDescription: String?
-        /// The suffix for name of a Global Datastore. The suffix guarantees uniqueness of the Global Datastore name across multiple regions.
+        /// The suffix name of a Global Datastore. The suffix guarantees uniqueness of the Global Datastore name across multiple regions.
         public let globalReplicationGroupIdSuffix: String
         /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
         public let primaryReplicationGroupId: String
@@ -1223,7 +1226,7 @@ extension ElastiCache {
         public let globalReplicationGroupId: String?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
-        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file, you must configure each node group (shard) using this parameter because you must specify the slots for each node group.
+        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
         @OptionalCoding<ArrayCoder<_NodeGroupConfigurationEncoding, NodeGroupConfiguration>>
         public var nodeGroupConfiguration: [NodeGroupConfiguration]?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
@@ -1584,7 +1587,7 @@ extension ElastiCache {
 
         /// The name of the Global Datastore
         public let globalReplicationGroupId: String
-        /// If set to true, the primary replication is retained as a standalone replication group. 
+        /// The primary replication group is retained as a standalone replication group. 
         public let retainPrimaryReplicationGroup: Bool
 
         public init(globalReplicationGroupId: String, retainPrimaryReplicationGroup: Bool) {
@@ -2183,7 +2186,7 @@ extension ElastiCache {
             try validate(self.cacheClusterIds, name: "cacheClusterIds", parent: name, max: 20)
             try validate(self.replicationGroupIds, name: "replicationGroupIds", parent: name, max: 20)
             try validate(self.serviceUpdateStatus, name: "serviceUpdateStatus", parent: name, max: 3)
-            try validate(self.updateActionStatus, name: "updateActionStatus", parent: name, max: 6)
+            try validate(self.updateActionStatus, name: "updateActionStatus", parent: name, max: 9)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2416,7 +2419,7 @@ extension ElastiCache {
         public let cacheNodeType: String?
         /// A flag that indicates whether the Global Datastore is cluster enabled.
         public let clusterEnabled: Bool?
-        /// The Elasticache engine. For preview, it is Redis only.
+        /// The Elasticache engine. For Redis only.
         public let engine: String?
         /// The Elasticache Redis engine version. For preview, it is Redis version 5.0.5 only.
         public let engineVersion: String?
@@ -2806,7 +2809,7 @@ extension ElastiCache {
 
     public struct ModifyGlobalReplicationGroupMessage: AWSEncodableShape {
 
-        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. 
+        /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow. 
         public let applyImmediately: Bool
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. 
         public let automaticFailoverEnabled: Bool?
