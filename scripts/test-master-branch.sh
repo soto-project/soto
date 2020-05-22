@@ -22,18 +22,19 @@ BASEDIR=$HERE/..
 test_repository()
 {
     ADDRESS=$1
+    BRANCH=$2
     REPODIR=$TMPDIR/$(basename $1)
     git clone $ADDRESS $REPODIR
     pushd $REPODIR
-    git checkout aws-sdk-swift-master
+    git checkout $BRANCH
     swift test
     popd
 }
 
 # Test latest code against
-test_repository https://github.com/adam-fowler/s3-filesystem-kit
-test_repository https://github.com/adam-fowler/aws-vapor-test
-test_repository https://github.com/adam-fowler/aws-cognito-authentication-kit
+test_repository https://github.com/adam-fowler/s3-filesystem-kit aws-sdk-swift-master
+test_repository https://github.com/adam-fowler/aws-vapor-test master
+test_repository https://github.com/adam-fowler/aws-cognito-authentication-kit aws-sdk-swift-master
 
 rm -rf $TMPDIR
 
