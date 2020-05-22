@@ -155,6 +155,8 @@ import Vapor
 import HTTP
 import SES
 
+let client = SES(region: .uswest1)
+
 final class MyController {
     struct EmailData: Content {
         let address: String
@@ -164,8 +166,6 @@ final class MyController {
     func sendUserEmailFromJSON(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
         return try req.content.decode(EmailData.self)
             .flatMap { (emailData)->EventLoopFuture<SES.SendEmailResponse> in
-                let client = SES(region: .uswest1)
-
                 let destination = SES.Destination(toAddresses: [emailData.address])
                 let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
                 let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
