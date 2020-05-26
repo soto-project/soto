@@ -13,9 +13,9 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import AWSSDKSwiftCore
+import AWSXML
 import AWSCrypto
-import CNIOExtrasZlib
+import CAWSZlib
 import NIO
 
 //MARK: SelectObjectContent EventStream

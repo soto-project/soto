@@ -530,7 +530,7 @@ class S3Tests: XCTestCase {
         )
 
         // create buffer
-        let dataSize = 1024*1024
+        let dataSize = 257*1024
         var data = Data(count: dataSize)
         for i in 0..<dataSize {
             data[i] = UInt8.random(in:0...255)
