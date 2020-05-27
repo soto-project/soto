@@ -472,7 +472,7 @@ let package = Package(
         .target(name: "AWSWorkMailMessageFlow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkMailMessageFlow"),
         .target(name: "AWSWorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "AWSXRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
-        .target(name: "CAWSZlib"),
+        .target(name: "CAWSZlib", linkerSettings: [.linkedLibrary("z")]),
 
         .testTarget(name: "AWSSDKSwiftTests", dependencies: [
             "AWSACM",
