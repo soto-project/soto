@@ -42,9 +42,6 @@ jobs:
           --workdir /opt/code/localstack/
     container:
       image: swift:${{ matrix.tag }}
-      volumes:
-      - $GITHUB_WORKSPACE:/src
-      options: --workdir /src
       env:
         DYNAMODB_ENDPOINT   : "http://localstack:4569"
         S3_ENDPOINT         : "http://localstack:4572"
