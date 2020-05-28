@@ -19,8 +19,8 @@ here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 function check_all_services_in_package() {
     for folder in $here/../Sources/AWSSDKSwift/Services/*; do
         service=$(basename $folder)
-        if [ -z "$(grep ".target(name: \"AWS$service" $here/../Package.swift)" ]; then
-            echo "$service is not in Package.swift"
+        if [ -z "$(grep ".target(name: \"AWS$service\"" $here/../Package.swift)" ]; then
+            printf "\033[0;31m$service is not in Package.swift\033[0m\n"
             exit -1
         fi
     done
@@ -31,8 +31,9 @@ function replace_acceptable_years() {
     sed -e 's/20[12][78901]-20[12][8901]/YEARS/' -e 's/20[12][8901]/YEARS/' -e '/^#!/ d'
 }
 
-echo "=> Checking services in Package.swift... "
+printf "=> Checking services in Package.swift... "
 check_all_services_in_package
+printf "\033[0;32mokay.\033[0m\n"
 
 printf "=> Checking license headers... "
 tmp=$(mktemp /tmp/.aws-sdk-swift-core-sanity_XXXXXX)
@@ -44,7 +45,7 @@ for language in swift-or-c; do
   matching_files=( -name '*' )
   case "$language" in
       swift-or-c)
-        exceptions=( -path '*.build/*' -o -path '*Sources/INIParser/*' -o -name '*/Package.swift' -o -name 'Package.swift' -o -path '*templates/*' -o -path '*scripts/*')
+        exceptions=( -name 'Package.swift' -o -path '*templates/*' -o -path '*scripts/*')
         matching_files=( -name '*.swift' -o -name '*.c' -o -name '*.h' )
         cat > "$tmp" <<"EOF"
 //===----------------------------------------------------------------------===//
@@ -85,18 +86,20 @@ EOF
       ;;
   esac
 
-  expected_lines=$(cat "$tmp" | wc -l)
+  lines_to_compare=$(cat "$tmp" | wc -l | tr -d " ")
+  # need to read one more line as we remove the '#!' line
+  lines_to_read=$(expr "$lines_to_compare" + 1)
   expected_sha=$(cat "$tmp" | shasum)
 
   (
     cd "$here/.."
     find . \
-      \( \! -path './.build/*' -a \
+      \( \! -path '*/.build/*' -a \
       \( "${matching_files[@]}" \) -a \
       \( \! \( "${exceptions[@]}" \) \) \) | while read line; do
-      if [[ "$(cat "$line" | replace_acceptable_years | head -n $expected_lines | shasum)" != "$expected_sha" ]]; then
+      if [[ "$(head -n $lines_to_read "$line" | replace_acceptable_years | head -n $lines_to_compare | shasum)" != "$expected_sha" ]]; then
         printf "\033[0;31mmissing headers in file '$line'!\033[0m\n"
-        diff -u <(cat "$line" | replace_acceptable_years | head -n $expected_lines) "$tmp"
+        diff -u <(cat "$line" | head -n $lines_to_read | replace_acceptable_years | head -n $lines_to_compare) "$tmp"
         exit 1
       fi
     done
