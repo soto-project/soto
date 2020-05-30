@@ -30,7 +30,36 @@ extension API {
             ReplacePatch3(keyPath1: \.shapes["HttpVersion"], keyPath2: \.type.enum, keyPath3: \.cases[1], value: "HTTP2", originalValue: "http2"),
         ],
         "CloudTrail": [
-            ReplacePatch2(keyPath1: \.shapes["Date"], keyPath2: \.type, value: .timestamp(.unixTimestamp), originalValue: .timestamp(.iso8601))
+            AddPatch(keyPath: \.shapes, key: "_UnixDate", value: Shape(type: .timestamp(.unixTimestamp), name: "_UnixDate") ),
+            ReplacePatch4(
+                keyPath1: \.shapes["LookupEventsRequest"],
+                keyPath2: \.type.structure,
+                keyPath3: \.members["EndTime"],
+                keyPath4: \.shapeName,
+                value: "_UnixDate",
+                originalValue: "Date"),
+            ReplacePatch4(
+                keyPath1: \.shapes["LookupEventsRequest"],
+                keyPath2: \.type.structure,
+                keyPath3: \.members["StartTime"],
+                keyPath4: \.shapeName,
+                value: "_UnixDate",
+                originalValue: "Date"),
+            ReplacePatch4(
+                keyPath1: \.shapes["ListPublicKeysRequest"],
+                keyPath2: \.type.structure,
+                keyPath3: \.members["EndTime"],
+                keyPath4: \.shapeName,
+                value: "_UnixDate",
+                originalValue: "Date"),
+            ReplacePatch4(
+                keyPath1: \.shapes["ListPublicKeysRequest"],
+                keyPath2: \.type.structure,
+                keyPath3: \.members["StartTime"],
+                keyPath4: \.shapeName,
+                value: "_UnixDate",
+                originalValue: "Date"),
+            //ReplacePatch2(keyPath1: \.shapes["Date"], keyPath2: \.type, value: .timestamp(.unixTimestamp), originalValue: .timestamp(.iso8601))
         ],
         "CloudWatch": [
             // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
@@ -147,6 +176,25 @@ extension API {
         }
     }
 
+    struct ReplacePatch4<T: Patchable, U: Patchable, V: Patchable, W: Equatable>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: KeyPath<T, U?>
+        let keyPath3: KeyPath<U, V?>
+        let keyPath4: WritableKeyPath<V, W>
+        let value: W
+        let originalValue: W
+
+        func apply(to api: inout API) throws {
+            guard let object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard let object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
+            guard var object3 = object2[keyPath: keyPath3] else { throw APIPatchError.doesNotExist }
+            guard object3[keyPath: keyPath4] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(object3[keyPath: keyPath4])")
+            }
+            object3[keyPath: keyPath4] = value
+        }
+    }
+
     struct RemovePatch2<T: Patchable, U: Equatable>: Patch {
         let keyPath1: KeyPath<API, T?>
         let keyPath2: WritableKeyPath<T, [U]>
@@ -170,6 +218,16 @@ extension API {
             guard var object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
             guard let index = object2[keyPath: keyPath3].firstIndex(of: value) else { throw APIPatchError.doesNotExist }
             object2[keyPath: keyPath3].remove(at: index)
+        }
+    }
+
+    struct AddPatch<T>: Patch {
+        let keyPath: WritableKeyPath<API, [String: T]>
+        let key: String
+        let value: T
+
+        func apply(to api: inout API) throws {
+            api[keyPath: keyPath][key] = value
         }
     }
 

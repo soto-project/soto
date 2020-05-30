@@ -238,7 +238,7 @@ class Shape: Decodable, Patchable {
         case statusCode
     }
 
-    struct Member: Decodable {
+    class Member: Decodable, Patchable {
         var location: Location?
         var locationName: String?
         var shapeName: String
@@ -281,8 +281,8 @@ class Shape: Decodable, Patchable {
 
             func setupShapes(api: API) throws {
                 // setup member shape
-                var updatedMembers: [String: Member] = try members.mapValues {
-                    var member = $0
+                let updatedMembers: [String: Member] = try members.mapValues {
+                    let member = $0
                     member.shape = try api.getShape(named: member.shapeName)
                     // pass xmlNamespace from member to shape
                     if let xmlNamespace = member.xmlNamespace {
