@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import AWSSDKSwiftCore
+import Foundation
 import NIO
 import XCTest
 
@@ -28,5 +29,27 @@ func attempt(function: () throws -> Void) {
         XCTFail("\(error)")
     } catch {
         XCTFail("\(error)")
+    }
+}
+
+func endpoint(environment: String, default: String) -> String? {
+    guard ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" else { return nil }
+    return ProcessInfo.processInfo.environment[environment] ?? `default`
+}
+
+extension EventLoopFuture {
+    // When EventLoopFuture has any result the callback is called with the Result. The callback returns an EventLoopFuture<>
+    // which should be completed before result is passed on
+    func flatAlways<NewValue>(file: StaticString = #file, line: UInt = #line, _ callback: @escaping (Result<Value, Error>) -> EventLoopFuture<NewValue>) -> EventLoopFuture<NewValue> {
+        let next = eventLoop.makePromise(of: NewValue.self)
+        self.whenComplete { result in
+            switch result {
+            case .success(_):
+                callback(result).cascade(to: next)
+            case .failure(let error):
+                _ = callback(result).always { _ in next.fail(error) }
+            }
+        }
+        return next.futureResult
     }
 }
