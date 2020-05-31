@@ -32,18 +32,9 @@ func attempt(function: () throws -> Void) {
     }
 }
 
-func endpoint(environment: String, default: String) -> String? {
-    guard ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" else { return nil }
-    return ProcessInfo.processInfo.environment[environment] ?? `default`
-}
-
-func middlewares() -> [AWSServiceMiddleware] {
-    return (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
-}
-
 extension EventLoopFuture {
-    // When EventLoopFuture has any result the callback is called with the Result. The callback returns an EventLoopFuture<>
-    // which should be completed before result is passed on
+    /// When EventLoopFuture has any result the callback is called with the Result. The callback returns an EventLoopFuture<>
+    /// which should be completed before result is passed on
     func flatAlways<NewValue>(file: StaticString = #file, line: UInt = #line, _ callback: @escaping (Result<Value, Error>) -> EventLoopFuture<NewValue>) -> EventLoopFuture<NewValue> {
         let next = eventLoop.makePromise(of: NewValue.self)
         self.whenComplete { result in
@@ -55,5 +46,27 @@ extension EventLoopFuture {
             }
         }
         return next.futureResult
+    }
+}
+
+/// Provide various test environment variables
+struct TestEnvironment {
+    /// are we using Localstack to test
+    static var isUsingLocalstack: Bool { return ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" }
+    
+    /// current list of middleware
+    static var middlewares: [AWSServiceMiddleware] {
+        return (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+    }
+    
+    /// return endpoint
+    static func getEndPoint(environment: String, default: String) -> String? {
+        guard isUsingLocalstack == true else { return nil }
+        return ProcessInfo.processInfo.environment[environment] ?? `default`
+    }
+    
+    /// get name to use for AWS resource
+    static func getName(_ function: String) -> String {
+        return "awssdkswift-" + function.filter { $0.isLetter }
     }
 }

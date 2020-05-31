@@ -22,8 +22,8 @@ import XCTest
 class IAMTests: XCTestCase {
 
     let iam = IAM(
-        endpoint: endpoint(environment: "IAM_ENDPOINT", default: "http://localhost:4593"),
-        middlewares: middlewares(),
+        endpoint: TestEnvironment.getEndPoint(environment: "IAM_ENDPOINT", default: "http://localhost:4593"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
@@ -52,7 +52,7 @@ class IAMTests: XCTestCase {
     //MARK: TESTS
 
     func testCreateDeleteUser() {
-        let username = #function.filter { $0.isLetter }
+        let username = TestEnvironment.getName(#function)
         let response = createUser(userName: username)
             .flatMap { _ in self.deleteUser(userName: username) }
         XCTAssertNoThrow(try response.wait())
@@ -76,7 +76,7 @@ class IAMTests: XCTestCase {
                 ]
             }
             """
-        let username = #function.filter { $0.isLetter }
+        let username = TestEnvironment.getName(#function)
         let response = createUser(userName: username)
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
                 let request = IAM.GetUserRequest(userName: username)

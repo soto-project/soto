@@ -27,18 +27,26 @@ class APIGatewayTests: XCTestCase {
 
     let apiGateway = APIGateway(
         region: .useast1,
-        endpoint: endpoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4567"),
-        middlewares: middlewares(),
+        endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4567"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
-    func createRestApi(name: String) -> EventLoopFuture<APIGateway.RestApi> {
-        let request = APIGateway.CreateRestApiRequest(
-            description: "\(name) API",
-            endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
-            name: name
-        )
-        return apiGateway.createRestApi(request)
+    func createRestApi(name: String, on eventLoop: EventLoop) -> EventLoopFuture<APIGateway.RestApi> {
+        let request = APIGateway.GetRestApisRequest()
+        return self.apiGateway.getRestApis(request)
+            .flatMap { response in
+                if let restApi = response.items?.first(where: { $0.name == name }) {
+                    return eventLoop.makeSucceededFuture(restApi)
+                } else {
+                    let request = APIGateway.CreateRestApiRequest(
+                        description: "\(name) API",
+                        endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
+                        name: name
+                    )
+                    return self.apiGateway.createRestApi(request)
+                }
+        }
     }
 
     func deleteRestApi(id: String) -> EventLoopFuture<Void> {
@@ -51,7 +59,7 @@ class APIGatewayTests: XCTestCase {
         let eventLoop = self.apiGateway.client.eventLoopGroup.next()
         var apiId : String? = nil
         
-        return createRestApi(name: name)
+        return createRestApi(name: name, on: eventLoop)
             .flatMapThrowing { response in
                 apiId = try XCTUnwrap(response.id)
                 return apiId!
@@ -69,7 +77,7 @@ class APIGatewayTests: XCTestCase {
     //MARK: TESTS
 
     func testGetRestApis() {
-        let name = #function.filter { $0.isLetter }
+        let name = TestEnvironment.getName(#function)
         let response = testRestApi(name: name) { id in
             let request = APIGateway.GetRestApisRequest()
             return self.apiGateway.getRestApis(request)
@@ -83,7 +91,7 @@ class APIGatewayTests: XCTestCase {
     }
 
     func testGetRestApi() {
-        let name = #function.filter { $0.isLetter }
+        let name = TestEnvironment.getName(#function)
         let response = testRestApi(name: name) { id in
             let request = APIGateway.GetRestApiRequest(restApiId: id)
             return self.apiGateway.getRestApi(request)
@@ -95,7 +103,7 @@ class APIGatewayTests: XCTestCase {
     }
 
     func testCreateGetResource() {
-        let name = #function.filter { $0.isLetter }
+        let name = TestEnvironment.getName(#function)
         let response = testRestApi(name: name) { id in
             // get parent resource
             let request = APIGateway.GetResourcesRequest(restApiId: id)
@@ -108,7 +116,7 @@ class APIGatewayTests: XCTestCase {
             }
             // create new resource
             .flatMap { parentId -> EventLoopFuture<APIGateway.Resource> in
-                let request = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test&*8345", restApiId: id)
+                let request = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test", restApiId: id)
                 return self.apiGateway.createResource(request)
             }
             // extract resource id
