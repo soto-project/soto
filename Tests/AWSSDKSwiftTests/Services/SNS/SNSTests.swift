@@ -57,7 +57,7 @@ class SNSTests: XCTestCase {
     //MARK: TESTS
 
     func testCreateDelete() {
-        let name = TestEnvironment.getName(#function)
+        let name = TestEnvironment.generateResourceName()
         let response = testTopic(name: name) { topicArn in
             return self.sns.client.eventLoopGroup.next().makeSucceededFuture(())
         }
@@ -65,7 +65,7 @@ class SNSTests: XCTestCase {
     }
 
     func testListTopics() {
-        let name = TestEnvironment.getName(#function)
+        let name = TestEnvironment.generateResourceName()
         let response = testTopic(name: name) { topicArn in
             let request = SNS.ListTopicsInput()
             return self.sns.listTopics(request)
@@ -80,7 +80,7 @@ class SNSTests: XCTestCase {
     // disabled until we get valid topic arn's returned from Localstack
     func testSetTopicAttributes() {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let name = TestEnvironment.getName(#function)
+        let name = TestEnvironment.generateResourceName()
         let response = testTopic(name: name) { topicArn in
             let request = SNS.SetTopicAttributesInput(
                 attributeName: "DisplayName",

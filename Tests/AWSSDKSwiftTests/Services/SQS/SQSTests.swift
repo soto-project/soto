@@ -25,27 +25,25 @@ enum SQSTestsError: Error {
 
 class SQSTests: XCTestCase {
 
-    let client = SQS(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
+    let sqs = SQS(
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["SQS_ENDPOINT"] ?? "http://localhost:4576",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        endpoint: TestEnvironment.getEndPoint(environment: "SQS_ENDPOINT", default: "http://localhost:4576"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
     class TestData {
-        var client: SQS
+        var sqs: SQS
         var queueName: String
         var queueUrl: String
 
-        init(_ testName: String, client: SQS) throws {
+        init(_ testName: String, sqs: SQS) throws {
             let testName = testName.lowercased().filter { return $0.isLetter }
-            self.client = client
+            self.sqs = sqs
             self.queueName = "\(testName)-queue"
 
             let request = SQS.CreateQueueRequest(queueName: self.queueName)
-            let response = try client.createQueue(request).wait()
+            let response = try sqs.createQueue(request).wait()
             XCTAssertNotNil(response.queueUrl)
             guard let queueUrl = response.queueUrl else { throw SQSTestsError.noQueueUrl }
 
@@ -55,93 +53,94 @@ class SQSTests: XCTestCase {
         deinit {
             attempt {
                 let request = SQS.DeleteQueueRequest(queueUrl: self.queueUrl)
-                try client.deleteQueue(request).wait()
+                try sqs.deleteQueue(request).wait()
             }
         }
     }
 
+    /// create SQS queue with supplied name and run supplied closure
+    func testQueue(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
+        let eventLoop = self.sqs.client.eventLoopGroup.next()
+        var queueUrl : String? = nil
+        
+        let request = SQS.CreateQueueRequest(queueName: name)
+        return sqs.createQueue(request)
+            .flatMapThrowing { response in
+                queueUrl = try XCTUnwrap(response.queueUrl)
+                return queueUrl!
+        }
+        .flatMap(body)
+        .flatAlways { (_) -> EventLoopFuture<Void> in
+            if let queueUrl = queueUrl {
+                let request = SQS.DeleteQueueRequest(queueUrl: queueUrl)
+                return self.sqs.deleteQueue(request)
+            } else {
+                return eventLoop.makeSucceededFuture(())
+            }
+        }
+    }
+    
+    func testSendReceiveAndDelete(name: String, messageBody: String) -> EventLoopFuture<Void> {
+        return testQueue(name: name) { queueUrl in
+            let request = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: queueUrl)
+            return self.sqs.sendMessage(request)
+                .flatMapThrowing { (response) throws -> String in
+                    let messageId = try XCTUnwrap(response.messageId)
+                    return messageId
+            }
+            .flatMap { messageId -> EventLoopFuture<(SQS.ReceiveMessageResult, String)> in
+                let request = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: queueUrl)
+                return self.sqs.receiveMessage(request).map { ($0, messageId )}
+            }
+            .flatMapThrowing { (result, messageId) -> String in
+                let message = try XCTUnwrap(result.messages?.first)
+                XCTAssertEqual(message.messageId, messageId)
+                XCTAssertEqual(message.body, messageBody)
+                let receiptHandle = try XCTUnwrap(message.receiptHandle)
+                return receiptHandle
+            }
+            .flatMap { receiptHandle -> EventLoopFuture<Void> in
+                let request = SQS.DeleteMessageRequest(queueUrl: queueUrl, receiptHandle: receiptHandle)
+                return self.sqs.deleteMessage(request).map {_ in }
+            }
+        }
+    }
+    
     //MARK: TESTS
 
     func testSendReceiveAndDelete() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let messageBody = "Testing, testing,1,2,1,2"
-            let sendMessageRequest = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: testData.queueUrl)
-            let messageId = try client.sendMessage(sendMessageRequest).wait().messageId
-
-            // receive message tests the flattened arrays in XML response
-            let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
-            let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
-
-            guard let message = messages.first else {
-                XCTFail("Expected to get first message")
-                return
-            }
-            XCTAssertEqual(message.messageId, messageId)
-            guard let body = message.body else {
-                XCTFail("Expected to have message body")
-                return
-            }
-            XCTAssertEqual(body, messageBody)
-            guard let receiptHandle = message.receiptHandle else {
-                XCTFail("Expected to have message receiptHandle")
-                return
-            }
-            let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
-            try client.deleteMessage(deleteRequest).wait()
-        }
+        let name = TestEnvironment.generateResourceName()
+        let response = testSendReceiveAndDelete(name: name, messageBody: "Testing, testing,1,2,1,2")
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testGetQueueAttributes() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let request = SQS.GetQueueAttributesRequest(attributeNames: [.queuearn], queueUrl: testData.queueUrl)
-            let result = try client.getQueueAttributes(request).wait()
-            XCTAssertNotNil(result.attributes?[.queuearn])
+        let name = TestEnvironment.generateResourceName()
+        let response = testQueue(name: name) { queueUrl in
+            let request = SQS.GetQueueAttributesRequest(attributeNames: [.queuearn], queueUrl: queueUrl)
+            return self.sqs.getQueueAttributes(request)
+                .map { response in
+                    XCTAssertNotNil(response.attributes?[.queuearn])
+            }
         }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testTestPercentEncodedCharacters() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let messageBody = "!@#$%^&*()-=_+[]{};':\",.<>\\|`~éñà"
-            let sendMessageRequest = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: testData.queueUrl)
-            let messageId = try client.sendMessage(sendMessageRequest).wait().messageId
-
-            let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
-            let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
-
-            guard let message = messages.first else {
-                XCTFail("Expected to get first message")
-                return
-            }
-            XCTAssertEqual(message.messageId, messageId)
-            guard let body = message.body else {
-                XCTFail("Expected to have message body")
-                return
-            }
-            XCTAssertEqual(body, messageBody)
-            guard let receiptHandle = message.receiptHandle else {
-                XCTFail("Expected to have message receiptHandle")
-                return
-            }
-            let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
-            try client.deleteMessage(deleteRequest).wait()
-        }
+        let name = TestEnvironment.generateResourceName()
+        let response = testSendReceiveAndDelete(name: name, messageBody: "!@#$%^&*()-=_+[]{};':\",.<>\\|`~éñà")
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testSendBatch() {
         // tests decoding of empty xml arrays
-        attempt {
-            let testData = try TestData(#function, client: client)
-
+        let name = TestEnvironment.generateResourceName()
+        let response = testQueue(name: name) { queueUrl in
             let messageBody = "Testing, testing,1,2,1,2"
-            let sendMessageBatchRequest = SQS.SendMessageBatchRequest(entries: [.init(id:"msg1", messageBody: messageBody)], queueUrl: testData.queueUrl)
-            _ = try client.sendMessageBatch(sendMessageBatchRequest).wait()
+            let request = SQS.SendMessageBatchRequest(entries: [.init(id:"msg1", messageBody: messageBody)], queueUrl: queueUrl)
+            return self.sqs.sendMessageBatch(request).map { _ in }
         }
+        XCTAssertNoThrow(try response.wait())
     }
 
 

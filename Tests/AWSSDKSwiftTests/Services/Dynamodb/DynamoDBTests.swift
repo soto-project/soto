@@ -76,7 +76,7 @@ class DynamoDBTests: XCTestCase {
     //MARK: TESTS
 
     func testCreateDeleteTable() {
-        let tableName = TestEnvironment.getName(#function)
+        let tableName = TestEnvironment.generateResourceName()
         let response = createTable(name: tableName, hashKey: "ID")
             .flatAlways { _ in
                 return self.deleteTable(name: tableName)
@@ -85,7 +85,7 @@ class DynamoDBTests: XCTestCase {
     }
     
     func testGetObject() {
-        let tableName = TestEnvironment.getName(#function)
+        let tableName = TestEnvironment.generateResourceName()
         let response = createTable(name: tableName, hashKey: "ID")
             .flatMap { _ in
                 return self.putItem(tableName: tableName, values: ["ID": "first", "First name": "John", "Surname": "Smith"])
@@ -105,7 +105,7 @@ class DynamoDBTests: XCTestCase {
     }
     
     func testDataItem() {
-        let tableName = TestEnvironment.getName(#function)
+        let tableName = TestEnvironment.generateResourceName()
         let data = Data("testdata".utf8)
         let response = createTable(name: tableName, hashKey: "ID")
             .flatMap { _ in
@@ -125,7 +125,7 @@ class DynamoDBTests: XCTestCase {
     }
     
     func testNumberSetItem() {
-        let tableName = TestEnvironment.getName(#function)
+        let tableName = TestEnvironment.generateResourceName()
         let response = createTable(name: tableName, hashKey: "ID")
             .flatMap { _ in
                 return self.putItem(tableName: tableName, values: ["ID": "1", "numbers": [2,4.001,-6,8]])

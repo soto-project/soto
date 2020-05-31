@@ -77,7 +77,7 @@ class APIGatewayTests: XCTestCase {
     //MARK: TESTS
 
     func testGetRestApis() {
-        let name = TestEnvironment.getName(#function)
+        let name = TestEnvironment.generateResourceName()
         let response = testRestApi(name: name) { id in
             let request = APIGateway.GetRestApisRequest()
             return self.apiGateway.getRestApis(request)
@@ -91,7 +91,7 @@ class APIGatewayTests: XCTestCase {
     }
 
     func testGetRestApi() {
-        let name = TestEnvironment.getName(#function)
+        let name = TestEnvironment.generateResourceName()
         let response = testRestApi(name: name) { id in
             let request = APIGateway.GetRestApiRequest(restApiId: id)
             return self.apiGateway.getRestApi(request)
@@ -103,7 +103,7 @@ class APIGatewayTests: XCTestCase {
     }
 
     func testCreateGetResource() {
-        let name = TestEnvironment.getName(#function)
+        let name = TestEnvironment.generateResourceName()
         let response = testRestApi(name: name) { id in
             // get parent resource
             let request = APIGateway.GetResourcesRequest(restApiId: id)

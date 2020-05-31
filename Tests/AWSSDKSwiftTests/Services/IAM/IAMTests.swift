@@ -52,7 +52,7 @@ class IAMTests: XCTestCase {
     //MARK: TESTS
 
     func testCreateDeleteUser() {
-        let username = TestEnvironment.getName(#function)
+        let username = TestEnvironment.generateResourceName()
         let response = createUser(userName: username)
             .flatMap { _ in self.deleteUser(userName: username) }
         XCTAssertNoThrow(try response.wait())
@@ -76,7 +76,7 @@ class IAMTests: XCTestCase {
                 ]
             }
             """
-        let username = TestEnvironment.getName(#function)
+        let username = TestEnvironment.generateResourceName()
         let response = createUser(userName: username)
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
                 let request = IAM.GetUserRequest(userName: username)
