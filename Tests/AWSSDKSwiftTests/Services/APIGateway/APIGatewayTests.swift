@@ -99,25 +99,25 @@ class APIGatewayTests: XCTestCase {
         let response = testRestApi(name: name) { id in
             // get parent resource
             let request = APIGateway.GetResourcesRequest(restApiId: id)
-            return self.apiGateway.getResources(request).map { (id, $0) }
-                .flatMapThrowing { (id: String, response: APIGateway.Resources) throws -> (String, String) in
+            return self.apiGateway.getResources(request)
+                .flatMapThrowing { response throws -> String in
                     let items = try XCTUnwrap(response.items)
                     XCTAssertEqual(items.count, 1)
                     let parentId = try XCTUnwrap(items[0].id)
-                    return (id, parentId)
+                    return parentId
             }
             // create new resource
-            .flatMap { (id: String, parentId: String) -> EventLoopFuture<(String, APIGateway.Resource)> in
+            .flatMap { parentId -> EventLoopFuture<APIGateway.Resource> in
                 let request = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test&*8345", restApiId: id)
-                return self.apiGateway.createResource(request).map { return (id, $0) }
+                return self.apiGateway.createResource(request)
             }
             // extract resource id
-            .flatMapThrowing { (id, response) in
+            .flatMapThrowing { (response) throws -> String in
                 let resourceId = try XCTUnwrap(response.id)
-                return (id, resourceId)
+                return resourceId
             }
             // get resource
-            .flatMap { (id: String, resourceId: String) -> EventLoopFuture<APIGateway.Resource> in
+            .flatMap { resourceId -> EventLoopFuture<APIGateway.Resource> in
                 let request = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: id)
                 return self.apiGateway.getResource(request)
             }
