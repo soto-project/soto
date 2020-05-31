@@ -32,32 +32,6 @@ class SQSTests: XCTestCase {
         httpClientProvider: .createNew
     )
 
-    class TestData {
-        var sqs: SQS
-        var queueName: String
-        var queueUrl: String
-
-        init(_ testName: String, sqs: SQS) throws {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.sqs = sqs
-            self.queueName = "\(testName)-queue"
-
-            let request = SQS.CreateQueueRequest(queueName: self.queueName)
-            let response = try sqs.createQueue(request).wait()
-            XCTAssertNotNil(response.queueUrl)
-            guard let queueUrl = response.queueUrl else { throw SQSTestsError.noQueueUrl }
-
-            self.queueUrl = queueUrl
-        }
-
-        deinit {
-            attempt {
-                let request = SQS.DeleteQueueRequest(queueUrl: self.queueUrl)
-                try sqs.deleteQueue(request).wait()
-            }
-        }
-    }
-
     /// create SQS queue with supplied name and run supplied closure
     func testQueue(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
         let eventLoop = self.sqs.client.eventLoopGroup.next()
