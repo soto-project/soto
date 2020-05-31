@@ -37,6 +37,10 @@ func endpoint(environment: String, default: String) -> String? {
     return ProcessInfo.processInfo.environment[environment] ?? `default`
 }
 
+func middlewares() -> [AWSServiceMiddleware] {
+    return (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+}
+
 extension EventLoopFuture {
     // When EventLoopFuture has any result the callback is called with the Result. The callback returns an EventLoopFuture<>
     // which should be completed before result is passed on

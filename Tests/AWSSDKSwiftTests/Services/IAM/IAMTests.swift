@@ -23,7 +23,7 @@ class IAMTests: XCTestCase {
 
     let iam = IAM(
         endpoint: endpoint(environment: "IAM_ENDPOINT", default: "http://localhost:4593"),
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        middlewares: middlewares(),
         httpClientProvider: .createNew
     )
 
