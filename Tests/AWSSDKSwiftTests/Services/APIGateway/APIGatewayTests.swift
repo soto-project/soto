@@ -25,85 +25,114 @@ enum APIGatewayTestsError: Error {
 
 class APIGatewayTests: XCTestCase {
 
-    let client = APIGateway(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
+    let apiGateway = APIGateway(
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["APIGATEWAY_ENDPOINT"] ?? "http://localhost:4567",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        endpoint: endpoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4567"),
+        middlewares: middlewares(),
         httpClientProvider: .createNew
     )
 
-    class TestData {
-        let client: APIGateway
-        let apiName: String
-        let apiId: String
+    func createRestApi(name: String) -> EventLoopFuture<APIGateway.RestApi> {
+        let request = APIGateway.CreateRestApiRequest(
+            description: "\(name) API",
+            endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
+            name: name
+        )
+        return apiGateway.createRestApi(request)
+    }
 
-        init(_ testName: String, client: APIGateway) throws {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.client = client
-            self.apiName = "\(testName)-api"
+    func deleteRestApi(id: String) -> EventLoopFuture<Void> {
+        let request = APIGateway.DeleteRestApiRequest(restApiId: id)
+        return apiGateway.deleteRestApi(request).map {}
+    }
 
-            let request = APIGateway.CreateRestApiRequest(
-                binaryMediaTypes: ["jpeg"],
-                description: "Test API",
-                endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
-                name: self.apiName
-            )
-            let response = try client.createRestApi(request).wait()
-            guard let apiId = response.id else { throw APIGatewayTestsError.noRestApi }
-            self.apiId = apiId
+    /// create Rest api with supplied name and run supplied closure with rest api id
+    func testRestApi(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
+        let eventLoop = self.apiGateway.client.eventLoopGroup.next()
+        var apiId : String? = nil
+        
+        return createRestApi(name: name)
+            .flatMapThrowing { response in
+                apiId = try XCTUnwrap(response.id)
+                return apiId!
         }
-
-        deinit {
-            attempt {
-                let request = APIGateway.DeleteRestApiRequest(restApiId: self.apiId)
-                _ = try client.deleteRestApi(request).wait()
+        .flatMap(body)
+        .flatAlways { (_) -> EventLoopFuture<Void> in
+            if let apiId = apiId {
+                return self.deleteRestApi(id: apiId).map {}
+            } else {
+                return eventLoop.makeSucceededFuture(())
             }
         }
     }
-
+    
     //MARK: TESTS
 
     func testGetRestApis() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let getRequest = APIGateway.GetRestApisRequest()
-            let getResponse = try client.getRestApis(getRequest).wait()
-            let restApi = getResponse.items?.first { $0.id == testData.apiId }
-
-            XCTAssertNotNil(restApi)
+        let name = #function.filter { $0.isLetter }
+        let response = testRestApi(name: name) { id in
+            let request = APIGateway.GetRestApisRequest()
+            return self.apiGateway.getRestApis(request)
+                .map { response in
+                    let restApi = response.items?.first(where: { $0.id == id })
+                    XCTAssertNotNil(restApi)
+                    XCTAssertEqual(restApi?.name, name)
+            }
         }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testGetRestApi() {
+        let name = #function.filter { $0.isLetter }
+        let response = testRestApi(name: name) { id in
+            let request = APIGateway.GetRestApiRequest(restApiId: id)
+            return self.apiGateway.getRestApi(request)
+                .map { response in
+                    XCTAssertEqual(response.name, name)
+            }
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testCreateGetResource() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let getRequest = APIGateway.GetResourcesRequest(restApiId: testData.apiId)
-            let getResponse = try client.getResources(getRequest).wait()
-
-            XCTAssertEqual(getResponse.items?.count, 1)
-            XCTAssertNotNil(getResponse.items?[0].id)
-            guard let id = getResponse.items?[0].id else { return }
-
-            let request = APIGateway.CreateResourceRequest(parentId: id, pathPart: "test", restApiId: testData.apiId)
-            let response = try client.createResource(request).wait()
-
-            XCTAssertNotNil(response.id)
-            guard let resourceId = response.id else { return }
-
-            let getResourceRequest = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: testData.apiId)
-            let getResourceResponse = try client.getResource(getResourceRequest).wait()
-
-            XCTAssertEqual(getResourceResponse.pathPart, "test")
+        let name = #function.filter { $0.isLetter }
+        let response = testRestApi(name: name) { id in
+            // get parent resource
+            let request = APIGateway.GetResourcesRequest(restApiId: id)
+            return self.apiGateway.getResources(request).map { (id, $0) }
+                .flatMapThrowing { (id: String, response: APIGateway.Resources) throws -> (String, String) in
+                    let items = try XCTUnwrap(response.items)
+                    XCTAssertEqual(items.count, 1)
+                    let parentId = try XCTUnwrap(items[0].id)
+                    return (id, parentId)
+            }
+            // create new resource
+            .flatMap { (id: String, parentId: String) -> EventLoopFuture<(String, APIGateway.Resource)> in
+                let request = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test&*8345", restApiId: id)
+                return self.apiGateway.createResource(request).map { return (id, $0) }
+            }
+            // extract resource id
+            .flatMapThrowing { (id, response) in
+                let resourceId = try XCTUnwrap(response.id)
+                return (id, resourceId)
+            }
+            // get resource
+            .flatMap { (id: String, resourceId: String) -> EventLoopFuture<APIGateway.Resource> in
+                let request = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: id)
+                return self.apiGateway.getResource(request)
+            }
+            // verify resource is correct
+            .map { response in
+                XCTAssertEqual(response.pathPart, "test")
+            }
         }
+        XCTAssertNoThrow(try response.wait())
     }
 
     static var allTests: [(String, (APIGatewayTests) -> () throws -> Void)] {
         return [
             ("testGetRestApis", testGetRestApis),
+            ("testGetRestApi", testGetRestApi),
             ("testCreateGetResource", testCreateGetResource),
         ]
     }
