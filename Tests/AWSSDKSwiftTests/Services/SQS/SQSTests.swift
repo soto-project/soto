@@ -32,6 +32,14 @@ class SQSTests: XCTestCase {
         httpClientProvider: .createNew
     )
 
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+    }
+
     /// create SQS queue with supplied name and run supplied closure
     func testQueue(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
         let eventLoop = self.sqs.client.eventLoopGroup.next()

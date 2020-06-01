@@ -27,6 +27,14 @@ class IAMTests: XCTestCase {
         httpClientProvider: .createNew
     )
 
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+    }
+
     func createUser(userName: String) -> EventLoopFuture<Void> {
         let request = IAM.CreateUserRequest(userName: userName)
         return iam.createUser(request)

@@ -33,8 +33,15 @@ class APIGatewayTests: XCTestCase {
     )
     static let restApiName: String = "awssdkswift-APIGatewayTests"
     static var restApiId: String!
-    
+
     override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+        /// If we create a rest api for each test, when we delete them APIGateway will throttle and we will most likely not delete the all APIs
+        /// So we create one API to be used by all tests
         let eventLoop = self.apiGateway.client.eventLoopGroup.next()
         let createResult = createRestApi(name: restApiName, on: eventLoop)
             .flatMapThrowing { response in

@@ -26,11 +26,21 @@ enum SNSTestsError: Error {
 class SNSTests: XCTestCase {
 
     let sns = SNS(
+        accessKeyId: TestEnvironment.accessKeyId,
+        secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4575"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
+
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+    }
 
     /// create SNS topic with supplied name and run supplied closure
     func testTopic(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {

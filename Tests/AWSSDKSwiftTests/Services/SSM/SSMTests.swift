@@ -32,6 +32,14 @@ class SSMTests: XCTestCase {
         httpClientProvider: .createNew
     )
 
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+    }
+
     func putParameter(name: String, value: String) -> EventLoopFuture<Void> {
         let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
         return ssm.putParameter(request).map { _ in }

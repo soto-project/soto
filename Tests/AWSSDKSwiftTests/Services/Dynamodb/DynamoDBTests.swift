@@ -23,11 +23,21 @@ import XCTest
 class DynamoDBTests: XCTestCase {
 
     var dynamoDB = DynamoDB(
+        accessKeyId: TestEnvironment.accessKeyId,
+        secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4569"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
+
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+    }
 
     func createTable(name: String, hashKey: String) -> EventLoopFuture<Void> {
         let input = DynamoDB.CreateTableInput(

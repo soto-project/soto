@@ -29,6 +29,8 @@ enum S3TestErrors: Error {
 class S3Tests: XCTestCase {
 
     var s3 = S3(
+        accessKeyId: TestEnvironment.accessKeyId,
+        secretAccessKey: TestEnvironment.secretAccessKey,
         region: .euwest1,
         endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4572"),
         middlewares: TestEnvironment.middlewares,
@@ -274,6 +276,8 @@ class S3Tests: XCTestCase {
             XCTAssertNoThrow(try httpClient.syncShutdown())
         }
         let s3 = S3(
+            accessKeyId: TestEnvironment.accessKeyId,
+            secretAccessKey: TestEnvironment.secretAccessKey,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4572"),
             middlewares: TestEnvironment.middlewares,

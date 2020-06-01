@@ -38,7 +38,13 @@ extension EventLoopFuture {
 struct TestEnvironment {
     /// are we using Localstack to test
     static var isUsingLocalstack: Bool { return ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" }
-    
+
+    /// access key id. Some services on Localstack require some semblence of an authorisation header, even though it doesnt test if it is valid
+    static var accessKeyId: String? { return isUsingLocalstack ? "foo" : nil }
+
+    /// secret access key. Some services on Localstack require some semblence of an authorisation header, even though it doesnt test if it is valid
+    static var secretAccessKey: String? { return isUsingLocalstack ? "bar" : nil }
+
     /// current list of middleware
     static var middlewares: [AWSServiceMiddleware] {
         return (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
@@ -54,4 +60,5 @@ struct TestEnvironment {
     static func generateResourceName(_ function: String = #function) -> String {
         return "awssdkswift-" + function.filter { $0.isLetter }
     }
+    
 }
