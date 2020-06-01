@@ -15,6 +15,7 @@
 import Foundation
 import AsyncHTTPClient
 import NIO
+import NIOHTTP1
 import XCTest
 
 @testable import AWSS3
@@ -27,31 +28,29 @@ enum S3TestErrors: Error {
 
 class S3Tests: XCTestCase {
 
-    var client = S3(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
+    var s3 = S3(
         region: .euwest1,
-        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4572"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
     class TestData {
-        let client: S3
+        let s3: S3
         let bucket: String
         let bodyData: Data
         let key: String
 
-        init(_ testName: String, client: S3) throws {
+        init(_ testName: String, s3: S3) throws {
             let testName = testName.lowercased().filter { return $0.isLetter }
-            self.client = client
+            self.s3 = s3
             self.bucket = "\(testName)-bucket"
             self.bodyData = "\(testName) hello world".data(using: .utf8)!
             self.key = "\(testName)-key.txt"
 
             do {
                 let bucketRequest = S3.CreateBucketRequest(bucket: self.bucket)
-                _ = try client.createBucket(bucketRequest).wait()
+                _ = try s3.createBucket(bucketRequest).wait()
             } catch S3ErrorType.bucketAlreadyOwnedByYou(_) {
                 print("Bucket (\(self.bucket)) already owned by you")
             } catch S3ErrorType.bucketAlreadyExists(_) {
@@ -61,206 +60,242 @@ class S3Tests: XCTestCase {
 
         deinit {
             attempt {
-                let objects = try client.listObjects(S3.ListObjectsRequest(bucket: self.bucket)).wait()
+                let objects = try s3.listObjects(S3.ListObjectsRequest(bucket: self.bucket)).wait()
                 if let objects = objects.contents {
                     for object in objects {
                         if let key = object.key {
                             let deleteRequest = S3.DeleteObjectRequest(bucket: self.bucket, key: key)
-                            _ = try client.deleteObject(deleteRequest).wait()
+                            _ = try s3.deleteObject(deleteRequest).wait()
                         }
                     }
                 }
                 let deleteRequest = S3.DeleteBucketRequest(bucket: self.bucket)
-                _ = try client.deleteBucket(deleteRequest).wait()
+                _ = try s3.deleteBucket(deleteRequest).wait()
             }
         }
     }
 
-    //MARK: TESTS
-
-    func testPutObject() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let putRequest = S3.PutObjectRequest(
-                acl: .publicRead,
-                body: .data(testData.bodyData),
-                bucket: testData.bucket,
-                contentLength: Int64(testData.bodyData.count),
-                key: testData.key
-            )
-
-            let output = try client.putObject(putRequest).wait()
-            XCTAssertNotNil(output.eTag)
+    func createRandomBuffer(size: Int) -> Data {
+        // create buffer
+        var data = Data(count: size)
+        for i in 0..<size {
+            data[i] = UInt8.random(in: 0...255)
+        }
+        return data
+    }
+    
+    func createBucket(name: String) -> EventLoopFuture<Void> {
+        let bucketRequest = S3.CreateBucketRequest(bucket: name)
+        return s3.createBucket(bucketRequest)
+            .map { _ in }
+            .flatMapErrorThrowing { error in
+                switch error {
+                case S3ErrorType.bucketAlreadyOwnedByYou(_):
+                    return
+                case S3ErrorType.bucketAlreadyExists(_):
+                    // local stack returns bucketAlreadyExists instead of bucketAlreadyOwnedByYou
+                    if !TestEnvironment.isUsingLocalstack {
+                        throw error
+                    }
+                default:
+                    throw error
+                }
         }
     }
-
-    func testGetObject() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let putRequest = S3.PutObjectRequest(
-                acl: .publicRead,
-                body: .data(testData.bodyData),
-                bucket: testData.bucket,
-                contentLength: Int64(testData.bodyData.count),
-                key: testData.key
-            )
-
-            _ = try client.putObject(putRequest).wait()
-            let object = try client.getObject(S3.GetObjectRequest(bucket: testData.bucket, key: testData.key)).wait()
-            XCTAssertEqual(object.body?.asData(), testData.bodyData)
+    
+    func deleteBucket(name: String) -> EventLoopFuture<Void> {
+        let request = S3.ListObjectsV2Request(bucket: name)
+        return s3.listObjectsV2(request)
+            .flatMap { response -> EventLoopFuture<Void> in
+                let eventLoop = self.s3.client.eventLoopGroup.next()
+                guard let objects = response.contents else { return eventLoop.makeSucceededFuture(())}
+                let deleteFutureResults = objects.compactMap { $0.key.map { self.s3.deleteObject(.init(bucket: name, key: $0)) } }
+                return EventLoopFuture.andAllSucceed(deleteFutureResults, on: eventLoop)
         }
+        .flatMap { _ in
+            let request = S3.DeleteBucketRequest(bucket: name)
+            return self.s3.deleteBucket(request).map { _ in }
+        }
+    }
+    
+    //MARK: TESTS
+
+    func testPutGetObject() {
+        let name = TestEnvironment.generateResourceName()
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = createBucket(name: name)
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    acl: .publicRead,
+                    body: .string(contents),
+                    bucket: name,
+                    contentLength: Int64(contents.utf8.count),
+                    key: name
+                )
+                return self.s3.putObject(putRequest)
+        }
+        .map { response -> Void in
+            XCTAssertNotNil(response.eTag)
+        }
+        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+            return self.s3.getObject(.init(bucket: name, key: name))
+        }
+        .map { response -> Void in
+            XCTAssertEqual(response.body?.asString(), contents)
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testMultiPartDownload() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            // create buffer
-            let dataSize = 10 * 1024 * 1024
-            var data = Data(count: dataSize)
-            for i in 0..<dataSize {
-                data[i] = UInt8.random(in: 0...255)
-            }
-            let putRequest = S3.PutObjectRequest(
-                acl: .publicRead,
-                body: .data(data),
-                bucket: testData.bucket,
-                contentLength: Int64(testData.bodyData.count),
-                key: testData.key
-            )
-            _ = try client.putObject(putRequest).wait()
-
-            let filename = testData.key
-            let size = try client.multipartDownload(
-                S3.GetObjectRequest(bucket: testData.bucket, key: testData.key),
-                partSize: 1024*1024,
-                filename: filename
-            ) { progress in
-                print("Progress \(progress*100)%")
-            }.wait()
-            XCTAssert(size == Int64(data.count))
+        let data = createRandomBuffer(size: 10 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartDownloadTest"
+        let response = createBucket(name: name)
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
+                return self.s3.putObject(putRequest)
+        }
+        .flatMap { _ -> EventLoopFuture<Int64> in
+            let request = S3.GetObjectRequest(bucket: name, key: filename)
+            return self.s3.multipartDownload(request, partSize: 1024*1024, filename: filename) { print("Progress \($0*100)%")}
+        }
+        .flatMapThrowing { size in
+            XCTAssertEqual(size, Int64(data.count))
             XCTAssert(FileManager.default.fileExists(atPath: filename))
             try FileManager.default.removeItem(atPath: filename)
         }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testMultiPartDownloadFailure() {
-        attempt {
-            do {
-                let testData = try TestData(#function, client: client)
-
-                let filename = testData.key
-                _ = try client.multipartDownload(
-                    S3.GetObjectRequest(bucket: testData.bucket, key: testData.key),
-                    partSize: 5,
-                    filename: filename
-                ).wait()
-                XCTFail("testMultiPartDownloadFailure: should have failed")
-            } catch is AWSError {
-            } catch {
-                XCTFail("testMultiPartDownloadFailure: Unexpected error")
+        let name = TestEnvironment.generateResourceName()
+        let response = createBucket(name: name)
+            .flatMap { _ -> EventLoopFuture<Int64> in
+                let request = S3.GetObjectRequest(bucket: name, key: name)
+                return self.s3.multipartDownload(request, partSize: 1024*1024, filename: name) { print("Progress \($0*100)%")}
+        }
+        .map { _ in
+            XCTFail("testMultiPartDownloadFailure: should have failed")
+        }
+        .flatMapErrorThrowing { error in
+            switch error {
+            case let error as AWSError:
+                XCTAssertEqual(error.statusCode, .notFound)
+                return
+            default:
+                XCTFail("Unexpected error: \(error)")
             }
         }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testMultiPartUpload() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
-                acl: .publicRead,
-                bucket: testData.bucket,
-                key: testData.key
-            )
-
-            // create buffer
-            let dataSize = 16 * 1024 * 1024
-            var data = Data(count: dataSize)
-            for i in 0..<dataSize {
-                data[i] = UInt8.random(in: 0...255)
-            }
-
-            let filename = testData.key
-            try data.write(to: URL(fileURLWithPath: filename))
-
-            _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: filename) { progress in
-                print("Progress \(progress*100)%")
-            }.wait()
-            let object = try client.getObject(S3.GetObjectRequest(bucket: testData.bucket, key: filename)).wait()
-
-            XCTAssertEqual(object.body?.asData(), data)
-            try FileManager.default.removeItem(atPath: filename)
+        let data = createRandomBuffer(size: 10 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartUploadTest"
+        
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
         }
+
+        let response = createBucket(name: name)
+            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                let request = S3.CreateMultipartUploadRequest(
+                    bucket: name,
+                    key: name
+                )
+                return self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0*100)%") }
+        }
+        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+            return self.s3.getObject(.init(bucket: name, key: name))
+        }
+        .map { response -> Void in
+            XCTAssertEqual(response.body?.asData(), data)
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testMultiPartUploadFailure() {
-        attempt {
-            let testData = try TestData(#function, client: client)
+        let data = createRandomBuffer(size: 10 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartUploadTestFail"
+        
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
 
-            // create buffer
-            let dataSize = 16
-            var data = Data(count: dataSize)
-            for i in 0..<dataSize {
-                data[i] = UInt8.random(in: 0...255)
-            }
+        // file doesn't exist test
+        let response = createBucket(name: name)
+            .flatMap { _ -> EventLoopFuture<Void> in
+                let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+                return self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: "doesntexist").map { _ in }
+        }
+        .map { _ in
+            XCTFail("testMultiPartDownloadFailure: should have failed")
+        }
+        .flatMapErrorThrowing { error -> Void in
+            return
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
 
-            let filename = testData.key
-            try data.write(to: URL(fileURLWithPath: filename))
-
-            // file doesn't exist
-            do {
-                let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
-                    acl: .publicRead,
-                    bucket: testData.bucket,
-                    key: testData.key
-                )
-                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: "doesntexist").wait()
-                XCTFail("testMultiPartUploadFailure: should have failed")
-            } catch {
-                // expected case
-                print(error)
-            }
-
-            // bucket doesn't exist
-            do {
-                let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
-                    acl: .publicRead,
-                    bucket: testData.bucket + "doesntexist",
-                    key: testData.key
-                )
-                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5 * 1024 * 1024, filename: filename).wait()
-                XCTFail("testMultiPartUploadFailure: should have failed")
-            } catch S3ErrorType.noSuchBucket(_) {
-                // expected case
-            } catch {
-                XCTFail("testMultiPartUploadFailure: Unexpected error")
+        // bucket doesn't exist
+        let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+        let response2 =  s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename)
+            .map { _ in
+                XCTFail("testMultiPartDownloadFailure: should have failed")
+        }
+        .flatMapErrorThrowing { error -> Void in
+            switch error {
+            case S3ErrorType.noSuchBucket(_):
+                return
+            default:
+                XCTFail("Unexpected error: \(error)")
             }
         }
+        XCTAssertNoThrow(try response2.wait())
     }
 
     /// test uploaded objects are returned in ListObjects
     func testListObjects() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let putRequest = S3.PutObjectRequest(
-                acl: .publicRead,
-                body: .data(testData.bodyData),
-                bucket: testData.bucket,
-                contentLength: Int64(testData.bodyData.count),
-                key: testData.key
-            )
-
-            let putResult = try client.putObject(putRequest).wait()
-
-            let output = try client.listObjects(S3.ListObjectsRequest(bucket: testData.bucket)).wait()
-
-            XCTAssertEqual(output.contents?.first?.key, testData.key)
-            XCTAssertEqual(output.contents?.first?.size, Int64(testData.bodyData.count))
-            XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
+        let name = TestEnvironment.generateResourceName()
+        let contents = "testing S3.ListObjectsV2"
+        let response = createBucket(name: name)
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: name)
+                return self.s3.putObject(putRequest)
         }
+        .flatMapThrowing { response -> String in
+            return try XCTUnwrap(response.eTag)
+        }
+        .flatMap { eTag -> EventLoopFuture<(S3.ListObjectsV2Output, String)> in
+            return self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag)}
+        }
+        .map { (response, eTag) -> Void in
+            XCTAssertEqual(response.contents?.first?.key, name)
+            XCTAssertEqual(response.contents?.first?.size, Int64(contents.utf8.count))
+            XCTAssertEqual(response.contents?.first?.eTag, eTag)
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testStreamPutObject() {
@@ -277,7 +312,7 @@ class S3Tests: XCTestCase {
         )
 
         attempt {
-            let testData = try TestData(#function, client: s3)
+            let testData = try TestData(#function, s3: s3)
             // create buffer
             let dataSize = 240*1024
             var data = Data(count: dataSize)
@@ -309,19 +344,24 @@ class S3Tests: XCTestCase {
 
     /// test bucket location is correctly returned.
     func testGetBucketLocation() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let request = S3.GetBucketLocationRequest(bucket: testData.bucket)
-            let response = try client.getBucketLocation(request).wait()
-            XCTAssertNotNil(response.locationConstraint)
+        let name = TestEnvironment.generateResourceName()
+        let response = createBucket(name: name)
+            .flatMap { _ in
+                return self.s3.getBucketLocation(.init(bucket: name))
         }
+        .map { response in
+            XCTAssertEqual(response.locationConstraint, .euWest1)
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     /// test lifecycle rules are uploaded and downloaded ok
     func testLifecycleRule() {
         attempt {
-            let testData = try TestData(#function, client: client)
+            let testData = try TestData(#function, s3: s3)
 
             // set lifecycle rules
             let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7)  // clear incomplete multipart uploads after 7 days
@@ -338,11 +378,11 @@ class S3Tests: XCTestCase {
                 bucket: testData.bucket,
                 lifecycleConfiguration: S3.BucketLifecycleConfiguration(rules: [lifecycleRules])
             )
-            try client.putBucketLifecycleConfiguration(putBucketLifecycleRequest).wait()
+            try s3.putBucketLifecycleConfiguration(putBucketLifecycleRequest).wait()
 
             // get lifecycle rules
             let getBucketLifecycleRequest = S3.GetBucketLifecycleConfigurationRequest(bucket: testData.bucket)
-            let getBucketLifecycleResult = try client.getBucketLifecycleConfiguration(getBucketLifecycleRequest).wait()
+            let getBucketLifecycleResult = try s3.getBucketLifecycleConfiguration(getBucketLifecycleRequest).wait()
 
             XCTAssertEqual(getBucketLifecycleResult.rules?[0].transitions?[0].storageClass, .glacier)
             XCTAssertEqual(getBucketLifecycleResult.rules?[0].transitions?[0].days, 14)
@@ -353,7 +393,7 @@ class S3Tests: XCTestCase {
     /// test metadata is uploaded and downloaded ok
     func testMetaData() {
         attempt {
-            let testData = try TestData(#function, client: client)
+            let testData = try TestData(#function, s3: s3)
 
             let putObjectRequest = S3.PutObjectRequest(
                 body: .data(testData.bodyData),
@@ -361,10 +401,10 @@ class S3Tests: XCTestCase {
                 key: testData.key,
                 metadata: ["Test": "testing", "first": "one"]
             )
-            _ = try client.putObject(putObjectRequest).wait()
+            _ = try s3.putObject(putObjectRequest).wait()
 
             let getObjectRequest = S3.GetObjectRequest(bucket: testData.bucket, key: testData.key)
-            let result = try client.getObject(getObjectRequest).wait()
+            let result = try s3.getObject(getObjectRequest).wait()
             XCTAssertEqual(result.metadata?["test"], "testing")
             XCTAssertEqual(result.metadata?["first"], "one")
         }
@@ -372,7 +412,7 @@ class S3Tests: XCTestCase {
 
     func testMultipleUpload() {
         attempt {
-            let testData = try TestData(#function, client: client)
+            let testData = try TestData(#function, s3: s3)
 
             // uploads 100 files at the same time and then downloads them to check they uploaded correctly
             var responses: [EventLoopFuture<Void>] = []
@@ -381,10 +421,10 @@ class S3Tests: XCTestCase {
                 let text = "Testing, testing,1,2,1,\(i)"
 
                 let request = S3.PutObjectRequest(body: .string(text), bucket: testData.bucket, key: objectName)
-                let response = client.putObject(request)
+                let response = s3.putObject(request)
                     .flatMap { (response) -> EventLoopFuture<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
-                        return self.client.getObject(request)
+                        return self.s3.getObject(request)
                     }
                     .flatMapThrowing { response in
                         guard let body = response.body else { throw S3TestErrors.error("Get \(objectName) failed") }
@@ -394,7 +434,7 @@ class S3Tests: XCTestCase {
                 responses.append(response)
             }
 
-            let results = try EventLoopFuture.whenAllComplete(responses, on: client.client.eventLoopGroup.next()).wait()
+            let results = try EventLoopFuture.whenAllComplete(responses, on: s3.client.eventLoopGroup.next()).wait()
 
             for r in results {
                 if case .failure(let error) = r {
@@ -406,22 +446,22 @@ class S3Tests: XCTestCase {
 
     func testGetAclRequestPayer() {
         attempt {
-            let testData = try TestData(#function, client: client)
+            let testData = try TestData(#function, s3: s3)
             let putRequest = S3.PutObjectRequest(
                 body: .data(testData.bodyData),
                 bucket: testData.bucket,
                 contentLength: Int64(testData.bodyData.count),
                 key: testData.key
             )
-            _ = try client.putObject(putRequest).wait()
+            _ = try s3.putObject(putRequest).wait()
             let request = S3.GetObjectAclRequest(bucket: testData.bucket, key: testData.key, requestPayer: .requester)
-            _ = try client.getObjectAcl(request).wait()
+            _ = try s3.getObjectAcl(request).wait()
         }
     }
 
     func testListPaginator() {
         attempt {
-            let testData = try TestData(#function, client: client)
+            let testData = try TestData(#function, s3: s3)
 
             // uploads 16 files
             var responses: [EventLoopFuture<Void>] = []
@@ -430,20 +470,20 @@ class S3Tests: XCTestCase {
                 let text = "Testing, testing,1,2,1,\(i)"
 
                 let request = S3.PutObjectRequest(body: .string(text), bucket: testData.bucket, key: objectName)
-                let response = client.putObject(request).map { _ in }
+                let response = s3.putObject(request).map { _ in }
                 responses.append(response)
             }
-            _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
+            _ = try EventLoopFuture.whenAllSucceed(responses, on: s3.client.eventLoopGroup.next()).wait()
 
             let request = S3.ListObjectsV2Request(bucket: testData.bucket, maxKeys: 5)
             var list: [S3.Object] = []
-            try client.listObjectsV2Paginator(request) { result, eventLoop in
+            try s3.listObjectsV2Paginator(request) { result, eventLoop in
                 list.append(contentsOf: result.contents ?? [])
                 return eventLoop.makeSucceededFuture(true)
             }.wait()
 
             let request2 = S3.ListObjectsV2Request(bucket: testData.bucket)
-            let response = try client.listObjectsV2(request2).wait()
+            let response = try s3.listObjectsV2(request2).wait()
             XCTAssertEqual(list.count, 16)
             for i in 0..<list.count {
                 XCTAssertEqual(list[i].key, response.contents?[i].key)
@@ -456,12 +496,12 @@ class S3Tests: XCTestCase {
         let request = try AWSRequest(
             region: .useast1,
             url: url,
-            serviceProtocol: client.client.serviceProtocol,
+            serviceProtocol: s3.client.serviceProtocol,
             operation: "TestOperation",
             httpMethod: "GET",
             httpHeaders: [:],
             body: .empty
-        ).applyMiddlewares(client.client.serviceConfig.middlewares)
+        ).applyMiddlewares(s3.client.serviceConfig.middlewares)
         return request.url.relativeString
     }
 
@@ -489,9 +529,8 @@ class S3Tests: XCTestCase {
 
     static var allTests: [(String, (S3Tests) -> () throws -> Void)] {
         return [
-            ("testPutObject", testPutObject),
+            ("testPutGetObject", testPutGetObject),
             ("testListObjects", testListObjects),
-            ("testGetObject", testGetObject),
             ("testMultiPartDownload", testMultiPartDownload),
             ("testMultiPartUpload", testMultiPartUpload),
             ("testStreamPutObject", testStreamPutObject),
