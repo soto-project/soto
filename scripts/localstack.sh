@@ -17,7 +17,7 @@ get_container_id()
 start()
 {
     if [ -z "$CONTAINER_ID" ]; then
-        docker run -d -p 4567-4597:4567-4597 -e SERVICES='apigateway,dynamodb,iam,s3,sns,sqs,ssm' localstack/localstack
+        docker run -d -p 4567-4597:4567-4597 -e SERVICES='apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts' localstack/localstack
     else
         echo "Localstack is already running"
     fi

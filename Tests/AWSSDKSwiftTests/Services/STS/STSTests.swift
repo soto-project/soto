@@ -19,7 +19,7 @@ import XCTest
 
 class STSTests: XCTestCase {
 
-    let sqs = STS(
+    let sts = STS(
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4592"),
         middlewares: TestEnvironment.middlewares,
@@ -34,11 +34,31 @@ class STSTests: XCTestCase {
         }
     }
 
+    func testGetCallerIdentity() {
+        let response = sts.getCallerIdentity(.init())
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testErrorCodes() {
+        let request = STS.AssumeRoleWithWebIdentityRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now", webIdentityToken: "webtoken")
+        let response = sts.assumeRoleWithWebIdentity(request)
+            .map { _ in }
+            .flatMapErrorThrowing { error in
+                switch error {
+                case STSErrorType.invalidIdentityTokenException(_):
+                    return
+                default:
+                    throw error
+                }
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
 
 
-    static var allTests: [(String, (SQSTests) -> () throws -> Void)] {
+    static var allTests: [(String, (STSTests) -> () throws -> Void)] {
         return [
- //           ("testSendReceiveAndDelete", testSendReceiveAndDelete),
+            ("testGetCallerIdentity", testGetCallerIdentity),
+            ("testErrorCodes", testErrorCodes),
         ]
     }
 }

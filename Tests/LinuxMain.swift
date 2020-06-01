@@ -19,9 +19,11 @@ import XCTest
 XCTMain([
     testCase(APIGatewayTests.allTests),
     testCase(AWSRequestTests.allTests),
-    testCase(IAMTests.allTests),
     testCase(DynamoDBTests.allTests),
+    testCase(IAMTests.allTests),
     testCase(S3Tests.allTests),
     testCase(SNSTests.allTests),
     testCase(SQSTests.allTests),
+    testCase(SSMTests.allTests),
+    testCase(STSTests.allTests),
 ])
