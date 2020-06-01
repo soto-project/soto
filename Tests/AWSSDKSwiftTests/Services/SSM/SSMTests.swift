@@ -32,29 +32,6 @@ class SSMTests: XCTestCase {
         httpClientProvider: .createNew
     )
 
-    class TestData {
-        var ssm: SSM
-        var parameterName: String
-        var parameterValue: String
-
-        init(_ testName: String, ssm: SSM) throws {
-            self.ssm = ssm
-            let testName = testName.lowercased().filter { return $0.isLetter || $0.isNumber }
-            self.parameterName = "/awssdkswift/\(testName)"
-            self.parameterValue = "value:\(testName)"
-
-            let request = SSM.PutParameterRequest(name: parameterName, overwrite: true, type: .string, value: parameterValue)
-            _ = try ssm.putParameter(request).wait()
-        }
-
-        deinit {
-            attempt {
-                let request = SSM.DeleteParameterRequest(name: parameterName)
-                _ = try ssm.deleteParameter(request).wait()
-            }
-        }
-    }
-
     func putParameter(name: String, value: String) -> EventLoopFuture<Void> {
         let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
         return ssm.putParameter(request).map { _ in }
