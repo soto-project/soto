@@ -17,21 +17,6 @@ import Foundation
 import NIO
 import XCTest
 
-func attempt(function: () throws -> Void) {
-    do {
-        try function()
-    } catch let error as AWSErrorType {
-        XCTFail("\(error)")
-    } catch DecodingError.typeMismatch(let type, let context) {
-        print(type, context)
-        XCTFail()
-    } catch let error as NIO.ChannelError {
-        XCTFail("\(error)")
-    } catch {
-        XCTFail("\(error)")
-    }
-}
-
 extension EventLoopFuture {
     /// When EventLoopFuture has any result the callback is called with the Result. The callback returns an EventLoopFuture<>
     /// which should be completed before result is passed on

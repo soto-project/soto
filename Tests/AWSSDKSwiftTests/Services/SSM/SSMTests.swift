@@ -45,7 +45,8 @@ class SSMTests: XCTestCase {
     //MARK: TESTS
 
     func testGetParameter() {
-        let name = TestEnvironment.generateResourceName()
+        // parameter names cannot begin wih "aws"
+        let name = "test" + TestEnvironment.generateResourceName()
         let response = putParameter(name: name, value: "testdata")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParameterResult> in
                 let request = SSM.GetParameterRequest(name: name)
@@ -63,10 +64,10 @@ class SSMTests: XCTestCase {
     }
 
     func testGetParametersByPath() {
-        let name = "/awssdkswift/" + TestEnvironment.generateResourceName()
+        let name = "/test/" + TestEnvironment.generateResourceName()
         let response = putParameter(name: name, value: "testdata2")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
-                let request = SSM.GetParametersByPathRequest(path: "/awssdkswift/")
+                let request = SSM.GetParametersByPathRequest(path: "/test/")
                 return self.ssm.getParametersByPath(request)
         }
         .flatMapThrowing { response in

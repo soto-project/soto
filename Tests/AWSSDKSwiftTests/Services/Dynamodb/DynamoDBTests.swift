@@ -51,8 +51,11 @@ class DynamoDBTests: XCTestCase {
             }
         }
         .flatMap { (_) -> EventLoopFuture<Void> in
-            // wait ten seconds for table to be created
             let eventLoop = self.dynamoDB.client.eventLoopGroup.next()
+            if TestEnvironment.isUsingLocalstack {
+                return eventLoop.makeSucceededFuture(())
+            }
+            // wait ten seconds for table to be created. If you don't subsequent commands will fail
             let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return eventLoop.makeSucceededFuture(()) }
             return scheduled.futureResult
         }

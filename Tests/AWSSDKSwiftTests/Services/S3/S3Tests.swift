@@ -490,25 +490,11 @@ class S3Tests: XCTestCase {
     }
 
     func testS3VirtualAddressing() {
-        attempt {
-            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket"), "https://bucket.s3.us-east-1.amazonaws.com/")
-            XCTAssertEqual(
-                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename"),
-                "https://bucket.s3.us-east-1.amazonaws.com/filename"
-            )
-            XCTAssertEqual(
-                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"),
-                "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2"
-            )
-            XCTAssertEqual(
-                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"),
-                "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D"
-            )
-            XCTAssertEqual(
-                try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"),
-                "https://bucket.s3.us-east-1.amazonaws.com/file%20name"
-            )
-        }
+        XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket"), "https://bucket.s3.us-east-1.amazonaws.com/")
+        XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename"), "https://bucket.s3.us-east-1.amazonaws.com/filename")
+        XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
+        XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
+        XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
     }
 
     static var allTests: [(String, (S3Tests) -> () throws -> Void)] {
