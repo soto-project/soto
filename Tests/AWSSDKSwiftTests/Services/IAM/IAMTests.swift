@@ -12,9 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSIAM
 
 //testing query service

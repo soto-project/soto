@@ -21,11 +21,6 @@ import XCTest
 @testable import AWSS3
 @testable import AWSSDKSwiftCore
 
-// testing S3 service
-enum S3TestErrors: Error {
-    case error(String)
-}
-
 class S3Tests: XCTestCase {
 
     var s3 = S3(

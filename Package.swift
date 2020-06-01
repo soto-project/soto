@@ -486,7 +486,8 @@ let package = Package(
             "AWSSES",
             "AWSSNS",
             "AWSSQS",
-            "AWSSSM"
+            "AWSSSM",
+            "AWSSTS"
         ])
     ]
 )

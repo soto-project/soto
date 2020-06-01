@@ -12,14 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSSQS
-
-enum SQSTestsError: Error {
-    case noQueueUrl
-}
 
 // testing query service
 

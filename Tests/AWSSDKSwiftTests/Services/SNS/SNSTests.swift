@@ -12,14 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSSNS
-
-enum SNSTestsError: Error {
-    case noTopicArn
-}
 
 // testing query service
 

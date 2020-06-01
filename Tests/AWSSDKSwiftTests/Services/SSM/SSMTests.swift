@@ -12,14 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSSSM
-
-enum SSMTestsError: Error {
-    case noTopicArn
-}
 
 // testing json service
 

@@ -12,9 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSAPIGateway
 
 enum APIGatewayTestsError: Error {
@@ -141,11 +139,26 @@ class APIGatewayTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testError() {
+        let response = Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"))
+            .map { _ in }
+            .flatMapErrorThrowing { error in
+                switch error {
+                case APIGatewayErrorType.notFoundException(_):
+                    return
+                default:
+                    throw error
+                }
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     static var allTests: [(String, (APIGatewayTests) -> () throws -> Void)] {
         return [
             ("testGetRestApis", testGetRestApis),
             ("testGetRestApi", testGetRestApi),
             ("testCreateGetResource", testCreateGetResource),
+            ("testError", testError),
         ]
     }
 }
