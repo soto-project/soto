@@ -107,7 +107,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         case .buffer(_), .empty:
             var metadata : [String: String] = [:]
             for (key, value) in response.headers {
-                if key.hasPrefix("x-amz-meta-"), let value = value as? String {
+                if key.lowercased().hasPrefix("x-amz-meta-"), let value = value as? String {
                     let keyWithoutPrefix = key.dropFirst("x-amz-meta-".count)
                     metadata[String(keyWithoutPrefix)] = value
                 }
