@@ -110,6 +110,4 @@ AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
 TARGET_MODELS=models
 copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"
 
-build_files
-
 commit_changes "$AWS_MODELS_VERSION"
