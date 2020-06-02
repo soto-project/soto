@@ -1,34 +1,34 @@
-#!/bin/sh
+#!/bin/bash
 
 #######################################################
 #
 # usage bash publish-module.sh /path/to/swift-aws "sync with aws-sdk-swift@1.0.2" 1.0.2
 #  $1: path for aws partial modules are stored
 #  $2: commit comment
-#  $3: tag for release
+#  $3: tag for release (if not included will not make a release)
 #
 #######################################################
 
 set -eux
 
-if [ -z "$1" ]; then
+SOURCE_PATH="${1:-}"
+COMMENT="${2:-}"
+TAG="${3:-}"
+
+if [ -z "${SOURCE_PATH}" ]; then
     echo "You should pass the source path for aws partial modules are stored as \$1"
     exit 1
 fi
 
-if [ -z "$2" ]; then
+if [ -z "${COMMENT}" ]; then
     echo "You should pass the commit comment as \$2"
     exit 1
 fi
 
-if [ -z "$3" ]; then
-    echo "You should pass the tag(version) for this release as \$3"
-    exit 1
+if [ -z "${TAG}" ]; then
+    echo "No release tag set so will not create release."
 fi
 
-SOURCE_PATH=$1
-COMMENT=$2
-TAG=$3
 for D in $(find $SOURCE_PATH -depth 1 -type d); do
     BASENAME=$(basename $D)
     pushd $D
@@ -42,8 +42,8 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
         git remote set-url origin "https://github.com/swift-aws/$BASENAME.git"
     fi
 
-    GIT_STATUS_R=$(git status)
-    if [[ $GIT_STATUS_R != *"nothing to commit"* ]]; then
+    GIT_STATUS_R=$(git status --porcelain)
+    if [[ -z $GIT_STATUS_R ]]; then
         # need to add commit to create master to reset later
         git add .
         git commit -m "dummy commit"
@@ -54,14 +54,15 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     git reset origin/master
 
     echo "Enter in $D"
-    swift package update
 
-    GIT_STATUS_R=$(git status)
-    if [[ $GIT_STATUS_R == *"nothing to commit"* ]]; then
+    GIT_STATUS_R=$(git status --porcelain)
+    if [[ -z $GIT_STATUS_R ]]; then
         echo "Nothing to commit. switch to the next module...."
         echo ""
-        git tag $TAG
-        git push origin $TAG
+        if [ -n "${TAG}" ]; then
+            git tag $TAG
+            git push origin $TAG
+        fi
         popd
         continue
     fi
@@ -74,7 +75,9 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     git add .
     git commit -am "$COMMENT"
     git push origin master
-    git tag $TAG
-    git push origin $TAG
+    if [ -n "${TAG}" ]; then
+        git tag $TAG
+        git push origin $TAG
+    fi
     popd
 done

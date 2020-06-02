@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - "*"
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: SPM build
+      run: swift build
+
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tag: ['swift:5.1', 'swift:5.2']
+    container:
+      image: ${{ matrix.tag }}
+    steps:
+    - name: Install dependencies
+      run: |
+        apt-get update -qq
+        apt-get install -q -y tzdata zlib1g-dev
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Build
+      run: swift build

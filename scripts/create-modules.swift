@@ -25,6 +25,7 @@ class GenerateProcess {
 
         // create folders
         let serviceTargetFolder = try targetFolder.createSubfolder(at: serviceName)
+        let workflowsTargetFolder = try serviceTargetFolder.createSubfolder(at: ".github/workflows")
         let sourceTargetFolder = try serviceTargetFolder.createSubfolder(at: "Sources")
         // delete folder if it already exists
         if let folder = try? sourceTargetFolder.subfolder(at: serviceName) {
@@ -53,9 +54,12 @@ class GenerateProcess {
         let templatesFolder = try Folder(path: "./scripts/templates/create-modules")
         let licenseFile = try templatesFolder.file(named: "LICENSE")
         try licenseFile.copy(to: serviceTargetFolder)
-        // copy license
+        // gitIgnore
         let gitIgnore = try templatesFolder.file(named: ".gitignore")
         try gitIgnore.copy(to: serviceTargetFolder)
+        // copy ci.yml
+        let ciYml = try templatesFolder.file(named: "ci.yml")
+        try ciYml.copy(to: workflowsTargetFolder)
     }
 
     func run() throws {
