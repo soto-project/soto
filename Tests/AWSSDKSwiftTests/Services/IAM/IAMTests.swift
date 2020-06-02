@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import NIO
 import XCTest
 @testable import AWSIAM
 
@@ -51,14 +52,23 @@ class IAMTests: XCTestCase {
     }
 
     func deleteUser(userName: String) -> EventLoopFuture<Void> {
+        let eventLoop = self.iam.client.eventLoopGroup.next()
         let request = IAM.ListUserPoliciesRequest(userName: userName)
         return self.iam.listUserPolicies(request)
             .flatMap { response -> EventLoopFuture<Void> in
                 let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
                     let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
-                    return self.iam.deleteUserPolicy(deletePolicy)
+                    // add stall to avoid throttling errors.
+                    return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
+                        return self.iam.deleteUserPolicy(deletePolicy)
+                    }.futureResult
                 }
                 return EventLoopFuture.andAllComplete(futures, on: self.iam.client.eventLoopGroup.next())
+        }
+        .flatMap { _ -> EventLoopFuture<Void> in
+            // add stall to avoid throttling errors.
+            let scheduled: Scheduled<Void> = eventLoop.scheduleTask(deadline: .now() + .seconds(2)) { }
+            return scheduled.futureResult
         }
         .flatMap { _ in
             return self.iam.deleteUser(.init(userName: userName)).map { _ in }

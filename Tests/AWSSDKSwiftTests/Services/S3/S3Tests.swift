@@ -403,7 +403,7 @@ class S3Tests: XCTestCase {
         let eventLoop = s3.client.eventLoopGroup.next()
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<Void> in
-                let futureResults = (1...32).map { index -> EventLoopFuture<Void> in
+                let futureResults = (1...16).map { index -> EventLoopFuture<Void> in
                     let body = "testMultipleUpload - " + index.description
                     let filename = "file" + index.description
                     return putGet(body: body, bucket: name, key: filename)
@@ -419,21 +419,21 @@ class S3Tests: XCTestCase {
     /// testing decoding of values in xml attributes
     func testGetAclRequestPayer() {
         let name = TestEnvironment.generateResourceName()
-        let contents = "testing metadata header"
+        let contents = "testing xml attributes header"
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     body: .string(contents),
                     bucket: name,
-                    key: name,
-                    metadata: ["Test": "testing", "first": "one"]
+                    key: name
                 )
                 return self.s3.putObject(putRequest)
         }
         .flatMap { _ -> EventLoopFuture<S3.GetObjectAclOutput> in
             return self.s3.getObjectAcl(.init(bucket: name, key: name, requestPayer: .requester))
         }
-        .flatAlways { _ in
+        .flatAlways { response -> EventLoopFuture<Void> in
+            print(response)
             return self.deleteBucket(name: name)
         }
         XCTAssertNoThrow(try response.wait())
