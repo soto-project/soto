@@ -6681,6 +6681,7 @@
     "NetworkConfig":{
       "type":"structure",
       "members":{
+        "EnableInterContainerTrafficEncryption":{"shape":"Boolean"},
         "EnableNetworkIsolation":{"shape":"Boolean"},
         "VpcConfig":{"shape":"VpcConfig"}
       }
@@ -7470,14 +7471,14 @@
     "RenderUiTemplateRequest":{
       "type":"structure",
       "required":[
-        "UiTemplate",
         "Task",
         "RoleArn"
       ],
       "members":{
         "UiTemplate":{"shape":"UiTemplate"},
         "Task":{"shape":"RenderableTask"},
-        "RoleArn":{"shape":"RoleArn"}
+        "RoleArn":{"shape":"RoleArn"},
+        "HumanTaskUiArn":{"shape":"HumanTaskUiArn"}
       }
     },
     "RenderUiTemplateResponse":{
@@ -8178,7 +8179,7 @@
     },
     "TaskTimeLimitInSeconds":{
       "type":"integer",
-      "max":28800,
+      "max":604800,
       "min":30
     },
     "TaskTitle":{
@@ -8830,9 +8831,9 @@
     },
     "UiConfig":{
       "type":"structure",
-      "required":["UiTemplateS3Uri"],
       "members":{
-        "UiTemplateS3Uri":{"shape":"S3Uri"}
+        "UiTemplateS3Uri":{"shape":"S3Uri"},
+        "HumanTaskUiArn":{"shape":"HumanTaskUiArn"}
       }
     },
     "UiTemplate":{
