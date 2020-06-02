@@ -104,14 +104,14 @@ class AWSRequestTests: XCTestCase {
     }
 
     func testEC2CreateImage() {
-        let expectedResult = "Action=CreateImage&Version=2016-11-15&instanceId=i-123123&name=TestInstance"
+        let expectedResult = "Action=CreateImage&InstanceId=i-123123&Name=TestInstance&Version=2016-11-15"
         let request = EC2.CreateImageRequest(instanceId:"i-123123", name:"TestInstance")
 
         testAWSShapeRequest(client: EC2().client, operation: "CreateImage", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
     }
 
     func testEC2CreateInstanceExportTask() {
-        let expectedResult = "Action=CreateInstanceExportTask&Version=2016-11-15&exportToS3.s3Bucket=testBucket&instanceId=i-123123"
+        let expectedResult = "Action=CreateInstanceExportTask&ExportToS3.S3Bucket=testBucket&InstanceId=i-123123&Version=2016-11-15"
         let exportToS3Task = EC2.ExportToS3TaskSpecification(s3Bucket:"testBucket")
         let request = EC2.CreateInstanceExportTaskRequest(exportToS3Task: exportToS3Task, instanceId: "i-123123")
 
