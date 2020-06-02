@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - "*"
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: SPM build
+      run: swift build
+
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tag: ['swift:5.0', 'swift:5.1', 'swift:5.2']
+    services:
+      localstack:
+        image: localstack/localstack
+        # ports:
+        # - 4567-4597:4567-4597
+        env:
+          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
+        options: >-
+          --health-cmd "awslocal s3 ls"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --workdir /opt/code/localstack/
+    container:
+      image: ${{ matrix.tag }}
+      env:
+        APIGATEWAY_ENDPOINT : "http://localstack:4567"
+        DYNAMODB_ENDPOINT   : "http://localstack:4569"
+        S3_ENDPOINT         : "http://localstack:4572"
+        SNS_ENDPOINT        : "http://localstack:4575"
+        SQS_ENDPOINT        : "http://localstack:4576"
+        SSM_ENDPOINT        : "http://localstack:4583"
+        IAM_ENDPOINT        : "http://localstack:4593"
+    steps:
+    - name: Install dependencies
+      run: |
+        apt-get update -qq
+        apt-get install -q -y tzdata libssl-dev zlib1g-dev
+    - name: Print endpoints
+      run: |
+        echo "APIGATEWAY: ${APIGATEWAY_ENDPOINT}"
+        echo "DYNAMODB  : ${DYNAMODB_ENDPOINT}"
+        echo "S3        : ${S3_ENDPOINT}"
+        echo "SNS       : ${SNS_ENDPOINT}"
+        echo "SQS       : ${SQS_ENDPOINT}"
+        echo "SSM       : ${SSM_ENDPOINT}"
+        echo "IAM       : ${IAM_ENDPOINT}"
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Test
+      run: swift test -Xswiftc -DDEBUG
