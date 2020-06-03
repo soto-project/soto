@@ -24,12 +24,13 @@ services:
       - SNS_ENDPOINT=http://localstack:4575
       - SQS_ENDPOINT=http://localstack:4576
       - SSM_ENDPOINT=http://localstack:4583
+      - STS_ENDPOINT=http://localstack:4592
     command: /bin/bash -xcl "swift test"
 
   localstack:
     image: localstack/localstack
     environment:
-      - SERVICES=apigateway,dynamodb,iam,s3,sns,sqs,ssm
+      - SERVICES=apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts
     volumes:
       - "/tmp/localstack:/tmp/localstack"
 

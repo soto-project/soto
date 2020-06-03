@@ -12,74 +12,80 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSSSM
-
-enum SSMTestsError: Error {
-    case noTopicArn
-}
 
 // testing json service
 
 class SSMTests: XCTestCase {
 
-    let client = SSM(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
+    let ssm = SSM(
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["SSM_ENDPOINT"] ?? "http://localhost:4583",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4583"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
-    class TestData {
-        var client: SSM
-        var parameterName: String
-        var parameterValue: String
-
-        init(_ testName: String, client: SSM) throws {
-            self.client = client
-            let testName = testName.lowercased().filter { return $0.isLetter || $0.isNumber }
-            self.parameterName = "/awssdkswift/\(testName)"
-            self.parameterValue = "value:\(testName)"
-
-            let request = SSM.PutParameterRequest(name: parameterName, overwrite: true, type: .string, value: parameterValue)
-            _ = try client.putParameter(request).wait()
-        }
-
-        deinit {
-            attempt {
-                let request = SSM.DeleteParameterRequest(name: parameterName)
-                _ = try client.deleteParameter(request).wait()
-            }
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
         }
     }
 
+    func putParameter(name: String, value: String) -> EventLoopFuture<Void> {
+        let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
+        return ssm.putParameter(request).map { _ in }
+    }
+    
+    func deleteParameter(name: String) -> EventLoopFuture<Void> {
+        let request = SSM.DeleteParameterRequest(name: name)
+        return ssm.deleteParameter(request).map { _ in }
+    }
+    
     //MARK: TESTS
 
     func testGetParameter() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-            let request = SSM.GetParameterRequest(name: testData.parameterName)
-            let response = try client.getParameter(request).wait()
-            XCTAssertEqual(response.parameter?.name, testData.parameterName)
-            XCTAssertEqual(response.parameter?.value, testData.parameterValue)
+        // parameter names cannot begin wih "aws"
+        let name = "test" + TestEnvironment.generateResourceName()
+        let response = putParameter(name: name, value: "testdata")
+            .flatMap { (_) -> EventLoopFuture<SSM.GetParameterResult> in
+                let request = SSM.GetParameterRequest(name: name)
+                return self.ssm.getParameter(request)
         }
+        .flatMapThrowing { response in
+            let parameter = try XCTUnwrap(response.parameter)
+            XCTAssertEqual(parameter.name, name)
+            XCTAssertEqual(parameter.value, "testdata")
+        }
+        .flatAlways { _ in
+            return self.deleteParameter(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testGetParametersByPath() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-            let request = SSM.GetParametersByPathRequest(path: "/awssdkswift/")
-            let response = try client.getParametersByPath(request).wait()
-            XCTAssertNotNil(response.parameters?.first { $0.name == testData.parameterName })
+        let name = "/test/" + TestEnvironment.generateResourceName()
+        let response = putParameter(name: name, value: "testdata2")
+            .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
+                let request = SSM.GetParametersByPathRequest(path: "/test/")
+                return self.ssm.getParametersByPath(request)
         }
+        .flatMapThrowing { response in
+            let parameter = try XCTUnwrap(response.parameters?.first)
+            XCTAssertEqual(parameter.name,  name)
+            XCTAssertEqual(parameter.value, "testdata2")
+        }
+        .flatAlways { _ in
+            return self.deleteParameter(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
     }
 
     static var allTests: [(String, (SSMTests) -> () throws -> Void)] {
         return [
+            ("testGetParameter", testGetParameter),
             ("testGetParametersByPath", testGetParametersByPath),
         ]
     }

@@ -12,101 +12,102 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import XCTest
-
 @testable import AWSSNS
-
-enum SNSTestsError: Error {
-    case noTopicArn
-}
 
 // testing query service
 
 class SNSTests: XCTestCase {
 
-    let client = SNS(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
+    let sns = SNS(
+        accessKeyId: TestEnvironment.accessKeyId,
+        secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["SNS_ENDPOINT"] ?? "http://localhost:4575",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+        endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4575"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
-    class TestData {
-        var client: SNS
-        var topicName: String
-        var topicArn: String
-
-        init(_ testName: String, client: SNS) throws {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.client = client
-            self.topicName = "\(testName)-topic"
-
-            let request = SNS.CreateTopicInput(name: topicName)
-            let response = try client.createTopic(request).wait()
-            guard let topicArn = response.topicArn else { throw SNSTestsError.noTopicArn }
-
-            self.topicArn = topicArn
-        }
-
-        deinit {
-            attempt {
-                // disabled until we get valid topic arn's returned from Localstack
-                #if false
-                    let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
-                    _ = try client.deleteTopic(request).wait()
-                #endif
-            }
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
         }
     }
 
+    /// create SNS topic with supplied name and run supplied closure
+    func testTopic(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
+        let eventLoop = self.sns.client.eventLoopGroup.next()
+        var topicArn : String? = nil
+        
+        let request = SNS.CreateTopicInput(name: name)
+        return sns.createTopic(request)
+            .flatMapThrowing { response in
+                topicArn = try XCTUnwrap(response.topicArn)
+                return topicArn!
+        }
+        .flatMap(body)
+        .flatAlways { (_) -> EventLoopFuture<Void> in
+            if let topicArn = topicArn {
+                let request = SNS.DeleteTopicInput(topicArn: topicArn)
+                return self.sns.deleteTopic(request)
+            } else {
+                return eventLoop.makeSucceededFuture(())
+            }
+        }
+    }
+    
     //MARK: TESTS
 
     func testCreateDelete() {
-        attempt {
-            _ = try TestData(#function, client: client)
+        let name = TestEnvironment.generateResourceName()
+        let response = testTopic(name: name) { topicArn in
+            return self.sns.client.eventLoopGroup.next().makeSucceededFuture(())
         }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testListTopics() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
+        let name = TestEnvironment.generateResourceName()
+        let response = testTopic(name: name) { topicArn in
             let request = SNS.ListTopicsInput()
-            let response = try client.listTopics(request).wait()
-            let topic = response.topics?.first { $0.topicArn == testData.topicArn }
-            XCTAssertNotNil(topic)
+            return self.sns.listTopics(request)
+                .map { response in
+                    let topic = response.topics?.first { $0.topicArn == topicArn }
+                    XCTAssertNotNil(topic)
+            }
         }
+        XCTAssertNoThrow(try response.wait())
     }
 
     // disabled until we get valid topic arn's returned from Localstack
-    #if false
-        func testSetTopicAttributes() {
-            attempt {
-                let testData = try TestData(#function, client: client)
-
-                let setTopicAttributesInput = SNS.SetTopicAttributesInput(
-                    attributeName: "DisplayName",
-                    attributeValue: "aws-test topic",
-                    topicArn: testData.topicArn
-                )
-                try client.setTopicAttributes(setTopicAttributesInput).wait()
-
-                let getTopicAttributesInput = SNS.GetTopicAttributesInput(topicArn: testData.topicArn)
-                let getTopicAttributesResponse = try client.getTopicAttributes(getTopicAttributesInput).wait()
-
-                XCTAssertEqual(getTopicAttributesResponse.attributes?["DisplayName"], "aws-test topic")
+    func testSetTopicAttributes() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        let name = TestEnvironment.generateResourceName()
+        let response = testTopic(name: name) { topicArn in
+            let request = SNS.SetTopicAttributesInput(
+                attributeName: "DisplayName",
+                attributeValue: "aws-test topic &",
+                topicArn: topicArn
+            )
+            return self.sns.setTopicAttributes(request)
+                .flatMap { (_) -> EventLoopFuture<SNS.GetTopicAttributesResponse> in
+                    let request = SNS.GetTopicAttributesInput(topicArn: topicArn)
+                    return self.sns.getTopicAttributes(request)
+            }
+            .map { response in
+                XCTAssertEqual(response.attributes?["DisplayName"], "aws-test topic &")
             }
         }
-    #endif
+        XCTAssertNoThrow(try response.wait())
+    }
 
     static var allTests: [(String, (SNSTests) -> () throws -> Void)] {
         return [
             ("testCreateDelete", testCreateDelete),
             ("testListTopics", testListTopics),
-            //            ("testSetTopicAttributes", testSetTopicAttributes),
+            ("testSetTopicAttributes", testSetTopicAttributes),
         ]
     }
 }

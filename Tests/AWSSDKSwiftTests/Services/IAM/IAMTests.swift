@@ -12,118 +12,179 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
+import NIO
 import XCTest
-
 @testable import AWSIAM
 
 //testing query service
 
 class IAMTests: XCTestCase {
 
-    let client = IAM(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
-        endpoint: ProcessInfo.processInfo.environment["IAM_ENDPOINT"] ?? "http://localhost:4593",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
+    let iam = IAM(
+        endpoint: TestEnvironment.getEndPoint(environment: "IAM_ENDPOINT", default: "http://localhost:4593"),
+        middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
 
-    class TestData {
-        let userName: String
-        let client: IAM
-
-        init(_ testName: String, client: IAM) throws {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.client = client
-            self.userName = "\(testName)-user"
-
-            let request = IAM.CreateUserRequest(userName: self.userName)
-            do {
-                let response = try client.createUser(request).wait()
-                XCTAssertEqual(response.user?.userName, self.userName)
-            } catch IAMErrorType.entityAlreadyExistsException(_) {
-                print("User (\(self.userName)) already exists")
-            }
-        }
-
-        deinit {
-            attempt {
-                let request = IAM.DeleteUserRequest(userName: self.userName)
-                try client.deleteUser(request).wait()
-            }
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
         }
     }
 
+    func createUser(userName: String) -> EventLoopFuture<Void> {
+        let request = IAM.CreateUserRequest(userName: userName)
+        return iam.createUser(request)
+            .map { response in
+                XCTAssertEqual(response.user?.userName, userName)
+            }
+            .flatMapErrorThrowing { error in
+                switch error {
+                case IAMErrorType.entityAlreadyExistsException(_):
+                    print("User (\(userName)) already exists")
+                    return
+                default:
+                    throw error
+                }
+        }
+    }
+
+    func deleteUser(userName: String) -> EventLoopFuture<Void> {
+        let eventLoop = self.iam.client.eventLoopGroup.next()
+        let request = IAM.ListUserPoliciesRequest(userName: userName)
+        return self.iam.listUserPolicies(request)
+            .flatMap { response -> EventLoopFuture<Void> in
+                let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
+                    let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
+                    // add stall to avoid throttling errors.
+                    return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
+                        return self.iam.deleteUserPolicy(deletePolicy)
+                    }.futureResult
+                }
+                return EventLoopFuture.andAllComplete(futures, on: self.iam.client.eventLoopGroup.next())
+        }
+        .flatMap { _ -> EventLoopFuture<Void> in
+            // add stall to avoid throttling errors.
+            let scheduled: Scheduled<Void> = eventLoop.scheduleTask(deadline: .now() + .seconds(2)) { }
+            return scheduled.futureResult
+        }
+        .flatMap { _ in
+            return self.iam.deleteUser(.init(userName: userName)).map { _ in }
+        }
+    }
+    
     //MARK: TESTS
 
     func testCreateDeleteUser() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            let request = IAM.GetUserRequest(userName: testData.userName)
-            let response = try client.getUser(request).wait()
-            XCTAssertEqual(response.user.userName, testData.userName)
-        }
+        let username = TestEnvironment.generateResourceName()
+        let response = createUser(userName: username)
+            .flatMap { _ in self.deleteUser(userName: username) }
+        XCTAssertNoThrow(try response.wait())
     }
 
     func testSetGetPolicy() {
-        attempt {
-            let testData = try TestData(#function, client: client)
-
-            // put a policy on the user
-            var policyDocument = """
-                {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Action": [
-                                "sns:*",
-                                "s3:*",
-                                "sqs:*"
-                            ],
-                            "Resource": "*"
-                        }
-                    ]
-                }
-                """
-            policyDocument = policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            let getUserRequest = IAM.GetUserRequest(userName: testData.userName)
-            let getUserResponse = try client.getUser(getUserRequest).wait()
-
-            let putRequest = IAM.PutUserPolicyRequest(
+        // put a policy on the user
+        let policyDocument = """
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "sns:*",
+                            "s3:*",
+                            "sqs:*"
+                        ],
+                        "Resource": "*"
+                    }
+                ]
+            }
+            """
+        let username = TestEnvironment.generateResourceName()
+        let response = createUser(userName: username)
+            .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
+                return self.iam.getUser(.init(userName: username))
+        }
+        .flatMap { (user) -> EventLoopFuture<Void> in
+            let request = IAM.PutUserPolicyRequest(
                 policyDocument: policyDocument,
                 policyName: "testSetGetPolicy",
-                userName: getUserResponse.user.userName
+                userName: user.user.userName
             )
-            _ = try client.putUserPolicy(putRequest).wait()
-
-            let getRequest = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
-            let getResponse = try client.getUserPolicy(getRequest).wait()
-
-            XCTAssertEqual(
-                getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
-                policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            )
-            
-            // make sure we remove all policies attached to user
-            let listPolicyRequest = IAM.ListUserPoliciesRequest(userName: getUserResponse.user.userName)
-            let _: Void = try client.listUserPolicies(listPolicyRequest).flatMap { response in
-                let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
-                    let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: getUserResponse.user.userName)
-                    return self.client.deleteUserPolicy(deletePolicy)
-                }
-                return EventLoopFuture.andAllSucceed(futures, on: self.client.client.eventLoopGroup.next())
-            }.wait()
+            return self.iam.putUserPolicy(request)
         }
-
+        .flatMap { (_) -> EventLoopFuture<IAM.GetUserPolicyResponse> in
+            let request = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
+            return self.iam.getUserPolicy(request)
+        }
+        .map { response in
+            let responsePolicyDocument = response.policyDocument.removingPercentEncoding?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            XCTAssertEqual(responsePolicyDocument, policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+        }
+        .flatAlways { _ in
+            return self.deleteUser(userName: username)
+        }
+        
+        XCTAssertNoThrow(try response.wait())
     }
 
+    func testSimulatePolicy() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        // put a policy on the user
+        let policyDocument = """
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "sns:*",
+                            "s3:*",
+                            "sqs:*"
+                        ],
+                        "Resource": "*"
+                    }
+                ]
+            }
+            """
+        let username = TestEnvironment.generateResourceName()
+        var userArn: String!
+        let response = createUser(userName: username)
+            .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
+                return self.iam.getUser(.init(userName: username))
+        }
+        .flatMap { (user) -> EventLoopFuture<Void> in
+            userArn = user.user.arn
+            let request = IAM.PutUserPolicyRequest(
+                policyDocument: policyDocument,
+                policyName: "testSetGetPolicy",
+                userName: user.user.userName
+            )
+            return self.iam.putUserPolicy(request)
+        }
+        .flatMap { (_) -> EventLoopFuture<IAM.SimulatePolicyResponse> in
+            let request = IAM.SimulatePrincipalPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], policySourceArn: userArn)
+            return self.iam.simulatePrincipalPolicy(request)
+        }
+        .map { response in
+            XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
+            XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
+            XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitdeny)
+        }
+        .flatAlways { _ in
+            return self.deleteUser(userName: username)
+        }
+
+        XCTAssertNoThrow(try response.wait())
+    }
+    
     static var allTests: [(String, (IAMTests) -> () throws -> Void)] {
         return [
             ("testCreateDeleteUser", testCreateDeleteUser),
             ("testSetGetPolicy", testSetGetPolicy),
+            ("testSimulatePolicy", testSimulatePolicy)
         ]
     }
 }

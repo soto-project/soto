@@ -33,12 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ['swift:5.1.5', 'swift:5.2']
+        image: ['swift:5.1', 'swift:5.2']
     services:
       localstack:
         image: localstack/localstack
         env:
-          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
+          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts'
         options: >-
           --health-cmd "awslocal s3 ls"
           --health-interval 10s
@@ -50,11 +50,12 @@ jobs:
       env:
         APIGATEWAY_ENDPOINT : "http://localstack:4567"
         DYNAMODB_ENDPOINT   : "http://localstack:4569"
+        IAM_ENDPOINT        : "http://localstack:4593"
         S3_ENDPOINT         : "http://localstack:4572"
         SNS_ENDPOINT        : "http://localstack:4575"
         SQS_ENDPOINT        : "http://localstack:4576"
         SSM_ENDPOINT        : "http://localstack:4583"
-        IAM_ENDPOINT        : "http://localstack:4593"
+        STS_ENDPOINT        : "http://localstack:4592"
     steps:
     - name: Checkout
       uses: actions/checkout@v1
