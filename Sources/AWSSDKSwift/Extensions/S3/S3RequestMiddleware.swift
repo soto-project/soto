@@ -44,7 +44,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     func virtualAddressFixup(request: inout AWSRequest) {
         /// process URL into form ${bucket}.s3.amazon.com
-        let paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
+        let paths = request.url.path.split(separator: "/", omittingEmptySubsequences: true)
         if paths.count > 0 {
             guard var host = request.url.host else { return }
             if let port = request.url.port {
@@ -57,7 +57,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             if host.contains("amazonaws.com") && !bucket.contains(".") {
                 let pathsWithoutBucket = paths.dropFirst()  // bucket
                 urlPath = pathsWithoutBucket.joined(separator: "/")
-                if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
+                if let firstHostComponent = host.split(separator: ".").first, bucket == firstHostComponent {
                     // Bucket name is part of host. No need to append bucket
                     urlHost = host
                 } else {
