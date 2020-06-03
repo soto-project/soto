@@ -44,22 +44,32 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     func virtualAddressFixup(request: inout AWSRequest) {
         /// process URL into form ${bucket}.s3.amazon.com
-        var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
+        let paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count > 0 {
-            guard let host = request.url.host, host.contains("amazonaws.com") else { return }
-            let bucket = paths.removeFirst()  // bucket
-            // if bucket name contains a period don't do virtual address look up
-            guard !bucket.contains(".") else { return }
+            guard var host = request.url.host else { return }
+            if let port = request.url.port {
+                host = "\(host):\(port)"
+            }
+            let bucket = paths[0]
             var urlPath: String
-            if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
-                // Bucket name is part of host. No need to append bucket
-                urlPath = "\(host)/\(paths.joined(separator: "/"))"
+            var urlHost: String
+            // if host name contains amazonaws.com and bucket name doesn't contain a period do virtual address look up
+            if host.contains("amazonaws.com") && !bucket.contains(".") {
+                let pathsWithoutBucket = paths.dropFirst()  // bucket
+                urlPath = pathsWithoutBucket.joined(separator: "/")
+                if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
+                    // Bucket name is part of host. No need to append bucket
+                    urlHost = host
+                } else {
+                    urlHost = "\(bucket).\(host)"
+                }
             } else {
-                urlPath = "\(bucket).\(host)/\(paths.joined(separator: "/"))"
+                urlPath = paths.joined(separator: "/")
+                urlHost = host
             }
             // add percent encoding back into path as converting from URL to String has removed it
-            urlPath = urlPath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? urlPath
-            var urlString = "\(request.url.scheme ?? "https")://\(urlPath)"
+            let percentEncodedUrlPath = urlPath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? urlPath
+            var urlString = "\(request.url.scheme ?? "https")://\(urlHost)/\(percentEncodedUrlPath)"
             if let query = request.url.query {
                 urlString += "?\(query)"
             }
