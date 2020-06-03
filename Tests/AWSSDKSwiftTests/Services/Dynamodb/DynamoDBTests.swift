@@ -26,7 +26,7 @@ class DynamoDBTests: XCTestCase {
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4569"),
+        endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )

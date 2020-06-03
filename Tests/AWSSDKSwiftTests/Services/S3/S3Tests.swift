@@ -27,7 +27,7 @@ class S3Tests: XCTestCase {
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .euwest1,
-        endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4572"),
+        endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
@@ -274,7 +274,7 @@ class S3Tests: XCTestCase {
             accessKeyId: TestEnvironment.accessKeyId,
             secretAccessKey: TestEnvironment.secretAccessKey,
             region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4572"),
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
             middlewares: TestEnvironment.middlewares,
             httpClientProvider: .shared(httpClient)
         )

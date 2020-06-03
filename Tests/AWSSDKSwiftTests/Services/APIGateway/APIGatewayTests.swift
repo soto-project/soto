@@ -25,7 +25,7 @@ class APIGatewayTests: XCTestCase {
 
     static let apiGateway = APIGateway(
         region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4567"),
+        endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )

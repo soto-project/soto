@@ -21,7 +21,7 @@ class SSMTests: XCTestCase {
 
     let ssm = SSM(
         region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4583"),
+        endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )

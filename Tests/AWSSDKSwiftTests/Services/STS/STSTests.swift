@@ -21,7 +21,7 @@ class STSTests: XCTestCase {
 
     let sts = STS(
         region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4592"),
+        endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )

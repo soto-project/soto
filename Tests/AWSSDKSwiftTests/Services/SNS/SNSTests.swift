@@ -23,7 +23,7 @@ class SNSTests: XCTestCase {
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4575"),
+        endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
     )
