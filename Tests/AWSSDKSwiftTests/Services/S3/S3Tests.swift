@@ -87,6 +87,18 @@ class S3Tests: XCTestCase {
     
     //MARK: TESTS
 
+    func testHeadBucket() {
+        let name = TestEnvironment.generateResourceName()
+        let response = createBucket(name: name)
+            .flatMap {
+                self.s3.headBucket(.init(bucket: name))
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+    
     func testPutGetObject() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.PutObject and S3.GetObject"

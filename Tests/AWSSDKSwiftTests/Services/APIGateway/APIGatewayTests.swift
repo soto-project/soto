@@ -24,7 +24,9 @@ enum APIGatewayTestsError: Error {
 class APIGatewayTests: XCTestCase {
 
     static let apiGateway = APIGateway(
-        region: .useast1,
+        accessKeyId: TestEnvironment.accessKeyId,
+        secretAccessKey: TestEnvironment.secretAccessKey,
+        region: .euwest1,
         endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
@@ -44,6 +46,10 @@ class APIGatewayTests: XCTestCase {
         let createResult = createRestApi(name: restApiName, on: eventLoop)
             .flatMapThrowing { response in
                 return try XCTUnwrap(response.id)
+        }
+        .flatMapErrorThrowing { error in
+            print("Failed to create APIGateway rest api, error: \(error)")
+            throw error
         }
         XCTAssertNoThrow(Self.restApiId = try createResult.wait())
     }

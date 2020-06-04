@@ -17,7 +17,7 @@ get_container_id()
 start()
 {
     if [ -z "$CONTAINER_ID" ]; then
-        docker run -d -p 4566:4566 localstack/localstack
+        docker run -d -p 4566-4597:4566-4597 localstack/localstack
     else
         echo "Localstack is already running"
     fi
