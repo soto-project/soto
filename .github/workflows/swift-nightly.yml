@@ -14,7 +14,7 @@ jobs:
       localstack:
         image: localstack/localstack
         env:
-          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
+          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts'
         options: >-
           --health-cmd "awslocal s3 ls"
           --health-interval 10s
@@ -31,6 +31,7 @@ jobs:
         SQS_ENDPOINT        : "http://localstack:4576"
         SSM_ENDPOINT        : "http://localstack:4583"
         IAM_ENDPOINT        : "http://localstack:4593"
+        STS_ENDPOINT        : "http://localstack:4592"
     steps:
     - name: Checkout
       uses: actions/checkout@v1
