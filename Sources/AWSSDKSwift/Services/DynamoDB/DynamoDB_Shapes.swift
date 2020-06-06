@@ -228,6 +228,129 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttributeValue: AWSEncodableShape & AWSDecodableShape {
+
+        /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" 
+        case b(Data)
+        /// An attribute of type Boolean. For example:  "BOOL": true 
+        case bool(Bool)
+        /// An attribute of type Binary Set. For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] 
+        case bs([Data])
+        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}] 
+        case l([AttributeValue])
+        /// An attribute of type Map. For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} 
+        case m([String: AttributeValue])
+        /// An attribute of type Number. For example:  "N": "123.45"  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+        case n(String)
+        /// An attribute of type Number Set. For example:  "NS": ["42.2", "-19", "7.5", "3.14"]  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+        case ns([String])
+        /// An attribute of type Null. For example:  "NULL": true 
+        case null(Bool)
+        /// An attribute of type String. For example:  "S": "Hello" 
+        case s(String)
+        /// An attribute of type String Set. For example:  "SS": ["Giraffe", "Hippo" ,"Zebra"] 
+        case ss([String])
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .b:
+                let value = try container.decode(Data.self, forKey: .b)
+                self = .b(value)
+            case .bool:
+                let value = try container.decode(Bool.self, forKey: .bool)
+                self = .bool(value)
+            case .bs:
+                let value = try container.decode([Data].self, forKey: .bs)
+                self = .bs(value)
+            case .l:
+                let value = try container.decode([AttributeValue].self, forKey: .l)
+                self = .l(value)
+            case .m:
+                let value = try container.decode([String: AttributeValue].self, forKey: .m)
+                self = .m(value)
+            case .n:
+                let value = try container.decode(String.self, forKey: .n)
+                self = .n(value)
+            case .ns:
+                let value = try container.decode([String].self, forKey: .ns)
+                self = .ns(value)
+            case .null:
+                let value = try container.decode(Bool.self, forKey: .null)
+                self = .null(value)
+            case .s:
+                let value = try container.decode(String.self, forKey: .s)
+                self = .s(value)
+            case .ss:
+                let value = try container.decode([String].self, forKey: .ss)
+                self = .ss(value)
+            }
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .b(let value):
+                try container.encode(value, forKey: .b)
+            case .bool(let value):
+                try container.encode(value, forKey: .bool)
+            case .bs(let value):
+                try container.encode(value, forKey: .bs)
+            case .l(let value):
+                try container.encode(value, forKey: .l)
+            case .m(let value):
+                try container.encode(value, forKey: .m)
+            case .n(let value):
+                try container.encode(value, forKey: .n)
+            case .ns(let value):
+                try container.encode(value, forKey: .ns)
+            case .null(let value):
+                try container.encode(value, forKey: .null)
+            case .s(let value):
+                try container.encode(value, forKey: .s)
+            case .ss(let value):
+                try container.encode(value, forKey: .ss)
+            }
+        }
+        
+        public func validate(name: String) throws {
+            switch self {
+            case .l(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).l[]")
+                }
+            case .m(let value):
+                try value.forEach {
+                    try validate($0.key, name: "m.key", parent: name, max: 65535)
+                    try $0.value.validate(name: "\(name).m[\"\($0.key)\"]")
+                }
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case b = "B"
+            case bool = "BOOL"
+            case bs = "BS"
+            case l = "L"
+            case m = "M"
+            case n = "N"
+            case ns = "NS"
+            case null = "NULL"
+            case s = "S"
+            case ss = "SS"
+        }
+    }
+
+
     //MARK: Shapes
 
     public struct ArchivalSummary: AWSDecodableShape {
@@ -272,66 +395,6 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case attributeName = "AttributeName"
             case attributeType = "AttributeType"
-        }
-    }
-
-    public class AttributeValue: AWSEncodableShape & AWSDecodableShape {
-
-        /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" 
-        public let b: Data?
-        /// An attribute of type Boolean. For example:  "BOOL": true 
-        public let bool: Bool?
-        /// An attribute of type Binary Set. For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] 
-        public let bs: [Data]?
-        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}] 
-        public let l: [AttributeValue]?
-        /// An attribute of type Map. For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} 
-        public let m: [String: AttributeValue]?
-        /// An attribute of type Number. For example:  "N": "123.45"  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
-        public let n: String?
-        /// An attribute of type Number Set. For example:  "NS": ["42.2", "-19", "7.5", "3.14"]  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
-        public let ns: [String]?
-        /// An attribute of type Null. For example:  "NULL": true 
-        public let null: Bool?
-        /// An attribute of type String. For example:  "S": "Hello" 
-        public let s: String?
-        /// An attribute of type String Set. For example:  "SS": ["Giraffe", "Hippo" ,"Zebra"] 
-        public let ss: [String]?
-
-        public init(b: Data? = nil, bool: Bool? = nil, bs: [Data]? = nil, l: [AttributeValue]? = nil, m: [String: AttributeValue]? = nil, n: String? = nil, ns: [String]? = nil, null: Bool? = nil, s: String? = nil, ss: [String]? = nil) {
-            self.b = b
-            self.bool = bool
-            self.bs = bs
-            self.l = l
-            self.m = m
-            self.n = n
-            self.ns = ns
-            self.null = null
-            self.s = s
-            self.ss = ss
-        }
-
-        public func validate(name: String) throws {
-            try self.l?.forEach {
-                try $0.validate(name: "\(name).l[]")
-            }
-            try self.m?.forEach {
-                try validate($0.key, name: "m.key", parent: name, max: 65535)
-                try $0.value.validate(name: "\(name).m[\"\($0.key)\"]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case b = "B"
-            case bool = "BOOL"
-            case bs = "BS"
-            case l = "L"
-            case m = "M"
-            case n = "N"
-            case ns = "NS"
-            case null = "NULL"
-            case s = "S"
-            case ss = "SS"
         }
     }
 
