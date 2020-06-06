@@ -16,18 +16,8 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    #- name: Install Localstack
-    #  run: |
-    #    PATH=/Users/runner/Library/Python/3.7/bin:$PATH
-    #    pip3 install --user "localstack[full]"
     - name: SPM build
       run: swift build
-    #- name: SPM test
-    #  run: |
-    #    PATH=/Users/runner/Library/Python/3.7/bin:$PATH
-    #    localstack start --host &
-    #    sleep 45
-    #    swift test
 
   linux:
     runs-on: ubuntu-latest
@@ -37,25 +27,19 @@ jobs:
     services:
       localstack:
         image: localstack/localstack
-        env:
-          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts'
         options: >-
-          --health-cmd "awslocal s3 ls"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
           --workdir /opt/code/localstack/
     container:
       image: ${{ matrix.image }}
       env:
-        APIGATEWAY_ENDPOINT : "http://localstack:4567"
-        DYNAMODB_ENDPOINT   : "http://localstack:4569"
-        IAM_ENDPOINT        : "http://localstack:4593"
-        S3_ENDPOINT         : "http://localstack:4572"
-        SNS_ENDPOINT        : "http://localstack:4575"
-        SQS_ENDPOINT        : "http://localstack:4576"
-        SSM_ENDPOINT        : "http://localstack:4583"
-        STS_ENDPOINT        : "http://localstack:4592"
+        APIGATEWAY_ENDPOINT : "http://localstack:4566"
+        DYNAMODB_ENDPOINT   : "http://localstack:4566"
+        IAM_ENDPOINT        : "http://localstack:4566"
+        S3_ENDPOINT         : "http://localstack:4566"
+        SNS_ENDPOINT        : "http://localstack:4566"
+        SQS_ENDPOINT        : "http://localstack:4566"
+        SSM_ENDPOINT        : "http://localstack:4566"
+        STS_ENDPOINT        : "http://localstack:4566"
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -64,15 +48,6 @@ jobs:
     - name: Install dependencies
       run: |
         apt-get update -qq
-        apt-get install -q -y tzdata libssl-dev zlib1g-dev
-    - name: Print endpoints
-      run: |
-        echo "APIGATEWAY: ${APIGATEWAY_ENDPOINT}"
-        echo "DYNAMODB  : ${DYNAMODB_ENDPOINT}"
-        echo "S3        : ${S3_ENDPOINT}"
-        echo "SNS       : ${SNS_ENDPOINT}"
-        echo "SQS       : ${SQS_ENDPOINT}"
-        echo "SSM       : ${SSM_ENDPOINT}"
-        echo "IAM       : ${IAM_ENDPOINT}"
+        apt-get install -q -y tzdata zlib1g-dev
     - name: Test
       run: swift test -Xswiftc -DDEBUG

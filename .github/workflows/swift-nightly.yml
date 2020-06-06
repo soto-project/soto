@@ -3,7 +3,7 @@ name: Swift nightly build
 on:
   schedule:
     - cron: '0 1 * * *'
-      
+
 jobs:
   linux:
     runs-on: ubuntu-latest
@@ -13,25 +13,19 @@ jobs:
     services:
       localstack:
         image: localstack/localstack
-        env:
-          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts'
         options: >-
-          --health-cmd "awslocal s3 ls"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
           --workdir /opt/code/localstack/
     container:
       image: swiftlang/swift:${{ matrix.tag }}
       env:
-        APIGATEWAY_ENDPOINT : "http://localstack:4567"
-        DYNAMODB_ENDPOINT   : "http://localstack:4569"
-        S3_ENDPOINT         : "http://localstack:4572"
-        SNS_ENDPOINT        : "http://localstack:4575"
-        SQS_ENDPOINT        : "http://localstack:4576"
-        SSM_ENDPOINT        : "http://localstack:4583"
-        IAM_ENDPOINT        : "http://localstack:4593"
-        STS_ENDPOINT        : "http://localstack:4592"
+        APIGATEWAY_ENDPOINT : "http://localstack:4566"
+        DYNAMODB_ENDPOINT   : "http://localstack:4566"
+        IAM_ENDPOINT        : "http://localstack:4566"
+        S3_ENDPOINT         : "http://localstack:4566"
+        SNS_ENDPOINT        : "http://localstack:4566"
+        SQS_ENDPOINT        : "http://localstack:4566"
+        SSM_ENDPOINT        : "http://localstack:4566"
+        STS_ENDPOINT        : "http://localstack:4566"
     steps:
     - name: Checkout
       uses: actions/checkout@v1

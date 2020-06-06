@@ -17,20 +17,18 @@ services:
     depends_on:
       - localstack
     environment:
-      - APIGATEWAY_ENDPOINT=http://localstack:4567
-      - DYNAMODB_ENDPOINT=http://localstack:4569
-      - IAM_ENDPOINT=http://localstack:4593
-      - S3_ENDPOINT=http://localstack:4572
-      - SNS_ENDPOINT=http://localstack:4575
-      - SQS_ENDPOINT=http://localstack:4576
-      - SSM_ENDPOINT=http://localstack:4583
-      - STS_ENDPOINT=http://localstack:4592
+      - APIGATEWAY_ENDPOINT=http://localstack:4566
+      - DYNAMODB_ENDPOINT=http://localstack:4566
+      - IAM_ENDPOINT=http://localstack:4566
+      - S3_ENDPOINT=http://localstack:4566
+      - SNS_ENDPOINT=http://localstack:4566
+      - SQS_ENDPOINT=http://localstack:4566
+      - SSM_ENDPOINT=http://localstack:4566
+      - STS_ENDPOINT=http://localstack:4566
     command: /bin/bash -xcl "swift test"
 
   localstack:
     image: localstack/localstack
-    environment:
-      - SERVICES=apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts
     volumes:
       - "/tmp/localstack:/tmp/localstack"
 
