@@ -14,6 +14,7 @@
 
 import AWSCrypto
 import AWSSDKSwiftCore
+import AWSXML
 import Foundation
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
