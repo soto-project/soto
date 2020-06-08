@@ -15,6 +15,7 @@
 import Foundation
 import XCTest
 
+import AWSXML
 @testable import AWSACM
 @testable import AWSCloudFront
 @testable import AWSEC2
