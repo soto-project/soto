@@ -1,0 +1,115 @@
+{# Template for a AWSShape #}
+    public enum {{enumWithValues.name}}: {{enumWithValues.shapeProtocol}} {
+{%if enumWithValues.namespace %}
+        public static let _xmlNamespace: String? = "{{enumWithValues.namespace}}"
+{%endif %}
+{# AWSShapeMember array #}
+{%if enumWithValues.awsShapeMembers.count > 0%}
+        public static var _encoding = [
+{%for member in enumWithValues.awsShapeMembers %}
+            AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+{%endfor %}
+        ]
+{%endif %}
+
+{# enum cases #}
+{%for member in enumWithValues.members %}
+{%for comment in member.comment %}
+        /// {{comment}}
+{%endfor %}
+        case {{member.variable}}({{member.type}})
+{%endfor %}
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+{%for member in enumWithValues.members %}
+            case .{{member.variable}}:
+                let value = try container.decode({{member.type}}.self, forKey: .{{member.variable}})
+                self = .{{member.variable}}(value)
+{%endfor %}
+            }
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+{%for member in enumWithValues.members %}
+            case .{{member.variable}}(let value):
+                try container.encode(value, forKey: .{{member.variable}})
+{%endfor %}
+            }
+        }
+        
+{# validate() function #}
+{%if enumWithValues.validation.count > 0 %}
+        public func validate(name: String) throws {
+            switch self {
+{%for v in enumWithValues.validation %}
+            case .{{v.name}}(let value):
+{%if v.shape %}
+                try value.validate(name: "\(name).{{v.name}}")
+{%elif v.member %}
+{# validate array members #}
+                try value.forEach {
+{%if v.member.shape %}
+                    try $0.validate(name: "\(name).{{v.member.name}}[]")
+{%endif %}
+{%for req,var in v.member.reqs %}
+                    try validate($0, name: "{{v.member.name}}[]", parent: name, {{req}}: {{var}})
+{%endfor %}
+                }
+{%elif v.key or v.value %}
+{# validate dictionary members #}
+                try value.forEach {
+{# validate dictionary keys #}
+{%if v.key.shape %}
+                    try $0.key.validate(name: "\(name).{{v.key.name}}.key")
+{%endif %}
+{%for req,var in v.key.reqs %}
+                    try validate($0.key, name: "{{v.key.name}}.key", parent: name, {{req}}: {{var}})
+{%endfor %}
+{# validate dictionary values #}
+{%if v.value.shape %}
+                    try $0.value.validate(name: "\(name).{{v.value.name}}[\"\($0.key)\"]")
+{%endif %}
+{%for req,var in v.value.reqs %}
+                    try validate($0.value, name: "{{v.value.name}}[\"\($0.key)\"]", parent: name, {{req}}: {{var}})
+{%endfor %}
+                }
+{%endif %}
+{# validate min,max,pattern #}
+{%for req,var in v.reqs %}
+                try validate(value, name: "{{v.name}}", parent: name, {{req}}: {{var}})
+{%endfor %}
+{%endfor %}
+            default:
+                break
+            }
+        }
+
+{%endif %}
+{# CodingKeys enum #}
+{%if enumWithValues.members.count > 0%}
+{%if enumWithValues.codingKeys.count == 0%}
+        private enum CodingKeys: CodingKey {}
+{%else %}
+        private enum CodingKeys: String, CodingKey {
+{%for codingKey in enumWithValues.codingKeys %}
+{%if codingKey.duplicate %}
+            case {{codingKey.variable}} = "_{{codingKey.codingKey}}" // TODO this is temporary measure for avoiding CodingKey duplication.
+{%else %}
+            case {{codingKey.variable}} = "{{codingKey.codingKey}}"
+{%endif %}
+{%endfor %}
+        }
+{%endif %}
+{%endif %}
+    }

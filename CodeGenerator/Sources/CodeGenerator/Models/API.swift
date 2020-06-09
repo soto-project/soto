@@ -16,6 +16,7 @@ import Foundation
 
 enum APIError: Error {
     case shapeDoesNotExist(String)
+    case cannotSerialiseAsEnum
 }
 
 //MARK: API
@@ -274,12 +275,23 @@ class Shape: Decodable, Patchable {
         class StructureType: Patchable {
             var required: [String]
             var members: [String: Member]
-            init(required: [String]? = nil, members: [String: Member]) {
+            var isEnum: Bool
+            
+            init(required: [String]? = nil, members: [String: Member], isEnum: Bool) {
                 self.required = required ?? []
                 self.members = members
+                self.isEnum = isEnum
             }
 
             func setupShapes(api: API) throws {
+                if isEnum {
+                    // enums cannot have required values
+                    guard required.count == 0 else { throw APIError.cannotSerialiseAsEnum }
+                    // enums cannot have variables outside of body
+                    guard members.values.reduce(false, { $0 || ($1.location != nil && $1.location != .body) }) == false else {
+                        throw APIError.cannotSerialiseAsEnum
+                    }
+                }
                 // setup member shape
                 let updatedMembers: [String: Member] = try members.mapValues {
                     let member = $0
@@ -373,7 +385,7 @@ class Shape: Decodable, Patchable {
             case "structure":
                 let required = try container.decodeIfPresent([String].self, forKey: .required)
                 let members = try container.decode([String: Member].self, forKey: .members)
-                self = .structure(StructureType(required: required, members: members))
+                self = .structure(StructureType(required: required, members: members, isEnum: false))
             case "list":
                 let min = try container.decodeIfPresent(Int.self, forKey: .min)
                 let max = try container.decodeIfPresent(Int.self, forKey: .max)
@@ -469,11 +481,11 @@ class Shape: Decodable, Patchable {
         case .structure(let structure):
             try structure.setupShapes(api: api)
 
-        case .list(var list):
+        case .list(let list):
             list.member.shape = try api.getShape(named: list.member.shapeName)
             self.type = .list(list)
 
-        case .map(var map):
+        case .map(let map):
             map.key.shape = try api.getShape(named: map.key.shapeName)
             map.value.shape = try api.getShape(named: map.value.shapeName)
             self.type = .map(map)

@@ -554,7 +554,7 @@ extension AWSService {
     }
 
     /// Generate the context information for outputting a member variable
-    func generateMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> MemberContext {
+    func generateMemberContext(_ member: Shape.Member, name: String, shape: Shape, typeIsEnum: Bool) -> MemberContext {
         let defaultValue: String?
         if member.idempotencyToken == true {
             defaultValue = "\(shape.swiftTypeName).idempotencyToken()"
@@ -571,7 +571,7 @@ extension AWSService {
             required: member.required,
             default: defaultValue,
             propertyWrapper: generatePropertyWrapper(member, name: name),
-            type: member.shape.swiftTypeName + (member.required ? "" : "?"),
+            type: member.shape.swiftTypeName + ((member.required || typeIsEnum) ? "" : "?"),
             comment: memberDocs ?? [],
             duplicate: false
         )
@@ -791,7 +791,7 @@ extension AWSService {
 
         let members = type.members.map { (key: $0.key, value: $0.value) }.sorted { $0.key.lowercased() < $1.key.lowercased() }
         for member in members {
-            var memberContext = generateMemberContext(member.value, name: member.key, shape: shape)
+            var memberContext = generateMemberContext(member.value, name: member.key, shape: shape, typeIsEnum: type.isEnum)
 
             // check for duplicates, this seems to be mainly caused by deprecated variables
             let locationPath = member.value.locationName ?? member.key
@@ -863,7 +863,11 @@ extension AWSService {
 
             case .structure(let type):
                 var structContext: [String: Any] = [:]
-                structContext["struct"] = generateStructureContext(shape, type: type)
+                if type.isEnum {
+                    structContext["enumWithValues"] = generateStructureContext(shape, type: type)
+                } else {
+                    structContext["struct"] = generateStructureContext(shape, type: type)
+                }
                 shapeContexts.append(structContext)
 
             default:

@@ -11,6 +11,12 @@ extension {{name}} {
 {%include "enum.stencil" shape %}
 {%endif %}
 {%endfor %}
+{%for shape in shapes%}
+{%if shape.enumWithValues %}
+
+{%include "enumWithValues.stencil" shape %}
+{%endif %}
+{%endfor %}
 
     //MARK: Shapes
 {%for shape in shapes%}
@@ -20,3 +26,11 @@ extension {{name}} {
 {%endif %}
 {%endfor %}
 }
+{%for shape in shapes%}
+{%if shape.enumWithValues %}
+
+extension {{name}}.{{shape.enumWithValues.name}}: Equatable {
+{%include "enumEquatableExtension.stencil" shape %}
+}
+{%endif %}
+{%endfor %}

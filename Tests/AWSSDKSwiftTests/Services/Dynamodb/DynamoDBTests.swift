@@ -82,7 +82,7 @@ class DynamoDBTests: XCTestCase {
     }
     
     func getItem(tableName: String, keys: [String: String]) -> EventLoopFuture<DynamoDB.GetItemOutput> {
-        let input = DynamoDB.GetItemInput(key: keys.mapValues { DynamoDB.AttributeValue(s: $0) }, tableName: tableName)
+        let input = DynamoDB.GetItemInput(key: keys.mapValues { DynamoDB.AttributeValue.s($0) }, tableName: tableName)
         return dynamoDB.getItem(input)
     }
     
@@ -107,9 +107,9 @@ class DynamoDBTests: XCTestCase {
             return self.getItem(tableName: tableName, keys: ["ID": "first"])
         }
         .map { response -> Void in
-            XCTAssertEqual(response.item?["ID"]?.s, "first")
-            XCTAssertEqual(response.item?["First name"]?.s, "John")
-            XCTAssertEqual(response.item?["Surname"]?.s, "Smith")
+            XCTAssertEqual(response.item?["ID"], .s("first"))
+            XCTAssertEqual(response.item?["First name"], .s("John"))
+            XCTAssertEqual(response.item?["Surname"], .s("Smith"))
         }
         .flatAlways { _ in
                 return self.deleteTable(name: tableName)
@@ -128,8 +128,8 @@ class DynamoDBTests: XCTestCase {
             return self.getItem(tableName: tableName, keys: ["ID": "1"])
         }
         .map { response -> Void in
-            XCTAssertEqual(response.item?["ID"]?.s, "1")
-            XCTAssertEqual(response.item?["data"]?.b, data)
+            XCTAssertEqual(response.item?["ID"], .s("1"))
+            XCTAssertEqual(response.item?["data"], .b(data))
         }
         .flatAlways { _ in
                 return self.deleteTable(name: tableName)
@@ -147,13 +147,16 @@ class DynamoDBTests: XCTestCase {
             return self.getItem(tableName: tableName, keys: ["ID": "1"])
         }
         .flatMapThrowing { response -> Void in
-            XCTAssertEqual(response.item?["ID"]?.s, "1")
-            let numbers = try XCTUnwrap(response.item?["numbers"]?.ns)
-            let numberSet = Set(numbers)
-            XCTAssert(numberSet.contains("2"))
-            XCTAssert(numberSet.contains("4.001"))
-            XCTAssert(numberSet.contains("-6"))
-            XCTAssert(numberSet.contains("8"))
+            XCTAssertEqual(response.item?["ID"], .s("1"))
+            if case .ns(let numbers) = response.item?["numbers"] {
+                let numberSet = Set(numbers)
+                XCTAssert(numberSet.contains("2"))
+                XCTAssert(numberSet.contains("4.001"))
+                XCTAssert(numberSet.contains("-6"))
+                XCTAssert(numberSet.contains("8"))
+            } else {
+                XCTFail()
+            }
         }
         .flatAlways { _ in
                 return self.deleteTable(name: tableName)
@@ -172,26 +175,27 @@ class DynamoDBTests: XCTestCase {
 }
 
 extension DynamoDB.AttributeValue {
-    convenience init(any: Any) {
+    init(any: Any) {
         switch any {
         case let data as Data:
-            self.init(b: data)
+            self = .b(data)//self.init(b: data)
         case let bool as Bool:
-            self.init(bool: bool)
+            self = .bool(bool)//self.init(bool: bool)
         case let int as Int:
-            self.init(n: int.description)
+            self = .n(int.description)//self.init(n: int.description)
         case let ints as [Int]:
-            self.init(ns: ints.map {$0.description})
+            self = .ns(ints.map {$0.description})//self.init(ns: ints.map {$0.description})
         case let float as Float:
-            self.init(n: float.description)
+            self = .n(float.description)//self.init(n: float.description)
         case let double as Double:
-            self.init(n: double.description)
+            self = .n(double.description)//self.init(n: double.description)
         case let doubles as [Double]:
-            self.init(ns: doubles.map {$0.description})
+            self = .ns(doubles.map {$0.description})//self.init(ns: doubles.map {$0.description})
         case let string as String:
-            self.init(s: string)
+            self = .s(string) //self.init(s: string)
         default:
-            self.init(s: String(reflecting: any))
+            self = .s(String(reflecting: any))//self.init(s: String(reflecting: any))
         }
     }
 }
+

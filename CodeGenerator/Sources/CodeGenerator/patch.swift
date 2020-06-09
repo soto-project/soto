@@ -79,6 +79,9 @@ extension API {
         "ComprehendMedical": [
             AddPatch3(keyPath1: \.shapes["EntitySubType"], keyPath2: \.type.enum, keyPath3: \.cases, value: "DX_NAME"),
         ],
+        "DynamoDB": [
+            ReplacePatch3(keyPath1: \.shapes["AttributeValue"], keyPath2: \.type.structure, keyPath3: \.isEnum, value: true, originalValue: false)
+        ],
         "EC2": [
             ReplacePatch3(
                 keyPath1: \.shapes["PlatformValues"],
