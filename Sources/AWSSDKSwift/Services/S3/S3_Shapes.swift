@@ -61,6 +61,7 @@ extension S3 {
         case caCentral1 = "ca-central-1"
         case cnNorthwest1 = "cn-northwest-1"
         case meSouth1 = "me-south-1"
+        case afSouth1 = "af-south-1"
         public var description: String { return self.rawValue }
     }
 

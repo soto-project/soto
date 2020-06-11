@@ -22,7 +22,7 @@ enum APIError: Error {
 //MARK: API
 
 // Used to decode model api_2 files
-struct API: Decodable {
+struct API: Decodable, PatchBase {
     struct Metadata: Decodable {
         enum ServiceProtocol: String, Decodable {
             case restxml = "rest-xml"
@@ -160,7 +160,7 @@ extension API {
 //MARK: Operation
 
 /// Operation loaded from api_2.json
-class Operation: Decodable, Patchable {
+struct Operation: Decodable {
     struct HTTP: Decodable {
         var method: String
         var requestUri: String
@@ -201,7 +201,7 @@ class Operation: Decodable, Patchable {
     var deprecated: Bool
     var deprecatedMessage: String?
 
-    required init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
         self.http = try container.decode(HTTP.self, forKey: .http)
@@ -228,7 +228,7 @@ class Operation: Decodable, Patchable {
 //MARK: Shape
 
 /// Shape loaded from api_2.json
-class Shape: Decodable, Patchable {
+class Shape: Decodable {
 
     enum Location: String, Decodable {
         case header
@@ -239,7 +239,7 @@ class Shape: Decodable, Patchable {
         case statusCode
     }
 
-    class Member: Decodable, Patchable {
+    class Member: Decodable {
         var location: Location?
         var locationName: String?
         var shapeName: String
@@ -272,7 +272,7 @@ class Shape: Decodable, Patchable {
 
     /// Enum defining a shape type
     enum ShapeType: Decodable {
-        class StructureType: Patchable {
+        class StructureType {
             var required: [String]
             var members: [String: Member]
             var isEnum: Bool
@@ -313,7 +313,7 @@ class Shape: Decodable, Patchable {
             }
         }
 
-        class StringType: Patchable {
+        class StringType {
             var min: Int?
             var max: Int?
             var pattern: String?
@@ -343,7 +343,7 @@ class Shape: Decodable, Patchable {
             case unspecified
         }
 
-        class EnumType: Patchable {
+        struct EnumType {
             var cases: [String]
             init(cases: [String]) {
                 self.cases = cases
@@ -366,20 +366,38 @@ class Shape: Decodable, Patchable {
 
         // added so we can access enum type through keypaths
         var `enum`: EnumType? {
-            if case .enum(let type) = self { return type }
-            return nil
+            get {
+                if case .enum(let type) = self { return type }
+                return nil
+            }
+            set(newValue) {
+                precondition(newValue != nil)
+                self = .enum(newValue!)
+            }
         }
 
         // added so we can access structure type through keypaths
         var structure: StructureType? {
-            if case .structure(let type) = self { return type }
-            return nil
+            get {
+                if case .structure(let type) = self { return type }
+                return nil
+            }
+            set(newValue) {
+                precondition(newValue != nil)
+                self = .structure(newValue!)
+            }
         }
 
         // added so we can access string type through keypaths
         var string: StringType? {
-            if case .string(let type) = self { return type }
-            return nil
+            get {
+                if case .string(let type) = self { return type }
+                return nil
+            }
+            set(newValue) {
+                precondition(newValue != nil)
+                self = .string(newValue!)
+            }
         }
 
         init(from decoder: Decoder) throws {
