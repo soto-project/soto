@@ -390,8 +390,14 @@ class Shape: Decodable {
 
         // added so we can access string type through keypaths
         var string: StringType? {
-            if case .string(let type) = self { return type }
-            return nil
+            get {
+                if case .string(let type) = self { return type }
+                return nil
+            }
+            set(newValue) {
+                precondition(newValue != nil)
+                self = .string(newValue!)
+            }
         }
 
         init(from decoder: Decoder) throws {
