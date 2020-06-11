@@ -313,6 +313,17 @@ class Shape: Decodable, Patchable {
             }
         }
 
+        class StringType: Patchable {
+            var min: Int?
+            var max: Int?
+            var pattern: String?
+            init(min: Int? = nil, max: Int? = nil, pattern: String? = nil) {
+                self.min = min
+                self.max = max
+                self.pattern = pattern
+            }
+        }
+
         struct ListType {
             var member: Member
             var min: Int?
@@ -339,7 +350,7 @@ class Shape: Decodable, Patchable {
             }
         }
 
-        case string(min: Int? = nil, max: Int? = nil, pattern: String? = nil)
+        case string(StringType)
         case integer(min: Int? = nil, max: Int? = nil)
         case structure(StructureType)
         case blob(min: Int? = nil, max: Int? = nil)
@@ -365,6 +376,12 @@ class Shape: Decodable, Patchable {
             return nil
         }
 
+        // added so we can access string type through keypaths
+        var string: StringType? {
+            if case .string(let type) = self { return type }
+            return nil
+        }
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let type = try container.decode(String.self, forKey: .type)
@@ -376,7 +393,7 @@ class Shape: Decodable, Patchable {
                     let min = try container.decodeIfPresent(Int.self, forKey: .min)
                     let max = try container.decodeIfPresent(Int.self, forKey: .max)
                     let pattern = try container.decodeIfPresent(String.self, forKey: .pattern)
-                    self = .string(min: min, max: max, pattern: pattern)
+                    self = .string(StringType(min: min, max: max, pattern: pattern))
                 }
             case "integer":
                 let min = try container.decodeIfPresent(Int.self, forKey: .min)

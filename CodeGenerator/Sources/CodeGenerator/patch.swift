@@ -97,7 +97,7 @@ extension API {
         ],
         "ElasticLoadBalancing": [
             ReplacePatch(keyPath: \.serviceName, value: "ELB", originalValue: "ElasticLoadBalancing"),
-            ReplacePatch2(keyPath1: \.shapes["SecurityGroupOwnerAlias"], keyPath2: \.type, value: .integer(), originalValue: .string()),
+            ReplacePatch2(keyPath1: \.shapes["SecurityGroupOwnerAlias"], keyPath2: \.type, value: .integer(), originalValue: .string(Shape.ShapeType.StringType())),
         ],
         "ElasticLoadBalancingv2": [
             ReplacePatch(keyPath: \.serviceName, value: "ELBV2", originalValue: "ElasticLoadBalancingv2")
@@ -119,6 +119,7 @@ extension API {
                 originalValue: "COMPLETE"
             ),
             ReplacePatch2(keyPath1: \.shapes["Size"], keyPath2: \.type, value: .long(), originalValue: .integer()),
+            ReplacePatch3(keyPath1: \.shapes["CopySource"], keyPath2: \.type.string, keyPath3: \.pattern, value: ".+\\/.+", originalValue: "\\/.+\\/.+"),
             // Add additional location constraints
             AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "us-east-2"),
             AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-west-2"),

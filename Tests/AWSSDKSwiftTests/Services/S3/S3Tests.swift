@@ -128,6 +128,32 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testCopy() {
+        let name = TestEnvironment.generateResourceName()
+        let keyName = "file1"
+        let newKeyName = "file2"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = createBucket(name: name)
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: keyName)
+                return self.s3.putObject(putRequest)
+        }
+        .flatMap { response -> EventLoopFuture<S3.CopyObjectOutput> in
+            let copyRequest = S3.CopyObjectRequest(bucket: name, copySource: "\(name)/\(keyName)", key: newKeyName)
+            return self.s3.copyObject(copyRequest)
+        }
+        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+            return self.s3.getObject(.init(bucket: name, key: newKeyName))
+        }
+        .map { response -> Void in
+            XCTAssertEqual(response.body?.asString(), contents)
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+    
     func testMultiPartDownload() {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()

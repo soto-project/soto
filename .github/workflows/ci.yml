@@ -27,7 +27,13 @@ jobs:
     services:
       localstack:
         image: localstack/localstack
+        env:
+          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm,sts'
         options: >-
+          --health-cmd "awslocal s3 ls"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
           --workdir /opt/code/localstack/
     container:
       image: ${{ matrix.image }}
@@ -40,6 +46,7 @@ jobs:
         SQS_ENDPOINT        : "http://localstack:4576"
         SSM_ENDPOINT        : "http://localstack:4583"
         STS_ENDPOINT        : "http://localstack:4592"
+        AWS_ENABLE_LOGGING  : "true"
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -50,4 +57,4 @@ jobs:
         apt-get update -qq
         apt-get install -q -y tzdata zlib1g-dev
     - name: Test
-      run: swift test -Xswiftc -DDEBUG
+      run: swift test
