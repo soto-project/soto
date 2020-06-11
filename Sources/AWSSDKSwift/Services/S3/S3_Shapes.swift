@@ -1187,7 +1187,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.copySource, name: "copySource", parent: name, pattern: "\\/.+\\/.+")
+            try validate(self.copySource, name: "copySource", parent: name, pattern: ".+\\/.+")
             try validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -7368,7 +7368,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.copySource, name: "copySource", parent: name, pattern: "\\/.+\\/.+")
+            try validate(self.copySource, name: "copySource", parent: name, pattern: ".+\\/.+")
             try validate(self.key, name: "key", parent: name, min: 1)
         }
 

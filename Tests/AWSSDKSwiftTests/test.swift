@@ -58,7 +58,7 @@ struct TestEnvironment {
     
     /// get name to use for AWS resource
     static func generateResourceName(_ function: String = #function) -> String {
-        return "awssdkswift-" + function.filter { $0.isLetter }
+        return "awssdkswift-" + function.filter { $0.isLetter } .lowercased()
     }
     
 }

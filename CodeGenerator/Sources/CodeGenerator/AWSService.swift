@@ -726,10 +726,10 @@ extension AWSService {
                     )
                 }
             }
-        case .string(let min, let max, let pattern):
-            requirements["max"] = max
-            requirements["min"] = min
-            if let pattern = pattern {
+        case .string(let type):
+            requirements["max"] = type.max
+            requirements["min"] = type.min
+            if let pattern = type.pattern {
                 requirements["pattern"] = "\"\(pattern.addingBackslashEncoding())\""
             }
         case .structure(let structure):
@@ -914,11 +914,11 @@ extension Shape {
     /// return shape type as a string for output
     public var swiftTypeName: String {
         switch self.type {
-        case .string(_, _, _):
+        case .string:
             return "String"
-        case .integer(_, _):
+        case .integer:
             return "Int"
-        case .structure(_):
+        case .structure:
             return name.toSwiftClassCase()
         case .boolean:
             return "Bool"
@@ -926,11 +926,11 @@ extension Shape {
             return "[\(list.member.shape.swiftTypeName)]"
         case .map(let map):
             return "[\(map.key.shape.swiftTypeName): \(map.value.shape.swiftTypeName)]"
-        case .long(_, _):
+        case .long:
             return "Int64"
-        case .double(_, _):
+        case .double:
             return "Double"
-        case .float(_, _):
+        case .float:
             return "Float"
         case .blob:
             return "Data"
@@ -938,7 +938,7 @@ extension Shape {
             return "AWSPayload"
         case .timestamp:
             return "TimeStamp"
-        case .enum(_):
+        case .enum:
             return name.toSwiftClassCase()
         }
     }
