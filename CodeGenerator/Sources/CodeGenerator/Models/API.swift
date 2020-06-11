@@ -22,7 +22,7 @@ enum APIError: Error {
 //MARK: API
 
 // Used to decode model api_2 files
-struct API: Decodable {
+struct API: Decodable, PatchBase {
     struct Metadata: Decodable {
         enum ServiceProtocol: String, Decodable {
             case restxml = "rest-xml"
@@ -313,7 +313,7 @@ class Shape: Decodable, Patchable {
             }
         }
 
-        class StringType: Patchable {
+        class StringType {
             var min: Int?
             var max: Int?
             var pattern: String?
