@@ -124,10 +124,10 @@ class SQSTests: XCTestCase {
 
     static var allTests: [(String, (SQSTests) -> () throws -> Void)] {
         return [
-/*            ("testSendReceiveAndDelete", testSendReceiveAndDelete),
+            ("testSendReceiveAndDelete", testSendReceiveAndDelete),
             ("testGetQueueAttributes", testGetQueueAttributes),
             ("testTestPercentEncodedCharacters", testTestPercentEncodedCharacters),
-            ("testSendBatch", testSendBatch),*/
+            ("testSendBatch", testSendBatch),
         ]
     }
 }
