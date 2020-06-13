@@ -36,8 +36,8 @@ class IAMTests: XCTestCase {
         }
     }
 
-    func createUser(userName: String) -> EventLoopFuture<Void> {
-        let request = IAM.CreateUserRequest(userName: userName)
+    func createUser(userName: String, tags: [String: String] = [:]) -> EventLoopFuture<Void> {
+        let request = IAM.CreateUserRequest(tags: tags.map{ return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
         return iam.createUser(request)
             .map { response in
                 XCTAssertEqual(response.user?.userName, userName)
@@ -179,6 +179,22 @@ class IAMTests: XCTestCase {
             return self.deleteUser(userName: username)
         }
 
+        XCTAssertNoThrow(try response.wait())
+    }
+    
+    func testUserTags() {
+        let username = TestEnvironment.generateResourceName()
+        let response = createUser(userName: username, tags: ["test": "tag"])
+            .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
+                return self.iam.getUser(.init(userName: username))
+        }
+        .map { response in
+            XCTAssertEqual(response.user.tags?.first?.key, "test")
+            XCTAssertEqual(response.user.tags?.first?.value, "tag")
+        }
+        .flatAlways { _ in
+            return self.deleteUser(userName: username)
+        }
         XCTAssertNoThrow(try response.wait())
     }
     
