@@ -111,7 +111,8 @@ extension API {
         }
 
         // process operations, set where shapes are used, set streaming and eventstream flags
-        for operation in operations.values {
+        for key in operations.keys {
+            let operation = operations[key]!
             if let input = operation.input {
                 let inputShape = try getShape(named: input.shapeName)
                 if let xmlNamespace = input.xmlNamespace {
@@ -127,9 +128,9 @@ extension API {
                 if let payload = outputShape.payload,
                     case .structure(let structure) = outputShape.type,
                     let member = structure.members[payload] {
-                    operation.eventStream = member.shape.eventStream ?? false
+                    operations[key]?.eventStream = member.shape.eventStream ?? false
                     if (member.streaming == true || member.shape.streaming == true) && member.required == false {
-                        operation.streaming = true
+                        operations[key]?.streaming = true
                     }
                 }
             }
