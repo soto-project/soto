@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import AsyncHTTPClient
 import Foundation
 import AsyncHTTPClient
 import NIO
@@ -48,7 +49,7 @@ class S3Tests: XCTestCase {
         }
         return data
     }
-    
+
     func createBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
         let s3 = s3 ?? Self.s3
         let bucketRequest = S3.CreateBucketRequest(bucket: name)
@@ -68,7 +69,7 @@ class S3Tests: XCTestCase {
                 }
         }
     }
-    
+
     func deleteBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
         let s3 = s3 ?? Self.s3
         let request = S3.ListObjectsV2Request(bucket: name)
@@ -84,7 +85,7 @@ class S3Tests: XCTestCase {
             return s3.deleteBucket(request).map { _ in }
         }
     }
-    
+
     //MARK: TESTS
 
     func testHeadBucket() {
@@ -98,7 +99,7 @@ class S3Tests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testPutGetObject() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.PutObject and S3.GetObject"
@@ -153,7 +154,7 @@ class S3Tests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testMultiPartDownload() {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
@@ -207,7 +208,7 @@ class S3Tests: XCTestCase {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
-        
+
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
@@ -237,7 +238,7 @@ class S3Tests: XCTestCase {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTestFail"
-        
+
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
@@ -346,7 +347,7 @@ class S3Tests: XCTestCase {
         .flatAlways { _ in
             self.deleteBucket(name: name, s3: s3)
         }
-        
+
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -437,7 +438,7 @@ class S3Tests: XCTestCase {
                 XCTAssertEqual(getBody.asString(), body)
             }
         }
-        
+
         let name = TestEnvironment.generateResourceName()
         let eventLoop = Self.s3.client.eventLoopGroup.next()
         let response = createBucket(name: name)
@@ -513,6 +514,149 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testStreamObject() {
+        let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
+        let s3 = S3(
+            accessKeyId: TestEnvironment.accessKeyId,
+            secretAccessKey: TestEnvironment.secretAccessKey,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .shared(httpClient)
+        )
+        defer {
+            XCTAssertNoThrow(try s3.syncShutdown())
+            XCTAssertNoThrow(try httpClient.syncShutdown())
+            XCTAssertNoThrow(try elg.syncShutdownGracefully())
+        }
+
+        // create buffer
+        let dataSize = 257*1024
+        var data = Data(count: dataSize)
+        for i in 0..<dataSize {
+            data[i] = UInt8.random(in:0...255)
+        }
+
+        let name = TestEnvironment.generateResourceName()
+        let runOnEventLoop = s3.client.eventLoopGroup.next()
+        var byteBufferCollate = ByteBufferAllocator().buffer(capacity: dataSize)
+
+        let response = createBucket(name: name)
+            .hop(to: runOnEventLoop)
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, key: "tempfile")
+                return s3.putObject(putRequest, on: runOnEventLoop)
+        }
+        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+            let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
+            return s3.getObjectStreaming(getRequest, on: runOnEventLoop) { byteBuffer, eventLoop in
+                XCTAssertTrue(eventLoop === runOnEventLoop)
+                var byteBuffer = byteBuffer
+                byteBufferCollate.writeBuffer(&byteBuffer)
+                return eventLoop.makeSucceededFuture(())
+            }
+        }
+        .map { _ in
+            XCTAssertEqual(data, byteBufferCollate.getData(at: 0, length: byteBufferCollate.readableBytes))
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testSelectObjectContent() {
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        let s3 = S3(
+            accessKeyId: TestEnvironment.accessKeyId,
+            secretAccessKey: TestEnvironment.secretAccessKey,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .shared(httpClient)
+        )
+        defer {
+            XCTAssertNoThrow(try s3.syncShutdown())
+            XCTAssertNoThrow(try httpClient.syncShutdown())
+        }
+
+        let strings = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split(separator: " ")
+        let file = strings.reduce("") { $0 + "\($1), \($1.count), \($0.count+$1.count)\n"}
+        let file2 = file + file
+        let file3 = file2 + file2
+        let file4 = file3 + file3
+        let file5 = file4 + file4
+        let file6 = file5 + file5
+        let file7 = file6 + file6
+        let file8 = file7 + file7
+        let file9 = file8 + file8
+        let file10 = file9 + file9
+    
+        let name = TestEnvironment.generateResourceName()
+        let runOnEventLoop = s3.client.eventLoopGroup.next()
+
+        let response = createBucket(name: name)
+            .hop(to: runOnEventLoop)
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(body: .string(file10), bucket: name, key: "file.csv")
+                return s3.putObject(putRequest, on: runOnEventLoop)
+        }
+        .flatMap { _ -> EventLoopFuture<S3.SelectObjectContentOutput> in
+            let expression = "Select * from S3Object"
+            let input = S3.InputSerialization(csv: .init(fieldDelimiter: ",", fileHeaderInfo: .use, recordDelimiter: "\n"))
+            let output = S3.OutputSerialization(csv: .init(fieldDelimiter: ",", recordDelimiter: "\n"))
+            let request = S3.SelectObjectContentRequest(
+                bucket: name,
+                expression: expression,
+                expressionType: .sql,
+                inputSerialization: input,
+                key: "file.csv",
+                outputSerialization: output,
+                requestProgress: S3.RequestProgress(enabled: true)
+            )
+            return s3.selectObjectContentEventStream(request, on: runOnEventLoop) { eventStream, eventLoop in
+                XCTAssertTrue(eventLoop === runOnEventLoop)
+                if let records = eventStream.records?.payload {
+                    print(String(data: records, encoding: .utf8)!)
+                }
+                return eventLoop.makeSucceededFuture(())
+            }
+        }
+        .flatAlways { _ in
+            return self.deleteBucket(name: name)
+        }
+        XCTAssertNoThrow(try response.wait())
+
+        /*attempt {
+            let testData = try TestData(#function, client: s3)
+            
+            let putRequest = S3.PutObjectRequest(body: .string(file10), bucket: testData.bucket, key: "file.csv")
+            _ = try s3.putObject(putRequest).wait()
+
+            let expression = "Select * from S3Object"
+            let input = S3.InputSerialization(csv: .init(fieldDelimiter: ",", fileHeaderInfo: .use, recordDelimiter: "\n"))
+            let output = S3.OutputSerialization(csv: .init(fieldDelimiter: ",", recordDelimiter: "\n"))
+            let request = S3.SelectObjectContentRequest(
+                bucket: testData.bucket,
+                expression: expression,
+                expressionType: .sql,
+                inputSerialization: input,
+                key: "file.csv",
+                outputSerialization: output,
+                requestProgress: S3.RequestProgress(enabled: true)
+            )
+            _ = try s3.selectObjectContentEventStream(request) { eventStream, eventLoop in
+                if let records = eventStream.records?.payload {
+                    print(String(data: records, encoding: .utf8)!)
+                }
+                return eventLoop.makeSucceededFuture(())
+            }.wait()
+        }*/
+    }
+    
     func testS3VirtualAddressing(_ urlString: String) throws -> String {
         let url = URL(string: urlString)!
         let request = try AWSRequest(
@@ -551,7 +695,8 @@ class S3Tests: XCTestCase {
             ("testMetaData", testMetaData),
             ("testMultipleUpload", testMultipleUpload),
             ("testListPaginator", testListPaginator),
-            ("testS3VirtualAddressing", testS3VirtualAddressing)
+            ("testS3VirtualAddressing", testS3VirtualAddressing),
+            ("testStreamObject", testStreamObject)
         ]
     }
 }

@@ -132,6 +132,7 @@ extension AWSService {
         let path: String
         let httpMethod: String
         let deprecated: String?
+        let streaming: String?
     }
 
     struct PaginatorContext {
@@ -252,7 +253,35 @@ extension AWSService {
             name: operation.name,
             path: operation.http.requestUri,
             httpMethod: operation.http.method,
-            deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil)
+            deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
+            streaming: nil
+        )
+    }
+
+    /// generate operations context for streaming version of function
+    func generateStreamingOperationContext(_ operation: Operation, name: String) -> OperationContext {
+        // get output shape
+        /*guard let output = operation.output,
+            let shape = try? api.getShape(named: output.shapeName) else { return nil }
+        
+        guard let payload = shape.payload,
+            case .structure(let structure) = shape.type,
+            let member = structure.members[payload],
+            member.streaming == true || member.shape.streaming == true,
+            member.required == false else {
+                    return nil
+        }*/
+    
+        return OperationContext(
+            comment: docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
+            funcName: name.toSwiftVariableCase() + "Streaming",
+            inputShape: operation.input?.shapeName,
+            outputShape: operation.output?.shapeName,
+            name: operation.name,
+            path: operation.http.requestUri,
+            httpMethod: operation.http.method,
+            deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
+            streaming: "ByteBuffer"
         )
     }
 
@@ -302,10 +331,17 @@ extension AWSService {
 
         // Operations
         var operationContexts: [OperationContext] = []
+        var streamingOperationContexts: [OperationContext] = []
         for operation in api.operations {
-            operationContexts.append(generateOperationContext(operation.value, name: operation.key))
+            if operation.value.eventStream != true {
+                operationContexts.append(generateOperationContext(operation.value, name: operation.key))
+            }
+            if operation.value.streaming == true {
+                streamingOperationContexts.append(generateStreamingOperationContext(operation.value, name: operation.key))
+            }
         }
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
+        context["streamingOperations"] = streamingOperationContexts.sorted { $0.funcName < $1.funcName }
         return context
     }
 

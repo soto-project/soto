@@ -428,7 +428,7 @@ let package = Package(
         .target(name: "AWSRoute53", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53"),
         .target(name: "AWSRoute53Domains", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Domains"),
         .target(name: "AWSRoute53Resolver", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Resolver"),
-        .target(name: "AWSS3", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/S3", "Extensions/S3"]),
+        .target(name: "AWSS3", dependencies: ["AWSSDKSwiftCore", "CAWSZlib"], path: "./Sources/AWSSDKSwift/", sources: ["Services/S3", "Extensions/S3"]),
         .target(name: "AWSS3Control", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/S3Control", "Extensions/S3Control"]),
         .target(name: "AWSSES", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SES"),
         .target(name: "AWSSESV2", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SESV2"),
@@ -472,6 +472,7 @@ let package = Package(
         .target(name: "AWSWorkMailMessageFlow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkMailMessageFlow"),
         .target(name: "AWSWorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "AWSXRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
+        .target(name: "CAWSZlib", linkerSettings: [.linkedLibrary("z")]),
 
         .testTarget(name: "AWSSDKSwiftTests", dependencies: [
             "AWSACM",
