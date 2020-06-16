@@ -69,6 +69,10 @@ public struct MediaLive {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Update a channel schedule

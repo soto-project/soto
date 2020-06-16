@@ -69,6 +69,10 @@ public struct ImportExport {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  This operation cancels a specified job. Only the job owner can cancel it. The operation fails if the job has already started or is complete.

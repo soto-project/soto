@@ -23,7 +23,7 @@ import XCTest
 
 class S3Tests: XCTestCase {
 
-    var s3 = S3(
+    static let s3 = S3(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .euwest1,
@@ -50,7 +50,7 @@ class S3Tests: XCTestCase {
     }
     
     func createBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
-        let s3 = s3 ?? self.s3
+        let s3 = s3 ?? Self.s3
         let bucketRequest = S3.CreateBucketRequest(bucket: name)
         return s3.createBucket(bucketRequest)
             .map { _ in }
@@ -70,7 +70,7 @@ class S3Tests: XCTestCase {
     }
     
     func deleteBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
-        let s3 = s3 ?? self.s3
+        let s3 = s3 ?? Self.s3
         let request = S3.ListObjectsV2Request(bucket: name)
         return s3.listObjectsV2(request)
             .flatMap { response -> EventLoopFuture<Void> in
@@ -91,7 +91,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let response = createBucket(name: name)
             .flatMap {
-                self.s3.headBucket(.init(bucket: name))
+                Self.s3.headBucket(.init(bucket: name))
         }
         .flatAlways { _ in
             return self.deleteBucket(name: name)
@@ -111,13 +111,13 @@ class S3Tests: XCTestCase {
                     contentLength: Int64(contents.utf8.count),
                     key: name
                 )
-                return self.s3.putObject(putRequest)
+                return Self.s3.putObject(putRequest)
         }
         .map { response -> Void in
             XCTAssertNotNil(response.eTag)
         }
         .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return self.s3.getObject(.init(bucket: name, key: name))
+            return Self.s3.getObject(.init(bucket: name, key: name))
         }
         .map { response -> Void in
             XCTAssertEqual(response.body?.asString(), contents)
@@ -136,14 +136,14 @@ class S3Tests: XCTestCase {
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: keyName)
-                return self.s3.putObject(putRequest)
+                return Self.s3.putObject(putRequest)
         }
         .flatMap { response -> EventLoopFuture<S3.CopyObjectOutput> in
             let copyRequest = S3.CopyObjectRequest(bucket: name, copySource: "\(name)/\(keyName)", key: newKeyName)
-            return self.s3.copyObject(copyRequest)
+            return Self.s3.copyObject(copyRequest)
         }
         .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return self.s3.getObject(.init(bucket: name, key: newKeyName))
+            return Self.s3.getObject(.init(bucket: name, key: newKeyName))
         }
         .map { response -> Void in
             XCTAssertEqual(response.body?.asString(), contents)
@@ -161,11 +161,11 @@ class S3Tests: XCTestCase {
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
-                return self.s3.putObject(putRequest)
+                return Self.s3.putObject(putRequest)
         }
         .flatMap { _ -> EventLoopFuture<Int64> in
             let request = S3.GetObjectRequest(bucket: name, key: filename)
-            return self.s3.multipartDownload(request, partSize: 1024*1024, filename: filename) { print("Progress \($0*100)%")}
+            return Self.s3.multipartDownload(request, partSize: 1024*1024, filename: filename) { print("Progress \($0*100)%")}
         }
         .flatMapThrowing { size in
             XCTAssertEqual(size, Int64(data.count))
@@ -183,7 +183,7 @@ class S3Tests: XCTestCase {
         let response = createBucket(name: name)
             .flatMap { _ -> EventLoopFuture<Int64> in
                 let request = S3.GetObjectRequest(bucket: name, key: name)
-                return self.s3.multipartDownload(request, partSize: 1024*1024, filename: name) { print("Progress \($0*100)%")}
+                return Self.s3.multipartDownload(request, partSize: 1024*1024, filename: name) { print("Progress \($0*100)%")}
         }
         .map { _ in
             XCTFail("testMultiPartDownloadFailure: should have failed")
@@ -219,10 +219,10 @@ class S3Tests: XCTestCase {
                     bucket: name,
                     key: name
                 )
-                return self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0*100)%") }
+                return Self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0*100)%") }
         }
         .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return self.s3.getObject(.init(bucket: name, key: name))
+            return Self.s3.getObject(.init(bucket: name, key: name))
         }
         .map { response -> Void in
             XCTAssertEqual(response.body?.asData(), data)
@@ -247,7 +247,7 @@ class S3Tests: XCTestCase {
         let response = createBucket(name: name)
             .flatMap { _ -> EventLoopFuture<Void> in
                 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
-                return self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: "doesntexist").map { _ in }
+                return Self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: "doesntexist").map { _ in }
         }
         .map { _ in
             XCTFail("testMultiPartDownloadFailure: should have failed")
@@ -262,7 +262,7 @@ class S3Tests: XCTestCase {
 
         // bucket doesn't exist
         let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
-        let response2 =  s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename)
+        let response2 =  Self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename)
             .map { _ in
                 XCTFail("testMultiPartDownloadFailure: should have failed")
         }
@@ -284,13 +284,13 @@ class S3Tests: XCTestCase {
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: name)
-                return self.s3.putObject(putRequest)
+                return Self.s3.putObject(putRequest)
         }
         .flatMapThrowing { response -> String in
             return try XCTUnwrap(response.eTag)
         }
         .flatMap { eTag -> EventLoopFuture<(S3.ListObjectsV2Output, String)> in
-            return self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag)}
+            return Self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag)}
         }
         .map { (response, eTag) -> Void in
             XCTAssertEqual(response.contents?.first?.key, name)
@@ -305,9 +305,6 @@ class S3Tests: XCTestCase {
 
     func testStreamPutObject() {
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        defer {
-            XCTAssertNoThrow(try httpClient.syncShutdown())
-        }
         let s3 = S3(
             accessKeyId: TestEnvironment.accessKeyId,
             secretAccessKey: TestEnvironment.secretAccessKey,
@@ -316,6 +313,10 @@ class S3Tests: XCTestCase {
             middlewares: TestEnvironment.middlewares,
             httpClientProvider: .shared(httpClient)
         )
+        defer {
+            XCTAssertNoThrow(try s3.syncShutdown())
+            XCTAssertNoThrow(try httpClient.syncShutdown())
+        }
         let name = TestEnvironment.generateResourceName()
         let dataSize = 240*1024
         let blockSize = 64*1024
@@ -354,7 +355,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let response = createBucket(name: name)
             .flatMap { _ in
-                return self.s3.getBucketLocation(.init(bucket: name))
+                return Self.s3.getBucketLocation(.init(bucket: name))
         }
         .map { response in
             XCTAssertEqual(response.locationConstraint, .euWest1)
@@ -382,10 +383,10 @@ class S3Tests: XCTestCase {
                     transitions: transitions
                 )
                 let request = S3.PutBucketLifecycleConfigurationRequest(bucket: name, lifecycleConfiguration: .init(rules: [lifecycleRules]))
-                return self.s3.putBucketLifecycleConfiguration(request)
+                return Self.s3.putBucketLifecycleConfiguration(request)
         }
         .flatMap { _ in
-            return self.s3.getBucketLifecycleConfiguration(.init(bucket: name))
+            return Self.s3.getBucketLifecycleConfiguration(.init(bucket: name))
         }
         .map { response -> Void in
             XCTAssertEqual(response.rules?[0].transitions?[0].storageClass, .glacier)
@@ -410,10 +411,10 @@ class S3Tests: XCTestCase {
                     key: name,
                     metadata: ["Test": "testing", "first": "one"]
                 )
-                return self.s3.putObject(putRequest)
+                return Self.s3.putObject(putRequest)
         }
         .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return self.s3.getObject(.init(bucket: name, key: name))
+            return Self.s3.getObject(.init(bucket: name, key: name))
         }
         .map { response -> Void in
             XCTAssertEqual(response.metadata?["test"], "testing")
@@ -427,9 +428,9 @@ class S3Tests: XCTestCase {
 
     func testMultipleUpload() {
         func putGet(body: String, bucket: String, key: String) -> EventLoopFuture<Void> {
-            return s3.putObject(.init(body: .string(body), bucket: bucket, key: key))
+            return Self.s3.putObject(.init(body: .string(body), bucket: bucket, key: key))
                 .flatMap { _ in
-                    return self.s3.getObject(.init(bucket: bucket, key: key))
+                    return Self.s3.getObject(.init(bucket: bucket, key: key))
             }
             .flatMapThrowing { response in
                 let getBody = try XCTUnwrap(response.body)
@@ -438,7 +439,7 @@ class S3Tests: XCTestCase {
         }
         
         let name = TestEnvironment.generateResourceName()
-        let eventLoop = s3.client.eventLoopGroup.next()
+        let eventLoop = Self.s3.client.eventLoopGroup.next()
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<Void> in
                 let futureResults = (1...16).map { index -> EventLoopFuture<Void> in
@@ -465,10 +466,10 @@ class S3Tests: XCTestCase {
                     bucket: name,
                     key: name
                 )
-                return self.s3.putObject(putRequest)
+                return Self.s3.putObject(putRequest)
         }
         .flatMap { _ -> EventLoopFuture<S3.GetObjectAclOutput> in
-            return self.s3.getObjectAcl(.init(bucket: name, key: name, requestPayer: .requester))
+            return Self.s3.getObjectAcl(.init(bucket: name, key: name, requestPayer: .requester))
         }
         .flatAlways { response -> EventLoopFuture<Void> in
             print(response)
@@ -479,7 +480,7 @@ class S3Tests: XCTestCase {
 
     func testListPaginator() {
         let name = TestEnvironment.generateResourceName()
-        let eventLoop = s3.client.eventLoopGroup.next()
+        let eventLoop = Self.s3.client.eventLoopGroup.next()
         var list: [S3.Object] = []
         let response = createBucket(name: name)
             .flatMap { (_) -> EventLoopFuture<Void> in
@@ -487,18 +488,18 @@ class S3Tests: XCTestCase {
                 let futureResults: [EventLoopFuture<S3.PutObjectOutput>] = (1...16).map {
                     let body = "testMultipleUpload - " + $0.description
                     let filename = "file" + $0.description
-                    return self.s3.putObject(.init(body: .string(body), bucket: name, key: filename))
+                    return Self.s3.putObject(.init(body: .string(body), bucket: name, key: filename))
                 }
                 return EventLoopFuture.whenAllSucceed(futureResults, on: eventLoop).map { _ in }
         }
         .flatMap { _ in
-            return self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5)) { result, eventLoop in
+            return Self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5)) { result, eventLoop in
                 list.append(contentsOf: result.contents ?? [])
                 return eventLoop.makeSucceededFuture(true)
             }
         }
         .flatMap { _ in
-            return self.s3.listObjectsV2(.init(bucket: name))
+            return Self.s3.listObjectsV2(.init(bucket: name))
         }
         .map { response in
             XCTAssertEqual(list.count, response.contents?.count)
@@ -517,12 +518,12 @@ class S3Tests: XCTestCase {
         let request = try AWSRequest(
             region: .useast1,
             url: url,
-            serviceProtocol: s3.client.serviceProtocol,
+            serviceProtocol: Self.s3.client.serviceProtocol,
             operation: "TestOperation",
             httpMethod: "GET",
             httpHeaders: [:],
             body: .empty
-        ).applyMiddlewares(s3.client.serviceConfig.middlewares)
+        ).applyMiddlewares(Self.s3.client.serviceConfig.middlewares)
         return request.url.relativeString
     }
 

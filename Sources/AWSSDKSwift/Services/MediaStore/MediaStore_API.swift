@@ -70,6 +70,10 @@ public struct MediaStore {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a storage container to hold objects. A container is similar to a bucket in the Amazon S3 service.

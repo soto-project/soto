@@ -69,6 +69,10 @@ public struct MediaPackage {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a new Channel.

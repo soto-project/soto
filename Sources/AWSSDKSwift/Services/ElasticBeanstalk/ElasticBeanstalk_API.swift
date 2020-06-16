@@ -70,6 +70,10 @@ public struct ElasticBeanstalk {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Cancels in-progress environment configuration update or application version deployment.

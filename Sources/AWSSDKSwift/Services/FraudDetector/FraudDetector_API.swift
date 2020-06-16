@@ -70,6 +70,10 @@ public struct FraudDetector {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a batch of variables.

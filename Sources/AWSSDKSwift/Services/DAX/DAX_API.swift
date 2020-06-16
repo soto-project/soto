@@ -70,6 +70,10 @@ public struct DAX {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.

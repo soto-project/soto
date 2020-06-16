@@ -22,7 +22,7 @@ import XCTest
 
 class DynamoDBTests: XCTestCase {
 
-    var dynamoDB = DynamoDB(
+    static var dynamoDB = DynamoDB(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
@@ -46,7 +46,7 @@ class DynamoDBTests: XCTestCase {
             provisionedThroughput: .init(readCapacityUnits: 5, writeCapacityUnits: 5),
             tableName: name
         )
-        return dynamoDB.createTable(input)
+        return Self.dynamoDB.createTable(input)
             .map { response in
                 XCTAssertEqual(response.tableDescription?.tableName, name)
                 return
@@ -61,7 +61,7 @@ class DynamoDBTests: XCTestCase {
             }
         }
         .flatMap { (_) -> EventLoopFuture<Void> in
-            let eventLoop = self.dynamoDB.client.eventLoopGroup.next()
+            let eventLoop = Self.dynamoDB.client.eventLoopGroup.next()
             if TestEnvironment.isUsingLocalstack {
                 return eventLoop.makeSucceededFuture(())
             }
@@ -73,17 +73,17 @@ class DynamoDBTests: XCTestCase {
     
     func deleteTable(name: String) -> EventLoopFuture<DynamoDB.DeleteTableOutput> {
         let input = DynamoDB.DeleteTableInput(tableName: name)
-        return dynamoDB.deleteTable(input)
+        return Self.dynamoDB.deleteTable(input)
     }
     
     func putItem(tableName: String, values: [String: Any]) -> EventLoopFuture<DynamoDB.PutItemOutput> {
         let input = DynamoDB.PutItemInput(item: values.mapValues { DynamoDB.AttributeValue(any: $0) }, tableName: tableName)
-        return dynamoDB.putItem(input)
+        return Self.dynamoDB.putItem(input)
     }
     
     func getItem(tableName: String, keys: [String: String]) -> EventLoopFuture<DynamoDB.GetItemOutput> {
         let input = DynamoDB.GetItemInput(key: keys.mapValues { DynamoDB.AttributeValue.s($0) }, tableName: tableName)
-        return dynamoDB.getItem(input)
+        return Self.dynamoDB.getItem(input)
     }
     
     //MARK: TESTS

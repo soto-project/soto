@@ -70,6 +70,10 @@ public struct CodeStar {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Adds an IAM user to the team for an AWS CodeStar project.

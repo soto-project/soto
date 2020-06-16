@@ -70,6 +70,10 @@ public struct Translate {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  A synchronous action that deletes a custom terminology.

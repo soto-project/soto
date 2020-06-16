@@ -69,6 +69,10 @@ public struct RoboMaker {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Describes one or more simulation jobs.

@@ -69,6 +69,10 @@ public struct Amplify {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///   Creates a new Amplify App. 

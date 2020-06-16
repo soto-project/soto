@@ -69,6 +69,10 @@ public struct RAM {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Accepts an invitation to a resource share from another AWS account.

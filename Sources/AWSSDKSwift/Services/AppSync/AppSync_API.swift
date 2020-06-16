@@ -69,6 +69,10 @@ public struct AppSync {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a cache for the GraphQL API.

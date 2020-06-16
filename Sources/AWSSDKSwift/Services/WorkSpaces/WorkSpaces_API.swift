@@ -70,6 +70,10 @@ public struct WorkSpaces {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Associates the specified IP access control group with the specified directory.

@@ -70,6 +70,10 @@ public struct ApplicationInsights {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Adds an application that is created from a resource group.

@@ -70,6 +70,10 @@ public struct AugmentedAIRuntime {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Deletes the specified human loop for a flow definition.

@@ -70,6 +70,10 @@ public struct ServiceCatalog {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Accepts an offer to share the specified portfolio.

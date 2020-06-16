@@ -71,6 +71,10 @@ public struct CloudHSMV2 {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Copy an AWS CloudHSM cluster backup to a different region.

@@ -71,6 +71,10 @@ public struct ElasticInference {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///   Describes the locations in which a given accelerator type or set of types is present in a given region. 

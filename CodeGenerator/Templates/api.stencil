@@ -87,6 +87,10 @@ public struct {{ name }} {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 {%for op in operations %}
 

@@ -19,7 +19,7 @@ import XCTest
 
 class SNSTests: XCTestCase {
 
-    let sns = SNS(
+    static let sns = SNS(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
@@ -38,11 +38,11 @@ class SNSTests: XCTestCase {
 
     /// create SNS topic with supplied name and run supplied closure
     func testTopic(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
-        let eventLoop = self.sns.client.eventLoopGroup.next()
+        let eventLoop = Self.sns.client.eventLoopGroup.next()
         var topicArn : String? = nil
         
         let request = SNS.CreateTopicInput(name: name)
-        return sns.createTopic(request)
+        return Self.sns.createTopic(request)
             .flatMapThrowing { response in
                 topicArn = try XCTUnwrap(response.topicArn)
                 return topicArn!
@@ -51,7 +51,7 @@ class SNSTests: XCTestCase {
         .flatAlways { (_) -> EventLoopFuture<Void> in
             if let topicArn = topicArn {
                 let request = SNS.DeleteTopicInput(topicArn: topicArn)
-                return self.sns.deleteTopic(request)
+                return Self.sns.deleteTopic(request)
             } else {
                 return eventLoop.makeSucceededFuture(())
             }
@@ -63,7 +63,7 @@ class SNSTests: XCTestCase {
     func testCreateDelete() {
         let name = TestEnvironment.generateResourceName()
         let response = testTopic(name: name) { topicArn in
-            return self.sns.client.eventLoopGroup.next().makeSucceededFuture(())
+            return Self.sns.client.eventLoopGroup.next().makeSucceededFuture(())
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -72,7 +72,7 @@ class SNSTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let response = testTopic(name: name) { topicArn in
             let request = SNS.ListTopicsInput()
-            return self.sns.listTopics(request)
+            return Self.sns.listTopics(request)
                 .map { response in
                     let topic = response.topics?.first { $0.topicArn == topicArn }
                     XCTAssertNotNil(topic)
@@ -91,10 +91,10 @@ class SNSTests: XCTestCase {
                 attributeValue: "aws-test topic &",
                 topicArn: topicArn
             )
-            return self.sns.setTopicAttributes(request)
+            return Self.sns.setTopicAttributes(request)
                 .flatMap { (_) -> EventLoopFuture<SNS.GetTopicAttributesResponse> in
                     let request = SNS.GetTopicAttributesInput(topicArn: topicArn)
-                    return self.sns.getTopicAttributes(request)
+                    return Self.sns.getTopicAttributes(request)
             }
             .map { response in
                 XCTAssertEqual(response.attributes?["DisplayName"], "aws-test topic &")

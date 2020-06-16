@@ -88,6 +88,10 @@ public struct ServerlessApplicationRepository {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates an application, optionally including an AWS SAM file to create the first application version in the same call.

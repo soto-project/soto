@@ -72,6 +72,10 @@ public struct IoT1ClickDevicesService {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Adds device(s) to your account (i.e., claim one or more devices) if and only if you
