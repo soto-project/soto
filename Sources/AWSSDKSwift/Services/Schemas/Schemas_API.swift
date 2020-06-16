@@ -69,6 +69,10 @@ public struct Schemas {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a discoverer.

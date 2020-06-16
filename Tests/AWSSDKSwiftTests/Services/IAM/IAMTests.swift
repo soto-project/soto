@@ -20,7 +20,7 @@ import XCTest
 
 class IAMTests: XCTestCase {
 
-    let iam = IAM(
+    static let iam = IAM(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         endpoint: TestEnvironment.getEndPoint(environment: "IAM_ENDPOINT", default: "http://localhost:4566"),
@@ -38,7 +38,7 @@ class IAMTests: XCTestCase {
 
     func createUser(userName: String, tags: [String: String] = [:]) -> EventLoopFuture<Void> {
         let request = IAM.CreateUserRequest(tags: tags.map{ return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
-        return iam.createUser(request)
+        return Self.iam.createUser(request)
             .map { response in
                 XCTAssertEqual(response.user?.userName, userName)
             }
@@ -54,18 +54,18 @@ class IAMTests: XCTestCase {
     }
 
     func deleteUser(userName: String) -> EventLoopFuture<Void> {
-        let eventLoop = self.iam.client.eventLoopGroup.next()
+        let eventLoop = Self.iam.client.eventLoopGroup.next()
         let request = IAM.ListUserPoliciesRequest(userName: userName)
-        return self.iam.listUserPolicies(request)
+        return Self.iam.listUserPolicies(request)
             .flatMap { response -> EventLoopFuture<Void> in
                 let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
                     let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
                     // add stall to avoid throttling errors.
                     return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
-                        return self.iam.deleteUserPolicy(deletePolicy)
+                        return Self.iam.deleteUserPolicy(deletePolicy)
                     }.futureResult
                 }
-                return EventLoopFuture.andAllComplete(futures, on: self.iam.client.eventLoopGroup.next())
+                return EventLoopFuture.andAllComplete(futures, on: Self.iam.client.eventLoopGroup.next())
         }
         .flatMap { _ -> EventLoopFuture<Void> in
             // add stall to avoid throttling errors.
@@ -73,7 +73,7 @@ class IAMTests: XCTestCase {
             return scheduled.futureResult
         }
         .flatMap { _ in
-            return self.iam.deleteUser(.init(userName: userName)).map { _ in }
+            return Self.iam.deleteUser(.init(userName: userName)).map { _ in }
         }
     }
     
@@ -107,7 +107,7 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         let response = createUser(userName: username)
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
-                return self.iam.getUser(.init(userName: username))
+                return Self.iam.getUser(.init(userName: username))
         }
         .flatMap { (user) -> EventLoopFuture<Void> in
             let request = IAM.PutUserPolicyRequest(
@@ -115,11 +115,11 @@ class IAMTests: XCTestCase {
                 policyName: "testSetGetPolicy",
                 userName: user.user.userName
             )
-            return self.iam.putUserPolicy(request)
+            return Self.iam.putUserPolicy(request)
         }
         .flatMap { (_) -> EventLoopFuture<IAM.GetUserPolicyResponse> in
             let request = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
-            return self.iam.getUserPolicy(request)
+            return Self.iam.getUserPolicy(request)
         }
         .map { response in
             let responsePolicyDocument = response.policyDocument.removingPercentEncoding?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -155,7 +155,7 @@ class IAMTests: XCTestCase {
         var userArn: String!
         let response = createUser(userName: username)
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
-                return self.iam.getUser(.init(userName: username))
+                return Self.iam.getUser(.init(userName: username))
         }
         .flatMap { (user) -> EventLoopFuture<Void> in
             userArn = user.user.arn
@@ -164,11 +164,11 @@ class IAMTests: XCTestCase {
                 policyName: "testSetGetPolicy",
                 userName: user.user.userName
             )
-            return self.iam.putUserPolicy(request)
+            return Self.iam.putUserPolicy(request)
         }
         .flatMap { (_) -> EventLoopFuture<IAM.SimulatePolicyResponse> in
             let request = IAM.SimulatePrincipalPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], policySourceArn: userArn)
-            return self.iam.simulatePrincipalPolicy(request)
+            return Self.iam.simulatePrincipalPolicy(request)
         }
         .map { response in
             XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
@@ -186,7 +186,7 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         let response = createUser(userName: username, tags: ["test": "tag"])
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
-                return self.iam.getUser(.init(userName: username))
+                return Self.iam.getUser(.init(userName: username))
         }
         .map { response in
             XCTAssertEqual(response.user.tags?.first?.key, "test")

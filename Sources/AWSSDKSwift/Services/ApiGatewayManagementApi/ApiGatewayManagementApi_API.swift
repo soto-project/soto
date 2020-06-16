@@ -69,6 +69,10 @@ public struct ApiGatewayManagementApi {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Delete the connection with the provided id.

@@ -69,6 +69,10 @@ public struct QLDB {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.

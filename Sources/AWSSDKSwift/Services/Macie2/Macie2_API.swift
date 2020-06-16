@@ -69,6 +69,10 @@ public struct Macie2 {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Accepts an Amazon Macie membership invitation that was received from a specific account.

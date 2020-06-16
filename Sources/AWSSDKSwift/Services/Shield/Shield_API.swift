@@ -70,6 +70,10 @@ public struct Shield {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Authorizes the DDoS Response team (DRT) to access the specified Amazon S3 bucket containing your AWS WAF logs. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the DRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan.

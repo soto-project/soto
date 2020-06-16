@@ -69,6 +69,10 @@ public struct AccessAnalyzer {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates an analyzer for your account.

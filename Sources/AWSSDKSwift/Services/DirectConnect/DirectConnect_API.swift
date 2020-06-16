@@ -71,6 +71,10 @@ public struct DirectConnect {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.

@@ -69,6 +69,10 @@ public struct ApiGatewayV2 {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates an Api resource.

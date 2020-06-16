@@ -70,6 +70,10 @@ public struct LexRuntimeService {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Removes session information for a specified bot, alias, and user ID. 

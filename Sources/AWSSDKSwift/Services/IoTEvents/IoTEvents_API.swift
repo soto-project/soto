@@ -69,6 +69,10 @@ public struct IoTEvents {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a detector model.

@@ -69,6 +69,10 @@ public struct WorkLink {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Specifies a domain to be associated to Amazon WorkLink.

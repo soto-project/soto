@@ -71,6 +71,10 @@ public struct TranscribeService {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a new custom vocabulary that you can use to change how Amazon Transcribe Medical transcribes your audio file.

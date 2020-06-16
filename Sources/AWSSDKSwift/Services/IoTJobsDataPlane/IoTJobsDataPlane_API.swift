@@ -70,6 +70,10 @@ public struct IoTJobsDataPlane {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Gets details of a job execution.

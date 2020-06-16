@@ -71,6 +71,10 @@ public struct MigrationHubConfig {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  This API sets up the home region for the calling account only.

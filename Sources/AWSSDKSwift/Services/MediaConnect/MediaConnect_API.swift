@@ -69,6 +69,10 @@ public struct MediaConnect {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Adds outputs to an existing flow. You can create up to 50 outputs per flow.

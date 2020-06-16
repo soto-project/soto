@@ -19,7 +19,7 @@ import XCTest
 
 class SQSTests: XCTestCase {
 
-    let sqs = SQS(
+    static let sqs = SQS(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
@@ -38,11 +38,11 @@ class SQSTests: XCTestCase {
 
     /// create SQS queue with supplied name and run supplied closure
     func testQueue(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
-        let eventLoop = self.sqs.client.eventLoopGroup.next()
+        let eventLoop = Self.sqs.client.eventLoopGroup.next()
         var queueUrl : String? = nil
         
         let request = SQS.CreateQueueRequest(queueName: name)
-        return sqs.createQueue(request)
+        return Self.sqs.createQueue(request)
             .flatMapThrowing { response in
                 queueUrl = try XCTUnwrap(response.queueUrl)
                 return queueUrl!
@@ -51,7 +51,7 @@ class SQSTests: XCTestCase {
         .flatAlways { (_) -> EventLoopFuture<Void> in
             if let queueUrl = queueUrl {
                 let request = SQS.DeleteQueueRequest(queueUrl: queueUrl)
-                return self.sqs.deleteQueue(request)
+                return Self.sqs.deleteQueue(request)
             } else {
                 return eventLoop.makeSucceededFuture(())
             }
@@ -61,14 +61,14 @@ class SQSTests: XCTestCase {
     func testSendReceiveAndDelete(name: String, messageBody: String) -> EventLoopFuture<Void> {
         return testQueue(name: name) { queueUrl in
             let request = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: queueUrl)
-            return self.sqs.sendMessage(request)
+            return Self.sqs.sendMessage(request)
                 .flatMapThrowing { (response) throws -> String in
                     let messageId = try XCTUnwrap(response.messageId)
                     return messageId
             }
             .flatMap { messageId -> EventLoopFuture<(SQS.ReceiveMessageResult, String)> in
                 let request = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: queueUrl)
-                return self.sqs.receiveMessage(request).map { ($0, messageId )}
+                return Self.sqs.receiveMessage(request).map { ($0, messageId )}
             }
             .flatMapThrowing { (result, messageId) -> String in
                 let message = try XCTUnwrap(result.messages?.first)
@@ -79,7 +79,7 @@ class SQSTests: XCTestCase {
             }
             .flatMap { receiptHandle -> EventLoopFuture<Void> in
                 let request = SQS.DeleteMessageRequest(queueUrl: queueUrl, receiptHandle: receiptHandle)
-                return self.sqs.deleteMessage(request).map {_ in }
+                return Self.sqs.deleteMessage(request).map {_ in }
             }
         }
     }
@@ -96,7 +96,7 @@ class SQSTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let response = testQueue(name: name) { queueUrl in
             let request = SQS.GetQueueAttributesRequest(attributeNames: [.queuearn], queueUrl: queueUrl)
-            return self.sqs.getQueueAttributes(request)
+            return Self.sqs.getQueueAttributes(request)
                 .map { response in
                     XCTAssertNotNil(response.attributes?[.queuearn])
             }
@@ -116,7 +116,7 @@ class SQSTests: XCTestCase {
         let response = testQueue(name: name) { queueUrl in
             let messageBody = "Testing, testing,1,2,1,2"
             let request = SQS.SendMessageBatchRequest(entries: [.init(id:"msg1", messageBody: messageBody)], queueUrl: queueUrl)
-            return self.sqs.sendMessageBatch(request).map { _ in }
+            return Self.sqs.sendMessageBatch(request).map { _ in }
         }
         XCTAssertNoThrow(try response.wait())
     }

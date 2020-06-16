@@ -69,6 +69,10 @@ public struct WorkMailMessageFlow {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Retrieves the raw content of an in-transit email message, in MIME format. 

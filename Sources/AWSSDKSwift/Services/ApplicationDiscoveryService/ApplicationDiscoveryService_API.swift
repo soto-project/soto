@@ -70,6 +70,10 @@ public struct ApplicationDiscoveryService {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Associates one or more configuration items with an application.

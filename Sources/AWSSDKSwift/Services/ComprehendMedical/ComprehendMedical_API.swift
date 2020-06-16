@@ -70,6 +70,10 @@ public struct ComprehendMedical {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.

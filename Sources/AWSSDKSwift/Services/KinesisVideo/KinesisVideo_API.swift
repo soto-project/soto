@@ -68,6 +68,10 @@ public struct KinesisVideo {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Creates a signaling channel.   CreateSignalingChannel is an asynchronous operation.

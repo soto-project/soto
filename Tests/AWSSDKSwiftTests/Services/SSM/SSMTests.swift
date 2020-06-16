@@ -19,7 +19,7 @@ import XCTest
 
 class SSMTests: XCTestCase {
 
-    let ssm = SSM(
+    static let ssm = SSM(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
@@ -38,12 +38,12 @@ class SSMTests: XCTestCase {
 
     func putParameter(name: String, value: String) -> EventLoopFuture<Void> {
         let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
-        return ssm.putParameter(request).map { _ in }
+        return Self.ssm.putParameter(request).map { _ in }
     }
     
     func deleteParameter(name: String) -> EventLoopFuture<Void> {
         let request = SSM.DeleteParameterRequest(name: name)
-        return ssm.deleteParameter(request).map { _ in }
+        return Self.ssm.deleteParameter(request).map { _ in }
     }
     
     //MARK: TESTS
@@ -54,7 +54,7 @@ class SSMTests: XCTestCase {
         let response = putParameter(name: name, value: "testdata")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParameterResult> in
                 let request = SSM.GetParameterRequest(name: name)
-                return self.ssm.getParameter(request)
+                return Self.ssm.getParameter(request)
         }
         .flatMapThrowing { response in
             let parameter = try XCTUnwrap(response.parameter)
@@ -72,7 +72,7 @@ class SSMTests: XCTestCase {
         let response = putParameter(name: name, value: "testdata2")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
                 let request = SSM.GetParametersByPathRequest(path: "/test/")
-                return self.ssm.getParametersByPath(request)
+                return Self.ssm.getParametersByPath(request)
         }
         .flatMapThrowing { response in
             let parameter = try XCTUnwrap(response.parameters?.first)

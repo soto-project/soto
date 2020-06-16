@@ -71,6 +71,10 @@ public struct SSO {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Returns the STS short-term credentials for a given role name that is assigned to the user.

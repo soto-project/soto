@@ -19,7 +19,7 @@ import XCTest
 
 class STSTests: XCTestCase {
 
-    let sts = STS(
+    static let sts = STS(
         accessKeyId: TestEnvironment.accessKeyId,
         secretAccessKey: TestEnvironment.secretAccessKey,
         region: .useast1,
@@ -37,13 +37,13 @@ class STSTests: XCTestCase {
     }
 
     func testGetCallerIdentity() {
-        let response = sts.getCallerIdentity(.init())
+        let response = Self.sts.getCallerIdentity(.init())
         XCTAssertNoThrow(try response.wait())
     }
 
     func testErrorCodes() {
         let request = STS.AssumeRoleWithWebIdentityRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now", webIdentityToken: "webtoken")
-        let response = sts.assumeRoleWithWebIdentity(request)
+        let response = Self.sts.assumeRoleWithWebIdentity(request)
             .map { _ in }
             .flatMapErrorThrowing { error in
                 switch error {

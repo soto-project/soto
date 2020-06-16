@@ -69,6 +69,10 @@ public struct Chime {
         )
     }
     
+    func syncShutdown() throws {
+        try client.syncShutdown()
+    }
+    
     //MARK: API Calls
 
     ///  Associates a phone number with the specified Amazon Chime user.
