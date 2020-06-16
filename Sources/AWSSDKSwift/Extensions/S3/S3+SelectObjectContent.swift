@@ -129,10 +129,10 @@ extension S3 {
     ///   - input: Request structure
     ///   - stream: callback to process events streamed
     /// - Returns: Response structure
-    public func selectObjectContentEventStream(_ input: SelectObjectContentRequest, _ stream: @escaping (SelectObjectContentEventStream, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SelectObjectContentOutput> {
+    public func selectObjectContentEventStream(_ input: SelectObjectContentRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (SelectObjectContentEventStream, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SelectObjectContentOutput> {
         // byte buffer for storing unprocessed data
         var selectByteBuffer: ByteBuffer? = nil
-        return client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
+        return client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input, on: eventLoop) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
             var byteBuffer = byteBuffer
             if var selectByteBuffer2 = selectByteBuffer {
                 selectByteBuffer2.writeBuffer(&byteBuffer)
