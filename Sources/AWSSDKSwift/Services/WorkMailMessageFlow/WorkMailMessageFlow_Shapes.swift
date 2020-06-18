@@ -45,11 +45,8 @@ extension WorkMailMessageFlow {
 
     public struct GetRawMessageContentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "messageContent"
-        public static let options: PayloadOptions = [.allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageContent", encoding: .blob)
-        ]
+        public static let _payloadPath: String = "messageContent"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
 
         /// The raw content of the email message, in MIME format.
         public let messageContent: AWSPayload

@@ -1606,10 +1606,8 @@ extension ApiGatewayV2 {
 
     public struct ExportApiResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "body"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "body", encoding: .blob)
-        ]
+        public static let _payloadPath: String = "body"
+        public static let _payloadOptions: PayloadOptions = [.raw]
 
         public let body: AWSPayload?
 

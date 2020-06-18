@@ -327,7 +327,7 @@ extension AppMesh {
 
     public struct CreateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "mesh"
+        public static let _payloadPath: String = "mesh"
 
         /// The full description of your service mesh following the create call.
         public let mesh: MeshData
@@ -407,7 +407,7 @@ extension AppMesh {
 
     public struct CreateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "route"
+        public static let _payloadPath: String = "route"
 
         /// The full description of your mesh following the create call.
         public let route: RouteData
@@ -480,7 +480,7 @@ extension AppMesh {
 
     public struct CreateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualNode"
+        public static let _payloadPath: String = "virtualNode"
 
         /// The full description of your virtual node following the create call.
         public let virtualNode: VirtualNodeData
@@ -553,7 +553,7 @@ extension AppMesh {
 
     public struct CreateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualRouter"
+        public static let _payloadPath: String = "virtualRouter"
 
         /// The full description of your virtual router following the create call.
         public let virtualRouter: VirtualRouterData
@@ -624,7 +624,7 @@ extension AppMesh {
 
     public struct CreateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualService"
+        public static let _payloadPath: String = "virtualService"
 
         /// The full description of your virtual service following the create call.
         public let virtualService: VirtualServiceData
@@ -660,7 +660,7 @@ extension AppMesh {
 
     public struct DeleteMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "mesh"
+        public static let _payloadPath: String = "mesh"
 
         /// The service mesh that was deleted.
         public let mesh: MeshData
@@ -715,7 +715,7 @@ extension AppMesh {
 
     public struct DeleteRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "route"
+        public static let _payloadPath: String = "route"
 
         /// The route that was deleted.
         public let route: RouteData
@@ -764,7 +764,7 @@ extension AppMesh {
 
     public struct DeleteVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualNode"
+        public static let _payloadPath: String = "virtualNode"
 
         /// The virtual node that was deleted.
         public let virtualNode: VirtualNodeData
@@ -813,7 +813,7 @@ extension AppMesh {
 
     public struct DeleteVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualRouter"
+        public static let _payloadPath: String = "virtualRouter"
 
         /// The virtual router that was deleted.
         public let virtualRouter: VirtualRouterData
@@ -860,7 +860,7 @@ extension AppMesh {
 
     public struct DeleteVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualService"
+        public static let _payloadPath: String = "virtualService"
 
         /// The virtual service that was deleted.
         public let virtualService: VirtualServiceData
@@ -903,7 +903,7 @@ extension AppMesh {
 
     public struct DescribeMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "mesh"
+        public static let _payloadPath: String = "mesh"
 
         /// The full description of your service mesh.
         public let mesh: MeshData
@@ -958,7 +958,7 @@ extension AppMesh {
 
     public struct DescribeRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "route"
+        public static let _payloadPath: String = "route"
 
         /// The full description of your route.
         public let route: RouteData
@@ -1007,7 +1007,7 @@ extension AppMesh {
 
     public struct DescribeVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualNode"
+        public static let _payloadPath: String = "virtualNode"
 
         /// The full description of your virtual node.
         public let virtualNode: VirtualNodeData
@@ -1056,7 +1056,7 @@ extension AppMesh {
 
     public struct DescribeVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualRouter"
+        public static let _payloadPath: String = "virtualRouter"
 
         /// The full description of your virtual router.
         public let virtualRouter: VirtualRouterData
@@ -1103,7 +1103,7 @@ extension AppMesh {
 
     public struct DescribeVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualService"
+        public static let _payloadPath: String = "virtualService"
 
         /// The full description of your virtual service.
         public let virtualService: VirtualServiceData
@@ -2818,7 +2818,7 @@ extension AppMesh {
 
     public struct UpdateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "mesh"
+        public static let _payloadPath: String = "mesh"
 
         public let mesh: MeshData
 
@@ -2883,7 +2883,7 @@ extension AppMesh {
 
     public struct UpdateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "route"
+        public static let _payloadPath: String = "route"
 
         /// A full description of the route that was updated.
         public let route: RouteData
@@ -2943,7 +2943,7 @@ extension AppMesh {
 
     public struct UpdateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualNode"
+        public static let _payloadPath: String = "virtualNode"
 
         /// A full description of the virtual node that was updated.
         public let virtualNode: VirtualNodeData
@@ -3003,7 +3003,7 @@ extension AppMesh {
 
     public struct UpdateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualRouter"
+        public static let _payloadPath: String = "virtualRouter"
 
         /// A full description of the virtual router that was updated.
         public let virtualRouter: VirtualRouterData
@@ -3062,7 +3062,7 @@ extension AppMesh {
 
     public struct UpdateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "virtualService"
+        public static let _payloadPath: String = "virtualService"
 
         /// A full description of the virtual service that was updated.
         public let virtualService: VirtualServiceData

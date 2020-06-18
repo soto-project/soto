@@ -1606,13 +1606,14 @@ extension Lambda {
 
     public struct InvocationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "payload"
+        public static let _payloadPath: String = "payload"
+        public static let _payloadOptions: PayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "clientContext", location: .header(locationName: "X-Amz-Client-Context")), 
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "invocationType", location: .header(locationName: "X-Amz-Invocation-Type")), 
             AWSMemberEncoding(label: "logType", location: .header(locationName: "X-Amz-Log-Type")), 
-            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1652,12 +1653,13 @@ extension Lambda {
 
     public struct InvocationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "payload"
+        public static let _payloadPath: String = "payload"
+        public static let _payloadOptions: PayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "executedVersion", location: .header(locationName: "X-Amz-Executed-Version")), 
             AWSMemberEncoding(label: "functionError", location: .header(locationName: "X-Amz-Function-Error")), 
             AWSMemberEncoding(label: "logResult", location: .header(locationName: "X-Amz-Log-Result")), 
-            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload")), 
             AWSMemberEncoding(label: "statusCode", location: .statusCode)
         ]
 
@@ -1691,11 +1693,11 @@ extension Lambda {
 
     public struct InvokeAsyncRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "invokeArgs"
-        public static let options: PayloadOptions = [.allowStreaming]
+        public static let _payloadPath: String = "invokeArgs"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "invokeArgs", location: .body(locationName: "InvokeArgs"), encoding: .blob)
+            AWSMemberEncoding(label: "invokeArgs", location: .body(locationName: "InvokeArgs"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.

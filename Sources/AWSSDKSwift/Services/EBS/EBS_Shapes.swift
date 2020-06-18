@@ -100,10 +100,10 @@ extension EBS {
 
     public struct GetSnapshotBlockResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "blockData"
-        public static let options: PayloadOptions = [.allowStreaming]
+        public static let _payloadPath: String = "blockData"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData"), encoding: .blob), 
+            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData")), 
             AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")), 
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
             AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length"))

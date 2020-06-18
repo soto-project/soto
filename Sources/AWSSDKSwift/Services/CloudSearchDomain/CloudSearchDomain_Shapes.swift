@@ -392,11 +392,10 @@ extension CloudSearchDomain {
 
     public struct UploadDocumentsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "documents"
-        public static let options: PayloadOptions = [.allowStreaming]
+        public static let _payloadPath: String = "documents"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "documents", encoding: .blob)
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
         ]
 
         /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml 
