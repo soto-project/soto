@@ -154,10 +154,10 @@ extension MediaStoreData {
 
     public struct GetObjectResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "body"
-        public static let options: PayloadOptions = [.allowStreaming]
+        public static let _payloadPath: String = "body"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
             AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
             AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
@@ -292,10 +292,10 @@ extension MediaStoreData {
 
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "body"
-        public static let options: PayloadOptions = [.allowStreaming, .allowChunkedStreaming]
+        public static let _payloadPath: String = "body"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 

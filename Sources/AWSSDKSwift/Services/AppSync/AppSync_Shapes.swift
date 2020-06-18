@@ -1255,10 +1255,8 @@ extension AppSync {
 
     public struct GetIntrospectionSchemaResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "schema"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schema", encoding: .blob)
-        ]
+        public static let _payloadPath: String = "schema"
+        public static let _payloadOptions: PayloadOptions = [.raw]
 
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
         public let schema: AWSPayload?

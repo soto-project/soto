@@ -705,10 +705,10 @@ extension Polly {
 
     public struct SynthesizeSpeechOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let payloadPath: String = "audioStream"
-        public static let options: PayloadOptions = [.allowStreaming]
+        public static let _payloadPath: String = "audioStream"
+        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream"), encoding: .blob), 
+            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "requestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"))
         ]

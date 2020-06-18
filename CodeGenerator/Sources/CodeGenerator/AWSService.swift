@@ -181,7 +181,6 @@ extension AWSService {
         let name: String
         let location: String?
         let locationName: String?
-        let encoding: String?
     }
 
     class ValidationContext {
@@ -634,58 +633,24 @@ extension AWSService {
         )
     }
 
-    /// Return encoding string for shape member
-    func getEncoding(for member: Shape.Member, isPayload: Bool) -> String? {
-        switch member.shape.type {
-        case .blob, .payload:
-            if isPayload {
-                return ".blob"
-            }
-        default:
-            break
-        }
-
-        /*guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
-
-        switch member.shape.type {
-        case .list(let list):
-            if list.flattened == true || member.flattened == true {
-                return ".flatList"
-            } else {
-                return ".list(member:\"\(getArrayEntryName(list))\")"
-            }
-        case .map(let map):
-            if map.flattened == true || member.flattened == true {
-                return ".flatMap(key: \"\(map.key.locationName ?? "key")\", value: \"\(map.value.locationName ?? "value")\")"
-            } else {
-                return ".map(entry:\"entry\", key: \"\(map.key.locationName ?? "key")\", value: \"\(map.value.locationName ?? "value")\")"
-            }
-        default:
-            break
-        }*/
-        return nil
-    }
-
     /// Generate the context information for outputting a member variable
     func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> AWSShapeMemberContext? {
         let isPayload = (shape.payload == name)
-        let encoding = getEncoding(for: member, isPayload: isPayload)
         var locationName: String? = member.locationName
         let location = member.location ?? .body
 
-        if ((isPayload && shape.usedInOutput) || encoding != nil || (location != .body)) && locationName == nil {
+        if (isPayload || location != .body) && locationName == nil {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
         if location == .body && (locationName == name.toSwiftLabelCase() || !isPayload) {
             locationName = nil
         }
-        guard locationName != nil || encoding != nil else { return nil }
+        guard locationName != nil else { return nil }
         return AWSShapeMemberContext(
             name: name.toSwiftLabelCase(),
             location: locationName.map { location.enumStringValue(named: $0) },
-            locationName: locationName,
-            encoding: encoding
+            locationName: locationName
         )
     }
 
@@ -817,10 +782,14 @@ extension AWSService {
         if let payload = shape.payload {
             shapeProtocol += " & AWSShapeWithPayload"
             
-            if type.members[payload]?.streaming == true {
-                shapePayloadOptions.append("allowStreaming")
-                if shape.authtype == "v4-unsigned-body" {
-                    shapePayloadOptions.append("allowChunkedStreaming")
+            let member = type.members[payload]
+            if case .payload = member?.shape.type {
+                shapePayloadOptions.append("raw")
+                if member?.streaming == true {
+                    shapePayloadOptions.append("allowStreaming")
+                    if shape.authtype == "v4-unsigned-body" {
+                        shapePayloadOptions.append("allowChunkedStreaming")
+                    }
                 }
             }
         }

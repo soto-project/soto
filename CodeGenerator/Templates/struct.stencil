@@ -2,9 +2,9 @@
     public {{struct.object}} {{struct.name}}: {{struct.shapeProtocol}} {
 {%if struct.payload %}
         /// The key for the payload
-        public static let payloadPath: String = "{{struct.payload}}"
+        public static let _payloadPath: String = "{{struct.payload}}"
 {%if struct.payloadOptions %}
-        public static let options: PayloadOptions = [{{struct.payloadOptions}}]
+        public static let _payloadOptions: PayloadOptions = [{{struct.payloadOptions}}]
 {%endif %}
 {%endif %}
 {%if struct.namespace %}
@@ -14,7 +14,7 @@
 {%if struct.awsShapeMembers.count > 0%}
         public static var _encoding = [
 {%for member in struct.awsShapeMembers %}
-            AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+            AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}){%if not forloop.last %}, {%endif +%}
 {%endfor %}
         ]
 {%endif %}
