@@ -133,6 +133,7 @@ extension AWSService {
         let httpMethod: String
         let deprecated: String?
         let streaming: String?
+        let documentationUrl: String?
     }
 
     struct PaginatorContext {
@@ -253,24 +254,13 @@ extension AWSService {
             path: operation.http.requestUri,
             httpMethod: operation.http.method,
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
-            streaming: nil
+            streaming: nil,
+            documentationUrl: operation.documentationUrl
         )
     }
 
     /// generate operations context for streaming version of function
     func generateStreamingOperationContext(_ operation: Operation, name: String) -> OperationContext {
-        // get output shape
-        /*guard let output = operation.output,
-            let shape = try? api.getShape(named: output.shapeName) else { return nil }
-        
-        guard let payload = shape.payload,
-            case .structure(let structure) = shape.type,
-            let member = structure.members[payload],
-            member.streaming == true || member.shape.streaming == true,
-            member.required == false else {
-                    return nil
-        }*/
-    
         return OperationContext(
             comment: docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase() + "Streaming",
@@ -280,7 +270,8 @@ extension AWSService {
             path: operation.http.requestUri,
             httpMethod: operation.http.method,
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
-            streaming: "ByteBuffer"
+            streaming: "ByteBuffer",
+            documentationUrl: operation.documentationUrl
         )
     }
 

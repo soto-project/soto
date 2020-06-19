@@ -97,6 +97,9 @@ public struct {{ name }} {
 {%for comment in op.comment %}
     ///  {{comment}}
 {%endfor %}
+{%if op.documentationUrl %}
+    ///  {{op.documentationUrl}}
+{%endif %}
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
