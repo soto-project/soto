@@ -213,6 +213,7 @@ struct Operation: Decodable {
     var deprecatedMessage: String?
     var eventStream: Bool
     var streaming: Bool
+    var documentationUrl: String?
 
     init(from decoder: Decoder) throws {
         self.eventStream = false
@@ -226,6 +227,7 @@ struct Operation: Decodable {
         self.authType = try container.decodeIfPresent(String.self, forKey: .authType)
         self.deprecated = try container.decodeIfPresent(Bool.self, forKey: .deprecated) ?? false
         self.deprecatedMessage = try container.decodeIfPresent(String.self, forKey: .deprecatedMessage)
+        self.documentationUrl = try container.decodeIfPresent(String.self, forKey: .documentationUrl)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -238,6 +240,7 @@ struct Operation: Decodable {
         case deprecated
         case deprecatedMessage
         case eventStream
+        case documentationUrl
     }
 }
 
