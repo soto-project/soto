@@ -25,7 +25,7 @@ services:
       - SQS_ENDPOINT=http://localstack:4566
       - SSM_ENDPOINT=http://localstack:4566
       - STS_ENDPOINT=http://localstack:4566
-    command: /bin/bash -xcl "swift test"
+    command: /bin/bash -xcl "swift test --enable-test-discovery"
 
   localstack:
     image: localstack/localstack

@@ -84,11 +84,4 @@ class SSMTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-
-    static var allTests: [(String, (SSMTests) -> () throws -> Void)] {
-        return [
-            ("testGetParameter", testGetParameter),
-            ("testGetParametersByPath", testGetParametersByPath),
-        ]
-    }
 }

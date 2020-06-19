@@ -163,15 +163,6 @@ class DynamoDBTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
-    static var allTests: [(String, (DynamoDBTests) -> () throws -> Void)] {
-        return [
-            ("testCreateDeleteTable", testCreateDeleteTable),
-            ("testGetObject", testGetObject),
-            ("testDataItem", testDataItem),
-            ("testNumberSetItem", testNumberSetItem),
-        ]
-    }
 }
 
 extension DynamoDB.AttributeValue {

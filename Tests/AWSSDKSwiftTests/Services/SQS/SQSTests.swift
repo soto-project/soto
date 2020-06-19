@@ -120,14 +120,4 @@ class SQSTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-
-
-    static var allTests: [(String, (SQSTests) -> () throws -> Void)] {
-        return [
-            ("testSendReceiveAndDelete", testSendReceiveAndDelete),
-            ("testGetQueueAttributes", testGetQueueAttributes),
-            ("testTestPercentEncodedCharacters", testTestPercentEncodedCharacters),
-            ("testSendBatch", testSendBatch),
-        ]
-    }
 }
