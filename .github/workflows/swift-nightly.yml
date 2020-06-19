@@ -42,4 +42,4 @@ jobs:
         yum -y update
         yum -y install zlib-devel
     - name: Test
-      run: swift test
+      run: swift test --enable-test-discovery --sanitize=thread
