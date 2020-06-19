@@ -304,29 +304,25 @@ extension AWSService {
         if endpoints.count > 0 {
             context["serviceEndpoints"] = endpoints
         }
-        context["partitionEndpoints"] = partitionEndpoints
-            .map { (partition: $0.key, endpoint: $0.value.endpoint, region: $0.value.region) }
-            .sorted { $0.partition < $1.partition }
-            .map { ".\($0.partition.toSwiftRegionEnumCase()): (endpoint: \"\($0.endpoint)\", region: .\($0.region.rawValue.toSwiftRegionEnumCase()))" }
 
+        let isRegionalized: Bool? = self.endpoints.partitions.reduce(nil) {
+            guard let regionalized = $1.services[api.metadata.endpointPrefix]?.isRegionalized else { return $0 }
+            return ($0 ?? false) || regionalized
+        }
+        context["regionalized"] = isRegionalized ?? true
+
+        if isRegionalized != true {
+            context["partitionEndpoints"] = partitionEndpoints
+                .map { (partition: $0.key, endpoint: $0.value.endpoint, region: $0.value.region) }
+                .sorted { $0.partition < $1.partition }
+                .map { ".\($0.partition.toSwiftRegionEnumCase()): (endpoint: \"\($0.endpoint)\", region: .\($0.region.rawValue.toSwiftRegionEnumCase()))" }
+        }
+        
         context["middlewareClass"] = middleware
 
         if !errors.isEmpty {
             context["errorTypes"] = serviceErrorName
         }
-
-        // service is considered regionalized if any of its service definitions across all partitions say it is.
-        // if no service details are found in the endpoints then it is assumed the service is regionalized
-        let isRegionalized: Bool? = self.endpoints.partitions.reduce(nil) {
-            var isRegionalized = false
-            if let service = $1.services[api.metadata.endpointPrefix] {
-                isRegionalized = service.isRegionalized ?? true
-            } else {
-                return $0
-            }
-            return ($0 ?? false) || isRegionalized
-        } ?? true
-        context["regionalized"] = isRegionalized
 
         // Operations
         var operationContexts: [OperationContext] = []
