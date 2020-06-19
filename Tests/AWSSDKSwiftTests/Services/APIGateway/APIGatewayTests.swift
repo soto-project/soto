@@ -162,13 +162,4 @@ class APIGatewayTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-
-    static var allTests: [(String, (APIGatewayTests) -> () throws -> Void)] {
-        return [
-            ("testGetRestApis", testGetRestApis),
-            ("testGetRestApi", testGetRestApi),
-            ("testCreateGetResource", testCreateGetResource),
-            ("testError", testError),
-        ]
-    }
 }

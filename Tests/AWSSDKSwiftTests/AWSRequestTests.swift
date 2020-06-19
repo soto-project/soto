@@ -339,21 +339,4 @@ class AWSRequestTests: XCTestCase {
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
         testAWSValidationFail(client: cloudFront.client, operation: "CreateDistribution", input: request)
     }
-
-    static var allTests: [(String, (AWSRequestTests) -> () throws -> Void)] {
-        return [
-            ("testS3PutBucketLifecycleConfigurationRequest", testS3PutBucketLifecycleConfigurationRequest),
-            ("testSNSCreateTopic", testSNSCreateTopic),
-            ("testCloudFrontCreateDistribution", testCloudFrontCreateDistribution),
-            ("testEC2CreateImage", testEC2CreateImage),
-            ("testEC2CreateInstanceExportTask", testEC2CreateInstanceExportTask),
-            ("testIAMSimulateCustomPolicy", testIAMSimulateCustomPolicy),
-            ("testSESSendEmail", testSESSendEmail),
-            ("testS3GetObjectAclValidate", testS3GetObjectAclValidate),
-            ("testIAMAttachGroupPolicyValidate", testIAMAttachGroupPolicyValidate),
-            ("testCloudFrontListTagsForResourceValidate", testCloudFrontListTagsForResourceValidate),
-            ("testACMAddTagsToCertificateValidate", testACMAddTagsToCertificateValidate),
-            ("testCloudFrontCreateDistributionValidate", testCloudFrontCreateDistributionValidate),
-        ]
-    }
 }

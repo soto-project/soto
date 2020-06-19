@@ -11,19 +11,3 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 //===----------------------------------------------------------------------===//
-
-import XCTest
-
-@testable import AWSSDKSwiftTests
-
-XCTMain([
-    testCase(APIGatewayTests.allTests),
-    testCase(AWSRequestTests.allTests),
-    testCase(DynamoDBTests.allTests),
-    testCase(IAMTests.allTests),
-    testCase(S3Tests.allTests),
-    testCase(SNSTests.allTests),
-    testCase(SQSTests.allTests),
-    testCase(SSMTests.allTests),
-    testCase(STSTests.allTests),
-])

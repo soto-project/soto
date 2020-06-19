@@ -55,13 +55,5 @@ class STSTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-
-
-    static var allTests: [(String, (STSTests) -> () throws -> Void)] {
-        return [
-            ("testGetCallerIdentity", testGetCallerIdentity),
-            ("testErrorCodes", testErrorCodes),
-        ]
-    }
 }
 

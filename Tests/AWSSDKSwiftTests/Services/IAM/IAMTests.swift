@@ -197,12 +197,4 @@ class IAMTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
-    static var allTests: [(String, (IAMTests) -> () throws -> Void)] {
-        return [
-            ("testCreateDeleteUser", testCreateDeleteUser),
-            ("testSetGetPolicy", testSetGetPolicy),
-            ("testSimulatePolicy", testSimulatePolicy)
-        ]
-    }
 }

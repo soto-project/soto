@@ -102,12 +102,4 @@ class SNSTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-
-    static var allTests: [(String, (SNSTests) -> () throws -> Void)] {
-        return [
-            ("testCreateDelete", testCreateDelete),
-            ("testListTopics", testListTopics),
-            ("testSetTopicAttributes", testSetTopicAttributes),
-        ]
-    }
 }
