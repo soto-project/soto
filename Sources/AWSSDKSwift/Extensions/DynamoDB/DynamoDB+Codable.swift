@@ -74,7 +74,55 @@ extension DynamoDB {
                 )
         }
     }
+
+    //MARK: Codable Paginators
     
+    public func queryCodablePaginator<T: Decodable>(
+        _ input: QueryInput,
+        type: T.Type,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (QueryCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: query, tokenKey: \QueryOutput.lastEvaluatedKey, on: eventLoop) { (response, eventLoop) -> EventLoopFuture<Bool> in
+            do {
+                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+                let queryOutput = QueryCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    count: response.count,
+                    items: items,
+                    lastEvaluatedKey: response.lastEvaluatedKey,
+                    scannedCount: response.scannedCount
+                )
+                return onPage(queryOutput, eventLoop)
+            } catch {
+                return eventLoop.makeFailedFuture(error)
+            }
+        }
+    }
+
+    public func scanCodablePaginator<T: Decodable>(
+        _ input: ScanInput,
+        type: T.Type, 
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ScanCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: scan, tokenKey: \ScanOutput.lastEvaluatedKey, on: eventLoop) { (response, eventLoop) -> EventLoopFuture<Bool> in
+            do {
+                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+                let scanOutput = ScanCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    count: response.count,
+                    items: items,
+                    lastEvaluatedKey: response.lastEvaluatedKey,
+                    scannedCount: response.scannedCount
+                )
+                return onPage(scanOutput, eventLoop)
+            } catch {
+                return eventLoop.makeFailedFuture(error)
+            }
+        }
+    }
+
     //MARK: Codable Shapes
 
     /// Version of PutItemInput that replaces the `item` with a `Encodable` class that will then be encoded into `[String: AttributeValue]`

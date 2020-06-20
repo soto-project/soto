@@ -98,7 +98,7 @@ final class DynamoDBCodableTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
     
-    func testQuery() {
+    func testQueryPaginator() {
         struct TestObject: Codable, Equatable {
             let id: String
             let version: Int
@@ -107,9 +107,12 @@ final class DynamoDBCodableTests: XCTestCase {
         let testItems = [
             TestObject(id: "test", version: 1, message: "Message 1"),
             TestObject(id: "test", version: 2, message: "Message 2"),
-            TestObject(id: "test", version: 3, message: "Message 3")
+            TestObject(id: "test", version: 3, message: "Message 3"),
+            TestObject(id: "test", version: 4, message: "Message 4"),
+            TestObject(id: "test", version: 5, message: "Message 5"),
         ]
 
+        var results: [TestObject] = []
         let tableName = TestEnvironment.generateResourceName()
         let response = createTable(
             name: tableName,
@@ -119,13 +122,23 @@ final class DynamoDBCodableTests: XCTestCase {
             let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItemCodable(.init(item: $0, tableName: tableName))}
             return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
         }
-        .flatMap { _ -> EventLoopFuture<DynamoDB.QueryCodableOutput<TestObject>> in
-            let request = DynamoDB.QueryInput(expressionAttributeValues: [":id": .s("test"), ":version": .n("2")], keyConditionExpression: "id = :id and version >= :version", tableName: tableName)
-            return Self.dynamoDB.queryCodable(request, type: TestObject.self)
+        .flatMap { _ -> EventLoopFuture<Void> in
+            let request = DynamoDB.QueryInput(
+                expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
+                keyConditionExpression: "id = :id and version >= :version",
+                limit: 3,
+                tableName: tableName
+            )
+            return Self.dynamoDB.queryCodablePaginator(request, type: TestObject.self) { response, eventLoop in
+                results.append(contentsOf: response.items ?? [])
+                return eventLoop.makeSucceededFuture(true)
+            }
         }
         .map { response in
-            XCTAssertEqual(testItems[1], response.items?[0])
-            XCTAssertEqual(testItems[2], response.items?[1])
+            XCTAssertEqual(testItems[1], results[0])
+            XCTAssertEqual(testItems[2], results[1])
+            XCTAssertEqual(testItems[3], results[2])
+            XCTAssertEqual(testItems[4], results[3])
         }
         .flatAlways { _ in
             self.deleteTable(name: tableName)
@@ -165,6 +178,5 @@ final class DynamoDBCodableTests: XCTestCase {
             self.deleteTable(name: tableName)
         }
         XCTAssertNoThrow(try response.wait())
-
     }
 }
