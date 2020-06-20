@@ -14,6 +14,69 @@
 
 extension DynamoDB {
     
+    //MARK: Codable API
+    
+    public func putItemCodable<T: Encodable>(_ input: PutItemCodableInput<T>, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutItemOutput> {
+        do {
+            let item = try DynamoDBEncoder().encode(input.item)
+            let request = DynamoDB.PutItemInput(
+                conditionExpression: input.conditionExpression,
+                expressionAttributeNames: input.expressionAttributeNames,
+                expressionAttributeValues: input.expressionAttributeValues,
+                item: item,
+                returnConsumedCapacity: input.returnConsumedCapacity,
+                returnItemCollectionMetrics: input.returnItemCollectionMetrics,
+                returnValues: input.returnValues,
+                tableName: input.tableName
+            )
+            return putItem(request, on: eventLoop)
+        } catch {
+            let eventLoop = eventLoop ?? client.eventLoopGroup.next()
+            return eventLoop.makeFailedFuture(error)
+        }
+    }
+
+    public func getItemCodable<T: Decodable>(_ input: GetItemInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetItemCodableOutput<T>> {
+        return getItem(input, on: eventLoop)
+            .flatMapThrowing { response -> GetItemCodableOutput<T> in
+                let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
+                return GetItemCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    item: item
+                )
+        }
+    }
+    
+    public func queryCodable<T: Decodable>(_ input: QueryInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryCodableOutput<T>> {
+        return query(input, on: eventLoop)
+            .flatMapThrowing { response -> QueryCodableOutput<T> in
+                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+                return QueryCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    count: response.count,
+                    items: items,
+                    lastEvaluatedKey: response.lastEvaluatedKey,
+                    scannedCount: response.scannedCount
+                )
+        }
+    }
+    
+    public func scanCodable<T: Decodable>(_ input: ScanInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ScanCodableOutput<T>> {
+        return scan(input, on: eventLoop)
+            .flatMapThrowing { response -> ScanCodableOutput<T> in
+                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+                return ScanCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    count: response.count,
+                    items: items,
+                    lastEvaluatedKey: response.lastEvaluatedKey,
+                    scannedCount: response.scannedCount
+                )
+        }
+    }
+    
+    //MARK: Codable Shapes
+
     /// Version of PutItemInput that replaces the `item` with a `Encodable` class that will then be encoded into `[String: AttributeValue]`
     public struct PutItemCodableInput<T: Encodable> {
 
@@ -70,58 +133,20 @@ extension DynamoDB {
         public let lastEvaluatedKey: [String: AttributeValue]?
         /// The number of items evaluated, before any QueryFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Query operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
         public let scannedCount: Int?
-
-        public init(consumedCapacity: ConsumedCapacity? = nil, count: Int? = nil, items: [T]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int? = nil) {
-            self.consumedCapacity = consumedCapacity
-            self.count = count
-            self.items = items
-            self.lastEvaluatedKey = lastEvaluatedKey
-            self.scannedCount = scannedCount
-        }
     }
 
-    public func putItemCodable<T: Encodable>(_ input: PutItemCodableInput<T>, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutItemOutput> {
-        do {
-            let item = try DynamoDBEncoder().encode(input.item)
-            let request = DynamoDB.PutItemInput(
-                conditionExpression: input.conditionExpression,
-                expressionAttributeNames: input.expressionAttributeNames,
-                expressionAttributeValues: input.expressionAttributeValues,
-                item: item,
-                returnConsumedCapacity: input.returnConsumedCapacity,
-                returnItemCollectionMetrics: input.returnItemCollectionMetrics,
-                returnValues: input.returnValues,
-                tableName: input.tableName
-            )
-            return putItem(request, on: eventLoop)
-        } catch {
-            let eventLoop = eventLoop ?? client.eventLoopGroup.next()
-            return eventLoop.makeFailedFuture(error)
-        }
+    public struct ScanCodableOutput<T: Decodable> {
+
+        /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
+        public let consumedCapacity: ConsumedCapacity?
+        /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.
+        public let count: Int?
+        /// An array of item attributes that match the scan criteria. Each element in this array consists of an attribute name and the value for that attribute.
+        public let items: [T]?
+        /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
+        public let lastEvaluatedKey: [String: AttributeValue]?
+        /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
+        public let scannedCount: Int?
     }
 
-    public func getItemCodable<T: Decodable>(_ input: GetItemInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetItemCodableOutput<T>> {
-        return getItem(input, on: eventLoop)
-            .flatMapThrowing { response -> GetItemCodableOutput<T> in
-                let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
-                return GetItemCodableOutput(
-                    consumedCapacity: response.consumedCapacity,
-                    item: item
-                )
-        }
-    }
-    
-    public func queryCodable<T: Decodable>(_ input: QueryInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryCodableOutput<T>> {
-        return query(input, on: eventLoop)
-            .flatMapThrowing { response -> QueryCodableOutput<T> in
-                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
-                return QueryCodableOutput(
-                    consumedCapacity: response.consumedCapacity,
-                    count: response.count,
-                    items: items,
-                    lastEvaluatedKey: response.lastEvaluatedKey,
-                    scannedCount: response.scannedCount
-                )
-        }
-    }
 }

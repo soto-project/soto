@@ -132,4 +132,39 @@ final class DynamoDBCodableTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
+    
+    func testScan() {
+        struct TestObject: Codable, Equatable {
+            let id: String
+            let version: Int
+            let message: String
+        }
+        let testItems = [
+            TestObject(id: "test", version: 1, message: "Message 1"),
+            TestObject(id: "test", version: 2, message: "Message 2"),
+            TestObject(id: "test", version: 3, message: "Message 3")
+        ]
+
+        let tableName = TestEnvironment.generateResourceName()
+        let response = createTable(
+            name: tableName,
+            attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
+            keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+        ).flatMap { _ -> EventLoopFuture<Void> in
+            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItemCodable(.init(item: $0, tableName: tableName))}
+            return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
+        }
+        .flatMap { _ -> EventLoopFuture<DynamoDB.ScanCodableOutput<TestObject>> in
+            let request = DynamoDB.ScanInput(expressionAttributeValues: [":message": .s("Message 2")], filterExpression: "message = :message", tableName: tableName)
+            return Self.dynamoDB.scanCodable(request, type: TestObject.self)
+        }
+        .map { response in
+            XCTAssertEqual(testItems[1], response.items?[0])
+        }
+        .flatAlways { _ in
+            self.deleteTable(name: tableName)
+        }
+        XCTAssertNoThrow(try response.wait())
+
+    }
 }
