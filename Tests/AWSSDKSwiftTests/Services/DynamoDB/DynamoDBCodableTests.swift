@@ -66,7 +66,7 @@ final class DynamoDBCodableTests: XCTestCase {
     
     //MARK: Tests
     
-    func testCodablePutGet() {
+    func testPutGet() {
         struct TestObject: Codable, Equatable {
             let id: String
             let name: String
@@ -95,6 +95,90 @@ final class DynamoDBCodableTests: XCTestCase {
             self.deleteTable(name: tableName)
         }
         
+        XCTAssertNoThrow(try response.wait())
+    }
+    
+    func testUpdate() {
+        struct TestObject: Codable, Equatable {
+            let id: String
+            let name: String
+            let surname: String
+            let age: Int
+            let address: String
+            let pets: [String]?
+        }
+        struct NameUpdate: Codable {
+            let id: String
+            let name: String
+            let surname: String
+        }
+        let id = UUID().uuidString
+        let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
+        let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
+
+        let tableName = TestEnvironment.generateResourceName()
+        let response = createTable(name: tableName)
+            .flatMap { _ -> EventLoopFuture<DynamoDB.PutItemOutput> in
+                let request = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
+                return Self.dynamoDB.putItemCodable(request)
+        }
+        .flatMap { _ -> EventLoopFuture<DynamoDB.UpdateItemOutput> in
+            let request = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
+            return Self.dynamoDB.updateItemCodable(request)
+        }
+        .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemCodableOutput<TestObject>> in
+            let request = DynamoDB.GetItemInput(key: ["id": .s(id)], tableName: tableName)
+            return Self.dynamoDB.getItemCodable(request, type: TestObject.self)
+        }
+        .map { response -> Void in
+            XCTAssertEqual("David", response.item?.name)
+            XCTAssertEqual("Jones", response.item?.surname)
+            XCTAssertEqual(32, response.item?.age)
+            XCTAssertEqual("1 Park Lane", response.item?.address)
+            XCTAssertEqual(["cat", "dog"], response.item?.pets)
+        }
+        .flatAlways { _ in
+            self.deleteTable(name: tableName)
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+    
+    func testQuery() {
+        struct TestObject: Codable, Equatable {
+            let id: String
+            let version: Int
+            let message: String
+        }
+        let testItems = [
+            TestObject(id: "test", version: 1, message: "Message 1"),
+            TestObject(id: "test", version: 2, message: "Message 2"),
+            TestObject(id: "test", version: 3, message: "Message 3"),
+        ]
+
+        let tableName = TestEnvironment.generateResourceName()
+        let response = createTable(
+            name: tableName,
+            attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
+            keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+        ).flatMap { _ -> EventLoopFuture<Void> in
+            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItemCodable(.init(item: $0, tableName: tableName))}
+            return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
+        }
+        .flatMap { _ -> EventLoopFuture<DynamoDB.QueryCodableOutput<TestObject>> in
+            let request = DynamoDB.QueryInput(
+                expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
+                keyConditionExpression: "id = :id and version >= :version",
+                tableName: tableName
+            )
+            return Self.dynamoDB.queryCodable(request, type: TestObject.self)
+        }
+        .map { response in
+            XCTAssertEqual(testItems[1], response.items?[0])
+            XCTAssertEqual(testItems[2], response.items?[1])
+        }
+        .flatAlways { _ in
+            self.deleteTable(name: tableName)
+        }
         XCTAssertNoThrow(try response.wait())
     }
     
