@@ -1,4 +1,17 @@
 #!/bin/sh
+##===----------------------------------------------------------------------===##
+##
+## This source file is part of the AWSSDKSwift open source project
+##
+## Copyright (c) 2020 the AWSSDKSwift project authors
+## Licensed under Apache License v2.0
+##
+## See LICENSE.txt for license information
+## See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+##
+## SPDX-License-Identifier: Apache-2.0
+##
+##===----------------------------------------------------------------------===##
 
 set -eux
 
@@ -13,7 +26,7 @@ move_docs_to_aws_sdk_swift_docs() {
     fi
 
     git clone https://github.com/swift-aws/aws-sdk-swift-docs -b "$BRANCH"
-    
+
     cd aws-sdk-swift-docs
     # copy contents of docs to docs/current replacing the ones that are already there
     rm -rf "$FOLDER"
@@ -22,7 +35,7 @@ move_docs_to_aws_sdk_swift_docs() {
     git add --all "$FOLDER"
     git commit -m "$COMMIT_MSG"
     git push
-    
+
     cd ..
     rm -rf aws-sdk-swift-docs
 }
