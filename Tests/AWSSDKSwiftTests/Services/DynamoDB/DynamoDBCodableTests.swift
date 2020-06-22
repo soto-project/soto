@@ -61,6 +61,7 @@ final class DynamoDBCodableTests: XCTestCase {
     
     func deleteTable(name: String) -> EventLoopFuture<Void> {
         // for some reason delete table is not working while running within a github action. works everywhere else
+        // have verified this is an issue with awscli as well, so not an issue with aws-sdk-swift
         guard ProcessInfo.processInfo.environment["GITHUB_ACTIONS"] != "true"  else {
              return Self.dynamoDB.client.eventLoopGroup.next().makeSucceededFuture(())
         }
