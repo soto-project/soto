@@ -1,4 +1,4 @@
-#!/usr/bin/swift sh
+#!/usr/bin/env swift sh
 
 import ArgumentParser   // apple/swift-argument-parser ~> 0.0.1
 import Files            // JohnSundell/Files
@@ -12,6 +12,7 @@ class GenerateProcess {
     var targetFolder: Folder!
     var servicesFolder: Folder!
     var extensionsFolder: Folder!
+    var zlibSourceFolder: Folder!
 
     init(_ parameters: GenerateProjects) {
         self.parameters = parameters
@@ -22,6 +23,7 @@ class GenerateProcess {
     func createProject(_ serviceName: String) throws {
         let serviceSourceFolder = try servicesFolder.subfolder(at: serviceName)
         let extensionSourceFolder = try? extensionsFolder.subfolder(at: serviceName)
+        let includeZlib = (serviceName == "S3")
 
         // create folders
         let serviceTargetFolder = try targetFolder.createSubfolder(at: serviceName)
@@ -38,12 +40,17 @@ class GenerateProcess {
             let serviceSourceTargetFolder = try sourceTargetFolder.subfolder(at: serviceName)
             try extensionSourceFolder.files.forEach { try $0.copy(to: serviceSourceTargetFolder)}
         }
+        // if zlib is required copy CAWSZlib folder
+        if includeZlib {
+            try zlibSourceFolder.copy(to: sourceTargetFolder)
+        }
         // Package.swift
         let context = [
             "name": serviceName,
             "version": parameters.version
         ]
-        let package = try environment.renderTemplate(name: "Package.swift", context: context)
+        let packageTemplate = includeZlib ? "Package_with_Zlib.swift" : "Package.swift"
+        let package = try environment.renderTemplate(name: packageTemplate, context: context)
         let packageFile = try serviceTargetFolder.createFile(named: "Package.swift")
         try packageFile.write(package)
         // readme
@@ -65,6 +72,7 @@ class GenerateProcess {
     func run() throws {
         servicesFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
         extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Extensions")
+        zlibSourceFolder = try Folder(path: "./Sources/CAWSZlib")
         targetFolder = try Folder(path: ".").createSubfolder(at: parameters.targetPath)
 
         //try Folder(path: "targetFolder").
@@ -82,7 +90,7 @@ struct GenerateProjects: ParsableCommand {
     var version: String
 
     let services = [
-        "APIGateway",
+/*        "APIGateway",
         "CloudFront",
         "CloudWatch",
         "DynamoDB",
@@ -91,7 +99,7 @@ struct GenerateProjects: ParsableCommand {
         "ECS",
         "IAM",
         "Kinesis",
-        "Lambda",
+        "Lambda",*/
         "S3",
         "SES"
     ]

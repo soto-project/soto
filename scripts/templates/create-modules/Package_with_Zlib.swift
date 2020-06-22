@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(
@@ -10,6 +10,7 @@ let package = Package(
       .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "{{version}}"))
   ],
   targets: [
-      .target(name: "AWS{{name}}", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/{{name}}"),
+      .target(name: "AWS{{name}}", dependencies: ["AWSSDKSwiftCore", "CAWSZlib"], path: "./Sources/{{name}}"),
+      .target(name: "CAWSZlib", linkerSettings: [.linkedLibrary("z")]),
   ]
 )
