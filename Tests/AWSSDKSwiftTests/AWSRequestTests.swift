@@ -46,7 +46,7 @@ class AWSRequestTests: XCTestCase {
         expected: String
     ) {
         do {
-            let awsRequest = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
+            let awsRequest = try AWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input, configuration: client.serviceConfig)
             var expected2 = expected
 
             // If XML remove whitespace from expected by converting to XMLNode and back
@@ -70,7 +70,7 @@ class AWSRequestTests: XCTestCase {
         input: Input
     ) {
         do {
-            _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
+            _ = try AWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input, configuration: client.serviceConfig)
             XCTFail()
         } catch let error as AWSClientError where error == .validationError {
             print(error.message ?? "")
@@ -87,7 +87,7 @@ class AWSRequestTests: XCTestCase {
         input: Input
     ) {
         do {
-            _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
+            _ = try AWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input, configuration: client.serviceConfig)
         } catch {
             XCTFail(error.localizedDescription)
         }
