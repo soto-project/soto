@@ -3,7 +3,7 @@
 //
 // This source file is part of the AWSSDKSwift open source project
 //
-// Copyright (c) 2020 the AWSSDKSwift project authors
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
