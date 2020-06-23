@@ -33,14 +33,12 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
-        request.addValue(apiVersion, forHTTPHeaderField: "x-amz-glacier-version")
+        request.httpHeaders.replaceOrAdd(name: "x-amz-glacier-version", value: apiVersion)
 
-        let treeHashHeader = "x-amz-sha256-tree-hash"
-
-        if request.httpHeaders[treeHashHeader] == nil {
+        if request.httpHeaders["x-amz-sha256-tree-hash"].first == nil {
             if let byteBuffer = request.body.asByteBuffer() {
                 let treeHash = try computeTreeHash(byteBuffer).hexDigest()
-                request.addValue(treeHash, forHTTPHeaderField: treeHashHeader)
+                request.httpHeaders.replaceOrAdd(name: "x-amz-sha256-tree-hash",  value: treeHash)
             }
         }
 

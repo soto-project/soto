@@ -26,7 +26,6 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         var request = request
 
         virtualAddressFixup(request: &request)
-        metadataFixup(request: &request)
         createBucketFixup(request: &request)
         calculateMD5(request: &request)
 
@@ -78,17 +77,6 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         }
     }
 
-    func metadataFixup(request: inout AWSRequest) {
-        // add metadata to request
-        if let metadata = request.httpHeaders["x-amz-meta-"] as? [String: String] {
-            for (key, value) in metadata {
-                // metadata keys have to be lowercase or signing fails
-                request.httpHeaders["x-amz-meta-\(key.lowercased())"] = value
-            }
-            request.httpHeaders["x-amz-meta-"] = nil
-        }
-    }
-
     func createBucketFixup(request: inout AWSRequest) {
         switch request.operation {
         // fixup CreateBucket to include location
@@ -115,7 +103,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             if let encoded = byteBufferView.withContiguousStorageIfAvailable({ bytes in
                 return Data(Insecure.MD5.hash(data: bytes)).base64EncodedString()
             }) {
-                request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
+                request.httpHeaders.replaceOrAdd(name: "Content-MD5", value: encoded)
             }
         }
     }

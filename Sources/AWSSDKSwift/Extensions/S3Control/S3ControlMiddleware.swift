@@ -33,8 +33,8 @@ public struct S3ControlMiddleware: AWSServiceMiddleware {
     }
 
     func virtualAddressFixup(request: inout AWSRequest) {
-        /// process URL into form ${account-id}.s3control.${region}.amazon.com
-        guard let accountId = request.httpHeaders["x-amz-account-id"] else { return }
+        /// convert URL into form ${account-id}.s3control.${region}.amazon.com
+        guard let accountId = request.httpHeaders["x-amz-account-id"].first else { return }
         guard let host = request.url.host else { return }
         let urlHost = "\(accountId).\(host)"
         var urlPath = "\(urlHost)\(request.url.path)"
