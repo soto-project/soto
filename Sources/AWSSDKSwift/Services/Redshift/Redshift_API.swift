@@ -27,6 +27,7 @@ public struct Redshift {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
@@ -42,9 +43,7 @@ public struct Redshift {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProvider? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -52,10 +51,7 @@ public struct Redshift {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "redshift",
@@ -63,9 +59,13 @@ public struct Redshift {
             apiVersion: "2012-12-01",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "redshift.us-gov-east-1.amazonaws.com", "us-gov-west-1": "redshift.us-gov-west-1.amazonaws.com"],
+            possibleErrorTypes: [RedshiftErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProvider: credentialProvider,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [RedshiftErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

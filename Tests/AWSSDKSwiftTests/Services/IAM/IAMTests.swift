@@ -21,8 +21,7 @@ import XCTest
 class IAMTests: XCTestCase {
 
     static let iam = IAM(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         endpoint: TestEnvironment.getEndPoint(environment: "IAM_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew

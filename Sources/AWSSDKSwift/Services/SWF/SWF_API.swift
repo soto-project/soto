@@ -27,6 +27,7 @@ public struct SWF {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
@@ -42,9 +43,7 @@ public struct SWF {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProvider? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -52,10 +51,7 @@ public struct SWF {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "SimpleWorkflowService",
@@ -64,9 +60,13 @@ public struct SWF {
             apiVersion: "2012-01-25",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "swf.us-gov-east-1.amazonaws.com", "us-gov-west-1": "swf.us-gov-west-1.amazonaws.com"],
+            possibleErrorTypes: [SWFErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProvider: credentialProvider,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [SWFErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

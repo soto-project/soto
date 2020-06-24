@@ -27,6 +27,7 @@ public struct Route53 {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
@@ -41,19 +42,14 @@ public struct Route53 {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProvider? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
         retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: nil,
             partition: partition,
             service: "route53",
@@ -62,9 +58,13 @@ public struct Route53 {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "route53.amazonaws.com.cn", "aws-global": "route53.amazonaws.com", "aws-iso-global": "route53.c2s.ic.gov", "aws-us-gov-global": "route53.us-gov.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
+            possibleErrorTypes: [Route53ErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProvider: credentialProvider,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [Route53ErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

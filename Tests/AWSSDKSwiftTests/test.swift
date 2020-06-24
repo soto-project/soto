@@ -39,11 +39,7 @@ struct TestEnvironment {
     /// are we using Localstack to test
     static var isUsingLocalstack: Bool { return ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" }
 
-    /// access key id. Some services on Localstack require some semblence of an authorisation header, even though it doesnt test if it is valid
-    static var accessKeyId: String? { return isUsingLocalstack ? "foo" : nil }
-
-    /// secret access key. Some services on Localstack require some semblence of an authorisation header, even though it doesnt test if it is valid
-    static var secretAccessKey: String? { return isUsingLocalstack ? "bar" : nil }
+    static var credentialProvider: CredentialProvider? { return isUsingLocalstack ? StaticCredential(accessKeyId: "foo", secretAccessKey: "bar") : nil }
 
     /// current list of middleware
     static var middlewares: [AWSServiceMiddleware] {

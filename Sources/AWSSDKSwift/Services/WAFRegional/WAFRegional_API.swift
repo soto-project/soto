@@ -27,6 +27,7 @@ public struct WAFRegional {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
@@ -42,9 +43,7 @@ public struct WAFRegional {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProvider? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -52,10 +51,7 @@ public struct WAFRegional {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSWAF_Regional_20161128",
@@ -64,9 +60,13 @@ public struct WAFRegional {
             apiVersion: "2016-11-28",
             endpoint: endpoint,
             serviceEndpoints: ["ap-east-1": "waf-regional.ap-east-1.amazonaws.com", "ap-northeast-1": "waf-regional.ap-northeast-1.amazonaws.com", "ap-northeast-2": "waf-regional.ap-northeast-2.amazonaws.com", "ap-south-1": "waf-regional.ap-south-1.amazonaws.com", "ap-southeast-1": "waf-regional.ap-southeast-1.amazonaws.com", "ap-southeast-2": "waf-regional.ap-southeast-2.amazonaws.com", "ca-central-1": "waf-regional.ca-central-1.amazonaws.com", "eu-central-1": "waf-regional.eu-central-1.amazonaws.com", "eu-north-1": "waf-regional.eu-north-1.amazonaws.com", "eu-west-1": "waf-regional.eu-west-1.amazonaws.com", "eu-west-2": "waf-regional.eu-west-2.amazonaws.com", "eu-west-3": "waf-regional.eu-west-3.amazonaws.com", "me-south-1": "waf-regional.me-south-1.amazonaws.com", "sa-east-1": "waf-regional.sa-east-1.amazonaws.com", "us-east-1": "waf-regional.us-east-1.amazonaws.com", "us-east-2": "waf-regional.us-east-2.amazonaws.com", "us-gov-west-1": "waf-regional.us-gov-west-1.amazonaws.com", "us-west-1": "waf-regional.us-west-1.amazonaws.com", "us-west-2": "waf-regional.us-west-2.amazonaws.com"],
+            possibleErrorTypes: [WAFRegionalErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProvider: credentialProvider,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [WAFRegionalErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

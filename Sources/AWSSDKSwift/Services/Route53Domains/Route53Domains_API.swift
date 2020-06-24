@@ -27,6 +27,7 @@ public struct Route53Domains {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
@@ -42,9 +43,7 @@ public struct Route53Domains {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProvider? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -52,10 +51,7 @@ public struct Route53Domains {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "Route53Domains_v20140515",
@@ -63,9 +59,13 @@ public struct Route53Domains {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-05-15",
             endpoint: endpoint,
+            possibleErrorTypes: [Route53DomainsErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProvider: credentialProvider,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [Route53DomainsErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

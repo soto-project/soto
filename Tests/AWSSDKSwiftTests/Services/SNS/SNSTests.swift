@@ -20,8 +20,7 @@ import XCTest
 class SNSTests: XCTestCase {
 
     static let sns = SNS(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,

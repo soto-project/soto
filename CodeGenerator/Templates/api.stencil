@@ -19,6 +19,7 @@ public struct {{ name }} {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
@@ -36,9 +37,7 @@ public struct {{ name }} {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProvider? = nil,
 {% if regionalized %}
         region: AWSSDKSwiftCore.Region? = nil,
 {% endif %}
@@ -48,13 +47,7 @@ public struct {{ name }} {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-{% if middlewareClass %}
-        let middlewares = [{{middlewareClass}}] + middlewares
-{% endif %}
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
 {% if regionalized %}
             region: region,
             partition: region?.partition ?? partition,
@@ -71,18 +64,18 @@ public struct {{ name }} {
 {% endif %}
             serviceProtocol: {{protocol}},
             apiVersion: "{{apiVersion}}",
-            endpoint: endpoint,
-{% if serviceEndpoints %}
-            serviceEndpoints: [{{ serviceEndpoints|join:", "}}],
-{% endif %}
-{% if partitionEndpoints %}
-            partitionEndpoints: [{{ partitionEndpoints|join:", "}}],
-{% endif %}
+            endpoint: endpoint{% if serviceEndpoints %},
+            serviceEndpoints: [{{ serviceEndpoints|join:", "}}]{% endif %}{% if partitionEndpoints %},
+            partitionEndpoints: [{{ partitionEndpoints|join:", "}}]{% endif %}{% if errorTypes %},
+            possibleErrorTypes: [{{errorTypes}}.self]{% endif %}{% if middlewareClass %},
+            middlewares: [{{middlewareClass}}]{% endif %}
+
+        )
+        self.client = AWSClient(
+            credentialProvider: credentialProvider,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-{% if errorTypes %}
-            possibleErrorTypes: [{{errorTypes}}.self],
-{% endif %}
             httpClientProvider: httpClientProvider
         )
     }

@@ -22,8 +22,7 @@ import XCTest
 class EC2Tests: XCTestCase {
 
     var ec2 = EC2(
-        accessKeyId: "key",
-        secretAccessKey: "secret",
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .useast1,
         endpoint: ProcessInfo.processInfo.environment["EC2_ENDPOINT"] ?? "http://localhost:4566",
         middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],

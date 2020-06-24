@@ -20,8 +20,7 @@ import XCTest
 class SSMTests: XCTestCase {
 
     static let ssm = SSM(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,

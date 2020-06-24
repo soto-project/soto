@@ -23,8 +23,7 @@ import XCTest
 class DynamoDBTests: XCTestCase {
 
     static var dynamoDB = DynamoDB(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
