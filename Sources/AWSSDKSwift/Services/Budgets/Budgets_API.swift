@@ -33,16 +33,14 @@ public struct Budgets {
 
     /// Initialize the Budgets client
     /// - parameters:
-    ///     - accessKeyId: Public access key provided by AWS
-    ///     - secretAccessKey: Private access key provided by AWS
-    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - credentialProvider: Object providing credential to sign requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider: CredentialProvider? = nil,
+        credentialProvider: CredentialProviderFactory? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
         retryPolicy: RetryPolicy = JitterRetry(),
@@ -62,7 +60,7 @@ public struct Budgets {
             possibleErrorTypes: [BudgetsErrorType.self]
         )
         self.client = AWSClient(
-            credentialProvider: credentialProvider,
+            credentialProviderFactory: credentialProvider ?? .runtime,
             serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
