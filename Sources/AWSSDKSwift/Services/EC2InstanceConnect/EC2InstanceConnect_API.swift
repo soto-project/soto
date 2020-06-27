@@ -27,7 +27,7 @@ public struct EC2InstanceConnect {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct EC2InstanceConnect {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSEC2InstanceConnectService",
@@ -61,7 +61,6 @@ public struct EC2InstanceConnect {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,6 +75,6 @@ public struct EC2InstanceConnect {
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
     public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
-        return client.send(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -27,7 +27,7 @@ public struct SSOOIDC {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct SSOOIDC {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "oidc",
@@ -62,7 +62,6 @@ public struct SSOOIDC {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -77,16 +76,16 @@ public struct SSOOIDC {
 
     ///  Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
     public func createToken(_ input: CreateTokenRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
-        return client.send(operation: "CreateToken", path: "/token", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateToken", path: "/token", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
     public func registerClient(_ input: RegisterClientRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterClientResponse> {
-        return client.send(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Initiates device authorization by requesting a pair of verification codes from the authorization service.
     public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
-        return client.send(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -27,7 +27,7 @@ public struct GroundStation {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct GroundStation {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "groundstation",
@@ -60,7 +60,6 @@ public struct GroundStation {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,126 +74,126 @@ public struct GroundStation {
 
     ///  Cancels a contact with a specified contact ID.
     public func cancelContact(_ input: CancelContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContactIdResponse> {
-        return client.send(operation: "CancelContact", path: "/contact/{contactId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "CancelContact", path: "/contact/{contactId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     public func createConfig(_ input: CreateConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigIdResponse> {
-        return client.send(operation: "CreateConfig", path: "/config", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateConfig", path: "/config", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
-        return client.send(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     public func createMissionProfile(_ input: CreateMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MissionProfileIdResponse> {
-        return client.send(operation: "CreateMissionProfile", path: "/missionprofile", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateMissionProfile", path: "/missionprofile", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a Config.
     public func deleteConfig(_ input: DeleteConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigIdResponse> {
-        return client.send(operation: "DeleteConfig", path: "/config/{configType}/{configId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteConfig", path: "/config/{configType}/{configId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a dataflow endpoint group.
     public func deleteDataflowEndpointGroup(_ input: DeleteDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
-        return client.send(operation: "DeleteDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a mission profile.
     public func deleteMissionProfile(_ input: DeleteMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MissionProfileIdResponse> {
-        return client.send(operation: "DeleteMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes an existing contact.
     public func describeContact(_ input: DescribeContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContactResponse> {
-        return client.send(operation: "DescribeContact", path: "/contact/{contactId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeContact", path: "/contact/{contactId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns Config information. Only one Config response can be returned.
     public func getConfig(_ input: GetConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigResponse> {
-        return client.send(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the dataflow endpoint group.
     public func getDataflowEndpointGroup(_ input: GetDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataflowEndpointGroupResponse> {
-        return client.send(operation: "GetDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the number of minutes used by account.
     public func getMinuteUsage(_ input: GetMinuteUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMinuteUsageResponse> {
-        return client.send(operation: "GetMinuteUsage", path: "/minute-usage", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetMinuteUsage", path: "/minute-usage", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a mission profile.
     public func getMissionProfile(_ input: GetMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMissionProfileResponse> {
-        return client.send(operation: "GetMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a satellite.
     public func getSatellite(_ input: GetSatelliteRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSatelliteResponse> {
-        return client.send(operation: "GetSatellite", path: "/satellite/{satelliteId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetSatellite", path: "/satellite/{satelliteId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of Config objects.
     public func listConfigs(_ input: ListConfigsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigsResponse> {
-        return client.send(operation: "ListConfigs", path: "/config", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListConfigs", path: "/config", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
     public func listContacts(_ input: ListContactsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactsResponse> {
-        return client.send(operation: "ListContacts", path: "/contacts", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListContacts", path: "/contacts", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of DataflowEndpoint groups.
     public func listDataflowEndpointGroups(_ input: ListDataflowEndpointGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataflowEndpointGroupsResponse> {
-        return client.send(operation: "ListDataflowEndpointGroups", path: "/dataflowEndpointGroup", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListDataflowEndpointGroups", path: "/dataflowEndpointGroup", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of ground stations. 
     public func listGroundStations(_ input: ListGroundStationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroundStationsResponse> {
-        return client.send(operation: "ListGroundStations", path: "/groundstation", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListGroundStations", path: "/groundstation", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of mission profiles.
     public func listMissionProfiles(_ input: ListMissionProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMissionProfilesResponse> {
-        return client.send(operation: "ListMissionProfiles", path: "/missionprofile", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListMissionProfiles", path: "/missionprofile", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of satellites.
     public func listSatellites(_ input: ListSatellitesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSatellitesResponse> {
-        return client.send(operation: "ListSatellites", path: "/satellite", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListSatellites", path: "/satellite", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of tags for a specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Reserves a contact using specified parameters.
     public func reserveContact(_ input: ReserveContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContactIdResponse> {
-        return client.send(operation: "ReserveContact", path: "/contact", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ReserveContact", path: "/contact", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Assigns a tag to a resource.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deassigns a resource tag.
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     public func updateConfig(_ input: UpdateConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigIdResponse> {
-        return client.send(operation: "UpdateConfig", path: "/config/{configType}/{configId}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateConfig", path: "/config/{configType}/{configId}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     public func updateMissionProfile(_ input: UpdateMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MissionProfileIdResponse> {
-        return client.send(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

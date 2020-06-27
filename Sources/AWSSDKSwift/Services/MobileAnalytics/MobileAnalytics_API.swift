@@ -27,7 +27,7 @@ public struct MobileAnalytics {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct MobileAnalytics {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "mobileanalytics",
@@ -60,7 +60,6 @@ public struct MobileAnalytics {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,6 +74,6 @@ public struct MobileAnalytics {
 
     ///  The PutEvents operation records one or more events. You can have up to 1,500 unique custom events per app, any combination of up to 40 attributes and metrics per custom event, and any number of attribute or metric values.
     @discardableResult public func putEvents(_ input: PutEventsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

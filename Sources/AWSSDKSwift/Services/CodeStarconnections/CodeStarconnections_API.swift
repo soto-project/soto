@@ -27,7 +27,7 @@ public struct CodeStarconnections {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct CodeStarconnections {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "com.amazonaws.codestar.connections.CodeStar_connections_20191201",
@@ -61,7 +61,6 @@ public struct CodeStarconnections {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,36 +75,36 @@ public struct CodeStarconnections {
 
     ///  Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     public func createConnection(_ input: CreateConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionOutput> {
-        return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  The connection to be deleted.
     public func deleteConnection(_ input: DeleteConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionOutput> {
-        return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the connection ARN and details such as status, owner, and provider type.
     public func getConnection(_ input: GetConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionOutput> {
-        return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the connections associated with your account.
     public func listConnections(_ input: ListConnectionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectionsOutput> {
-        return client.send(operation: "ListConnections", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListConnections", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes tags from an AWS resource.
     public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

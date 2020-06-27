@@ -27,7 +27,7 @@ public struct PinpointSMSVoice {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct PinpointSMSVoice {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "sms-voice.pinpoint",
@@ -61,7 +61,6 @@ public struct PinpointSMSVoice {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,41 +75,41 @@ public struct PinpointSMSVoice {
 
     ///  Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
     public func createConfigurationSet(_ input: CreateConfigurationSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationSetResponse> {
-        return client.send(operation: "CreateConfigurationSet", path: "/v1/sms-voice/configuration-sets", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateConfigurationSet", path: "/v1/sms-voice/configuration-sets", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Create a new event destination in a configuration set.
     public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationSetEventDestinationResponse> {
-        return client.send(operation: "CreateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing configuration set.
     public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationSetResponse> {
-        return client.send(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an event destination in a configuration set.
     public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationSetEventDestinationResponse> {
-        return client.send(operation: "DeleteConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
     public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigurationSetEventDestinationsResponse> {
-        return client.send(operation: "GetConfigurationSetEventDestinations", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetConfigurationSetEventDestinations", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationSetsResponse> {
-        return client.send(operation: "ListConfigurationSets", path: "/v1/sms-voice/configuration-sets", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListConfigurationSets", path: "/v1/sms-voice/configuration-sets", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Create a new voice message and send it to a recipient's phone number.
     public func sendVoiceMessage(_ input: SendVoiceMessageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendVoiceMessageResponse> {
-        return client.send(operation: "SendVoiceMessage", path: "/v1/sms-voice/voice/message", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "SendVoiceMessage", path: "/v1/sms-voice/voice/message", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConfigurationSetEventDestinationResponse> {
-        return client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

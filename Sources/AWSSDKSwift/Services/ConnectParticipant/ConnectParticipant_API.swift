@@ -27,7 +27,7 @@ public struct ConnectParticipant {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct ConnectParticipant {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "participant.connect",
@@ -61,7 +61,6 @@ public struct ConnectParticipant {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,26 +75,26 @@ public struct ConnectParticipant {
 
     ///  Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until the they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic.  For chat, you need to publish the following on the established websocket connection:  {"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}  Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.
     public func createParticipantConnection(_ input: CreateParticipantConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParticipantConnectionResponse> {
-        return client.send(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
     public func disconnectParticipant(_ input: DisconnectParticipantRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisconnectParticipantResponse> {
-        return client.send(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
     public func getTranscript(_ input: GetTranscriptRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTranscriptResponse> {
-        return client.send(operation: "GetTranscript", path: "/participant/transcript", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetTranscript", path: "/participant/transcript", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
     public func sendEvent(_ input: SendEventRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendEventResponse> {
-        return client.send(operation: "SendEvent", path: "/participant/event", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "SendEvent", path: "/participant/event", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
     public func sendMessage(_ input: SendMessageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendMessageResponse> {
-        return client.send(operation: "SendMessage", path: "/participant/message", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "SendMessage", path: "/participant/message", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

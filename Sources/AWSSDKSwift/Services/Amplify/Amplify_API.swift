@@ -27,7 +27,7 @@ public struct Amplify {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct Amplify {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "amplify",
@@ -60,7 +60,6 @@ public struct Amplify {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,186 +74,186 @@ public struct Amplify {
 
     ///   Creates a new Amplify App. 
     public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResult> {
-        return client.send(operation: "CreateApp", path: "/apps", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateApp", path: "/apps", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Creates a new backend environment for an Amplify App. 
     public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendEnvironmentResult> {
-        return client.send(operation: "CreateBackendEnvironment", path: "/apps/{appId}/backendenvironments", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateBackendEnvironment", path: "/apps/{appId}/backendenvironments", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Creates a new Branch for an Amplify App. 
     public func createBranch(_ input: CreateBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBranchResult> {
-        return client.send(operation: "CreateBranch", path: "/apps/{appId}/branches", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateBranch", path: "/apps/{appId}/branches", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Create a deployment for manual deploy apps. (Apps are not connected to repository) 
     public func createDeployment(_ input: CreateDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentResult> {
-        return client.send(operation: "CreateDeployment", path: "/apps/{appId}/branches/{branchName}/deployments", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDeployment", path: "/apps/{appId}/branches/{branchName}/deployments", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Create a new DomainAssociation on an App 
     public func createDomainAssociation(_ input: CreateDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainAssociationResult> {
-        return client.send(operation: "CreateDomainAssociation", path: "/apps/{appId}/domains", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDomainAssociation", path: "/apps/{appId}/domains", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Create a new webhook on an App. 
     public func createWebhook(_ input: CreateWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWebhookResult> {
-        return client.send(operation: "CreateWebhook", path: "/apps/{appId}/webhooks", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateWebhook", path: "/apps/{appId}/webhooks", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Delete an existing Amplify App by appId. 
     public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResult> {
-        return client.send(operation: "DeleteApp", path: "/apps/{appId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApp", path: "/apps/{appId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Delete backend environment for an Amplify App. 
     public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendEnvironmentResult> {
-        return client.send(operation: "DeleteBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Deletes a branch for an Amplify App. 
     public func deleteBranch(_ input: DeleteBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBranchResult> {
-        return client.send(operation: "DeleteBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Deletes a DomainAssociation. 
     public func deleteDomainAssociation(_ input: DeleteDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainAssociationResult> {
-        return client.send(operation: "DeleteDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Delete a job, for an Amplify branch, part of Amplify App. 
     public func deleteJob(_ input: DeleteJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobResult> {
-        return client.send(operation: "DeleteJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Deletes a webhook. 
     public func deleteWebhook(_ input: DeleteWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWebhookResult> {
-        return client.send(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieve website access logs for a specific time range via a pre-signed URL. 
     public func generateAccessLogs(_ input: GenerateAccessLogsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateAccessLogsResult> {
-        return client.send(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieves an existing Amplify App by appId. 
     public func getApp(_ input: GetAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppResult> {
-        return client.send(operation: "GetApp", path: "/apps/{appId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetApp", path: "/apps/{appId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieves artifact info that corresponds to a artifactId. 
     public func getArtifactUrl(_ input: GetArtifactUrlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetArtifactUrlResult> {
-        return client.send(operation: "GetArtifactUrl", path: "/artifacts/{artifactId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetArtifactUrl", path: "/artifacts/{artifactId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieves a backend environment for an Amplify App. 
     public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendEnvironmentResult> {
-        return client.send(operation: "GetBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieves a branch for an Amplify App. 
     public func getBranch(_ input: GetBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBranchResult> {
-        return client.send(operation: "GetBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieves domain info that corresponds to an appId and domainName. 
     public func getDomainAssociation(_ input: GetDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainAssociationResult> {
-        return client.send(operation: "GetDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Get a job for a branch, part of an Amplify App. 
     public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobResult> {
-        return client.send(operation: "GetJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Retrieves webhook info that corresponds to a webhookId. 
     public func getWebhook(_ input: GetWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWebhookResult> {
-        return client.send(operation: "GetWebhook", path: "/webhooks/{webhookId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetWebhook", path: "/webhooks/{webhookId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Lists existing Amplify Apps. 
     public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResult> {
-        return client.send(operation: "ListApps", path: "/apps", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListApps", path: "/apps", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   List artifacts with an app, a branch, a job and an artifact type. 
     public func listArtifacts(_ input: ListArtifactsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListArtifactsResult> {
-        return client.send(operation: "ListArtifacts", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListArtifacts", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Lists backend environments for an Amplify App. 
     public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackendEnvironmentsResult> {
-        return client.send(operation: "ListBackendEnvironments", path: "/apps/{appId}/backendenvironments", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListBackendEnvironments", path: "/apps/{appId}/backendenvironments", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Lists branches for an Amplify App. 
     public func listBranches(_ input: ListBranchesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBranchesResult> {
-        return client.send(operation: "ListBranches", path: "/apps/{appId}/branches", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListBranches", path: "/apps/{appId}/branches", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   List domains with an app 
     public func listDomainAssociations(_ input: ListDomainAssociationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainAssociationsResult> {
-        return client.send(operation: "ListDomainAssociations", path: "/apps/{appId}/domains", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListDomainAssociations", path: "/apps/{appId}/domains", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   List Jobs for a branch, part of an Amplify App. 
     public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResult> {
-        return client.send(operation: "ListJobs", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListJobs", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   List tags for resource. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   List webhooks with an app. 
     public func listWebhooks(_ input: ListWebhooksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWebhooksResult> {
-        return client.send(operation: "ListWebhooks", path: "/apps/{appId}/webhooks", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListWebhooks", path: "/apps/{appId}/webhooks", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Start a deployment for manual deploy apps. (Apps are not connected to repository) 
     public func startDeployment(_ input: StartDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeploymentResult> {
-        return client.send(operation: "StartDeployment", path: "/apps/{appId}/branches/{branchName}/deployments/start", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "StartDeployment", path: "/apps/{appId}/branches/{branchName}/deployments/start", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Starts a new job for a branch, part of an Amplify App. 
     public func startJob(_ input: StartJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobResult> {
-        return client.send(operation: "StartJob", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "StartJob", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Stop a job that is in progress, for an Amplify branch, part of Amplify App. 
     public func stopJob(_ input: StopJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopJobResult> {
-        return client.send(operation: "StopJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "StopJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Tag resource with tag key and value. 
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Untag resource with resourceArn. 
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Updates an existing Amplify App. 
     public func updateApp(_ input: UpdateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppResult> {
-        return client.send(operation: "UpdateApp", path: "/apps/{appId}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApp", path: "/apps/{appId}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Updates a branch for an Amplify App. 
     public func updateBranch(_ input: UpdateBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBranchResult> {
-        return client.send(operation: "UpdateBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Create a new DomainAssociation on an App 
     public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainAssociationResult> {
-        return client.send(operation: "UpdateDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Update a webhook. 
     public func updateWebhook(_ input: UpdateWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWebhookResult> {
-        return client.send(operation: "UpdateWebhook", path: "/webhooks/{webhookId}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateWebhook", path: "/webhooks/{webhookId}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

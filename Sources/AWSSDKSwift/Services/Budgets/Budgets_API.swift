@@ -27,7 +27,7 @@ public struct Budgets {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -47,7 +47,7 @@ public struct Budgets {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: nil,
             partition: partition,
             amzTarget: "AWSBudgetServiceGateway",
@@ -61,7 +61,6 @@ public struct Budgets {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,71 +75,71 @@ public struct Budgets {
 
     ///  Creates a budget and, if included, notifications and subscribers.   Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
     public func createBudget(_ input: CreateBudgetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBudgetResponse> {
-        return client.send(operation: "CreateBudget", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateBudget", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a notification. You must create the budget before you create the associated notification.
     public func createNotification(_ input: CreateNotificationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNotificationResponse> {
-        return client.send(operation: "CreateNotification", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateNotification", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
     public func createSubscriber(_ input: CreateSubscriberRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriberResponse> {
-        return client.send(operation: "CreateSubscriber", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateSubscriber", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a budget. You can delete your budget at any time.  Deleting a budget also deletes the notifications and subscribers that are associated with that budget. 
     public func deleteBudget(_ input: DeleteBudgetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBudgetResponse> {
-        return client.send(operation: "DeleteBudget", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteBudget", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a notification.  Deleting a notification also deletes the subscribers that are associated with the notification. 
     public func deleteNotification(_ input: DeleteNotificationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNotificationResponse> {
-        return client.send(operation: "DeleteNotification", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteNotification", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a subscriber.  Deleting the last subscriber to a notification also deletes the notification. 
     public func deleteSubscriber(_ input: DeleteSubscriberRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSubscriberResponse> {
-        return client.send(operation: "DeleteSubscriber", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteSubscriber", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
     public func describeBudget(_ input: DescribeBudgetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBudgetResponse> {
-        return client.send(operation: "DescribeBudget", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeBudget", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     public func describeBudgetPerformanceHistory(_ input: DescribeBudgetPerformanceHistoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBudgetPerformanceHistoryResponse> {
-        return client.send(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
     public func describeBudgets(_ input: DescribeBudgetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBudgetsResponse> {
-        return client.send(operation: "DescribeBudgets", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeBudgets", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the notifications that are associated with a budget.
     public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNotificationsForBudgetResponse> {
-        return client.send(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the subscribers that are associated with a notification.
     public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSubscribersForNotificationResponse> {
-        return client.send(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
     public func updateBudget(_ input: UpdateBudgetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBudgetResponse> {
-        return client.send(operation: "UpdateBudget", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateBudget", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a notification.
     public func updateNotification(_ input: UpdateNotificationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotificationResponse> {
-        return client.send(operation: "UpdateNotification", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateNotification", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a subscriber.
     public func updateSubscriber(_ input: UpdateSubscriberRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSubscriberResponse> {
-        return client.send(operation: "UpdateSubscriber", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateSubscriber", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

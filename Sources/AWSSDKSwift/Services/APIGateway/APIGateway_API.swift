@@ -27,7 +27,7 @@ public struct APIGateway {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct APIGateway {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "apigateway",
@@ -61,7 +61,6 @@ public struct APIGateway {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,588 +75,588 @@ public struct APIGateway {
 
     ///  Create an ApiKey resource.  AWS CLI
     public func createApiKey(_ input: CreateApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKey> {
-        return client.send(operation: "CreateApiKey", path: "/apikeys", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateApiKey", path: "/apikeys", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
     public func createAuthorizer(_ input: CreateAuthorizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizer> {
-        return client.send(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new BasePathMapping resource.
     public func createBasePathMapping(_ input: CreateBasePathMappingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMapping> {
-        return client.send(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a Deployment resource, which makes a specified RestApi callable over the internet.
     public func createDeployment(_ input: CreateDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
-        return client.send(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func createDocumentationPart(_ input: CreateDocumentationPartRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPart> {
-        return client.send(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersion> {
-        return client.send(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new domain name.
     public func createDomainName(_ input: CreateDomainNameRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainName> {
-        return client.send(operation: "CreateDomainName", path: "/domainnames", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDomainName", path: "/domainnames", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds a new Model resource to an existing RestApi resource.
     public func createModel(_ input: CreateModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Model> {
-        return client.send(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a ReqeustValidator of a given RestApi.
     public func createRequestValidator(_ input: CreateRequestValidatorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidator> {
-        return client.send(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a Resource resource.
     public func createResource(_ input: CreateResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resource> {
-        return client.send(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new RestApi resource.
     public func createRestApi(_ input: CreateRestApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
-        return client.send(operation: "CreateRestApi", path: "/restapis", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateRestApi", path: "/restapis", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new Stage resource that references a pre-existing Deployment for the API. 
     public func createStage(_ input: CreateStageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stage> {
-        return client.send(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload. 
     public func createUsagePlan(_ input: CreateUsagePlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlan> {
-        return client.send(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a usage plan key for adding an existing API key to a usage plan.
     public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlanKey> {
-        return client.send(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
     public func createVpcLink(_ input: CreateVpcLinkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLink> {
-        return client.send(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes the ApiKey resource.
     @discardableResult public func deleteApiKey(_ input: DeleteApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing Authorizer resource. AWS CLI
     @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes the BasePathMapping resource.
     @discardableResult public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes the ClientCertificate resource.
     @discardableResult public func deleteClientCertificate(_ input: DeleteClientCertificateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
     @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     @discardableResult public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     @discardableResult public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes the DomainName resource.
     @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
     @discardableResult public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a delete integration.
     @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a delete integration response.
     @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing Method resource.
     @discardableResult public func deleteMethod(_ input: DeleteMethodRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing MethodResponse resource.
     @discardableResult public func deleteMethodResponse(_ input: DeleteMethodResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a model.
     @discardableResult public func deleteModel(_ input: DeleteModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a RequestValidator of a given RestApi.
     @discardableResult public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a Resource resource.
     @discardableResult public func deleteResource(_ input: DeleteResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified API.
     @discardableResult public func deleteRestApi(_ input: DeleteRestApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a Stage resource.
     @discardableResult public func deleteStage(_ input: DeleteStageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a usage plan of a given plan Id.
     @discardableResult public func deleteUsagePlan(_ input: DeleteUsagePlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a usage plan key and remove the underlying API key from the associated usage plan.
     @discardableResult public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing VpcLink of a specified identifier.
     @discardableResult public func deleteVpcLink(_ input: DeleteVpcLinkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Flushes all authorizer cache entries on a stage.
     @discardableResult public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Flushes a stage's cache.
     @discardableResult public func flushStageCache(_ input: FlushStageCacheRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Generates a ClientCertificate resource.
     public func generateClientCertificate(_ input: GenerateClientCertificateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificate> {
-        return client.send(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about the current Account resource.
     public func getAccount(_ input: GetAccountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Account> {
-        return client.send(operation: "GetAccount", path: "/account", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetAccount", path: "/account", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about the current ApiKey resource.
     public func getApiKey(_ input: GetApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKey> {
-        return client.send(operation: "GetApiKey", path: "/apikeys/{api_Key}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetApiKey", path: "/apikeys/{api_Key}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about the current ApiKeys resource.
     public func getApiKeys(_ input: GetApiKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKeys> {
-        return client.send(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describe an existing Authorizer resource. AWS CLI
     public func getAuthorizer(_ input: GetAuthorizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizer> {
-        return client.send(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describe an existing Authorizers resource. AWS CLI
     public func getAuthorizers(_ input: GetAuthorizersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizers> {
-        return client.send(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describe a BasePathMapping resource.
     public func getBasePathMapping(_ input: GetBasePathMappingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMapping> {
-        return client.send(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a collection of BasePathMapping resources.
     public func getBasePathMappings(_ input: GetBasePathMappingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMappings> {
-        return client.send(operation: "GetBasePathMappings", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetBasePathMappings", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about the current ClientCertificate resource.
     public func getClientCertificate(_ input: GetClientCertificateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificate> {
-        return client.send(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a collection of ClientCertificate resources.
     public func getClientCertificates(_ input: GetClientCertificatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificates> {
-        return client.send(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about a Deployment resource.
     public func getDeployment(_ input: GetDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
-        return client.send(operation: "GetDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about a Deployments collection.
     public func getDeployments(_ input: GetDeploymentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployments> {
-        return client.send(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func getDocumentationPart(_ input: GetDocumentationPartRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPart> {
-        return client.send(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func getDocumentationParts(_ input: GetDocumentationPartsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationParts> {
-        return client.send(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func getDocumentationVersion(_ input: GetDocumentationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersion> {
-        return client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersions> {
-        return client.send(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
     public func getDomainName(_ input: GetDomainNameRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainName> {
-        return client.send(operation: "GetDomainName", path: "/domainnames/{domain_name}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDomainName", path: "/domainnames/{domain_name}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a collection of DomainName resources.
     public func getDomainNames(_ input: GetDomainNamesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainNames> {
-        return client.send(operation: "GetDomainNames", path: "/domainnames", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetDomainNames", path: "/domainnames", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Exports a deployed version of a RestApi in a specified format.
     public func getExport(_ input: GetExportRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportResponse> {
-        return client.send(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a GatewayResponse of a specified response type on the given RestApi.
     public func getGatewayResponse(_ input: GetGatewayResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponse> {
-        return client.send(operation: "GetGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
     public func getGatewayResponses(_ input: GetGatewayResponsesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponses> {
-        return client.send(operation: "GetGatewayResponses", path: "/restapis/{restapi_id}/gatewayresponses", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetGatewayResponses", path: "/restapis/{restapi_id}/gatewayresponses", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Get the integration settings.
     public func getIntegration(_ input: GetIntegrationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Integration> {
-        return client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a get integration response.
     public func getIntegrationResponse(_ input: GetIntegrationResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IntegrationResponse> {
-        return client.send(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describe an existing Method resource.
     public func getMethod(_ input: GetMethodRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Method> {
-        return client.send(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes a MethodResponse resource.
     public func getMethodResponse(_ input: GetMethodResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MethodResponse> {
-        return client.send(operation: "GetMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes an existing model defined for a RestApi resource.
     public func getModel(_ input: GetModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Model> {
-        return client.send(operation: "GetModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Generates a sample mapping template that can be used to transform a payload into the structure of a model.
     public func getModelTemplate(_ input: GetModelTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Template> {
-        return client.send(operation: "GetModelTemplate", path: "/restapis/{restapi_id}/models/{model_name}/default_template", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetModelTemplate", path: "/restapis/{restapi_id}/models/{model_name}/default_template", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes existing Models defined for a RestApi resource.
     public func getModels(_ input: GetModelsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Models> {
-        return client.send(operation: "GetModels", path: "/restapis/{restapi_id}/models", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetModels", path: "/restapis/{restapi_id}/models", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a RequestValidator of a given RestApi.
     public func getRequestValidator(_ input: GetRequestValidatorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidator> {
-        return client.send(operation: "GetRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the RequestValidators collection of a given RestApi.
     public func getRequestValidators(_ input: GetRequestValidatorsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidators> {
-        return client.send(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists information about a resource.
     public func getResource(_ input: GetResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resource> {
-        return client.send(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists information about a collection of Resource resources.
     public func getResources(_ input: GetResourcesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resources> {
-        return client.send(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the RestApi resource in the collection.
     public func getRestApi(_ input: GetRestApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
-        return client.send(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the RestApis resources for your collection.
     public func getRestApis(_ input: GetRestApisRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApis> {
-        return client.send(operation: "GetRestApis", path: "/restapis", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetRestApis", path: "/restapis", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Generates a client SDK for a RestApi and Stage.
     public func getSdk(_ input: GetSdkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SdkResponse> {
-        return client.send(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func getSdkType(_ input: GetSdkTypeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SdkType> {
-        return client.send(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func getSdkTypes(_ input: GetSdkTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SdkTypes> {
-        return client.send(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about a Stage resource.
     public func getStage(_ input: GetStageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stage> {
-        return client.send(operation: "GetStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets information about one or more Stage resources.
     public func getStages(_ input: GetStagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stages> {
-        return client.send(operation: "GetStages", path: "/restapis/{restapi_id}/stages", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetStages", path: "/restapis/{restapi_id}/stages", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the Tags collection for a given resource.
     public func getTags(_ input: GetTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Tags> {
-        return client.send(operation: "GetTags", path: "/tags/{resource_arn}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetTags", path: "/tags/{resource_arn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the usage data of a usage plan in a specified time interval.
     public func getUsage(_ input: GetUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Usage> {
-        return client.send(operation: "GetUsage", path: "/usageplans/{usageplanId}/usage", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetUsage", path: "/usageplans/{usageplanId}/usage", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a usage plan of a given plan identifier.
     public func getUsagePlan(_ input: GetUsagePlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlan> {
-        return client.send(operation: "GetUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a usage plan key of a given key identifier.
     public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlanKey> {
-        return client.send(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
     public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlanKeys> {
-        return client.send(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets all the usage plans of the caller's account.
     public func getUsagePlans(_ input: GetUsagePlansRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlans> {
-        return client.send(operation: "GetUsagePlans", path: "/usageplans", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetUsagePlans", path: "/usageplans", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a specified VPC link under the caller's account in a region.
     public func getVpcLink(_ input: GetVpcLinkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLink> {
-        return client.send(operation: "GetVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the VpcLinks collection under the caller's account in a selected region.
     public func getVpcLinks(_ input: GetVpcLinksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLinks> {
-        return client.send(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Import API keys from an external source, such as a CSV-formatted file.
     public func importApiKeys(_ input: ImportApiKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKeyIds> {
-        return client.send(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func importDocumentationParts(_ input: ImportDocumentationPartsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPartIds> {
-        return client.send(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  A feature of the API Gateway control service for creating a new API from an external API definition file.
     public func importRestApi(_ input: ImportRestApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
-        return client.send(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
     public func putGatewayResponse(_ input: PutGatewayResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponse> {
-        return client.send(operation: "PutGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Sets up a method's integration.
     public func putIntegration(_ input: PutIntegrationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Integration> {
-        return client.send(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents a put integration.
     public func putIntegrationResponse(_ input: PutIntegrationResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IntegrationResponse> {
-        return client.send(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Add a method to an existing Resource resource.
     public func putMethod(_ input: PutMethodRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Method> {
-        return client.send(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds a MethodResponse to an existing Method resource.
     public func putMethodResponse(_ input: PutMethodResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MethodResponse> {
-        return client.send(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     public func putRestApi(_ input: PutRestApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
-        return client.send(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds or updates a tag on a given resource.
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer 
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
-        return client.send(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.
     public func testInvokeMethod(_ input: TestInvokeMethodRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestInvokeMethodResponse> {
-        return client.send(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes a tag from a given resource.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about the current Account resource.
     public func updateAccount(_ input: UpdateAccountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Account> {
-        return client.send(operation: "UpdateAccount", path: "/account", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateAccount", path: "/account", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about an ApiKey resource.
     public func updateApiKey(_ input: UpdateApiKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKey> {
-        return client.send(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing Authorizer resource. AWS CLI
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizer> {
-        return client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about the BasePathMapping resource.
     public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMapping> {
-        return client.send(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about an ClientCertificate resource.
     public func updateClientCertificate(_ input: UpdateClientCertificateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificate> {
-        return client.send(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about a Deployment resource.
     public func updateDeployment(_ input: UpdateDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
-        return client.send(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPart> {
-        return client.send(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersion> {
-        return client.send(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about the DomainName resource.
     public func updateDomainName(_ input: UpdateDomainNameRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainName> {
-        return client.send(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a GatewayResponse of a specified response type on the given RestApi.
     public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponse> {
-        return client.send(operation: "UpdateGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents an update integration.
     public func updateIntegration(_ input: UpdateIntegrationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Integration> {
-        return client.send(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Represents an update integration response.
     public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IntegrationResponse> {
-        return client.send(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing Method resource.
     public func updateMethod(_ input: UpdateMethodRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Method> {
-        return client.send(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing MethodResponse resource.
     public func updateMethodResponse(_ input: UpdateMethodResponseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MethodResponse> {
-        return client.send(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about a model.
     public func updateModel(_ input: UpdateModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Model> {
-        return client.send(operation: "UpdateModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a RequestValidator of a given RestApi.
     public func updateRequestValidator(_ input: UpdateRequestValidatorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidator> {
-        return client.send(operation: "UpdateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about a Resource resource.
     public func updateResource(_ input: UpdateResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resource> {
-        return client.send(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about the specified API.
     public func updateRestApi(_ input: UpdateRestApiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
-        return client.send(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes information about a Stage resource.
     public func updateStage(_ input: UpdateStageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stage> {
-        return client.send(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     public func updateUsage(_ input: UpdateUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Usage> {
-        return client.send(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a usage plan of a given plan Id.
     public func updateUsagePlan(_ input: UpdateUsagePlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlan> {
-        return client.send(operation: "UpdateUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing VpcLink of a specified identifier.
     public func updateVpcLink(_ input: UpdateVpcLinkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLink> {
-        return client.send(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "PATCH", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "PATCH", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

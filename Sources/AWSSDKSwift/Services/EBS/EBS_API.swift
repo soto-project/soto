@@ -27,7 +27,7 @@ public struct EBS {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct EBS {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "ebs",
@@ -60,7 +60,6 @@ public struct EBS {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,23 +74,23 @@ public struct EBS {
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
     public func getSnapshotBlock(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return client.send(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
     public func listChangedBlocks(_ input: ListChangedBlocksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChangedBlocksResponse> {
-        return client.send(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
     public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSnapshotBlocksResponse> {
-        return client.send(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     //MARK: Streaming API Calls
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
     public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return client.send(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", input: input, on: eventLoop, stream: stream)
+        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop, stream: stream)
     }
 }

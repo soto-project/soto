@@ -27,7 +27,7 @@ public struct IoTEvents {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct IoTEvents {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "iotevents",
@@ -60,7 +60,6 @@ public struct IoTEvents {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,81 +74,81 @@ public struct IoTEvents {
 
     ///  Creates a detector model.
     public func createDetectorModel(_ input: CreateDetectorModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDetectorModelResponse> {
-        return client.send(operation: "CreateDetectorModel", path: "/detector-models", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateDetectorModel", path: "/detector-models", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an input.
     public func createInput(_ input: CreateInputRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInputResponse> {
-        return client.send(operation: "CreateInput", path: "/inputs", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateInput", path: "/inputs", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a detector model. Any active instances of the detector model are also deleted.
     public func deleteDetectorModel(_ input: DeleteDetectorModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDetectorModelResponse> {
-        return client.send(operation: "DeleteDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an input.
     public func deleteInput(_ input: DeleteInputRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInputResponse> {
-        return client.send(operation: "DeleteInput", path: "/inputs/{inputName}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteInput", path: "/inputs/{inputName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
     public func describeDetectorModel(_ input: DescribeDetectorModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorModelResponse> {
-        return client.send(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes an input.
     public func describeInput(_ input: DescribeInputRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputResponse> {
-        return client.send(operation: "DescribeInput", path: "/inputs/{inputName}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeInput", path: "/inputs/{inputName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the current settings of the AWS IoT Events logging options.
     public func describeLoggingOptions(_ input: DescribeLoggingOptionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLoggingOptionsResponse> {
-        return client.send(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
     public func listDetectorModelVersions(_ input: ListDetectorModelVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorModelVersionsResponse> {
-        return client.send(operation: "ListDetectorModelVersions", path: "/detector-models/{detectorModelName}/versions", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListDetectorModelVersions", path: "/detector-models/{detectorModelName}/versions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the detector models you have created. Only the metadata associated with each detector model is returned.
     public func listDetectorModels(_ input: ListDetectorModelsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorModelsResponse> {
-        return client.send(operation: "ListDetectorModels", path: "/detector-models", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListDetectorModels", path: "/detector-models", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the inputs you have created.
     public func listInputs(_ input: ListInputsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputsResponse> {
-        return client.send(operation: "ListInputs", path: "/inputs", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListInputs", path: "/inputs", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the tags (metadata) you have assigned to the resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "PutLoggingOptions", path: "/logging", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/tags", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes the given tags (metadata) from the resource.
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/tags", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
     public func updateDetectorModel(_ input: UpdateDetectorModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDetectorModelResponse> {
-        return client.send(operation: "UpdateDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an input.
     public func updateInput(_ input: UpdateInputRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInputResponse> {
-        return client.send(operation: "UpdateInput", path: "/inputs/{inputName}", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateInput", path: "/inputs/{inputName}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }
