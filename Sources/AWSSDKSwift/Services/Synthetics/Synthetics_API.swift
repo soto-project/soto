@@ -67,7 +67,7 @@ public struct Synthetics {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

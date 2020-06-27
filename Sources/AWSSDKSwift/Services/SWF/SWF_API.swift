@@ -69,7 +69,7 @@ public struct SWF {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

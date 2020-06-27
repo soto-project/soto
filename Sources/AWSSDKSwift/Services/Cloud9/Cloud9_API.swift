@@ -68,7 +68,7 @@ public struct Cloud9 {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

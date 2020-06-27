@@ -68,7 +68,7 @@ public struct ElasticBeanstalk {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

@@ -69,7 +69,7 @@ public struct DirectConnect {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

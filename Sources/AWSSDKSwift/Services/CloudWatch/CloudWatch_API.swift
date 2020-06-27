@@ -67,7 +67,7 @@ public struct CloudWatch {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

@@ -68,7 +68,7 @@ public struct CodeBuild {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

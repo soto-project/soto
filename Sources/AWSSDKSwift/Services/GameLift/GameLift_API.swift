@@ -68,7 +68,7 @@ public struct GameLift {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

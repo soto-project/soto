@@ -68,7 +68,7 @@ public struct MediaTailor {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

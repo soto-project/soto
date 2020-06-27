@@ -68,7 +68,7 @@ public struct IoT1ClickProjects {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

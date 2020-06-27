@@ -70,7 +70,7 @@ public struct IoT1ClickDevicesService {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

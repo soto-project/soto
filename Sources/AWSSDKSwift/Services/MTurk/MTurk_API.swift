@@ -66,7 +66,7 @@ public struct MTurk {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

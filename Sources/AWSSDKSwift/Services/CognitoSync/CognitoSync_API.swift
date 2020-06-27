@@ -67,7 +67,7 @@ public struct CognitoSync {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

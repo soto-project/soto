@@ -68,7 +68,7 @@ public struct LicenseManager {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

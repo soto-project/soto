@@ -68,7 +68,7 @@ public struct Rekognition {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

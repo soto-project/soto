@@ -70,7 +70,7 @@ public struct S3Control {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     

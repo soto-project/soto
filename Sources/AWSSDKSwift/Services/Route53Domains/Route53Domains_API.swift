@@ -68,7 +68,7 @@ public struct Route53Domains {
         )
     }
     
-    func syncShutdown() throws {
+    public func syncShutdown() throws {
         try client.syncShutdown()
     }
     
