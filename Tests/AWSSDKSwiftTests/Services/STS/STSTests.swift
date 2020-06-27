@@ -20,9 +20,7 @@ import XCTest
 class STSTests: XCTestCase {
 
     static let sts = STS(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
-        region: .useast1,
+        credentialProvider: TestEnvironment.credentialProvider,
         endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew

@@ -25,8 +25,7 @@ import XCTest
 class S3Tests: XCTestCase {
 
     static let s3 = S3(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .euwest1,
         endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,
@@ -184,8 +183,7 @@ class S3Tests: XCTestCase {
     func testStreamPutObject() {
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         let s3 = S3(
-            accessKeyId: TestEnvironment.accessKeyId,
-            secretAccessKey: TestEnvironment.secretAccessKey,
+            credentialProvider: TestEnvironment.credentialProvider,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
             middlewares: TestEnvironment.middlewares,
@@ -352,8 +350,7 @@ class S3Tests: XCTestCase {
         let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
         let s3 = S3(
-            accessKeyId: TestEnvironment.accessKeyId,
-            secretAccessKey: TestEnvironment.secretAccessKey,
+            credentialProvider: TestEnvironment.credentialProvider,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
             middlewares: TestEnvironment.middlewares,

@@ -39,14 +39,13 @@ public struct AppMesh {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
     /// Initialize the AppMesh client
     /// - parameters:
-    ///     - accessKeyId: Public access key provided by AWS
-    ///     - secretAccessKey: Private access key provided by AWS
-    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - credentialProvider: Object providing credential to sign requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
@@ -54,9 +53,7 @@ public struct AppMesh {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProviderFactory? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -64,19 +61,20 @@ public struct AppMesh {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "appmesh",
             serviceProtocol: .restjson,
             apiVersion: "2019-01-25",
             endpoint: endpoint,
+            possibleErrorTypes: [AppMeshErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProviderFactory: credentialProvider ?? .runtime,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [AppMeshErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

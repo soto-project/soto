@@ -20,8 +20,7 @@ import XCTest
 class SQSTests: XCTestCase {
 
     static let sqs = SQS(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .useast1,
         endpoint: TestEnvironment.getEndPoint(environment: "SQS_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,

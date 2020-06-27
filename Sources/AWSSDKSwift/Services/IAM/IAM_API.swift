@@ -27,33 +27,27 @@ public struct IAM {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
     /// Initialize the IAM client
     /// - parameters:
-    ///     - accessKeyId: Public access key provided by AWS
-    ///     - secretAccessKey: Private access key provided by AWS
-    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - credentialProvider: Object providing credential to sign requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProviderFactory? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
         retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: nil,
             partition: partition,
             service: "iam",
@@ -62,9 +56,13 @@ public struct IAM {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "iam.cn-north-1.amazonaws.com.cn", "aws-global": "iam.amazonaws.com", "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov", "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov", "aws-us-gov-global": "iam.us-gov.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorth1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
+            possibleErrorTypes: [IAMErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProviderFactory: credentialProvider ?? .runtime,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [IAMErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

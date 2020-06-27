@@ -27,33 +27,27 @@ public struct Route53 {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
     /// Initialize the Route53 client
     /// - parameters:
-    ///     - accessKeyId: Public access key provided by AWS
-    ///     - secretAccessKey: Private access key provided by AWS
-    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - credentialProvider: Object providing credential to sign requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProviderFactory? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
         retryPolicy: RetryPolicy = JitterRetry(),
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: nil,
             partition: partition,
             service: "route53",
@@ -62,9 +56,13 @@ public struct Route53 {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "route53.amazonaws.com.cn", "aws-global": "route53.amazonaws.com", "aws-iso-global": "route53.c2s.ic.gov", "aws-us-gov-global": "route53.us-gov.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
+            possibleErrorTypes: [Route53ErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProviderFactory: credentialProvider ?? .runtime,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [Route53ErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

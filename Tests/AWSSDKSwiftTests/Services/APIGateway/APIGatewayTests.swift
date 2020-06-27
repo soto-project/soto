@@ -24,8 +24,7 @@ enum APIGatewayTestsError: Error {
 class APIGatewayTests: XCTestCase {
 
     static let apiGateway = APIGateway(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
+        credentialProvider: TestEnvironment.credentialProvider,
         region: .euwest1,
         endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4566"),
         middlewares: TestEnvironment.middlewares,

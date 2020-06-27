@@ -27,14 +27,13 @@ public struct SSO {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
     /// Initialize the SSO client
     /// - parameters:
-    ///     - accessKeyId: Public access key provided by AWS
-    ///     - secretAccessKey: Private access key provided by AWS
-    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - credentialProvider: Object providing credential to sign requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
@@ -42,9 +41,7 @@ public struct SSO {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProviderFactory? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -52,10 +49,7 @@ public struct SSO {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "portal.sso",
@@ -64,9 +58,13 @@ public struct SSO {
             apiVersion: "2019-06-10",
             endpoint: endpoint,
             serviceEndpoints: ["ap-southeast-1": "portal.sso.ap-southeast-1.amazonaws.com", "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com", "ca-central-1": "portal.sso.ca-central-1.amazonaws.com", "eu-central-1": "portal.sso.eu-central-1.amazonaws.com", "eu-west-1": "portal.sso.eu-west-1.amazonaws.com", "eu-west-2": "portal.sso.eu-west-2.amazonaws.com", "us-east-1": "portal.sso.us-east-1.amazonaws.com", "us-east-2": "portal.sso.us-east-2.amazonaws.com", "us-west-2": "portal.sso.us-west-2.amazonaws.com"],
+            possibleErrorTypes: [SSOErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProviderFactory: credentialProvider ?? .runtime,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [SSOErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }

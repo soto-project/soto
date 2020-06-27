@@ -27,14 +27,13 @@ public struct CognitoIdentityProvider {
     //MARK: Member variables
 
     public let client: AWSClient
+    public let serviceConfig: ServiceConfig
 
     //MARK: Initialization
 
     /// Initialize the CognitoIdentityProvider client
     /// - parameters:
-    ///     - accessKeyId: Public access key provided by AWS
-    ///     - secretAccessKey: Private access key provided by AWS
-    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - credentialProvider: Object providing credential to sign requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
@@ -42,9 +41,7 @@ public struct CognitoIdentityProvider {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        accessKeyId: String? = nil,
-        secretAccessKey: String? = nil,
-        sessionToken: String? = nil,
+        credentialProvider: CredentialProviderFactory? = nil,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -52,10 +49,7 @@ public struct CognitoIdentityProvider {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.client = AWSClient(
-            accessKeyId: accessKeyId,
-            secretAccessKey: secretAccessKey,
-            sessionToken: sessionToken,
+        self.serviceConfig = ServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSCognitoIdentityProviderService",
@@ -63,9 +57,13 @@ public struct CognitoIdentityProvider {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-04-18",
             endpoint: endpoint,
+            possibleErrorTypes: [CognitoIdentityProviderErrorType.self]
+        )
+        self.client = AWSClient(
+            credentialProviderFactory: credentialProvider ?? .runtime,
+            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
-            possibleErrorTypes: [CognitoIdentityProviderErrorType.self],
             httpClientProvider: httpClientProvider
         )
     }
