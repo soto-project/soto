@@ -443,7 +443,7 @@ let package = Package(
         .target(name: "AWSSSM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSM"),
         .target(name: "AWSSSO", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSO"),
         .target(name: "AWSSSOOIDC", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSOOIDC"),
-        .target(name: "AWSSTS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/STS"),
+        .target(name: "AWSSTS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/STS", "Extensions/STS"]),
         .target(name: "AWSSWF", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SWF"),
         .target(name: "AWSSageMaker", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SageMaker"),
         .target(name: "AWSSageMakerRuntime", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SageMakerRuntime"),
