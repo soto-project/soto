@@ -19,7 +19,7 @@ public struct {{ name }} {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct {{ name }} {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
 {% if regionalized %}
             region: region,
             partition: region?.partition ?? partition,
@@ -71,7 +71,6 @@ public struct {{ name }} {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -95,7 +94,7 @@ public struct {{ name }} {
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
     {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
+        return client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
     }
 {%endfor %}
 {%if streamingOperations.count > 0 %}
@@ -110,7 +109,7 @@ public struct {{ name }} {
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
     {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
+        return client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %}, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
     }
 {%endfor %}
 {%endif %}
