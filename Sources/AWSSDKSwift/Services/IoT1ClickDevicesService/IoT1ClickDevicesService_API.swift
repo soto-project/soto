@@ -43,7 +43,7 @@ public struct IoT1ClickDevicesService {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider: CredentialProviderFactory? = nil,
+        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -62,7 +62,7 @@ public struct IoT1ClickDevicesService {
             possibleErrorTypes: [IoT1ClickDevicesServiceErrorType.self]
         )
         self.client = AWSClient(
-            credentialProviderFactory: credentialProvider ?? .runtime,
+            credentialProvider: credentialProviderFactory,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider

@@ -39,7 +39,7 @@ struct TestEnvironment {
     /// are we using Localstack to test
     static var isUsingLocalstack: Bool { return ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" }
 
-    static var credentialProvider: CredentialProviderFactory? { return isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : nil }
+    static var credentialProvider: CredentialProviderFactory { return isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default }
 
     /// current list of middleware
     static var middlewares: [AWSServiceMiddleware] {
