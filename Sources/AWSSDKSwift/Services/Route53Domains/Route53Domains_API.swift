@@ -41,7 +41,7 @@ public struct Route53Domains {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider: CredentialProviderFactory? = nil,
+        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
@@ -60,7 +60,7 @@ public struct Route53Domains {
             possibleErrorTypes: [Route53DomainsErrorType.self]
         )
         self.client = AWSClient(
-            credentialProviderFactory: credentialProvider ?? .runtime,
+            credentialProvider: credentialProviderFactory,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider

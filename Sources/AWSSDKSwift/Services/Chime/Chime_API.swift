@@ -40,7 +40,7 @@ public struct Chime {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider: CredentialProviderFactory? = nil,
+        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
         partition: AWSSDKSwiftCore.Partition = .aws,
         endpoint: String? = nil,
         retryPolicy: RetryPolicy = JitterRetry(),
@@ -59,7 +59,7 @@ public struct Chime {
             possibleErrorTypes: [ChimeErrorType.self]
         )
         self.client = AWSClient(
-            credentialProviderFactory: credentialProvider ?? .runtime,
+            credentialProvider: credentialProviderFactory,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
