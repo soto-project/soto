@@ -27,7 +27,7 @@ public struct WorkMailMessageFlow {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct WorkMailMessageFlow {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "workmailmessageflow",
@@ -60,7 +60,6 @@ public struct WorkMailMessageFlow {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,6 +74,6 @@ public struct WorkMailMessageFlow {
 
     ///  Retrieves the raw content of an in-transit email message, in MIME format. 
     public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRawMessageContentResponse> {
-        return client.send(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

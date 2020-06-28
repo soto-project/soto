@@ -27,7 +27,7 @@ public struct SageMakerRuntime {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct SageMakerRuntime {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "runtime.sagemaker",
@@ -61,7 +61,6 @@ public struct SageMakerRuntime {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,6 +75,6 @@ public struct SageMakerRuntime {
 
     ///  After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint.  For an overview of Amazon SageMaker, see How It Works.  Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax.  Calls to InvokeEndpoint are authenticated by using AWS Signature Version 4. For information, see Authenticating Requests (AWS Signature Version 4) in the Amazon S3 API Reference. A customer's model containers must respond to requests within 60 seconds. The model itself can have a maximum processing time of 60 seconds before responding to the /invocations. If your model is going to take 50-60 seconds of processing time, the SDK socket timeout should be set to be 70 seconds.  Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker determines the account ID from the authentication token that is supplied by the caller. 
     public func invokeEndpoint(_ input: InvokeEndpointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InvokeEndpointOutput> {
-        return client.send(operation: "InvokeEndpoint", path: "/endpoints/{EndpointName}/invocations", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "InvokeEndpoint", path: "/endpoints/{EndpointName}/invocations", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

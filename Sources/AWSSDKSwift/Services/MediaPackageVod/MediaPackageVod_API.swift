@@ -27,7 +27,7 @@ public struct MediaPackageVod {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct MediaPackageVod {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "mediapackage-vod",
@@ -60,7 +60,6 @@ public struct MediaPackageVod {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,73 +74,73 @@ public struct MediaPackageVod {
 
     ///  Creates a new MediaPackage VOD Asset resource.
     public func createAsset(_ input: CreateAssetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAssetResponse> {
-        return client.send(operation: "CreateAsset", path: "/assets", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateAsset", path: "/assets", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new MediaPackage VOD PackagingConfiguration resource.
     public func createPackagingConfiguration(_ input: CreatePackagingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackagingConfigurationResponse> {
-        return client.send(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new MediaPackage VOD PackagingGroup resource.
     public func createPackagingGroup(_ input: CreatePackagingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackagingGroupResponse> {
-        return client.send(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing MediaPackage VOD Asset resource.
     public func deleteAsset(_ input: DeleteAssetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAssetResponse> {
-        return client.send(operation: "DeleteAsset", path: "/assets/{id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteAsset", path: "/assets/{id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a MediaPackage VOD PackagingConfiguration resource.
     public func deletePackagingConfiguration(_ input: DeletePackagingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackagingConfigurationResponse> {
-        return client.send(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a MediaPackage VOD PackagingGroup resource.
     public func deletePackagingGroup(_ input: DeletePackagingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackagingGroupResponse> {
-        return client.send(operation: "DeletePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "DeletePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a description of a MediaPackage VOD Asset resource.
     public func describeAsset(_ input: DescribeAssetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssetResponse> {
-        return client.send(operation: "DescribeAsset", path: "/assets/{id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeAsset", path: "/assets/{id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a description of a MediaPackage VOD PackagingConfiguration resource.
     public func describePackagingConfiguration(_ input: DescribePackagingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackagingConfigurationResponse> {
-        return client.send(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a description of a MediaPackage VOD PackagingGroup resource.
     public func describePackagingGroup(_ input: DescribePackagingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackagingGroupResponse> {
-        return client.send(operation: "DescribePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
     public func listAssets(_ input: ListAssetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssetsResponse> {
-        return client.send(operation: "ListAssets", path: "/assets", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListAssets", path: "/assets", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
     public func listPackagingConfigurations(_ input: ListPackagingConfigurationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagingConfigurationsResponse> {
-        return client.send(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
     public func listPackagingGroups(_ input: ListPackagingGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagingGroupsResponse> {
-        return client.send(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

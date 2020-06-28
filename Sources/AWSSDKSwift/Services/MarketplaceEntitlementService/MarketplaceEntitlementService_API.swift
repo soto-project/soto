@@ -27,7 +27,7 @@ public struct MarketplaceEntitlementService {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct MarketplaceEntitlementService {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSMPEntitlementService",
@@ -62,7 +62,6 @@ public struct MarketplaceEntitlementService {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -77,6 +76,6 @@ public struct MarketplaceEntitlementService {
 
     ///  GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
     public func getEntitlements(_ input: GetEntitlementsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEntitlementsResult> {
-        return client.send(operation: "GetEntitlements", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetEntitlements", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

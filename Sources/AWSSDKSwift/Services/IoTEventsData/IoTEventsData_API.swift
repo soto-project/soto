@@ -27,7 +27,7 @@ public struct IoTEventsData {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct IoTEventsData {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "data.iotevents",
@@ -61,7 +61,6 @@ public struct IoTEventsData {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,21 +75,21 @@ public struct IoTEventsData {
 
     ///  Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
     public func batchPutMessage(_ input: BatchPutMessageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutMessageResponse> {
-        return client.send(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
     public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateDetectorResponse> {
-        return client.send(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns information about the specified detector (instance).
     public func describeDetector(_ input: DescribeDetectorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorResponse> {
-        return client.send(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists detectors (the instances of a detector model).
     public func listDetectors(_ input: ListDetectorsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorsResponse> {
-        return client.send(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

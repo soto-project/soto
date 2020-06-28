@@ -27,7 +27,7 @@ public struct PI {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct PI {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "PerformanceInsightsv20180227",
@@ -61,7 +61,6 @@ public struct PI {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,11 +75,11 @@ public struct PI {
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.
     public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
     public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceMetricsResponse> {
-        return client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

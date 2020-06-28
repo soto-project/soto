@@ -27,7 +27,7 @@ public struct MigrationHubConfig {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct MigrationHubConfig {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSMigrationHubMultiAccountService",
@@ -62,7 +62,6 @@ public struct MigrationHubConfig {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -77,16 +76,16 @@ public struct MigrationHubConfig {
 
     ///  This API sets up the home region for the calling account only.
     public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHomeRegionControlResult> {
-        return client.send(operation: "CreateHomeRegionControl", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateHomeRegionControl", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  This API permits filtering on the ControlId and HomeRegion fields.
     public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHomeRegionControlsResult> {
-        return client.send(operation: "DescribeHomeRegionControls", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeHomeRegionControls", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
     public func getHomeRegion(_ input: GetHomeRegionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHomeRegionResult> {
-        return client.send(operation: "GetHomeRegion", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetHomeRegion", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -27,7 +27,7 @@ public struct SavingsPlans {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -47,7 +47,7 @@ public struct SavingsPlans {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: nil,
             partition: partition,
             service: "savingsplans",
@@ -60,7 +60,6 @@ public struct SavingsPlans {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,41 +74,41 @@ public struct SavingsPlans {
 
     ///  Creates a Savings Plan.
     public func createSavingsPlan(_ input: CreateSavingsPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSavingsPlanResponse> {
-        return client.send(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans rates.
     public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
-        return client.send(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans.
     public func describeSavingsPlans(_ input: DescribeSavingsPlansRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansResponse> {
-        return client.send(operation: "DescribeSavingsPlans", path: "/DescribeSavingsPlans", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeSavingsPlans", path: "/DescribeSavingsPlans", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans offering rates.
     public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansOfferingRatesResponse> {
-        return client.send(operation: "DescribeSavingsPlansOfferingRates", path: "/DescribeSavingsPlansOfferingRates", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeSavingsPlansOfferingRates", path: "/DescribeSavingsPlansOfferingRates", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans offerings.
     public func describeSavingsPlansOfferings(_ input: DescribeSavingsPlansOfferingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansOfferingsResponse> {
-        return client.send(operation: "DescribeSavingsPlansOfferings", path: "/DescribeSavingsPlansOfferings", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeSavingsPlansOfferings", path: "/DescribeSavingsPlansOfferings", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the tags for the specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.send(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds the specified tags to the specified resource.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.send(operation: "TagResource", path: "/TagResource", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/TagResource", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes the specified tags from the specified resource.
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.send(operation: "UntagResource", path: "/UntagResource", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/UntagResource", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -27,7 +27,7 @@ public struct IoTJobsDataPlane {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct IoTJobsDataPlane {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "data.jobs.iot",
@@ -61,7 +61,6 @@ public struct IoTJobsDataPlane {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,21 +75,21 @@ public struct IoTJobsDataPlane {
 
     ///  Gets details of a job execution.
     public func describeJobExecution(_ input: DescribeJobExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobExecutionResponse> {
-        return client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the list of all jobs for a thing that are not in a terminal status.
     public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPendingJobExecutionsResponse> {
-        return client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input, on: eventLoop)
+        return client.execute(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
     public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartNextPendingJobExecutionResponse> {
-        return client.send(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", input: input, on: eventLoop)
+        return client.execute(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the status of a job execution.
     public func updateJobExecution(_ input: UpdateJobExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobExecutionResponse> {
-        return client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

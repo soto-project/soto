@@ -27,7 +27,7 @@ public struct Translate {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct Translate {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSShineFrontendService_20170701",
@@ -61,7 +61,6 @@ public struct Translate {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,46 +75,46 @@ public struct Translate {
 
     ///  A synchronous action that deletes a custom terminology.
     @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteTerminology", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with an asycnhronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
     public func describeTextTranslationJob(_ input: DescribeTextTranslationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTextTranslationJobResponse> {
-        return client.send(operation: "DescribeTextTranslationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeTextTranslationJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves a custom terminology.
     public func getTerminology(_ input: GetTerminologyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTerminologyResponse> {
-        return client.send(operation: "GetTerminology", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetTerminology", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates or updates a custom terminology, depending on whether or not one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. Currently, the only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology take up to 10 minutes to fully propagate and be available for use in a translation due to cache policies with the DataPlane service that performs the translations.
     public func importTerminology(_ input: ImportTerminologyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportTerminologyResponse> {
-        return client.send(operation: "ImportTerminology", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ImportTerminology", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Provides a list of custom terminologies associated with your account.
     public func listTerminologies(_ input: ListTerminologiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTerminologiesResponse> {
-        return client.send(operation: "ListTerminologies", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListTerminologies", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the batch translation jobs that you have submitted.
     public func listTextTranslationJobs(_ input: ListTextTranslationJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTextTranslationJobsResponse> {
-        return client.send(operation: "ListTextTranslationJobs", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListTextTranslationJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous batch translation job. Batch translation jobs can be used to translate large volumes of text across multiple documents at once. For more information, see async. Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.  Amazon Translate does not support batch translation of multiple source languages at once. 
     public func startTextTranslationJob(_ input: StartTextTranslationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTextTranslationJobResponse> {
-        return client.send(operation: "StartTextTranslationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "StartTextTranslationJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch translation job's JobId.
     public func stopTextTranslationJob(_ input: StopTextTranslationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTextTranslationJobResponse> {
-        return client.send(operation: "StopTextTranslationJob", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "StopTextTranslationJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Translates input text from the source language to the target language. For a list of available languages and language codes, see what-is-languages.
     public func translateText(_ input: TranslateTextRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TranslateTextResponse> {
-        return client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "TranslateText", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

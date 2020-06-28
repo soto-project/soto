@@ -27,7 +27,7 @@ public struct QLDBSession {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct QLDBSession {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "QLDBSession",
@@ -62,7 +62,6 @@ public struct QLDBSession {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -77,6 +76,6 @@ public struct QLDBSession {
 
     ///  Sends a command to an Amazon QLDB ledger.
     public func sendCommand(_ input: SendCommandRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCommandResult> {
-        return client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "SendCommand", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

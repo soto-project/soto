@@ -27,7 +27,7 @@ public struct ServiceQuotas {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct ServiceQuotas {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "ServiceQuotasV20190624",
@@ -61,7 +61,6 @@ public struct ServiceQuotas {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,81 +75,81 @@ public struct ServiceQuotas {
 
     ///  Associates the Service Quotas template with your organization so that when new accounts are created in your organization, the template submits increase requests for the specified service quotas. Use the Service Quotas template to request an increase for any adjustable quota value. After you define the Service Quotas template, use this operation to associate, or enable, the template. 
     public func associateServiceQuotaTemplate(_ input: AssociateServiceQuotaTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateServiceQuotaTemplateResponse> {
-        return client.send(operation: "AssociateServiceQuotaTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "AssociateServiceQuotaTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes a service quota increase request from the Service Quotas template. 
     public func deleteServiceQuotaIncreaseRequestFromTemplate(_ input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceQuotaIncreaseRequestFromTemplateResponse> {
-        return client.send(operation: "DeleteServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the Service Quotas template. Once the template is disabled, it does not request quota increases for new accounts in your organization. Disabling the quota template does not apply the quota increase requests from the template.   Related operations    To enable the quota template, call AssociateServiceQuotaTemplate.    To delete a specific service quota from the template, use DeleteServiceQuotaIncreaseRequestFromTemplate.  
     public func disassociateServiceQuotaTemplate(_ input: DisassociateServiceQuotaTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateServiceQuotaTemplateResponse> {
-        return client.send(operation: "DisassociateServiceQuotaTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DisassociateServiceQuotaTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the default service quotas values. The Value returned for each quota is the AWS default value, even if the quotas have been increased.. 
     public func getAWSDefaultServiceQuota(_ input: GetAWSDefaultServiceQuotaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAWSDefaultServiceQuotaResponse> {
-        return client.send(operation: "GetAWSDefaultServiceQuota", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetAWSDefaultServiceQuota", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the ServiceQuotaTemplateAssociationStatus value from the service. Use this action to determine if the Service Quota template is associated, or enabled. 
     public func getAssociationForServiceQuotaTemplate(_ input: GetAssociationForServiceQuotaTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAssociationForServiceQuotaTemplateResponse> {
-        return client.send(operation: "GetAssociationForServiceQuotaTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetAssociationForServiceQuotaTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the details for a particular increase request. 
     public func getRequestedServiceQuotaChange(_ input: GetRequestedServiceQuotaChangeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRequestedServiceQuotaChangeResponse> {
-        return client.send(operation: "GetRequestedServiceQuotaChange", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetRequestedServiceQuotaChange", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the details for the specified service quota. This operation provides a different Value than the GetAWSDefaultServiceQuota operation. This operation returns the applied value for each quota. GetAWSDefaultServiceQuota returns the default AWS value for each quota. 
     public func getServiceQuota(_ input: GetServiceQuotaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceQuotaResponse> {
-        return client.send(operation: "GetServiceQuota", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetServiceQuota", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the details of the service quota increase request in your template.
     public func getServiceQuotaIncreaseRequestFromTemplate(_ input: GetServiceQuotaIncreaseRequestFromTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceQuotaIncreaseRequestFromTemplateResponse> {
-        return client.send(operation: "GetServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetServiceQuotaIncreaseRequestFromTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists all default service quotas for the specified AWS service or all AWS services. ListAWSDefaultServiceQuotas is similar to ListServiceQuotas except for the Value object. The Value object returned by ListAWSDefaultServiceQuotas is the default value assigned by AWS. This request returns a list of all service quotas for the specified service. The listing of each you'll see the default values are the values that AWS provides for the quotas.   Always check the NextToken response parameter when calling any of the List* operations. These operations can return an unexpected list of results, even when there are more results available. When this happens, the NextToken response parameter contains a value to pass the next call to the same API to request the next part of the list. 
     public func listAWSDefaultServiceQuotas(_ input: ListAWSDefaultServiceQuotasRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAWSDefaultServiceQuotasResponse> {
-        return client.send(operation: "ListAWSDefaultServiceQuotas", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListAWSDefaultServiceQuotas", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Requests a list of the changes to quotas for a service.
     public func listRequestedServiceQuotaChangeHistory(_ input: ListRequestedServiceQuotaChangeHistoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRequestedServiceQuotaChangeHistoryResponse> {
-        return client.send(operation: "ListRequestedServiceQuotaChangeHistory", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListRequestedServiceQuotaChangeHistory", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Requests a list of the changes to specific service quotas. This command provides additional granularity over the ListRequestedServiceQuotaChangeHistory command. Once a quota change request has reached CASE_CLOSED, APPROVED, or DENIED, the history has been kept for 90 days.
     public func listRequestedServiceQuotaChangeHistoryByQuota(_ input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRequestedServiceQuotaChangeHistoryByQuotaResponse> {
-        return client.send(operation: "ListRequestedServiceQuotaChangeHistoryByQuota", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListRequestedServiceQuotaChangeHistoryByQuota", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of the quota increase requests in the template. 
     public func listServiceQuotaIncreaseRequestsInTemplate(_ input: ListServiceQuotaIncreaseRequestsInTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceQuotaIncreaseRequestsInTemplateResponse> {
-        return client.send(operation: "ListServiceQuotaIncreaseRequestsInTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListServiceQuotaIncreaseRequestsInTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists all service quotas for the specified AWS service. This request returns a list of the service quotas for the specified service. you'll see the default values are the values that AWS provides for the quotas.   Always check the NextToken response parameter when calling any of the List* operations. These operations can return an unexpected list of results, even when there are more results available. When this happens, the NextToken response parameter contains a value to pass the next call to the same API to request the next part of the list. 
     public func listServiceQuotas(_ input: ListServiceQuotasRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceQuotasResponse> {
-        return client.send(operation: "ListServiceQuotas", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListServiceQuotas", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the AWS services available in Service Quotas. Not all AWS services are available in Service Quotas. To list the see the list of the service quotas for a specific service, use ListServiceQuotas.
     public func listServices(_ input: ListServicesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicesResponse> {
-        return client.send(operation: "ListServices", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListServices", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Defines and adds a quota to the service quota template. To add a quota to the template, you must provide the ServiceCode, QuotaCode, AwsRegion, and DesiredValue. Once you add a quota to the template, use ListServiceQuotaIncreaseRequestsInTemplate to see the list of quotas in the template.
     public func putServiceQuotaIncreaseRequestIntoTemplate(_ input: PutServiceQuotaIncreaseRequestIntoTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutServiceQuotaIncreaseRequestIntoTemplateResponse> {
-        return client.send(operation: "PutServiceQuotaIncreaseRequestIntoTemplate", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "PutServiceQuotaIncreaseRequestIntoTemplate", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the details of a service quota increase request. The response to this command provides the details in the RequestedServiceQuotaChange object. 
     public func requestServiceQuotaIncrease(_ input: RequestServiceQuotaIncreaseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestServiceQuotaIncreaseResponse> {
-        return client.send(operation: "RequestServiceQuotaIncrease", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "RequestServiceQuotaIncrease", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

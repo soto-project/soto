@@ -26,7 +26,7 @@ public struct PersonalizeEvents {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -48,7 +48,7 @@ public struct PersonalizeEvents {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "personalize-events",
@@ -60,7 +60,6 @@ public struct PersonalizeEvents {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,6 +74,6 @@ public struct PersonalizeEvents {
 
     ///  Records user interaction event data.
     @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "PutEvents", path: "/events", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -27,7 +27,7 @@ public struct ImportExport {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -47,7 +47,7 @@ public struct ImportExport {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: nil,
             partition: partition,
             service: "importexport",
@@ -60,7 +60,6 @@ public struct ImportExport {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -75,31 +74,31 @@ public struct ImportExport {
 
     ///  This operation cancels a specified job. Only the job owner can cancel it. The operation fails if the job has already started or is complete.
     public func cancelJob(_ input: CancelJobInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelJobOutput> {
-        return client.send(operation: "CancelJob", path: "/?Operation=CancelJob", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CancelJob", path: "/?Operation=CancelJob", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  This operation initiates the process of scheduling an upload or download of your data. You include in the request a manifest that describes the data transfer specifics. The response to the request includes a job ID, which you can use in other operations, a signature that you use to identify your storage device, and the address where you should ship your storage device.
     public func createJob(_ input: CreateJobInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobOutput> {
-        return client.send(operation: "CreateJob", path: "/?Operation=CreateJob", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "CreateJob", path: "/?Operation=CreateJob", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  This operation generates a pre-paid UPS shipping label that you will use to ship your device to AWS for processing.
     public func getShippingLabel(_ input: GetShippingLabelInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetShippingLabelOutput> {
-        return client.send(operation: "GetShippingLabel", path: "/?Operation=GetShippingLabel", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetShippingLabel", path: "/?Operation=GetShippingLabel", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  This operation returns information about a job, including where the job is in the processing pipeline, the status of the results, and the signature value associated with the job. You can only return information about jobs you own.
     public func getStatus(_ input: GetStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStatusOutput> {
-        return client.send(operation: "GetStatus", path: "/?Operation=GetStatus", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "GetStatus", path: "/?Operation=GetStatus", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  This operation returns the jobs associated with the requester. AWS Import/Export lists the jobs in reverse chronological order based on the date of creation. For example if Job Test1 was created 2009Dec30 and Test2 was created 2010Feb05, the ListJobs operation would return Test2 followed by Test1.
     public func listJobs(_ input: ListJobsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsOutput> {
-        return client.send(operation: "ListJobs", path: "/?Operation=ListJobs", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ListJobs", path: "/?Operation=ListJobs", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  You use this operation to change the parameters specified in the original manifest file by supplying a new manifest file. The manifest file attached to this request replaces the original manifest file. You can only use the operation after a CreateJob request but before the data transfer starts and you can only use it on jobs you own.
     public func updateJob(_ input: UpdateJobInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobOutput> {
-        return client.send(operation: "UpdateJob", path: "/?Operation=UpdateJob", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "UpdateJob", path: "/?Operation=UpdateJob", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

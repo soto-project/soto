@@ -27,7 +27,7 @@ public struct CostandUsageReportService {
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: ServiceConfig
+    public let serviceConfig: AWSServiceConfig
 
     //MARK: Initialization
 
@@ -49,7 +49,7 @@ public struct CostandUsageReportService {
         middlewares: [AWSServiceMiddleware] = [],
         httpClientProvider: AWSClient.HTTPClientProvider = .createNew
     ) {
-        self.serviceConfig = ServiceConfig(
+        self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSOrigamiServiceGatewayService",
@@ -61,7 +61,6 @@ public struct CostandUsageReportService {
         )
         self.client = AWSClient(
             credentialProviderFactory: credentialProvider ?? .runtime,
-            serviceConfig: serviceConfig,
             retryPolicy: retryPolicy,
             middlewares: middlewares,
             httpClientProvider: httpClientProvider
@@ -76,21 +75,21 @@ public struct CostandUsageReportService {
 
     ///  Deletes the specified report.
     public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReportDefinitionResponse> {
-        return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
     public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Allows you to programatically update your report preferences.
     public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReportDefinitionResponse> {
-        return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new report using the description that you provide.
     public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutReportDefinitionResponse> {
-        return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input, on: eventLoop)
+        return client.execute(operation: "PutReportDefinition", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }
