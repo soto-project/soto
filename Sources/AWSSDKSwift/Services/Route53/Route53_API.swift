@@ -33,20 +33,15 @@ public struct Route53 {
 
     /// Initialize the Route53 client
     /// - parameters:
-    ///     - credentialProvider: Object providing credential to sign requests
+    ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
-    ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
+        client: AWSClient,
         partition: AWSSDKSwiftCore.Partition = .aws,
-        endpoint: String? = nil,
-        retryPolicy: RetryPolicy = JitterRetry(),
-        middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+        endpoint: String? = nil
     ) {
+        self.client = client
         self.serviceConfig = AWSServiceConfig(
             region: nil,
             partition: partition,
@@ -57,12 +52,6 @@ public struct Route53 {
             serviceEndpoints: ["aws-cn-global": "route53.amazonaws.com.cn", "aws-global": "route53.amazonaws.com", "aws-iso-global": "route53.c2s.ic.gov", "aws-us-gov-global": "route53.us-gov.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             possibleErrorTypes: [Route53ErrorType.self]
-        )
-        self.client = AWSClient(
-            credentialProvider: credentialProviderFactory,
-            retryPolicy: retryPolicy,
-            middlewares: middlewares,
-            httpClientProvider: httpClientProvider
         )
     }
     

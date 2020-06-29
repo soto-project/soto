@@ -33,20 +33,15 @@ public struct IAM {
 
     /// Initialize the IAM client
     /// - parameters:
-    ///     - credentialProvider: Object providing credential to sign requests
+    ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
-    ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
+        client: AWSClient,
         partition: AWSSDKSwiftCore.Partition = .aws,
-        endpoint: String? = nil,
-        retryPolicy: RetryPolicy = JitterRetry(),
-        middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+        endpoint: String? = nil
     ) {
+        self.client = client
         self.serviceConfig = AWSServiceConfig(
             region: nil,
             partition: partition,
@@ -57,12 +52,6 @@ public struct IAM {
             serviceEndpoints: ["aws-cn-global": "iam.cn-north-1.amazonaws.com.cn", "aws-global": "iam.amazonaws.com", "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov", "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov", "aws-us-gov-global": "iam.us-gov.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorth1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             possibleErrorTypes: [IAMErrorType.self]
-        )
-        self.client = AWSClient(
-            credentialProvider: credentialProviderFactory,
-            retryPolicy: retryPolicy,
-            middlewares: middlewares,
-            httpClientProvider: httpClientProvider
         )
     }
     

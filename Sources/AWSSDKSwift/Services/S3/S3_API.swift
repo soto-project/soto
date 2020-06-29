@@ -32,22 +32,17 @@ public struct S3 {
 
     /// Initialize the S3 client
     /// - parameters:
-    ///     - credentialProvider: Object providing credential to sign requests
+    ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
-    ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
+        client: AWSClient,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
-        endpoint: String? = nil,
-        retryPolicy: RetryPolicy = JitterRetry(),
-        middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+        endpoint: String? = nil
     ) {
+        self.client = client
         self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
@@ -58,12 +53,6 @@ public struct S3 {
             serviceEndpoints: ["af-south-1": "s3.af-south-1.amazonaws.com", "ap-east-1": "s3.ap-east-1.amazonaws.com", "ap-northeast-1": "s3.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3.ap-northeast-2.amazonaws.com", "ap-south-1": "s3.ap-south-1.amazonaws.com", "ap-southeast-1": "s3.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3.ap-southeast-2.amazonaws.com", "aws-global": "s3.amazonaws.com", "ca-central-1": "s3.ca-central-1.amazonaws.com", "eu-central-1": "s3.eu-central-1.amazonaws.com", "eu-north-1": "s3.eu-north-1.amazonaws.com", "eu-south-1": "s3.eu-south-1.amazonaws.com", "eu-west-1": "s3.eu-west-1.amazonaws.com", "eu-west-2": "s3.eu-west-2.amazonaws.com", "eu-west-3": "s3.eu-west-3.amazonaws.com", "me-south-1": "s3.me-south-1.amazonaws.com", "sa-east-1": "s3.sa-east-1.amazonaws.com", "us-east-1": "s3.us-east-1.amazonaws.com", "us-east-2": "s3.us-east-2.amazonaws.com", "us-gov-east-1": "s3.us-gov-east-1.amazonaws.com", "us-gov-west-1": "s3.us-gov-west-1.amazonaws.com", "us-west-1": "s3.us-west-1.amazonaws.com", "us-west-2": "s3.us-west-2.amazonaws.com"],
             possibleErrorTypes: [S3ErrorType.self],
             middlewares: [S3RequestMiddleware()]
-        )
-        self.client = AWSClient(
-            credentialProvider: credentialProviderFactory,
-            retryPolicy: retryPolicy,
-            middlewares: middlewares,
-            httpClientProvider: httpClientProvider
         )
     }
     
