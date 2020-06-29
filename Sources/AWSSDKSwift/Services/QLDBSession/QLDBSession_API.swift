@@ -57,10 +57,6 @@ public struct QLDBSession {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Sends a command to an Amazon QLDB ledger.

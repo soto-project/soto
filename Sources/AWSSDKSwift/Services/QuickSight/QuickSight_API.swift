@@ -55,10 +55,6 @@ public struct QuickSight {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Cancels an ongoing ingestion of data into SPICE.

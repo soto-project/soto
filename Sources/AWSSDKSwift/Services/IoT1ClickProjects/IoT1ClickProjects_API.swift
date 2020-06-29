@@ -56,10 +56,6 @@ public struct IoT1ClickProjects {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Associates a physical device with a placement.

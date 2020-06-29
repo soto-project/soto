@@ -56,10 +56,6 @@ public struct Cloud9 {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates an AWS Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.

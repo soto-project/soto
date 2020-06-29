@@ -57,10 +57,6 @@ public struct EventBridge {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Activates a partner event source that has been deactivated. Once activated, your matching event bus will start receiving events from the event source.

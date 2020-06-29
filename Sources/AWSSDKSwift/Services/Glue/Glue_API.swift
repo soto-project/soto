@@ -56,10 +56,6 @@ public struct Glue {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates one or more partitions in a batch operation.

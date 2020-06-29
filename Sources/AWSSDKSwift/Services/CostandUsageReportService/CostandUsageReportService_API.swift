@@ -56,10 +56,6 @@ public struct CostandUsageReportService {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Deletes the specified report.

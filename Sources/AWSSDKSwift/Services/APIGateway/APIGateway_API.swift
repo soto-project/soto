@@ -56,10 +56,6 @@ public struct APIGateway {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Create an ApiKey resource.  AWS CLI

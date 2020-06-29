@@ -55,10 +55,6 @@ public struct EBS {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.

@@ -56,10 +56,6 @@ public struct MediaTailor {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Deletes the playback configuration for the specified name. 

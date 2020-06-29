@@ -55,10 +55,6 @@ public struct CloudDirectory {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Adds a new Facet to an object. An object can have more than one facet applied on it.

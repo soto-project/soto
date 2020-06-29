@@ -56,10 +56,6 @@ public struct DeviceFarm {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a device pool.

@@ -55,10 +55,6 @@ public struct ManagedBlockchain {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a member within a Managed Blockchain network.

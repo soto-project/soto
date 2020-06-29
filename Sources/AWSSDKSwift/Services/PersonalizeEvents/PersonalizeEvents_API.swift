@@ -55,10 +55,6 @@ public struct PersonalizeEvents {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Records user interaction event data.

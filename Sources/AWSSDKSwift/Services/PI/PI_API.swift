@@ -56,10 +56,6 @@ public struct PI {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.

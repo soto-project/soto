@@ -55,10 +55,6 @@ public struct Neptune {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Associates an Identity and Access Management (IAM) role from an Neptune DB cluster.

@@ -56,10 +56,6 @@ public struct Inspector {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Assigns attributes (key and value pairs) to the findings that are specified by the ARNs of the findings.

@@ -55,10 +55,6 @@ public struct CodeGuruProfiler {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     public func configureAgent(_ input: ConfigureAgentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigureAgentResponse> {

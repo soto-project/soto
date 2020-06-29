@@ -55,10 +55,6 @@ public struct GuardDuty {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Accepts the invitation to be monitored by a master GuardDuty account.

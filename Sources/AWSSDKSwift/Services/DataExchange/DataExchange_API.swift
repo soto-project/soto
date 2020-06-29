@@ -55,10 +55,6 @@ public struct DataExchange {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.

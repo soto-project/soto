@@ -56,10 +56,6 @@ public struct CodeDeploy {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Adds tags to on-premises instances.

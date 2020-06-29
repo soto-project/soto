@@ -55,10 +55,6 @@ public struct SavingsPlans {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a Savings Plan.

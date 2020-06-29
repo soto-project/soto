@@ -56,10 +56,6 @@ public struct SMS {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.

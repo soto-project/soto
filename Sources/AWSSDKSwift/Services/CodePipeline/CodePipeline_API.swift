@@ -56,10 +56,6 @@ public struct CodePipeline {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.

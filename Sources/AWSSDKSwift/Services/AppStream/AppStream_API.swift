@@ -57,10 +57,6 @@ public struct AppStream {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Associates the specified fleet with the specified stack.

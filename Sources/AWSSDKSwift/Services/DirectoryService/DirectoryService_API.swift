@@ -56,10 +56,6 @@ public struct DirectoryService {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Accepts a directory sharing request that was sent from the directory owner account.

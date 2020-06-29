@@ -55,10 +55,6 @@ public struct MQ {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a broker. Note: This API is asynchronous.

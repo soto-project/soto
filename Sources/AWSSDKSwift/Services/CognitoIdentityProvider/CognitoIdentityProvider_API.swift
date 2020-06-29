@@ -56,10 +56,6 @@ public struct CognitoIdentityProvider {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Adds additional user attributes to the user pool schema.

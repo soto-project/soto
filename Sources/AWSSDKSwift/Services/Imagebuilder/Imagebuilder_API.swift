@@ -55,10 +55,6 @@ public struct Imagebuilder {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.

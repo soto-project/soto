@@ -57,10 +57,6 @@ public struct WAFRegional {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///   This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Associates a web ACL with a resource, either an application load balancer or Amazon API Gateway stage.

@@ -56,10 +56,6 @@ public struct Lightsail {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Allocates a static IP address.

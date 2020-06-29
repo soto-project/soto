@@ -58,10 +58,6 @@ public struct S3Control {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates an access point and associates it with the specified bucket.

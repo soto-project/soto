@@ -56,10 +56,6 @@ public struct AutoScalingPlans {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a scaling plan.

@@ -57,10 +57,6 @@ public struct Pinpoint {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///   Creates an application.

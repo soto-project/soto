@@ -56,10 +56,6 @@ public struct WorkMail {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Adds a member (user or group) to the resource's set of delegates.

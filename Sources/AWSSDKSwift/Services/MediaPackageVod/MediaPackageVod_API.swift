@@ -55,10 +55,6 @@ public struct MediaPackageVod {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a new MediaPackage VOD Asset resource.

@@ -56,10 +56,6 @@ public struct Macie {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Associates a specified AWS account with Amazon Macie as a member account.

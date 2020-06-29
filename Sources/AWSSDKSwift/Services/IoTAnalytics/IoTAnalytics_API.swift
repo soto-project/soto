@@ -55,10 +55,6 @@ public struct IoTAnalytics {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Sends messages to a channel.

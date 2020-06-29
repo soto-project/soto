@@ -56,10 +56,6 @@ public struct LakeFormation {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Batch operation to grant permissions to the principal.

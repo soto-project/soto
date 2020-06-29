@@ -56,10 +56,6 @@ public struct EC2InstanceConnect {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.

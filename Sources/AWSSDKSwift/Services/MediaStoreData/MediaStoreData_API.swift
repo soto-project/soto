@@ -56,10 +56,6 @@ public struct MediaStoreData {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Deletes an object at the specified path.

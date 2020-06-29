@@ -56,10 +56,6 @@ public struct CostExplorer {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a new Cost Category with the requested name and rules.

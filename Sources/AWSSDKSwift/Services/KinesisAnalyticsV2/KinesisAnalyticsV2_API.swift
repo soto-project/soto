@@ -56,10 +56,6 @@ public struct KinesisAnalyticsV2 {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Adds an Amazon CloudWatch log stream to monitor application configuration errors.

@@ -56,10 +56,6 @@ public struct PinpointSMSVoice {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.

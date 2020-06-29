@@ -55,10 +55,6 @@ public struct ResourceGroups {
         )
     }
     
-    public func syncShutdown() throws {
-        try client.syncShutdown()
-    }
-    
     //MARK: API Calls
 
     ///  Creates a group with a specified name, description, and resource query.
