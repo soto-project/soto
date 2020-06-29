@@ -23,17 +23,20 @@ enum APIGatewayTestsError: Error {
 
 class APIGatewayTests: XCTestCase {
 
-    static let apiGateway = APIGateway(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .euwest1,
-        endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var apiGateway: APIGateway!
+    
     static let restApiName: String = "awssdkswift-APIGatewayTests"
     static var restApiId: String!
 
     override class func setUp() {
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.apiGateway = APIGateway(
+            client: APIGatewayTests.client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4566")
+        )
+        
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -55,6 +58,7 @@ class APIGatewayTests: XCTestCase {
 
     override class func tearDown() {
         XCTAssertNoThrow(_ = try deleteRestApi(id: restApiId).wait())
+        XCTAssertNoThrow(try client.syncShutdown())
     }
 
     static func createRestApi(name: String, on eventLoop: EventLoop) -> EventLoopFuture<APIGateway.RestApi> {

@@ -20,12 +20,8 @@ import XCTest
 
 class IAMTests: XCTestCase {
 
-    static let iam = IAM(
-        credentialProvider: TestEnvironment.credentialProvider,
-        endpoint: TestEnvironment.getEndPoint(environment: "IAM_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var iam: IAM!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -33,6 +29,16 @@ class IAMTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.iam = IAM(
+            client: IAMTests.client,
+            endpoint: TestEnvironment.getEndPoint(environment: "IAM_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
     func createUser(userName: String, tags: [String: String] = [:]) -> EventLoopFuture<Void> {

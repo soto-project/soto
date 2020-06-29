@@ -19,12 +19,8 @@ import XCTest
 
 class STSTests: XCTestCase {
 
-    static let sts = STS(
-        credentialProvider: TestEnvironment.credentialProvider,
-        endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var sts: STS!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -32,6 +28,17 @@ class STSTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.sts = STS(
+            client: STSTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
     func testGetCallerIdentity() {

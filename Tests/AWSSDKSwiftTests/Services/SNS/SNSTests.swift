@@ -19,13 +19,8 @@ import XCTest
 
 class SNSTests: XCTestCase {
 
-    static let sns = SNS(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var sns: SNS!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -33,6 +28,17 @@ class SNSTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.sns = SNS(
+            client: SNSTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
     /// create SNS topic with supplied name and run supplied closure

@@ -22,13 +22,8 @@ import XCTest
 
 class DynamoDBTests: XCTestCase {
 
-    static var dynamoDB = DynamoDB(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var dynamoDB: DynamoDB!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -36,8 +31,19 @@ class DynamoDBTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+        
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.dynamoDB = DynamoDB(
+            client: DynamoDBTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566")
+        )
     }
 
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
+    }
+    
     func createTable(name: String, hashKey: String) -> EventLoopFuture<Void> {
         let input = DynamoDB.CreateTableInput(
             attributeDefinitions: [.init(attributeName: hashKey, attributeType: .s)],

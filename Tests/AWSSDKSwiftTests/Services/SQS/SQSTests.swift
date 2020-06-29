@@ -19,13 +19,8 @@ import XCTest
 
 class SQSTests: XCTestCase {
 
-    static let sqs = SQS(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "SQS_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var sqs: SQS!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -33,6 +28,17 @@ class SQSTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.sqs = SQS(
+            client: SQSTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "SQS_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
     /// create SQS queue with supplied name and run supplied closure

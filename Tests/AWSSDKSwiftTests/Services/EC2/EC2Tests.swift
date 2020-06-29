@@ -21,17 +21,31 @@ import XCTest
 
 class EC2Tests: XCTestCase {
 
-    var ec2 = EC2(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["EC2_ENDPOINT"] ?? "http://localhost:4566",
-        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : [],
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var ec2: EC2!
+
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.ec2 = EC2(
+            client: EC2Tests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "EC2_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
+    }
 
     func testRunInstances() {
         let imageRequest = EC2.DescribeImagesRequest(filters: .init([EC2.Filter(name: "name", values: ["*ubuntu*"]), EC2.Filter(name: "state", values: ["available"])]))
-        let response = ec2.describeImages(imageRequest)
+        let response = Self.ec2.describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
     

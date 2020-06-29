@@ -19,13 +19,8 @@ import XCTest
 
 class SSMTests: XCTestCase {
 
-    static let ssm = SSM(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var ssm: SSM!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -33,6 +28,17 @@ class SSMTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.ssm = SSM(
+            client: SSMTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
     func putParameter(name: String, value: String) -> EventLoopFuture<Void> {
