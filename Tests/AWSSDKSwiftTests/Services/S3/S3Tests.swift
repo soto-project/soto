@@ -24,13 +24,8 @@ import XCTest
 
 class S3Tests: XCTestCase {
 
-    static let s3 = S3(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .euwest1,
-        endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var s3: S3!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -38,6 +33,17 @@ class S3Tests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.s3 = S3(
+            client: S3Tests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
     static func createRandomBuffer(size: Int) -> Data {
@@ -49,8 +55,7 @@ class S3Tests: XCTestCase {
         return data
     }
 
-    static func createBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
-        let s3 = s3 ?? Self.s3
+    static func createBucket(name: String, s3: S3) -> EventLoopFuture<Void> {
         let bucketRequest = S3.CreateBucketRequest(bucket: name)
         return s3.createBucket(bucketRequest)
             .map { _ in }
@@ -69,8 +74,7 @@ class S3Tests: XCTestCase {
         }
     }
 
-    static func deleteBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
-        let s3 = s3 ?? Self.s3
+    static func deleteBucket(name: String, s3: S3) -> EventLoopFuture<Void> {
         let request = S3.ListObjectsV2Request(bucket: name)
         return s3.listObjectsV2(request)
             .flatMap { response -> EventLoopFuture<Void> in
@@ -89,12 +93,12 @@ class S3Tests: XCTestCase {
 
     func testHeadBucket() {
         let name = TestEnvironment.generateResourceName()
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap {
                 Self.s3.headBucket(.init(bucket: name))
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -102,7 +106,7 @@ class S3Tests: XCTestCase {
     func testPutGetObject() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.PutObject and S3.GetObject"
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     acl: .publicRead,
@@ -123,7 +127,7 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(response.body?.asString(), contents)
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -133,7 +137,7 @@ class S3Tests: XCTestCase {
         let keyName = "file1"
         let newKeyName = "file2"
         let contents = "testing S3.PutObject and S3.GetObject"
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: keyName)
                 return Self.s3.putObject(putRequest)
@@ -149,7 +153,7 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(response.body?.asString(), contents)
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -158,7 +162,7 @@ class S3Tests: XCTestCase {
     func testListObjects() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.ListObjectsV2"
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: name)
                 return Self.s3.putObject(putRequest)
@@ -175,22 +179,25 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(response.contents?.first?.eTag, eTag)
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
 
     func testStreamPutObject() {
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        let s3 = S3(
+        let client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
             middlewares: TestEnvironment.middlewares,
             httpClientProvider: .shared(httpClient)
         )
+        let s3 = S3(
+            client: client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
+        )
         defer {
-            XCTAssertNoThrow(try s3.syncShutdown())
+            XCTAssertNoThrow(try client.syncShutdown())
             XCTAssertNoThrow(try httpClient.syncShutdown())
         }
         let name = TestEnvironment.generateResourceName()
@@ -229,7 +236,7 @@ class S3Tests: XCTestCase {
     /// test lifecycle rules are uploaded and downloaded ok
     func testLifecycleRule() {
         let name = TestEnvironment.generateResourceName()
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { _ -> EventLoopFuture<Void> in
                 // set lifecycle rules
                 let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7)  // clear incomplete multipart uploads after 7 days
@@ -254,7 +261,7 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(response.rules?[0].abortIncompleteMultipartUpload?.daysAfterInitiation, 7)
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -273,7 +280,7 @@ class S3Tests: XCTestCase {
 
         let name = TestEnvironment.generateResourceName()
         let eventLoop = Self.s3.client.eventLoopGroup.next()
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<Void> in
                 let futureResults = (1...16).map { index -> EventLoopFuture<Void> in
                     let body = "testMultipleUpload - " + index.description
@@ -283,7 +290,7 @@ class S3Tests: XCTestCase {
                 return EventLoopFuture.whenAllSucceed(futureResults, on: eventLoop).map { _ in }
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -292,7 +299,7 @@ class S3Tests: XCTestCase {
     func testGetAclRequestPayer() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing xml attributes header"
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     body: .string(contents),
@@ -306,7 +313,7 @@ class S3Tests: XCTestCase {
         }
         .flatAlways { response -> EventLoopFuture<Void> in
             print(response)
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -315,7 +322,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let eventLoop = Self.s3.client.eventLoopGroup.next()
         var list: [S3.Object] = []
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<Void> in
                 // put 16 files into bucket
                 let futureResults: [EventLoopFuture<S3.PutObjectOutput>] = (1...16).map {
@@ -341,7 +348,7 @@ class S3Tests: XCTestCase {
             }
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -349,15 +356,17 @@ class S3Tests: XCTestCase {
     func testStreamObject() {
         let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
-        let s3 = S3(
+        let client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
             middlewares: TestEnvironment.middlewares,
-            httpClientProvider: .shared(httpClient)
+            httpClientProvider: .shared(httpClient))
+        let s3 = S3(
+            client: client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
         )
         defer {
-            XCTAssertNoThrow(try s3.syncShutdown())
+            XCTAssertNoThrow(try client.syncShutdown())
             XCTAssertNoThrow(try httpClient.syncShutdown())
             XCTAssertNoThrow(try elg.syncShutdownGracefully())
         }
@@ -373,7 +382,7 @@ class S3Tests: XCTestCase {
         let runOnEventLoop = s3.client.eventLoopGroup.next()
         var byteBufferCollate = ByteBufferAllocator().buffer(capacity: dataSize)
 
-        let response = Self.createBucket(name: name)
+        let response = Self.createBucket(name: name, s3: s3)
             .hop(to: runOnEventLoop)
             .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, key: "tempfile")
@@ -392,7 +401,7 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(data, byteBufferCollate.getData(at: 0, length: byteBufferCollate.readableBytes))
         }
         .flatAlways { _ in
-            return Self.deleteBucket(name: name)
+            return Self.deleteBucket(name: name, s3: s3)
         }
         XCTAssertNoThrow(try response.wait())
     }

@@ -24,26 +24,40 @@ import XCTest
 
 class S3ExtensionTests: XCTestCase {
     
-    static let s3 = S3(
-        credentialProvider: TestEnvironment.credentialProvider,
-        region: .euwest1,
-        endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
-        middlewares: TestEnvironment.middlewares,
-        httpClientProvider: .createNew
-    )
+    static var client: AWSClient!
+    static var s3: S3!
 
-    /// test bucket location is correctly returned.
+    override class func setUp() {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.s3 = S3(
+            client: S3ExtensionTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
+        )
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try Self.client.syncShutdown())
+    }
+
+   /// test bucket location is correctly returned.
     func testGetBucketLocation() {
         let name = TestEnvironment.generateResourceName()
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { _ in
                 return Self.s3.getBucketLocation(.init(bucket: name))
         }
         .map { response in
-            XCTAssertEqual(response.locationConstraint, .euWest1)
+            XCTAssertEqual(response.locationConstraint, .usEast1)
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -52,7 +66,7 @@ class S3ExtensionTests: XCTestCase {
     func testMetaData() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing metadata header"
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     body: .string(contents),
@@ -70,7 +84,7 @@ class S3ExtensionTests: XCTestCase {
             XCTAssertEqual(response.metadata?["first"], "one")
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -79,7 +93,7 @@ class S3ExtensionTests: XCTestCase {
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
                 return Self.s3.putObject(putRequest)
@@ -94,14 +108,14 @@ class S3ExtensionTests: XCTestCase {
             try FileManager.default.removeItem(atPath: filename)
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
 
     func testMultiPartDownloadFailure() {
         let name = TestEnvironment.generateResourceName()
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { _ -> EventLoopFuture<Int64> in
                 let request = S3.GetObjectRequest(bucket: name, key: name)
                 return Self.s3.multipartDownload(request, partSize: 1024*1024, filename: name) { print("Progress \($0*100)%")}
@@ -119,7 +133,7 @@ class S3ExtensionTests: XCTestCase {
             }
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -134,7 +148,7 @@ class S3ExtensionTests: XCTestCase {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
         }
 
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(
                     bucket: name,
@@ -149,7 +163,7 @@ class S3ExtensionTests: XCTestCase {
             XCTAssertEqual(response.body?.asData(), data)
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
     }
@@ -165,7 +179,7 @@ class S3ExtensionTests: XCTestCase {
         }
 
         // file doesn't exist test
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { _ -> EventLoopFuture<Void> in
                 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
                 return Self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: "doesntexist").map { _ in }
@@ -177,7 +191,7 @@ class S3ExtensionTests: XCTestCase {
             return
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: Self.s3)
         }
         XCTAssertNoThrow(try response.wait())
 
@@ -202,15 +216,18 @@ class S3ExtensionTests: XCTestCase {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        let s3 = S3(
+        let client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566"),
             middlewares: TestEnvironment.middlewares,
             httpClientProvider: .shared(httpClient)
         )
+        let s3 = S3(
+            client: client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
+        )
         defer {
-            XCTAssertNoThrow(try s3.syncShutdown())
+            XCTAssertNoThrow(try client.syncShutdown())
             XCTAssertNoThrow(try httpClient.syncShutdown())
         }
 
@@ -229,7 +246,7 @@ class S3ExtensionTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let runOnEventLoop = s3.client.eventLoopGroup.next()
 
-        let response = S3Tests.createBucket(name: name)
+        let response = S3Tests.createBucket(name: name, s3: s3)
             .hop(to: runOnEventLoop)
             .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(file10), bucket: name, key: "file.csv")
@@ -257,7 +274,7 @@ class S3ExtensionTests: XCTestCase {
             }
         }
         .flatAlways { _ in
-            return S3Tests.deleteBucket(name: name)
+            return S3Tests.deleteBucket(name: name, s3: s3)
         }
         XCTAssertNoThrow(try response.wait())
     }

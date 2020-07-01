@@ -33,22 +33,17 @@ public struct Support {
 
     /// Initialize the Support client
     /// - parameters:
-    ///     - credentialProvider: Object providing credential to sign requests
+    ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
-    ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
+        client: AWSClient,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
-        endpoint: String? = nil,
-        retryPolicy: RetryPolicy = JitterRetry(),
-        middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+        endpoint: String? = nil
     ) {
+        self.client = client
         self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
@@ -61,16 +56,6 @@ public struct Support {
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorth1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             possibleErrorTypes: [SupportErrorType.self]
         )
-        self.client = AWSClient(
-            credentialProvider: credentialProviderFactory,
-            retryPolicy: retryPolicy,
-            middlewares: middlewares,
-            httpClientProvider: httpClientProvider
-        )
-    }
-    
-    public func syncShutdown() throws {
-        try client.syncShutdown()
     }
     
     //MARK: API Calls

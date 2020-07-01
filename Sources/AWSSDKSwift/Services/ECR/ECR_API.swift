@@ -33,22 +33,17 @@ public struct ECR {
 
     /// Initialize the ECR client
     /// - parameters:
-    ///     - credentialProvider: Object providing credential to sign requests
+    ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - retryPolicy: Object returning whether retries should be attempted. Possible options are NoRetry(), ExponentialRetry() or JitterRetry()
-    ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - httpClientProvider: HTTPClient to use. Use `createNew` if the client should manage its own HTTPClient.
     public init(
-        credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
+        client: AWSClient,
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSSDKSwiftCore.Partition = .aws,
-        endpoint: String? = nil,
-        retryPolicy: RetryPolicy = JitterRetry(),
-        middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .createNew
+        endpoint: String? = nil
     ) {
+        self.client = client
         self.serviceConfig = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
@@ -61,16 +56,6 @@ public struct ECR {
             serviceEndpoints: ["af-south-1": "api.ecr.af-south-1.amazonaws.com", "ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "cn-north-1": "api.ecr.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "api.ecr.cn-northwest-1.amazonaws.com.cn", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-south-1": "api.ecr.eu-south-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-gov-east-1": "api.ecr.us-gov-east-1.amazonaws.com", "us-gov-west-1": "api.ecr.us-gov-west-1.amazonaws.com", "us-iso-east-1": "api.ecr.us-iso-east-1.c2s.ic.gov", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
             possibleErrorTypes: [ECRErrorType.self]
         )
-        self.client = AWSClient(
-            credentialProvider: credentialProviderFactory,
-            retryPolicy: retryPolicy,
-            middlewares: middlewares,
-            httpClientProvider: httpClientProvider
-        )
-    }
-    
-    public func syncShutdown() throws {
-        try client.syncShutdown()
     }
     
     //MARK: API Calls
