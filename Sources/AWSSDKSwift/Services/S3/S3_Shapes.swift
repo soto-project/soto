@@ -51,6 +51,7 @@ extension S3 {
         case saEast1 = "sa-east-1"
         case cnNorth1 = "cn-north-1"
         case euCentral1 = "eu-central-1"
+        case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
