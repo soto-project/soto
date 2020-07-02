@@ -586,13 +586,17 @@ extension AWSService {
             defaultValue = nil
         }
         let memberDocs = docs.shapes[shape.name]?[name]?.tagStriped().split(separator: "\n")
+        let propertyWrapper = generatePropertyWrapper(member, name: name)
+        guard propertyWrapper == nil || member.location == .body || member.location == nil else {
+            preconditionFailure("Cannot have a non-body variable with a property wrapper")
+        }
         return MemberContext(
             variable: name.toSwiftVariableCase(),
             locationPath: member.getLocationName() ?? name,
             parameter: name.toSwiftLabelCase(),
             required: member.required,
             default: defaultValue,
-            propertyWrapper: generatePropertyWrapper(member, name: name),
+            propertyWrapper: propertyWrapper,
             type: member.shape.swiftTypeName + ((member.required || typeIsEnum) ? "" : "?"),
             comment: memberDocs ?? [],
             duplicate: false
