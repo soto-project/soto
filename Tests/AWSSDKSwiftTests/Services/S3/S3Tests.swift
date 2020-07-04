@@ -212,10 +212,10 @@ class S3Tests: XCTestCase {
                 let payload = AWSPayload.stream(size: dataSize) { eventLoop in
                     let size = min(blockSize, byteBuffer.readableBytes)
                     if size == 0 {
-                        return eventLoop.makeSucceededFuture(byteBuffer)
+                        return eventLoop.makeSucceededFuture(.end)
                     }
                     let slice = byteBuffer.readSlice(length: size)!
-                    return eventLoop.makeSucceededFuture(slice)
+                    return eventLoop.makeSucceededFuture(.byteBuffer(slice))
                 }
                 let request = S3.PutObjectRequest(body: payload, bucket: name, key: "tempfile")
                 return s3.putObject(request).map { _ in }
