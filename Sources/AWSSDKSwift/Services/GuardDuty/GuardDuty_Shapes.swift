@@ -156,6 +156,24 @@ extension GuardDuty {
 
     }
 
+    public struct AccessControlList: AWSDecodableShape {
+
+        /// A value that indicates whether public read access for the bucket is enabled through an Access Control List (ACL).
+        public let allowsPublicReadAccess: Bool?
+        /// A value that indicates whether public write access for the bucket is enabled through an Access Control List (ACL).
+        public let allowsPublicWriteAccess: Bool?
+
+        public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
+            self.allowsPublicReadAccess = allowsPublicReadAccess
+            self.allowsPublicWriteAccess = allowsPublicWriteAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
+        }
+    }
+
     public struct AccessKeyDetails: AWSDecodableShape {
 
         /// The access key ID of the user.
@@ -204,6 +222,20 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case email = "email"
+        }
+    }
+
+    public struct AccountLevelPermissions: AWSDecodableShape {
+
+        /// Describes the S3 Block Public Access settings of the bucket's parent account.
+        public let blockPublicAccess: BlockPublicAccess?
+
+        public init(blockPublicAccess: BlockPublicAccess? = nil) {
+            self.blockPublicAccess = blockPublicAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAccess = "blockPublicAccess"
         }
     }
 
@@ -321,6 +353,72 @@ extension GuardDuty {
             case domainDetails = "domainDetails"
             case remoteIpDetails = "remoteIpDetails"
             case serviceName = "serviceName"
+        }
+    }
+
+    public struct BlockPublicAccess: AWSDecodableShape {
+
+        /// Indicates if S3 Block Public Access is set to BlockPublicAcls.
+        public let blockPublicAcls: Bool?
+        /// Indicates if S3 Block Public Access is set to BlockPublicPolicy.
+        public let blockPublicPolicy: Bool?
+        /// Indicates if S3 Block Public Access is set to IgnorePublicAcls.
+        public let ignorePublicAcls: Bool?
+        /// Indicates if S3 Block Public Access is set to RestrictPublicBuckets.
+        public let restrictPublicBuckets: Bool?
+
+        public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
+            self.blockPublicAcls = blockPublicAcls
+            self.blockPublicPolicy = blockPublicPolicy
+            self.ignorePublicAcls = ignorePublicAcls
+            self.restrictPublicBuckets = restrictPublicBuckets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAcls = "blockPublicAcls"
+            case blockPublicPolicy = "blockPublicPolicy"
+            case ignorePublicAcls = "ignorePublicAcls"
+            case restrictPublicBuckets = "restrictPublicBuckets"
+        }
+    }
+
+    public struct BucketLevelPermissions: AWSDecodableShape {
+
+        /// Contains information on how Access Control Policies are applied to the bucket.
+        public let accessControlList: AccessControlList?
+        /// Contains information on which account level S3 Block Public Access settings are applied to the S3 bucket.
+        public let blockPublicAccess: BlockPublicAccess?
+        /// Contains information on the bucket policies for the S3 bucket.
+        public let bucketPolicy: BucketPolicy?
+
+        public init(accessControlList: AccessControlList? = nil, blockPublicAccess: BlockPublicAccess? = nil, bucketPolicy: BucketPolicy? = nil) {
+            self.accessControlList = accessControlList
+            self.blockPublicAccess = blockPublicAccess
+            self.bucketPolicy = bucketPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlList = "accessControlList"
+            case blockPublicAccess = "blockPublicAccess"
+            case bucketPolicy = "bucketPolicy"
+        }
+    }
+
+    public struct BucketPolicy: AWSDecodableShape {
+
+        /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
+        public let allowsPublicReadAccess: Bool?
+        /// A value that indicates whether public write access for the bucket is enabled through a bucket policy.
+        public let allowsPublicWriteAccess: Bool?
+
+        public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
+            self.allowsPublicReadAccess = allowsPublicReadAccess
+            self.allowsPublicWriteAccess = allowsPublicWriteAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
@@ -531,7 +629,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example: .
+        /// The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
         /// The user-friendly name to identify the IPSet.  Allowed characters are alphanumerics, spaces, hyphens (-), and underscores (_).
         public let name: String
@@ -734,7 +832,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The format of the file that contains the ThreatIntelSet.
         public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example: .
+        /// The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
         /// A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
         public let name: String
@@ -826,6 +924,24 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct DefaultServerSideEncryption: AWSDecodableShape {
+
+        /// The type of encryption used for objects within the S3 bucket.
+        public let encryptionType: String?
+        /// The Amazon Resource Name (ARN) of the KMS encryption key. Only available if the bucket EncryptionType is aws:kms.
+        public let kmsMasterKeyArn: String?
+
+        public init(encryptionType: String? = nil, kmsMasterKeyArn: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsMasterKeyArn = kmsMasterKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsMasterKeyArn = "kmsMasterKeyArn"
         }
     }
 
@@ -1706,7 +1822,7 @@ extension GuardDuty {
 
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example: .
+        /// The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
         /// The user-friendly name for the IPSet.
         public let name: String
@@ -1865,7 +1981,7 @@ extension GuardDuty {
 
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example: .
+        /// The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String
         /// A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
         public let name: String
@@ -2147,7 +2263,7 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
-        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
+        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -2301,7 +2417,7 @@ extension GuardDuty {
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// Specifies what member accounts the response includes based on their relationship status with the master account. The default value is "true". If set to "false" the response includes all existing member accounts (including members who haven't been invited yet or have been disassociated).
+        /// Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated).
         public let onlyAssociated: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
@@ -2720,6 +2836,38 @@ extension GuardDuty {
         }
     }
 
+    public struct Owner: AWSDecodableShape {
+
+        /// The canonical user ID of the bucket owner. For information about locating your canonical user ID see Finding Your Account Canonical User ID. 
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct PermissionConfiguration: AWSDecodableShape {
+
+        /// Contains information about the account level permissions on the S3 bucket.
+        public let accountLevelPermissions: AccountLevelPermissions?
+        /// Contains information about the bucket level permissions for the S3 bucket.
+        public let bucketLevelPermissions: BucketLevelPermissions?
+
+        public init(accountLevelPermissions: AccountLevelPermissions? = nil, bucketLevelPermissions: BucketLevelPermissions? = nil) {
+            self.accountLevelPermissions = accountLevelPermissions
+            self.bucketLevelPermissions = bucketLevelPermissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLevelPermissions = "accountLevelPermissions"
+            case bucketLevelPermissions = "bucketLevelPermissions"
+        }
+    }
+
     public struct PortProbeAction: AWSDecodableShape {
 
         /// Indicates whether EC2 blocked the port probe to the instance, such as with an ACL.
@@ -2796,6 +2944,24 @@ extension GuardDuty {
         }
     }
 
+    public struct PublicAccess: AWSDecodableShape {
+
+        /// Describes the effective permission on this bucket after factoring all attached policies.
+        public let effectivePermission: String?
+        /// Contains information about how permissions are configured for the S3 bucket.
+        public let permissionConfiguration: PermissionConfiguration?
+
+        public init(effectivePermission: String? = nil, permissionConfiguration: PermissionConfiguration? = nil) {
+            self.effectivePermission = effectivePermission
+            self.permissionConfiguration = permissionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectivePermission = "effectivePermission"
+            case permissionConfiguration = "permissionConfiguration"
+        }
+    }
+
     public struct RemoteIpDetails: AWSDecodableShape {
 
         /// The city information of the remote IP address.
@@ -2852,17 +3018,63 @@ extension GuardDuty {
         public let instanceDetails: InstanceDetails?
         /// The type of AWS resource.
         public let resourceType: String?
+        /// Contains information on the S3 bucket.
+        public let s3BucketDetails: [S3BucketDetail]?
 
-        public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil) {
+        public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
             self.instanceDetails = instanceDetails
             self.resourceType = resourceType
+            self.s3BucketDetails = s3BucketDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessKeyDetails = "accessKeyDetails"
             case instanceDetails = "instanceDetails"
             case resourceType = "resourceType"
+            case s3BucketDetails = "s3BucketDetails"
+        }
+    }
+
+    public struct S3BucketDetail: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the S3 bucket.
+        public let arn: String?
+        /// The date and time the bucket was created at.
+        public let createdAt: TimeStamp?
+        /// Describes the server side encryption method used in the S3 bucket.
+        public let defaultServerSideEncryption: DefaultServerSideEncryption?
+        /// The name of the S3 bucket.
+        public let name: String?
+        /// The owner of the S3 bucket.
+        public let owner: Owner?
+        /// Describes the public access policies that apply to the S3 bucket.
+        public let publicAccess: PublicAccess?
+        /// All tags attached to the S3 bucket
+        public let tags: [Tag]?
+        /// Describes whether the bucket is a source or destination bucket.
+        public let `type`: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, tags: [Tag]? = nil, type: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.defaultServerSideEncryption = defaultServerSideEncryption
+            self.name = name
+            self.owner = owner
+            self.publicAccess = publicAccess
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case defaultServerSideEncryption = "defaultServerSideEncryption"
+            case name = "name"
+            case owner = "owner"
+            case publicAccess = "publicAccess"
+            case tags = "tags"
+            case `type` = "type"
         }
     }
 
@@ -3366,7 +3578,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique ID that specifies the IPSet that you want to update.
         public let ipSetId: String
-        /// The updated URI of the file that contains the IPSet. For example: .
+        /// The updated URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String?
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
@@ -3483,7 +3695,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
         public let detectorId: String
-        /// The updated URI of the file that contains the ThreateIntelSet. For example: .
+        /// The updated URI of the file that contains the ThreateIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
         public let location: String?
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
         public let name: String?

@@ -128,23 +128,32 @@ extension ServiceDiscovery {
         public let description: String?
         /// The name that you want to assign to this namespace.
         public let name: String
+        /// The tags to add to the namespace. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [Tag]?
 
-        public init(creatorRequestId: String? = CreateHttpNamespaceRequest.idempotencyToken(), description: String? = nil, name: String) {
+        public init(creatorRequestId: String? = CreateHttpNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.name, name: "name", parent: name, max: 1024)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case creatorRequestId = "CreatorRequestId"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -170,13 +179,16 @@ extension ServiceDiscovery {
         public let description: String?
         /// The name that you want to assign to this namespace. When you create a private DNS namespace, AWS Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the namespace.
         public let name: String
+        /// The tags to add to the namespace. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [Tag]?
         /// The ID of the Amazon VPC that you want to associate the namespace with.
         public let vpc: String
 
-        public init(creatorRequestId: String? = CreatePrivateDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, vpc: String) {
+        public init(creatorRequestId: String? = CreatePrivateDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil, vpc: String) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.name = name
+            self.tags = tags
             self.vpc = vpc
         }
 
@@ -184,6 +196,11 @@ extension ServiceDiscovery {
             try validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.name, name: "name", parent: name, max: 1024)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
             try validate(self.vpc, name: "vpc", parent: name, max: 64)
         }
 
@@ -191,6 +208,7 @@ extension ServiceDiscovery {
             case creatorRequestId = "CreatorRequestId"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
             case vpc = "Vpc"
         }
     }
@@ -217,23 +235,32 @@ extension ServiceDiscovery {
         public let description: String?
         /// The name that you want to assign to this namespace.
         public let name: String
+        /// The tags to add to the namespace. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [Tag]?
 
-        public init(creatorRequestId: String? = CreatePublicDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String) {
+        public init(creatorRequestId: String? = CreatePublicDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.name, name: "name", parent: name, max: 1024)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case creatorRequestId = "CreatorRequestId"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -267,8 +294,10 @@ extension ServiceDiscovery {
         public let name: String
         /// The ID of the namespace that you want to use to create the service.
         public let namespaceId: String?
+        /// The tags to add to the service. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [Tag]?
 
-        public init(creatorRequestId: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil) {
+        public init(creatorRequestId: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.dnsConfig = dnsConfig
@@ -276,6 +305,7 @@ extension ServiceDiscovery {
             self.healthCheckCustomConfig = healthCheckCustomConfig
             self.name = name
             self.namespaceId = namespaceId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -286,6 +316,11 @@ extension ServiceDiscovery {
             try self.healthCheckCustomConfig?.validate(name: "\(name).healthCheckCustomConfig")
             try validate(self.name, name: "name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
             try validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,6 +331,7 @@ extension ServiceDiscovery {
             case healthCheckCustomConfig = "HealthCheckCustomConfig"
             case name = "Name"
             case namespaceId = "NamespaceId"
+            case tags = "Tags"
         }
     }
 
@@ -430,12 +466,14 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try validate(self.namespaceName, name: "namespaceName", parent: name, max: 1024)
             try self.queryParameters?.forEach {
                 try validate($0.key, name: "queryParameters.key", parent: name, max: 255)
+                try validate($0.key, name: "queryParameters.key", parent: name, pattern: "^[a-zA-Z0-9!-~]+$")
                 try validate($0.value, name: "queryParameters[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "queryParameters[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9!-~][ \\ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
             }
             try validate(self.serviceName, name: "serviceName", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
         }
@@ -1057,6 +1095,39 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+
+        /// The tags that are assigned to the resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct Namespace: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
@@ -1282,7 +1353,7 @@ extension ServiceDiscovery {
 
     public struct RegisterInstanceRequest: AWSEncodableShape {
 
-        /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the Route 53 health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_INIT_HEALTH_STATUS  If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service.  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the maximum length of the attribute value is 1,024 characters. 
+        /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the Route 53 health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_INIT_HEALTH_STATUS  If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service.  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the maximum length of the attribute value is 1,024 characters. Total size of all provided attributes (sum of all keys and values) must not exceed 5,000 characters.
         public let attributes: [String: String]
         /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
@@ -1301,7 +1372,9 @@ extension ServiceDiscovery {
         public func validate(name: String) throws {
             try self.attributes.forEach {
                 try validate($0.key, name: "attributes.key", parent: name, max: 255)
+                try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9!-~]+$")
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9!-~][ \\ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
             }
             try validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try validate(self.instanceId, name: "instanceId", parent: name, max: 64)
@@ -1389,10 +1462,10 @@ extension ServiceDiscovery {
         /// A description for the service.
         public let description: String?
         /// A complex type that contains information about the Route 53 DNS records that you want AWS Cloud Map to create when you register an instance.
-        public let dnsConfig: DnsConfigChange
+        public let dnsConfig: DnsConfigChange?
         public let healthCheckConfig: HealthCheckConfig?
 
-        public init(description: String? = nil, dnsConfig: DnsConfigChange, healthCheckConfig: HealthCheckConfig? = nil) {
+        public init(description: String? = nil, dnsConfig: DnsConfigChange? = nil, healthCheckConfig: HealthCheckConfig? = nil) {
             self.description = description
             self.dnsConfig = dnsConfig
             self.healthCheckConfig = healthCheckConfig
@@ -1400,7 +1473,7 @@ extension ServiceDiscovery {
 
         public func validate(name: String) throws {
             try validate(self.description, name: "description", parent: name, max: 1024)
-            try self.dnsConfig.validate(name: "\(name).dnsConfig")
+            try self.dnsConfig?.validate(name: "\(name).dnsConfig")
             try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
         }
 
@@ -1481,6 +1554,104 @@ extension ServiceDiscovery {
             case instanceCount = "InstanceCount"
             case name = "Name"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
+        /// The key identifier, or name, of the tag.
+        public let key: String
+        /// The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name: "key", parent: name, max: 128)
+            try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.value, name: "value", parent: name, max: 256)
+            try validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
+        public let resourceARN: String
+        /// The tags to add to the specified resource. Specifying the tag key is required. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
+        public let resourceARN: String
+        /// The tag keys to remove from the specified resource.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateInstanceCustomHealthStatusRequest: AWSEncodableShape {

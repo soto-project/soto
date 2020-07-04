@@ -70,6 +70,7 @@ public struct ServerlessApplicationRepository {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-08",
             endpoint: endpoint,
+            serviceEndpoints: ["us-gov-east-1": "serverlessrepo.us-gov-east-1.amazonaws.com", "us-gov-west-1": "serverlessrepo.us-gov-west-1.amazonaws.com"],
             possibleErrorTypes: [ServerlessApplicationRepositoryErrorType.self]
         )
     }

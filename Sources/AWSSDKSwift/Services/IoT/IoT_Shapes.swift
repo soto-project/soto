@@ -120,6 +120,19 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum AwsJobAbortCriteriaAbortAction: String, CustomStringConvertible, Codable {
+        case cancel = "CANCEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AwsJobAbortCriteriaFailureType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case rejected = "REJECTED"
+        case timedOut = "TIMED_OUT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CACertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
@@ -415,7 +428,7 @@ extension IoT {
 
     public struct AbortConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// The list of abort criteria to define rules to abort the job.
+        /// The list of criteria that determine when and how to abort the job.
         public let criteriaList: [AbortCriteria]
 
         public init(criteriaList: [AbortCriteria]) {
@@ -436,13 +449,13 @@ extension IoT {
 
     public struct AbortCriteria: AWSEncodableShape & AWSDecodableShape {
 
-        /// The type of abort action to initiate a job abort.
+        /// The type of job action to take to initiate the job abort.
         public let action: AbortAction
-        /// The type of job execution failure to define a rule to initiate a job abort.
+        /// The type of job execution failures that can initiate a job abort.
         public let failureType: JobExecutionFailureType
-        /// Minimum number of executed things before evaluating an abort rule.
+        /// The minimum number of things which must receive job execution notifications before the job can be aborted.
         public let minNumberOfExecutedThings: Int
-        /// The threshold as a percentage of the total number of executed things that will initiate a job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        /// The minimum percentage of job execution failures that must occur to initiate the job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
         public init(action: AbortAction, failureType: JobExecutionFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
@@ -1447,22 +1460,107 @@ extension IoT {
         }
     }
 
+    public struct AwsJobAbortConfig: AWSEncodableShape {
+
+        /// The list of criteria that determine when and how to abort the job.
+        public let abortCriteriaList: [AwsJobAbortCriteria]
+
+        public init(abortCriteriaList: [AwsJobAbortCriteria]) {
+            self.abortCriteriaList = abortCriteriaList
+        }
+
+        public func validate(name: String) throws {
+            try self.abortCriteriaList.forEach {
+                try $0.validate(name: "\(name).abortCriteriaList[]")
+            }
+            try validate(self.abortCriteriaList, name: "abortCriteriaList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortCriteriaList = "abortCriteriaList"
+        }
+    }
+
+    public struct AwsJobAbortCriteria: AWSEncodableShape {
+
+        /// The type of job action to take to initiate the job abort.
+        public let action: AwsJobAbortCriteriaAbortAction
+        /// The type of job execution failures that can initiate a job abort.
+        public let failureType: AwsJobAbortCriteriaFailureType
+        /// The minimum number of things which must receive job execution notifications before the job can be aborted.
+        public let minNumberOfExecutedThings: Int
+        /// The minimum percentage of job execution failures that must occur to initiate the job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        public let thresholdPercentage: Double
+
+        public init(action: AwsJobAbortCriteriaAbortAction, failureType: AwsJobAbortCriteriaFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
+            self.action = action
+            self.failureType = failureType
+            self.minNumberOfExecutedThings = minNumberOfExecutedThings
+            self.thresholdPercentage = thresholdPercentage
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minNumberOfExecutedThings, name: "minNumberOfExecutedThings", parent: name, min: 1)
+            try validate(self.thresholdPercentage, name: "thresholdPercentage", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case failureType = "failureType"
+            case minNumberOfExecutedThings = "minNumberOfExecutedThings"
+            case thresholdPercentage = "thresholdPercentage"
+        }
+    }
+
     public struct AwsJobExecutionsRolloutConfig: AWSEncodableShape & AWSDecodableShape {
 
+        /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate increase for a job rollout.
+        public let exponentialRate: AwsJobExponentialRolloutRate?
         /// The maximum number of OTA update job executions started per minute.
         public let maximumPerMinute: Int?
 
-        public init(maximumPerMinute: Int? = nil) {
+        public init(exponentialRate: AwsJobExponentialRolloutRate? = nil, maximumPerMinute: Int? = nil) {
+            self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
         }
 
         public func validate(name: String) throws {
+            try self.exponentialRate?.validate(name: "\(name).exponentialRate")
             try validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, max: 1000)
             try validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case exponentialRate = "exponentialRate"
             case maximumPerMinute = "maximumPerMinute"
+        }
+    }
+
+    public struct AwsJobExponentialRolloutRate: AWSEncodableShape & AWSDecodableShape {
+
+        /// The minimum number of things that will be notified of a pending job, per minute, at the start of the job rollout. This is the initial rate of the rollout.
+        public let baseRatePerMinute: Int
+        /// The rate of increase for a job rollout. The number of things notified is multiplied by this factor.
+        public let incrementFactor: Double
+        /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
+        public let rateIncreaseCriteria: AwsJobRateIncreaseCriteria
+
+        public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: AwsJobRateIncreaseCriteria) {
+            self.baseRatePerMinute = baseRatePerMinute
+            self.incrementFactor = incrementFactor
+            self.rateIncreaseCriteria = rateIncreaseCriteria
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, max: 1000)
+            try validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, min: 1)
+            try self.rateIncreaseCriteria.validate(name: "\(name).rateIncreaseCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseRatePerMinute = "baseRatePerMinute"
+            case incrementFactor = "incrementFactor"
+            case rateIncreaseCriteria = "rateIncreaseCriteria"
         }
     }
 
@@ -1477,6 +1575,43 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case expiresInSec = "expiresInSec"
+        }
+    }
+
+    public struct AwsJobRateIncreaseCriteria: AWSEncodableShape & AWSDecodableShape {
+
+        /// When this number of things have been notified, it will initiate an increase in the rollout rate.
+        public let numberOfNotifiedThings: Int?
+        /// When this number of things have succeeded in their job execution, it will initiate an increase in the rollout rate.
+        public let numberOfSucceededThings: Int?
+
+        public init(numberOfNotifiedThings: Int? = nil, numberOfSucceededThings: Int? = nil) {
+            self.numberOfNotifiedThings = numberOfNotifiedThings
+            self.numberOfSucceededThings = numberOfSucceededThings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfNotifiedThings, name: "numberOfNotifiedThings", parent: name, min: 1)
+            try validate(self.numberOfSucceededThings, name: "numberOfSucceededThings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfNotifiedThings = "numberOfNotifiedThings"
+            case numberOfSucceededThings = "numberOfSucceededThings"
+        }
+    }
+
+    public struct AwsJobTimeoutConfig: AWSEncodableShape {
+
+        /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
+        public let inProgressTimeoutInMinutes: Int64?
+
+        public init(inProgressTimeoutInMinutes: Int64? = nil) {
+            self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inProgressTimeoutInMinutes = "inProgressTimeoutInMinutes"
         }
     }
 
@@ -2780,10 +2915,14 @@ extension IoT {
 
         /// A list of additional OTA update parameters which are name-value pairs.
         public let additionalParameters: [String: String]?
+        /// The criteria that determine when and how a job abort takes place.
+        public let awsJobAbortConfig: AwsJobAbortConfig?
         /// Configuration for the rollout of OTA updates.
         public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
         /// Configuration information for pre-signed URLs.
         public let awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig?
+        /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
+        public let awsJobTimeoutConfig: AwsJobTimeoutConfig?
         /// The description of the OTA update.
         public let description: String?
         /// The files to be streamed by the OTA update.
@@ -2792,19 +2931,21 @@ extension IoT {
         public let otaUpdateId: String
         /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
         public let protocols: [Protocol]?
-        /// The IAM role that allows access to the AWS IoT Jobs service.
+        /// The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and AWS Code Signing resources to create an OTA update job.
         public let roleArn: String
         /// Metadata which can be used to manage updates.
         public let tags: [Tag]?
-        /// The targeted devices to receive OTA updates.
+        /// The devices targeted to receive OTA updates.
         public let targets: [String]
         /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [Protocol]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsJobAbortConfig: AwsJobAbortConfig? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, awsJobTimeoutConfig: AwsJobTimeoutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [Protocol]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
+            self.awsJobAbortConfig = awsJobAbortConfig
             self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
             self.awsJobPresignedUrlConfig = awsJobPresignedUrlConfig
+            self.awsJobTimeoutConfig = awsJobTimeoutConfig
             self.description = description
             self.files = files
             self.otaUpdateId = otaUpdateId
@@ -2816,6 +2957,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.awsJobAbortConfig?.validate(name: "\(name).awsJobAbortConfig")
             try self.awsJobExecutionsRolloutConfig?.validate(name: "\(name).awsJobExecutionsRolloutConfig")
             try validate(self.description, name: "description", parent: name, max: 2028)
             try validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
@@ -2839,8 +2981,10 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case additionalParameters = "additionalParameters"
+            case awsJobAbortConfig = "awsJobAbortConfig"
             case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
             case awsJobPresignedUrlConfig = "awsJobPresignedUrlConfig"
+            case awsJobTimeoutConfig = "awsJobTimeoutConfig"
             case description = "description"
             case files = "files"
             case protocols = "protocols"
@@ -4045,9 +4189,9 @@ extension IoT {
 
         /// Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.
         public let deleteStream: Bool?
-        /// Specifies if the AWS Job associated with the OTA update should be deleted with the OTA update is deleted.
+        /// Specifies if the AWS Job associated with the OTA update should be deleted when the OTA update is deleted.
         public let forceDeleteAWSJob: Bool?
-        /// The OTA update ID to delete.
+        /// The ID of the OTA update to delete.
         public let otaUpdateId: String
 
         public init(deleteStream: Bool? = nil, forceDeleteAWSJob: Bool? = nil, otaUpdateId: String) {

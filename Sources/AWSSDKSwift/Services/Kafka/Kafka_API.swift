@@ -97,6 +97,11 @@ public struct Kafka {
         return client.execute(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Gets the Apache Kafka versions to which you can update the MSK cluster.
+    public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleKafkaVersionsResponse> {
+        return client.execute(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
     public func listClusterOperations(_ input: ListClusterOperationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClusterOperationsResponse> {
         return client.execute(operation: "ListClusterOperations", path: "/v1/clusters/{clusterArn}/operations", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -155,6 +160,11 @@ public struct Kafka {
     ///  Updates the cluster with the configuration that is specified in the request body.
     public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterConfigurationResponse> {
         return client.execute(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Updates the Apache Kafka version for the cluster.
+    public func updateClusterKafkaVersion(_ input: UpdateClusterKafkaVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterKafkaVersionResponse> {
+        return client.execute(operation: "UpdateClusterKafkaVersion", path: "/v1/clusters/{clusterArn}/version", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.

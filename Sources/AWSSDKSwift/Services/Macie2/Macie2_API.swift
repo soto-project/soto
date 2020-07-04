@@ -20,7 +20,7 @@ import NIO
 /**
 Client object for interacting with AWS Macie2 service.
 
-Amazon Macie
+Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS. Macie automates the discovery of sensitive data, such as PII and intellectual property, to provide you with insight into the data that your organization stores in AWS. Macie also provides an inventory of your Amazon S3 buckets, which it continually monitors for you. If Macie detects sensitive data or potential data access issues, it generates detailed findings for you to review and act upon as necessary.
 */
 public struct Macie2 {
 
@@ -60,11 +60,6 @@ public struct Macie2 {
     ///  Accepts an Amazon Macie membership invitation that was received from a specific account.
     public func acceptInvitation(_ input: AcceptInvitationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInvitationResponse> {
         return client.execute(operation: "AcceptInvitation", path: "/invitations/accept", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
-    }
-
-    ///   Archives one or more findings.
-    public func archiveFindings(_ input: ArchiveFindingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ArchiveFindingsResponse> {
-        return client.execute(operation: "ArchiveFindings", path: "/findings/archive", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about one or more custom data identifiers.
@@ -177,7 +172,7 @@ public struct Macie2 {
         return client.execute(operation: "GetBucketStatistics", path: "/datasources/s3/statistics", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Retrieves the configuration settings for exporting data classification results.
+    ///  Retrieves the configuration settings for storing data classification results.
     public func getClassificationExportConfiguration(_ input: GetClassificationExportConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetClassificationExportConfigurationResponse> {
         return client.execute(operation: "GetClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -272,7 +267,7 @@ public struct Macie2 {
         return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates or updates the configuration settings for exporting data classification results.
+    ///  Creates or updates the configuration settings for storing data classification results.
     public func putClassificationExportConfiguration(_ input: PutClassificationExportConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutClassificationExportConfigurationResponse> {
         return client.execute(operation: "PutClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -285,11 +280,6 @@ public struct Macie2 {
     ///  Tests a custom data identifier.
     public func testCustomDataIdentifier(_ input: TestCustomDataIdentifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestCustomDataIdentifierResponse> {
         return client.execute(operation: "TestCustomDataIdentifier", path: "/custom-data-identifiers/test", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
-    }
-
-    ///   Reactivates (unarchives) one or more findings.
-    public func unarchiveFindings(_ input: UnarchiveFindingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnarchiveFindingsResponse> {
-        return client.execute(operation: "UnarchiveFindings", path: "/findings/unarchive", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes one or more tags (keys and values) from a classification job, custom data identifier, findings filter, or member account.

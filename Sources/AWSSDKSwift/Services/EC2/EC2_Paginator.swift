@@ -130,7 +130,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeEgressOnlyInternetGateways, tokenKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the specified export image tasks or all your export image tasks.
+    ///  Describes the specified export image tasks or all of your export image tasks.
     public func describeExportImageTasksPaginator(
         _ input: DescribeExportImageTasksRequest,
         on eventLoop: EventLoop? = nil,
@@ -240,7 +240,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeImportSnapshotTasks, tokenKey: \DescribeImportSnapshotTasksResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable performance instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeInstanceCreditSpecificationsPaginator(
         _ input: DescribeInstanceCreditSpecificationsRequest,
         on eventLoop: EventLoop? = nil,
@@ -250,7 +250,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeInstanceCreditSpecifications, tokenKey: \DescribeInstanceCreditSpecificationsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status Checks for Your Instances and Troubleshooting Instances with Failed Status Checks in the Amazon Elastic Compute Cloud User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled Events for Your Instances in the Amazon Elastic Compute Cloud User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide.  
+    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshooting instances with failed status checks in the Amazon Elastic Compute Cloud User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon Elastic Compute Cloud User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon Elastic Compute Cloud User Guide.  
     public func describeInstanceStatusPaginator(
         _ input: DescribeInstanceStatusRequest,
         on eventLoop: EventLoop? = nil,
@@ -270,7 +270,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeInstanceTypeOfferings, tokenKey: \DescribeInstanceTypeOfferingsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns a list of all instance types offered in your current AWS Region. The results can be filtered by the attributes of the instance types.
+    ///  Describes the details of the instance types that are offered in a location. The results can be filtered by the attributes of the instance types.
     public func describeInstanceTypesPaginator(
         _ input: DescribeInstanceTypesRequest,
         on eventLoop: EventLoop? = nil,
@@ -280,7 +280,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeInstanceTypes, tokenKey: \DescribeInstanceTypesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the specified instances or all of AWS account's instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    ///  Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     public func describeInstancesPaginator(
         _ input: DescribeInstancesRequest,
         on eventLoop: EventLoop? = nil,
@@ -390,6 +390,16 @@ extension EC2 {
         return client.paginate(input: input, command: describeLocalGateways, tokenKey: \DescribeLocalGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Describes your managed prefix lists and any AWS-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
+    public func describeManagedPrefixListsPaginator(
+        _ input: DescribeManagedPrefixListsRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeManagedPrefixListsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeManagedPrefixLists, tokenKey: \DescribeManagedPrefixListsResult.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
     public func describeMovingAddressesPaginator(
         _ input: DescribeMovingAddressesRequest,
@@ -440,7 +450,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeNetworkInterfaces, tokenKey: \DescribeNetworkInterfacesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. A prefix list ID is required for creating an outbound security group rule that allows traffic from a VPC to access an AWS service through a gateway VPC endpoint. Currently, the services that support this action are Amazon S3 and Amazon DynamoDB.
+    ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
     public func describePrefixListsPaginator(
         _ input: DescribePrefixListsRequest,
         on eventLoop: EventLoop? = nil,
@@ -530,7 +540,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeSecurityGroups, tokenKey: \DescribeSecurityGroupsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All AWS accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific AWS account.    implicit: An AWS account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the AWS account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All AWS accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific AWS account.    implicit: An AWS account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the AWS account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func describeSnapshotsPaginator(
         _ input: DescribeSnapshotsRequest,
         on eventLoop: EventLoop? = nil,
@@ -700,7 +710,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeVolumeStatus, tokenKey: \DescribeVolumeStatusResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumesPaginator(
         _ input: DescribeVolumesRequest,
         on eventLoop: EventLoop? = nil,
@@ -710,7 +720,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeVolumes, tokenKey: \DescribeVolumesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Reports the current modification status of EBS volumes. Current-generation EBS volumes support modification of attributes including type, size, and (for io1 volumes) IOPS provisioning while either attached to or detached from an instance. Following an action from the API or the console to modify a volume, the status of the modification may be modifying, optimizing, completed, or failed. If a volume has never been modified, then certain elements of the returned VolumeModification objects are null.   You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications" in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumesModificationsPaginator(
         _ input: DescribeVolumesModificationsRequest,
         on eventLoop: EventLoop? = nil,
@@ -808,6 +818,26 @@ extension EC2 {
         EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAssociatedIpv6PoolCidrs, tokenKey: \GetAssociatedIpv6PoolCidrsResult.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Gets information about the resources that are associated with the specified managed prefix list.
+    public func getManagedPrefixListAssociationsPaginator(
+        _ input: GetManagedPrefixListAssociationsRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetManagedPrefixListAssociationsResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getManagedPrefixListAssociations, tokenKey: \GetManagedPrefixListAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Gets information about the entries for a specified managed prefix list.
+    public func getManagedPrefixListEntriesPaginator(
+        _ input: GetManagedPrefixListEntriesRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetManagedPrefixListEntriesResult,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getManagedPrefixListEntries, tokenKey: \GetManagedPrefixListEntriesResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Lists the route tables to which the specified resource attachment propagates routes.
@@ -1351,6 +1381,19 @@ extension EC2.DescribeLocalGatewaysRequest: AWSPaginateToken {
             localGatewayIds: self.localGatewayIds,
             maxResults: self.maxResults,
             nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeManagedPrefixListsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeManagedPrefixListsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixListIds: self.prefixListIds
         )
 
     }
@@ -1906,6 +1949,31 @@ extension EC2.GetAssociatedIpv6PoolCidrsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             poolId: self.poolId
+        )
+
+    }
+}
+
+extension EC2.GetManagedPrefixListAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetManagedPrefixListAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixListId: self.prefixListId
+        )
+
+    }
+}
+
+extension EC2.GetManagedPrefixListEntriesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetManagedPrefixListEntriesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixListId: self.prefixListId,
+            targetVersion: self.targetVersion
         )
 
     }

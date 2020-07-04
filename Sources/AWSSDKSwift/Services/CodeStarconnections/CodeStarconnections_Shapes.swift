@@ -29,6 +29,7 @@ extension CodeStarconnections {
 
     public enum ProviderType: String, CustomStringConvertible, Codable {
         case bitbucket = "Bitbucket"
+        case githubenterpriseserver = "GitHubEnterpriseServer"
         public var description: String { return self.rawValue }
     }
 
@@ -42,15 +43,18 @@ extension CodeStarconnections {
         public let connectionName: String?
         /// The current status of the connection. 
         public let connectionStatus: ConnectionStatus?
+        /// The Amazon Resource Name (ARN) of the host associated with the connection.
+        public let hostArn: String?
         /// The identifier of the external provider where your third-party code repository is configured. For Bitbucket, this is the account ID of the owner of the Bitbucket repository.
         public let ownerAccountId: String?
-        /// The name of the external provider where your third-party code repository is configured. Currently, the valid provider type is Bitbucket.
+        /// The name of the external provider where your third-party code repository is configured. The valid provider type is Bitbucket.
         public let providerType: ProviderType?
 
-        public init(connectionArn: String? = nil, connectionName: String? = nil, connectionStatus: ConnectionStatus? = nil, ownerAccountId: String? = nil, providerType: ProviderType? = nil) {
+        public init(connectionArn: String? = nil, connectionName: String? = nil, connectionStatus: ConnectionStatus? = nil, hostArn: String? = nil, ownerAccountId: String? = nil, providerType: ProviderType? = nil) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
             self.connectionStatus = connectionStatus
+            self.hostArn = hostArn
             self.ownerAccountId = ownerAccountId
             self.providerType = providerType
         }
@@ -59,6 +63,7 @@ extension CodeStarconnections {
             case connectionArn = "ConnectionArn"
             case connectionName = "ConnectionName"
             case connectionStatus = "ConnectionStatus"
+            case hostArn = "HostArn"
             case ownerAccountId = "OwnerAccountId"
             case providerType = "ProviderType"
         }
@@ -68,13 +73,16 @@ extension CodeStarconnections {
 
         /// The name of the connection to be created. The name must be unique in the calling AWS account.
         public let connectionName: String
-        /// The name of the external provider where your third-party code repository is configured. Currently, the valid provider type is Bitbucket.
-        public let providerType: ProviderType
+        /// The Amazon Resource Name (ARN) of the host associated with the connection to be created.
+        public let hostArn: String?
+        /// The name of the external provider where your third-party code repository is configured. The valid provider type is Bitbucket.
+        public let providerType: ProviderType?
         /// The key-value pair to use when tagging the resource.
         public let tags: [Tag]?
 
-        public init(connectionName: String, providerType: ProviderType, tags: [Tag]? = nil) {
+        public init(connectionName: String, hostArn: String? = nil, providerType: ProviderType? = nil, tags: [Tag]? = nil) {
             self.connectionName = connectionName
+            self.hostArn = hostArn
             self.providerType = providerType
             self.tags = tags
         }
@@ -82,6 +90,9 @@ extension CodeStarconnections {
         public func validate(name: String) throws {
             try validate(self.connectionName, name: "connectionName", parent: name, max: 32)
             try validate(self.connectionName, name: "connectionName", parent: name, min: 1)
+            try validate(self.hostArn, name: "hostArn", parent: name, max: 256)
+            try validate(self.hostArn, name: "hostArn", parent: name, min: 0)
+            try validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -91,6 +102,7 @@ extension CodeStarconnections {
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case hostArn = "HostArn"
             case providerType = "ProviderType"
             case tags = "Tags"
         }
@@ -111,6 +123,54 @@ extension CodeStarconnections {
         private enum CodingKeys: String, CodingKey {
             case connectionArn = "ConnectionArn"
             case tags = "Tags"
+        }
+    }
+
+    public struct CreateHostInput: AWSEncodableShape {
+
+        /// The name of the host to be created. The name must be unique in the calling AWS account.
+        public let name: String
+        /// The endpoint of the infrastructure to be represented by the host after it is created.
+        public let providerEndpoint: String
+        /// The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server.
+        public let providerType: ProviderType
+        /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(name: String, providerEndpoint: String, providerType: ProviderType, vpcConfiguration: VpcConfiguration? = nil) {
+            self.name = name
+            self.providerEndpoint = providerEndpoint
+            self.providerType = providerType
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 32)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.providerEndpoint, name: "providerEndpoint", parent: name, max: 512)
+            try validate(self.providerEndpoint, name: "providerEndpoint", parent: name, min: 1)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case providerEndpoint = "ProviderEndpoint"
+            case providerType = "ProviderType"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct CreateHostOutput: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the host to be created.
+        public let hostArn: String?
+
+        public init(hostArn: String? = nil) {
+            self.hostArn = hostArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostArn = "HostArn"
         }
     }
 
@@ -135,6 +195,34 @@ extension CodeStarconnections {
     }
 
     public struct DeleteConnectionOutput: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteHostInput: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the host to be deleted.
+        public let hostArn: String
+
+        public init(hostArn: String) {
+            self.hostArn = hostArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.hostArn, name: "hostArn", parent: name, max: 256)
+            try validate(self.hostArn, name: "hostArn", parent: name, min: 0)
+            try validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostArn = "HostArn"
+        }
+    }
+
+    public struct DeleteHostOutput: AWSDecodableShape {
 
 
         public init() {
@@ -176,8 +264,98 @@ extension CodeStarconnections {
         }
     }
 
+    public struct GetHostInput: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the requested host.
+        public let hostArn: String
+
+        public init(hostArn: String) {
+            self.hostArn = hostArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.hostArn, name: "hostArn", parent: name, max: 256)
+            try validate(self.hostArn, name: "hostArn", parent: name, min: 0)
+            try validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostArn = "HostArn"
+        }
+    }
+
+    public struct GetHostOutput: AWSDecodableShape {
+
+        /// The name of the requested host.
+        public let name: String?
+        /// The endpoint of the infrastructure represented by the requested host.
+        public let providerEndpoint: String?
+        /// The provider type of the requested host, such as GitHub Enterprise Server.
+        public let providerType: ProviderType?
+        /// The status of the requested host.
+        public let status: String?
+        /// The VPC configuration of the requested host.
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(name: String? = nil, providerEndpoint: String? = nil, providerType: ProviderType? = nil, status: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.name = name
+            self.providerEndpoint = providerEndpoint
+            self.providerType = providerType
+            self.status = status
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case providerEndpoint = "ProviderEndpoint"
+            case providerType = "ProviderType"
+            case status = "Status"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct Host: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the host.
+        public let hostArn: String?
+        /// The name of the host.
+        public let name: String?
+        /// The endpoint of the infrastructure where your provider type is installed.
+        public let providerEndpoint: String?
+        /// The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server.
+        public let providerType: ProviderType?
+        /// The status of the host, such as PENDING, AVAILABLE, VPC_CONFIG_DELETING, VPC_CONFIG_INITIALIZING, and VPC_CONFIG_FAILED_INITIALIZATION.
+        public let status: String?
+        /// The status description for the host.
+        public let statusMessage: String?
+        /// The VPC configuration provisioned for the host.
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(hostArn: String? = nil, name: String? = nil, providerEndpoint: String? = nil, providerType: ProviderType? = nil, status: String? = nil, statusMessage: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.hostArn = hostArn
+            self.name = name
+            self.providerEndpoint = providerEndpoint
+            self.providerType = providerType
+            self.status = status
+            self.statusMessage = statusMessage
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostArn = "HostArn"
+            case name = "Name"
+            case providerEndpoint = "ProviderEndpoint"
+            case providerType = "ProviderType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
     public struct ListConnectionsInput: AWSEncodableShape {
 
+        /// Filters the list of connections to those associated with a specified host.
+        public let hostArnFilter: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list.
@@ -185,20 +363,25 @@ extension CodeStarconnections {
         /// Filters the list of connections to those associated with a specified provider, such as Bitbucket.
         public let providerTypeFilter: ProviderType?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, providerTypeFilter: ProviderType? = nil) {
+        public init(hostArnFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, providerTypeFilter: ProviderType? = nil) {
+            self.hostArnFilter = hostArnFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.providerTypeFilter = providerTypeFilter
         }
 
         public func validate(name: String) throws {
-            try validate(self.maxResults, name: "maxResults", parent: name, max: 5000)
+            try validate(self.hostArnFilter, name: "hostArnFilter", parent: name, max: 256)
+            try validate(self.hostArnFilter, name: "hostArnFilter", parent: name, min: 0)
+            try validate(self.hostArnFilter, name: "hostArnFilter", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hostArnFilter = "HostArnFilter"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case providerTypeFilter = "ProviderTypeFilter"
@@ -219,6 +402,49 @@ extension CodeStarconnections {
 
         private enum CodingKeys: String, CodingKey {
             case connections = "Connections"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHostsInput: AWSEncodableShape {
+
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHostsOutput: AWSDecodableShape {
+
+        /// A list of hosts and the details for each host, such as status, endpoint, and provider type.
+        public let hosts: [Host]?
+        /// A token that can be used in the next ListHosts call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
+        public let nextToken: String?
+
+        public init(hosts: [Host]? = nil, nextToken: String? = nil) {
+            self.hosts = hosts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hosts = "Hosts"
             case nextToken = "NextToken"
         }
     }
@@ -352,5 +578,47 @@ extension CodeStarconnections {
         public init() {
         }
 
+    }
+
+    public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed.
+        public let securityGroupIds: [String]
+        /// The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is installed.
+        public let subnetIds: [String]
+        /// The value of the Transport Layer Security (TLS) certificate associated with the infrastructure where your provider type is installed.
+        public let tlsCertificate: String?
+        /// The ID of the Amazon VPC connected to the infrastructure where your provider type is installed.
+        public let vpcId: String
+
+        public init(securityGroupIds: [String], subnetIds: [String], tlsCertificate: String? = nil, vpcId: String) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tlsCertificate = tlsCertificate
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "sg-\\w{8}(\\w{9})?")
+            }
+            try validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 10)
+            try validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "subnet-\\w{8}(\\w{9})?")
+            }
+            try validate(self.subnetIds, name: "subnetIds", parent: name, max: 10)
+            try validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try validate(self.tlsCertificate, name: "tlsCertificate", parent: name, max: 16384)
+            try validate(self.tlsCertificate, name: "tlsCertificate", parent: name, min: 1)
+            try validate(self.vpcId, name: "vpcId", parent: name, pattern: "vpc-\\w{8}(\\w{9})?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case tlsCertificate = "TlsCertificate"
+            case vpcId = "VpcId"
+        }
     }
 }

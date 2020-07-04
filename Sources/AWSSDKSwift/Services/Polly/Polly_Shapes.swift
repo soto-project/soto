@@ -126,6 +126,7 @@ extension Polly {
         case justin = "Justin"
         case karl = "Karl"
         case kendra = "Kendra"
+        case kevin = "Kevin"
         case kimberly = "Kimberly"
         case lea = "Lea"
         case liv = "Liv"

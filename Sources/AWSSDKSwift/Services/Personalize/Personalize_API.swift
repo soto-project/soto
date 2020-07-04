@@ -88,6 +88,11 @@ public struct Personalize {
         return client.execute(operation: "CreateEventTracker", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Creates a recommendation filter. For more information, see Using Filters with Amazon Personalize.
+    public func createFilter(_ input: CreateFilterRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFilterResponse> {
+        return client.execute(operation: "CreateFilter", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is associated with a dataset type and has a set of required field and keywords. You specify a schema when you call CreateDataset.  Related APIs     ListSchemas     DescribeSchema     DeleteSchema   
     public func createSchema(_ input: CreateSchemaRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSchemaResponse> {
         return client.execute(operation: "CreateSchema", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -121,6 +126,11 @@ public struct Personalize {
     ///  Deletes the event tracker. Does not delete the event-interactions dataset from the associated dataset group. For more information on event trackers, see CreateEventTracker.
     @discardableResult public func deleteEventTracker(_ input: DeleteEventTrackerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteEventTracker", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Deletes a filter.
+    @discardableResult public func deleteFilter(_ input: DeleteFilterRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteFilter", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a schema. Before deleting a schema, you must delete all datasets referencing the schema. For more information on schemas, see CreateSchema.
@@ -171,6 +181,11 @@ public struct Personalize {
     ///  Describes the given feature transformation.
     public func describeFeatureTransformation(_ input: DescribeFeatureTransformationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFeatureTransformationResponse> {
         return client.execute(operation: "DescribeFeatureTransformation", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Describes a filter's properties.
+    public func describeFilter(_ input: DescribeFilterRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFilterResponse> {
+        return client.execute(operation: "DescribeFilter", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes a recipe. A recipe contains three items:   An algorithm that trains a model.   Hyperparameters that govern the training.   Feature transformation information for modifying the input data before training.   Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the CreateSolution API. CreateSolution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can provide recommendations using the GetRecommendations API.
@@ -226,6 +241,11 @@ public struct Personalize {
     ///  Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see CreateEventTracker.
     public func listEventTrackers(_ input: ListEventTrackersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventTrackersResponse> {
         return client.execute(operation: "ListEventTrackers", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Lists all filters that belong to a given dataset group.
+    public func listFilters(_ input: ListFiltersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFiltersResponse> {
+        return client.execute(operation: "ListFilters", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).

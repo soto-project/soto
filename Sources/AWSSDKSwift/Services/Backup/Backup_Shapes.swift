@@ -92,6 +92,8 @@ extension Backup {
 
     public struct BackupJob: AWSDecodableShape {
 
+        /// The account ID that owns the backup job.
+        public let accountId: String?
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
         /// The size, in bytes, of a backup.
@@ -127,7 +129,8 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+            self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -148,6 +151,7 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case backupJobId = "BackupJobId"
             case backupSizeInBytes = "BackupSizeInBytes"
             case backupVaultArn = "BackupVaultArn"
@@ -188,7 +192,7 @@ extension Backup {
 
     public struct BackupPlanInput: AWSEncodableShape {
 
-        /// The display name of a backup plan.
+        /// The optional display name of a backup plan.
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRuleInput]
@@ -520,14 +524,16 @@ extension Backup {
 
     public struct CopyJob: AWSDecodableShape {
 
+        /// The account ID that owns the copy job.
+        public let accountId: String?
         /// The size, in bytes, of a copy job.
         public let backupSizeInBytes: Int64?
-        /// The date and time a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM. 
+        /// The date and time a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: TimeStamp?
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
         public let createdBy: RecoveryPointCreator?
-        /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM. 
+        /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String?
@@ -548,7 +554,8 @@ extension Backup {
         /// A detailed message explaining the status of the job to copy a resource.
         public let statusMessage: String?
 
-        public init(backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+            self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
             self.copyJobId = copyJobId
@@ -566,6 +573,7 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case backupSizeInBytes = "BackupSizeInBytes"
             case completionDate = "CompletionDate"
             case copyJobId = "CopyJobId"
@@ -760,7 +768,7 @@ extension Backup {
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
-        /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let deletionDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
@@ -892,6 +900,8 @@ extension Backup {
 
     public struct DescribeBackupJobOutput: AWSDecodableShape {
 
+        /// Returns the account ID that owns the backup job.
+        public let accountId: String?
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
         /// The size, in bytes, of a backup.
@@ -902,7 +912,7 @@ extension Backup {
         public let backupVaultName: String?
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public let bytesTransferred: Int64?
-        /// The date and time that a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: TimeStamp?
         /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
         public let createdBy: RecoveryPointCreator?
@@ -927,7 +937,8 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+            self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -948,6 +959,7 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case backupJobId = "BackupJobId"
             case backupSizeInBytes = "BackupSizeInBytes"
             case backupVaultArn = "BackupVaultArn"
@@ -1223,6 +1235,8 @@ extension Backup {
 
     public struct DescribeRestoreJobOutput: AWSDecodableShape {
 
+        /// Returns the account ID that owns the restore job.
+        public let accountId: String?
         /// The size, in bytes, of the restored resource.
         public let backupSizeInBytes: Int64?
         /// The date and time that a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1239,14 +1253,17 @@ extension Backup {
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
+        /// Returns metadata associated with a restore job listed by resource type.
+        public let resourceType: String?
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
         /// Status code specifying the state of the job that is initiated by AWS Backup to restore a recovery point.
         public let status: RestoreJobStatus?
-        /// A detailed message explaining the status of a job to restore a recovery point.
+        /// A message showing the status of a job to restore a recovery point.
         public let statusMessage: String?
 
-        public init(backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
+            self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
             self.createdResourceArn = createdResourceArn
@@ -1255,12 +1272,14 @@ extension Backup {
             self.iamRoleArn = iamRoleArn
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
+            self.resourceType = resourceType
             self.restoreJobId = restoreJobId
             self.status = status
             self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case backupSizeInBytes = "BackupSizeInBytes"
             case completionDate = "CompletionDate"
             case createdResourceArn = "CreatedResourceArn"
@@ -1269,6 +1288,7 @@ extension Backup {
             case iamRoleArn = "IamRoleArn"
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
+            case resourceType = "ResourceType"
             case restoreJobId = "RestoreJobId"
             case status = "Status"
             case statusMessage = "StatusMessage"
@@ -1392,7 +1412,7 @@ extension Backup {
         public let creationDate: TimeStamp?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
-        /// The date and time that a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let deletionDate: TimeStamp?
         /// The last time a job to back up resources was executed with this backup plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastExecutionDate: TimeStamp?
@@ -1604,7 +1624,7 @@ extension Backup {
 
     public struct GetSupportedResourceTypesOutput: AWSDecodableShape {
 
-        /// Contains a string with the supported AWS resource types:    EBS for Amazon Elastic Block Store    Storage Gateway for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
+        /// Contains a string with the supported AWS resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
         public let resourceTypes: [String]?
 
         public init(resourceTypes: [String]? = nil) {
@@ -1636,6 +1656,7 @@ extension Backup {
 
     public struct ListBackupJobsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")), 
             AWSMemberEncoding(label: "byBackupVaultName", location: .querystring(locationName: "backupVaultName")), 
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
@@ -1646,6 +1667,8 @@ extension Backup {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID.
+        public let byAccountId: String?
         /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let byBackupVaultName: String?
         /// Returns only backup jobs that were created after the specified date.
@@ -1654,7 +1677,7 @@ extension Backup {
         public let byCreatedBefore: TimeStamp?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
         public let byResourceType: String?
         /// Returns only backup jobs that are in the specified state.
         public let byState: BackupJobState?
@@ -1663,7 +1686,8 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byBackupVaultName: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byAccountId = byAccountId
             self.byBackupVaultName = byBackupVaultName
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
@@ -1675,6 +1699,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.byBackupVaultName, name: "byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
@@ -1926,6 +1951,7 @@ extension Backup {
 
     public struct ListCopyJobsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")), 
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
             AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn")), 
@@ -1936,6 +1962,8 @@ extension Backup {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
+        public let byAccountId: String?
         /// Returns only copy jobs that were created after the specified date.
         public let byCreatedAfter: TimeStamp?
         /// Returns only copy jobs that were created before the specified date.
@@ -1944,7 +1972,7 @@ extension Backup {
         public let byDestinationVaultArn: String?
         /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN). 
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    EBS for Amazon Elastic Block Store    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
         public let byResourceType: String?
         /// Returns only copy jobs that are in the specified state.
         public let byState: CopyJobState?
@@ -1953,7 +1981,8 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token. 
         public let nextToken: String?
 
-        public init(byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byAccountId = byAccountId
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
             self.byDestinationVaultArn = byDestinationVaultArn
@@ -1965,6 +1994,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2149,21 +2179,38 @@ extension Backup {
 
     public struct ListRestoreJobsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byStatus", location: .querystring(locationName: "status")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
+        public let byAccountId: String?
+        /// Returns only restore jobs that were created after the specified date.
+        public let byCreatedAfter: TimeStamp?
+        /// Returns only restore jobs that were created before the specified date.
+        public let byCreatedBefore: TimeStamp?
+        /// Returns only restore jobs associated with the specified job status.
+        public let byStatus: RestoreJobStatus?
         /// The maximum number of items to be returned.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byAccountId = byAccountId
+            self.byCreatedAfter = byCreatedAfter
+            self.byCreatedBefore = byCreatedBefore
+            self.byStatus = byStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2445,6 +2492,8 @@ extension Backup {
 
     public struct RestoreJobsListMember: AWSDecodableShape {
 
+        /// The account ID that owns the restore job.
+        public let accountId: String?
         /// The size, in bytes, of the restored resource.
         public let backupSizeInBytes: Int64?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -2461,6 +2510,8 @@ extension Backup {
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
+        /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        public let resourceType: String?
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
         /// A status code specifying the state of the job initiated by AWS Backup to restore a recovery point.
@@ -2468,7 +2519,8 @@ extension Backup {
         /// A detailed message explaining the status of the job to restore a recovery point.
         public let statusMessage: String?
 
-        public init(backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
+            self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
             self.createdResourceArn = createdResourceArn
@@ -2477,12 +2529,14 @@ extension Backup {
             self.iamRoleArn = iamRoleArn
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
+            self.resourceType = resourceType
             self.restoreJobId = restoreJobId
             self.status = status
             self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case backupSizeInBytes = "BackupSizeInBytes"
             case completionDate = "CompletionDate"
             case createdResourceArn = "CreatedResourceArn"
@@ -2491,6 +2545,7 @@ extension Backup {
             case iamRoleArn = "IamRoleArn"
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
+            case resourceType = "ResourceType"
             case restoreJobId = "RestoreJobId"
             case status = "Status"
             case statusMessage = "StatusMessage"
@@ -2630,7 +2685,7 @@ extension Backup {
         public let metadata: [String: String]
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        /// Starts a job to restore a recovery point for one of the following resources:    EBS for Amazon Elastic Block Store    Storage Gateway for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
+        /// Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
         public let resourceType: String?
 
         public init(iamRoleArn: String, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {

@@ -289,7 +289,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceArn: String?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
         public let replicationInstanceIdentifier: String?
-        /// The connection status.
+        /// The connection status. This parameter can return one of the following values:    "successful"     "testing"     "failed"     "deleting"   
         public let status: String?
 
         public init(endpointArn: String? = nil, endpointIdentifier: String? = nil, lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceIdentifier: String? = nil, status: String? = nil) {
@@ -321,27 +321,27 @@ extension DatabaseMigrationService {
         public let dmsTransferSettings: DmsTransferSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
         public let dynamoDbSettings: DynamoDbSettings?
-        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User Guide.
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", and "sqlserver".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
         public let engineName: String
         /// The external table definition. 
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with AWS DMS Endpoints in the AWS Database Migration Service User Guide. 
         public let extraConnectionAttributes: String?
-        /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kafkaSettings: KafkaSettings?
-        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kinesisSettings: KinesisSettings?
         /// An AWS KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
-        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings in the AWS Database Migration Service User Guide. 
+        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying Endpoint Settings for Amazon Neptune as a Target in the AWS Database Migration Service User Guide. 
         public let neptuneSettings: NeptuneSettings?
         /// The password to be used to log in to the endpoint database.
         public let password: String?
@@ -490,7 +490,7 @@ extension DatabaseMigrationService {
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's AWS Region, for example: us-east-1d 
         public let availabilityZone: String?
-        /// A list of DNS name servers supported for the replication instance.
+        /// A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4" 
         public let dnsNameServers: String?
         /// The engine version number of the replication instance.
         public let engineVersion: String?
@@ -502,9 +502,9 @@ extension DatabaseMigrationService {
         public let preferredMaintenanceWindow: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
         public let publiclyAccessible: Bool?
-        /// The compute and memory capacity of the replication instance as specified by the replication instance class.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
         public let replicationInstanceClass: String
-        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
+        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String
         /// A subnet group to associate with the replication instance.
         public let replicationSubnetGroupIdentifier: String?
@@ -614,19 +614,19 @@ extension DatabaseMigrationService {
         public let migrationType: MigrationTypeValue
         /// The Amazon Resource Name (ARN) of a replication instance.
         public let replicationInstanceArn: String
-        /// An identifier for the replication task. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// An identifier for the replication task. Constraints:   Must contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String
         /// Overall settings for the task, in JSON format. For more information, see Specifying Task Settings for AWS Database Migration Service Tasks in the AWS Database Migration User Guide. 
         public let replicationTaskSettings: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
         public let sourceEndpointArn: String
-        /// The table mappings for the task, in JSON format. For more information, see Using Table Mapping to Specify Task Settings in the AWS Database Migration User Guide. 
+        /// The table mappings for the task, in JSON format. For more information, see Using Table Mapping to Specify Task Settings in the AWS Database Migration Service User Guide. 
         public let tableMappings: String
         /// One or more tags to be assigned to the replication task.
         public let tags: [Tag]?
         /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
         public let targetEndpointArn: String
-        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration User Guide. 
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide. 
         public let taskData: String?
 
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String, taskData: String? = nil) {
@@ -1679,7 +1679,7 @@ extension DatabaseMigrationService {
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", and "sqlserver".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
         public let engineName: String?
         ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account. 
         public let externalId: String?
@@ -1695,7 +1695,7 @@ extension DatabaseMigrationService {
         public let kmsKeyId: String?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
         public let mongoDbSettings: MongoDbSettings?
-        /// The settings for the MongoDB source endpoint. For more information, see the NeptuneSettings structure.
+        /// The settings for the Amazon Neptune target endpoint. For more information, see the NeptuneSettings structure.
         public let neptuneSettings: NeptuneSettings?
         /// The port value used to access the endpoint.
         public let port: Int?
@@ -1839,7 +1839,7 @@ extension DatabaseMigrationService {
         public let sourceType: String?
         /// The status of the AWS DMS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that AWS DMS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
         public let status: String?
-        /// The time the RDS event notification subscription was created.
+        /// The time the AWS DMS event notification subscription was created.
         public let subscriptionCreationTime: String?
 
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
@@ -2023,7 +2023,7 @@ extension DatabaseMigrationService {
         public let dmsTransferSettings: DmsTransferSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
         public let dynamoDbSettings: DynamoDbSettings?
-        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -2031,19 +2031,19 @@ extension DatabaseMigrationService {
         public let endpointIdentifier: String?
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", and "sqlserver".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
         public let engineName: String?
         /// The external table definition.
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
         public let extraConnectionAttributes: String?
-        /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kafkaSettings: KafkaSettings?
-        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration User Guide. 
+        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kinesisSettings: KinesisSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
-        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings in the AWS Database Migration Service User Guide. 
+        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying Endpoint Settings for Amazon Neptune as a Target in the AWS Database Migration Service User Guide. 
         public let neptuneSettings: NeptuneSettings?
         /// The password to be used to login to the endpoint database.
         public let password: String?
@@ -2190,7 +2190,7 @@ extension DatabaseMigrationService {
         public let preferredMaintenanceWindow: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
         public let replicationInstanceClass: String?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
         public let replicationInstanceIdentifier: String?
@@ -2288,13 +2288,13 @@ extension DatabaseMigrationService {
         public let migrationType: MigrationTypeValue?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String
-        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// The replication task identifier. Constraints:   Must contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
         /// JSON file that contains settings for the task, such as task metadata settings.
         public let replicationTaskSettings: String?
         /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. When working with the DMS API, provide the JSON as the parameter value, for example: --table-mappings file://mappingfile.json 
         public let tableMappings: String?
-        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration User Guide. 
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide. 
         public let taskData: String?
 
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil, taskData: String? = nil) {
@@ -2338,21 +2338,21 @@ extension DatabaseMigrationService {
 
     public struct MongoDbSettings: AWSEncodableShape & AWSDecodableShape {
 
-        ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This setting isn't used when authType=No.
+        ///  The authentication mechanism you use to access the MongoDB source endpoint. For the default value, in MongoDB version 2.x, "default" is "mongodb_cr". For MongoDB version 3.x or later, "default" is "scram_sha_1". This setting isn't used when AuthType is set to "no".
         public let authMechanism: AuthMechanismValue?
-        ///  The MongoDB database name. This setting isn't used when authType=NO.  The default is admin.
+        ///  The MongoDB database name. This setting isn't used when AuthType is set to "no".  The default is "admin".
         public let authSource: String?
-        ///  The authentication type you use to access the MongoDB source endpoint. Valid values: NO, PASSWORD  When NO is selected, user name and password parameters are not used and can be empty. 
+        ///  The authentication type you use to access the MongoDB source endpoint. When when set to "no", user name and password parameters are not used and can be empty. 
         public let authType: AuthTypeValue?
         ///  The database name on the MongoDB source endpoint. 
         public let databaseName: String?
-        ///  Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to ONE.  Must be a positive value greater than 0. Default value is 1000.
+        ///  Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one".  Must be a positive value greater than 0. Default value is 1000.
         public let docsToInvestigate: String?
-        ///  Specifies the document ID. Use this setting when NestingLevel is set to NONE.  Default value is false. 
+        ///  Specifies the document ID. Use this setting when NestingLevel is set to "none".  Default value is "false". 
         public let extractDocId: String?
         /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        ///  Specifies either document or table mode.  Valid values: NONE, ONE Default value is NONE. Specify NONE to use document mode. Specify ONE to use table mode.
+        ///  Specifies either document or table mode.  Default value is "none". Specify "none" to use document mode. Specify "one" to use table mode.
         public let nestingLevel: NestingLevelValue?
         ///  The password for the user account you use to access the MongoDB source endpoint. 
         public let password: String?
@@ -2398,17 +2398,17 @@ extension DatabaseMigrationService {
 
         /// The number of milliseconds for AWS DMS to wait to retry a bulk-load of migrated graph data to the Neptune target database before raising an error. The default is 250.
         public let errorRetryDuration: Int?
-        /// If you want IAM authorization enabled for this endpoint, set this parameter to true and attach the appropriate role policy document to your service role specified by ServiceAccessRoleArn. The default is false.
+        /// If you want AWS Identity and Access Management (IAM) authorization enabled for this endpoint, set this parameter to true. Then attach the appropriate IAM policy document to your service role specified by ServiceAccessRoleArn. The default is false.
         public let iamAuthEnabled: Bool?
-        /// The maximum size in KB of migrated graph data stored in a CSV file before AWS DMS bulk-loads the data to the Neptune target database. The default is 1048576 KB. If successful, AWS DMS clears the bucket, ready to store the next batch of migrated graph data.
+        /// The maximum size in kilobytes of migrated graph data stored in a .csv file before AWS DMS bulk-loads the data to the Neptune target database. The default is 1,048,576 KB. If the bulk load is successful, AWS DMS clears the bucket, ready to store the next batch of migrated graph data.
         public let maxFileSize: Int?
-        /// The number of times for AWS DMS to retry a bulk-load of migrated graph data to the Neptune target database before raising an error. The default is 5.
+        /// The number of times for AWS DMS to retry a bulk load of migrated graph data to the Neptune target database before raising an error. The default is 5.
         public let maxRetryCount: Int?
-        /// A folder path where you where you want AWS DMS to store migrated graph data in the S3 bucket specified by S3BucketName 
+        /// A folder path where you want AWS DMS to store migrated graph data in the S3 bucket specified by S3BucketName 
         public let s3BucketFolder: String
-        /// The name of the S3 bucket for AWS DMS to temporarily store migrated graph data in CSV files before bulk-loading it to the Neptune target database. AWS DMS maps the SQL source data to graph data before storing it in these CSV files.
+        /// The name of the Amazon S3 bucket where AWS DMS can temporarily store migrated graph data in .csv files before bulk-loading it to the Neptune target database. AWS DMS maps the SQL source data to graph data before storing it in these .csv files.
         public let s3BucketName: String
-        /// The ARN of the service role you have created for the Neptune target endpoint. For more information, see https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole in the AWS Database Migration Service User Guide. 
+        /// The Amazon Resource Name (ARN) of the service role that you created for the Neptune target endpoint. For more information, see Creating an IAM Service Role for Accessing Amazon Neptune as a Target in the AWS Database Migration Service User Guide.  
         public let serviceAccessRoleArn: String?
 
         public init(errorRetryDuration: Int? = nil, iamAuthEnabled: Bool? = nil, maxFileSize: Int? = nil, maxRetryCount: Int? = nil, s3BucketFolder: String, s3BucketName: String, serviceAccessRoleArn: String? = nil) {
@@ -2448,7 +2448,7 @@ extension DatabaseMigrationService {
         public let minAllocatedStorage: Int?
         /// The value returned when the specified EngineVersion of the replication instance is in Beta or test mode. This indicates some features might not work as expected.  AWS DMS supports the ReleaseStatus parameter in versions 3.1.4 and later. 
         public let releaseStatus: ReleaseStatusValues?
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
         public let replicationInstanceClass: String?
         /// The type of storage used by the replication instance.
         public let storageType: String?
@@ -2786,7 +2786,7 @@ extension DatabaseMigrationService {
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone for the instance.
         public let availabilityZone: String?
-        /// The DNS name servers for the replication instance.
+        /// The DNS name servers supported for the replication instance to access your on-premise source or target database.
         public let dnsNameServers: String?
         /// The engine version number of the replication instance.
         public let engineVersion: String?
@@ -2806,15 +2806,15 @@ extension DatabaseMigrationService {
         public let publiclyAccessible: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
         public let replicationInstanceClass: String?
-        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
+        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String?
         /// One or more private IP addresses for the replication instance.
         public let replicationInstancePrivateIpAddresses: [String]?
         /// One or more public IP addresses for the replication instance.
         public let replicationInstancePublicIpAddresses: [String]?
-        /// The status of the replication instance.
+        /// The status of the replication instance. The possible return values include:    "available"     "creating"     "deleted"     "deleting"     "failed"     "modifying"     "upgrading"     "rebooting"     "resetting-master-credentials"     "storage-full"     "incompatible-credentials"     "incompatible-network"     "maintenance"   
         public let replicationInstanceStatus: String?
         /// The subnet group for the replication instance.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -2902,7 +2902,7 @@ extension DatabaseMigrationService {
         public let engineVersion: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
         public let replicationInstanceClass: String?
 
         public init(allocatedStorage: Int? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
@@ -2968,7 +2968,7 @@ extension DatabaseMigrationService {
         public let replicationTaskArn: String?
         /// The date the replication task was created.
         public let replicationTaskCreationDate: TimeStamp?
-        /// The user-assigned replication task identifier or name. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// The user-assigned replication task identifier or name. Constraints:   Must contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
@@ -2980,13 +2980,13 @@ extension DatabaseMigrationService {
         public let sourceEndpointArn: String?
         /// The status of the replication task.
         public let status: String?
-        /// The reason the replication task was stopped.
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "STOP_REASON_FULL_LOAD_COMPLETED" – Full-load migration completed.    "STOP_REASON_CACHED_CHANGES_APPLIED" – Change data capture (CDC) load completed.    "STOP_REASON_CACHED_CHANGES_NOT_APPLIED" – In a full-load and CDC migration, the full-load stopped as specified before starting the CDC migration.    "STOP_REASON_SERVER_TIME" – The migration stopped at the specified server time.  
         public let stopReason: String?
         /// Table mappings specified in the task.
         public let tableMappings: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String?
-        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration User Guide. 
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide. 
         public let taskData: String?
 
         public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, taskData: String? = nil) {
@@ -3364,7 +3364,7 @@ extension DatabaseMigrationService {
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", and "sqlserver".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
         public let engineName: String?
         /// The earliest AWS DMS engine version that supports this endpoint engine. Note that endpoint engines released with AWS DMS versions earlier than 3.1.1 do not return a value for this parameter.
         public let replicationInstanceEngineMinimumVersion: String?
@@ -3494,9 +3494,9 @@ extension DatabaseMigrationService {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
-        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
-        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -3546,7 +3546,7 @@ extension DatabaseMigrationService {
 
         /// The status of the VPC security group.
         public let status: String?
-        /// The VPC security group Id.
+        /// The VPC security group ID.
         public let vpcSecurityGroupId: String?
 
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {

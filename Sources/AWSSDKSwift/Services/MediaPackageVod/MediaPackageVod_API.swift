@@ -117,15 +117,23 @@ public struct MediaPackageVod {
         return client.execute(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Returns a list of the tags assigned to the specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Adds tags to the specified resource. You can specify one or more tags to add.
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Removes tags from the specified resource. You can specify one or more tags to remove.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
+    public func updatePackagingGroup(_ input: UpdatePackagingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePackagingGroupResponse> {
+        return client.execute(operation: "UpdatePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

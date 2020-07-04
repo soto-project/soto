@@ -622,11 +622,11 @@ extension DataExchange {
     public struct ExportServerSideEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
-        public let kmsKeyArn: String
+        public let kmsKeyArn: String?
         /// The type of server side encryption used for encrypting the objects in Amazon S3.
         public let `type`: ServerSideEncryptionTypes
 
-        public init(kmsKeyArn: String, type: ServerSideEncryptionTypes) {
+        public init(kmsKeyArn: String? = nil, type: ServerSideEncryptionTypes) {
             self.kmsKeyArn = kmsKeyArn
             self.`type` = `type`
         }

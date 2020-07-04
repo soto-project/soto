@@ -491,6 +491,31 @@ extension ElasticBeanstalk {
         }
     }
 
+    public struct AssociateEnvironmentOperationsRoleMessage: AWSEncodableShape {
+
+        /// The name of the environment to which to set the operations role.
+        public let environmentName: String
+        /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role.
+        public let operationsRole: String
+
+        public init(environmentName: String, operationsRole: String) {
+            self.environmentName = environmentName
+            self.operationsRole = operationsRole
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.environmentName, name: "environmentName", parent: name, max: 40)
+            try validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try validate(self.operationsRole, name: "operationsRole", parent: name, max: 256)
+            try validate(self.operationsRole, name: "operationsRole", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case operationsRole = "OperationsRole"
+        }
+    }
+
     public struct AutoScalingGroup: AWSDecodableShape {
 
         /// The name of the AutoScalingGroup . 
@@ -1029,13 +1054,15 @@ extension ElasticBeanstalk {
         public let environmentName: String?
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
+        /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+        public let operationsRole: String?
         /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
         @OptionalCoding<DefaultArrayCoder>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
         @OptionalCoding<DefaultArrayCoder>
         public var optionsToRemove: [OptionSpecification]?
-        /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName. 
+        /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName. 
         public let platformArn: String?
         /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName. 
         public let solutionStackName: String?
@@ -1049,12 +1076,13 @@ extension ElasticBeanstalk {
         /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
         public let versionLabel: String?
 
-        public init(applicationName: String, cNAMEPrefix: String? = nil, description: String? = nil, environmentName: String? = nil, groupName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, optionsToRemove: [OptionSpecification]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, tags: [Tag]? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String, cNAMEPrefix: String? = nil, description: String? = nil, environmentName: String? = nil, groupName: String? = nil, operationsRole: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, optionsToRemove: [OptionSpecification]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, tags: [Tag]? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.cNAMEPrefix = cNAMEPrefix
             self.description = description
             self.environmentName = environmentName
             self.groupName = groupName
+            self.operationsRole = operationsRole
             self.optionSettings = optionSettings
             self.optionsToRemove = optionsToRemove
             self.platformArn = platformArn
@@ -1075,6 +1103,8 @@ extension ElasticBeanstalk {
             try validate(self.environmentName, name: "environmentName", parent: name, min: 4)
             try validate(self.groupName, name: "groupName", parent: name, max: 19)
             try validate(self.groupName, name: "groupName", parent: name, min: 1)
+            try validate(self.operationsRole, name: "operationsRole", parent: name, max: 256)
+            try validate(self.operationsRole, name: "operationsRole", parent: name, min: 1)
             try self.optionSettings?.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
@@ -1096,6 +1126,7 @@ extension ElasticBeanstalk {
             case description = "Description"
             case environmentName = "EnvironmentName"
             case groupName = "GroupName"
+            case operationsRole = "OperationsRole"
             case optionSettings = "OptionSettings"
             case optionsToRemove = "OptionsToRemove"
             case platformArn = "PlatformArn"
@@ -1907,6 +1938,25 @@ extension ElasticBeanstalk {
         }
     }
 
+    public struct DisassociateEnvironmentOperationsRoleMessage: AWSEncodableShape {
+
+        /// The name of the environment from which to disassociate the operations role.
+        public let environmentName: String
+
+        public init(environmentName: String) {
+            self.environmentName = environmentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.environmentName, name: "environmentName", parent: name, max: 40)
+            try validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+        }
+    }
+
     public struct EnvironmentDescription: AWSDecodableShape {
 
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
@@ -1936,6 +1986,8 @@ extension ElasticBeanstalk {
         public let health: EnvironmentHealth?
         /// Returns the health status of the application running in your environment. For more information, see Health Colors and Statuses.
         public let healthStatus: EnvironmentHealthStatus?
+        /// The Amazon Resource Name (ARN) of the environment's operations role. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+        public let operationsRole: String?
         /// The ARN of the platform version.
         public let platformArn: String?
         /// The description of the AWS resources used by this environment.
@@ -1951,7 +2003,7 @@ extension ElasticBeanstalk {
         /// The application version deployed in this environment.
         public let versionLabel: String?
 
-        public init(abortableOperationInProgress: Bool? = nil, applicationName: String? = nil, cname: String? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, endpointURL: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentLinks: [EnvironmentLink]? = nil, environmentName: String? = nil, health: EnvironmentHealth? = nil, healthStatus: EnvironmentHealthStatus? = nil, platformArn: String? = nil, resources: EnvironmentResourcesDescription? = nil, solutionStackName: String? = nil, status: EnvironmentStatus? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
+        public init(abortableOperationInProgress: Bool? = nil, applicationName: String? = nil, cname: String? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, endpointURL: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentLinks: [EnvironmentLink]? = nil, environmentName: String? = nil, health: EnvironmentHealth? = nil, healthStatus: EnvironmentHealthStatus? = nil, operationsRole: String? = nil, platformArn: String? = nil, resources: EnvironmentResourcesDescription? = nil, solutionStackName: String? = nil, status: EnvironmentStatus? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
             self.abortableOperationInProgress = abortableOperationInProgress
             self.applicationName = applicationName
             self.cname = cname
@@ -1965,6 +2017,7 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
             self.health = health
             self.healthStatus = healthStatus
+            self.operationsRole = operationsRole
             self.platformArn = platformArn
             self.resources = resources
             self.solutionStackName = solutionStackName
@@ -1988,6 +2041,7 @@ extension ElasticBeanstalk {
             case environmentName = "EnvironmentName"
             case health = "Health"
             case healthStatus = "HealthStatus"
+            case operationsRole = "OperationsRole"
             case platformArn = "PlatformArn"
             case resources = "Resources"
             case solutionStackName = "SolutionStackName"
@@ -3662,10 +3716,10 @@ extension ElasticBeanstalk {
 
         /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.
         public let resourceArn: String
-        /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.
+        /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
         @OptionalCoding<DefaultArrayCoder>
         public var tagsToAdd: [Tag]?
-        /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored.
+        /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
         @OptionalCoding<DefaultArrayCoder>
         public var tagsToRemove: [String]?
 

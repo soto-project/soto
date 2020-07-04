@@ -122,20 +122,26 @@ extension DLM {
 
     public struct CreateRule: AWSEncodableShape & AWSDecodableShape {
 
+        /// The schedule, as a Cron expression. The schedule interval must be between 1 hour and 1 year. For more information, see Cron expressions in the Amazon CloudWatch User Guide.
+        public let cronExpression: String?
         /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and 24.
-        public let interval: Int
+        public let interval: Int?
         /// The interval unit.
-        public let intervalUnit: IntervalUnitValues
-        /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time.
+        public let intervalUnit: IntervalUnitValues?
+        /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time. If you do not specify a time, Amazon DLM selects a time within the next 24 hours.
         public let times: [String]?
 
-        public init(interval: Int, intervalUnit: IntervalUnitValues, times: [String]? = nil) {
+        public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, times: [String]? = nil) {
+            self.cronExpression = cronExpression
             self.interval = interval
             self.intervalUnit = intervalUnit
             self.times = times
         }
 
         public func validate(name: String) throws {
+            try validate(self.cronExpression, name: "cronExpression", parent: name, max: 106)
+            try validate(self.cronExpression, name: "cronExpression", parent: name, min: 17)
+            try validate(self.cronExpression, name: "cronExpression", parent: name, pattern: "cron\\([^\\n]{11,100}\\)")
             try validate(self.interval, name: "interval", parent: name, min: 1)
             try self.times?.forEach {
                 try validate($0, name: "times[]", parent: name, max: 5)
@@ -146,6 +152,7 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cronExpression = "CronExpression"
             case interval = "Interval"
             case intervalUnit = "IntervalUnit"
             case times = "Times"
@@ -519,7 +526,7 @@ extension DLM {
         public let parameters: Parameters?
         /// The valid target resource types and actions a policy can manage. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
-        /// The resource type.
+        /// The resource type. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance.
         public let resourceTypes: [ResourceTypeValues]?
         /// The schedule of policy-defined actions.
         public let schedules: [Schedule]?
@@ -624,7 +631,7 @@ extension DLM {
             try validate(self.crossRegionCopyRules, name: "crossRegionCopyRules", parent: name, max: 3)
             try validate(self.crossRegionCopyRules, name: "crossRegionCopyRules", parent: name, min: 0)
             try self.fastRestoreRule?.validate(name: "\(name).fastRestoreRule")
-            try validate(self.name, name: "name", parent: name, max: 500)
+            try validate(self.name, name: "name", parent: name, max: 120)
             try validate(self.name, name: "name", parent: name, min: 0)
             try validate(self.name, name: "name", parent: name, pattern: "[\\p{all}]*")
             try self.retainRule?.validate(name: "\(name).retainRule")

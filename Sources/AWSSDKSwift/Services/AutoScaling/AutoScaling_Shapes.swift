@@ -20,6 +20,16 @@ import Foundation
 extension AutoScaling {
     //MARK: Enums
 
+    public enum InstanceRefreshStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case successful = "Successful"
+        case failed = "Failed"
+        case cancelling = "Cancelling"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LifecycleState: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case pendingWait = "Pending:Wait"
@@ -51,6 +61,11 @@ extension AutoScaling {
         case asgaveragenetworkin = "ASGAverageNetworkIn"
         case asgaveragenetworkout = "ASGAverageNetworkOut"
         case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshStrategy: String, CustomStringConvertible, Codable {
+        case rolling = "Rolling"
         public var description: String { return self.rawValue }
     }
 
@@ -304,7 +319,7 @@ extension AutoScaling {
         public var availabilityZones: [String]
         /// The date and time the group was created.
         public let createdTime: TimeStamp
-        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.
+        /// The duration of the default cooldown period, in seconds.
         public let defaultCooldown: Int
         /// The desired size of the group.
         public let desiredCapacity: Int
@@ -325,7 +340,7 @@ extension AutoScaling {
         /// One or more load balancers associated with the group.
         @OptionalCoding<DefaultArrayCoder>
         public var loadBalancerNames: [String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 604800.
+        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 0.
         public let maxInstanceLifetime: Int?
         /// The maximum size of the group.
         public let maxSize: Int
@@ -339,7 +354,7 @@ extension AutoScaling {
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
         public let serviceLinkedRoleARN: String?
-        /// The current state of the group when DeleteAutoScalingGroup is in progress.
+        /// The current state of the group when the DeleteAutoScalingGroup operation is in progress.
         public let status: String?
         /// The suspended processes associated with the group.
         @OptionalCoding<DefaultArrayCoder>
@@ -627,11 +642,11 @@ extension AutoScaling {
 
         /// The device name exposed to the EC2 instance (for example, /dev/sdh or xvdh). For more information, see Device Naming on Linux Instances in the Amazon EC2 User Guide for Linux Instances.
         public let deviceName: String
-        /// The information about the Amazon EBS volume.
+        /// Parameters used to automatically set up EBS volumes when an instance is launched. You can specify either VirtualName or Ebs, but not both.
         public let ebs: Ebs?
-        /// Suppresses a device mapping. If this parameter is true for the root device, the instance might fail the EC2 health check. In that case, Amazon EC2 Auto Scaling launches a replacement instance.
+        /// Setting this value to true suppresses the specified device included in the block device mapping of the AMI. If NoDevice is true for the root device, instances might fail the EC2 health check. In that case, Amazon EC2 Auto Scaling launches replacement instances. If you specify NoDevice, you cannot specify Ebs.
         public let noDevice: Bool?
-        /// The name of the virtual device (for example, ephemeral0).
+        /// The name of the virtual device (for example, ephemeral0). You can specify either VirtualName or Ebs, but not both.
         public let virtualName: String?
 
         public init(deviceName: String, ebs: Ebs? = nil, noDevice: Bool? = nil, virtualName: String? = nil) {
@@ -656,6 +671,40 @@ extension AutoScaling {
             case ebs = "Ebs"
             case noDevice = "NoDevice"
             case virtualName = "VirtualName"
+        }
+    }
+
+    public struct CancelInstanceRefreshAnswer: AWSDecodableShape {
+
+        /// The instance refresh ID.
+        public let instanceRefreshId: String?
+
+        public init(instanceRefreshId: String? = nil) {
+            self.instanceRefreshId = instanceRefreshId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceRefreshId = "InstanceRefreshId"
+        }
+    }
+
+    public struct CancelInstanceRefreshType: AWSEncodableShape {
+
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String) {
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
@@ -718,19 +767,19 @@ extension AutoScaling {
         /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets for VPCZoneIdentifier. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into EC2-Classic.
         @OptionalCoding<DefaultArrayCoder>
         public var availabilityZones: [String]?
-        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. This setting applies when using simple scaling policies, but not when using other scaling policies or scheduled scaling. For more information, see Scaling Cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
-        /// The number of Amazon EC2 instances that the Auto Scaling group attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
+        /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure automatic scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default value is 0. For more information, see Health Check Grace Period in the Amazon EC2 Auto Scaling User Guide. Conditional: This parameter is required if you are adding an ELB health check.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default value is 0. For more information, see Health Check Grace Period in the Amazon EC2 Auto Scaling User Guide. Required if you are adding an ELB health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. The default value is EC2. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks. For more information, see Health Checks for Auto Scaling Instances in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckType: String?
-        /// The ID of the instance used to create a launch configuration for the group. When you specify an ID of an instance, Amazon EC2 Auto Scaling creates a new launch configuration and associates it with the group. This launch configuration derives its attributes from the specified instance, except for the block device mapping. For more information, see Create an Auto Scaling Group Using an EC2 Instance in the Amazon EC2 Auto Scaling User Guide. You must specify one of the following parameters in your request: LaunchConfigurationName, LaunchTemplate, InstanceId, or MixedInstancesPolicy.
+        /// The ID of the instance used to create a launch configuration for the group. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. When you specify an ID of an instance, Amazon EC2 Auto Scaling creates a new launch configuration and associates it with the group. This launch configuration derives its attributes from the specified instance, except for the block device mapping. You must specify one of the following parameters in your request: LaunchConfigurationName, LaunchTemplate, InstanceId, or MixedInstancesPolicy.
         public let instanceId: String?
-        /// The name of the launch configuration. If you do not specify LaunchConfigurationName, you must specify one of the following parameters: InstanceId, LaunchTemplate, or MixedInstancesPolicy.
+        /// The name of the launch configuration to use when an instance is launched. To get the launch configuration name, use the DescribeLaunchConfigurations API operation. New launch configurations can be created with the CreateLaunchConfiguration API. You must specify one of the following parameters in your request: LaunchConfigurationName, LaunchTemplate, InstanceId, or MixedInstancesPolicy.
         public let launchConfigurationName: String?
-        /// The launch template to use to launch instances. For more information, see LaunchTemplateSpecification in the Amazon EC2 Auto Scaling API Reference. If you do not specify LaunchTemplate, you must specify one of the following parameters: InstanceId, LaunchConfigurationName, or MixedInstancesPolicy.
+        /// Parameters used to specify the launch template and version to use when an instance is launched. For more information, see LaunchTemplateSpecification in the Amazon EC2 Auto Scaling API Reference. You can alternatively associate a launch template to the Auto Scaling group by using the MixedInstancesPolicy parameter. You must specify one of the following parameters in your request: LaunchConfigurationName, LaunchTemplate, InstanceId, or MixedInstancesPolicy.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more lifecycle hooks.
         @OptionalCoding<DefaultArrayCoder>
@@ -738,9 +787,9 @@ extension AutoScaling {
         /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers and Network Load Balancers, specify a list of target groups using the TargetGroupARNs property instead. For more information, see Using a Load Balancer with an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCoding<DefaultArrayCoder>
         public var loadBalancerNames: [String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 604800.
+        /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. This parameter is optional, but if you specify a value for it, you must specify a value of at least 604,800 seconds (7 days). To clear a previously set value, specify a new value of 0. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.
         public let maxInstanceLifetime: Int?
-        /// The maximum size of the group.
+        /// The maximum size of the group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your maximum instance weight (weights that define how many capacity units each instance contributes to the capacity of the group). 
         public let maxSize: Int
         /// The minimum size of the group.
         public let minSize: Int
@@ -752,7 +801,7 @@ extension AutoScaling {
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-Linked Roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
-        /// One or more tags. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
+        /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCoding<DefaultArrayCoder>
         public var tags: [Tag]?
         /// The Amazon Resource Names (ARN) of the target groups to associate with the Auto Scaling group. Instances are registered as targets in a target group, and traffic is routed to the target group. For more information, see Using a Load Balancer with an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
@@ -1302,6 +1351,64 @@ extension AutoScaling {
         }
     }
 
+    public struct DescribeInstanceRefreshesAnswer: AWSDecodableShape {
+
+        /// The instance refreshes for the specified group.
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceRefreshes: [InstanceRefresh]?
+        /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        public init(instanceRefreshes: [InstanceRefresh]? = nil, nextToken: String? = nil) {
+            self.instanceRefreshes = instanceRefreshes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceRefreshes = "InstanceRefreshes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInstanceRefreshesType: AWSEncodableShape {
+
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// One or more instance refresh IDs.
+        @OptionalCoding<DefaultArrayCoder>
+        public var instanceRefreshIds: [String]?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(autoScalingGroupName: String, instanceRefreshIds: [String]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.instanceRefreshIds = instanceRefreshIds
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.instanceRefreshIds?.forEach {
+                try validate($0, name: "instanceRefreshIds[]", parent: name, max: 255)
+                try validate($0, name: "instanceRefreshIds[]", parent: name, min: 1)
+                try validate($0, name: "instanceRefreshIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
+            try validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case instanceRefreshIds = "InstanceRefreshIds"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeLifecycleHookTypesAnswer: AWSDecodableShape {
 
         /// The lifecycle hook types.
@@ -1837,7 +1944,7 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// One or more of the following metrics. If you omit this parameter, all metrics are disabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        /// Specifies one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity    If you omit this parameter, all metrics are disabled. 
         @OptionalCoding<DefaultArrayCoder>
         public var metrics: [String]?
 
@@ -1869,11 +1976,11 @@ extension AutoScaling {
         public let deleteOnTermination: Bool?
         /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot specify an encryption value. Volumes that are created from encrypted snapshots are automatically encrypted, and volumes that are created from unencrypted snapshots are automatically unencrypted. By default, encrypted snapshots use the AWS managed CMK that is used for EBS encryption, but you can specify a custom CMK when you create the snapshot. The ability to encrypt a snapshot during copying also allows you to apply a new CMK to an already-encrypted snapshot. Volumes restored from the resulting copy are only accessible using the new CMK. Enabling encryption by default results in all EBS volumes being encrypted with the AWS managed CMK or a customer managed CMK, whether or not the snapshot was encrypted.  For more information, see Using Encryption with EBS-Backed AMIs in the Amazon EC2 User Guide for Linux Instances and Required CMK Key Policy for Use with Encrypted Volumes in the Amazon EC2 Auto Scaling User Guide.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) to provision for the volume. The maximum ratio of IOPS to volume size (in GiB) is 50:1. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Conditional: This parameter is required when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.) 
+        /// The number of I/O operations per second (IOPS) to provision for the volume. The maximum ratio of IOPS to volume size (in GiB) is 50:1. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Required when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.) 
         public let iops: Int?
-        /// The snapshot ID of the volume to use. Conditional: This parameter is optional if you specify a volume size. If you specify both SnapshotId and VolumeSize, VolumeSize must be equal or greater than the size of the snapshot.
+        /// The snapshot ID of the volume to use. You must specify either a VolumeSize or a SnapshotId.
         public let snapshotId: String?
-        /// The volume size, in Gibibytes (GiB). This can be a number from 1-1,024 for standard, 4-16,384 for io1, 1-16,384 for gp2, and 500-16,384 for st1 and sc1. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you create a volume from a snapshot and you don't specify a volume size, the default is the snapshot size.  At least one of VolumeSize or SnapshotId is required. 
+        /// The volume size, in Gibibytes (GiB). This can be a number from 1-1,024 for standard, 4-16,384 for io1, 1-16,384 for gp2, and 500-16,384 for st1 and sc1. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you create a volume from a snapshot and you don't specify a volume size, the default is the snapshot size. You must specify either a VolumeSize or a SnapshotId. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
         public let volumeSize: Int?
         /// The volume type, which can be standard for Magnetic, io1 for Provisioned IOPS SSD, gp2 for General Purpose SSD, st1 for Throughput Optimized HDD, or sc1 for Cold HDD. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Valid Values: standard | io1 | gp2 | st1 | sc1 
         public let volumeType: String?
@@ -1915,7 +2022,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
         public let granularity: String
-        /// One or more of the following metrics. If you omit this parameter, all metrics are enabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        /// Specifies which group-level metrics to start collecting. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances    The instance weighting feature supports the following additional metrics:     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity    If you omit this parameter, all metrics are enabled. 
         @OptionalCoding<DefaultArrayCoder>
         public var metrics: [String]?
 
@@ -1950,7 +2057,7 @@ extension AutoScaling {
 
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity   
         public let metric: String?
 
         public init(granularity: String? = nil, metric: String? = nil) {
@@ -2017,11 +2124,11 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// The breach threshold for the alarm. Conditional: This parameter is required if the policy type is StepScaling and not supported otherwise.
+        /// The breach threshold for the alarm. Required if the policy type is StepScaling and not supported otherwise.
         public let breachThreshold: Double?
-        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before executing the policy. This parameter is not supported if the policy type is StepScaling or TargetTrackingScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before executing the policy. Valid only if the policy type is SimpleScaling. For more information, see Scaling Cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let honorCooldown: Bool?
-        /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. Conditional: This parameter is required if the policy type is StepScaling and not supported otherwise.
+        /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. Required if the policy type is StepScaling and not supported otherwise.
         public let metricValue: Double?
         /// The name or ARN of the policy.
         public let policyName: String
@@ -2121,9 +2228,9 @@ extension AutoScaling {
 
     public struct Filter: AWSEncodableShape {
 
-        /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
+        /// The name of the filter. The valid values are: auto-scaling-group, key, value, and propagate-at-launch.
         public let name: String?
-        /// The value of the filter.
+        /// One or more filter values. Filter values are case-sensitive.
         @OptionalCoding<DefaultArrayCoder>
         public var values: [String]?
 
@@ -2202,6 +2309,48 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct InstanceRefresh: AWSDecodableShape {
+
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+        /// The date and time at which the instance refresh ended.
+        public let endTime: TimeStamp?
+        /// The instance refresh ID.
+        public let instanceRefreshId: String?
+        /// The number of instances remaining to update before the instance refresh is complete.
+        public let instancesToUpdate: Int?
+        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
+        public let percentageComplete: Int?
+        /// The date and time at which the instance refresh began.
+        public let startTime: TimeStamp?
+        /// The current status for the instance refresh operation:    Pending - The request was created, but the operation has not started.    InProgress - The operation is in progress.    Successful - The operation completed successfully.    Failed - The operation failed to complete. You can troubleshoot using the status reason and the scaling activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.     Cancelled - The operation is cancelled.   
+        public let status: InstanceRefreshStatus?
+        /// Provides more details about the current status of the instance refresh. 
+        public let statusReason: String?
+
+        public init(autoScalingGroupName: String? = nil, endTime: TimeStamp? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, startTime: TimeStamp? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.endTime = endTime
+            self.instanceRefreshId = instanceRefreshId
+            self.instancesToUpdate = instancesToUpdate
+            self.percentageComplete = percentageComplete
+            self.startTime = startTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case endTime = "EndTime"
+            case instanceRefreshId = "InstanceRefreshId"
+            case instancesToUpdate = "InstancesToUpdate"
+            case percentageComplete = "PercentageComplete"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -2410,7 +2559,7 @@ extension AutoScaling {
 
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
-        /// An optional setting. Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type. You can specify between 1 and 20 instance types.
+        /// Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type. You can specify between 1 and 20 instance types. If not provided, Amazon EC2 Auto Scaling will use the instance type specified in the launch template to launch instances. 
         @OptionalCoding<DefaultArrayCoder>
         public var overrides: [LaunchTemplateOverrides]?
 
@@ -2434,7 +2583,7 @@ extension AutoScaling {
 
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
 
-        /// The instance type. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
+        /// The instance type. You must use an instance type that is supported in your requested Region and Availability Zones.  For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
         public let instanceType: String?
         /// The number of capacity units, which gives the instance type a proportional weight to other instance types. For example, larger instance types are generally weighted more than smaller instance types. These are the same units that you chose to set the desired capacity in terms of instances, or a performance attribute such as vCPUs, memory, or I/O. For more information, see Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 1. Maximum value of 999.
         public let weightedCapacity: String?
@@ -2461,11 +2610,11 @@ extension AutoScaling {
 
     public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ID of the launch template. You must specify either a template ID or a template name.
+        /// The ID of the launch template. To get the template ID, use the Amazon EC2 DescribeLaunchTemplates API operation. New launch templates can be created using the Amazon EC2 CreateLaunchTemplate API. You must specify either a template ID or a template name.
         public let launchTemplateId: String?
-        /// The name of the launch template. You must specify either a template name or a template ID.
+        /// The name of the launch template. To get the template name, use the Amazon EC2 DescribeLaunchTemplates API operation. New launch templates can be created using the Amazon EC2 CreateLaunchTemplate API. You must specify either a template ID or a template name.
         public let launchTemplateName: String?
-        /// The version number, $Latest, or $Default. If the value is $Latest, Amazon EC2 Auto Scaling selects the latest version of the launch template when launching instances. If the value is $Default, Amazon EC2 Auto Scaling selects the default version of the launch template when launching instances. The default value is $Default.
+        /// The version number, $Latest, or $Default. To get the version number, use the Amazon EC2 DescribeLaunchTemplateVersions API operation. New launch template versions can be created using the Amazon EC2 CreateLaunchTemplateVersion API. If the value is $Latest, Amazon EC2 Auto Scaling selects the latest version of the launch template when launching instances. If the value is $Default, Amazon EC2 Auto Scaling selects the default version of the launch template when launching instances. The default value is $Default.
         public let version: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
@@ -2678,7 +2827,7 @@ extension AutoScaling {
 
         /// The instances distribution to use. If you leave this parameter unspecified, the value for each parameter in InstancesDistribution uses a default value.
         public let instancesDistribution: InstancesDistribution?
-        /// The launch template and instance types (overrides). This parameter must be specified when creating a mixed instances policy.
+        /// The launch template and instance types (overrides). Required when creating a mixed instances policy.
         public let launchTemplate: LaunchTemplate?
 
         public init(instancesDistribution: InstancesDistribution? = nil, launchTemplate: LaunchTemplate? = nil) {
@@ -2761,7 +2910,7 @@ extension AutoScaling {
 
         /// The metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.  
         public let predefinedMetricType: MetricType
-        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Auto Scaling group. The format is app/load-balancer-name/load-balancer-id/targetgroup/target-group-name/target-group-id , where     app/load-balancer-name/load-balancer-id  is the final portion of the load balancer ARN, and    targetgroup/target-group-name/target-group-id  is the final portion of the target group ARN.  
+        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Auto Scaling group. Elastic Load Balancing sends data about your load balancers to Amazon CloudWatch. CloudWatch collects the data and specifies the format to use to access the data. The format is app/load-balancer-name/load-balancer-id/targetgroup/target-group-name/target-group-id , where     app/load-balancer-name/load-balancer-id  is the final portion of the load balancer ARN, and    targetgroup/target-group-name/target-group-id  is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
@@ -2783,7 +2932,7 @@ extension AutoScaling {
 
     public struct ProcessType: AWSDecodableShape {
 
-        /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
+        /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions   
         public let processName: String
 
         public init(processName: String) {
@@ -2824,17 +2973,17 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be either CONTINUE or ABANDON. The default value is ABANDON.
         public let defaultResult: String?
-        /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. The range is from 30 to 7200 seconds. The default value is 3600 seconds (1 hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that you specified in the DefaultResult parameter. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
+        /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. The range is from 30 to 7200 seconds. The default value is 3600 seconds (1 hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that you specified in the DefaultResult parameter. You can prevent the lifecycle hook from timing out by calling the RecordLifecycleActionHeartbeat API.
         public let heartbeatTimeout: Int?
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
-        /// The instance state to which you want to attach the lifecycle hook. The valid values are:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING   Conditional: This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
+        /// The instance state to which you want to attach the lifecycle hook. The valid values are:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING   Required for new lifecycle hooks, but optional when updating existing hooks.
         public let lifecycleTransition: String?
         /// Additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target.
         public let notificationMetadata: String?
         /// The ARN of the notification target that Amazon EC2 Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This target can be either an SQS queue or an SNS topic. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key-value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the following additional key-value pair: "Event": "autoscaling:TEST_NOTIFICATION".
         public let notificationTargetARN: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue. Conditional: This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks.
         public let roleARN: String?
 
         public init(autoScalingGroupName: String, defaultResult: String? = nil, heartbeatTimeout: Int? = nil, lifecycleHookName: String, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
@@ -2882,7 +3031,7 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The type of event that causes the notification to be sent. For more information about notification types supported by Amazon EC2 Auto Scaling, see DescribeAutoScalingNotificationTypes.
+        /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the DescribeAutoScalingNotificationTypes API.
         @Coding<DefaultArrayCoder>
         public var notificationTypes: [String]
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
@@ -2917,32 +3066,32 @@ extension AutoScaling {
 
     public struct PutScalingPolicyType: AWSEncodableShape {
 
-        /// Specifies whether the ScalingAdjustment parameter is an absolute number or a percentage of the current capacity. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Valid only if the policy type is StepScaling or SimpleScaling. For more information, see Scaling Adjustment Types in the Amazon EC2 Auto Scaling User Guide.
+        /// Specifies how the scaling adjustment is interpreted (either an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For more information, see Scaling Adjustment Types in the Amazon EC2 Auto Scaling User Guide.
         public let adjustmentType: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start. If this parameter is not specified, the default cooldown period for the group applies. Valid only if the policy type is SimpleScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        /// The duration of the policy's cooldown period, in seconds. When a cooldown period is specified here, it overrides the default cooldown period defined for the Auto Scaling group. Valid only if the policy type is SimpleScaling. For more information, see Scaling Cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let cooldown: Int?
         /// Indicates whether the scaling policy is enabled or disabled. The default is enabled. For more information, see Disabling a Scaling Policy for an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
         public let enabled: Bool?
-        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. The default is to use the value specified for the default cooldown period for the group. Valid only if the policy type is StepScaling or TargetTrackingScaling.
+        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. If not provided, the default is to use the value from the default cooldown period for the Auto Scaling group. Valid only if the policy type is TargetTrackingScaling or StepScaling.
         public let estimatedInstanceWarmup: Int?
         /// The aggregation type for the CloudWatch metrics. The valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average. Valid only if the policy type is StepScaling.
         public let metricAggregationType: String?
-        /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError. This property replaces the MinAdjustmentStep property. For example, suppose that you create a step scaling policy to scale out an Auto Scaling group by 25 percent and you specify a MinAdjustmentMagnitude of 2. If the group has 4 instances and the scaling policy is performed, 25 percent of 4 is 1. However, because you specified a MinAdjustmentMagnitude of 2, Amazon EC2 Auto Scaling scales out the group by 2 instances. Valid only if the policy type is SimpleScaling or StepScaling.
+        /// The minimum value to scale by when the adjustment type is PercentChangeInCapacity. For example, suppose that you create a step scaling policy to scale out an Auto Scaling group by 25 percent and you specify a MinAdjustmentMagnitude of 2. If the group has 4 instances and the scaling policy is performed, 25 percent of 4 is 1. However, because you specified a MinAdjustmentMagnitude of 2, Amazon EC2 Auto Scaling scales out the group by 2 instances. Valid only if the policy type is StepScaling or SimpleScaling. For more information, see Scaling Adjustment Types in the Amazon EC2 Auto Scaling User Guide.  Some Auto Scaling groups use instance weights. In this case, set the MinAdjustmentMagnitude to a value that is at least as large as your largest instance weight. 
         public let minAdjustmentMagnitude: Int?
         /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
         public let minAdjustmentStep: Int?
         /// The name of the policy.
         public let policyName: String
-        /// The policy type. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling. If the policy type is null, the value is treated as SimpleScaling.
+        /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)  
         public let policyType: String?
-        /// The amount by which a simple scaling policy scales the Auto Scaling group in response to an alarm breach. The adjustment is based on the value that you specified in the AdjustmentType parameter (either an absolute number or a percentage). A positive value adds to the current capacity and a negative value subtracts from the current capacity. For exact capacity, you must specify a positive value. Conditional: If you specify SimpleScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value. Required if the policy type is SimpleScaling. (Not used with any other policy type.) 
         public let scalingAdjustment: Int?
-        /// A set of adjustments that enable you to scale based on the size of the alarm breach. Conditional: If you specify StepScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
+        /// A set of adjustments that enable you to scale based on the size of the alarm breach. Required if the policy type is StepScaling. (Not used with any other policy type.) 
         @OptionalCoding<DefaultArrayCoder>
         public var stepAdjustments: [StepAdjustment]?
-        /// A target tracking scaling policy. Includes support for predefined or customized metrics. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Conditional: If you specify TargetTrackingScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
+        /// A target tracking scaling policy. Includes support for predefined or customized metrics. The following predefined metrics are available:    ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut     ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
         public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyName: String, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
@@ -3001,13 +3150,13 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The number of EC2 instances that should be running in the Auto Scaling group.
+        /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain. It can scale beyond this capacity if you add more scaling conditions. 
         public let desiredCapacity: Int?
         /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
         public let endTime: TimeStamp?
-        /// The maximum number of instances in the Auto Scaling group.
+        /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
-        /// The minimum number of instances in the Auto Scaling group.
+        /// The minimum size of the Auto Scaling group.
         public let minSize: Int?
         /// The recurring schedule for this action, in Unix cron syntax format. This format consists of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month] [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example, "30 0 1 1,6,12 *"). For more information about this format, see Crontab. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action starts and stops.
         public let recurrence: String?
@@ -3103,16 +3252,40 @@ extension AutoScaling {
         }
     }
 
+    public struct RefreshPreferences: AWSEncodableShape {
+
+        /// The number of seconds until a newly launched instance is configured and ready to use. During this time, Amazon EC2 Auto Scaling does not immediately move on to the next replacement. The default is to use the value for the health check grace period defined for the group.
+        public let instanceWarmup: Int?
+        /// The amount of capacity in the Auto Scaling group that must remain healthy during an instance refresh to allow the operation to continue, as a percentage of the desired capacity of the Auto Scaling group (rounded up to the nearest integer). The default is 90. 
+        public let minHealthyPercentage: Int?
+
+        public init(instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil) {
+            self.instanceWarmup = instanceWarmup
+            self.minHealthyPercentage = minHealthyPercentage
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceWarmup, name: "instanceWarmup", parent: name, min: 0)
+            try validate(self.minHealthyPercentage, name: "minHealthyPercentage", parent: name, max: 100)
+            try validate(self.minHealthyPercentage, name: "minHealthyPercentage", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceWarmup = "InstanceWarmup"
+            case minHealthyPercentage = "MinHealthyPercentage"
+        }
+    }
+
     public struct ScalingPolicy: AWSDecodableShape {
 
-        /// The adjustment type, which specifies how ScalingAdjustment is interpreted. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
+        /// Specifies how the scaling adjustment is interpreted (either an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         /// The CloudWatch alarms related to the policy.
         @OptionalCoding<DefaultArrayCoder>
         public var alarms: [Alarm]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start.
+        /// The duration of the policy's cooldown period, in seconds.
         public let cooldown: Int?
         /// Indicates whether the policy is enabled (true) or disabled (false).
         public let enabled: Bool?
@@ -3120,7 +3293,7 @@ extension AutoScaling {
         public let estimatedInstanceWarmup: Int?
         /// The aggregation type for the CloudWatch metrics. The valid values are Minimum, Maximum, and Average.
         public let metricAggregationType: String?
-        /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError.
+        /// The minimum value to scale by when the adjustment type is PercentChangeInCapacity. 
         public let minAdjustmentMagnitude: Int?
         /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
         public let minAdjustmentStep: Int?
@@ -3128,7 +3301,7 @@ extension AutoScaling {
         public let policyARN: String?
         /// The name of the scaling policy.
         public let policyName: String?
-        /// The policy type. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling.
+        /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)   For more information, see Target Tracking Scaling Policies and Step and Simple Scaling Policies in the Amazon EC2 Auto Scaling User Guide.
         public let policyType: String?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public let scalingAdjustment: Int?
@@ -3179,7 +3352,7 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
+        /// One or more of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are specified.
         @OptionalCoding<DefaultArrayCoder>
         public var scalingProcesses: [String]?
 
@@ -3228,13 +3401,13 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// The number of instances you prefer to maintain in the group.
+        /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public let desiredCapacity: Int?
         /// The date and time in UTC for the recurring schedule to end. For example, "2019-06-01T00:00:00Z". 
         public let endTime: TimeStamp?
-        /// The maximum number of instances in the Auto Scaling group.
+        /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
-        /// The minimum number of instances in the Auto Scaling group.
+        /// The minimum size of the Auto Scaling group.
         public let minSize: Int?
         /// The recurring schedule for the action, in Unix cron syntax format. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action starts and stops.
         public let recurrence: String?
@@ -3276,13 +3449,13 @@ extension AutoScaling {
 
     public struct ScheduledUpdateGroupActionRequest: AWSEncodableShape {
 
-        /// The number of EC2 instances that should be running in the group.
+        /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public let desiredCapacity: Int?
         /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
         public let endTime: TimeStamp?
-        /// The maximum number of instances in the Auto Scaling group.
+        /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
-        /// The minimum number of instances in the Auto Scaling group.
+        /// The minimum size of the Auto Scaling group.
         public let minSize: Int?
         /// The recurring schedule for the action, in Unix cron syntax format. This format consists of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month] [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example, "30 0 1 1,6,12 *"). For more information about this format, see Crontab. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action starts and stops.
         public let recurrence: String?
@@ -3325,7 +3498,7 @@ extension AutoScaling {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The number of EC2 instances that should be running in the Auto Scaling group.
+        /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain.
         public let desiredCapacity: Int
         /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during manual scaling activities.
         public let honorCooldown: Bool?
@@ -3355,7 +3528,7 @@ extension AutoScaling {
         public let healthStatus: String
         /// The ID of the instance.
         public let instanceId: String
-        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup.
+        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup in the Amazon EC2 Auto Scaling API Reference.
         public let shouldRespectGracePeriod: Bool?
 
         public init(healthStatus: String, instanceId: String, shouldRespectGracePeriod: Bool? = nil) {
@@ -3419,6 +3592,49 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case instanceIds = "InstanceIds"
             case protectedFromScaleIn = "ProtectedFromScaleIn"
+        }
+    }
+
+    public struct StartInstanceRefreshAnswer: AWSDecodableShape {
+
+        /// A unique ID for tracking the progress of the request.
+        public let instanceRefreshId: String?
+
+        public init(instanceRefreshId: String? = nil) {
+            self.instanceRefreshId = instanceRefreshId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceRefreshId = "InstanceRefreshId"
+        }
+    }
+
+    public struct StartInstanceRefreshType: AWSEncodableShape {
+
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// Set of preferences associated with the instance refresh request. If not provided, the default values are used. For MinHealthyPercentage, the default value is 90. For InstanceWarmup, the default is to use the value specified for the health check grace period for the Auto Scaling group. For more information, see RefreshPreferences in the Amazon EC2 Auto Scaling API Reference.
+        public let preferences: RefreshPreferences?
+        /// The strategy to use for the instance refresh. The only valid value is Rolling. A rolling update is an update that is applied to all instances in an Auto Scaling group until all instances have been updated. A rolling update can fail due to failed health checks or if instances are on standby or are protected from scale in. If the rolling update process fails, any instances that were already replaced are not rolled back to their previous configuration. 
+        public let strategy: RefreshStrategy?
+
+        public init(autoScalingGroupName: String, preferences: RefreshPreferences? = nil, strategy: RefreshStrategy? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.preferences = preferences
+            self.strategy = strategy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.preferences?.validate(name: "\(name).preferences")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case preferences = "Preferences"
+            case strategy = "Strategy"
         }
     }
 
@@ -3613,11 +3829,11 @@ extension AutoScaling {
         /// One or more Availability Zones for the group.
         @OptionalCoding<DefaultArrayCoder>
         public var availabilityZones: [String]?
-        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. This cooldown period is not used when a scaling-specific cooldown is specified. Cooldown periods are not supported for target tracking scaling policies, step scaling policies, or scheduled scaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. This setting applies when using simple scaling policies, but not when using other scaling policies or scheduled scaling. For more information, see Scaling Cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
-        /// The number of EC2 instances that should be running in the Auto Scaling group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
+        /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
         public let desiredCapacity: Int?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. The default value is 0. For more information, see Health Check Grace Period in the Amazon EC2 Auto Scaling User Guide. Conditional: This parameter is required if you are adding an ELB health check.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. The default value is 0. For more information, see Health Check Grace Period in the Amazon EC2 Auto Scaling User Guide. Required if you are adding an ELB health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
         public let healthCheckType: String?
@@ -3625,9 +3841,9 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template and version to use to specify the updates. If you specify LaunchTemplate in your update request, you can't specify LaunchConfigurationName or MixedInstancesPolicy. For more information, see LaunchTemplateSpecification in the Amazon EC2 Auto Scaling API Reference.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The maximum amount of time, in seconds, that an instance can be in service. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 604800.
+        /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. This parameter is optional, but if you specify a value for it, you must specify a value of at least 604,800 seconds (7 days). To clear a previously set value, specify a new value of 0. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.
         public let maxInstanceLifetime: Int?
-        /// The maximum size of the Auto Scaling group.
+        /// The maximum size of the Auto Scaling group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your maximum instance weight (weights that define how many capacity units each instance contributes to the capacity of the group). 
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
         public let minSize: Int?

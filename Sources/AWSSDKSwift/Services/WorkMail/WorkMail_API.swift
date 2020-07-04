@@ -113,6 +113,11 @@ public struct WorkMail {
         return client.execute(operation: "DeleteResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Deletes the specified retention policy from the specified organization.
+    public func deleteRetentionPolicy(_ input: DeleteRetentionPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRetentionPolicyResponse> {
+        return client.execute(operation: "DeleteRetentionPolicy", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Deletes a user from Amazon WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the DescribeUser action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
     public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResponse> {
         return client.execute(operation: "DeleteUser", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -156,6 +161,11 @@ public struct WorkMail {
     ///  Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, or user ID. 
     public func getAccessControlEffect(_ input: GetAccessControlEffectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessControlEffectResponse> {
         return client.execute(operation: "GetAccessControlEffect", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Gets the default retention policy details for the specified organization.
+    public func getDefaultRetentionPolicy(_ input: GetDefaultRetentionPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDefaultRetentionPolicyResponse> {
+        return client.execute(operation: "GetDefaultRetentionPolicy", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Requests a user's mailbox details for a specified organization and user.
@@ -221,6 +231,11 @@ public struct WorkMail {
     ///  Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
     public func putMailboxPermissions(_ input: PutMailboxPermissionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutMailboxPermissionsResponse> {
         return client.execute(operation: "PutMailboxPermissions", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Puts a retention policy to the specified organization.
+    public func putRetentionPolicy(_ input: PutRetentionPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRetentionPolicyResponse> {
+        return client.execute(operation: "PutRetentionPolicy", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Registers an existing and disabled user, group, or resource for Amazon WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see Pricing. The equivalent console functionality for this operation is Enable.  Users can either be created by calling the CreateUser API operation or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.

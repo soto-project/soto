@@ -80,7 +80,7 @@ extension AutoScaling {
         return client.paginate(input: input, command: describeScalingActivities, tokenKey: \ActivitiesType.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the actions scheduled for your Auto Scaling group that haven't run or that have not reached their end time. To describe the actions that have already run, use DescribeScalingActivities.
+    ///  Describes the actions scheduled for your Auto Scaling group that haven't run or that have not reached their end time. To describe the actions that have already run, call the DescribeScalingActivities API.
     public func describeScheduledActionsPaginator(
         _ input: DescribeScheduledActionsType,
         on eventLoop: EventLoop? = nil,
@@ -90,7 +90,7 @@ extension AutoScaling {
         return client.paginate(input: input, command: describeScheduledActions, tokenKey: \ScheduledActionsType.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multiple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned.
+    ///  Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multiple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
     public func describeTagsPaginator(
         _ input: DescribeTagsType,
         on eventLoop: EventLoop? = nil,

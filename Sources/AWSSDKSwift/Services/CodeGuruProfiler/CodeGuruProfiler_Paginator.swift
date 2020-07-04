@@ -20,7 +20,27 @@ import NIO
 
 extension CodeGuruProfiler {
 
-    ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
+    ///   Returns a list of  FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account. 
+    public func getFindingsReportAccountSummaryPaginator(
+        _ input: GetFindingsReportAccountSummaryRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetFindingsReportAccountSummaryResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getFindingsReportAccountSummary, tokenKey: \GetFindingsReportAccountSummaryResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  List the available reports for a given profiling group and time range.
+    public func listFindingsReportsPaginator(
+        _ input: ListFindingsReportsRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFindingsReportsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFindingsReports, tokenKey: \ListFindingsReportsResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
     public func listProfileTimesPaginator(
         _ input: ListProfileTimesRequest,
         on eventLoop: EventLoop? = nil,
@@ -30,7 +50,7 @@ extension CodeGuruProfiler {
         return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists profiling groups.
+    ///   Returns a list of profiling groups. The profiling groups are returned as  ProfilingGroupDescription  objects. 
     public func listProfilingGroupsPaginator(
         _ input: ListProfilingGroupsRequest,
         on eventLoop: EventLoop? = nil,
@@ -40,6 +60,31 @@ extension CodeGuruProfiler {
         return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+}
+
+extension CodeGuruProfiler.GetFindingsReportAccountSummaryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.GetFindingsReportAccountSummaryRequest {
+        return .init(
+            dailyReportsOnly: self.dailyReportsOnly,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
+extension CodeGuruProfiler.ListFindingsReportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListFindingsReportsRequest {
+        return .init(
+            dailyReportsOnly: self.dailyReportsOnly,
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            profilingGroupName: self.profilingGroupName,
+            startTime: self.startTime
+        )
+
+    }
 }
 
 extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateToken {

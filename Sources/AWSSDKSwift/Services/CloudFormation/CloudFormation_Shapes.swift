@@ -224,6 +224,21 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum StackInstanceDetailedStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case cancelled = "CANCELLED"
+        case inoperable = "INOPERABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackInstanceFilterName: String, CustomStringConvertible, Codable {
+        case detailedStatus = "DETAILED_STATUS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
         case current = "CURRENT"
         case outdated = "OUTDATED"
@@ -2360,6 +2375,9 @@ extension CloudFormation {
 
     public struct ListStackInstancesInput: AWSEncodableShape {
 
+        /// The status that stack instances are filtered by.
+        @OptionalCoding<DefaultArrayCoder>
+        public var filters: [StackInstanceFilter]?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous request didn't return all of the remaining results, the response's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2371,7 +2389,8 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to list stack instances for.
         public let stackSetName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String) {
+        public init(filters: [StackInstanceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stackInstanceAccount = stackInstanceAccount
@@ -2380,6 +2399,10 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.filters, name: "filters", parent: name, max: 1)
             try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -2389,6 +2412,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case stackInstanceAccount = "StackInstanceAccount"
@@ -3071,7 +3095,7 @@ extension CloudFormation {
 
         /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of a type from the same registeration request, even if the request is submitted multiple times. 
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the IAM execution role to use to register the type. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your resource type with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the resource provider. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource provider handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource provider handler, thereby supplying your resource provider with the appropriate credentials.
         public let executionRoleArn: String?
         /// Specifies logging configuration information for a type.
         public let loggingConfig: LoggingConfig?
@@ -3249,7 +3273,7 @@ extension CloudFormation {
         /// A key-value pair that identifies the target resource. The key is an identifier property (for example, BucketName for AWS::S3::Bucket resources) and the value is the actual property value (for example, MyS3Bucket).
         @Coding<DefaultDictionaryCoder>
         public var resourceIdentifier: [String: String]
-        /// The type of resource to import into your stack, such as AWS::S3::Bucket. 
+        /// The type of resource to import into your stack, such as AWS::S3::Bucket. For a list of supported resource types, see Resources that support import operations in the AWS CloudFormation User Guide.
         public let resourceType: String
 
         public init(logicalResourceId: String, resourceIdentifier: [String: String], resourceType: String) {
@@ -3627,7 +3651,7 @@ extension CloudFormation {
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection has not yet been performed.
         public let lastDriftCheckTimestamp: TimeStamp?
-        /// Reserved for internal use. No data returned.
+        /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// A list of parameters from the stack set template whose values have been overridden in this stack instance.
         @OptionalCoding<DefaultArrayCoder>
@@ -3636,6 +3660,8 @@ extension CloudFormation {
         public let region: String?
         /// The ID of the stack instance.
         public let stackId: String?
+        /// The detailed status of the stack instance.
+        public let stackInstanceStatus: StackInstanceComprehensiveStatus?
         /// The name or unique ID of the stack set that the stack instance is associated with.
         public let stackSetId: String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.    INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.    OUTDATED: The stack isn't currently up to date with the stack set because:   The associated stack failed during a CreateStackSet or UpdateStackSet operation.    The stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.       CURRENT: The stack is currently up to date with the stack set.  
@@ -3643,7 +3669,7 @@ extension CloudFormation {
         /// The explanation for the specific status code that is assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
@@ -3651,6 +3677,7 @@ extension CloudFormation {
             self.parameterOverrides = parameterOverrides
             self.region = region
             self.stackId = stackId
+            self.stackInstanceStatus = stackInstanceStatus
             self.stackSetId = stackSetId
             self.status = status
             self.statusReason = statusReason
@@ -3664,9 +3691,47 @@ extension CloudFormation {
             case parameterOverrides = "ParameterOverrides"
             case region = "Region"
             case stackId = "StackId"
+            case stackInstanceStatus = "StackInstanceStatus"
             case stackSetId = "StackSetId"
             case status = "Status"
             case statusReason = "StatusReason"
+        }
+    }
+
+    public struct StackInstanceComprehensiveStatus: AWSDecodableShape {
+
+        ///    CANCELLED: The operation in the specified account and Region has been cancelled. This is either because a user has stopped the stack set operation, or because the failure tolerance of the stack set operation has been exceeded.    FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.    INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.    PENDING: The operation in the specified account and Region has yet to start.    RUNNING: The operation in the specified account and Region is currently in progress.    SUCCEEDED: The operation in the specified account and Region completed successfully.  
+        public let detailedStatus: StackInstanceDetailedStatus?
+
+        public init(detailedStatus: StackInstanceDetailedStatus? = nil) {
+            self.detailedStatus = detailedStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailedStatus = "DetailedStatus"
+        }
+    }
+
+    public struct StackInstanceFilter: AWSEncodableShape {
+
+        /// The type of filter to apply.
+        public let name: StackInstanceFilterName?
+        /// The status to filter by.
+        public let values: String?
+
+        public init(name: StackInstanceFilterName? = nil, values: String? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.values, name: "values", parent: name, max: 10)
+            try validate(self.values, name: "values", parent: name, min: 6)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
         }
     }
 
@@ -3678,12 +3743,14 @@ extension CloudFormation {
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection has not yet been performed.
         public let lastDriftCheckTimestamp: TimeStamp?
-        /// Reserved for internal use. No data returned.
+        /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// The name of the AWS Region that the stack instance is associated with.
         public let region: String?
         /// The ID of the stack instance.
         public let stackId: String?
+        /// The detailed status of the stack instance.
+        public let stackInstanceStatus: StackInstanceComprehensiveStatus?
         /// The name or unique ID of the stack set that the stack instance is associated with.
         public let stackSetId: String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.    INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.    OUTDATED: The stack isn't currently up to date with the stack set because:   The associated stack failed during a CreateStackSet or UpdateStackSet operation.    The stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.       CURRENT: The stack is currently up to date with the stack set.  
@@ -3691,13 +3758,14 @@ extension CloudFormation {
         /// The explanation for the specific status code assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
             self.organizationalUnitId = organizationalUnitId
             self.region = region
             self.stackId = stackId
+            self.stackInstanceStatus = stackInstanceStatus
             self.stackSetId = stackSetId
             self.status = status
             self.statusReason = statusReason
@@ -3710,6 +3778,7 @@ extension CloudFormation {
             case organizationalUnitId = "OrganizationalUnitId"
             case region = "Region"
             case stackId = "StackId"
+            case stackInstanceStatus = "StackInstanceStatus"
             case stackSetId = "StackSetId"
             case status = "Status"
             case statusReason = "StatusReason"
@@ -3959,7 +4028,7 @@ extension CloudFormation {
         public let description: String?
         /// The name of the IAM execution role used to create or update the stack set.  Use customized execution roles to control which stack resources users and groups can include in their stack sets. 
         public let executionRoleName: String?
-        /// Reserved for internal use. No data returned.
+        /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         @OptionalCoding<DefaultArrayCoder>
         public var organizationalUnitIds: [String]?
         /// A list of input parameters for a stack set.
@@ -4126,7 +4195,7 @@ extension CloudFormation {
         public let failureToleranceCount: Int?
         /// The percentage of accounts, per Region, for which this stack operation can fail before AWS CloudFormation stops the operation in that Region. If the operation is stopped in a Region, AWS CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both.
         public let failureTolerancePercentage: Int?
-        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of FailureToleranceCount—MaxConcurrentCount is at most one more than the FailureToleranceCount . Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
+        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of FailureToleranceCount. MaxConcurrentCount is at most one more than the FailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
         public let maxConcurrentCount: Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
         public let maxConcurrentPercentage: Int?
@@ -4169,7 +4238,7 @@ extension CloudFormation {
         public let account: String?
         /// The results of the account gate function AWS CloudFormation invokes, if present, before proceeding with stack set operations in an account
         public let accountGateResult: AccountGateResult?
-        /// Reserved for internal use. No data returned.
+        /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// The name of the AWS Region for this operation result.
         public let region: String?

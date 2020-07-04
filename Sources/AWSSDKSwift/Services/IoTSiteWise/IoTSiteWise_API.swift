@@ -112,7 +112,7 @@ public struct IoTSiteWise {
         return client.execute(operation: "CreateProject", path: "/projects", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Deletes an access policy that grants the specified AWS Single Sign-On identity access to the specified AWS IoT SiteWise Monitor resource. You can use this action to revoke access to an AWS IoT SiteWise Monitor resource.
+    ///  Deletes an access policy that grants the specified AWS Single Sign-On identity access to the specified AWS IoT SiteWise Monitor resource. You can use this operation to revoke access to an AWS IoT SiteWise Monitor resource.
     public func deleteAccessPolicy(_ input: DeleteAccessPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccessPolicyResponse> {
         return client.execute(operation: "DeleteAccessPolicy", path: "/access-policies/{accessPolicyId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -292,7 +292,7 @@ public struct IoTSiteWise {
         return client.execute(operation: "UpdateAsset", path: "/assets/{assetId}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating Assets and Models in the AWS IoT SiteWise User Guide.  This action overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see DescribeAssetModel. If you remove a property from an asset model or update a property's formula expression, AWS IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, AWS IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property. 
+    ///  Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating Assets and Models in the AWS IoT SiteWise User Guide.  This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see DescribeAssetModel. If you remove a property from an asset model or update a property's formula expression, AWS IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, AWS IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property. 
     public func updateAssetModel(_ input: UpdateAssetModelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAssetModelResponse> {
         return client.execute(operation: "UpdateAssetModel", path: "/asset-models/{assetModelId}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

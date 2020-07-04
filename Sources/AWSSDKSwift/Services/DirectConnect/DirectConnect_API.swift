@@ -160,7 +160,7 @@ public struct DirectConnect {
         return client.execute(operation: "CreateLag", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a private virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different AWS Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region.
+    ///  Creates a private virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different AWS Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
     public func createPrivateVirtualInterface(_ input: CreatePrivateVirtualInterfaceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualInterface> {
         return client.execute(operation: "CreatePrivateVirtualInterface", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -170,7 +170,7 @@ public struct DirectConnect {
         return client.execute(operation: "CreatePublicVirtualInterface", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.  If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. 
+    ///  Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.  If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails.  Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
     public func createTransitVirtualInterface(_ input: CreateTransitVirtualInterfaceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitVirtualInterfaceResult> {
         return client.execute(operation: "CreateTransitVirtualInterface", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -303,6 +303,21 @@ public struct DirectConnect {
         return client.execute(operation: "DisassociateConnectionFromLag", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Lists the virtual interface failover test history.
+    public func listVirtualInterfaceTestHistory(_ input: ListVirtualInterfaceTestHistoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVirtualInterfaceTestHistoryResponse> {
+        return client.execute(operation: "ListVirtualInterfaceTestHistory", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use ListVirtualInterfaceTestHistory to view the virtual interface test history. If you need to stop the test before the test interval completes, use StopBgpFailoverTest.
+    public func startBgpFailoverTest(_ input: StartBgpFailoverTestRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartBgpFailoverTestResponse> {
+        return client.execute(operation: "StartBgpFailoverTest", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Stops the virtual interface failover test.
+    public func stopBgpFailoverTest(_ input: StopBgpFailoverTestRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopBgpFailoverTestResponse> {
+        return client.execute(operation: "StopBgpFailoverTest", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Adds the specified tags to the specified AWS Direct Connect resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return client.execute(operation: "TagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -323,7 +338,7 @@ public struct DirectConnect {
         return client.execute(operation: "UpdateLag", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
+    ///  Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual q interface supports jumbo frames, call DescribeVirtualInterfaces.
     public func updateVirtualInterfaceAttributes(_ input: UpdateVirtualInterfaceAttributesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualInterface> {
         return client.execute(operation: "UpdateVirtualInterfaceAttributes", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

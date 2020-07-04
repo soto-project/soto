@@ -150,6 +150,8 @@ extension Personalize {
         public let creationDateTime: TimeStamp?
         /// If the batch inference job failed, the reason for the failure.
         public let failureReason: String?
+        /// The ARN of the filter used on the batch inference job.
+        public let filterArn: String?
         /// The Amazon S3 path that leads to the input data used to generate the batch inference job.
         public let jobInput: BatchInferenceJobInput?
         /// The name of the batch inference job.
@@ -167,10 +169,11 @@ extension Personalize {
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
 
-        public init(batchInferenceJobArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: TimeStamp? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(batchInferenceJobArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: TimeStamp? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
+            self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
             self.jobOutput = jobOutput
@@ -185,6 +188,7 @@ extension Personalize {
             case batchInferenceJobArn = "batchInferenceJobArn"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
+            case filterArn = "filterArn"
             case jobInput = "jobInput"
             case jobName = "jobName"
             case jobOutput = "jobOutput"
@@ -439,6 +443,8 @@ extension Personalize {
 
     public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
 
+        /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.
+        public let filterArn: String?
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
         public let jobInput: BatchInferenceJobInput
         /// The name of the batch inference job to create.
@@ -452,7 +458,8 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations.
         public let solutionVersionArn: String
 
-        public init(jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+        public init(filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+            self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
             self.jobOutput = jobOutput
@@ -462,6 +469,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
+            try validate(self.filterArn, name: "filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.jobInput.validate(name: "\(name).jobInput")
             try validate(self.jobName, name: "jobName", parent: name, max: 63)
             try validate(self.jobName, name: "jobName", parent: name, min: 1)
@@ -474,6 +483,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
             case jobInput = "jobInput"
             case jobName = "jobName"
             case jobOutput = "jobOutput"
@@ -729,6 +739,52 @@ extension Personalize {
         private enum CodingKeys: String, CodingKey {
             case eventTrackerArn = "eventTrackerArn"
             case trackingId = "trackingId"
+        }
+    }
+
+    public struct CreateFilterRequest: AWSEncodableShape {
+
+        /// The ARN of the dataset group that the filter will belong to.
+        public let datasetGroupArn: String
+        /// The filter expression that designates the interaction types that the filter will filter out. A filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. To filter out all items with any interactions history, set "*" as the EVENT_TYPE. For more information, see Using Filters with Amazon Personalize.
+        public let filterExpression: String
+        /// The name of the filter to create.
+        public let name: String
+
+        public init(datasetGroupArn: String, filterExpression: String, name: String) {
+            self.datasetGroupArn = datasetGroupArn
+            self.filterExpression = filterExpression
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(self.filterExpression, name: "filterExpression", parent: name, max: 2500)
+            try validate(self.filterExpression, name: "filterExpression", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, max: 63)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn = "datasetGroupArn"
+            case filterExpression = "filterExpression"
+            case name = "name"
+        }
+    }
+
+    public struct CreateFilterResponse: AWSDecodableShape {
+
+        /// The ARN of the new filter.
+        public let filterArn: String?
+
+        public init(filterArn: String? = nil) {
+            self.filterArn = filterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
         }
     }
 
@@ -1350,6 +1406,25 @@ extension Personalize {
         }
     }
 
+    public struct DeleteFilterRequest: AWSEncodableShape {
+
+        /// The ARN of the filter to delete.
+        public let filterArn: String
+
+        public init(filterArn: String) {
+            self.filterArn = filterArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.filterArn, name: "filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
+        }
+    }
+
     public struct DeleteSchemaRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the schema to delete.
@@ -1652,6 +1727,39 @@ extension Personalize {
         }
     }
 
+    public struct DescribeFilterRequest: AWSEncodableShape {
+
+        /// The ARN of the filter to describe.
+        public let filterArn: String
+
+        public init(filterArn: String) {
+            self.filterArn = filterArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.filterArn, name: "filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
+        }
+    }
+
+    public struct DescribeFilterResponse: AWSDecodableShape {
+
+        /// The filter's details.
+        public let filter: Filter?
+
+        public init(filter: Filter? = nil) {
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+        }
+    }
+
     public struct DescribeRecipeRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the recipe to describe.
@@ -1884,6 +1992,86 @@ extension Personalize {
             case creationDateTime = "creationDateTime"
             case defaultParameters = "defaultParameters"
             case featureTransformationArn = "featureTransformationArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct Filter: AWSDecodableShape {
+
+        /// The time at which the filter was created.
+        public let creationDateTime: TimeStamp?
+        /// The ARN of the dataset group to which the filter belongs.
+        public let datasetGroupArn: String?
+        /// If the filter failed, the reason for its failure.
+        public let failureReason: String?
+        /// The ARN of the filter.
+        public let filterArn: String?
+        /// Specifies the type of item interactions to filter out of recommendation results. The filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. For more information, see Using Filters with Amazon Personalize.
+        public let filterExpression: String?
+        /// The time at which the filter was last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// The name of the filter.
+        public let name: String?
+        /// The status of the filter.
+        public let status: String?
+
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, filterArn: String? = nil, filterExpression: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.filterArn = filterArn
+            self.filterExpression = filterExpression
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case filterExpression = "filterExpression"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct FilterSummary: AWSDecodableShape {
+
+        /// The time at which the filter was created.
+        public let creationDateTime: TimeStamp?
+        /// The ARN of the dataset group to which the filter belongs.
+        public let datasetGroupArn: String?
+        /// If the filter failed, the reason for the failure.
+        public let failureReason: String?
+        /// The ARN of the filter.
+        public let filterArn: String?
+        /// The time at which the filter was last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// The name of the filter.
+        public let name: String?
+        /// The status of the filter.
+        public let status: String?
+
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, filterArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.filterArn = filterArn
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case name = "name"
             case status = "status"
@@ -2349,6 +2537,54 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case eventTrackers = "eventTrackers"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFiltersRequest: AWSEncodableShape {
+
+        /// The ARN of the dataset group that contains the filters.
+        public let datasetGroupArn: String?
+        /// The maximum number of filters to return.
+        public let maxResults: Int?
+        /// A token returned from the previous call to ListFilters for getting the next set of filters (if they exist).
+        public let nextToken: String?
+
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetGroupArn = datasetGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFiltersResponse: AWSDecodableShape {
+
+        /// A list of returned filters.
+        public let filters: [FilterSummary]?
+        /// A token for getting the next set of filters (if they exist).
+        public let nextToken: String?
+
+        public init(filters: [FilterSummary]? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case nextToken = "nextToken"
         }
     }

@@ -360,7 +360,7 @@ extension Lambda {
 
     public struct AliasRoutingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// The name of the second alias, and the percentage of traffic that's routed to it.
+        /// The second version, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
 
         public init(additionalVersionWeights: [String: Double]? = nil) {
@@ -529,6 +529,8 @@ extension Lambda {
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
+        /// Connection settings for an Amazon EFS file system.
+        public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
@@ -554,11 +556,12 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(code: FunctionCode, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(code: FunctionCode, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.code = code
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
             self.kMSKeyArn = kMSKeyArn
@@ -579,6 +582,10 @@ extension Lambda {
             try validate(self.description, name: "description", parent: name, max: 256)
             try validate(self.description, name: "description", parent: name, min: 0)
             try self.environment?.validate(name: "\(name).environment")
+            try self.fileSystemConfigs?.forEach {
+                try $0.validate(name: "\(name).fileSystemConfigs[]")
+            }
+            try validate(self.fileSystemConfigs, name: "fileSystemConfigs", parent: name, max: 1)
             try validate(self.functionName, name: "functionName", parent: name, max: 140)
             try validate(self.functionName, name: "functionName", parent: name, min: 1)
             try validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -602,6 +609,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case fileSystemConfigs = "FileSystemConfigs"
             case functionName = "FunctionName"
             case handler = "Handler"
             case kMSKeyArn = "KMSKeyArn"
@@ -953,6 +961,31 @@ extension Lambda {
         }
     }
 
+    public struct FileSystemConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.
+        public let arn: String
+        /// The path where the function can access the file system, starting with /mnt/.
+        public let localMountPath: String
+
+        public init(arn: String, localMountPath: String) {
+            self.arn = arn
+            self.localMountPath = localMountPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name: "arn", parent: name, max: 200)
+            try validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[a-zA-Z-]*:elasticfilesystem:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}")
+            try validate(self.localMountPath, name: "localMountPath", parent: name, max: 160)
+            try validate(self.localMountPath, name: "localMountPath", parent: name, pattern: "^/mnt/[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case localMountPath = "LocalMountPath"
+        }
+    }
+
     public struct FunctionCode: AWSEncodableShape {
 
         /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
@@ -1019,6 +1052,8 @@ extension Lambda {
         public let description: String?
         /// The function's environment variables.
         public let environment: EnvironmentResponse?
+        /// Connection settings for an Amazon EFS file system.
+        public let fileSystemConfigs: [FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
         public let functionArn: String?
         /// The name of the function.
@@ -1062,12 +1097,13 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.fileSystemConfigs = fileSystemConfigs
             self.functionArn = functionArn
             self.functionName = functionName
             self.handler = handler
@@ -1097,6 +1133,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case fileSystemConfigs = "FileSystemConfigs"
             case functionArn = "FunctionArn"
             case functionName = "FunctionName"
             case handler = "Handler"
@@ -2986,6 +3023,8 @@ extension Lambda {
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
+        /// Connection settings for an Amazon EFS file system.
+        public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
@@ -3009,10 +3048,11 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, functionName: String, handler: String? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
             self.kMSKeyArn = kMSKeyArn
@@ -3031,6 +3071,10 @@ extension Lambda {
             try validate(self.description, name: "description", parent: name, max: 256)
             try validate(self.description, name: "description", parent: name, min: 0)
             try self.environment?.validate(name: "\(name).environment")
+            try self.fileSystemConfigs?.forEach {
+                try $0.validate(name: "\(name).fileSystemConfigs[]")
+            }
+            try validate(self.fileSystemConfigs, name: "fileSystemConfigs", parent: name, max: 1)
             try validate(self.functionName, name: "functionName", parent: name, max: 140)
             try validate(self.functionName, name: "functionName", parent: name, min: 1)
             try validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -3053,6 +3097,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case fileSystemConfigs = "FileSystemConfigs"
             case handler = "Handler"
             case kMSKeyArn = "KMSKeyArn"
             case layers = "Layers"

@@ -401,6 +401,9 @@ extension ELBV2 {
 
     public struct CreateListenerInput: AWSEncodableShape {
 
+        /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
+        @OptionalCoding<DefaultArrayCoder>
+        public var alpnPolicy: [String]?
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
         @OptionalCoding<DefaultArrayCoder>
         public var certificates: [Certificate]?
@@ -416,7 +419,8 @@ extension ELBV2 {
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil) {
+            self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.loadBalancerArn = loadBalancerArn
@@ -434,6 +438,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alpnPolicy = "AlpnPolicy"
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
             case loadBalancerArn = "LoadBalancerArn"
@@ -1388,6 +1393,9 @@ extension ELBV2 {
 
     public struct Listener: AWSDecodableShape {
 
+        /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN) policy.
+        @OptionalCoding<DefaultArrayCoder>
+        public var alpnPolicy: [String]?
         /// [HTTPS or TLS listener] The default certificate for the listener.
         @OptionalCoding<DefaultArrayCoder>
         public var certificates: [Certificate]?
@@ -1405,7 +1413,8 @@ extension ELBV2 {
         /// [HTTPS or TLS listener] The security policy that defines which protocols and ciphers are supported.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+            self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
@@ -1416,6 +1425,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alpnPolicy = "AlpnPolicy"
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
             case listenerArn = "ListenerArn"
@@ -1566,6 +1576,9 @@ extension ELBV2 {
 
     public struct ModifyListenerInput: AWSEncodableShape {
 
+        /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
+        @OptionalCoding<DefaultArrayCoder>
+        public var alpnPolicy: [String]?
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
         @OptionalCoding<DefaultArrayCoder>
         public var certificates: [Certificate]?
@@ -1581,7 +1594,8 @@ extension ELBV2 {
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+            self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
@@ -1599,6 +1613,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alpnPolicy = "AlpnPolicy"
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
             case listenerArn = "ListenerArn"
@@ -2472,7 +2487,7 @@ extension ELBV2 {
 
     public struct TargetGroupAttribute: AWSEncodableShape & AWSDecodableShape {
 
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?

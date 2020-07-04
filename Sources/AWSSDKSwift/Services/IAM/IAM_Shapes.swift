@@ -20,6 +20,12 @@ import Foundation
 extension IAM {
     //MARK: Enums
 
+    public enum AccessAdvisorUsageGranularityType: String, CustomStringConvertible, Codable {
+        case serviceLevel = "SERVICE_LEVEL"
+        case actionLevel = "ACTION_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
         case string = "string"
         case stringlist = "stringList"
@@ -2016,9 +2022,12 @@ extension IAM {
 
         /// The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an AWS service.
         public let arn: String
+        /// The level of detail that you want to generate. You can specify whether you want to generate information about the last attempt to access services or actions. If you specify service-level granularity, this operation generates only service data. If you specify action-level granularity, it generates service and action data. If you don't include this optional parameter, the operation generates service data.
+        public let granularity: AccessAdvisorUsageGranularityType?
 
-        public init(arn: String) {
+        public init(arn: String, granularity: AccessAdvisorUsageGranularityType? = nil) {
             self.arn = arn
+            self.granularity = granularity
         }
 
         public func validate(name: String) throws {
@@ -2028,6 +2037,7 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case granularity = "Granularity"
         }
     }
 
@@ -2886,7 +2896,7 @@ extension IAM {
 
         /// An object that contains details about the reason the operation failed.
         public let error: ErrorDetails?
-        ///  A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
         public let jobCompletionDate: TimeStamp
@@ -2894,18 +2904,21 @@ extension IAM {
         public let jobCreationDate: TimeStamp
         /// The status of the job.
         public let jobStatus: JobStatusType
+        /// The type of job. Service jobs return information about when each service was last accessed. Action jobs also include information about when tracked actions within the service were last accessed.
+        public let jobType: AccessAdvisorUsageGranularityType?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         ///  A ServiceLastAccessed object that contains details about the most recent attempt to access the service.
         @Coding<DefaultArrayCoder>
         public var servicesLastAccessed: [ServiceLastAccessed]
 
-        public init(error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil, servicesLastAccessed: [ServiceLastAccessed]) {
+        public init(error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp, jobCreationDate: TimeStamp, jobStatus: JobStatusType, jobType: AccessAdvisorUsageGranularityType? = nil, marker: String? = nil, servicesLastAccessed: [ServiceLastAccessed]) {
             self.error = error
             self.isTruncated = isTruncated
             self.jobCompletionDate = jobCompletionDate
             self.jobCreationDate = jobCreationDate
             self.jobStatus = jobStatus
+            self.jobType = jobType
             self.marker = marker
             self.servicesLastAccessed = servicesLastAccessed
         }
@@ -2916,6 +2929,7 @@ extension IAM {
             case jobCompletionDate = "JobCompletionDate"
             case jobCreationDate = "JobCreationDate"
             case jobStatus = "JobStatus"
+            case jobType = "JobType"
             case marker = "Marker"
             case servicesLastAccessed = "ServicesLastAccessed"
         }
@@ -5818,27 +5832,36 @@ extension IAM {
         public let lastAuthenticated: TimeStamp?
         /// The ARN of the authenticated entity (user or role) that last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAuthenticatedEntity: String?
+        /// The Region from which the authenticated entity (user or role) last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        public let lastAuthenticatedRegion: String?
         /// The name of the service in which access was attempted.
         public let serviceName: String
         /// The namespace of the service in which access was attempted. To learn the service namespace of a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
         public let serviceNamespace: String
         /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the reporting period.
         public let totalAuthenticatedEntities: Int?
+        /// An object that contains details about the most recent attempt to access a tracked action within the service. This field is null if there no tracked actions or if the principal did not use the tracked actions within the reporting period. This field is also null if the report was generated at the service level and not the action level. For more information, see the Granularity field in GenerateServiceLastAccessedDetails.
+        @OptionalCoding<DefaultArrayCoder>
+        public var trackedActionsLastAccessed: [TrackedActionLastAccessed]?
 
-        public init(lastAuthenticated: TimeStamp? = nil, lastAuthenticatedEntity: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
+        public init(lastAuthenticated: TimeStamp? = nil, lastAuthenticatedEntity: String? = nil, lastAuthenticatedRegion: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil, trackedActionsLastAccessed: [TrackedActionLastAccessed]? = nil) {
             self.lastAuthenticated = lastAuthenticated
             self.lastAuthenticatedEntity = lastAuthenticatedEntity
+            self.lastAuthenticatedRegion = lastAuthenticatedRegion
             self.serviceName = serviceName
             self.serviceNamespace = serviceNamespace
             self.totalAuthenticatedEntities = totalAuthenticatedEntities
+            self.trackedActionsLastAccessed = trackedActionsLastAccessed
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastAuthenticated = "LastAuthenticated"
             case lastAuthenticatedEntity = "LastAuthenticatedEntity"
+            case lastAuthenticatedRegion = "LastAuthenticatedRegion"
             case serviceName = "ServiceName"
             case serviceNamespace = "ServiceNamespace"
             case totalAuthenticatedEntities = "TotalAuthenticatedEntities"
+            case trackedActionsLastAccessed = "TrackedActionsLastAccessed"
         }
     }
 
@@ -6116,7 +6139,7 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permission boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
+        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         @OptionalCoding<DefaultArrayCoder>
         public var permissionsBoundaryPolicyInputList: [String]?
         /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
@@ -6313,6 +6336,31 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
             case userName = "UserName"
+        }
+    }
+
+    public struct TrackedActionLastAccessed: AWSDecodableShape {
+
+        /// The name of the tracked action to which access was attempted. Tracked actions are actions that report activity to IAM.
+        public let actionName: String?
+        public let lastAccessedEntity: String?
+        /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        public let lastAccessedRegion: String?
+        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        public let lastAccessedTime: TimeStamp?
+
+        public init(actionName: String? = nil, lastAccessedEntity: String? = nil, lastAccessedRegion: String? = nil, lastAccessedTime: TimeStamp? = nil) {
+            self.actionName = actionName
+            self.lastAccessedEntity = lastAccessedEntity
+            self.lastAccessedRegion = lastAccessedRegion
+            self.lastAccessedTime = lastAccessedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
+            case lastAccessedEntity = "LastAccessedEntity"
+            case lastAccessedRegion = "LastAccessedRegion"
+            case lastAccessedTime = "LastAccessedTime"
         }
     }
 

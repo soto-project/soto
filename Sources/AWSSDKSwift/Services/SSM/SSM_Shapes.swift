@@ -778,6 +778,8 @@ extension SSM {
 
     public struct AssociationDescription: AWSDecodableShape {
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// The association ID.
         public let associationId: String?
         /// The association name.
@@ -821,7 +823,8 @@ extension SSM {
         /// The instances targeted by the request. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -846,6 +849,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -1084,6 +1088,8 @@ extension SSM {
 
     public struct AssociationVersionInfo: AWSDecodableShape {
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// The ID created by the system when the association was created.
         public let associationId: String?
         /// The name specified for the association version when the association version was created.
@@ -1113,7 +1119,8 @@ extension SSM {
         /// The targets specified for the association when the association version was created. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -1131,6 +1138,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -2084,6 +2092,8 @@ extension SSM {
 
     public struct CreateAssociationBatchRequestEntry: AWSEncodableShape & AWSDecodableShape {
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
@@ -2111,7 +2121,8 @@ extension SSM {
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
@@ -2151,6 +2162,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
@@ -2187,6 +2199,8 @@ extension SSM {
 
     public struct CreateAssociationRequest: AWSEncodableShape {
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
@@ -2214,7 +2228,8 @@ extension SSM {
         /// The targets for the association. You can target instances by using tags, AWS Resource Groups, all instances in an AWS account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the AWS Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
@@ -2254,6 +2269,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
@@ -2294,7 +2310,7 @@ extension SSM {
         public let documentFormat: DocumentFormat?
         /// The type of document to create.
         public let documentType: DocumentType?
-        /// A name for the Systems Manager document.  You can't use the following strings as document name prefixes. These are reserved by AWS for use as document name prefixes:    aws     amazon     amzn    
+        /// A name for the Systems Manager document.  You can't use the following strings as document name prefixes. These are reserved by AWS for use as document name prefixes:    aws-     amazon     amzn    
         public let name: String
         /// A list of SSM documents required by a document. This parameter is used exclusively by AWS AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see AWS AppConfig in the AWS Systems Manager User Guide.
         public let requires: [DocumentRequires]?
@@ -2383,6 +2399,8 @@ extension SSM {
         public let name: String
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String
+        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
@@ -2390,7 +2408,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
         public let tags: [Tag]?
 
-        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int, description: String? = nil, duration: Int, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
+        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int, description: String? = nil, duration: Int, endDate: String? = nil, name: String, schedule: String, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
             self.cutoff = cutoff
@@ -2399,6 +2417,7 @@ extension SSM {
             self.endDate = endDate
             self.name = name
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.tags = tags
@@ -2418,6 +2437,8 @@ extension SSM {
             try validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(self.schedule, name: "schedule", parent: name, max: 256)
             try validate(self.schedule, name: "schedule", parent: name, min: 1)
+            try validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
+            try validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2433,6 +2454,7 @@ extension SSM {
             case endDate = "EndDate"
             case name = "Name"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case tags = "Tags"
@@ -6050,6 +6072,8 @@ extension SSM {
         public let nextExecutionTime: String?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
@@ -6057,7 +6081,7 @@ extension SSM {
         /// The ID of the created maintenance window.
         public let windowId: String?
 
-        public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.createdDate = createdDate
             self.cutoff = cutoff
@@ -6069,6 +6093,7 @@ extension SSM {
             self.name = name
             self.nextExecutionTime = nextExecutionTime
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -6086,6 +6111,7 @@ extension SSM {
             case name = "Name"
             case nextExecutionTime = "NextExecutionTime"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -6257,7 +6283,6 @@ extension SSM {
             try self.resultAttributes?.forEach {
                 try $0.validate(name: "\(name).resultAttributes[]")
             }
-            try validate(self.resultAttributes, name: "resultAttributes", parent: name, max: 1)
             try validate(self.resultAttributes, name: "resultAttributes", parent: name, min: 1)
             try validate(self.syncName, name: "syncName", parent: name, max: 64)
             try validate(self.syncName, name: "syncName", parent: name, min: 1)
@@ -8294,6 +8319,8 @@ extension SSM {
         public let nextExecutionTime: String?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active.
@@ -8301,7 +8328,7 @@ extension SSM {
         /// The ID of the maintenance window.
         public let windowId: String?
 
-        public init(cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.cutoff = cutoff
             self.description = description
             self.duration = duration
@@ -8310,6 +8337,7 @@ extension SSM {
             self.name = name
             self.nextExecutionTime = nextExecutionTime
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -8324,6 +8352,7 @@ extension SSM {
             case name = "Name"
             case nextExecutionTime = "NextExecutionTime"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -9782,7 +9811,7 @@ extension SSM {
 
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$ 
         public let allowedPattern: String?
-        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Systems Manager validates the parameter value you provide against that data type. The required format is ami-12345abcdeEXAMPLE. For more information, see Native parameter support for Amazon Machine Image IDs in the AWS Systems Manager User Guide.
+        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your AWS account. For more information, see Native parameter support for Amazon Machine Image IDs in the AWS Systems Manager User Guide.
         public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Do not enter personally identifiable information in this field. 
         public let description: String?
@@ -9798,7 +9827,7 @@ extension SSM {
         public let tags: [Tag]?
         /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
-        /// The type of parameter that you want to add to the system. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions. 
+        /// The type of parameter that you want to add to the system.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type is not required when updating a parameter. You must specify a parameter type when creating a parameter. 
         public let `type`: ParameterType?
         /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
         public let value: String
@@ -11098,7 +11127,7 @@ extension SSM {
 
     public struct StartSessionRequest: AWSEncodableShape {
 
-        /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. If no document name is provided, a shell to the instance is launched by default.
+        /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the instance is launched by default.
         public let documentName: String?
         /// Reserved for future use.
         public let parameters: [String: [String]]?
@@ -11439,6 +11468,8 @@ extension SSM {
 
     public struct UpdateAssociationRequest: AWSEncodableShape {
 
+        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+        public let applyOnlyAtCronInterval: Bool?
         /// The ID of the association you want to update. 
         public let associationId: String
         /// The name of the association that you want to update.
@@ -11468,7 +11499,8 @@ extension SSM {
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -11510,6 +11542,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -11706,6 +11739,8 @@ extension SSM {
         public let replace: Bool?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
@@ -11713,7 +11748,7 @@ extension SSM {
         /// The ID of the maintenance window to update.
         public let windowId: String
 
-        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
+        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
             self.description = description
@@ -11723,6 +11758,7 @@ extension SSM {
             self.name = name
             self.replace = replace
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -11740,6 +11776,8 @@ extension SSM {
             try validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(self.schedule, name: "schedule", parent: name, max: 256)
             try validate(self.schedule, name: "schedule", parent: name, min: 1)
+            try validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
+            try validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
             try validate(self.windowId, name: "windowId", parent: name, max: 20)
             try validate(self.windowId, name: "windowId", parent: name, min: 20)
             try validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -11755,6 +11793,7 @@ extension SSM {
             case name = "Name"
             case replace = "Replace"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -11779,6 +11818,8 @@ extension SSM {
         public let name: String?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
@@ -11786,7 +11827,7 @@ extension SSM {
         /// The ID of the created maintenance window.
         public let windowId: String?
 
-        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
             self.description = description
@@ -11795,6 +11836,7 @@ extension SSM {
             self.endDate = endDate
             self.name = name
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -11809,6 +11851,7 @@ extension SSM {
             case endDate = "EndDate"
             case name = "Name"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"

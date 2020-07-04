@@ -655,6 +655,24 @@ extension CodeBuild {
         }
     }
 
+    public struct BuildStatusConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// Specifies the context of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider.  Bitbucket  This parameter is used for the name parameter in the Bitbucket commit status. For more information, see build in the Bitbucket API documentation.  GitHub/GitHub Enterprise Server  This parameter is used for the context parameter in the GitHub commit status. For more information, see Create a commit status in the GitHub developer guide.  
+        public let context: String?
+        /// Specifies the target url of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider.  Bitbucket  This parameter is used for the url parameter in the Bitbucket commit status. For more information, see build in the Bitbucket API documentation.  GitHub/GitHub Enterprise Server  This parameter is used for the target_url parameter in the GitHub commit status. For more information, see Create a commit status in the GitHub developer guide.  
+        public let targetUrl: String?
+
+        public init(context: String? = nil, targetUrl: String? = nil) {
+            self.context = context
+            self.targetUrl = targetUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+            case targetUrl = "targetUrl"
+        }
+    }
+
     public struct CloudWatchLogsConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
@@ -711,7 +729,7 @@ extension CodeBuild {
         public let source: ProjectSource
         ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
-        /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
+        /// A list of tag key and value pairs associated with this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
         public let timeoutInMinutes: Int?
@@ -814,12 +832,15 @@ extension CodeBuild {
         public let exportConfig: ReportExportConfig
         ///  The name of the report group. 
         public let name: String
+        ///  A list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
+        public let tags: [Tag]?
         ///  The type of report group. 
         public let `type`: ReportType
 
-        public init(exportConfig: ReportExportConfig, name: String, type: ReportType) {
+        public init(exportConfig: ReportExportConfig, name: String, tags: [Tag]? = nil, type: ReportType) {
             self.exportConfig = exportConfig
             self.name = name
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -827,11 +848,17 @@ extension CodeBuild {
             try self.exportConfig.validate(name: "\(name).exportConfig")
             try validate(self.name, name: "name", parent: name, max: 128)
             try validate(self.name, name: "name", parent: name, min: 2)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case exportConfig = "exportConfig"
             case name = "name"
+            case tags = "tags"
             case `type` = "type"
         }
     }
@@ -1882,7 +1909,7 @@ extension CodeBuild {
         public let source: ProjectSource?
         /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:   For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
-        /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
+        /// A list of tag key and value pairs associated with this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
         public let timeoutInMinutes: Int?
@@ -2116,6 +2143,8 @@ extension CodeBuild {
         public let auth: SourceAuth?
         /// The buildspec file declaration to use for the builds in this build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location. 
         public let buildspec: String?
+        /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
+        public let buildStatusConfig: BuildStatusConfig?
         /// Information about the Git clone depth for the build project.
         public let gitCloneDepth: Int?
         ///  Information about the Git submodules configuration for the build project. 
@@ -2128,12 +2157,13 @@ extension CodeBuild {
         public let reportBuildStatus: Bool?
         ///  An identifier for this project source. 
         public let sourceIdentifier: String?
-        /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    GITHUB_ENTERPRISE: The source code is in a GitHub Enterprise repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
+        /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub or GitHub Enterprise Cloud repository.    GITHUB_ENTERPRISE: The source code is in a GitHub Enterprise Server repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
         public let `type`: SourceType
 
-        public init(auth: SourceAuth? = nil, buildspec: String? = nil, gitCloneDepth: Int? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
+        public init(auth: SourceAuth? = nil, buildspec: String? = nil, buildStatusConfig: BuildStatusConfig? = nil, gitCloneDepth: Int? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
             self.auth = auth
             self.buildspec = buildspec
+            self.buildStatusConfig = buildStatusConfig
             self.gitCloneDepth = gitCloneDepth
             self.gitSubmodulesConfig = gitSubmodulesConfig
             self.insecureSsl = insecureSsl
@@ -2150,6 +2180,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case auth = "auth"
             case buildspec = "buildspec"
+            case buildStatusConfig = "buildStatusConfig"
             case gitCloneDepth = "gitCloneDepth"
             case gitSubmodulesConfig = "gitSubmodulesConfig"
             case insecureSsl = "insecureSsl"
@@ -2339,15 +2370,18 @@ extension CodeBuild {
         public let lastModified: TimeStamp?
         ///  The name of a ReportGroup. 
         public let name: String?
+        ///  A list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
+        public let tags: [Tag]?
         ///  The type of the ReportGroup. The one valid value is TEST. 
         public let `type`: ReportType?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, exportConfig: ReportExportConfig? = nil, lastModified: TimeStamp? = nil, name: String? = nil, type: ReportType? = nil) {
+        public init(arn: String? = nil, created: TimeStamp? = nil, exportConfig: ReportExportConfig? = nil, lastModified: TimeStamp? = nil, name: String? = nil, tags: [Tag]? = nil, type: ReportType? = nil) {
             self.arn = arn
             self.created = created
             self.exportConfig = exportConfig
             self.lastModified = lastModified
             self.name = name
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -2357,6 +2391,7 @@ extension CodeBuild {
             case exportConfig = "exportConfig"
             case lastModified = "lastModified"
             case name = "name"
+            case tags = "tags"
             case `type` = "type"
         }
     }
@@ -2464,6 +2499,8 @@ extension CodeBuild {
         public let artifactsOverride: ProjectArtifacts?
         /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location. 
         public let buildspecOverride: String?
+        /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
+        public let buildStatusConfigOverride: BuildStatusConfig?
         /// A ProjectCache object specified for this build that overrides the one defined in the build project.
         public let cacheOverride: ProjectCache?
         /// The name of a certificate for this build that overrides the one specified in the build project.
@@ -2519,9 +2556,10 @@ extension CodeBuild {
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
         public let timeoutInMinutesOverride: Int?
 
-        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
+        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
             self.artifactsOverride = artifactsOverride
             self.buildspecOverride = buildspecOverride
+            self.buildStatusConfigOverride = buildStatusConfigOverride
             self.cacheOverride = cacheOverride
             self.certificateOverride = certificateOverride
             self.computeTypeOverride = computeTypeOverride
@@ -2579,6 +2617,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case artifactsOverride = "artifactsOverride"
             case buildspecOverride = "buildspecOverride"
+            case buildStatusConfigOverride = "buildStatusConfigOverride"
             case cacheOverride = "cacheOverride"
             case certificateOverride = "certificateOverride"
             case computeTypeOverride = "computeTypeOverride"
@@ -2672,7 +2711,7 @@ extension CodeBuild {
             try validate(self.key, name: "key", parent: name, min: 1)
             try validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
             try validate(self.value, name: "value", parent: name, max: 255)
-            try validate(self.value, name: "value", parent: name, min: 1)
+            try validate(self.value, name: "value", parent: name, min: 0)
             try validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
         }
 
@@ -2794,7 +2833,7 @@ extension CodeBuild {
         public let source: ProjectSource?
         ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
-        /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
+        /// An updated list of tag key and value pairs associated with this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
         public let timeoutInMinutes: Int?
@@ -2895,20 +2934,29 @@ extension CodeBuild {
         public let arn: String
         ///  Used to specify an updated export type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.   
         public let exportConfig: ReportExportConfig?
+        ///  An updated list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
+        public let tags: [Tag]?
 
-        public init(arn: String, exportConfig: ReportExportConfig? = nil) {
+        public init(arn: String, exportConfig: ReportExportConfig? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.exportConfig = exportConfig
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.arn, name: "arn", parent: name, min: 1)
             try self.exportConfig?.validate(name: "\(name).exportConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case exportConfig = "exportConfig"
+            case tags = "tags"
         }
     }
 

@@ -201,6 +201,11 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable {
+        case lowestPrice = "lowest-price"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
         case security = "SECURITY"
         case none = "NONE"
@@ -210,6 +215,11 @@ extension EMR {
     public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
         case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
         case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotProvisioningAllocationStrategy: String, CustomStringConvertible, Codable {
+        case capacityOptimized = "capacity-optimized"
         public var description: String { return self.rawValue }
     }
 
@@ -789,6 +799,8 @@ extension EMR {
         public let instanceCollectionType: InstanceCollectionType?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
         public let kerberosAttributes: KerberosAttributes?
+        ///  The AWS KMS customer master key (CMK) used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0. 
+        public let logEncryptionKmsKeyId: String?
         /// The path to the Amazon S3 location where logs for this cluster are stored.
         public let logUri: String?
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
@@ -824,7 +836,7 @@ extension EMR {
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
         public let visibleToAllUsers: Bool?
 
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -836,6 +848,7 @@ extension EMR {
             self.id = id
             self.instanceCollectionType = instanceCollectionType
             self.kerberosAttributes = kerberosAttributes
+            self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.masterPublicDnsName = masterPublicDnsName
             self.name = name
@@ -867,6 +880,7 @@ extension EMR {
             case id = "Id"
             case instanceCollectionType = "InstanceCollectionType"
             case kerberosAttributes = "KerberosAttributes"
+            case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case masterPublicDnsName = "MasterPublicDnsName"
             case name = "Name"
@@ -1009,15 +1023,18 @@ extension EMR {
 
         ///  The upper boundary of EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
         public let maximumCapacityUnits: Int
-        ///  The upper boundary of on-demand EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The on-demand units are not allowed to scale beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        ///  The upper boundary of EC2 units for core node type in a cluster. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The core units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between core and task nodes. 
+        public let maximumCoreCapacityUnits: Int?
+        ///  The upper boundary of On-Demand EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The On-Demand units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between On-Demand and Spot instances. 
         public let maximumOnDemandCapacityUnits: Int?
         ///  The lower boundary of EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
         public let minimumCapacityUnits: Int
         ///  The unit type used for specifying a managed scaling policy. 
         public let unitType: ComputeLimitsUnitType
 
-        public init(maximumCapacityUnits: Int, maximumOnDemandCapacityUnits: Int? = nil, minimumCapacityUnits: Int, unitType: ComputeLimitsUnitType) {
+        public init(maximumCapacityUnits: Int, maximumCoreCapacityUnits: Int? = nil, maximumOnDemandCapacityUnits: Int? = nil, minimumCapacityUnits: Int, unitType: ComputeLimitsUnitType) {
             self.maximumCapacityUnits = maximumCapacityUnits
+            self.maximumCoreCapacityUnits = maximumCoreCapacityUnits
             self.maximumOnDemandCapacityUnits = maximumOnDemandCapacityUnits
             self.minimumCapacityUnits = minimumCapacityUnits
             self.unitType = unitType
@@ -1025,6 +1042,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case maximumCapacityUnits = "MaximumCapacityUnits"
+            case maximumCoreCapacityUnits = "MaximumCoreCapacityUnits"
             case maximumOnDemandCapacityUnits = "MaximumOnDemandCapacityUnits"
             case minimumCapacityUnits = "MinimumCapacityUnits"
             case unitType = "UnitType"
@@ -1727,18 +1745,22 @@ extension EMR {
 
     public struct InstanceFleetProvisioningSpecifications: AWSEncodableShape & AWSDecodableShape {
 
-        /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
-        public let spotSpecification: SpotProvisioningSpecification
+        ///  The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.   The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand instances allocation strategy is available in Amazon EMR version 5.12.1 and later. 
+        public let onDemandSpecification: OnDemandProvisioningSpecification?
+        /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
+        public let spotSpecification: SpotProvisioningSpecification?
 
-        public init(spotSpecification: SpotProvisioningSpecification) {
+        public init(onDemandSpecification: OnDemandProvisioningSpecification? = nil, spotSpecification: SpotProvisioningSpecification? = nil) {
+            self.onDemandSpecification = onDemandSpecification
             self.spotSpecification = spotSpecification
         }
 
         public func validate(name: String) throws {
-            try self.spotSpecification.validate(name: "\(name).spotSpecification")
+            try self.spotSpecification?.validate(name: "\(name).spotSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case onDemandSpecification = "OnDemandSpecification"
             case spotSpecification = "SpotSpecification"
         }
     }
@@ -2289,6 +2311,8 @@ extension EMR {
         public let jobFlowId: String
         /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
         public let jobFlowRole: String?
+        /// The AWS KMS customer master key (CMK) used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+        public let logEncryptionKmsKeyId: String?
         /// The location in Amazon S3 where log files for the job are stored.
         public let logUri: String?
         /// The name of the job flow.
@@ -2304,7 +2328,7 @@ extension EMR {
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
         public let visibleToAllUsers: Bool?
 
-        public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
             self.amiVersion = amiVersion
             self.autoScalingRole = autoScalingRole
             self.bootstrapActions = bootstrapActions
@@ -2312,6 +2336,7 @@ extension EMR {
             self.instances = instances
             self.jobFlowId = jobFlowId
             self.jobFlowRole = jobFlowRole
+            self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.name = name
             self.scaleDownBehavior = scaleDownBehavior
@@ -2329,6 +2354,7 @@ extension EMR {
             case instances = "Instances"
             case jobFlowId = "JobFlowId"
             case jobFlowRole = "JobFlowRole"
+            case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case name = "Name"
             case scaleDownBehavior = "ScaleDownBehavior"
@@ -3039,6 +3065,20 @@ extension EMR {
         }
     }
 
+    public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
+
+        ///  Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first. 
+        public let allocationStrategy: OnDemandProvisioningAllocationStrategy
+
+        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy) {
+            self.allocationStrategy = allocationStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
+        }
+    }
+
     public struct PlacementType: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
@@ -3295,6 +3335,8 @@ extension EMR {
         public let jobFlowRole: String?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
         public let kerberosAttributes: KerberosAttributes?
+        /// The AWS KMS customer master key (CMK) used for encrypting log files. If a value is not provided, the logs will remain encrypted by AES-256. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+        public let logEncryptionKmsKeyId: String?
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
         public let logUri: String?
         ///  The specified managed scaling policy for an Amazon EMR cluster. 
@@ -3324,7 +3366,7 @@ extension EMR {
         /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -3336,6 +3378,7 @@ extension EMR {
             self.instances = instances
             self.jobFlowRole = jobFlowRole
             self.kerberosAttributes = kerberosAttributes
+            self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.managedScalingPolicy = managedScalingPolicy
             self.name = name
@@ -3373,6 +3416,9 @@ extension EMR {
             try validate(self.jobFlowRole, name: "jobFlowRole", parent: name, min: 0)
             try validate(self.jobFlowRole, name: "jobFlowRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.kerberosAttributes?.validate(name: "\(name).kerberosAttributes")
+            try validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, max: 10280)
+            try validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, min: 0)
+            try validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try validate(self.logUri, name: "logUri", parent: name, min: 0)
             try validate(self.logUri, name: "logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3413,6 +3459,7 @@ extension EMR {
             case instances = "Instances"
             case jobFlowRole = "JobFlowRole"
             case kerberosAttributes = "KerberosAttributes"
+            case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case managedScalingPolicy = "ManagedScalingPolicy"
             case name = "Name"
@@ -3673,6 +3720,8 @@ extension EMR {
 
     public struct SpotProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
 
+        ///  Specifies the strategy to use in launching Spot instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot instance pools with optimal capacity for the number of instances that are launching. 
+        public let allocationStrategy: SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
         public let blockDurationMinutes: Int?
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
@@ -3680,7 +3729,8 @@ extension EMR {
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int
 
-        public init(blockDurationMinutes: Int? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int) {
+        public init(allocationStrategy: SpotProvisioningAllocationStrategy? = nil, blockDurationMinutes: Int? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int) {
+            self.allocationStrategy = allocationStrategy
             self.blockDurationMinutes = blockDurationMinutes
             self.timeoutAction = timeoutAction
             self.timeoutDurationMinutes = timeoutDurationMinutes
@@ -3692,6 +3742,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
             case blockDurationMinutes = "BlockDurationMinutes"
             case timeoutAction = "TimeoutAction"
             case timeoutDurationMinutes = "TimeoutDurationMinutes"

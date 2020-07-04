@@ -429,6 +429,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeatureActivationsInputPrepareScheduleActions: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FecOutputIncludeFec: String, CustomStringConvertible, Codable {
         case column = "COLUMN"
         case columnAndRow = "COLUMN_AND_ROW"
@@ -4081,6 +4087,8 @@ extension MediaLive {
         public let blackoutSlate: BlackoutSlate?
         /// Settings for caption decriptions
         public let captionDescriptions: [CaptionDescription]?
+        /// Feature Activations
+        public let featureActivations: FeatureActivations?
         /// Configuration settings that apply to the event as a whole.
         public let globalConfiguration: GlobalConfiguration?
         /// Nielsen configuration settings.
@@ -4090,12 +4098,13 @@ extension MediaLive {
         public let timecodeConfig: TimecodeConfig
         public let videoDescriptions: [VideoDescription]
 
-        public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, globalConfiguration: GlobalConfiguration? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
+        public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, featureActivations: FeatureActivations? = nil, globalConfiguration: GlobalConfiguration? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
             self.audioDescriptions = audioDescriptions
             self.availBlanking = availBlanking
             self.availConfiguration = availConfiguration
             self.blackoutSlate = blackoutSlate
             self.captionDescriptions = captionDescriptions
+            self.featureActivations = featureActivations
             self.globalConfiguration = globalConfiguration
             self.nielsenConfiguration = nielsenConfiguration
             self.outputGroups = outputGroups
@@ -4128,11 +4137,27 @@ extension MediaLive {
             case availConfiguration = "availConfiguration"
             case blackoutSlate = "blackoutSlate"
             case captionDescriptions = "captionDescriptions"
+            case featureActivations = "featureActivations"
             case globalConfiguration = "globalConfiguration"
             case nielsenConfiguration = "nielsenConfiguration"
             case outputGroups = "outputGroups"
             case timecodeConfig = "timecodeConfig"
             case videoDescriptions = "videoDescriptions"
+        }
+    }
+
+    public struct FeatureActivations: AWSEncodableShape & AWSDecodableShape {
+
+        /// Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled.
+        /// If you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule.
+        public let inputPrepareScheduleActions: FeatureActivationsInputPrepareScheduleActions?
+
+        public init(inputPrepareScheduleActions: FeatureActivationsInputPrepareScheduleActions? = nil) {
+            self.inputPrepareScheduleActions = inputPrepareScheduleActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputPrepareScheduleActions = "inputPrepareScheduleActions"
         }
     }
 
@@ -5724,6 +5749,28 @@ extension MediaLive {
             case inputLossImageSlate = "inputLossImageSlate"
             case inputLossImageType = "inputLossImageType"
             case repeatFrameMsec = "repeatFrameMsec"
+        }
+    }
+
+    public struct InputPrepareScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the input attachment that should be prepared by this action. If no name is provided, the action will stop the most recent prepare (if any) when activated.
+        public let inputAttachmentNameReference: String
+        /// Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.
+        public let inputClippingSettings: InputClippingSettings?
+        /// The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.
+        public let urlPath: [String]?
+
+        public init(inputAttachmentNameReference: String, inputClippingSettings: InputClippingSettings? = nil, urlPath: [String]? = nil) {
+            self.inputAttachmentNameReference = inputAttachmentNameReference
+            self.inputClippingSettings = inputClippingSettings
+            self.urlPath = urlPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputAttachmentNameReference = "inputAttachmentNameReference"
+            case inputClippingSettings = "inputClippingSettings"
+            case urlPath = "urlPath"
         }
     }
 
@@ -8023,6 +8070,8 @@ extension MediaLive {
         public let hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings?
         /// Action to insert HLS metadata
         public let hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings?
+        /// Action to prepare an input for a future immediate input switch
+        public let inputPrepareSettings: InputPrepareScheduleActionSettings?
         /// Action to switch the input
         public let inputSwitchSettings: InputSwitchScheduleActionSettings?
         /// Action to pause or unpause one or both channel pipelines
@@ -8038,9 +8087,10 @@ extension MediaLive {
         /// Action to deactivate a static image overlay
         public let staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings?
 
-        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
+        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputPrepareSettings: InputPrepareScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
             self.hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettings
             self.hlsTimedMetadataSettings = hlsTimedMetadataSettings
+            self.inputPrepareSettings = inputPrepareSettings
             self.inputSwitchSettings = inputSwitchSettings
             self.pauseStateSettings = pauseStateSettings
             self.scte35ReturnToNetworkSettings = scte35ReturnToNetworkSettings
@@ -8061,6 +8111,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case hlsId3SegmentTaggingSettings = "hlsId3SegmentTaggingSettings"
             case hlsTimedMetadataSettings = "hlsTimedMetadataSettings"
+            case inputPrepareSettings = "inputPrepareSettings"
             case inputSwitchSettings = "inputSwitchSettings"
             case pauseStateSettings = "pauseStateSettings"
             case scte35ReturnToNetworkSettings = "scte35ReturnToNetworkSettings"

@@ -145,6 +145,7 @@ extension Backup {
 extension Backup.ListBackupJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupJobsInput {
         return .init(
+            byAccountId: self.byAccountId,
             byBackupVaultName: self.byBackupVaultName,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
@@ -214,6 +215,7 @@ extension Backup.ListBackupVaultsInput: AWSPaginateToken {
 extension Backup.ListCopyJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListCopyJobsInput {
         return .init(
+            byAccountId: self.byAccountId,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
             byDestinationVaultArn: self.byDestinationVaultArn,
@@ -267,6 +269,10 @@ extension Backup.ListRecoveryPointsByResourceInput: AWSPaginateToken {
 extension Backup.ListRestoreJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRestoreJobsInput {
         return .init(
+            byAccountId: self.byAccountId,
+            byCreatedAfter: self.byCreatedAfter,
+            byCreatedBefore: self.byCreatedBefore,
+            byStatus: self.byStatus,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -127,7 +127,7 @@ public struct Backup {
         return client.execute(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Returns the current service opt-in settings for the region. If the service has a value set to true, AWS Backup will attempt to protect that service's resources in this region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup will not attempt to protect that service's resources in this region.
+    ///  Returns the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
     public func describeRegionSettings(_ input: DescribeRegionSettingsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegionSettingsOutput> {
         return client.execute(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -292,7 +292,7 @@ public struct Backup {
         return client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Updates the current service opt-in settings for the region. If the service has a value set to true, AWS Backup will attempt to protect that service's resources in this region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup will not attempt to protect that service's resources in this region.
+    ///  Updates the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
     @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

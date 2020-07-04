@@ -69,50 +69,52 @@ extension Amplify {
 
     public struct App: AWSDecodableShape {
 
-        ///  ARN for the Amplify App. 
+        ///  The Amazon Resource Name (ARN) of the Amplify app. 
         public let appArn: String
-        ///  Unique Id for the Amplify App. 
+        ///  The unique ID of the Amplify app. 
         public let appId: String
-        ///  Automated branch creation config for the Amplify App. 
+        ///  Describes the automated branch creation configuration for the Amplify app. 
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
-        ///  Automated branch creation glob patterns for the Amplify App. 
+        ///  Describes the automated branch creation glob patterns for the Amplify app. 
         public let autoBranchCreationPatterns: [String]?
-        ///  Basic Authorization credentials for branches for the Amplify App. 
+        ///  The basic authorization credentials for branches for the Amplify app. 
         public let basicAuthCredentials: String?
-        ///  BuildSpec content for Amplify App. 
+        ///  Describes the content of the build specification (build spec) for the Amplify app. 
         public let buildSpec: String?
-        ///  Create date / time for the Amplify App. 
+        ///  Creates a date and time for the Amplify app. 
         public let createTime: TimeStamp
-        ///  Custom redirect / rewrite rules for the Amplify App. 
+        ///  Describes the custom redirect and rewrite rules for the Amplify app. 
         public let customRules: [CustomRule]?
-        ///  Default domain for the Amplify App. 
+        ///  The default domain for the Amplify app. 
         public let defaultDomain: String
-        ///  Description for the Amplify App. 
+        ///  The description for the Amplify app. 
         public let description: String
-        ///  Enables automated branch creation for the Amplify App. 
+        ///  Enables automated branch creation for the Amplify app. 
         public let enableAutoBranchCreation: Bool?
-        ///  Enables Basic Authorization for branches for the Amplify App. 
+        ///  Enables basic authorization for the Amplify app's branches. 
         public let enableBasicAuth: Bool
-        ///  Enables auto-building of branches for the Amplify App. 
+        ///  Enables the auto-building of branches for the Amplify app. 
         public let enableBranchAutoBuild: Bool
-        ///  Environment Variables for the Amplify App. 
+        ///  Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository. 
+        public let enableBranchAutoDeletion: Bool?
+        ///  The environment variables for the Amplify app. 
         public let environmentVariables: [String: String]
-        ///  IAM service role ARN for the Amplify App. 
+        ///  The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app. 
         public let iamServiceRoleArn: String?
-        ///  Name for the Amplify App. 
+        ///  The name for the Amplify app. 
         public let name: String
-        ///  Platform for the Amplify App. 
+        ///  The platform for the Amplify app. 
         public let platform: Platform
-        ///  Structure with Production Branch information. 
+        ///  Describes the information about a production branch of the Amplify app. 
         public let productionBranch: ProductionBranch?
-        ///  Repository for the Amplify App. 
+        ///  The repository for the Amplify app. 
         public let repository: String
-        ///  Tag for Amplify App. 
+        ///  The tag for the Amplify app. 
         public let tags: [String: String]?
-        ///  Update date / time for the Amplify App. 
+        ///  Updates the date and time for the Amplify app. 
         public let updateTime: TimeStamp
 
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: TimeStamp, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: TimeStamp) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: TimeStamp, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: TimeStamp) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -126,6 +128,7 @@ extension Amplify {
             self.enableAutoBranchCreation = enableAutoBranchCreation
             self.enableBasicAuth = enableBasicAuth
             self.enableBranchAutoBuild = enableBranchAutoBuild
+            self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
             self.name = name
@@ -150,6 +153,7 @@ extension Amplify {
             case enableAutoBranchCreation = "enableAutoBranchCreation"
             case enableBasicAuth = "enableBasicAuth"
             case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBranchAutoDeletion = "enableBranchAutoDeletion"
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
             case name = "name"
@@ -163,9 +167,9 @@ extension Amplify {
 
     public struct Artifact: AWSDecodableShape {
 
-        ///  File name for the artifact. 
+        ///  The file name for the artifact. 
         public let artifactFileName: String
-        ///  Unique Id for a artifact. 
+        ///  The unique ID for the artifact. 
         public let artifactId: String
 
         public init(artifactFileName: String, artifactId: String) {
@@ -181,23 +185,23 @@ extension Amplify {
 
     public struct AutoBranchCreationConfig: AWSEncodableShape & AWSDecodableShape {
 
-        ///  Basic Authorization credentials for the auto created branch. 
+        ///  The basic authorization credentials for the autocreated branch. 
         public let basicAuthCredentials: String?
-        ///  BuildSpec for the auto created branch. 
+        ///  The build specification (build spec) for the autocreated branch. 
         public let buildSpec: String?
-        ///  Enables auto building for the auto created branch. 
+        ///  Enables auto building for the autocreated branch. 
         public let enableAutoBuild: Bool?
-        ///  Enables Basic Auth for the auto created branch. 
+        ///  Enables basic authorization for the autocreated branch. 
         public let enableBasicAuth: Bool?
-        ///  Enables Pull Request Preview for auto created branch. 
+        ///  Enables pull request preview for the autocreated branch. 
         public let enablePullRequestPreview: Bool?
-        ///  Environment Variables for the auto created branch. 
+        ///  The environment variables for the autocreated branch. 
         public let environmentVariables: [String: String]?
-        ///  Framework for the auto created branch. 
+        ///  The framework for the autocreated branch. 
         public let framework: String?
-        ///  The Amplify Environment name for the pull request. 
+        ///  The Amplify environment name for the pull request. 
         public let pullRequestEnvironmentName: String?
-        ///  Stage for the auto created branch. 
+        ///  Describes the current stage for the autocreated branch. 
         public let stage: Stage?
 
         public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil) {
@@ -239,17 +243,17 @@ extension Amplify {
 
     public struct BackendEnvironment: AWSDecodableShape {
 
-        ///  Arn for a backend environment, part of an Amplify App. 
+        ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app. 
         public let backendEnvironmentArn: String
-        ///  Creation date and time for a backend environment, part of an Amplify App. 
+        ///  The creation date and time for a backend environment that is part of an Amplify app. 
         public let createTime: TimeStamp
-        ///  Name of deployment artifacts. 
+        ///  The name of deployment artifacts. 
         public let deploymentArtifacts: String?
-        ///  Name for a backend environment, part of an Amplify App. 
+        ///  The name for a backend environment that is part of an Amplify app. 
         public let environmentName: String
-        ///  CloudFormation stack name of backend environment. 
+        ///  The AWS CloudFormation stack name of a backend environment. 
         public let stackName: String?
-        ///  Last updated date and time for a backend environment, part of an Amplify App. 
+        ///  The last updated date and time for a backend environment that is part of an Amplify app. 
         public let updateTime: TimeStamp
 
         public init(backendEnvironmentArn: String, createTime: TimeStamp, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil, updateTime: TimeStamp) {
@@ -273,57 +277,57 @@ extension Amplify {
 
     public struct Branch: AWSDecodableShape {
 
-        ///  Id of the active job for a branch, part of an Amplify App. 
+        ///  The ID of the active job for a branch of an Amplify app. 
         public let activeJobId: String
-        ///  List of custom resources that are linked to this branch. 
+        ///  A list of custom resources that are linked to this branch. 
         public let associatedResources: [String]?
-        ///  ARN for a Backend Environment, part of an Amplify App. 
+        ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app. 
         public let backendEnvironmentArn: String?
-        ///  Basic Authorization credentials for a branch, part of an Amplify App. 
+        ///  The basic authorization credentials for a branch of an Amplify app. 
         public let basicAuthCredentials: String?
-        ///  ARN for a branch, part of an Amplify App. 
+        ///  The Amazon Resource Name (ARN) for a branch that is part of an Amplify app. 
         public let branchArn: String
-        ///  Name for a branch, part of an Amplify App. 
+        ///  The name for the branch that is part of an Amplify app. 
         public let branchName: String
-        ///  BuildSpec content for branch for Amplify App. 
+        ///  The build specification (build spec) content for the branch of an Amplify app. 
         public let buildSpec: String?
-        ///  Creation date and time for a branch, part of an Amplify App. 
+        ///  The creation date and time for a branch that is part of an Amplify app. 
         public let createTime: TimeStamp
-        ///  Custom domains for a branch, part of an Amplify App. 
+        ///  The custom domains for a branch of an Amplify app. 
         public let customDomains: [String]
-        ///  Description for a branch, part of an Amplify App. 
+        ///  The description for the branch that is part of an Amplify app. 
         public let description: String
         ///  The destination branch if the branch is a pull request branch. 
         public let destinationBranch: String?
-        ///  Display name for a branch, will use as the default domain prefix. 
+        ///  The display name for the branch. This is used as the default domain prefix. 
         public let displayName: String
-        ///  Enables auto-building on push for a branch, part of an Amplify App. 
+        ///  Enables auto-building on push for a branch of an Amplify app. 
         public let enableAutoBuild: Bool
-        ///  Enables Basic Authorization for a branch, part of an Amplify App. 
+        ///  Enables basic authorization for a branch of an Amplify app. 
         public let enableBasicAuth: Bool
-        ///  Enables notifications for a branch, part of an Amplify App. 
+        ///  Enables notifications for a branch that is part of an Amplify app. 
         public let enableNotification: Bool
-        ///  Enables Pull Request Preview for this branch. 
+        ///  Enables pull request preview for the branch. 
         public let enablePullRequestPreview: Bool
-        ///  Environment Variables specific to a branch, part of an Amplify App. 
+        ///  The environment variables specific to a branch of an Amplify app. 
         public let environmentVariables: [String: String]
-        ///  Framework for a branch, part of an Amplify App. 
+        ///  The framework for a branch of an Amplify app. 
         public let framework: String
-        ///  The Amplify Environment name for the pull request. 
+        ///  The Amplify environment name for the pull request. 
         public let pullRequestEnvironmentName: String?
         ///  The source branch if the branch is a pull request branch. 
         public let sourceBranch: String?
-        ///  Stage for a branch, part of an Amplify App. 
+        ///  The current stage for the branch that is part of an Amplify app. 
         public let stage: Stage
-        ///  Tag for branch for Amplify App. 
+        ///  The tag for the branch of an Amplify app. 
         public let tags: [String: String]?
-        ///  Thumbnail URL for the branch. 
+        ///  The thumbnail URL for the branch of an Amplify app. 
         public let thumbnailUrl: String?
-        ///  Total number of Jobs part of an Amplify App. 
+        ///  The total number of jobs that are part of an Amplify app. 
         public let totalNumberOfJobs: String
-        ///  The content TTL for the website in seconds. 
+        ///  The content Time to Live (TTL) for the website in seconds. 
         public let ttl: String
-        ///  Last updated date and time for a branch, part of an Amplify App. 
+        ///  The last updated date and time for a branch that is part of an Amplify app. 
         public let updateTime: TimeStamp
 
         public init(activeJobId: String, associatedResources: [String]? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
@@ -387,42 +391,44 @@ extension Amplify {
 
     public struct CreateAppRequest: AWSEncodableShape {
 
-        ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
+        ///  The personal access token for a third-party source control system for an Amplify app. The personal access token is used to create a webhook and a read-only deploy key. The token is not stored. 
         public let accessToken: String?
-        ///  Automated branch creation config for the Amplify App. 
+        ///  The automated branch creation configuration for the Amplify app. 
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
-        ///  Automated branch creation glob patterns for the Amplify App. 
+        ///  The automated branch creation glob patterns for the Amplify app. 
         public let autoBranchCreationPatterns: [String]?
-        ///  Credentials for Basic Authorization for an Amplify App. 
+        ///  The credentials for basic authorization for an Amplify app. 
         public let basicAuthCredentials: String?
-        ///  BuildSpec for an Amplify App 
+        ///  The build specification (build spec) for an Amplify app. 
         public let buildSpec: String?
-        ///  Custom rewrite / redirect rules for an Amplify App. 
+        ///  The custom rewrite and redirect rules for an Amplify app. 
         public let customRules: [CustomRule]?
-        ///  Description for an Amplify App 
+        ///  The description for an Amplify app. 
         public let description: String?
-        ///  Enables automated branch creation for the Amplify App. 
+        ///  Enables automated branch creation for the Amplify app. 
         public let enableAutoBranchCreation: Bool?
-        ///  Enable Basic Authorization for an Amplify App, this will apply to all branches part of this App. 
+        ///  Enables basic authorization for an Amplify app. This will apply to all branches that are part of this app. 
         public let enableBasicAuth: Bool?
-        ///  Enable the auto building of branches for an Amplify App. 
+        ///  Enables the auto building of branches for an Amplify app. 
         public let enableBranchAutoBuild: Bool?
-        ///  Environment variables map for an Amplify App. 
+        ///  Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository. 
+        public let enableBranchAutoDeletion: Bool?
+        ///  The environment variables map for an Amplify app. 
         public let environmentVariables: [String: String]?
-        ///  AWS IAM service role for an Amplify App 
+        ///  The AWS Identity and Access Management (IAM) service role for an Amplify app. 
         public let iamServiceRoleArn: String?
-        ///  Name for the Amplify App 
+        ///  The name for the Amplify app. 
         public let name: String
-        ///  OAuth token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. OAuth token is not stored. 
+        ///  The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key. The OAuth token is not stored. 
         public let oauthToken: String?
-        ///  Platform / framework for an Amplify App 
+        ///  The platform or framework for an Amplify app. 
         public let platform: Platform?
-        ///  Repository for an Amplify App 
+        ///  The repository for an Amplify app. 
         public let repository: String?
-        ///  Tag for an Amplify App 
+        ///  The tag for an Amplify app. 
         public let tags: [String: String]?
 
-        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
+        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
@@ -433,6 +439,7 @@ extension Amplify {
             self.enableAutoBranchCreation = enableAutoBranchCreation
             self.enableBasicAuth = enableBasicAuth
             self.enableBranchAutoBuild = enableBranchAutoBuild
+            self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
             self.name = name
@@ -486,6 +493,7 @@ extension Amplify {
             case enableAutoBranchCreation = "enableAutoBranchCreation"
             case enableBasicAuth = "enableBasicAuth"
             case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBranchAutoDeletion = "enableBranchAutoDeletion"
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
             case name = "name"
@@ -514,13 +522,13 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name of deployment artifacts. 
+        ///  The name of deployment artifacts. 
         public let deploymentArtifacts: String?
-        ///  Name for the backend environment. 
+        ///  The name for the backend environment. 
         public let environmentName: String
-        ///  CloudFormation stack name of backend environment. 
+        ///  The AWS CloudFormation stack name of a backend environment. 
         public let stackName: String?
 
         public init(appId: String, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil) {
@@ -550,7 +558,7 @@ extension Amplify {
 
     public struct CreateBackendEnvironmentResult: AWSDecodableShape {
 
-        ///  Backend environment structure for an amplify App. 
+        ///  Describes the backend environment for an Amplify app. 
         public let backendEnvironment: BackendEnvironment
 
         public init(backendEnvironment: BackendEnvironment) {
@@ -567,39 +575,39 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  ARN for a Backend Environment, part of an Amplify App. 
+        ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app. 
         public let backendEnvironmentArn: String?
-        ///  Basic Authorization credentials for the branch. 
+        ///  The basic authorization credentials for the branch. 
         public let basicAuthCredentials: String?
-        ///  Name for the branch. 
+        ///  The name for the branch. 
         public let branchName: String
-        ///  BuildSpec for the branch. 
+        ///  The build specification (build spec) for the branch. 
         public let buildSpec: String?
-        ///  Description for the branch. 
+        ///  The description for the branch. 
         public let description: String?
-        ///  Display name for a branch, will use as the default domain prefix. 
+        ///  The display name for a branch. This is used as the default domain prefix. 
         public let displayName: String?
         ///  Enables auto building for the branch. 
         public let enableAutoBuild: Bool?
-        ///  Enables Basic Auth for the branch. 
+        ///  Enables basic authorization for the branch. 
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
-        ///  Enables Pull Request Preview for this branch. 
+        ///  Enables pull request preview for this branch. 
         public let enablePullRequestPreview: Bool?
-        ///  Environment Variables for the branch. 
+        ///  The environment variables for the branch. 
         public let environmentVariables: [String: String]?
-        ///  Framework for the branch. 
+        ///  The framework for the branch. 
         public let framework: String?
-        ///  The Amplify Environment name for the pull request. 
+        ///  The Amplify environment name for the pull request. 
         public let pullRequestEnvironmentName: String?
-        ///  Stage for the branch. 
+        ///  Describes the current stage for the branch. 
         public let stage: Stage?
-        ///  Tag for the branch. 
+        ///  The tag for the branch. 
         public let tags: [String: String]?
-        ///  The content TTL for the website in seconds. 
+        ///  The content Time To Live (TTL) for the website in seconds. 
         public let ttl: String?
 
         public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
@@ -670,7 +678,7 @@ extension Amplify {
 
     public struct CreateBranchResult: AWSDecodableShape {
 
-        ///  Branch structure for an Amplify App. 
+        ///  Describes the branch for an Amplify app, which maps to a third-party repository branch. 
         public let branch: Branch
 
         public init(branch: Branch) {
@@ -688,11 +696,11 @@ extension Amplify {
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch, for the Job. 
+        ///  The name for the branch, for the job. 
         public let branchName: String
-        ///  Optional file map that contains file name as the key and file content md5 hash as the value. If this argument is provided, the service will generate different upload url per file. Otherwise, the service will only generate a single upload url for the zipped files. 
+        ///  An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files. 
         public let fileMap: [String: String]?
 
         public init(appId: String, branchName: String, fileMap: [String: String]? = nil) {
@@ -719,11 +727,11 @@ extension Amplify {
 
     public struct CreateDeploymentResult: AWSDecodableShape {
 
-        ///  When the fileMap argument is provided in the request, the fileUploadUrls will contain a map of file names to upload url. 
+        ///  When the fileMap argument is provided in the request, fileUploadUrls will contain a map of file names to upload URLs. 
         public let fileUploadUrls: [String: String]
-        ///  The jobId for this deployment, will supply to start deployment api. 
+        ///  The job ID for this deployment. will supply to start deployment api. 
         public let jobId: String?
-        ///  When the fileMap argument is NOT provided. This zipUploadUrl will be returned. 
+        ///  When the fileMap argument is not provided in the request, this zipUploadUrl is returned. 
         public let zipUploadUrl: String
 
         public init(fileUploadUrls: [String: String], jobId: String? = nil, zipUploadUrl: String) {
@@ -744,17 +752,23 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Domain name for the Domain Association. 
+        ///  Sets the branch patterns for automatic subdomain creation. 
+        public let autoSubDomainCreationPatterns: [String]?
+        ///  The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains. 
+        public let autoSubDomainIAMRole: String?
+        ///  The domain name for the domain association. 
         public let domainName: String
-        ///  Enables automated creation of Subdomains for branches. (Currently not supported) 
+        ///  Enables the automated creation of subdomains for branches. 
         public let enableAutoSubDomain: Bool?
-        ///  Setting structure for the Subdomain. 
+        ///  The setting for the subdomain. 
         public let subDomainSettings: [SubDomainSetting]
 
-        public init(appId: String, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
+        public init(appId: String, autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
             self.appId = appId
+            self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
+            self.autoSubDomainIAMRole = autoSubDomainIAMRole
             self.domainName = domainName
             self.enableAutoSubDomain = enableAutoSubDomain
             self.subDomainSettings = subDomainSettings
@@ -763,6 +777,12 @@ extension Amplify {
         public func validate(name: String) throws {
             try validate(self.appId, name: "appId", parent: name, max: 255)
             try validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.autoSubDomainCreationPatterns?.forEach {
+                try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
+                try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, max: 1000)
+            try validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role.+")
             try validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.subDomainSettings.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
@@ -771,6 +791,8 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoSubDomainCreationPatterns = "autoSubDomainCreationPatterns"
+            case autoSubDomainIAMRole = "autoSubDomainIAMRole"
             case domainName = "domainName"
             case enableAutoSubDomain = "enableAutoSubDomain"
             case subDomainSettings = "subDomainSettings"
@@ -779,7 +801,7 @@ extension Amplify {
 
     public struct CreateDomainAssociationResult: AWSDecodableShape {
 
-        ///  Domain Association structure. 
+        ///  Describes the structure of a domain association, which associates a custom domain with an Amplify app. 
         public let domainAssociation: DomainAssociation
 
         public init(domainAssociation: DomainAssociation) {
@@ -796,11 +818,11 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for a branch, part of an Amplify App. 
+        ///  The name for a branch that is part of an Amplify app. 
         public let branchName: String
-        ///  Description for a webhook. 
+        ///  The description for a webhook. 
         public let description: String?
 
         public init(appId: String, branchName: String, description: String? = nil) {
@@ -825,7 +847,7 @@ extension Amplify {
 
     public struct CreateWebhookResult: AWSDecodableShape {
 
-        ///  Webhook structure. 
+        ///  Describes a webhook that connects repository events to an Amplify app. 
         public let webhook: Webhook
 
         public init(webhook: Webhook) {
@@ -839,7 +861,7 @@ extension Amplify {
 
     public struct CustomRule: AWSEncodableShape & AWSDecodableShape {
 
-        ///  The condition for a URL rewrite or redirect rule, e.g. country code. 
+        ///  The condition for a URL rewrite or redirect rule, such as a country code. 
         public let condition: String?
         ///  The source pattern for a URL rewrite or redirect rule. 
         public let source: String
@@ -879,7 +901,7 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
 
         public init(appId: String) {
@@ -913,9 +935,9 @@ extension Amplify {
             AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
-        ///  Unique Id of an Amplify App. 
+        ///  The unique ID of an Amplify app. 
         public let appId: String
-        ///  Name of a backend environment of an Amplify App. 
+        ///  The name of a backend environment of an Amplify app. 
         public let environmentName: String
 
         public init(appId: String, environmentName: String) {
@@ -935,7 +957,7 @@ extension Amplify {
 
     public struct DeleteBackendEnvironmentResult: AWSDecodableShape {
 
-        ///  Backend environment structure for an Amplify App. 
+        ///  Describes the backend environment for an Amplify app. 
         public let backendEnvironment: BackendEnvironment
 
         public init(backendEnvironment: BackendEnvironment) {
@@ -953,9 +975,9 @@ extension Amplify {
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch. 
+        ///  The name for the branch. 
         public let branchName: String
 
         public init(appId: String, branchName: String) {
@@ -975,7 +997,7 @@ extension Amplify {
 
     public struct DeleteBranchResult: AWSDecodableShape {
 
-        ///  Branch structure for an Amplify App. 
+        ///  The branch for an Amplify app, which maps to a third-party repository branch. 
         public let branch: Branch
 
         public init(branch: Branch) {
@@ -993,9 +1015,9 @@ extension Amplify {
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique id for an Amplify app. 
         public let appId: String
-        ///  Name of the domain. 
+        ///  The name of the domain. 
         public let domainName: String
 
         public init(appId: String, domainName: String) {
@@ -1032,11 +1054,11 @@ extension Amplify {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch, for the Job. 
+        ///  The name for the branch, for the job. 
         public let branchName: String
-        ///  Unique Id for the Job. 
+        ///  The unique ID for the job. 
         public let jobId: String
 
         public init(appId: String, branchName: String, jobId: String) {
@@ -1074,7 +1096,7 @@ extension Amplify {
             AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
-        ///  Unique Id for a webhook. 
+        ///  The unique ID for a webhook. 
         public let webhookId: String
 
         public init(webhookId: String) {
@@ -1090,7 +1112,7 @@ extension Amplify {
 
     public struct DeleteWebhookResult: AWSDecodableShape {
 
-        ///  Webhook structure. 
+        ///  Describes a webhook that connects repository events to an Amplify app. 
         public let webhook: Webhook
 
         public init(webhook: Webhook) {
@@ -1104,22 +1126,28 @@ extension Amplify {
 
     public struct DomainAssociation: AWSDecodableShape {
 
-        ///  DNS Record for certificate verification. 
+        ///  Sets branch patterns for automatic subdomain creation. 
+        public let autoSubDomainCreationPatterns: [String]?
+        ///  The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains. 
+        public let autoSubDomainIAMRole: String?
+        ///  The DNS record for certificate verification. 
         public let certificateVerificationDNSRecord: String?
-        ///  ARN for the Domain Association. 
+        ///  The Amazon Resource Name (ARN) for the domain association. 
         public let domainAssociationArn: String
-        ///  Name of the domain. 
+        ///  The name of the domain. 
         public let domainName: String
-        ///  Status fo the Domain Association. 
+        ///  The current status of the domain association. 
         public let domainStatus: DomainStatus
-        ///  Enables automated creation of Subdomains for branches. (Currently not supported) 
+        ///  Enables the automated creation of subdomains for branches. 
         public let enableAutoSubDomain: Bool
-        ///  Reason for the current status of the Domain Association. 
+        ///  The reason for the current status of the domain association. 
         public let statusReason: String
-        ///  Subdomains for the Domain Association. 
+        ///  The subdomains for the domain association. 
         public let subDomains: [SubDomain]
 
-        public init(certificateVerificationDNSRecord: String? = nil, domainAssociationArn: String, domainName: String, domainStatus: DomainStatus, enableAutoSubDomain: Bool, statusReason: String, subDomains: [SubDomain]) {
+        public init(autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, certificateVerificationDNSRecord: String? = nil, domainAssociationArn: String, domainName: String, domainStatus: DomainStatus, enableAutoSubDomain: Bool, statusReason: String, subDomains: [SubDomain]) {
+            self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
+            self.autoSubDomainIAMRole = autoSubDomainIAMRole
             self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
             self.domainAssociationArn = domainAssociationArn
             self.domainName = domainName
@@ -1130,6 +1158,8 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoSubDomainCreationPatterns = "autoSubDomainCreationPatterns"
+            case autoSubDomainIAMRole = "autoSubDomainIAMRole"
             case certificateVerificationDNSRecord = "certificateVerificationDNSRecord"
             case domainAssociationArn = "domainAssociationArn"
             case domainName = "domainName"
@@ -1145,13 +1175,13 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name of the domain. 
+        ///  The name of the domain. 
         public let domainName: String
-        ///  The time at which the logs should end, inclusive. 
+        ///  The time at which the logs should end. The time range specified is inclusive of the end time. 
         public let endTime: TimeStamp?
-        ///  The time at which the logs should start, inclusive. 
+        ///  The time at which the logs should start. The time range specified is inclusive of the start time. 
         public let startTime: TimeStamp?
 
         public init(appId: String, domainName: String, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
@@ -1176,7 +1206,7 @@ extension Amplify {
 
     public struct GenerateAccessLogsResult: AWSDecodableShape {
 
-        ///  Pre-signed URL for the requested access logs. 
+        ///  The pre-signed URL for the requested access logs. 
         public let logUrl: String?
 
         public init(logUrl: String? = nil) {
@@ -1193,7 +1223,7 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
 
         public init(appId: String) {
@@ -1226,7 +1256,7 @@ extension Amplify {
             AWSMemberEncoding(label: "artifactId", location: .uri(locationName: "artifactId"))
         ]
 
-        ///  Unique Id for a artifact. 
+        ///  The unique ID for an artifact. 
         public let artifactId: String
 
         public init(artifactId: String) {
@@ -1242,9 +1272,9 @@ extension Amplify {
 
     public struct GetArtifactUrlResult: AWSDecodableShape {
 
-        ///  Unique Id for a artifact. 
+        ///  The unique ID for an artifact. 
         public let artifactId: String
-        ///  Presigned url for the artifact. 
+        ///  The presigned URL for the artifact. 
         public let artifactUrl: String
 
         public init(artifactId: String, artifactUrl: String) {
@@ -1264,9 +1294,9 @@ extension Amplify {
             AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique id for an Amplify app. 
         public let appId: String
-        ///  Name for the backend environment. 
+        ///  The name for the backend environment. 
         public let environmentName: String
 
         public init(appId: String, environmentName: String) {
@@ -1286,7 +1316,7 @@ extension Amplify {
 
     public struct GetBackendEnvironmentResult: AWSDecodableShape {
 
-        ///  Backend environment structure for an an Amplify App. 
+        ///  Describes the backend environment for an Amplify app. 
         public let backendEnvironment: BackendEnvironment
 
         public init(backendEnvironment: BackendEnvironment) {
@@ -1304,9 +1334,9 @@ extension Amplify {
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch. 
+        ///  The name for the branch. 
         public let branchName: String
 
         public init(appId: String, branchName: String) {
@@ -1343,9 +1373,9 @@ extension Amplify {
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique id for an Amplify app. 
         public let appId: String
-        ///  Name of the domain. 
+        ///  The name of the domain. 
         public let domainName: String
 
         public init(appId: String, domainName: String) {
@@ -1364,7 +1394,7 @@ extension Amplify {
 
     public struct GetDomainAssociationResult: AWSDecodableShape {
 
-        ///  Domain Association structure. 
+        ///  Describes the structure of a domain association, which associates a custom domain with an Amplify app. 
         public let domainAssociation: DomainAssociation
 
         public init(domainAssociation: DomainAssociation) {
@@ -1383,11 +1413,11 @@ extension Amplify {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch, for the Job. 
+        ///  The branch name for the job. 
         public let branchName: String
-        ///  Unique Id for the Job. 
+        ///  The unique ID for the job. 
         public let jobId: String
 
         public init(appId: String, branchName: String, jobId: String) {
@@ -1425,7 +1455,7 @@ extension Amplify {
             AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
-        ///  Unique Id for a webhook. 
+        ///  The unique ID for a webhook. 
         public let webhookId: String
 
         public init(webhookId: String) {
@@ -1441,7 +1471,7 @@ extension Amplify {
 
     public struct GetWebhookResult: AWSDecodableShape {
 
-        ///  Webhook structure. 
+        ///  Describes the structure of a webhook. 
         public let webhook: Webhook
 
         public init(webhook: Webhook) {
@@ -1455,9 +1485,9 @@ extension Amplify {
 
     public struct Job: AWSDecodableShape {
 
-        ///  Execution steps for an execution job, for an Amplify App. 
+        ///  The execution steps for an execution job, for an Amplify app. 
         public let steps: [Step]
-        ///  Summary for an execution job for an Amplify App. 
+        ///  Describes the summary for an execution job for an Amplify app. 
         public let summary: JobSummary
 
         public init(steps: [Step], summary: JobSummary) {
@@ -1473,23 +1503,23 @@ extension Amplify {
 
     public struct JobSummary: AWSDecodableShape {
 
-        ///  Commit Id from 3rd party repository provider for the Job. 
+        ///  The commit ID from a third-party repository provider for the job. 
         public let commitId: String
-        ///  Commit message from 3rd party repository provider for the Job. 
+        ///  The commit message from a third-party repository provider for the job. 
         public let commitMessage: String
-        ///  Commit date / time for the Job. 
+        ///  The commit date and time for the job. 
         public let commitTime: TimeStamp
-        ///  End date / time for the Job. 
+        ///  The end date and time for the job. 
         public let endTime: TimeStamp?
-        ///  Arn for the Job. 
+        ///  The Amazon Resource Name (ARN) for the job. 
         public let jobArn: String
-        ///  Unique Id for the Job. 
+        ///  The unique ID for the job. 
         public let jobId: String
-        ///  Type for the Job. \n "RELEASE": Manually released from source by using StartJob API. "RETRY": Manually retried by using StartJob API. "WEB_HOOK": Automatically triggered by WebHooks. 
+        ///  The type for the job. If the value is RELEASE, the job was manually released from its source by using the StartJob API. If the value is RETRY, the job was manually retried using the StartJob API. If the value is WEB_HOOK, the job was automatically triggered by webhooks. 
         public let jobType: JobType
-        ///  Start date / time for the Job. 
+        ///  The start date and time for the job. 
         public let startTime: TimeStamp
-        ///  Status for the Job. 
+        ///  The current status for the job. 
         public let status: JobStatus
 
         public init(commitId: String, commitMessage: String, commitTime: TimeStamp, endTime: TimeStamp? = nil, jobArn: String, jobId: String, jobType: JobType, startTime: TimeStamp, status: JobStatus) {
@@ -1523,9 +1553,9 @@ extension Amplify {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries. 
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1544,9 +1574,9 @@ extension Amplify {
 
     public struct ListAppsResult: AWSDecodableShape {
 
-        ///  List of Amplify Apps. 
+        ///  A list of Amplify apps. 
         public let apps: [App]
-        ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
+        ///  A pagination token. Set to null to start listing apps from start. If non-null, the pagination token is returned in a result. Pass its value in here to list more projects. 
         public let nextToken: String?
 
         public init(apps: [App], nextToken: String? = nil) {
@@ -1569,15 +1599,15 @@ extension Amplify {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for a branch, part of an Amplify App. 
+        ///  The name of a branch that is part of an Amplify app. 
         public let branchName: String
-        ///  Unique Id for an Job. 
+        ///  The unique ID for a job. 
         public let jobId: String
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. Set to null to start listing artifacts from start. If non-null pagination token is returned in a result, then pass its value in here to list more artifacts. 
+        ///  A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts. 
         public let nextToken: String?
 
         public init(appId: String, branchName: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1604,9 +1634,9 @@ extension Amplify {
 
     public struct ListArtifactsResult: AWSDecodableShape {
 
-        ///  List of artifacts. 
+        ///  A list of artifacts. 
         public let artifacts: [Artifact]
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries. 
         public let nextToken: String?
 
         public init(artifacts: [Artifact], nextToken: String? = nil) {
@@ -1623,17 +1653,18 @@ extension Amplify {
     public struct ListBackendEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "environmentName", location: .querystring(locationName: "environmentName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Unique Id for an amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name of the backend environment 
+        ///  The name of the backend environment 
         public let environmentName: String?
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. Set to null to start listing backen environments from start. If a non-null pagination token is returned in a result, then pass its value in here to list more backend environments. 
+        ///  A pagination token. Set to null to start listing backend environments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments. 
         public let nextToken: String?
 
         public init(appId: String, environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1653,16 +1684,14 @@ extension Amplify {
             try validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case environmentName = "environmentName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackendEnvironmentsResult: AWSDecodableShape {
 
-        ///  List of backend environments for an Amplify App. 
+        ///  The list of backend environments for an Amplify app. 
         public let backendEnvironments: [BackendEnvironment]
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries. 
         public let nextToken: String?
 
         public init(backendEnvironments: [BackendEnvironment], nextToken: String? = nil) {
@@ -1683,11 +1712,11 @@ extension Amplify {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. Set to null to start listing branches from start. If a non-null pagination token is returned in a result, then pass its value in here to list more branches. 
+        ///  A pagination token. Set to null to start listing branches from the start. If a non-null pagination token is returned in a result, pass its value in here to list more branches. 
         public let nextToken: String?
 
         public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1709,9 +1738,9 @@ extension Amplify {
 
     public struct ListBranchesResult: AWSDecodableShape {
 
-        ///  List of branches for an Amplify App. 
+        ///  A list of branches for an Amplify app. 
         public let branches: [Branch]
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries. 
         public let nextToken: String?
 
         public init(branches: [Branch], nextToken: String? = nil) {
@@ -1732,11 +1761,11 @@ extension Amplify {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
+        ///  A pagination token. Set to null to start listing apps from the start. If non-null, a pagination token is returned in a result. Pass its value in here to list more projects. 
         public let nextToken: String?
 
         public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1758,9 +1787,9 @@ extension Amplify {
 
     public struct ListDomainAssociationsResult: AWSDecodableShape {
 
-        ///  List of Domain Associations. 
+        ///  A list of domain associations. 
         public let domainAssociations: [DomainAssociation]
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If non-null, a pagination token is returned in a result. Pass its value in another request to retrieve more entries. 
         public let nextToken: String?
 
         public init(domainAssociations: [DomainAssociation], nextToken: String? = nil) {
@@ -1782,13 +1811,13 @@ extension Amplify {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for a branch. 
+        ///  The name for a branch. 
         public let branchName: String
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. Set to null to start listing steps from start. If a non-null pagination token is returned in a result, then pass its value in here to list more steps. 
+        ///  A pagination token. Set to null to start listing steps from the start. If a non-null pagination token is returned in a result, pass its value in here to list more steps. 
         public let nextToken: String?
 
         public init(appId: String, branchName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1813,9 +1842,9 @@ extension Amplify {
 
     public struct ListJobsResult: AWSDecodableShape {
 
-        ///  Result structure for list job result request. 
+        ///  The result structure for the list job result request. 
         public let jobSummaries: [JobSummary]
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If non-null the pagination token is returned in a result. Pass its value in another request to retrieve more entries. 
         public let nextToken: String?
 
         public init(jobSummaries: [JobSummary], nextToken: String? = nil) {
@@ -1834,7 +1863,7 @@ extension Amplify {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        ///  Resource arn used to list tags. 
+        ///  The Amazon Resource Name (ARN) to use to list tags. 
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1850,7 +1879,7 @@ extension Amplify {
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
 
-        ///  Tags result for response. 
+        ///  A list of tags for the specified The Amazon Resource Name (ARN). 
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -1869,11 +1898,11 @@ extension Amplify {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Maximum number of records to list in a single response. 
+        ///  The maximum number of records to list in a single response. 
         public let maxResults: Int?
-        ///  Pagination token. Set to null to start listing webhooks from start. If non-null pagination token is returned in a result, then pass its value in here to list more webhooks. 
+        ///  A pagination token. Set to null to start listing webhooks from the start. If non-null,the pagination token is returned in a result. Pass its value in here to list more webhooks. 
         public let nextToken: String?
 
         public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1895,9 +1924,9 @@ extension Amplify {
 
     public struct ListWebhooksResult: AWSDecodableShape {
 
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        ///  A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries. 
         public let nextToken: String?
-        ///  List of webhooks. 
+        ///  A list of webhooks. 
         public let webhooks: [Webhook]
 
         public init(nextToken: String? = nil, webhooks: [Webhook]) {
@@ -1913,13 +1942,13 @@ extension Amplify {
 
     public struct ProductionBranch: AWSDecodableShape {
 
-        ///  Branch Name for Production Branch. 
+        ///  The branch name for the production branch. 
         public let branchName: String?
-        ///  Last Deploy Time of Production Branch. 
+        ///  The last deploy time of the production branch. 
         public let lastDeployTime: TimeStamp?
-        ///  Status of Production Branch. 
+        ///  The status of the production branch. 
         public let status: String?
-        ///  Thumbnail URL for Production Branch. 
+        ///  The thumbnail URL for the production branch. 
         public let thumbnailUrl: String?
 
         public init(branchName: String? = nil, lastDeployTime: TimeStamp? = nil, status: String? = nil, thumbnailUrl: String? = nil) {
@@ -1943,13 +1972,13 @@ extension Amplify {
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch, for the Job. 
+        ///  The name for the branch, for the job. 
         public let branchName: String
-        ///  The job id for this deployment, generated by create deployment request. 
+        ///  The job ID for this deployment, generated by the create deployment request. 
         public let jobId: String?
-        ///  The sourceUrl for this deployment, used when calling start deployment without create deployment. SourceUrl can be any HTTP GET url that is public accessible and downloads a single zip. 
+        ///  The source URL for this deployment, used when calling start deployment without create deployment. The source URL can be any HTTP GET URL that is publicly accessible and downloads a single .zip file. 
         public let sourceUrl: String?
 
         public init(appId: String, branchName: String, jobId: String? = nil, sourceUrl: String? = nil) {
@@ -1976,7 +2005,7 @@ extension Amplify {
 
     public struct StartDeploymentResult: AWSDecodableShape {
 
-        ///  Summary for the Job. 
+        ///  The summary for the job. 
         public let jobSummary: JobSummary
 
         public init(jobSummary: JobSummary) {
@@ -1994,21 +2023,21 @@ extension Amplify {
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch, for the Job. 
+        ///  The branch name for the job. 
         public let branchName: String
-        ///  Commit Id from 3rd party repository provider for the Job. 
+        ///  The commit ID from a third-party repository provider for the job. 
         public let commitId: String?
-        ///  Commit message from 3rd party repository provider for the Job. 
+        ///  The commit message from a third-party repository provider for the job. 
         public let commitMessage: String?
-        ///  Commit date / time for the Job. 
+        ///  The commit date and time for the job. 
         public let commitTime: TimeStamp?
-        ///  Unique Id for an existing job. Required for "RETRY" JobType. 
+        ///  The unique ID for an existing job. This is required if the value of jobType is RETRY. 
         public let jobId: String?
-        ///  Descriptive reason for starting this job. 
+        ///  A descriptive reason for starting this job. 
         public let jobReason: String?
-        ///  Type for the Job. Available JobTypes are: \n "RELEASE": Start a new job with the latest change from the specified branch. Only available for apps that have connected to a repository. "RETRY": Retry an existing job. JobId is required for this type of job. 
+        ///  Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY, the jobId is also required. 
         public let jobType: JobType
 
         public init(appId: String, branchName: String, commitId: String? = nil, commitMessage: String? = nil, commitTime: TimeStamp? = nil, jobId: String? = nil, jobReason: String? = nil, jobType: JobType) {
@@ -2045,7 +2074,7 @@ extension Amplify {
 
     public struct StartJobResult: AWSDecodableShape {
 
-        ///  Summary for the Job. 
+        ///  The summary for the job. 
         public let jobSummary: JobSummary
 
         public init(jobSummary: JobSummary) {
@@ -2059,27 +2088,27 @@ extension Amplify {
 
     public struct Step: AWSDecodableShape {
 
-        ///  URL to the artifact for the execution step. 
+        ///  The URL to the artifact for the execution step. 
         public let artifactsUrl: String?
-        ///  The context for current step, will include build image if step is build. 
+        ///  The context for the current step. Includes a build image if the step is build. 
         public let context: String?
-        ///  End date/ time of the execution step. 
+        ///  The end date and time of the execution step. 
         public let endTime: TimeStamp
-        ///  URL to the logs for the execution step. 
+        ///  The URL to the logs for the execution step. 
         public let logUrl: String?
-        ///  List of screenshot URLs for the execution step, if relevant. 
+        ///  The list of screenshot URLs for the execution step, if relevant. 
         public let screenshots: [String: String]?
-        ///  Start date/ time of the execution step. 
+        ///  The start date and time of the execution step. 
         public let startTime: TimeStamp
-        ///  Status of the execution step. 
+        ///  The status of the execution step. 
         public let status: JobStatus
-        ///  The reason for current step status. 
+        ///  The reason for the current step status. 
         public let statusReason: String?
-        ///  Name of the execution step. 
+        ///  The name of the execution step. 
         public let stepName: String
-        ///  URL to the test artifact for the execution step. 
+        ///  The URL to the test artifact for the execution step. 
         public let testArtifactsUrl: String?
-        ///  URL to the test config for the execution step. 
+        ///  The URL to the test configuration for the execution step. 
         public let testConfigUrl: String?
 
         public init(artifactsUrl: String? = nil, context: String? = nil, endTime: TimeStamp, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: TimeStamp, status: JobStatus, statusReason: String? = nil, stepName: String, testArtifactsUrl: String? = nil, testConfigUrl: String? = nil) {
@@ -2118,11 +2147,11 @@ extension Amplify {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name for the branch, for the Job. 
+        ///  The name for the branch, for the job. 
         public let branchName: String
-        ///  Unique Id for the Job. 
+        ///  The unique id for the job. 
         public let jobId: String
 
         public init(appId: String, branchName: String, jobId: String) {
@@ -2144,7 +2173,7 @@ extension Amplify {
 
     public struct StopJobResult: AWSDecodableShape {
 
-        ///  Summary for the Job. 
+        ///  The summary for the job. 
         public let jobSummary: JobSummary
 
         public init(jobSummary: JobSummary) {
@@ -2158,11 +2187,11 @@ extension Amplify {
 
     public struct SubDomain: AWSDecodableShape {
 
-        ///  DNS record for the Subdomain. 
+        ///  The DNS record for the subdomain. 
         public let dnsRecord: String
-        ///  Setting structure for the Subdomain. 
+        ///  Describes the settings for the subdomain. 
         public let subDomainSetting: SubDomainSetting
-        ///  Verified status of the Subdomain 
+        ///  The verified status of the subdomain 
         public let verified: Bool
 
         public init(dnsRecord: String, subDomainSetting: SubDomainSetting, verified: Bool) {
@@ -2180,9 +2209,9 @@ extension Amplify {
 
     public struct SubDomainSetting: AWSEncodableShape & AWSDecodableShape {
 
-        ///  Branch name setting for the Subdomain. 
+        ///  The branch name setting for the subdomain. 
         public let branchName: String
-        ///  Prefix setting for the Subdomain. 
+        ///  The prefix setting for the subdomain. 
         public let prefix: String
 
         public init(branchName: String, prefix: String) {
@@ -2207,9 +2236,9 @@ extension Amplify {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        ///  Resource arn used to tag resource. 
+        ///  The Amazon Resource Name (ARN) to use to tag a resource. 
         public let resourceArn: String
-        ///  Tags used to tag resource. 
+        ///  The tags used to tag the resource. 
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -2246,9 +2275,9 @@ extension Amplify {
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        ///  Resource arn used to untag resource. 
+        ///  The Amazon Resource Name (ARN) to use to untag a resource. 
         public let resourceArn: String
-        ///  Tag keys used to untag resource. 
+        ///  The tag keys to use to untag a resource. 
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2283,42 +2312,44 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
+        ///  The personal access token for a third-party source control system for an Amplify app. The token is used to create webhook and a read-only deploy key. The token is not stored. 
         public let accessToken: String?
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Automated branch creation branchConfig for the Amplify App. 
+        ///  The automated branch creation configuration for the Amplify app. 
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
-        ///  Automated branch creation glob patterns for the Amplify App. 
+        ///  Describes the automated branch creation glob patterns for the Amplify app. 
         public let autoBranchCreationPatterns: [String]?
-        ///  Basic Authorization credentials for an Amplify App. 
+        ///  The basic authorization credentials for an Amplify app. 
         public let basicAuthCredentials: String?
-        ///  BuildSpec for an Amplify App. 
+        ///  The build specification (build spec) for an Amplify app. 
         public let buildSpec: String?
-        ///  Custom redirect / rewrite rules for an Amplify App. 
+        ///  The custom redirect and rewrite rules for an Amplify app. 
         public let customRules: [CustomRule]?
-        ///  Description for an Amplify App. 
+        ///  The description for an Amplify app. 
         public let description: String?
-        ///  Enables automated branch creation for the Amplify App. 
+        ///  Enables automated branch creation for the Amplify app. 
         public let enableAutoBranchCreation: Bool?
-        ///  Enables Basic Authorization for an Amplify App. 
+        ///  Enables basic authorization for an Amplify app. 
         public let enableBasicAuth: Bool?
-        ///  Enables branch auto-building for an Amplify App. 
+        ///  Enables branch auto-building for an Amplify app. 
         public let enableBranchAutoBuild: Bool?
-        ///  Environment Variables for an Amplify App. 
+        ///  Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository. 
+        public let enableBranchAutoDeletion: Bool?
+        ///  The environment variables for an Amplify app. 
         public let environmentVariables: [String: String]?
-        ///  IAM service role for an Amplify App. 
+        ///  The AWS Identity and Access Management (IAM) service role for an Amplify app. 
         public let iamServiceRoleArn: String?
-        ///  Name for an Amplify App. 
+        ///  The name for an Amplify app. 
         public let name: String?
-        ///  OAuth token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. OAuth token is not stored. 
+        ///  The OAuth token for a third-party source control system for an Amplify app. The token is used to create a webhook and a read-only deploy key. The OAuth token is not stored. 
         public let oauthToken: String?
-        ///  Platform for an Amplify App. 
+        ///  The platform for an Amplify app. 
         public let platform: Platform?
-        ///  Repository for an Amplify App 
+        ///  The name of the repository for an Amplify app 
         public let repository: String?
 
-        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
+        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
             self.accessToken = accessToken
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -2330,6 +2361,7 @@ extension Amplify {
             self.enableAutoBranchCreation = enableAutoBranchCreation
             self.enableBasicAuth = enableBasicAuth
             self.enableBranchAutoBuild = enableBranchAutoBuild
+            self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
             self.name = name
@@ -2378,6 +2410,7 @@ extension Amplify {
             case enableAutoBranchCreation = "enableAutoBranchCreation"
             case enableBasicAuth = "enableBasicAuth"
             case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBranchAutoDeletion = "enableBranchAutoDeletion"
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
             case name = "name"
@@ -2389,7 +2422,7 @@ extension Amplify {
 
     public struct UpdateAppResult: AWSDecodableShape {
 
-        ///  App structure for the updated App. 
+        ///  Represents the updated Amplify app. 
         public let app: App
 
         public init(app: App) {
@@ -2407,37 +2440,37 @@ extension Amplify {
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  ARN for a Backend Environment, part of an Amplify App. 
+        ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app. 
         public let backendEnvironmentArn: String?
-        ///  Basic Authorization credentials for the branch. 
+        ///  The basic authorization credentials for the branch. 
         public let basicAuthCredentials: String?
-        ///  Name for the branch. 
+        ///  The name for the branch. 
         public let branchName: String
-        ///  BuildSpec for the branch. 
+        ///  The build specification (build spec) for the branch. 
         public let buildSpec: String?
-        ///  Description for the branch. 
+        ///  The description for the branch. 
         public let description: String?
-        ///  Display name for a branch, will use as the default domain prefix. 
+        ///  The display name for a branch. This is used as the default domain prefix. 
         public let displayName: String?
         ///  Enables auto building for the branch. 
         public let enableAutoBuild: Bool?
-        ///  Enables Basic Auth for the branch. 
+        ///  Enables basic authorization for the branch. 
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
-        ///  Enables Pull Request Preview for this branch. 
+        ///  Enables pull request preview for this branch. 
         public let enablePullRequestPreview: Bool?
-        ///  Environment Variables for the branch. 
+        ///  The environment variables for the branch. 
         public let environmentVariables: [String: String]?
-        ///  Framework for the branch. 
+        ///  The framework for the branch. 
         public let framework: String?
-        ///  The Amplify Environment name for the pull request. 
+        ///  The Amplify environment name for the pull request. 
         public let pullRequestEnvironmentName: String?
-        ///  Stage for the branch. 
+        ///  Describes the current stage for the branch. 
         public let stage: Stage?
-        ///  The content TTL for the website in seconds. 
+        ///  The content Time to Live (TTL) for the website in seconds. 
         public let ttl: String?
 
         public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
@@ -2499,7 +2532,7 @@ extension Amplify {
 
     public struct UpdateBranchResult: AWSDecodableShape {
 
-        ///  Branch structure for an Amplify App. 
+        ///  The branch for an Amplify app, which maps to a third-party repository branch. 
         public let branch: Branch
 
         public init(branch: Branch) {
@@ -2517,17 +2550,23 @@ extension Amplify {
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
-        ///  Unique Id for an Amplify App. 
+        ///  The unique ID for an Amplify app. 
         public let appId: String
-        ///  Name of the domain. 
+        ///  Sets the branch patterns for automatic subdomain creation. 
+        public let autoSubDomainCreationPatterns: [String]?
+        ///  The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains. 
+        public let autoSubDomainIAMRole: String?
+        ///  The name of the domain. 
         public let domainName: String
-        ///  Enables automated creation of Subdomains for branches. (Currently not supported) 
+        ///  Enables the automated creation of subdomains for branches. 
         public let enableAutoSubDomain: Bool?
-        ///  Setting structure for the Subdomain. 
+        ///  Describes the settings for the subdomain. 
         public let subDomainSettings: [SubDomainSetting]
 
-        public init(appId: String, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
+        public init(appId: String, autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
             self.appId = appId
+            self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
+            self.autoSubDomainIAMRole = autoSubDomainIAMRole
             self.domainName = domainName
             self.enableAutoSubDomain = enableAutoSubDomain
             self.subDomainSettings = subDomainSettings
@@ -2536,6 +2575,12 @@ extension Amplify {
         public func validate(name: String) throws {
             try validate(self.appId, name: "appId", parent: name, max: 255)
             try validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.autoSubDomainCreationPatterns?.forEach {
+                try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
+                try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, max: 1000)
+            try validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role.+")
             try validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.subDomainSettings.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
@@ -2544,6 +2589,8 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoSubDomainCreationPatterns = "autoSubDomainCreationPatterns"
+            case autoSubDomainIAMRole = "autoSubDomainIAMRole"
             case enableAutoSubDomain = "enableAutoSubDomain"
             case subDomainSettings = "subDomainSettings"
         }
@@ -2551,7 +2598,7 @@ extension Amplify {
 
     public struct UpdateDomainAssociationResult: AWSDecodableShape {
 
-        ///  Domain Association structure. 
+        ///  Describes a domain association, which associates a custom domain with an Amplify app. 
         public let domainAssociation: DomainAssociation
 
         public init(domainAssociation: DomainAssociation) {
@@ -2568,11 +2615,11 @@ extension Amplify {
             AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
-        ///  Name for a branch, part of an Amplify App. 
+        ///  The name for a branch that is part of an Amplify app. 
         public let branchName: String?
-        ///  Description for a webhook. 
+        ///  The description for a webhook. 
         public let description: String?
-        ///  Unique Id for a webhook. 
+        ///  The unique ID for a webhook. 
         public let webhookId: String
 
         public init(branchName: String? = nil, description: String? = nil, webhookId: String) {
@@ -2596,7 +2643,7 @@ extension Amplify {
 
     public struct UpdateWebhookResult: AWSDecodableShape {
 
-        ///  Webhook structure. 
+        ///  Describes a webhook that connects repository events to an Amplify app. 
         public let webhook: Webhook
 
         public init(webhook: Webhook) {
@@ -2610,19 +2657,19 @@ extension Amplify {
 
     public struct Webhook: AWSDecodableShape {
 
-        ///  Name for a branch, part of an Amplify App. 
+        ///  The name for a branch that is part of an Amplify app. 
         public let branchName: String
-        ///  Create date / time for a webhook. 
+        ///  The create date and time for a webhook. 
         public let createTime: TimeStamp
-        ///  Description for a webhook. 
+        ///  The description for a webhook. 
         public let description: String
-        ///  Update date / time for a webhook. 
+        ///  Updates the date and time for a webhook. 
         public let updateTime: TimeStamp
-        ///  ARN for the webhook. 
+        ///  The Amazon Resource Name (ARN) for the webhook. 
         public let webhookArn: String
-        ///  Id of the webhook. 
+        ///  The ID of the webhook. 
         public let webhookId: String
-        ///  Url of the webhook. 
+        ///  The URL of the webhook. 
         public let webhookUrl: String
 
         public init(branchName: String, createTime: TimeStamp, description: String, updateTime: TimeStamp, webhookArn: String, webhookId: String, webhookUrl: String) {

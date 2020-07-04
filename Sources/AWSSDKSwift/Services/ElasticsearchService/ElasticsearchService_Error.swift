@@ -23,6 +23,7 @@ public enum ElasticsearchServiceErrorType: AWSErrorType {
     case conflictException(message: String?)
     case disabledOperationException(message: String?)
     case internalException(message: String?)
+    case invalidPaginationTokenException(message: String?)
     case invalidTypeException(message: String?)
     case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
@@ -47,6 +48,8 @@ extension ElasticsearchServiceErrorType {
             self = .disabledOperationException(message: message)
         case "InternalException":
             self = .internalException(message: message)
+        case "InvalidPaginationTokenException":
+            self = .invalidPaginationTokenException(message: message)
         case "InvalidTypeException":
             self = .invalidTypeException(message: message)
         case "LimitExceededException":
@@ -76,6 +79,8 @@ extension ElasticsearchServiceErrorType: CustomStringConvertible {
             return "DisabledOperationException: \(message ?? "")"
         case .internalException(let message):
             return "InternalException: \(message ?? "")"
+        case .invalidPaginationTokenException(let message):
+            return "InvalidPaginationTokenException: \(message ?? "")"
         case .invalidTypeException(let message):
             return "InvalidTypeException: \(message ?? "")"
         case .limitExceededException(let message):

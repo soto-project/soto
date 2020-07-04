@@ -44,6 +44,13 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SubResourceType: String, CustomStringConvertible, Codable {
         case ip = "IP"
         case url = "URL"
@@ -150,6 +157,36 @@ extension Shield {
     }
 
     public struct AssociateHealthCheckResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct AssociateProactiveEngagementDetailsRequest: AWSEncodableShape {
+
+        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you for escalations to the DRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.  
+        public let emergencyContactList: [EmergencyContact]
+
+        public init(emergencyContactList: [EmergencyContact]) {
+            self.emergencyContactList = emergencyContactList
+        }
+
+        public func validate(name: String) throws {
+            try self.emergencyContactList.forEach {
+                try $0.validate(name: "\(name).emergencyContactList[]")
+            }
+            try validate(self.emergencyContactList, name: "emergencyContactList", parent: name, max: 10)
+            try validate(self.emergencyContactList, name: "emergencyContactList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emergencyContactList = "EmergencyContactList"
+        }
+    }
+
+    public struct AssociateProactiveEngagementDetailsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -462,7 +499,7 @@ extension Shield {
 
     public struct DescribeEmergencyContactSettingsResponse: AWSDecodableShape {
 
-        /// A list of email addresses that the DRT can use to contact you during a suspected attack.
+        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support.
         public let emergencyContactList: [EmergencyContact]?
 
         public init(emergencyContactList: [EmergencyContact]? = nil) {
@@ -535,6 +572,22 @@ extension Shield {
         private enum CodingKeys: String, CodingKey {
             case subscription = "Subscription"
         }
+    }
+
+    public struct DisableProactiveEngagementRequest: AWSEncodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DisableProactiveEngagementResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTLogBucketRequest: AWSEncodableShape {
@@ -618,22 +671,52 @@ extension Shield {
 
     public struct EmergencyContact: AWSEncodableShape & AWSDecodableShape {
 
-        /// An email address that the DRT can use to contact you during a suspected attack.
+        /// Additional notes regarding the contact. 
+        public let contactNotes: String?
+        /// The email address for the contact.
         public let emailAddress: String
+        /// The phone number for the contact.
+        public let phoneNumber: String?
 
-        public init(emailAddress: String) {
+        public init(contactNotes: String? = nil, emailAddress: String, phoneNumber: String? = nil) {
+            self.contactNotes = contactNotes
             self.emailAddress = emailAddress
+            self.phoneNumber = phoneNumber
         }
 
         public func validate(name: String) throws {
+            try validate(self.contactNotes, name: "contactNotes", parent: name, max: 1024)
+            try validate(self.contactNotes, name: "contactNotes", parent: name, min: 1)
+            try validate(self.contactNotes, name: "contactNotes", parent: name, pattern: "^[\\w\\s\\.\\-,:/()+@]*$")
             try validate(self.emailAddress, name: "emailAddress", parent: name, max: 150)
             try validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^\\S+@\\S+\\.\\S+$")
+            try validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 16)
+            try validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+            try validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contactNotes = "ContactNotes"
             case emailAddress = "EmailAddress"
+            case phoneNumber = "PhoneNumber"
         }
+    }
+
+    public struct EnableProactiveEngagementRequest: AWSEncodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct EnableProactiveEngagementResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct GetSubscriptionStateRequest: AWSEncodableShape {
@@ -855,15 +938,18 @@ extension Shield {
         public let endTime: TimeStamp?
         /// Specifies how many protections of a given type you can create.
         public let limits: [Limit]?
+        /// If ENABLED, the DDoS Response Team (DRT) will use email and phone to notify contacts about escalations to the DRT and to initiate proactive customer support. If PENDING, you have requested proactive engagement and the request is pending. The status changes to ENABLED when your request is fully processed. If DISABLED, the DRT will not proactively notify contacts about escalations or to initiate proactive customer support. 
+        public let proactiveEngagementStatus: ProactiveEngagementStatus?
         /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
         public let startTime: TimeStamp?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
-        public init(autoRenew: AutoRenew? = nil, endTime: TimeStamp? = nil, limits: [Limit]? = nil, startTime: TimeStamp? = nil, timeCommitmentInSeconds: Int64? = nil) {
+        public init(autoRenew: AutoRenew? = nil, endTime: TimeStamp? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: TimeStamp? = nil, timeCommitmentInSeconds: Int64? = nil) {
             self.autoRenew = autoRenew
             self.endTime = endTime
             self.limits = limits
+            self.proactiveEngagementStatus = proactiveEngagementStatus
             self.startTime = startTime
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
@@ -872,6 +958,7 @@ extension Shield {
             case autoRenew = "AutoRenew"
             case endTime = "EndTime"
             case limits = "Limits"
+            case proactiveEngagementStatus = "ProactiveEngagementStatus"
             case startTime = "StartTime"
             case timeCommitmentInSeconds = "TimeCommitmentInSeconds"
         }
@@ -949,7 +1036,7 @@ extension Shield {
 
     public struct UpdateEmergencyContactSettingsRequest: AWSEncodableShape {
 
-        /// A list of email addresses that the DRT can use to contact you during a suspected attack.
+        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
         public let emergencyContactList: [EmergencyContact]?
 
         public init(emergencyContactList: [EmergencyContact]? = nil) {

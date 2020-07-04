@@ -42,6 +42,8 @@ extension QuickSight {
     }
 
     public enum DashboardErrorType: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case sourceNotFound = "SOURCE_NOT_FOUND"
         case dataSetNotFound = "DATA_SET_NOT_FOUND"
         case internalFailure = "INTERNAL_FAILURE"
         case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
@@ -71,6 +73,8 @@ extension QuickSight {
     }
 
     public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case copySourceNotFound = "COPY_SOURCE_NOT_FOUND"
         case timeout = "TIMEOUT"
         case engineVersionNotSupported = "ENGINE_VERSION_NOT_SUPPORTED"
         case unknownHost = "UNKNOWN_HOST"
@@ -246,6 +250,7 @@ extension QuickSight {
     }
 
     public enum TemplateErrorType: String, CustomStringConvertible, Codable {
+        case sourceNotFound = "SOURCE_NOT_FOUND"
         case dataSetNotFound = "DATA_SET_NOT_FOUND"
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
@@ -657,15 +662,15 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
-        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. The sheet controls pane is collapsed by default when set to true. This option is COLLAPSED by default.   
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.  
         public let dashboardPublishOptions: DashboardPublishOptions?
         /// The display name of the dashboard.
         public let name: String
-        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values. You can use the dashboard permissions structure described following to override two string parameters that accept multiple values. 
+        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values. 
         public let parameters: Parameters?
         /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions with principal and action information.
         public let permissions: [ResourcePermission]?
-        /// The source entity from which the dashboard is created. The source entity accepts the Amazon Resource Name (ARN) of the source template or analysis and also references the replacement datasets for the placeholders set when creating the template. The replacement datasets need to follow the same schema as the datasets for which placeholders were created when creating the template.  If you are creating a dashboard from a source entity in a different AWS account, use the ARN of the source template.
+        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. 
         public let sourceEntity: DashboardSourceEntity
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
@@ -1347,7 +1352,7 @@ extension QuickSight {
         public let name: String?
         /// A list of resource permissions to be set on the template. 
         public let permissions: [ResourcePermission]?
-        /// The Amazon Resource Name (ARN) of the source entity from which this template is being created. Currently, you can create a template from an analysis or another template. If the ARN is for an analysis, include its dataset references. 
+        /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. 
         public let sourceEntity: TemplateSourceEntity
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [Tag]?
@@ -1439,17 +1444,25 @@ extension QuickSight {
 
     public struct CredentialPair: AWSEncodableShape {
 
+        /// A set of alternate data source parameters that you want to share for these credentials. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the new data source with the existing credentials. If the AlternateDataSourceParameters list is null, the DataSourceParameters originally used with these Credentials is automatically allowed.
+        public let alternateDataSourceParameters: [DataSourceParameters]?
         /// Password.
         public let password: String
         /// User name.
         public let username: String
 
-        public init(password: String, username: String) {
+        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, password: String, username: String) {
+            self.alternateDataSourceParameters = alternateDataSourceParameters
             self.password = password
             self.username = username
         }
 
         public func validate(name: String) throws {
+            try self.alternateDataSourceParameters?.forEach {
+                try $0.validate(name: "\(name).alternateDataSourceParameters[]")
+            }
+            try validate(self.alternateDataSourceParameters, name: "alternateDataSourceParameters", parent: name, max: 50)
+            try validate(self.alternateDataSourceParameters, name: "alternateDataSourceParameters", parent: name, min: 1)
             try validate(self.password, name: "password", parent: name, max: 1024)
             try validate(self.password, name: "password", parent: name, min: 1)
             try validate(self.username, name: "username", parent: name, max: 64)
@@ -1457,6 +1470,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alternateDataSourceParameters = "AlternateDataSourceParameters"
             case password = "Password"
             case username = "Username"
         }
@@ -1512,7 +1526,7 @@ extension QuickSight {
         public let lastPublishedTime: TimeStamp?
         /// The last time that this dataset was updated.
         public let lastUpdatedTime: TimeStamp?
-        /// A display name for the dataset.
+        /// A display name for the dashboard.
         public let name: String?
         /// Version.
         public let version: DashboardVersion?
@@ -1580,11 +1594,11 @@ extension QuickSight {
 
     public struct DashboardSearchFilter: AWSEncodableShape {
 
-        /// The name of the value that you want to use as a filter. For example, "Name": "QUICKSIGHT_USER". 
+        /// The name of the value that you want to use as a filter, for example, "Name": "QUICKSIGHT_USER". 
         public let name: DashboardFilterAttribute?
-        /// The comparison operator that you want to use as a filter. For example, "Operator": "StringEquals".
+        /// The comparison operator that you want to use as a filter, for example, "Operator": "StringEquals".
         public let `operator`: FilterOperator
-        /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter. For example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". 
+        /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". 
         public let value: String?
 
         public init(name: DashboardFilterAttribute? = nil, operator: FilterOperator, value: String? = nil) {
@@ -1687,6 +1701,8 @@ extension QuickSight {
         public let arn: String?
         /// The time that this dashboard version was created.
         public let createdTime: TimeStamp?
+        /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with a version of the dashboard.
+        public let dataSetArns: [String]?
         /// Description.
         public let description: String?
         /// Errors.
@@ -1698,9 +1714,10 @@ extension QuickSight {
         /// Version number.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
+            self.dataSetArns = dataSetArns
             self.description = description
             self.errors = errors
             self.sourceEntityArn = sourceEntityArn
@@ -1711,6 +1728,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case createdTime = "CreatedTime"
+            case dataSetArns = "DataSetArns"
             case description = "Description"
             case errors = "Errors"
             case sourceEntityArn = "SourceEntityArn"
@@ -1909,6 +1927,8 @@ extension QuickSight {
 
     public struct DataSource: AWSDecodableShape {
 
+        /// A set of alternate data source parameters that you want to share for the credentials stored with this data source. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the credentials from this existing data source. If the AlternateDataSourceParameters list is null, the Credentials originally used with this DataSourceParameters are automatically allowed.
+        public let alternateDataSourceParameters: [DataSourceParameters]?
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
         /// The time that this data source was created.
@@ -1932,7 +1952,8 @@ extension QuickSight {
         /// The VPC connection information. You need to use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+            self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
             self.createdTime = createdTime
             self.dataSourceId = dataSourceId
@@ -1947,6 +1968,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alternateDataSourceParameters = "AlternateDataSourceParameters"
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case dataSourceId = "DataSourceId"
@@ -1963,18 +1985,23 @@ extension QuickSight {
 
     public struct DataSourceCredentials: AWSEncodableShape {
 
-        /// Credential pair.
+        /// The Amazon Resource Name (ARN) of a data source that has the credential pair that you want to use. When CopySourceArn is not null, the credential pair from the data source in the ARN is used as the credentials for the DataSourceCredentials structure.
+        public let copySourceArn: String?
+        /// Credential pair. For more information, see CredentialPair.
         public let credentialPair: CredentialPair?
 
-        public init(credentialPair: CredentialPair? = nil) {
+        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil) {
+            self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
         }
 
         public func validate(name: String) throws {
+            try validate(self.copySourceArn, name: "copySourceArn", parent: name, pattern: "^arn:[-a-z0-9]*:quicksight:[-a-z0-9]*:[0-9]{12}:datasource/.+")
             try self.credentialPair?.validate(name: "\(name).credentialPair")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case copySourceArn = "CopySourceArn"
             case credentialPair = "CredentialPair"
         }
     }
@@ -2499,7 +2526,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The name for the template alias. If you name a specific alias, you delete the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. 
+        /// The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. 
         public let aliasName: String
         /// The ID of the AWS account that contains the item to delete.
         public let awsAccountId: String
@@ -2534,7 +2561,7 @@ extension QuickSight {
 
         /// The name for the template alias.
         public let aliasName: String?
-        /// The Amazon Resource Name (ARN) of the resource.
+        /// The Amazon Resource Name (ARN) of the template you want to delete.
         public let arn: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3622,7 +3649,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// An URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code value that enables a single sign-on session. 
+        /// A single-use URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes. The API provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours. 
         public let embedUrl: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3994,7 +4021,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// A structure that contains all of the dashboards shared with the user. This structure provides basic information about the dashboards.
+        /// A structure that contains all of the dashboards in your AWS account. This structure provides basic information about the dashboards.
         public let dashboardSummaryList: [DashboardSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -5516,7 +5543,7 @@ extension QuickSight {
 
         /// The ID of the AWS account that contains the user whose dashboards you're searching for. 
         public let awsAccountId: String
-        /// The filters to apply to the search. Currently, you can search only by user name. For example, "Filters": [ { "Name": "QUICKSIGHT_USER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ] 
+        /// The filters to apply to the search. Currently, you can search only by user name, for example, "Filters": [ { "Name": "QUICKSIGHT_USER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ] 
         public let filters: [DashboardSearchFilter]
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -6038,7 +6065,7 @@ extension QuickSight {
 
     public struct TemplateVersionSummary: AWSDecodableShape {
 
-        /// The ARN of the template version.
+        /// The Amazon Resource Name (ARN) of the template version.
         public let arn: String?
         /// The time that this template version was created.
         public let createdTime: TimeStamp?
@@ -6365,13 +6392,13 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
-        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. The sheet controls pane is collapsed by default when set to true. This option is COLLAPSED by default.   
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.   
         public let dashboardPublishOptions: DashboardPublishOptions?
         /// The display name of the dashboard.
         public let name: String
-        /// A structure that contains the parameters of the dashboard.
+        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values. 
         public let parameters: Parameters?
-        /// The template or analysis from which the dashboard is created. The SouceTemplate entity accepts the Amazon Resource Name (ARN) of the template and also references to replacement datasets for the placeholders set when creating the template. The replacement datasets need to follow the same schema as the datasets for which placeholders were created when creating the template.
+        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. 
         public let sourceEntity: DashboardSourceEntity
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
@@ -7088,7 +7115,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The name for the template.
         public let name: String?
-        /// The source QuickSight entity from which this template is being updated. You can currently update templates from an Analysis or another template.
+        /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. 
         public let sourceEntity: TemplateSourceEntity
         /// The ID for the template.
         public let templateId: String

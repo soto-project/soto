@@ -90,7 +90,7 @@ extension CloudFormation {
         return client.paginate(input: input, command: listImports, tokenKey: \ListImportsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region.
+    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region, or that have a specific status.
     public func listStackInstancesPaginator(
         _ input: ListStackInstancesInput,
         on eventLoop: EventLoop? = nil,
@@ -255,6 +255,7 @@ extension CloudFormation.ListImportsInput: AWSPaginateToken {
 extension CloudFormation.ListStackInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackInstancesInput {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             stackInstanceAccount: self.stackInstanceAccount,

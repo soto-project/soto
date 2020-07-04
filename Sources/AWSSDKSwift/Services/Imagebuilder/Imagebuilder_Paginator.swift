@@ -50,7 +50,7 @@ extension Imagebuilder {
         return client.paginate(input: input, command: listDistributionConfigurations, tokenKey: \ListDistributionConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///   Returns a list of distribution configurations. 
+    ///   Returns a list of image build versions. 
     public func listImageBuildVersionsPaginator(
         _ input: ListImageBuildVersionsRequest,
         on eventLoop: EventLoop? = nil,
@@ -90,7 +90,7 @@ extension Imagebuilder {
         return client.paginate(input: input, command: listImageRecipes, tokenKey: \ListImageRecipesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///   Returns the list of image build versions for the specified semantic version. 
+    ///   Returns the list of images that you have access to. 
     public func listImagesPaginator(
         _ input: ListImagesRequest,
         on eventLoop: EventLoop? = nil,

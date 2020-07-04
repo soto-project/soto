@@ -67,6 +67,7 @@ extension Snowball {
         case t100 = "T100"
         case t42 = "T42"
         case t98 = "T98"
+        case t8 = "T8"
         case nopreference = "NoPreference"
         public var description: String { return self.rawValue }
     }
@@ -77,6 +78,7 @@ extension Snowball {
         case edgeC = "EDGE_C"
         case edgeCg = "EDGE_CG"
         case edgeS = "EDGE_S"
+        case snc1Hdd = "SNC1_HDD"
         public var description: String { return self.rawValue }
     }
 
@@ -274,7 +276,7 @@ extension Snowball {
         public let roleARN: String?
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
-        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
+        /// The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type. 
         public let snowballType: SnowballType?
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
@@ -382,9 +384,9 @@ extension Snowball {
         public let resources: JobResource
         /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption
-        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
+        /// The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type. 
         public let snowballType: SnowballType?
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
@@ -457,6 +459,8 @@ extension Snowball {
         public let clusterId: String?
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
+        /// Defines the device configuration for an AWS Snowcone job.
+        public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most regions.
         public let forwardingAddressId: String?
         /// Defines the type of job that you're creating. 
@@ -473,15 +477,16 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
+        /// The type of AWS Snowball device to use for this job.   For cluster jobs, AWS Snowball currently supports only the EDGE device type.  The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
         public let snowballType: SnowballType?
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.description = description
+            self.deviceConfiguration = deviceConfiguration
             self.forwardingAddressId = forwardingAddressId
             self.jobType = jobType
             self.kmsKeyARN = kmsKeyARN
@@ -518,6 +523,7 @@ extension Snowball {
             case addressId = "AddressId"
             case clusterId = "ClusterId"
             case description = "Description"
+            case deviceConfiguration = "DeviceConfiguration"
             case forwardingAddressId = "ForwardingAddressId"
             case jobType = "JobType"
             case kmsKeyARN = "KmsKeyARN"
@@ -716,6 +722,20 @@ extension Snowball {
         private enum CodingKeys: String, CodingKey {
             case jobMetadata = "JobMetadata"
             case subJobMetadata = "SubJobMetadata"
+        }
+    }
+
+    public struct DeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// Returns information about the device configuration for an AWS Snowcone job.
+        public let snowconeDeviceConfiguration: SnowconeDeviceConfiguration?
+
+        public init(snowconeDeviceConfiguration: SnowconeDeviceConfiguration? = nil) {
+            self.snowconeDeviceConfiguration = snowconeDeviceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snowconeDeviceConfiguration = "SnowconeDeviceConfiguration"
         }
     }
 
@@ -980,6 +1000,7 @@ extension Snowball {
         public let dataTransferProgress: DataTransfer?
         /// The description of the job, provided at job creation.
         public let description: String?
+        public let deviceConfiguration: DeviceConfiguration?
         /// The ID of the address that you want a job shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
         public let forwardingAddressId: String?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -1007,12 +1028,13 @@ extension Snowball {
         /// The metadata associated with the tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.creationDate = creationDate
             self.dataTransferProgress = dataTransferProgress
             self.description = description
+            self.deviceConfiguration = deviceConfiguration
             self.forwardingAddressId = forwardingAddressId
             self.jobId = jobId
             self.jobLogInfo = jobLogInfo
@@ -1034,6 +1056,7 @@ extension Snowball {
             case creationDate = "CreationDate"
             case dataTransferProgress = "DataTransferProgress"
             case description = "Description"
+            case deviceConfiguration = "DeviceConfiguration"
             case forwardingAddressId = "ForwardingAddressId"
             case jobId = "JobId"
             case jobLogInfo = "JobLogInfo"
@@ -1397,9 +1420,22 @@ extension Snowball {
         }
     }
 
+    public struct SnowconeDeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// Configures the wireless connection for the AWS Snowcone device.
+        public let wirelessConnection: WirelessConnection?
+
+        public init(wirelessConnection: WirelessConnection? = nil) {
+            self.wirelessConnection = wirelessConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wirelessConnection = "WirelessConnection"
+        }
+    }
+
     public struct TaxDocuments: AWSEncodableShape & AWSDecodableShape {
 
-        /// The tax documents required in AWS Regions in India.
         public let ind: INDTaxDocuments?
 
         public init(ind: INDTaxDocuments? = nil) {
@@ -1551,5 +1587,19 @@ extension Snowball {
         public init() {
         }
 
+    }
+
+    public struct WirelessConnection: AWSEncodableShape & AWSDecodableShape {
+
+        /// Enables the Wi-Fi adapter on an AWS Snowcone device.
+        public let isWifiEnabled: Bool?
+
+        public init(isWifiEnabled: Bool? = nil) {
+            self.isWifiEnabled = isWifiEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isWifiEnabled = "IsWifiEnabled"
+        }
     }
 }

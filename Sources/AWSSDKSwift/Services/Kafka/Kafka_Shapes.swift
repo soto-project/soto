@@ -320,6 +320,8 @@ extension Kafka {
         public let operationArn: String?
         /// State of the cluster operation.
         public let operationState: String?
+        /// Steps completed during the operation.
+        public let operationSteps: [ClusterOperationStep]?
         /// Type of the cluster operation.
         public let operationType: String?
         /// Information about cluster attributes before a cluster is updated.
@@ -327,7 +329,7 @@ extension Kafka {
         /// Information about cluster attributes after a cluster is updated.
         public let targetClusterInfo: MutableClusterInfo?
 
-        public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
+        public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationSteps: [ClusterOperationStep]? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
             self.creationTime = creationTime
@@ -335,6 +337,7 @@ extension Kafka {
             self.errorInfo = errorInfo
             self.operationArn = operationArn
             self.operationState = operationState
+            self.operationSteps = operationSteps
             self.operationType = operationType
             self.sourceClusterInfo = sourceClusterInfo
             self.targetClusterInfo = targetClusterInfo
@@ -348,9 +351,58 @@ extension Kafka {
             case errorInfo = "errorInfo"
             case operationArn = "operationArn"
             case operationState = "operationState"
+            case operationSteps = "operationSteps"
             case operationType = "operationType"
             case sourceClusterInfo = "sourceClusterInfo"
             case targetClusterInfo = "targetClusterInfo"
+        }
+    }
+
+    public struct ClusterOperationStep: AWSDecodableShape {
+
+        /// Information about the step and its status.
+        public let stepInfo: ClusterOperationStepInfo?
+        /// The name of the step.
+        public let stepName: String?
+
+        public init(stepInfo: ClusterOperationStepInfo? = nil, stepName: String? = nil) {
+            self.stepInfo = stepInfo
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepInfo = "stepInfo"
+            case stepName = "stepName"
+        }
+    }
+
+    public struct ClusterOperationStepInfo: AWSDecodableShape {
+
+        /// The steps current status.
+        public let stepStatus: String?
+
+        public init(stepStatus: String? = nil) {
+            self.stepStatus = stepStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepStatus = "stepStatus"
+        }
+    }
+
+    public struct CompatibleKafkaVersion: AWSDecodableShape {
+
+        public let sourceVersion: String?
+        public let targetVersions: [String]?
+
+        public init(sourceVersion: String? = nil, targetVersions: [String]? = nil) {
+            self.sourceVersion = sourceVersion
+            self.targetVersions = targetVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceVersion = "sourceVersion"
+            case targetVersions = "targetVersions"
         }
     }
 
@@ -520,12 +572,12 @@ extension Kafka {
         /// The description of the configuration.
         public let description: String?
         /// The versions of Apache Kafka with which you can use this MSK configuration.
-        public let kafkaVersions: [String]
+        public let kafkaVersions: [String]?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String
         public let serverProperties: Data
 
-        public init(description: String? = nil, kafkaVersions: [String], name: String, serverProperties: Data) {
+        public init(description: String? = nil, kafkaVersions: [String]? = nil, name: String, serverProperties: Data) {
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.name = name
@@ -893,6 +945,34 @@ extension Kafka {
         }
     }
 
+    public struct GetCompatibleKafkaVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .querystring(locationName: "clusterArn"))
+        ]
+
+        public let clusterArn: String?
+
+        public init(clusterArn: String? = nil) {
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCompatibleKafkaVersionsResponse: AWSDecodableShape {
+
+        /// A list of CompatibleKafkaVersion objects.
+        public let compatibleKafkaVersions: [CompatibleKafkaVersion]?
+
+        public init(compatibleKafkaVersions: [CompatibleKafkaVersion]? = nil) {
+            self.compatibleKafkaVersions = compatibleKafkaVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibleKafkaVersions = "compatibleKafkaVersions"
+        }
+    }
+
     public struct JmxExporter: AWSDecodableShape {
 
         /// Indicates whether you want to enable or disable the JMX Exporter.
@@ -1241,6 +1321,7 @@ extension Kafka {
         public let configurationInfo: ConfigurationInfo?
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
         public let enhancedMonitoring: EnhancedMonitoring?
+        public let kafkaVersion: String?
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
         ///             The number of broker nodes in the cluster.
@@ -1249,10 +1330,11 @@ extension Kafka {
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.configurationInfo = configurationInfo
             self.enhancedMonitoring = enhancedMonitoring
+            self.kafkaVersion = kafkaVersion
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
@@ -1262,6 +1344,7 @@ extension Kafka {
             case brokerEBSVolumeInfo = "brokerEBSVolumeInfo"
             case configurationInfo = "configurationInfo"
             case enhancedMonitoring = "enhancedMonitoring"
+            case kafkaVersion = "kafkaVersion"
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
@@ -1595,6 +1678,50 @@ extension Kafka {
     }
 
     public struct UpdateClusterConfigurationResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct UpdateClusterKafkaVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        public let clusterArn: String
+        public let configurationInfo: ConfigurationInfo?
+        /// Current cluster version.
+        public let currentVersion: String
+        /// Target Kafka version.
+        public let targetKafkaVersion: String
+
+        public init(clusterArn: String, configurationInfo: ConfigurationInfo? = nil, currentVersion: String, targetKafkaVersion: String) {
+            self.clusterArn = clusterArn
+            self.configurationInfo = configurationInfo
+            self.currentVersion = currentVersion
+            self.targetKafkaVersion = targetKafkaVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationInfo = "configurationInfo"
+            case currentVersion = "currentVersion"
+            case targetKafkaVersion = "targetKafkaVersion"
+        }
+    }
+
+    public struct UpdateClusterKafkaVersionResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?

@@ -227,33 +227,43 @@ extension Synthetics {
 
     public struct CanaryRunConfigInput: AWSEncodableShape {
 
+        /// The maximum amount of memory available to the canary while it is running, in MB. The value you specify must be a multiple of 64.
+        public let memoryInMB: Int?
         /// How long the canary is allowed to run before it must stop. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
         public let timeoutInSeconds: Int
 
-        public init(timeoutInSeconds: Int) {
+        public init(memoryInMB: Int? = nil, timeoutInSeconds: Int) {
+            self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         public func validate(name: String) throws {
+            try validate(self.memoryInMB, name: "memoryInMB", parent: name, max: 3008)
+            try validate(self.memoryInMB, name: "memoryInMB", parent: name, min: 960)
             try validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 900)
             try validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
     }
 
     public struct CanaryRunConfigOutput: AWSDecodableShape {
 
+        /// The maximum amount of memory available to the canary while it is running, in MB. The value you must be a multiple of 64.
+        public let memoryInMB: Int?
         /// How long the canary is allowed to run before it must stop.
         public let timeoutInSeconds: Int?
 
-        public init(timeoutInSeconds: Int? = nil) {
+        public init(memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+            self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
     }

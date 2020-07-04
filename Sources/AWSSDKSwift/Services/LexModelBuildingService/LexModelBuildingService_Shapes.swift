@@ -354,7 +354,7 @@ extension LexModelBuildingService {
         public func validate(name: String) throws {
             try validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
             try validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
-            try validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[\\w\\-]+:iam::[\\d]{12}:role\\/[\\w+=,\\.@\\-]{1,64}$")
+            try validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[\\w\\-]+:iam::[\\d]{12}:role/.+$")
             try self.logSettings.forEach {
                 try $0.validate(name: "\(name).logSettings[]")
             }
@@ -528,6 +528,8 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         ///  Describes how the intent is fulfilled. 
         public let fulfillmentActivity: FulfillmentActivity?
+        /// Configuration information, if any, for connectin an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
+        public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. 
         public let lastUpdatedDate: TimeStamp?
         /// The name of the intent.
@@ -543,7 +545,7 @@ extension LexModelBuildingService {
         /// The version number assigned to the new version of the intent.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -552,6 +554,7 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.kendraConfiguration = kendraConfiguration
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
             self.parentIntentSignature = parentIntentSignature
@@ -570,6 +573,7 @@ extension LexModelBuildingService {
             case dialogCodeHook = "dialogCodeHook"
             case followUpPrompt = "followUpPrompt"
             case fulfillmentActivity = "fulfillmentActivity"
+            case kendraConfiguration = "kendraConfiguration"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
             case parentIntentSignature = "parentIntentSignature"
@@ -1742,6 +1746,8 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         /// Describes how the intent is fulfilled. For more information, see PutIntent. 
         public let fulfillmentActivity: FulfillmentActivity?
+        /// Configuration information, if any, to connect to an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
+        public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same. 
         public let lastUpdatedDate: TimeStamp?
         /// The name of the intent.
@@ -1757,7 +1763,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -1766,6 +1772,7 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.kendraConfiguration = kendraConfiguration
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
             self.parentIntentSignature = parentIntentSignature
@@ -1784,6 +1791,7 @@ extension LexModelBuildingService {
             case dialogCodeHook = "dialogCodeHook"
             case followUpPrompt = "followUpPrompt"
             case fulfillmentActivity = "fulfillmentActivity"
+            case kendraConfiguration = "kendraConfiguration"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
             case parentIntentSignature = "parentIntentSignature"
@@ -2176,6 +2184,38 @@ extension LexModelBuildingService {
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
             case version = "version"
+        }
+    }
+
+    public struct KendraConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the AMAZON.KendraSearchIntent intent to search. The index must be in the same account and Region as the Amazon Lex bot. If the Amazon Kendra index does not exist, you get an exception when you call the PutIntent operation.
+        public let kendraIndex: String
+        /// A query filter that Amazon Lex sends to Amazon Kendra to filter the response from the query. The filter is in the format defined by Amazon Kendra. For more information, see Filtering queries. You can override this filter string with a new filter string at runtime.
+        public let queryFilterString: String?
+        /// The Amazon Resource Name (ARN) of an IAM role that has permission to search the Amazon Kendra index. The role must be in the same account and Region as the Amazon Lex bot. If the role does not exist, you get an exception when you call the PutIntent operation.
+        public let role: String
+
+        public init(kendraIndex: String, queryFilterString: String? = nil, role: String) {
+            self.kendraIndex = kendraIndex
+            self.queryFilterString = queryFilterString
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kendraIndex, name: "kendraIndex", parent: name, max: 2048)
+            try validate(self.kendraIndex, name: "kendraIndex", parent: name, min: 20)
+            try validate(self.kendraIndex, name: "kendraIndex", parent: name, pattern: "arn:aws:kendra:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:index\\/[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(self.queryFilterString, name: "queryFilterString", parent: name, min: 0)
+            try validate(self.role, name: "role", parent: name, max: 2048)
+            try validate(self.role, name: "role", parent: name, min: 20)
+            try validate(self.role, name: "role", parent: name, pattern: "arn:aws:iam::[0-9]{12}:role/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kendraIndex = "kendraIndex"
+            case queryFilterString = "queryFilterString"
+            case role = "role"
         }
     }
 
@@ -2638,6 +2678,8 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         /// Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.   You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria). 
         public let fulfillmentActivity: FulfillmentActivity?
+        /// Configuration information required to use the AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. For more information, see  AMAZON.KendraSearchIntent.
+        public let kendraConfiguration: KendraConfiguration?
         /// The name of the intent. The name is not case sensitive.  The name can't match a built-in intent name, or a built-in intent name with "AMAZON." removed. For example, because there is a built-in intent called AMAZON.HelpIntent, you can't create a custom intent called HelpIntent. For a list of built-in intents, see Standard Built-in Intents in the Alexa Skills Kit.
         public let name: String
         /// A unique identifier for the built-in intent to base this intent on. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
@@ -2649,7 +2691,7 @@ extension LexModelBuildingService {
         /// An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works. 
         public let slots: [Slot]?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, name: String, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, name: String, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -2658,6 +2700,7 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.kendraConfiguration = kendraConfiguration
             self.name = name
             self.parentIntentSignature = parentIntentSignature
             self.rejectionStatement = rejectionStatement
@@ -2673,6 +2716,7 @@ extension LexModelBuildingService {
             try self.dialogCodeHook?.validate(name: "\(name).dialogCodeHook")
             try self.followUpPrompt?.validate(name: "\(name).followUpPrompt")
             try self.fulfillmentActivity?.validate(name: "\(name).fulfillmentActivity")
+            try self.kendraConfiguration?.validate(name: "\(name).kendraConfiguration")
             try validate(self.name, name: "name", parent: name, max: 100)
             try validate(self.name, name: "name", parent: name, min: 1)
             try validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -2699,6 +2743,7 @@ extension LexModelBuildingService {
             case dialogCodeHook = "dialogCodeHook"
             case followUpPrompt = "followUpPrompt"
             case fulfillmentActivity = "fulfillmentActivity"
+            case kendraConfiguration = "kendraConfiguration"
             case parentIntentSignature = "parentIntentSignature"
             case rejectionStatement = "rejectionStatement"
             case sampleUtterances = "sampleUtterances"
@@ -2726,6 +2771,8 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         /// If defined in the intent, Amazon Lex invokes this Lambda function to fulfill the intent after the user provides all of the information required by the intent.
         public let fulfillmentActivity: FulfillmentActivity?
+        /// Configuration information, if any, required to connect to an Amazon Kendra index and use the AMAZON.KendraSearchIntent intent.
+        public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
         public let lastUpdatedDate: TimeStamp?
         /// The name of the intent.
@@ -2741,7 +2788,7 @@ extension LexModelBuildingService {
         /// The version of the intent. For a new intent, the version is always $LATEST.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -2751,6 +2798,7 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.kendraConfiguration = kendraConfiguration
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
             self.parentIntentSignature = parentIntentSignature
@@ -2770,6 +2818,7 @@ extension LexModelBuildingService {
             case dialogCodeHook = "dialogCodeHook"
             case followUpPrompt = "followUpPrompt"
             case fulfillmentActivity = "fulfillmentActivity"
+            case kendraConfiguration = "kendraConfiguration"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
             case parentIntentSignature = "parentIntentSignature"
@@ -2907,7 +2956,7 @@ extension LexModelBuildingService {
         public let name: String
         /// Determines whether a slot is obfuscated in conversation logs and stored utterances. When you obfuscate a slot, the value is replaced by the slot name in curly braces ({}). For example, if the slot name is "full_name", obfuscated values are replaced with "{full_name}". For more information, see  Slot Obfuscation . 
         public let obfuscationSetting: ObfuscationSetting?
-        ///  Directs Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Lex elicits values is arbitrary.
+        ///  Directs Amazon Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Amazon Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Amazon Lex elicits values is arbitrary.
         public let priority: Int?
         ///  A set of possible responses for the slot type used by text-based clients. A user chooses an option from the response card, instead of using text to reply. 
         public let responseCard: String?

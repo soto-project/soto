@@ -20,7 +20,7 @@ import NIO
 /**
 Client object for interacting with AWS AppConfig service.
 
-AWS AppConfig Use AWS AppConfig, a capability of AWS Systems Manager, to create, manage, and quickly deploy application configurations. AppConfig supports controlled deployments to applications of any size and includes built-in validation checks and monitoring. You can use AppConfig with applications hosted on Amazon EC2 instances, AWS Lambda, containers, mobile applications, or IoT devices. To prevent errors when deploying application configurations, especially for production systems where a simple typo could cause an unexpected outage, AppConfig includes validators. A validator provides a syntactic or semantic check to ensure that the configuration you want to deploy works as intended. To validate your application configuration data, you provide a schema or a Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid. During a configuration deployment, AppConfig monitors the application to ensure that the deployment is successful. If the system encounters an error, AppConfig rolls back the change to minimize impact for your application users. You can configure a deployment strategy for each application or environment that includes deployment criteria, including velocity, bake time, and alarms to monitor. Similar to error monitoring, if a deployment triggers an alarm, AppConfig automatically rolls back to the previous version.  AppConfig supports multiple use cases. Here are some examples.    Application tuning: Use AppConfig to carefully introduce changes to your application that can only be tested with production traffic.    Feature toggle: Use AppConfig to turn on new features that require a timely deployment, such as a product launch or announcement.     User membership: Use AppConfig to allow premium subscribers to access paid content.     Operational issues: Use AppConfig to reduce stress on your application when a dependency or other external factor impacts the system.   This reference is intended to be used with the AWS AppConfig User Guide.
+AWS AppConfig Use AWS AppConfig, a capability of AWS Systems Manager, to create, manage, and quickly deploy application configurations. AppConfig supports controlled deployments to applications of any size and includes built-in validation checks and monitoring. You can use AppConfig with applications hosted on Amazon EC2 instances, AWS Lambda, containers, mobile applications, or IoT devices. To prevent errors when deploying application configurations, especially for production systems where a simple typo could cause an unexpected outage, AppConfig includes validators. A validator provides a syntactic or semantic check to ensure that the configuration you want to deploy works as intended. To validate your application configuration data, you provide a schema or a Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid. During a configuration deployment, AppConfig monitors the application to ensure that the deployment is successful. If the system encounters an error, AppConfig rolls back the change to minimize impact for your application users. You can configure a deployment strategy for each application or environment that includes deployment criteria, including velocity, bake time, and alarms to monitor. Similar to error monitoring, if a deployment triggers an alarm, AppConfig automatically rolls back to the previous version.  AppConfig supports multiple use cases. Here are some examples.    Application tuning: Use AppConfig to carefully introduce changes to your application that can only be tested with production traffic.    Feature toggle: Use AppConfig to turn on new features that require a timely deployment, such as a product launch or announcement.     Allow list: Use AppConfig to allow premium subscribers to access paid content.     Operational issues: Use AppConfig to reduce stress on your application when a dependency or other external factor impacts the system.   This reference is intended to be used with the AWS AppConfig User Guide.
 */
 public struct AppConfig {
 
@@ -77,6 +77,11 @@ public struct AppConfig {
         return client.execute(operation: "CreateEnvironment", path: "/applications/{ApplicationId}/environments", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Create a new configuration in the AppConfig configuration store.
+    public func createHostedConfigurationVersion(_ input: CreateHostedConfigurationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<HostedConfigurationVersion> {
+        return client.execute(operation: "CreateHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Delete an application. Deleting an application does not delete a configuration from a host.
     @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteApplication", path: "/applications/{ApplicationId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -95,6 +100,11 @@ public struct AppConfig {
     ///  Delete an environment. Deleting an environment does not delete a configuration from a host.
     @discardableResult public func deleteEnvironment(_ input: DeleteEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Delete a version of a configuration from the AppConfig configuration store.
+    @discardableResult public func deleteHostedConfigurationVersion(_ input: DeleteHostedConfigurationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieve information about an application.
@@ -127,6 +137,11 @@ public struct AppConfig {
         return client.execute(operation: "GetEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Get information about a specific configuration version.
+    public func getHostedConfigurationVersion(_ input: GetHostedConfigurationVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<HostedConfigurationVersion> {
+        return client.execute(operation: "GetHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  List all applications in your AWS account.
     public func listApplications(_ input: ListApplicationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Applications> {
         return client.execute(operation: "ListApplications", path: "/applications", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -150,6 +165,11 @@ public struct AppConfig {
     ///  List the environments for an application.
     public func listEnvironments(_ input: ListEnvironmentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Environments> {
         return client.execute(operation: "ListEnvironments", path: "/applications/{ApplicationId}/environments", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  View a list of configurations stored in the AppConfig configuration store by version.
+    public func listHostedConfigurationVersions(_ input: ListHostedConfigurationVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<HostedConfigurationVersions> {
+        return client.execute(operation: "ListHostedConfigurationVersions", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the list of key-value tags assigned to the resource.

@@ -247,7 +247,7 @@ public struct GuardDuty {
         return client.execute(operation: "ListInvitations", path: "/invitation", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Lists details about associated member accounts for the current GuardDuty master account.
+    ///  Lists details about all member accounts for the current GuardDuty master account.
     public func listMembers(_ input: ListMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersResponse> {
         return client.execute(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

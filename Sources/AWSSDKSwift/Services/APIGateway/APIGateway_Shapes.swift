@@ -2983,7 +2983,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "parameters", location: .querystring(locationName: "parameters"))
         ]
 
-        /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
+        /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
         public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
@@ -3003,7 +3003,7 @@ extension APIGateway {
 
         /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
         public let cacheKeyParameters: [String]?
-        /// An API-specific tag group of related cached parameters. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
+        /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
         public let cacheNamespace: String?
         /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
         public let connectionId: String?
@@ -3025,12 +3025,14 @@ extension APIGateway {
         public let requestTemplates: [String: String]?
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
         public let timeoutInMillis: Int?
+        /// Specifies the TLS configuration for an integration.
+        public let tlsConfig: TlsConfig?
         /// Specifies an API method integration type. The valid value is one of the following:  AWS: for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. AWS_PROXY: for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration. HTTP: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration. HTTP_PROXY: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration. MOCK: for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
         public let `type`: IntegrationType?
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
         public let uri: String?
 
-        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int? = nil, type: IntegrationType? = nil, uri: String? = nil) {
+        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType? = nil, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -3043,6 +3045,7 @@ extension APIGateway {
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
             self.`type` = `type`
             self.uri = uri
         }
@@ -3060,6 +3063,7 @@ extension APIGateway {
             case requestParameters = "requestParameters"
             case requestTemplates = "requestTemplates"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
             case `type` = "type"
             case uri = "uri"
         }
@@ -3355,9 +3359,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
-        /// An API-specific tag group of related cached parameters.
+        /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
         public let cacheKeyParameters: [String]?
-        /// A list of request parameters whose values are to be cached.
+        /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
         public let cacheNamespace: String?
         /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
         public let connectionId: String?
@@ -3383,12 +3387,13 @@ extension APIGateway {
         public let restApiId: String
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
         public let timeoutInMillis: Int?
+        public let tlsConfig: TlsConfig?
         /// [Required] Specifies a put integration input's type.
         public let `type`: IntegrationType
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
         public let uri: String?
 
-        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int? = nil, type: IntegrationType, uri: String? = nil) {
+        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -3403,6 +3408,7 @@ extension APIGateway {
             self.resourceId = resourceId
             self.restApiId = restApiId
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
             self.`type` = `type`
             self.uri = uri
         }
@@ -3419,6 +3425,7 @@ extension APIGateway {
             case requestParameters = "requestParameters"
             case requestTemplates = "requestTemplates"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
             case `type` = "type"
             case uri = "uri"
         }
@@ -3579,7 +3586,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
-        /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
+        /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
         public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
@@ -4226,6 +4233,20 @@ extension APIGateway {
         private enum CodingKeys: String, CodingKey {
             case burstLimit = "burstLimit"
             case rateLimit = "rateLimit"
+        }
+    }
+
+    public struct TlsConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// Specifies whether or not API Gateway skips verification that the certificate for an integration endpoint is issued by a supported certificate authority. This isn’t recommended, but it enables you to use certificates that are signed by private certificate authorities, or certificates that are self-signed. If enabled, API Gateway still performs basic certificate validation, which includes checking the certificate's expiration date, hostname, and presence of a root certificate authority. Supported only for HTTP and HTTP_PROXY integrations.
+        public let insecureSkipVerification: Bool?
+
+        public init(insecureSkipVerification: Bool? = nil) {
+            self.insecureSkipVerification = insecureSkipVerification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insecureSkipVerification = "insecureSkipVerification"
         }
     }
 

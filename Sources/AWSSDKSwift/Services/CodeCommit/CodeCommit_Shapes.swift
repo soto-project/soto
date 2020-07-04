@@ -712,6 +712,8 @@ extension CodeCommit {
 
         /// The Amazon Resource Name (ARN) of the person who posted the comment.
         public let authorArn: String?
+        /// The emoji reactions to a comment, if any, submitted by the user whose credentials are associated with the call to the API.
+        public let callerReactions: [String]?
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
         public let clientRequestToken: String?
         /// The system-generated comment ID.
@@ -726,9 +728,12 @@ extension CodeCommit {
         public let inReplyTo: String?
         /// The date and time the comment was most recently modified, in timestamp format.
         public let lastModifiedDate: TimeStamp?
+        /// A string to integer map that represents the number of individual users who have responded to a comment with the specified reactions.
+        public let reactionCounts: [String: Int]?
 
-        public init(authorArn: String? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: TimeStamp? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: TimeStamp? = nil) {
+        public init(authorArn: String? = nil, callerReactions: [String]? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: TimeStamp? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: TimeStamp? = nil, reactionCounts: [String: Int]? = nil) {
             self.authorArn = authorArn
+            self.callerReactions = callerReactions
             self.clientRequestToken = clientRequestToken
             self.commentId = commentId
             self.content = content
@@ -736,10 +741,12 @@ extension CodeCommit {
             self.deleted = deleted
             self.inReplyTo = inReplyTo
             self.lastModifiedDate = lastModifiedDate
+            self.reactionCounts = reactionCounts
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorArn = "authorArn"
+            case callerReactions = "callerReactions"
             case clientRequestToken = "clientRequestToken"
             case commentId = "commentId"
             case content = "content"
@@ -747,6 +754,7 @@ extension CodeCommit {
             case deleted = "deleted"
             case inReplyTo = "inReplyTo"
             case lastModifiedDate = "lastModifiedDate"
+            case reactionCounts = "reactionCounts"
         }
     }
 
@@ -2101,6 +2109,50 @@ extension CodeCommit {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
+        }
+    }
+
+    public struct GetCommentReactionsInput: AWSEncodableShape {
+
+        /// The ID of the comment for which you want to get reactions information.
+        public let commentId: String
+        /// A non-zero, non-negative integer used to limit the number of returned results. The default is the same as the allowed maximum, 1,000.
+        public let maxResults: Int?
+        /// An enumeration token that, when provided in a request, returns the next batch of the results. 
+        public let nextToken: String?
+        /// Optional. The Amazon Resource Name (ARN) of the user or identity for which you want to get reaction information.
+        public let reactionUserArn: String?
+
+        public init(commentId: String, maxResults: Int? = nil, nextToken: String? = nil, reactionUserArn: String? = nil) {
+            self.commentId = commentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reactionUserArn = reactionUserArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentId = "commentId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reactionUserArn = "reactionUserArn"
+        }
+    }
+
+    public struct GetCommentReactionsOutput: AWSDecodableShape {
+
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
+        /// An array of reactions to the specified comment.
+        public let reactionsForComment: [ReactionForComment]
+
+        public init(nextToken: String? = nil, reactionsForComment: [ReactionForComment]) {
+            self.nextToken = nextToken
+            self.reactionsForComment = reactionsForComment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reactionsForComment = "reactionsForComment"
         }
     }
 
@@ -4145,6 +4197,24 @@ extension CodeCommit {
         }
     }
 
+    public struct PutCommentReactionInput: AWSEncodableShape {
+
+        /// The ID of the comment to which you want to add or update a reaction.
+        public let commentId: String
+        /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in AWS CodeCommit, see the AWS CodeCommit User Guide.
+        public let reactionValue: String
+
+        public init(commentId: String, reactionValue: String) {
+            self.commentId = commentId
+            self.reactionValue = reactionValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentId = "commentId"
+            case reactionValue = "reactionValue"
+        }
+    }
+
     public struct PutFileEntry: AWSEncodableShape {
 
         /// The content of the file, if a source file is not specified.
@@ -4290,6 +4360,50 @@ extension CodeCommit {
 
         private enum CodingKeys: String, CodingKey {
             case configurationId = "configurationId"
+        }
+    }
+
+    public struct ReactionForComment: AWSDecodableShape {
+
+        /// The reaction for a specified comment.
+        public let reaction: ReactionValueFormats?
+        /// A numerical count of users who reacted with the specified emoji whose identities have been subsequently deleted from IAM. While these IAM users or roles no longer exist, the reactions might still appear in total reaction counts.
+        public let reactionsFromDeletedUsersCount: Int?
+        /// The Amazon Resource Names (ARNs) of users who have provided reactions to the comment.
+        public let reactionUsers: [String]?
+
+        public init(reaction: ReactionValueFormats? = nil, reactionsFromDeletedUsersCount: Int? = nil, reactionUsers: [String]? = nil) {
+            self.reaction = reaction
+            self.reactionsFromDeletedUsersCount = reactionsFromDeletedUsersCount
+            self.reactionUsers = reactionUsers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reaction = "reaction"
+            case reactionsFromDeletedUsersCount = "reactionsFromDeletedUsersCount"
+            case reactionUsers = "reactionUsers"
+        }
+    }
+
+    public struct ReactionValueFormats: AWSDecodableShape {
+
+        /// The Emoji Version 1.0 graphic of the reaction. These graphics are interpreted slightly differently on different operating systems.
+        public let emoji: String?
+        /// The emoji short code for the reaction. Short codes are interpreted slightly differently on different operating systems. 
+        public let shortCode: String?
+        /// The Unicode codepoint for the reaction.
+        public let unicode: String?
+
+        public init(emoji: String? = nil, shortCode: String? = nil, unicode: String? = nil) {
+            self.emoji = emoji
+            self.shortCode = shortCode
+            self.unicode = unicode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emoji = "emoji"
+            case shortCode = "shortCode"
+            case unicode = "unicode"
         }
     }
 

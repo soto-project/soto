@@ -70,6 +70,7 @@ extension SESV2 {
         case open = "OPEN"
         case click = "CLICK"
         case renderingFailure = "RENDERING_FAILURE"
+        case deliveryDelay = "DELIVERY_DELAY"
         public var description: String { return self.rawValue }
     }
 

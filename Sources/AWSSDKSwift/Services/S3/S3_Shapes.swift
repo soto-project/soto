@@ -594,7 +594,7 @@ extension S3 {
 
         /// The Amazon Resource Name (ARN) of the bucket to which data is exported.
         public let bucket: String
-        /// The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
+        /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data.   Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.  
         public let bucketAccountId: String?
         /// Specifies the file format used when exporting data to Amazon S3.
         public let format: AnalyticsS3ExportFileFormat
@@ -1993,7 +1993,7 @@ extension S3 {
         public let metrics: Metrics?
         ///  A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block. 
         public let replicationTime: ReplicationTime?
-        ///  The storage class to use when replicating objects, such as standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon Simple Storage Service API Reference.
+        ///  The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon Simple Storage Service API Reference.
         public let storageClass: StorageClass?
 
         public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, metrics: Metrics? = nil, replicationTime: ReplicationTime? = nil, storageClass: StorageClass? = nil) {
@@ -2398,7 +2398,7 @@ extension S3 {
 
     public struct GetBucketLocationOutput: AWSDecodableShape {
 
-        /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints.
+        /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints. Buckets in Region us-east-1 have a LocationConstraint of null.
         public let locationConstraint: BucketLocationConstraint?
 
         public init(locationConstraint: BucketLocationConstraint? = nil) {
@@ -2496,7 +2496,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
 
-        /// Name of the bucket for which to get the notification configuration
+        /// Name of the bucket for which to get the notification configuration.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2703,9 +2703,9 @@ extension S3 {
     public struct GetBucketWebsiteOutput: AWSDecodableShape {
         public struct _RoutingRulesEncoding: ArrayCoderProperties { static public let member = "RoutingRule" }
 
-        /// The name of the error document for the website.
+        /// The object key name of the website error document to use for 4XX class errors.
         public let errorDocument: ErrorDocument?
-        /// The name of the index document for the website.
+        /// The name of the index document for the website (for example index.html).
         public let indexDocument: IndexDocument?
         /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
@@ -2973,7 +2973,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
-        /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for Standard storage class objects.
+        /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects.
         public let storageClass: StorageClass?
         /// The number of tags, if any, on the object.
         public let tagCount: Int?
@@ -3088,7 +3088,7 @@ extension S3 {
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
         public let partNumber: Int?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request. 
         public let range: String?
         public let requestPayer: RequestPayer?
         /// Sets the Cache-Control header of the response.
@@ -3326,7 +3326,7 @@ extension S3 {
 
     public struct GlacierJobParameters: AWSEncodableShape {
 
-        /// Glacier retrieval tier at which the restore will be processed.
+        /// S3 Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier
 
         public init(tier: Tier) {
@@ -3361,7 +3361,7 @@ extension S3 {
 
         /// Screen name of the grantee.
         public let displayName: String?
-        /// Email address of the grantee.
+        /// Email address of the grantee.  Using email addresses to specify a grantee is only supported in the following AWS Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the AWS General Reference. 
         public let emailAddress: String?
         /// The canonical user ID of the grantee.
         public let id: String?
@@ -3483,7 +3483,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
-        /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for Standard storage class objects. For more information, see Storage Classes.
+        /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see Storage Classes.
         public let storageClass: StorageClass?
         /// Version of the object.
         public let versionId: String?
@@ -3584,7 +3584,7 @@ extension S3 {
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
         public let partNumber: Int?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request. 
         public let range: String?
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
@@ -3766,7 +3766,7 @@ extension S3 {
 
     public struct InventoryS3BucketDestination: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ID of the account that owns the destination bucket.
+        /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data.    Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.  
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the bucket where inventory results will be published.
         public let bucket: String
@@ -3824,7 +3824,7 @@ extension S3 {
 
     public struct JSONOutput: AWSEncodableShape {
 
-        /// The value used to separate individual records in the output.
+        /// The value used to separate individual records in the output. If no value is specified, Amazon S3 uses a newline character ('\n').
         public let recordDelimiter: String?
 
         public init(recordDelimiter: String? = nil) {
@@ -4322,7 +4322,7 @@ extension S3 {
         public let encodingType: EncodingType?
         /// Specifies the key to start with when listing objects in a bucket.
         public let keyMarker: String?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return the additional keys, see key-marker and version-id-marker.
+        /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return the additional keys, see key-marker and version-id-marker.
         public let maxKeys: Int?
         /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes. 
         public let prefix: String?
@@ -4410,7 +4410,7 @@ extension S3 {
         public let encodingType: EncodingType?
         /// Specifies the key to start with when listing objects in a bucket.
         public let marker: String?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more. 
         public let maxKeys: Int?
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
@@ -4446,7 +4446,7 @@ extension S3 {
         public let isTruncated: Bool?
         /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
         public let keyCount: Int?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
         /// Bucket name.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let name: String?
@@ -4511,7 +4511,7 @@ extension S3 {
         public let encodingType: EncodingType?
         /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true.
         public let fetchOwner: Bool?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
@@ -5263,7 +5263,6 @@ extension S3 {
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
@@ -5277,8 +5276,6 @@ extension S3 {
         public let acl: BucketCannedACL?
         /// The bucket to which to apply the ACL.
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. 
-        public let contentMD5: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
         /// Allows grantee to list the objects in the bucket.
@@ -5290,11 +5287,10 @@ extension S3 {
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
 
-        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
+        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
             self.accessControlPolicy = accessControlPolicy
             self.acl = acl
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
             self.grantReadACP = grantReadACP
@@ -5343,20 +5339,16 @@ extension S3 {
         public static let _payloadPath: String = "cORSConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "cORSConfiguration", location: .body(locationName: "CORSConfiguration"))
         ]
 
         /// Specifies the bucket impacted by the corsconfiguration.
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. 
-        public let contentMD5: String?
         /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon Simple Storage Service Developer Guide.
         public let cORSConfiguration: CORSConfiguration
 
-        public init(bucket: String, contentMD5: String? = nil, cORSConfiguration: CORSConfiguration) {
+        public init(bucket: String, cORSConfiguration: CORSConfiguration) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.cORSConfiguration = cORSConfiguration
         }
 
@@ -5370,19 +5362,15 @@ extension S3 {
         public static let _payloadPath: String = "serverSideEncryptionConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"))
         ]
 
         /// Specifies default encryption for a bucket using server-side encryption with Amazon S3-managed keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket Encryption in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. This parameter is auto-populated when using the command from the CLI.
-        public let contentMD5: String?
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
-        public init(bucket: String, contentMD5: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
+        public init(bucket: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
@@ -5450,17 +5438,14 @@ extension S3 {
         public static let _payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
         ]
 
         public let bucket: String
-        public let contentMD5: String?
         public let lifecycleConfiguration: LifecycleConfiguration?
 
-        public init(bucket: String, contentMD5: String? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil) {
+        public init(bucket: String, lifecycleConfiguration: LifecycleConfiguration? = nil) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
@@ -5474,21 +5459,17 @@ extension S3 {
         public static let _payloadPath: String = "bucketLoggingStatus"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5"))
+            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"))
         ]
 
         /// The name of the bucket for which to set the logging parameters.
         public let bucket: String
         /// Container for logging status information.
         public let bucketLoggingStatus: BucketLoggingStatus
-        /// The MD5 hash of the PutBucketLogging request body.
-        public let contentMD5: String?
 
-        public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus, contentMD5: String? = nil) {
+        public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus) {
             self.bucket = bucket
             self.bucketLoggingStatus = bucketLoggingStatus
-            self.contentMD5 = contentMD5
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5554,20 +5535,16 @@ extension S3 {
         public static let _payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
         ]
 
         /// The name of the bucket.
         public let bucket: String
-        /// The MD5 hash of the PutPublicAccessBlock request body.
-        public let contentMD5: String?
         /// The container for the configuration.
         public let notificationConfiguration: NotificationConfigurationDeprecated
 
-        public init(bucket: String, contentMD5: String? = nil, notificationConfiguration: NotificationConfigurationDeprecated) {
+        public init(bucket: String, notificationConfiguration: NotificationConfigurationDeprecated) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.notificationConfiguration = notificationConfiguration
         }
 
@@ -5582,7 +5559,6 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
         ]
 
@@ -5590,15 +5566,12 @@ extension S3 {
         public let bucket: String
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
         public let confirmRemoveSelfBucketAccess: Bool?
-        /// The MD5 hash of the request body.
-        public let contentMD5: String?
         /// The bucket policy as a JSON document.
         public let policy: String
 
-        public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, policy: String) {
+        public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
             self.bucket = bucket
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
-            self.contentMD5 = contentMD5
             self.policy = policy
         }
 
@@ -5612,21 +5585,17 @@ extension S3 {
         public static let _payloadPath: String = "replicationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "replicationConfiguration", location: .body(locationName: "ReplicationConfiguration")), 
             AWSMemberEncoding(label: "token", location: .header(locationName: "x-amz-bucket-object-lock-token"))
         ]
 
         /// The name of the bucket
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
-        public let contentMD5: String?
         public let replicationConfiguration: ReplicationConfiguration
         public let token: String?
 
-        public init(bucket: String, contentMD5: String? = nil, replicationConfiguration: ReplicationConfiguration, token: String? = nil) {
+        public init(bucket: String, replicationConfiguration: ReplicationConfiguration, token: String? = nil) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.replicationConfiguration = replicationConfiguration
             self.token = token
         }
@@ -5645,20 +5614,16 @@ extension S3 {
         public static let _payloadPath: String = "requestPaymentConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "requestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"))
         ]
 
         /// The bucket name.
         public let bucket: String
-        /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
-        public let contentMD5: String?
         /// Container for Payer.
         public let requestPaymentConfiguration: RequestPaymentConfiguration
 
-        public init(bucket: String, contentMD5: String? = nil, requestPaymentConfiguration: RequestPaymentConfiguration) {
+        public init(bucket: String, requestPaymentConfiguration: RequestPaymentConfiguration) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.requestPaymentConfiguration = requestPaymentConfiguration
         }
 
@@ -5672,20 +5637,16 @@ extension S3 {
         public static let _payloadPath: String = "tagging"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging"))
         ]
 
         /// The bucket name.
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
-        public let contentMD5: String?
         /// Container for the TagSet and Tag elements.
         public let tagging: Tagging
 
-        public init(bucket: String, contentMD5: String? = nil, tagging: Tagging) {
+        public init(bucket: String, tagging: Tagging) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.tagging = tagging
         }
 
@@ -5703,23 +5664,19 @@ extension S3 {
         public static let _payloadPath: String = "versioningConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
             AWSMemberEncoding(label: "versioningConfiguration", location: .body(locationName: "VersioningConfiguration"))
         ]
 
         /// The bucket name.
         public let bucket: String
-        /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
-        public let contentMD5: String?
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mfa: String?
         /// Container for setting the versioning state.
         public let versioningConfiguration: VersioningConfiguration
 
-        public init(bucket: String, contentMD5: String? = nil, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
+        public init(bucket: String, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.mfa = mfa
             self.versioningConfiguration = versioningConfiguration
         }
@@ -5734,20 +5691,16 @@ extension S3 {
         public static let _payloadPath: String = "websiteConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "websiteConfiguration", location: .body(locationName: "WebsiteConfiguration"))
         ]
 
         /// The bucket name.
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
-        public let contentMD5: String?
         /// Container for the request.
         public let websiteConfiguration: WebsiteConfiguration
 
-        public init(bucket: String, contentMD5: String? = nil, websiteConfiguration: WebsiteConfiguration) {
+        public init(bucket: String, websiteConfiguration: WebsiteConfiguration) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.websiteConfiguration = websiteConfiguration
         }
 
@@ -5783,7 +5736,6 @@ extension S3 {
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
@@ -5800,8 +5752,6 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// The bucket name that contains the object to which you want to attach the ACL.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.&gt; 
-        public let contentMD5: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
         /// Allows grantee to list the objects in the bucket.
@@ -5818,11 +5768,10 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.accessControlPolicy = accessControlPolicy
             self.acl = acl
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
             self.grantReadACP = grantReadACP
@@ -5863,7 +5812,6 @@ extension S3 {
         public static let _payloadPath: String = "legalHold"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "legalHold", location: .body(locationName: "LegalHold")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
@@ -5872,8 +5820,6 @@ extension S3 {
 
         /// The bucket name containing the object that you want to place a Legal Hold on.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
         /// The key name for the object that you want to place a Legal Hold on.
         public let key: String
         /// Container element for the Legal Hold configuration you want to apply to the specified object.
@@ -5882,9 +5828,8 @@ extension S3 {
         /// The version ID of the object that you want to place a Legal Hold on.
         public let versionId: String?
 
-        public init(bucket: String, contentMD5: String? = nil, key: String, legalHold: ObjectLockLegalHold? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, key: String, legalHold: ObjectLockLegalHold? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.key = key
             self.legalHold = legalHold
             self.requestPayer = requestPayer
@@ -5921,7 +5866,6 @@ extension S3 {
         public static let _payloadPath: String = "objectLockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "objectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "token", location: .header(locationName: "x-amz-bucket-object-lock-token"))
@@ -5929,17 +5873,14 @@ extension S3 {
 
         /// The bucket whose Object Lock configuration you want to create or replace.
         public let bucket: String
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
         /// The Object Lock configuration that you want to apply to the specified bucket.
         public let objectLockConfiguration: ObjectLockConfiguration?
         public let requestPayer: RequestPayer?
         /// A token to allow Object Lock to be enabled for an existing bucket.
         public let token: String?
 
-        public init(bucket: String, contentMD5: String? = nil, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
+        public init(bucket: String, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.objectLockConfiguration = objectLockConfiguration
             self.requestPayer = requestPayer
             self.token = token
@@ -6096,7 +6037,7 @@ extension S3 {
         public let sSEKMSEncryptionContext: String?
         /// If x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (AWS KMS) symmetrical customer managed customer master key (CMK) that was used for the object.  If the value of x-amz-server-side-encryption is aws:kms, this header specifies the ID of the symmetric customer managed AWS KMS CMK that will be used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in AWS to protect the data.
         public let sSEKMSKeyId: String?
-        /// If you don't specify, Standard is the default storage class. Amazon S3 supports other storage classes.
+        /// If you don't specify, S3 Standard is the default storage class. Amazon S3 supports other storage classes.
         public let storageClass: StorageClass?
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, "Key1=Value1")
         public let tagging: String?
@@ -6165,7 +6106,6 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "retention", location: .body(locationName: "Retention")), 
@@ -6176,8 +6116,6 @@ extension S3 {
         public let bucket: String
         /// Indicates whether this operation should bypass Governance-mode restrictions.
         public let bypassGovernanceRetention: Bool?
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
         /// The key name for the object that you want to apply this Object Retention configuration to.
         public let key: String
         public let requestPayer: RequestPayer?
@@ -6186,10 +6124,9 @@ extension S3 {
         /// The version ID for the object that you want to apply this Object Retention configuration to.
         public let versionId: String?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, contentMD5: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
-            self.contentMD5 = contentMD5
             self.key = key
             self.requestPayer = requestPayer
             self.retention = retention
@@ -6227,7 +6164,6 @@ extension S3 {
         public static let _payloadPath: String = "tagging"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -6235,8 +6171,6 @@ extension S3 {
 
         /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
         /// Name of the tag.
         public let key: String
         /// Container for the TagSet and Tag elements
@@ -6244,9 +6178,8 @@ extension S3 {
         /// The versionId of the object that the tag-set will be added to.
         public let versionId: String?
 
-        public init(bucket: String, contentMD5: String? = nil, key: String, tagging: Tagging, versionId: String? = nil) {
+        public init(bucket: String, key: String, tagging: Tagging, versionId: String? = nil) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.key = key
             self.tagging = tagging
             self.versionId = versionId
@@ -6267,20 +6200,16 @@ extension S3 {
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
         /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
         public let bucket: String
-        /// The MD5 hash of the PutPublicAccessBlock request body. 
-        public let contentMD5: String?
         /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon Simple Storage Service Developer Guide.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
-        public init(bucket: String, contentMD5: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
+        public init(bucket: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.bucket = bucket
-            self.contentMD5 = contentMD5
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
@@ -6642,13 +6571,13 @@ extension S3 {
         public let days: Int?
         /// The optional description for the job.
         public let description: String?
-        /// Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
+        /// S3 Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
         public let glacierJobParameters: GlacierJobParameters?
         /// Describes the location where the restore job's output is stored.
         public let outputLocation: OutputLocation?
         /// Describes the parameters for Select job types.
         public let selectParameters: SelectParameters?
-        /// Glacier retrieval tier at which the restore will be processed.
+        /// S3 Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier?
         /// Type of restore request.
         public let `type`: RestoreRequestType?
@@ -6709,7 +6638,7 @@ extension S3 {
         public let prefix: String
         /// If Enabled, the rule is currently being applied. If Disabled, the rule is not currently being applied.
         public let status: ExpirationStatus
-        /// Specifies when an object transitions to a specified storage class.
+        /// Specifies when an object transitions to a specified storage class. For more information about Amazon S3 lifecycle configuration rules, see Transitioning Objects Using Amazon S3 Lifecycle in the Amazon Simple Storage Service Developer Guide.
         public let transition: Transition?
 
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, prefix: String, status: ExpirationStatus, transition: Transition? = nil) {
@@ -6975,7 +6904,7 @@ extension S3 {
 
     public struct ServerSideEncryptionByDefault: AWSEncodableShape & AWSDecodableShape {
 
-        /// KMS master key ID to use for the default encryption. This parameter is allowed if and only if SSEAlgorithm is set to aws:kms.
+        /// AWS Key Management Service (KMS) customer master key ID to use for the default encryption. This parameter is allowed if and only if SSEAlgorithm is set to aws:kms. You can specify the key ID or the Amazon Resource Name (ARN) of the CMK. However, if you are using encryption with cross-account operations, you must use a fully qualified CMK ARN. For more information, see Using encryption for cross-account operations.   For example:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab     Amazon S3 only supports symmetric CMKs and not asymmetric CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide. 
         public let kMSMasterKeyID: String?
         /// Server-side encryption algorithm to use for the default encryption.
         public let sSEAlgorithm: ServerSideEncryption

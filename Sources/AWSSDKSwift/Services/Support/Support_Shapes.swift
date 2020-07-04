@@ -165,7 +165,7 @@ extension Support {
         public let subject: String?
         /// The email address of the account that submitted the case.
         public let submittedBy: String?
-        /// The time that the case was case created in the AWS Support Center.
+        /// The time that the case was created in the AWS Support Center.
         public let timeCreated: String?
 
         public init(caseId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, displayId: String? = nil, language: String? = nil, recentCommunications: RecentCaseCommunications? = nil, serviceCode: String? = nil, severityCode: String? = nil, status: String? = nil, subject: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
@@ -352,9 +352,9 @@ extension Support {
         public let caseIdList: [String]?
         /// The ID displayed for a case in the AWS Support Center user interface.
         public let displayId: String?
-        /// Specifies whether communications should be included in the DescribeCases results. The default is true.
+        /// Specifies whether to include communications in the DescribeCases response. By default, communications are incuded.
         public let includeCommunications: Bool?
-        /// Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.
+        /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
         public let includeResolvedCases: Bool?
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -533,7 +533,7 @@ extension Support {
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSEncodableShape {
 
-        /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
+        /// The IDs of the Trusted Advisor checks to get the status of.   If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error. 
         public let checkIds: [String]
 
         public init(checkIds: [String]) {
@@ -751,7 +751,7 @@ extension Support {
 
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical 
         public let code: String?
-        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a Severity 
+        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a severity in the AWS Support User Guide.
         public let name: String?
 
         public init(code: String? = nil, name: String? = nil) {

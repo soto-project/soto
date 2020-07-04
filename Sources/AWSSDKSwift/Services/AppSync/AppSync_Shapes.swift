@@ -37,6 +37,14 @@ extension AppSync {
         case r42Xlarge = "R4_2XLARGE"
         case r44Xlarge = "R4_4XLARGE"
         case r48Xlarge = "R4_8XLARGE"
+        case small = "SMALL"
+        case medium = "MEDIUM"
+        case large = "LARGE"
+        case xlarge = "XLARGE"
+        case large2X = "LARGE_2X"
+        case large4X = "LARGE_4X"
+        case large8X = "LARGE_8X"
+        case large12X = "LARGE_12X"
         public var description: String { return self.rawValue }
     }
 
@@ -165,7 +173,7 @@ extension AppSync {
         public let transitEncryptionEnabled: Bool?
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64?
-        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType?
 
         public init(apiCachingBehavior: ApiCachingBehavior? = nil, atRestEncryptionEnabled: Bool? = nil, status: ApiCacheStatus? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64? = nil, type: ApiCacheType? = nil) {
@@ -300,7 +308,7 @@ extension AppSync {
         public let transitEncryptionEnabled: Bool?
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
-        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64, type: ApiCacheType) {
@@ -1948,7 +1956,7 @@ extension AppSync {
         public let awsSecretStoreArn: String?
         /// Logical database name.
         public let databaseName: String?
-        /// Amazon RDS cluster identifier.
+        /// Amazon RDS cluster ARN.
         public let dbClusterIdentifier: String?
         /// Logical schema name.
         public let schema: String?
@@ -2215,7 +2223,7 @@ extension AppSync {
         public let apiId: String
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
-        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64, type: ApiCacheType) {

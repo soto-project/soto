@@ -117,14 +117,17 @@ extension Imagebuilder {
         public let amiTags: [String: String]?
         /// The description of the distribution configuration. 
         public let description: String?
+        ///  The KMS key identifier used to encrypt the distributed image. 
+        public let kmsKeyId: String?
         ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances. 
         public let launchPermission: LaunchPermissionConfiguration?
         /// The name of the distribution configuration. 
         public let name: String?
 
-        public init(amiTags: [String: String]? = nil, description: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil) {
+        public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil) {
             self.amiTags = amiTags
             self.description = description
+            self.kmsKeyId = kmsKeyId
             self.launchPermission = launchPermission
             self.name = name
         }
@@ -138,6 +141,8 @@ extension Imagebuilder {
             }
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.description, name: "description", parent: name, min: 1)
+            try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 1024)
+            try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.launchPermission?.validate(name: "\(name).launchPermission")
             try validate(self.name, name: "name", parent: name, max: 127)
             try validate(self.name, name: "name", parent: name, min: 1)
@@ -147,6 +152,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case amiTags = "amiTags"
             case description = "description"
+            case kmsKeyId = "kmsKeyId"
             case launchPermission = "launchPermission"
             case name = "name"
         }
@@ -666,8 +672,10 @@ extension Imagebuilder {
         public let semanticVersion: String
         ///  The tags of the image recipe. 
         public let tags: [String: String]?
+        /// The working directory to be used during build and test workflows.
+        public let workingDirectory: String?
 
-        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil) {
+        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.clientToken = clientToken
             self.components = components
@@ -676,6 +684,7 @@ extension Imagebuilder {
             self.parentImage = parentImage
             self.semanticVersion = semanticVersion
             self.tags = tags
+            self.workingDirectory = workingDirectory
         }
 
         public func validate(name: String) throws {
@@ -700,6 +709,8 @@ extension Imagebuilder {
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 1024)
+            try validate(self.workingDirectory, name: "workingDirectory", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -711,6 +722,7 @@ extension Imagebuilder {
             case parentImage = "parentImage"
             case semanticVersion = "semanticVersion"
             case tags = "tags"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -827,6 +839,8 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration. 
         public let name: String
+        /// The tags attached to the resource created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
         public let securityGroupIds: [String]?
         /// The SNS topic on which to send image build events. 
@@ -838,7 +852,7 @@ extension Imagebuilder {
         /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
         public let terminateInstanceOnFailure: Bool?
 
-        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.instanceProfileName = instanceProfileName
@@ -846,6 +860,7 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
@@ -864,6 +879,12 @@ extension Imagebuilder {
             try validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
             try validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.resourceTags?.forEach {
+                try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
+                try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
+                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -887,6 +908,7 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
@@ -1369,7 +1391,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1591,7 +1613,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1824,8 +1846,10 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// The version of the image recipe.
         public let version: String?
+        /// The working directory to be used during build and test workflows.
+        public let workingDirectory: String?
 
-        public init(arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -1837,6 +1861,7 @@ extension Imagebuilder {
             self.platform = platform
             self.tags = tags
             self.version = version
+            self.workingDirectory = workingDirectory
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1851,6 +1876,7 @@ extension Imagebuilder {
             case platform = "platform"
             case tags = "tags"
             case version = "version"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -2142,6 +2168,8 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The tags attached to the resource created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The security group IDs of the infrastructure configuration.
         public let securityGroupIds: [String]?
         /// The SNS topic Amazon Resource Name (ARN) of the infrastructure configuration.
@@ -2153,7 +2181,7 @@ extension Imagebuilder {
         /// The terminate instance on failure configuration of the infrastructure configuration.
         public let terminateInstanceOnFailure: Bool?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -2163,6 +2191,7 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
@@ -2180,6 +2209,7 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
@@ -2200,15 +2230,18 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The tags attached to the image created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, name: String? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
             self.description = description
             self.name = name
+            self.resourceTags = resourceTags
             self.tags = tags
         }
 
@@ -2218,6 +2251,7 @@ extension Imagebuilder {
             case dateUpdated = "dateUpdated"
             case description = "description"
             case name = "name"
+            case resourceTags = "resourceTags"
             case tags = "tags"
         }
     }
@@ -3330,6 +3364,8 @@ extension Imagebuilder {
         public let keyPair: String?
         /// The logging configuration of the infrastructure configuration. 
         public let logging: Logging?
+        /// The tags attached to the resource created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
         public let securityGroupIds: [String]?
         /// The SNS topic on which to send image build events. 
@@ -3339,7 +3375,7 @@ extension Imagebuilder {
         /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
         public let terminateInstanceOnFailure: Bool?
 
-        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -3347,6 +3383,7 @@ extension Imagebuilder {
             self.instanceTypes = instanceTypes
             self.keyPair = keyPair
             self.logging = logging
+            self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
@@ -3364,6 +3401,12 @@ extension Imagebuilder {
             try validate(self.keyPair, name: "keyPair", parent: name, max: 1024)
             try validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.resourceTags?.forEach {
+                try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
+                try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
+                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -3381,6 +3424,7 @@ extension Imagebuilder {
             case instanceTypes = "instanceTypes"
             case keyPair = "keyPair"
             case logging = "logging"
+            case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"

@@ -27,6 +27,13 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataCatalogType: String, CustomStringConvertible, Codable {
+        case lambda = "LAMBDA"
+        case glue = "GLUE"
+        case hive = "HIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionOption: String, CustomStringConvertible, Codable {
         case sseS3 = "SSE_S3"
         case sseKms = "SSE_KMS"
@@ -132,6 +139,28 @@ extension Athena {
         }
     }
 
+    public struct Column: AWSDecodableShape {
+
+        /// Optional information about the column.
+        public let comment: String?
+        /// The name of the column.
+        public let name: String
+        /// The data type of the column.
+        public let `type`: String?
+
+        public init(comment: String? = nil, name: String, type: String? = nil) {
+            self.comment = comment
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case name = "Name"
+            case `type` = "Type"
+        }
+    }
+
     public struct ColumnInfo: AWSDecodableShape {
 
         /// Indicates whether values in the column are case-sensitive.
@@ -182,6 +211,61 @@ extension Athena {
         }
     }
 
+    public struct CreateDataCatalogInput: AWSEncodableShape {
+
+        /// A description of the data catalog to be created.
+        public let description: String?
+        /// The name of the data catalog to create. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
+        public let name: String
+        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
+        public let parameters: [String: String]?
+        /// A list of comma separated tags to add to the data catalog that is created.
+        public let tags: [Tag]?
+        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+        public let `type`: DataCatalogType
+
+        public init(description: String? = nil, name: String, parameters: [String: String]? = nil, tags: [Tag]? = nil, type: DataCatalogType) {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 1024)
+            try validate(self.description, name: "description", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, max: 256)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 255)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 51200)
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case parameters = "Parameters"
+            case tags = "Tags"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateDataCatalogOutput: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateNamedQueryInput: AWSEncodableShape {
 
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
@@ -217,7 +301,7 @@ extension Athena {
             try validate(self.name, name: "name", parent: name, min: 1)
             try validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try validate(self.queryString, name: "queryString", parent: name, min: 1)
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -252,7 +336,7 @@ extension Athena {
         public let description: String?
         /// The workgroup name.
         public let name: String
-        /// One or more tags, separated by commas, that you want to attach to the workgroup as you create it.
+        /// A list of comma separated tags to add to the workgroup that is created.
         public let tags: [Tag]?
 
         public init(configuration: WorkGroupConfiguration? = nil, description: String? = nil, name: String, tags: [Tag]? = nil) {
@@ -266,7 +350,7 @@ extension Athena {
             try self.configuration?.validate(name: "\(name).configuration")
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.description, name: "description", parent: name, min: 0)
-            try validate(self.name, name: "name", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -288,6 +372,72 @@ extension Athena {
 
     }
 
+    public struct DataCatalog: AWSDecodableShape {
+
+        /// An optional description of the data catalog.
+        public let description: String?
+        /// The name of the data catalog. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
+        public let name: String
+        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
+        public let parameters: [String: String]?
+        /// The type of data catalog: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+        public let `type`: DataCatalogType
+
+        public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case parameters = "Parameters"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DataCatalogSummary: AWSDecodableShape {
+
+        /// The name of the data catalog.
+        public let catalogName: String?
+        /// The data catalog type.
+        public let `type`: DataCatalogType?
+
+        public init(catalogName: String? = nil, type: DataCatalogType? = nil) {
+            self.catalogName = catalogName
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "CatalogName"
+            case `type` = "Type"
+        }
+    }
+
+    public struct Database: AWSDecodableShape {
+
+        /// An optional description of the database.
+        public let description: String?
+        /// The name of the database.
+        public let name: String
+        /// A set of custom key/value pairs.
+        public let parameters: [String: String]?
+
+        public init(description: String? = nil, name: String, parameters: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case parameters = "Parameters"
+        }
+    }
+
     public struct Datum: AWSDecodableShape {
 
         /// The value of the datum.
@@ -300,6 +450,34 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case varCharValue = "VarCharValue"
         }
+    }
+
+    public struct DeleteDataCatalogInput: AWSEncodableShape {
+
+        /// The name of the data catalog to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 256)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteDataCatalogOutput: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteNamedQueryInput: AWSEncodableShape {
@@ -337,7 +515,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -369,6 +547,80 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case encryptionOption = "EncryptionOption"
             case kmsKey = "KmsKey"
+        }
+    }
+
+    public struct GetDataCatalogInput: AWSEncodableShape {
+
+        /// The name of the data catalog to return.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 256)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetDataCatalogOutput: AWSDecodableShape {
+
+        /// The data catalog returned.
+        public let dataCatalog: DataCatalog?
+
+        public init(dataCatalog: DataCatalog? = nil) {
+            self.dataCatalog = dataCatalog
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCatalog = "DataCatalog"
+        }
+    }
+
+    public struct GetDatabaseInput: AWSEncodableShape {
+
+        /// The name of the data catalog that contains the database to return.
+        public let catalogName: String
+        /// The name of the database to return.
+        public let databaseName: String
+
+        public init(catalogName: String, databaseName: String) {
+            self.catalogName = catalogName
+            self.databaseName = databaseName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogName, name: "catalogName", parent: name, max: 256)
+            try validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 128)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "CatalogName"
+            case databaseName = "DatabaseName"
+        }
+    }
+
+    public struct GetDatabaseOutput: AWSDecodableShape {
+
+        /// The database returned.
+        public let database: Database?
+
+        public init(database: Database? = nil) {
+            self.database = database
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
         }
     }
 
@@ -432,7 +684,7 @@ extension Athena {
 
         /// The maximum number of results (rows) to return in this request.
         public let maxResults: Int?
-        /// The token that specifies where to start pagination if a previous request was truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
         /// The unique ID of the query execution.
         public let queryExecutionId: String
@@ -459,7 +711,7 @@ extension Athena {
 
     public struct GetQueryResultsOutput: AWSDecodableShape {
 
-        /// A token to be used by the next request if this request is truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
         /// The results of the query execution.
         public let resultSet: ResultSet?
@@ -479,6 +731,52 @@ extension Athena {
         }
     }
 
+    public struct GetTableMetadataInput: AWSEncodableShape {
+
+        /// The name of the data catalog that contains the database and table metadata to return.
+        public let catalogName: String
+        /// The name of the database that contains the table metadata to return.
+        public let databaseName: String
+        /// The name of the table for which metadata is returned.
+        public let tableName: String
+
+        public init(catalogName: String, databaseName: String, tableName: String) {
+            self.catalogName = catalogName
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogName, name: "catalogName", parent: name, max: 256)
+            try validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 128)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, max: 128)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "CatalogName"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetTableMetadataOutput: AWSDecodableShape {
+
+        /// An object that contains table metadata.
+        public let tableMetadata: TableMetadata?
+
+        public init(tableMetadata: TableMetadata? = nil) {
+            self.tableMetadata = tableMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableMetadata = "TableMetadata"
+        }
+    }
+
     public struct GetWorkGroupInput: AWSEncodableShape {
 
         /// The name of the workgroup.
@@ -489,7 +787,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -511,13 +809,106 @@ extension Athena {
         }
     }
 
+    public struct ListDataCatalogsInput: AWSEncodableShape {
+
+        /// Specifies the maximum number of data catalogs to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 2)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataCatalogsOutput: AWSDecodableShape {
+
+        /// A summary list of data catalogs.
+        public let dataCatalogsSummary: [DataCatalogSummary]?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(dataCatalogsSummary: [DataCatalogSummary]? = nil, nextToken: String? = nil) {
+            self.dataCatalogsSummary = dataCatalogsSummary
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCatalogsSummary = "DataCatalogsSummary"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDatabasesInput: AWSEncodableShape {
+
+        /// The name of the data catalog that contains the databases to return.
+        public let catalogName: String
+        /// Specifies the maximum number of results to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(catalogName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.catalogName = catalogName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogName, name: "catalogName", parent: name, max: 256)
+            try validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "CatalogName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDatabasesOutput: AWSDecodableShape {
+
+        /// A list of databases from a data catalog.
+        public let databaseList: [Database]?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(databaseList: [Database]? = nil, nextToken: String? = nil) {
+            self.databaseList = databaseList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseList = "DatabaseList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListNamedQueriesInput: AWSEncodableShape {
 
         /// The maximum number of queries to return in this request.
         public let maxResults: Int?
-        /// The token that specifies where to start pagination if a previous request was truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
-        /// The name of the workgroup from which the named queries are returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned.
+        /// The name of the workgroup from which the named queries are being returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned.
         public let workGroup: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
@@ -531,7 +922,7 @@ extension Athena {
             try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -545,7 +936,7 @@ extension Athena {
 
         /// The list of unique query IDs.
         public let namedQueryIds: [String]?
-        /// A token to be used by the next request if this request is truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
         public init(namedQueryIds: [String]? = nil, nextToken: String? = nil) {
@@ -563,9 +954,9 @@ extension Athena {
 
         /// The maximum number of query executions to return in this request.
         public let maxResults: Int?
-        /// The token that specifies where to start pagination if a previous request was truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
-        /// The name of the workgroup from which queries are returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned.
+        /// The name of the workgroup from which queries are being returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned.
         public let workGroup: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
@@ -579,7 +970,7 @@ extension Athena {
             try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -607,13 +998,75 @@ extension Athena {
         }
     }
 
+    public struct ListTableMetadataInput: AWSEncodableShape {
+
+        /// The name of the data catalog for which table metadata should be returned.
+        public let catalogName: String
+        /// The name of the database for which table metadata should be returned.
+        public let databaseName: String
+        /// A regex filter that pattern-matches table names. If no expression is supplied, metadata for all tables are listed.
+        public let expression: String?
+        /// Specifies the maximum number of results to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(catalogName: String, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.catalogName = catalogName
+            self.databaseName = databaseName
+            self.expression = expression
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogName, name: "catalogName", parent: name, max: 256)
+            try validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 128)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.expression, name: "expression", parent: name, max: 256)
+            try validate(self.expression, name: "expression", parent: name, min: 0)
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "CatalogName"
+            case databaseName = "DatabaseName"
+            case expression = "Expression"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTableMetadataOutput: AWSDecodableShape {
+
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// A list of table metadata.
+        public let tableMetadataList: [TableMetadata]?
+
+        public init(nextToken: String? = nil, tableMetadataList: [TableMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.tableMetadataList = tableMetadataList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tableMetadataList = "TableMetadataList"
+        }
+    }
+
     public struct ListTagsForResourceInput: AWSEncodableShape {
 
-        /// The maximum number of results to be returned per request that lists the tags for the workgroup resource.
+        /// The maximum number of results to be returned per request that lists the tags for the resource.
         public let maxResults: Int?
-        /// The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the workgroup resource with the specified ARN.
+        /// The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the resource with the specified ARN.
         public let nextToken: String?
-        /// Lists the tags for the workgroup resource with the specified ARN.
+        /// Lists the tags for the resource with the specified ARN.
         public let resourceARN: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
@@ -641,7 +1094,7 @@ extension Athena {
 
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
-        /// The list of tags associated with this workgroup.
+        /// The list of tags associated with the specified resource.
         public let tags: [Tag]?
 
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
@@ -659,7 +1112,7 @@ extension Athena {
 
         /// The maximum number of workgroups to return in this request.
         public let maxResults: Int?
-        /// A token to be used by the next request if this request is truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -682,7 +1135,7 @@ extension Athena {
 
     public struct ListWorkGroupsOutput: AWSDecodableShape {
 
-        /// A token to be used by the next request if this request is truncated.
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
         /// The list of workgroups, including their names, descriptions, creation times, and states.
         public let workGroups: [WorkGroupSummary]?
@@ -776,19 +1229,26 @@ extension Athena {
 
     public struct QueryExecutionContext: AWSEncodableShape & AWSDecodableShape {
 
-        /// The name of the database.
+        /// The name of the data catalog used in the query execution.
+        public let catalog: String?
+        /// The name of the database used in the query execution.
         public let database: String?
 
-        public init(database: String? = nil) {
+        public init(catalog: String? = nil, database: String? = nil) {
+            self.catalog = catalog
             self.database = database
         }
 
         public func validate(name: String) throws {
+            try validate(self.catalog, name: "catalog", parent: name, max: 256)
+            try validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try validate(self.catalog, name: "catalog", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try validate(self.database, name: "database", parent: name, max: 255)
             try validate(self.database, name: "database", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
             case database = "Database"
         }
     }
@@ -835,7 +1295,7 @@ extension Athena {
 
         /// The date and time that the query completed.
         public let completionDateTime: TimeStamp?
-        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution. 
+        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution.  Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from RUNNING or FAILED to QUEUED.  
         public let state: QueryExecutionState?
         /// Further detail about the status of the query.
         public let stateChangeReason: String?
@@ -974,7 +1434,7 @@ extension Athena {
             try self.queryExecutionContext?.validate(name: "\(name).queryExecutionContext")
             try validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try validate(self.queryString, name: "queryString", parent: name, min: 1)
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1022,6 +1482,44 @@ extension Athena {
 
     }
 
+    public struct TableMetadata: AWSDecodableShape {
+
+        /// A list of the columns in the table.
+        public let columns: [Column]?
+        /// The time that the table was created.
+        public let createTime: TimeStamp?
+        /// The last time the table was accessed.
+        public let lastAccessTime: TimeStamp?
+        /// The name of the table.
+        public let name: String
+        /// A set of custom key/value pairs for table properties.
+        public let parameters: [String: String]?
+        /// A list of the partition keys in the table.
+        public let partitionKeys: [Column]?
+        /// The type of table. In Athena, only EXTERNAL_TABLE is supported.
+        public let tableType: String?
+
+        public init(columns: [Column]? = nil, createTime: TimeStamp? = nil, lastAccessTime: TimeStamp? = nil, name: String, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, tableType: String? = nil) {
+            self.columns = columns
+            self.createTime = createTime
+            self.lastAccessTime = lastAccessTime
+            self.name = name
+            self.parameters = parameters
+            self.partitionKeys = partitionKeys
+            self.tableType = tableType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case createTime = "CreateTime"
+            case lastAccessTime = "LastAccessTime"
+            case name = "Name"
+            case parameters = "Parameters"
+            case partitionKeys = "PartitionKeys"
+            case tableType = "TableType"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource. 
@@ -1049,9 +1547,9 @@ extension Athena {
 
     public struct TagResourceInput: AWSEncodableShape {
 
-        /// Requests that one or more tags are added to the resource (such as a workgroup) for the specified ARN.
+        /// Specifies the ARN of the Athena resource (workgroup or data catalog) to which tags are to be added.
         public let resourceARN: String
-        /// One or more tags, separated by commas, to be added to the resource, such as a workgroup.
+        /// A collection of one or more tags, separated by commas, to be added to an Athena workgroup or data catalog resource.
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
@@ -1127,9 +1625,9 @@ extension Athena {
 
     public struct UntagResourceInput: AWSEncodableShape {
 
-        /// Removes one or more tags from the workgroup resource for the specified ARN.
+        /// Specifies the ARN of the resource from which tags are to be removed.
         public let resourceARN: String
-        /// Removes the tags associated with one or more tag keys from the workgroup resource.
+        /// A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource.
         public let tagKeys: [String]
 
         public init(resourceARN: String, tagKeys: [String]) {
@@ -1160,6 +1658,54 @@ extension Athena {
 
     }
 
+    public struct UpdateDataCatalogInput: AWSEncodableShape {
+
+        /// New or modified text that describes the data catalog.
+        public let description: String?
+        /// The name of the data catalog to update. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
+        public let name: String
+        /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
+        public let parameters: [String: String]?
+        /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+        public let `type`: DataCatalogType
+
+        public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 1024)
+            try validate(self.description, name: "description", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, max: 256)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 255)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 51200)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case parameters = "Parameters"
+            case `type` = "Type"
+        }
+    }
+
+    public struct UpdateDataCatalogOutput: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateWorkGroupInput: AWSEncodableShape {
 
         /// The workgroup configuration that will be updated for the given workgroup.
@@ -1182,7 +1728,7 @@ extension Athena {
             try self.configurationUpdates?.validate(name: "\(name).configurationUpdates")
             try validate(self.description, name: "description", parent: name, max: 1024)
             try validate(self.description, name: "description", parent: name, min: 0)
-            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {

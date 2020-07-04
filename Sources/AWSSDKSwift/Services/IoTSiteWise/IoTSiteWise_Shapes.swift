@@ -26,6 +26,7 @@ extension IoTSiteWise {
         case maximum = "MAXIMUM"
         case minimum = "MINIMUM"
         case sum = "SUM"
+        case standardDeviation = "STANDARD_DEVIATION"
         public var description: String { return self.rawValue }
     }
 
@@ -216,22 +217,25 @@ extension IoTSiteWise {
 
     public struct Aggregates: AWSDecodableShape {
 
-        /// The average (mean) value of the time series for the last time interval window.
+        /// The average (mean) value of the time series over a time interval window.
         public let average: Double?
-        /// The count of data points in the time series for the last time interval window.
+        /// The count of data points in the time series over a time interval window.
         public let count: Double?
-        /// The maximum value of the time series for the last time interval window.
+        /// The maximum value of the time series over a time interval window.
         public let maximum: Double?
-        /// The minimum value of the time series for the last time interval window.
+        /// The minimum value of the time series over a time interval window.
         public let minimum: Double?
-        /// The sum of the time series for the last time interval window.
+        /// The standard deviation of the time series over a time interval window.
+        public let standardDeviation: Double?
+        /// The sum of the time series over a time interval window.
         public let sum: Double?
 
-        public init(average: Double? = nil, count: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil) {
+        public init(average: Double? = nil, count: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, standardDeviation: Double? = nil, sum: Double? = nil) {
             self.average = average
             self.count = count
             self.maximum = maximum
             self.minimum = minimum
+            self.standardDeviation = standardDeviation
             self.sum = sum
         }
 
@@ -240,6 +244,7 @@ extension IoTSiteWise {
             case count = "count"
             case maximum = "maximum"
             case minimum = "minimum"
+            case standardDeviation = "standardDeviation"
             case sum = "sum"
         }
     }
@@ -1014,7 +1019,7 @@ extension IoTSiteWise {
         public let assetModelArn: String
         /// The ID of the asset model. You can use this ID when you call other AWS IoT SiteWise APIs.
         public let assetModelId: String
-        /// The status of the asset model, which contains a state (CREATING after successfully calling this action) and any error message.
+        /// The status of the asset model, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
         public init(assetModelArn: String, assetModelId: String, assetModelStatus: AssetModelStatus) {
@@ -1080,7 +1085,7 @@ extension IoTSiteWise {
         public let assetArn: String
         /// The ID of the asset. This ID uniquely identifies the asset within AWS IoT SiteWise and can be used with other AWS IoT SiteWise APIs.
         public let assetId: String
-        /// The status of the asset, which contains a state (CREATING after successfully calling this action) and any error message.
+        /// The status of the asset, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
         public init(assetArn: String, assetId: String, assetStatus: AssetStatus) {
@@ -1262,6 +1267,7 @@ extension IoTSiteWise {
             try validate(self.portalDescription, name: "portalDescription", parent: name, max: 2048)
             try validate(self.portalDescription, name: "portalDescription", parent: name, min: 1)
             try validate(self.portalDescription, name: "portalDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.portalLogoImageFile?.validate(name: "\(name).portalLogoImageFile")
             try validate(self.portalName, name: "portalName", parent: name, max: 256)
             try validate(self.portalName, name: "portalName", parent: name, min: 1)
             try validate(self.portalName, name: "portalName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -1295,7 +1301,7 @@ extension IoTSiteWise {
         public let portalId: String
         /// The public URL for the AWS IoT SiteWise Monitor portal.
         public let portalStartUrl: String
-        /// The status of the portal, which contains a state (CREATING after successfully calling this action) and any error message.
+        /// The status of the portal, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
         /// The associated AWS SSO application Id.
         public let ssoApplicationId: String
@@ -1482,7 +1488,7 @@ extension IoTSiteWise {
 
     public struct DeleteAssetModelResponse: AWSDecodableShape {
 
-        /// The status of the asset model, which contains a state (DELETING after successfully calling this action) and any error message.
+        /// The status of the asset model, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
         public init(assetModelStatus: AssetModelStatus) {
@@ -1524,7 +1530,7 @@ extension IoTSiteWise {
 
     public struct DeleteAssetResponse: AWSDecodableShape {
 
-        /// The status of the asset, which contains a state (DELETING after successfully calling this action) and any error message.
+        /// The status of the asset, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
         public init(assetStatus: AssetStatus) {
@@ -1623,7 +1629,7 @@ extension IoTSiteWise {
 
     public struct DeletePortalResponse: AWSDecodableShape {
 
-        /// The status of the portal, which contains a state (DELETING after successfully calling this action) and any error message.
+        /// The status of the portal, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
 
         public init(portalStatus: PortalStatus) {
@@ -2153,8 +2159,8 @@ extension IoTSiteWise {
         public let portalId: String
         /// The date the portal was last updated, in Unix epoch time.
         public let portalLastUpdateDate: TimeStamp
-        /// The portal's logo image.
-        public let portalLogoImage: Image?
+        /// The portal's logo image, which is available at a URL.
+        public let portalLogoImageLocation: ImageLocation?
         /// The name of the portal.
         public let portalName: String
         /// The public root URL for the AWS IoT AWS IoT SiteWise Monitor application portal.
@@ -2164,7 +2170,7 @@ extension IoTSiteWise {
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String?
 
-        public init(portalArn: String, portalClientId: String, portalContactEmail: String, portalCreationDate: TimeStamp, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: TimeStamp, portalLogoImage: Image? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+        public init(portalArn: String, portalClientId: String, portalContactEmail: String, portalCreationDate: TimeStamp, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: TimeStamp, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
             self.portalArn = portalArn
             self.portalClientId = portalClientId
             self.portalContactEmail = portalContactEmail
@@ -2172,7 +2178,7 @@ extension IoTSiteWise {
             self.portalDescription = portalDescription
             self.portalId = portalId
             self.portalLastUpdateDate = portalLastUpdateDate
-            self.portalLogoImage = portalLogoImage
+            self.portalLogoImageLocation = portalLogoImageLocation
             self.portalName = portalName
             self.portalStartUrl = portalStartUrl
             self.portalStatus = portalStatus
@@ -2187,7 +2193,7 @@ extension IoTSiteWise {
             case portalDescription = "portalDescription"
             case portalId = "portalId"
             case portalLastUpdateDate = "portalLastUpdateDate"
-            case portalLogoImage = "portalLogoImage"
+            case portalLogoImageLocation = "portalLogoImageLocation"
             case portalName = "portalName"
             case portalStartUrl = "portalStartUrl"
             case portalStatus = "portalStatus"
@@ -2698,39 +2704,68 @@ extension IoTSiteWise {
         }
     }
 
-    public struct Image: AWSDecodableShape {
+    public struct Image: AWSEncodableShape {
 
-        /// The date the image was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp?
-        /// A URL at which the image is available. The URL is valid for 15 minutes for you to view and download the image.
-        public let locationUrl: String?
+        public let file: ImageFile?
+        /// The ID of an existing image. Specify this parameter to keep an existing image.
+        public let id: String?
 
-        public init(lastUpdateDate: TimeStamp? = nil, locationUrl: String? = nil) {
-            self.lastUpdateDate = lastUpdateDate
-            self.locationUrl = locationUrl
+        public init(file: ImageFile? = nil, id: String? = nil) {
+            self.file = file
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+            try validate(self.id, name: "id", parent: name, max: 36)
+            try validate(self.id, name: "id", parent: name, min: 36)
+            try validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdateDate = "lastUpdateDate"
-            case locationUrl = "locationUrl"
+            case file = "file"
+            case id = "id"
         }
     }
 
     public struct ImageFile: AWSEncodableShape {
 
         /// The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB.
-        public let encodedString: Data
+        public let data: Data
         /// The file type of the image.
-        public let fileType: ImageFileType
+        public let `type`: ImageFileType
 
-        public init(encodedString: Data, fileType: ImageFileType) {
-            self.encodedString = encodedString
-            self.fileType = fileType
+        public init(data: Data, type: ImageFileType) {
+            self.data = data
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.data, name: "data", parent: name, max: 1500000)
+            try validate(self.data, name: "data", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encodedString = "encodedString"
-            case fileType = "fileType"
+            case data = "data"
+            case `type` = "type"
+        }
+    }
+
+    public struct ImageLocation: AWSDecodableShape {
+
+        /// The ID of the image.
+        public let id: String
+        /// The URL where the image is available. The URL is valid for 15 minutes so that you can view and download the image
+        public let url: String
+
+        public init(id: String, url: String) {
+            self.id = id
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case url = "url"
         }
     }
 
@@ -2744,17 +2779,17 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
         ]
 
-        /// The ID of the identity.
+        /// The ID of the identity. This parameter is required if you specify identityType.
         public let identityId: String?
-        /// The type of identity (user or group).
+        /// The type of identity (user or group). This parameter is required if you specify identityId.
         public let identityType: IdentityType?
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The ID of the resource.
+        /// The ID of the resource. This parameter is required if you specify resourceType.
         public let resourceId: String?
-        /// The type of resource (portal or project).
+        /// The type of resource (portal or project). This parameter is required if you specify resourceId.
         public let resourceType: ResourceType?
 
         public init(identityId: String? = nil, identityType: IdentityType? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
@@ -3897,7 +3932,7 @@ extension IoTSiteWise {
 
     public struct UpdateAssetModelResponse: AWSDecodableShape {
 
-        /// The status of the asset model, which contains a state (UPDATING after successfully calling this action) and any error message.
+        /// The status of the asset model, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
         public init(assetModelStatus: AssetModelStatus) {
@@ -3994,7 +4029,7 @@ extension IoTSiteWise {
 
     public struct UpdateAssetResponse: AWSDecodableShape {
 
-        /// The status of the asset, which contains a state (UPDATING after successfully calling this action) and any error message.
+        /// The status of the asset, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
         public init(assetStatus: AssetStatus) {
@@ -4159,19 +4194,18 @@ extension IoTSiteWise {
         public let portalDescription: String?
         /// The ID of the portal to update.
         public let portalId: String
-        /// A logo image to display in the portal. Upload a square, high-resolution image. The image is displayed on a dark background.
-        public let portalLogoImageFile: ImageFile?
+        public let portalLogoImage: Image?
         /// A new friendly name for the portal.
         public let portalName: String
         /// The ARN of a service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String
 
-        public init(clientToken: String? = UpdatePortalRequest.idempotencyToken(), portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String) {
+        public init(clientToken: String? = UpdatePortalRequest.idempotencyToken(), portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
             self.clientToken = clientToken
             self.portalContactEmail = portalContactEmail
             self.portalDescription = portalDescription
             self.portalId = portalId
-            self.portalLogoImageFile = portalLogoImageFile
+            self.portalLogoImage = portalLogoImage
             self.portalName = portalName
             self.roleArn = roleArn
         }
@@ -4189,6 +4223,7 @@ extension IoTSiteWise {
             try validate(self.portalId, name: "portalId", parent: name, max: 36)
             try validate(self.portalId, name: "portalId", parent: name, min: 36)
             try validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.portalLogoImage?.validate(name: "\(name).portalLogoImage")
             try validate(self.portalName, name: "portalName", parent: name, max: 256)
             try validate(self.portalName, name: "portalName", parent: name, min: 1)
             try validate(self.portalName, name: "portalName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -4201,7 +4236,7 @@ extension IoTSiteWise {
             case clientToken = "clientToken"
             case portalContactEmail = "portalContactEmail"
             case portalDescription = "portalDescription"
-            case portalLogoImageFile = "portalLogoImageFile"
+            case portalLogoImage = "portalLogoImage"
             case portalName = "portalName"
             case roleArn = "roleArn"
         }
@@ -4209,7 +4244,7 @@ extension IoTSiteWise {
 
     public struct UpdatePortalResponse: AWSDecodableShape {
 
-        /// The status of the portal, which contains a state (UPDATING after successfully calling this action) and any error message.
+        /// The status of the portal, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
 
         public init(portalStatus: PortalStatus) {
