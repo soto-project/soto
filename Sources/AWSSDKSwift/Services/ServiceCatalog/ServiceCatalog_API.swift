@@ -73,7 +73,7 @@ public struct ServiceCatalog {
         return client.execute(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Associates the specified product with the specified portfolio.
+    ///  Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
     public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateProductWithPortfolioOutput> {
         return client.execute(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -103,22 +103,22 @@ public struct ServiceCatalog {
         return client.execute(operation: "CopyProduct", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a constraint.
+    ///  Creates a constraint. A delegated admin is authorized to invoke this command.
     public func createConstraint(_ input: CreateConstraintInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConstraintOutput> {
         return client.execute(operation: "CreateConstraint", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a portfolio.
+    ///  Creates a portfolio. A delegated admin is authorized to invoke this command.
     public func createPortfolio(_ input: CreatePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortfolioOutput> {
         return client.execute(operation: "CreatePortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an Organization. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
+    ///  Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
     public func createPortfolioShare(_ input: CreatePortfolioShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortfolioShareOutput> {
         return client.execute(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a product.
+    ///  Creates a product. A delegated admin is authorized to invoke this command.
     public func createProduct(_ input: CreateProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProductOutput> {
         return client.execute(operation: "CreateProduct", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -143,22 +143,22 @@ public struct ServiceCatalog {
         return client.execute(operation: "CreateTagOption", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Deletes the specified constraint.
+    ///  Deletes the specified constraint. A delegated admin is authorized to invoke this command.
     public func deleteConstraint(_ input: DeleteConstraintInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConstraintOutput> {
         return client.execute(operation: "DeleteConstraint", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts.
+    ///  Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
     public func deletePortfolio(_ input: DeletePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePortfolioOutput> {
         return client.execute(operation: "DeletePortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an Organization.
+    ///  Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
     public func deletePortfolioShare(_ input: DeletePortfolioShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePortfolioShareOutput> {
         return client.execute(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio.
+    ///  Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
     public func deleteProduct(_ input: DeleteProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProductOutput> {
         return client.execute(operation: "DeleteProduct", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -193,12 +193,12 @@ public struct ServiceCatalog {
         return client.execute(operation: "DescribeCopyProductStatus", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Gets information about the specified portfolio.
+    ///  Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
     public func describePortfolio(_ input: DescribePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePortfolioOutput> {
         return client.execute(operation: "DescribePortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization.
+    ///  Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization or by a delegated admin.
     public func describePortfolioShareStatus(_ input: DescribePortfolioShareStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePortfolioShareStatusOutput> {
         return client.execute(operation: "DescribePortfolioShareStatus", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -258,7 +258,7 @@ public struct ServiceCatalog {
         return client.execute(operation: "DescribeTagOption", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization.
+    ///  Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
     public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableAWSOrganizationsAccessOutput> {
         return client.execute(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -273,7 +273,7 @@ public struct ServiceCatalog {
         return client.execute(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Disassociates the specified product from the specified portfolio. 
+    ///  Disassociates the specified product from the specified portfolio.  A delegated admin is authorized to invoke this command.
     public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateProductFromPortfolioOutput> {
         return client.execute(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -288,7 +288,7 @@ public struct ServiceCatalog {
         return client.execute(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure.
+    ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
     public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableAWSOrganizationsAccessOutput> {
         return client.execute(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -303,7 +303,7 @@ public struct ServiceCatalog {
         return client.execute(operation: "ExecuteProvisionedProductServiceAction", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization.
+    ///  Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization or by a delegated admin.
     public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAWSOrganizationsAccessStatusOutput> {
         return client.execute(operation: "GetAWSOrganizationsAccessStatus", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -328,12 +328,12 @@ public struct ServiceCatalog {
         return client.execute(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization.
+    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
     public func listOrganizationPortfolioAccess(_ input: ListOrganizationPortfolioAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationPortfolioAccessOutput> {
         return client.execute(operation: "ListOrganizationPortfolioAccess", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Lists the account IDs that have access to the specified portfolio.
+    ///  Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
     public func listPortfolioAccess(_ input: ListPortfolioAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPortfolioAccessOutput> {
         return client.execute(operation: "ListPortfolioAccess", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

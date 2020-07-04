@@ -20,7 +20,7 @@ import NIO
 
 extension Macie {
 
-    ///  Lists all Amazon Macie member accounts for the current Amazon Macie master account.
+    ///  Lists all Amazon Macie Classic member accounts for the current Amazon Macie Classic master account.
     public func listMemberAccountsPaginator(
         _ input: ListMemberAccountsRequest,
         on eventLoop: EventLoop? = nil,
@@ -30,7 +30,7 @@ extension Macie {
         return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists all the S3 resources associated with Amazon Macie. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie for the specified member account. 
+    ///  Lists all the S3 resources associated with Amazon Macie Classic. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie Classic for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie Classic for the specified member account. 
     public func listS3ResourcesPaginator(
         _ input: ListS3ResourcesRequest,
         on eventLoop: EventLoop? = nil,

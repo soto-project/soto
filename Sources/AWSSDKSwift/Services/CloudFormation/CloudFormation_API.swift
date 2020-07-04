@@ -233,7 +233,7 @@ public struct CloudFormation {
         return client.execute(operation: "ListImports", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region.
+    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region, or that have a specific status.
     public func listStackInstances(_ input: ListStackInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackInstancesOutput> {
         return client.execute(operation: "ListStackInstances", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

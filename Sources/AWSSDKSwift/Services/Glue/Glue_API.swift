@@ -198,6 +198,16 @@ public struct Glue {
         return client.execute(operation: "DeleteClassifier", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Delete the partition column statistics of a column.
+    public func deleteColumnStatisticsForPartition(_ input: DeleteColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteColumnStatisticsForPartitionResponse> {
+        return client.execute(operation: "DeleteColumnStatisticsForPartition", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Retrieves table statistics of columns.
+    public func deleteColumnStatisticsForTable(_ input: DeleteColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteColumnStatisticsForTableResponse> {
+        return client.execute(operation: "DeleteColumnStatisticsForTable", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Deletes a connection from the Data Catalog.
     public func deleteConnection(_ input: DeleteConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionResponse> {
         return client.execute(operation: "DeleteConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -281,6 +291,16 @@ public struct Glue {
     ///  Lists all classifier objects in the Data Catalog.
     public func getClassifiers(_ input: GetClassifiersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetClassifiersResponse> {
         return client.execute(operation: "GetClassifiers", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Retrieves partition statistics of columns.
+    public func getColumnStatisticsForPartition(_ input: GetColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetColumnStatisticsForPartitionResponse> {
+        return client.execute(operation: "GetColumnStatisticsForPartition", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Retrieves table statistics of columns.
+    public func getColumnStatisticsForTable(_ input: GetColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetColumnStatisticsForTableResponse> {
+        return client.execute(operation: "GetColumnStatisticsForTable", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves a connection definition from the Data Catalog.
@@ -621,6 +641,16 @@ public struct Glue {
     ///  Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     public func updateClassifier(_ input: UpdateClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClassifierResponse> {
         return client.execute(operation: "UpdateClassifier", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Creates or updates partition statistics of columns.
+    public func updateColumnStatisticsForPartition(_ input: UpdateColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateColumnStatisticsForPartitionResponse> {
+        return client.execute(operation: "UpdateColumnStatisticsForPartition", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Creates or updates table statistics of columns.
+    public func updateColumnStatisticsForTable(_ input: UpdateColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateColumnStatisticsForTableResponse> {
+        return client.execute(operation: "UpdateColumnStatisticsForTable", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a connection definition in the Data Catalog.

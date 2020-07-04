@@ -32,6 +32,17 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ColumnStatisticsType: String, CustomStringConvertible, Codable {
+        case boolean = "BOOLEAN"
+        case date = "DATE"
+        case decimal = "DECIMAL"
+        case double = "DOUBLE"
+        case long = "LONG"
+        case string = "STRING"
+        case binary = "BINARY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Comparator: String, CustomStringConvertible, Codable {
         case equals = "EQUALS"
         case greaterThan = "GREATER_THAN"
@@ -976,6 +987,62 @@ extension Glue {
         }
     }
 
+    public struct BinaryColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Average length of the column.
+        public let averageLength: Double
+        /// Maximum length of the column.
+        public let maximumLength: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+
+        public init(averageLength: Double, maximumLength: Int64, numberOfNulls: Int64) {
+            self.averageLength = averageLength
+            self.maximumLength = maximumLength
+            self.numberOfNulls = numberOfNulls
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.averageLength, name: "averageLength", parent: name, min: 0)
+            try validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageLength = "AverageLength"
+            case maximumLength = "MaximumLength"
+            case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
+    public struct BooleanColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Number of false value.
+        public let numberOfFalses: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+        /// Number of true value.
+        public let numberOfTrues: Int64
+
+        public init(numberOfFalses: Int64, numberOfNulls: Int64, numberOfTrues: Int64) {
+            self.numberOfFalses = numberOfFalses
+            self.numberOfNulls = numberOfNulls
+            self.numberOfTrues = numberOfTrues
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfFalses, name: "numberOfFalses", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+            try validate(self.numberOfTrues, name: "numberOfTrues", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfFalses = "NumberOfFalses"
+            case numberOfNulls = "NumberOfNulls"
+            case numberOfTrues = "NumberOfTrues"
+        }
+    }
+
     public struct CancelMLTaskRunRequest: AWSEncodableShape {
 
         /// A unique identifier for the task run.
@@ -1280,6 +1347,130 @@ extension Glue {
             case name = "Name"
             case parameters = "Parameters"
             case `type` = "Type"
+        }
+    }
+
+    public struct ColumnError: AWSDecodableShape {
+
+        /// The name of the column.
+        public let columnName: String?
+        /// The error message occurred during operation.
+        public let error: ErrorDetail?
+
+        public init(columnName: String? = nil, error: ErrorDetail? = nil) {
+            self.columnName = columnName
+            self.error = error
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case error = "Error"
+        }
+    }
+
+    public struct ColumnStatistics: AWSEncodableShape & AWSDecodableShape {
+
+        /// The analyzed time of the column statistics.
+        public let analyzedTime: TimeStamp
+        /// The name of the column.
+        public let columnName: String
+        /// The type of the column.
+        public let columnType: String
+        /// The statistics of the column.
+        public let statisticsData: ColumnStatisticsData
+
+        public init(analyzedTime: TimeStamp, columnName: String, columnType: String, statisticsData: ColumnStatisticsData) {
+            self.analyzedTime = analyzedTime
+            self.columnName = columnName
+            self.columnType = columnType
+            self.statisticsData = statisticsData
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.columnName, name: "columnName", parent: name, max: 255)
+            try validate(self.columnName, name: "columnName", parent: name, min: 1)
+            try validate(self.columnName, name: "columnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.columnType, name: "columnType", parent: name, max: 20000)
+            try validate(self.columnType, name: "columnType", parent: name, min: 0)
+            try validate(self.columnType, name: "columnType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.statisticsData.validate(name: "\(name).statisticsData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzedTime = "AnalyzedTime"
+            case columnName = "ColumnName"
+            case columnType = "ColumnType"
+            case statisticsData = "StatisticsData"
+        }
+    }
+
+    public struct ColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Binary Column Statistics Data.
+        public let binaryColumnStatisticsData: BinaryColumnStatisticsData?
+        /// Boolean Column Statistics Data.
+        public let booleanColumnStatisticsData: BooleanColumnStatisticsData?
+        /// Date Column Statistics Data.
+        public let dateColumnStatisticsData: DateColumnStatisticsData?
+        /// Decimal Column Statistics Data.
+        public let decimalColumnStatisticsData: DecimalColumnStatisticsData?
+        /// Double Column Statistics Data.
+        public let doubleColumnStatisticsData: DoubleColumnStatisticsData?
+        /// Long Column Statistics Data.
+        public let longColumnStatisticsData: LongColumnStatisticsData?
+        /// String Column Statistics Data.
+        public let stringColumnStatisticsData: StringColumnStatisticsData?
+        /// The name of the column.
+        public let `type`: ColumnStatisticsType
+
+        public init(binaryColumnStatisticsData: BinaryColumnStatisticsData? = nil, booleanColumnStatisticsData: BooleanColumnStatisticsData? = nil, dateColumnStatisticsData: DateColumnStatisticsData? = nil, decimalColumnStatisticsData: DecimalColumnStatisticsData? = nil, doubleColumnStatisticsData: DoubleColumnStatisticsData? = nil, longColumnStatisticsData: LongColumnStatisticsData? = nil, stringColumnStatisticsData: StringColumnStatisticsData? = nil, type: ColumnStatisticsType) {
+            self.binaryColumnStatisticsData = binaryColumnStatisticsData
+            self.booleanColumnStatisticsData = booleanColumnStatisticsData
+            self.dateColumnStatisticsData = dateColumnStatisticsData
+            self.decimalColumnStatisticsData = decimalColumnStatisticsData
+            self.doubleColumnStatisticsData = doubleColumnStatisticsData
+            self.longColumnStatisticsData = longColumnStatisticsData
+            self.stringColumnStatisticsData = stringColumnStatisticsData
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.binaryColumnStatisticsData?.validate(name: "\(name).binaryColumnStatisticsData")
+            try self.booleanColumnStatisticsData?.validate(name: "\(name).booleanColumnStatisticsData")
+            try self.dateColumnStatisticsData?.validate(name: "\(name).dateColumnStatisticsData")
+            try self.decimalColumnStatisticsData?.validate(name: "\(name).decimalColumnStatisticsData")
+            try self.doubleColumnStatisticsData?.validate(name: "\(name).doubleColumnStatisticsData")
+            try self.longColumnStatisticsData?.validate(name: "\(name).longColumnStatisticsData")
+            try self.stringColumnStatisticsData?.validate(name: "\(name).stringColumnStatisticsData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binaryColumnStatisticsData = "BinaryColumnStatisticsData"
+            case booleanColumnStatisticsData = "BooleanColumnStatisticsData"
+            case dateColumnStatisticsData = "DateColumnStatisticsData"
+            case decimalColumnStatisticsData = "DecimalColumnStatisticsData"
+            case doubleColumnStatisticsData = "DoubleColumnStatisticsData"
+            case longColumnStatisticsData = "LongColumnStatisticsData"
+            case stringColumnStatisticsData = "StringColumnStatisticsData"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ColumnStatisticsError: AWSDecodableShape {
+
+        /// The ColumnStatistics of the column.
+        public let columnStatistics: ColumnStatistics?
+        /// The error message occurred during operation.
+        public let error: ErrorDetail?
+
+        public init(columnStatistics: ColumnStatistics? = nil, error: ErrorDetail? = nil) {
+            self.columnStatistics = columnStatistics
+            self.error = error
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnStatistics = "ColumnStatistics"
+            case error = "Error"
         }
     }
 
@@ -1764,7 +1955,7 @@ extension Glue {
 
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
-        /// The crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
         public let configuration: String?
         /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
@@ -1776,13 +1967,13 @@ extension Glue {
         public let name: String
         /// The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new crawler to access customer resources.
         public let role: String
-        /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let schedule: String?
         /// The policy for the crawler's update and deletion behavior.
         public let schemaChangePolicy: SchemaChangePolicy?
         /// The table prefix used for catalog tables that are created.
         public let tablePrefix: String?
-        /// The tags to use with this crawler request. You can use tags to limit access to the crawler. For more information, see AWS Tags in AWS Glue.
+        /// The tags to use with this crawler request. You may use tags to limit access to the crawler. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
@@ -2954,6 +3145,86 @@ extension Glue {
         }
     }
 
+    public struct DateColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Maximum value of the column.
+        public let maximumValue: TimeStamp?
+        /// Minimum value of the column.
+        public let minimumValue: TimeStamp?
+        /// Number of distinct values.
+        public let numberOfDistinctValues: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+
+        public init(maximumValue: TimeStamp? = nil, minimumValue: TimeStamp? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.numberOfDistinctValues = numberOfDistinctValues
+            self.numberOfNulls = numberOfNulls
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case numberOfDistinctValues = "NumberOfDistinctValues"
+            case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
+    public struct DecimalColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Maximum value of the column.
+        public let maximumValue: DecimalNumber?
+        /// Minimum value of the column.
+        public let minimumValue: DecimalNumber?
+        /// Number of distinct values.
+        public let numberOfDistinctValues: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+
+        public init(maximumValue: DecimalNumber? = nil, minimumValue: DecimalNumber? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.numberOfDistinctValues = numberOfDistinctValues
+            self.numberOfNulls = numberOfNulls
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case numberOfDistinctValues = "NumberOfDistinctValues"
+            case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
+    public struct DecimalNumber: AWSEncodableShape & AWSDecodableShape {
+
+        /// The scale that determines where the decimal point falls in the unscaled value.
+        public let scale: Int
+        /// The unscaled numeric value.
+        public let unscaledValue: Data
+
+        public init(scale: Int, unscaledValue: Data) {
+            self.scale = scale
+            self.unscaledValue = unscaledValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scale = "Scale"
+            case unscaledValue = "UnscaledValue"
+        }
+    }
+
     public struct DeleteClassifierRequest: AWSEncodableShape {
 
         /// Name of the classifier to remove.
@@ -2975,6 +3246,111 @@ extension Glue {
     }
 
     public struct DeleteClassifierResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteColumnStatisticsForPartitionRequest: AWSEncodableShape {
+
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// Name of the column.
+        public let columnName: String
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// A list of partition values identifying the partition.
+        public let partitionValues: [String]
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, columnName: String, databaseName: String, partitionValues: [String], tableName: String) {
+            self.catalogId = catalogId
+            self.columnName = columnName
+            self.databaseName = databaseName
+            self.partitionValues = partitionValues
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.columnName, name: "columnName", parent: name, max: 255)
+            try validate(self.columnName, name: "columnName", parent: name, min: 1)
+            try validate(self.columnName, name: "columnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.partitionValues.forEach {
+                try validate($0, name: "partitionValues[]", parent: name, max: 1024)
+            }
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case columnName = "ColumnName"
+            case databaseName = "DatabaseName"
+            case partitionValues = "PartitionValues"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeleteColumnStatisticsForPartitionResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteColumnStatisticsForTableRequest: AWSEncodableShape {
+
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the column.
+        public let columnName: String
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, columnName: String, databaseName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.columnName = columnName
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.columnName, name: "columnName", parent: name, max: 255)
+            try validate(self.columnName, name: "columnName", parent: name, min: 1)
+            try validate(self.columnName, name: "columnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case columnName = "ColumnName"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeleteColumnStatisticsForTableResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3604,17 +3980,56 @@ extension Glue {
         }
     }
 
+    public struct DoubleColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Maximum value of the column.
+        public let maximumValue: Double?
+        /// Minimum value of the column.
+        public let minimumValue: Double?
+        /// Number of distinct values.
+        public let numberOfDistinctValues: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+
+        public init(maximumValue: Double? = nil, minimumValue: Double? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.numberOfDistinctValues = numberOfDistinctValues
+            self.numberOfNulls = numberOfNulls
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case numberOfDistinctValues = "NumberOfDistinctValues"
+            case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
     public struct DynamoDBTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the DynamoDB table to crawl.
         public let path: String?
+        /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
+        public let scanAll: Bool?
+        /// The percentage of the configured read capacity units to use by the AWS Glue crawler. Read capacity units is a term defined by DynamoDB, and is a numeric value that acts as rate limiter for the number of reads that can be performed on that table per second. The valid values are null or a value between 0.1 to 1.5. A null value is used when user does not provide a value, and defaults to 0.5 of the configured Read Capacity Unit (for provisioned tables), or 0.25 of the max configured Read Capacity Unit (for tables using on-demand mode).
+        public let scanRate: Double?
 
-        public init(path: String? = nil) {
+        public init(path: String? = nil, scanAll: Bool? = nil, scanRate: Double? = nil) {
             self.path = path
+            self.scanAll = scanAll
+            self.scanRate = scanRate
         }
 
         private enum CodingKeys: String, CodingKey {
             case path = "Path"
+            case scanAll = "scanAll"
+            case scanRate = "scanRate"
         }
     }
 
@@ -3948,6 +4363,139 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case classifiers = "Classifiers"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetColumnStatisticsForPartitionRequest: AWSEncodableShape {
+
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A list of the column names.
+        public let columnNames: [String]
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// A list of partition values identifying the partition.
+        public let partitionValues: [String]
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, columnNames: [String], databaseName: String, partitionValues: [String], tableName: String) {
+            self.catalogId = catalogId
+            self.columnNames = columnNames
+            self.databaseName = databaseName
+            self.partitionValues = partitionValues
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnNames.forEach {
+                try validate($0, name: "columnNames[]", parent: name, max: 255)
+                try validate($0, name: "columnNames[]", parent: name, min: 1)
+                try validate($0, name: "columnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
+            try validate(self.columnNames, name: "columnNames", parent: name, max: 100)
+            try validate(self.columnNames, name: "columnNames", parent: name, min: 0)
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.partitionValues.forEach {
+                try validate($0, name: "partitionValues[]", parent: name, max: 1024)
+            }
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case columnNames = "ColumnNames"
+            case databaseName = "DatabaseName"
+            case partitionValues = "PartitionValues"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetColumnStatisticsForPartitionResponse: AWSDecodableShape {
+
+        /// List of ColumnStatistics that failed to be retrieved.
+        public let columnStatisticsList: [ColumnStatistics]?
+        /// Error occurred during retrieving column statistics data.
+        public let errors: [ColumnError]?
+
+        public init(columnStatisticsList: [ColumnStatistics]? = nil, errors: [ColumnError]? = nil) {
+            self.columnStatisticsList = columnStatisticsList
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnStatisticsList = "ColumnStatisticsList"
+            case errors = "Errors"
+        }
+    }
+
+    public struct GetColumnStatisticsForTableRequest: AWSEncodableShape {
+
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A list of the column names.
+        public let columnNames: [String]
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, columnNames: [String], databaseName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.columnNames = columnNames
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnNames.forEach {
+                try validate($0, name: "columnNames[]", parent: name, max: 255)
+                try validate($0, name: "columnNames[]", parent: name, min: 1)
+                try validate($0, name: "columnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
+            try validate(self.columnNames, name: "columnNames", parent: name, max: 100)
+            try validate(self.columnNames, name: "columnNames", parent: name, min: 0)
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case columnNames = "ColumnNames"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetColumnStatisticsForTableResponse: AWSDecodableShape {
+
+        /// List of ColumnStatistics that failed to be retrieved.
+        public let columnStatisticsList: [ColumnStatistics]?
+        /// List of ColumnStatistics that failed to be retrieved.
+        public let errors: [ColumnError]?
+
+        public init(columnStatisticsList: [ColumnStatistics]? = nil, errors: [ColumnError]? = nil) {
+            self.columnStatisticsList = columnStatisticsList
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnStatisticsList = "ColumnStatisticsList"
+            case errors = "Errors"
         }
     }
 
@@ -5650,7 +6198,7 @@ extension Glue {
 
         /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        /// The name of the catalog database where the functions are located.
+        /// The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
         public let databaseName: String?
         /// The maximum number of functions to return in one response.
         public let maxResults: Int?
@@ -6821,6 +7369,37 @@ extension Glue {
         }
     }
 
+    public struct LongColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Maximum value of the column.
+        public let maximumValue: Int64?
+        /// Minimum value of the column.
+        public let minimumValue: Int64?
+        /// Number of distinct values.
+        public let numberOfDistinctValues: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+
+        public init(maximumValue: Int64? = nil, minimumValue: Int64? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.numberOfDistinctValues = numberOfDistinctValues
+            self.numberOfNulls = numberOfNulls
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case numberOfDistinctValues = "NumberOfDistinctValues"
+            case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
     public struct MLTransform: AWSDecodableShape {
 
         /// A timestamp. The time and date that this machine learning transform was created.
@@ -7486,7 +8065,7 @@ extension Glue {
 
     public struct Schedule: AWSDecodableShape {
 
-        /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let scheduleExpression: String?
         /// The state of the schedule.
         public let state: ScheduleState?
@@ -8312,6 +8891,39 @@ extension Glue {
         }
     }
 
+    public struct StringColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
+
+        /// Average value of the column.
+        public let averageLength: Double
+        /// Maximum value of the column.
+        public let maximumLength: Int64
+        /// Number of distinct values.
+        public let numberOfDistinctValues: Int64
+        /// Number of nulls.
+        public let numberOfNulls: Int64
+
+        public init(averageLength: Double, maximumLength: Int64, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
+            self.averageLength = averageLength
+            self.maximumLength = maximumLength
+            self.numberOfDistinctValues = numberOfDistinctValues
+            self.numberOfNulls = numberOfNulls
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.averageLength, name: "averageLength", parent: name, min: 0)
+            try validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
+            try validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageLength = "AverageLength"
+            case maximumLength = "MaximumLength"
+            case numberOfDistinctValues = "NumberOfDistinctValues"
+            case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
     public struct Table: AWSDecodableShape {
 
         /// The person or entity who created the table.
@@ -8975,6 +9587,127 @@ extension Glue {
 
     }
 
+    public struct UpdateColumnStatisticsForPartitionRequest: AWSEncodableShape {
+
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A list of the column statistics.
+        public let columnStatisticsList: [ColumnStatistics]
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// A list of partition values identifying the partition.
+        public let partitionValues: [String]
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, columnStatisticsList: [ColumnStatistics], databaseName: String, partitionValues: [String], tableName: String) {
+            self.catalogId = catalogId
+            self.columnStatisticsList = columnStatisticsList
+            self.databaseName = databaseName
+            self.partitionValues = partitionValues
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnStatisticsList.forEach {
+                try $0.validate(name: "\(name).columnStatisticsList[]")
+            }
+            try validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, max: 25)
+            try validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, min: 0)
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.partitionValues.forEach {
+                try validate($0, name: "partitionValues[]", parent: name, max: 1024)
+            }
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case columnStatisticsList = "ColumnStatisticsList"
+            case databaseName = "DatabaseName"
+            case partitionValues = "PartitionValues"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateColumnStatisticsForPartitionResponse: AWSDecodableShape {
+
+        /// Error occurred during updating column statistics data.
+        public let errors: [ColumnStatisticsError]?
+
+        public init(errors: [ColumnStatisticsError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
+    public struct UpdateColumnStatisticsForTableRequest: AWSEncodableShape {
+
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A list of the column statistics.
+        public let columnStatisticsList: [ColumnStatistics]
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, columnStatisticsList: [ColumnStatistics], databaseName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.columnStatisticsList = columnStatisticsList
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnStatisticsList.forEach {
+                try $0.validate(name: "\(name).columnStatisticsList[]")
+            }
+            try validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, max: 25)
+            try validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, min: 0)
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case columnStatisticsList = "ColumnStatisticsList"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateColumnStatisticsForTableResponse: AWSDecodableShape {
+
+        /// List of ColumnStatisticsErrors.
+        public let errors: [ColumnStatisticsError]?
+
+        public init(errors: [ColumnStatisticsError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
     public struct UpdateConnectionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
@@ -9019,7 +9752,7 @@ extension Glue {
 
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
-        /// The crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
         public let configuration: String?
         /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
@@ -9031,7 +9764,7 @@ extension Glue {
         public let name: String
         /// The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by the new crawler to access customer resources.
         public let role: String?
-        /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let schedule: String?
         /// The policy for the crawler's update and deletion behavior.
         public let schemaChangePolicy: SchemaChangePolicy?
@@ -9100,7 +9833,7 @@ extension Glue {
 
         /// The name of the crawler whose schedule to update.
         public let crawlerName: String
-        /// The updated cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
+        /// The updated cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let schedule: String?
 
         public init(crawlerName: String, schedule: String? = nil) {
@@ -9731,6 +10464,8 @@ extension Glue {
         public let className: String?
         /// The time at which the function was created.
         public let createTime: TimeStamp?
+        /// The name of the database where the function resides.
+        public let databaseName: String?
         /// The name of the function.
         public let functionName: String?
         /// The owner of the function.
@@ -9740,9 +10475,10 @@ extension Glue {
         /// The resource URIs for the function.
         public let resourceUris: [ResourceUri]?
 
-        public init(className: String? = nil, createTime: TimeStamp? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
+        public init(className: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.className = className
             self.createTime = createTime
+            self.databaseName = databaseName
             self.functionName = functionName
             self.ownerName = ownerName
             self.ownerType = ownerType
@@ -9752,6 +10488,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case className = "ClassName"
             case createTime = "CreateTime"
+            case databaseName = "DatabaseName"
             case functionName = "FunctionName"
             case ownerName = "OwnerName"
             case ownerType = "OwnerType"

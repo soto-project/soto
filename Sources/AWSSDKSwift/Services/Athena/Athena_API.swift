@@ -68,6 +68,11 @@ public struct Athena {
         return client.execute(operation: "BatchGetQueryExecution", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same AWS account.
+    public func createDataCatalog(_ input: CreateDataCatalogInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataCatalogOutput> {
+        return client.execute(operation: "CreateDataCatalog", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func createNamedQuery(_ input: CreateNamedQueryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNamedQueryOutput> {
         return client.execute(operation: "CreateNamedQuery", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -78,6 +83,11 @@ public struct Athena {
         return client.execute(operation: "CreateWorkGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Deletes a data catalog.
+    public func deleteDataCatalog(_ input: DeleteDataCatalogInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataCatalogOutput> {
+        return client.execute(operation: "DeleteDataCatalog", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func deleteNamedQuery(_ input: DeleteNamedQueryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNamedQueryOutput> {
         return client.execute(operation: "DeleteNamedQuery", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
@@ -86,6 +96,16 @@ public struct Athena {
     ///  Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
     public func deleteWorkGroup(_ input: DeleteWorkGroupInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkGroupOutput> {
         return client.execute(operation: "DeleteWorkGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Returns the specified data catalog.
+    public func getDataCatalog(_ input: GetDataCatalogInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataCatalogOutput> {
+        return client.execute(operation: "GetDataCatalog", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Returns a database object for the specfied database and data catalog.
+    public func getDatabase(_ input: GetDatabaseInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatabaseOutput> {
+        return client.execute(operation: "GetDatabase", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
@@ -103,12 +123,27 @@ public struct Athena {
         return client.execute(operation: "GetQueryResults", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Returns table metadata for the specified catalog, database, and table.
+    public func getTableMetadata(_ input: GetTableMetadataInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTableMetadataOutput> {
+        return client.execute(operation: "GetTableMetadata", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Returns information about the workgroup with the specified name.
     public func getWorkGroup(_ input: GetWorkGroupInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkGroupOutput> {
         return client.execute(operation: "GetWorkGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    ///  Lists the data catalogs in the current AWS account.
+    public func listDataCatalogs(_ input: ListDataCatalogsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataCatalogsOutput> {
+        return client.execute(operation: "ListDataCatalogs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Lists the databases in the specified data catalog.
+    public func listDatabases(_ input: ListDatabasesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatabasesOutput> {
+        return client.execute(operation: "ListDatabases", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listNamedQueries(_ input: ListNamedQueriesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNamedQueriesOutput> {
         return client.execute(operation: "ListNamedQueries", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -118,7 +153,12 @@ public struct Athena {
         return client.execute(operation: "ListQueryExecutions", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Lists the tags associated with this workgroup.
+    ///  Lists the metadata for the tables in the specified data catalog database.
+    public func listTableMetadata(_ input: ListTableMetadataInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTableMetadataOutput> {
+        return client.execute(operation: "ListTableMetadata", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Lists the tags associated with an Athena workgroup or data catalog resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -128,7 +168,7 @@ public struct Athena {
         return client.execute(operation: "ListWorkGroups", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    ///  Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires GetDataCatalog permission to the catalog. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func startQueryExecution(_ input: StartQueryExecutionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartQueryExecutionOutput> {
         return client.execute(operation: "StartQueryExecution", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -138,14 +178,19 @@ public struct Athena {
         return client.execute(operation: "StopQueryExecution", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Adds one or more tags to the resource, such as a workgroup. A tag is a label that you assign to an AWS Athena resource (a workgroup). Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize resources (workgroups) in Athena, for example, by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups in your account. For best practices, see AWS Tagging Strategies. The key length is from 1 (minimum) to 128 (maximum) Unicode characters in UTF-8. The tag value length is from 0 (minimum) to 256 (maximum) Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one, separate them by commas.
+    ///  Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
         return client.execute(operation: "TagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Removes one or more tags from the workgroup resource. Takes as an input a list of TagKey Strings separated by commas, and removes their tags at the same time.
+    ///  Removes one or more tags from a data catalog or workgroup resource.
     public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
         return client.execute(operation: "UntagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Updates the data catalog that has the specified name.
+    public func updateDataCatalog(_ input: UpdateDataCatalogInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataCatalogOutput> {
+        return client.execute(operation: "UpdateDataCatalog", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the workgroup with the specified name. The workgroup's name cannot be changed.

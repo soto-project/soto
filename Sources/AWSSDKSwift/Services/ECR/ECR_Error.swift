@@ -20,6 +20,7 @@ import AWSSDKSwiftCore
 public enum ECRErrorType: AWSErrorType {
     case emptyUploadException(message: String?)
     case imageAlreadyExistsException(message: String?)
+    case imageDigestDoesNotMatchException(message: String?)
     case imageNotFoundException(message: String?)
     case imageTagAlreadyExistsException(message: String?)
     case invalidLayerException(message: String?)
@@ -57,6 +58,8 @@ extension ECRErrorType {
             self = .emptyUploadException(message: message)
         case "ImageAlreadyExistsException":
             self = .imageAlreadyExistsException(message: message)
+        case "ImageDigestDoesNotMatchException":
+            self = .imageDigestDoesNotMatchException(message: message)
         case "ImageNotFoundException":
             self = .imageNotFoundException(message: message)
         case "ImageTagAlreadyExistsException":
@@ -118,6 +121,8 @@ extension ECRErrorType: CustomStringConvertible {
             return "EmptyUploadException: \(message ?? "")"
         case .imageAlreadyExistsException(let message):
             return "ImageAlreadyExistsException: \(message ?? "")"
+        case .imageDigestDoesNotMatchException(let message):
+            return "ImageDigestDoesNotMatchException: \(message ?? "")"
         case .imageNotFoundException(let message):
             return "ImageNotFoundException: \(message ?? "")"
         case .imageTagAlreadyExistsException(let message):

@@ -92,7 +92,7 @@ public struct QLDB {
         return client.execute(operation: "ExportJournalToS3", path: "/ledgers/{name}/journal-s3-exports", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Returns a journal block object at a specified address in a ledger. Also returns a proof of the specified block for verification if DigestTipAddress is provided. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
+    ///  Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see Journal contents in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
     public func getBlock(_ input: GetBlockRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlockResponse> {
         return client.execute(operation: "GetBlock", path: "/ledgers/{name}/block", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -132,7 +132,7 @@ public struct QLDB {
         return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a stream for a given Amazon QLDB ledger that delivers the journal data to a specified Amazon Kinesis Data Streams resource. The stream captures every document revision that is committed to your journal and sends it to the Kinesis data stream.
+    ///  Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
     public func streamJournalToKinesis(_ input: StreamJournalToKinesisRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StreamJournalToKinesisResponse> {
         return client.execute(operation: "StreamJournalToKinesis", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

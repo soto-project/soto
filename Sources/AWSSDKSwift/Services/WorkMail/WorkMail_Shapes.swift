@@ -33,6 +33,15 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum FolderName: String, CustomStringConvertible, Codable {
+        case inbox = "INBOX"
+        case deletedItems = "DELETED_ITEMS"
+        case sentItems = "SENT_ITEMS"
+        case drafts = "DRAFTS"
+        case junkEmail = "JUNK_EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberType: String, CustomStringConvertible, Codable {
         case group = "GROUP"
         case user = "USER"
@@ -49,6 +58,13 @@ extension WorkMail {
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case room = "ROOM"
         case equipment = "EQUIPMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionAction: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case delete = "DELETE"
+        case permanentlyDelete = "PERMANENTLY_DELETE"
         public var description: String { return self.rawValue }
     }
 
@@ -574,6 +590,39 @@ extension WorkMail {
 
     }
 
+    public struct DeleteRetentionPolicyRequest: AWSEncodableShape {
+
+        /// The retention policy ID.
+        public let id: String
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(id: String, organizationId: String) {
+            self.id = id
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.id, name: "id", parent: name, max: 64)
+            try validate(self.id, name: "id", parent: name, min: 1)
+            try validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteRetentionPolicyResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteUserRequest: AWSEncodableShape {
 
         /// The organization that contains the user to be deleted.
@@ -966,6 +1015,33 @@ extension WorkMail {
 
     }
 
+    public struct FolderConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The action to take on the folder contents at the end of the folder configuration period.
+        public let action: RetentionAction
+        /// The folder name.
+        public let name: FolderName
+        /// The period of time at which the folder configuration action is applied.
+        public let period: Int?
+
+        public init(action: RetentionAction, name: FolderName, period: Int? = nil) {
+            self.action = action
+            self.name = name
+            self.period = period
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.period, name: "period", parent: name, max: 730)
+            try validate(self.period, name: "period", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case name = "Name"
+            case period = "Period"
+        }
+    }
+
     public struct GetAccessControlEffectRequest: AWSEncodableShape {
 
         /// The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
@@ -1019,6 +1095,50 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case effect = "Effect"
             case matchedRules = "MatchedRules"
+        }
+    }
+
+    public struct GetDefaultRetentionPolicyRequest: AWSEncodableShape {
+
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct GetDefaultRetentionPolicyResponse: AWSDecodableShape {
+
+        /// The retention policy description.
+        public let description: String?
+        /// The retention policy folder configurations.
+        public let folderConfigurations: [FolderConfiguration]?
+        /// The retention policy ID.
+        public let id: String?
+        /// The retention policy name.
+        public let name: String?
+
+        public init(description: String? = nil, folderConfigurations: [FolderConfiguration]? = nil, id: String? = nil, name: String? = nil) {
+            self.description = description
+            self.folderConfigurations = folderConfigurations
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case folderConfigurations = "FolderConfigurations"
+            case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -1791,6 +1911,59 @@ extension WorkMail {
     }
 
     public struct PutMailboxPermissionsResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct PutRetentionPolicyRequest: AWSEncodableShape {
+
+        /// The retention policy description.
+        public let description: String?
+        /// The retention policy folder configurations.
+        public let folderConfigurations: [FolderConfiguration]
+        /// The retention policy ID.
+        public let id: String?
+        /// The retention policy name.
+        public let name: String
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(description: String? = nil, folderConfigurations: [FolderConfiguration], id: String? = nil, name: String, organizationId: String) {
+            self.description = description
+            self.folderConfigurations = folderConfigurations
+            self.id = id
+            self.name = name
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 256)
+            try validate(self.description, name: "description", parent: name, pattern: "[\\w\\d\\s\\S\\-!?=,.;:'_]+")
+            try self.folderConfigurations.forEach {
+                try $0.validate(name: "\(name).folderConfigurations[]")
+            }
+            try validate(self.id, name: "id", parent: name, max: 64)
+            try validate(self.id, name: "id", parent: name, min: 1)
+            try validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case folderConfigurations = "FolderConfigurations"
+            case id = "Id"
+            case name = "Name"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct PutRetentionPolicyResponse: AWSDecodableShape {
 
 
         public init() {

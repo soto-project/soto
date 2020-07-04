@@ -1510,6 +1510,8 @@ extension ECR {
 
     public struct PutImageRequest: AWSEncodableShape {
 
+        /// The image digest of the image manifest corresponding to the image.
+        public let imageDigest: String?
         /// The image manifest corresponding to the image to be uploaded.
         public let imageManifest: String
         /// The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
@@ -1521,7 +1523,8 @@ extension ECR {
         /// The name of the repository in which to put the image.
         public let repositoryName: String
 
-        public init(imageManifest: String, imageManifestMediaType: String? = nil, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
+        public init(imageDigest: String? = nil, imageManifest: String, imageManifestMediaType: String? = nil, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
+            self.imageDigest = imageDigest
             self.imageManifest = imageManifest
             self.imageManifestMediaType = imageManifestMediaType
             self.imageTag = imageTag
@@ -1541,6 +1544,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageDigest = "imageDigest"
             case imageManifest = "imageManifest"
             case imageManifestMediaType = "imageManifestMediaType"
             case imageTag = "imageTag"

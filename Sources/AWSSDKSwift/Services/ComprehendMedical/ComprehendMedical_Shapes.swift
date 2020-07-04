@@ -138,6 +138,7 @@ extension ComprehendMedical {
         case testValue = "TEST_VALUE"
         case testUnits = "TEST_UNITS"
         case direction = "DIRECTION"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
         public var description: String { return self.rawValue }
     }
 

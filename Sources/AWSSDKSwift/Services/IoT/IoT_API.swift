@@ -902,7 +902,7 @@ public struct IoT {
         return client.execute(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Remove the specified thing from the specified group.
+    ///  Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. 
     public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
         return client.execute(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

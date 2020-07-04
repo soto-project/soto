@@ -70,7 +70,7 @@ extension GuardDuty {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists details about associated member accounts for the current GuardDuty master account.
+    ///  Lists details about all member accounts for the current GuardDuty master account.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
         on eventLoop: EventLoop? = nil,

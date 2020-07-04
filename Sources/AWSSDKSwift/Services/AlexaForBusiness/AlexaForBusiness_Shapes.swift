@@ -105,6 +105,8 @@ extension AlexaForBusiness {
         case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
         case invalidPasswordState = "INVALID_PASSWORD_STATE"
         case passwordNotFound = "PASSWORD_NOT_FOUND"
+        case passwordManagerAccessDenied = "PASSWORD_MANAGER_ACCESS_DENIED"
+        case certificateAuthorityAccessDenied = "CERTIFICATE_AUTHORITY_ACCESS_DENIED"
         public var description: String { return self.rawValue }
     }
 
@@ -541,9 +543,9 @@ extension AlexaForBusiness {
     public struct BusinessReportContentRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The interval of the content range.
-        public let interval: BusinessReportInterval?
+        public let interval: BusinessReportInterval
 
-        public init(interval: BusinessReportInterval? = nil) {
+        public init(interval: BusinessReportInterval) {
             self.interval = interval
         }
 
@@ -877,8 +879,10 @@ extension AlexaForBusiness {
         public let s3KeyPrefix: String?
         /// The name identifier of the schedule.
         public let scheduleName: String?
+        /// The tags for the business report schedule.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateBusinessReportScheduleRequest.idempotencyToken(), contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil) {
+        public init(clientRequestToken: String? = CreateBusinessReportScheduleRequest.idempotencyToken(), contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.contentRange = contentRange
             self.format = format
@@ -886,6 +890,7 @@ extension AlexaForBusiness {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
             self.scheduleName = scheduleName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -900,6 +905,9 @@ extension AlexaForBusiness {
             try validate(self.scheduleName, name: "scheduleName", parent: name, max: 64)
             try validate(self.scheduleName, name: "scheduleName", parent: name, min: 0)
             try validate(self.scheduleName, name: "scheduleName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -910,6 +918,7 @@ extension AlexaForBusiness {
             case s3BucketName = "S3BucketName"
             case s3KeyPrefix = "S3KeyPrefix"
             case scheduleName = "ScheduleName"
+            case tags = "Tags"
         }
     }
 
@@ -1297,6 +1306,8 @@ extension AlexaForBusiness {
         public let pSTNEnabled: Bool?
         /// Whether room profile setup is enabled.
         public let setupModeDisabled: Bool?
+        /// The tags for the profile.
+        public let tags: [Tag]?
         /// The temperature unit to be used by devices in the profile.
         public let temperatureUnit: TemperatureUnit
         /// The time zone used by a room profile.
@@ -1304,7 +1315,7 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, tags: [Tag]? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.distanceUnit = distanceUnit
@@ -1314,6 +1325,7 @@ extension AlexaForBusiness {
             self.profileName = profileName
             self.pSTNEnabled = pSTNEnabled
             self.setupModeDisabled = setupModeDisabled
+            self.tags = tags
             self.temperatureUnit = temperatureUnit
             self.timezone = timezone
             self.wakeWord = wakeWord
@@ -1331,6 +1343,9 @@ extension AlexaForBusiness {
             try validate(self.profileName, name: "profileName", parent: name, max: 100)
             try validate(self.profileName, name: "profileName", parent: name, min: 1)
             try validate(self.profileName, name: "profileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.timezone, name: "timezone", parent: name, max: 100)
             try validate(self.timezone, name: "timezone", parent: name, min: 1)
         }
@@ -1345,6 +1360,7 @@ extension AlexaForBusiness {
             case profileName = "ProfileName"
             case pSTNEnabled = "PSTNEnabled"
             case setupModeDisabled = "SetupModeDisabled"
+            case tags = "Tags"
             case temperatureUnit = "TemperatureUnit"
             case timezone = "Timezone"
             case wakeWord = "WakeWord"
@@ -1389,7 +1405,7 @@ extension AlexaForBusiness {
         public let clientRequestToken: String?
         /// The description for the room.
         public let description: String?
-        /// The profile ARN for the room.
+        /// The profile ARN for the room. This is required.
         public let profileArn: String?
         /// The calendar ARN for the room.
         public let providerCalendarId: String?
@@ -1457,11 +1473,14 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name for the skill group.
         public let skillGroupName: String
+        /// The tags for the skill group.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateSkillGroupRequest.idempotencyToken(), description: String? = nil, skillGroupName: String) {
+        public init(clientRequestToken: String? = CreateSkillGroupRequest.idempotencyToken(), description: String? = nil, skillGroupName: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.skillGroupName = skillGroupName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1474,12 +1493,16 @@ extension AlexaForBusiness {
             try validate(self.skillGroupName, name: "skillGroupName", parent: name, max: 100)
             try validate(self.skillGroupName, name: "skillGroupName", parent: name, min: 1)
             try validate(self.skillGroupName, name: "skillGroupName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case skillGroupName = "SkillGroupName"
+            case tags = "Tags"
         }
     }
 
@@ -4762,7 +4785,7 @@ extension AlexaForBusiness {
         public let productDescription: String?
         /// The date when the skill was released.
         public let releaseDate: String?
-        /// The list of reviews for the skill, including Key and Value pair.
+        ///  This member has been deprecated.  The list of reviews for the skill, including Key and Value pair.
         public let reviews: [String: String]?
         /// The types of skills.
         public let skillTypes: [String]?

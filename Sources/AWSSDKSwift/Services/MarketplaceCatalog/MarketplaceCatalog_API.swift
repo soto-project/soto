@@ -20,7 +20,7 @@ import NIO
 /**
 Client object for interacting with AWS MarketplaceCatalog service.
 
-Catalog API actions allow you to create, describe, list, and delete changes to your published entities. An entity is a product or an offer on AWS Marketplace. You can automate your entity update process by integrating the AWS Marketplace Catalog API with your AWS Marketplace product build or deployment pipelines. You can also create your own applications on top of the Catalog API to manage your products on AWS Marketplace.
+Catalog API actions allow you to manage your entities through list, describe, and update capabilities. An entity can be a product or an offer on AWS Marketplace. You can automate your entity update process by integrating the AWS Marketplace Catalog API with your AWS Marketplace product build or deployment pipelines. You can also create your own applications on top of the Catalog API to manage your products on AWS Marketplace.
 */
 public struct MarketplaceCatalog {
 
@@ -83,7 +83,7 @@ public struct MarketplaceCatalog {
         return client.execute(operation: "ListEntities", path: "/ListEntities", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  This operation allows you to request changes in your entities.
+    ///  This operation allows you to request changes for your entities. Within a single ChangeSet, you cannot start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the ChangeSet has completed (either succeeded, cancelled, or failed). If you try to start a ChangeSet containing a change against an entity that is already locked, you will receive a ResourceInUseException. For example, you cannot start the ChangeSet described in the example below because it contains two changes to execute the same change type (AddRevisions) against the same entity (entity-id@1).
     public func startChangeSet(_ input: StartChangeSetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChangeSetResponse> {
         return client.execute(operation: "StartChangeSet", path: "/StartChangeSet", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

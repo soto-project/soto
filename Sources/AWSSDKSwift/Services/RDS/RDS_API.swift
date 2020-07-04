@@ -87,7 +87,7 @@ public struct RDS {
         return client.execute(operation: "AuthorizeDBSecurityGroupIngress", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters. 
     public func backtrackDBCluster(_ input: BacktrackDBClusterMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DBClusterBacktrack> {
         return client.execute(operation: "BacktrackDBCluster", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -162,7 +162,7 @@ public struct RDS {
         return client.execute(operation: "CreateDBParameterGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Creates a new DB proxy.
+    ///  Creates a new DB proxy.
     public func createDBProxy(_ input: CreateDBProxyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDBProxyResponse> {
         return client.execute(operation: "CreateDBProxy", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -187,7 +187,7 @@ public struct RDS {
         return client.execute(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///     Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
+    ///   Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGlobalClusterResult> {
         return client.execute(operation: "CreateGlobalCluster", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -237,7 +237,7 @@ public struct RDS {
         return client.execute(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Deletes an existing proxy.
+    ///  Deletes an existing proxy.
     public func deleteDBProxy(_ input: DeleteDBProxyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDBProxyResponse> {
         return client.execute(operation: "DeleteDBProxy", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -277,7 +277,7 @@ public struct RDS {
         return client.execute(operation: "DeleteOptionGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
+    ///  Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
     public func deregisterDBProxyTargets(_ input: DeregisterDBProxyTargetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterDBProxyTargetsResponse> {
         return client.execute(operation: "DeregisterDBProxyTargets", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -297,7 +297,7 @@ public struct RDS {
         return client.execute(operation: "DescribeCustomAvailabilityZones", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters. 
     public func describeDBClusterBacktracks(_ input: DescribeDBClusterBacktracksMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DBClusterBacktrackMessage> {
         return client.execute(operation: "DescribeDBClusterBacktracks", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -362,17 +362,17 @@ public struct RDS {
         return client.execute(operation: "DescribeDBParameters", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
+    ///  Returns information about DB proxies.
     public func describeDBProxies(_ input: DescribeDBProxiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDBProxiesResponse> {
         return client.execute(operation: "DescribeDBProxies", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
+    ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     public func describeDBProxyTargetGroups(_ input: DescribeDBProxyTargetGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDBProxyTargetGroupsResponse> {
         return client.execute(operation: "DescribeDBProxyTargetGroups", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
+    ///  Returns information about DBProxyTarget objects. This API supports pagination.
     public func describeDBProxyTargets(_ input: DescribeDBProxyTargetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDBProxyTargetsResponse> {
         return client.execute(operation: "DescribeDBProxyTargets", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -522,7 +522,7 @@ public struct RDS {
         return client.execute(operation: "ModifyDBClusterParameterGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.  This action only applies to Aurora DB clusters. 
+    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts.  Don't add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.  If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot is public or private, use the DescribeDBClusterSnapshotAttributes API action. The accounts are returned as values for the restore attribute.  This action only applies to Aurora DB clusters. 
     public func modifyDBClusterSnapshotAttribute(_ input: ModifyDBClusterSnapshotAttributeMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDBClusterSnapshotAttributeResult> {
         return client.execute(operation: "ModifyDBClusterSnapshotAttribute", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -537,12 +537,12 @@ public struct RDS {
         return client.execute(operation: "ModifyDBParameterGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Changes the settings for an existing DB proxy.
+    ///  Changes the settings for an existing DB proxy.
     public func modifyDBProxy(_ input: ModifyDBProxyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDBProxyResponse> {
         return client.execute(operation: "ModifyDBProxy", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Modifies the properties of a DBProxyTargetGroup.
+    ///  Modifies the properties of a DBProxyTargetGroup.
     public func modifyDBProxyTargetGroup(_ input: ModifyDBProxyTargetGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDBProxyTargetGroupResponse> {
         return client.execute(operation: "ModifyDBProxyTargetGroup", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -552,7 +552,7 @@ public struct RDS {
         return client.execute(operation: "ModifyDBSnapshot", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts. If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API action.
+    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts.  Don't add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts.  If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API action. The accounts are returned as values for the restore attribute.
     public func modifyDBSnapshotAttribute(_ input: ModifyDBSnapshotAttributeMessage, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDBSnapshotAttributeResult> {
         return client.execute(operation: "ModifyDBSnapshotAttribute", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -597,7 +597,7 @@ public struct RDS {
         return client.execute(operation: "RebootDBInstance", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
+    ///  Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
     public func registerDBProxyTargets(_ input: RegisterDBProxyTargetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterDBProxyTargetsResponse> {
         return client.execute(operation: "RegisterDBProxyTargets", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

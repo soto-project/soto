@@ -20,6 +20,81 @@ import Foundation
 extension ComputeOptimizer {
     //MARK: Enums
 
+    public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable {
+        case accountid = "AccountId"
+        case autoscalinggrouparn = "AutoScalingGroupArn"
+        case autoscalinggroupname = "AutoScalingGroupName"
+        case finding = "Finding"
+        case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
+        case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
+        case lookbackperiodindays = "LookbackPeriodInDays"
+        case currentconfigurationinstancetype = "CurrentConfigurationInstanceType"
+        case currentconfigurationdesiredcapacity = "CurrentConfigurationDesiredCapacity"
+        case currentconfigurationminsize = "CurrentConfigurationMinSize"
+        case currentconfigurationmaxsize = "CurrentConfigurationMaxSize"
+        case currentondemandprice = "CurrentOnDemandPrice"
+        case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
+        case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
+        case currentvcpus = "CurrentVCpus"
+        case currentmemory = "CurrentMemory"
+        case currentstorage = "CurrentStorage"
+        case currentnetwork = "CurrentNetwork"
+        case recommendationoptionsconfigurationinstancetype = "RecommendationOptionsConfigurationInstanceType"
+        case recommendationoptionsconfigurationdesiredcapacity = "RecommendationOptionsConfigurationDesiredCapacity"
+        case recommendationoptionsconfigurationminsize = "RecommendationOptionsConfigurationMinSize"
+        case recommendationoptionsconfigurationmaxsize = "RecommendationOptionsConfigurationMaxSize"
+        case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+        case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
+        case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
+        case recommendationoptionsstandardoneyearnoupfrontreservedprice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
+        case recommendationoptionsstandardthreeyearnoupfrontreservedprice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
+        case recommendationoptionsvcpus = "RecommendationOptionsVcpus"
+        case recommendationoptionsmemory = "RecommendationOptionsMemory"
+        case recommendationoptionsstorage = "RecommendationOptionsStorage"
+        case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
+        case lastrefreshtimestamp = "LastRefreshTimestamp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportableInstanceField: String, CustomStringConvertible, Codable {
+        case accountid = "AccountId"
+        case instancearn = "InstanceArn"
+        case instancename = "InstanceName"
+        case finding = "Finding"
+        case lookbackperiodindays = "LookbackPeriodInDays"
+        case currentinstancetype = "CurrentInstanceType"
+        case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
+        case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
+        case currentondemandprice = "CurrentOnDemandPrice"
+        case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
+        case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
+        case currentvcpus = "CurrentVCpus"
+        case currentmemory = "CurrentMemory"
+        case currentstorage = "CurrentStorage"
+        case currentnetwork = "CurrentNetwork"
+        case recommendationoptionsinstancetype = "RecommendationOptionsInstanceType"
+        case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+        case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
+        case recommendationoptionsvcpus = "RecommendationOptionsVcpus"
+        case recommendationoptionsmemory = "RecommendationOptionsMemory"
+        case recommendationoptionsstorage = "RecommendationOptionsStorage"
+        case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
+        case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
+        case recommendationoptionsstandardoneyearnoupfrontreservedprice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
+        case recommendationoptionsstandardthreeyearnoupfrontreservedprice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
+        case recommendationssourcesrecommendationsourcearn = "RecommendationsSourcesRecommendationSourceArn"
+        case recommendationssourcesrecommendationsourcetype = "RecommendationsSourcesRecommendationSourceType"
+        case lastrefreshtimestamp = "LastRefreshTimestamp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileFormat: String, CustomStringConvertible, Codable {
+        case csv = "Csv"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterName: String, CustomStringConvertible, Codable {
         case finding = "Finding"
         case recommendationsourcetype = "RecommendationSourceType"
@@ -31,6 +106,20 @@ extension ComputeOptimizer {
         case overprovisioned = "Overprovisioned"
         case optimized = "Optimized"
         case notoptimized = "NotOptimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobFilterName: String, CustomStringConvertible, Codable {
+        case resourcetype = "ResourceType"
+        case jobstatus = "JobStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case queued = "Queued"
+        case inprogress = "InProgress"
+        case complete = "Complete"
+        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
@@ -47,6 +136,12 @@ extension ComputeOptimizer {
     }
 
     public enum RecommendationSourceType: String, CustomStringConvertible, Codable {
+        case ec2instance = "Ec2Instance"
+        case autoscalinggroup = "AutoScalingGroup"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
         case ec2instance = "Ec2Instance"
         case autoscalinggroup = "AutoScalingGroup"
         public var description: String { return self.rawValue }
@@ -160,11 +255,173 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct DescribeRecommendationExportJobsRequest: AWSEncodableShape {
+
+        /// An array of objects that describe a filter to return a more specific list of export jobs.
+        public let filters: [JobFilter]?
+        /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions. All export jobs created in the last seven days are returned if this parameter is omitted.
+        public let jobIds: [String]?
+        /// The maximum number of export jobs to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        public let maxResults: Int?
+        /// The token to advance to the next page of export jobs.
+        public let nextToken: String?
+
+        public init(filters: [JobFilter]? = nil, jobIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.jobIds = jobIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case jobIds = "jobIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeRecommendationExportJobsResponse: AWSDecodableShape {
+
+        /// The token to use to advance to the next page of export jobs. This value is null when there are no more pages of export jobs to return.
+        public let nextToken: String?
+        /// An array of objects that describe recommendation export jobs.
+        public let recommendationExportJobs: [RecommendationExportJob]?
+
+        public init(nextToken: String? = nil, recommendationExportJobs: [RecommendationExportJob]? = nil) {
+            self.nextToken = nextToken
+            self.recommendationExportJobs = recommendationExportJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case recommendationExportJobs = "recommendationExportJobs"
+        }
+    }
+
+    public struct ExportAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
+
+        /// The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        public let accountIds: [String]?
+        /// The recommendations data to include in the export file.
+        public let fieldsToExport: [ExportableAutoScalingGroupField]?
+        /// The format of the export file. The only export file format currently supported is Csv.
+        public let fileFormat: FileFormat?
+        /// An array of objects that describe a filter to export a more specific set of Auto Scaling group recommendations.
+        public let filters: [Filter]?
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the master account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        public let includeMemberAccounts: Bool?
+        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer user guide.
+        public let s3DestinationConfig: S3DestinationConfig
+
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableAutoScalingGroupField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
+            self.accountIds = accountIds
+            self.fieldsToExport = fieldsToExport
+            self.fileFormat = fileFormat
+            self.filters = filters
+            self.includeMemberAccounts = includeMemberAccounts
+            self.s3DestinationConfig = s3DestinationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
+        }
+    }
+
+    public struct ExportAutoScalingGroupRecommendationsResponse: AWSDecodableShape {
+
+        /// The identification number of the export job. Use the DescribeRecommendationExportJobs action, and specify the job ID to view the status of an export job.
+        public let jobId: String?
+        /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
+        public let s3Destination: S3Destination?
+
+        public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
+            self.jobId = jobId
+            self.s3Destination = s3Destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
+        }
+    }
+
+    public struct ExportDestination: AWSDecodableShape {
+
+        /// An object that describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
+        public let s3: S3Destination?
+
+        public init(s3: S3Destination? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct ExportEC2InstanceRecommendationsRequest: AWSEncodableShape {
+
+        /// The IDs of the AWS accounts for which to export instance recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        public let accountIds: [String]?
+        /// The recommendations data to include in the export file.
+        public let fieldsToExport: [ExportableInstanceField]?
+        /// The format of the export file. The only export file format currently supported is Csv.
+        public let fileFormat: FileFormat?
+        /// An array of objects that describe a filter to export a more specific set of instance recommendations.
+        public let filters: [Filter]?
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the master account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        public let includeMemberAccounts: Bool?
+        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer user guide.
+        public let s3DestinationConfig: S3DestinationConfig
+
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableInstanceField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
+            self.accountIds = accountIds
+            self.fieldsToExport = fieldsToExport
+            self.fileFormat = fileFormat
+            self.filters = filters
+            self.includeMemberAccounts = includeMemberAccounts
+            self.s3DestinationConfig = s3DestinationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
+        }
+    }
+
+    public struct ExportEC2InstanceRecommendationsResponse: AWSDecodableShape {
+
+        /// The identification number of the export job. Use the DescribeRecommendationExportJobs action, and specify the job ID to view the status of an export job.
+        public let jobId: String?
+        /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
+        public let s3Destination: S3Destination?
+
+        public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
+            self.jobId = jobId
+            self.s3Destination = s3Destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
 
-        /// The name of the filter. Specify Finding to filter the results to a specific findings classification. Specify RecommendationSourceType to filter the results to a specific resource type.
+        /// The name of the filter. Specify Finding to return recommendations with a specific findings classification (e.g., Overprovisioned). Specify RecommendationSourceType to return recommendations of a specific resource type (e.g., AutoScalingGroup).
         public let name: FilterName?
-        /// The value of the filter. If you specify the name parameter as Finding, and you're recommendations for an instance, then the valid values are Underprovisioned, Overprovisioned, NotOptimized, or Optimized. If you specify the name parameter as Finding, and you're recommendations for an Auto Scaling group, then the valid values are Optimized, or NotOptimized. If you specify the name parameter as RecommendationSourceType, then the valid values are EC2Instance, or AutoScalingGroup.
+        /// The value of the filter. If you specify the name parameter as Finding, and you request recommendations for an instance, then the valid values are Underprovisioned, Overprovisioned, NotOptimized, or Optimized. If you specify the name parameter as Finding, and you request recommendations for an Auto Scaling group, then the valid values are Optimized, or NotOptimized. If you specify the name parameter as RecommendationSourceType, then the valid values are Ec2Instance, or AutoScalingGroup.
         public let values: [String]?
 
         public init(name: FilterName? = nil, values: [String]? = nil) {
@@ -180,13 +437,13 @@ extension ComputeOptimizer {
 
     public struct GetAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
 
-        /// The AWS account IDs for which to return Auto Scaling group recommendations. Only one account ID can be specified per request.
+        /// The IDs of the AWS accounts for which to return Auto Scaling group recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
         public let autoScalingGroupArns: [String]?
         /// An array of objects that describe a filter that returns a more specific list of Auto Scaling group recommendations.
         public let filters: [Filter]?
-        /// The maximum number of Auto Scaling group recommendations to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of Auto Scaling group recommendations.
         public let nextToken: String?
@@ -232,13 +489,13 @@ extension ComputeOptimizer {
 
     public struct GetEC2InstanceRecommendationsRequest: AWSEncodableShape {
 
-        /// The AWS account IDs for which to return instance recommendations. Only one account ID can be specified per request.
+        /// The IDs of the AWS accounts for which to return instance recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to return instance recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of instance recommendations.
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the instances for which to return recommendations.
         public let instanceArns: [String]?
-        /// The maximum number of instance recommendations to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of instance recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of instance recommendations.
         public let nextToken: String?
@@ -380,9 +637,9 @@ extension ComputeOptimizer {
 
     public struct GetRecommendationSummariesRequest: AWSEncodableShape {
 
-        /// The AWS account IDs for which to return recommendation summaries. Only one account ID can be specified per request.
+        /// The IDs of the AWS accounts for which to return recommendation summaries. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
-        /// The maximum number of recommendation summaries to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of recommendation summaries.
         public let nextToken: String?
@@ -420,7 +677,7 @@ extension ComputeOptimizer {
 
     public struct InstanceRecommendation: AWSDecodableShape {
 
-        /// The AWS account ID of the instance recommendation.
+        /// The AWS account ID of the instance.
         public let accountId: String?
         /// The instance type of the current instance.
         public let currentInstanceType: String?
@@ -494,6 +751,24 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct JobFilter: AWSEncodableShape {
+
+        /// The name of the filter. Specify ResourceType to return export jobs of a specific resource type (e.g., Ec2Instance). Specify JobStatus to return export jobs with a specific status (e.g, Complete).
+        public let name: JobFilterName?
+        /// The value of the filter. If you specify the name parameter as ResourceType, the valid values are Ec2Instance or AutoScalingGroup. If you specify the name parameter as JobStatus, the valid values are Queued, InProgress, Complete, or Failed.
+        public let values: [String]?
+
+        public init(name: JobFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
     public struct ProjectedMetric: AWSDecodableShape {
 
         /// The name of the projected utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
@@ -513,6 +788,44 @@ extension ComputeOptimizer {
             case name = "name"
             case timestamps = "timestamps"
             case values = "values"
+        }
+    }
+
+    public struct RecommendationExportJob: AWSDecodableShape {
+
+        /// The timestamp of when the export job was created.
+        public let creationTimestamp: TimeStamp?
+        /// An object that describes the destination of the export file.
+        public let destination: ExportDestination?
+        /// The reason for an export job failure.
+        public let failureReason: String?
+        /// The identification number of the export job.
+        public let jobId: String?
+        /// The timestamp of when the export job was last updated.
+        public let lastUpdatedTimestamp: TimeStamp?
+        /// The resource type of the exported recommendations.
+        public let resourceType: ResourceType?
+        /// The status of the export job.
+        public let status: JobStatus?
+
+        public init(creationTimestamp: TimeStamp? = nil, destination: ExportDestination? = nil, failureReason: String? = nil, jobId: String? = nil, lastUpdatedTimestamp: TimeStamp? = nil, resourceType: ResourceType? = nil, status: JobStatus? = nil) {
+            self.creationTimestamp = creationTimestamp
+            self.destination = destination
+            self.failureReason = failureReason
+            self.jobId = jobId
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.resourceType = resourceType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimestamp = "creationTimestamp"
+            case destination = "destination"
+            case failureReason = "failureReason"
+            case jobId = "jobId"
+            case lastUpdatedTimestamp = "lastUpdatedTimestamp"
+            case resourceType = "resourceType"
+            case status = "status"
         }
     }
 
@@ -578,6 +891,46 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct S3Destination: AWSDecodableShape {
+
+        /// The name of the Amazon S3 bucket used as the destination of an export file.
+        public let bucket: String?
+        /// The Amazon S3 bucket key of an export file. The key uniquely identifies the object, or export file, in the S3 bucket.
+        public let key: String?
+        /// The Amazon S3 bucket key of a metadata file. The key uniquely identifies the object, or metadata file, in the S3 bucket.
+        public let metadataKey: String?
+
+        public init(bucket: String? = nil, key: String? = nil, metadataKey: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.metadataKey = metadataKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case key = "key"
+            case metadataKey = "metadataKey"
+        }
+    }
+
+    public struct S3DestinationConfig: AWSEncodableShape {
+
+        /// The name of the Amazon S3 bucket to use as the destination for an export job.
+        public let bucket: String?
+        /// The Amazon S3 bucket prefix for an export job.
+        public let keyPrefix: String?
+
+        public init(bucket: String? = nil, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+        }
+    }
+
     public struct Summary: AWSDecodableShape {
 
         /// The finding classification of the recommendation.
@@ -598,7 +951,7 @@ extension ComputeOptimizer {
 
     public struct UpdateEnrollmentStatusRequest: AWSEncodableShape {
 
-        /// Indicates whether to enroll member accounts within the organization, if the account is a master account of an organization.
+        /// Indicates whether to enroll member accounts of the organization if the your account is the master account of an organization.
         public let includeMemberAccounts: Bool?
         /// The new enrollment status of the account. Accepted options are Active or Inactive. You will get an error if Pending or Failed are specified.
         public let status: Status

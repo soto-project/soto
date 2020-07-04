@@ -127,9 +127,14 @@ public struct Chime {
         return client.execute(operation: "CreateBot", path: "/accounts/{accountId}/bots", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+    ///  Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func createMeeting(_ input: CreateMeetingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingResponse> {
         return client.execute(operation: "CreateMeeting", path: "/meetings", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+    public func createMeetingWithAttendees(_ input: CreateMeetingWithAttendeesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingWithAttendeesResponse> {
+        return client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use the Amazon Chime Voice Connector product type.
@@ -212,12 +217,17 @@ public struct Chime {
         return client.execute(operation: "DeleteVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector.
+    @discardableResult public func deleteVoiceConnectorEmergencyCallingConfiguration(_ input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
     @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Deletes the origination settings for the specified Amazon Chime Voice Connector.
+    ///  Deletes the origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings. 
     @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -232,7 +242,7 @@ public struct Chime {
         return client.execute(operation: "DeleteVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Deletes the termination settings for the specified Amazon Chime Voice Connector.
+    ///  Deletes the termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings. 
     @discardableResult public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -340,6 +350,11 @@ public struct Chime {
     ///  Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps, name, outbound host, and encryption requirements.
     public func getVoiceConnector(_ input: GetVoiceConnectorRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorResponse> {
         return client.execute(operation: "GetVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
+    ///  Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector.
+    public func getVoiceConnectorEmergencyCallingConfiguration(_ input: GetVoiceConnectorEmergencyCallingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorEmergencyCallingConfigurationResponse> {
+        return client.execute(operation: "GetVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps, name, and associated VoiceConnectorItems.
@@ -477,12 +492,17 @@ public struct Chime {
         return client.execute(operation: "PutRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
+    ///  Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured.
+    public func putVoiceConnectorEmergencyCallingConfiguration(_ input: PutVoiceConnectorEmergencyCallingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorEmergencyCallingConfigurationResponse> {
+        return client.execute(operation: "PutVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+    }
+
     ///  Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorLoggingConfigurationResponse> {
         return client.execute(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Adds origination settings for the specified Amazon Chime Voice Connector.
+    ///  Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings. 
     public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorOriginationResponse> {
         return client.execute(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -497,7 +517,7 @@ public struct Chime {
         return client.execute(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///  Adds termination settings for the specified Amazon Chime Voice Connector.
+    ///  Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings. 
     public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorTerminationResponse> {
         return client.execute(operation: "PutVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

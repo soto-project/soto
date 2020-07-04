@@ -978,6 +978,7 @@ extension ServiceCatalog {
             try validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try validate(self.name, name: "name", parent: name, max: 8191)
             try validate(self.owner, name: "owner", parent: name, max: 8191)
+            try self.provisioningArtifactParameters.validate(name: "\(name).provisioningArtifactParameters")
             try validate(self.supportDescription, name: "supportDescription", parent: name, max: 8191)
             try validate(self.supportEmail, name: "supportEmail", parent: name, max: 254)
             try validate(self.supportUrl, name: "supportUrl", parent: name, max: 2083)
@@ -1164,6 +1165,7 @@ extension ServiceCatalog {
             try validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.parameters.validate(name: "\(name).parameters")
             try validate(self.productId, name: "productId", parent: name, max: 100)
             try validate(self.productId, name: "productId", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1203,7 +1205,7 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
+        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
         public let definition: [ServiceActionDefinitionKey: String]
         /// The service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType
@@ -1788,11 +1790,14 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
-        public let id: String
+        public let id: String?
+        /// The product name.
+        public let name: String?
 
-        public init(acceptLanguage: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -1800,11 +1805,13 @@ extension ServiceCatalog {
             try validate(self.id, name: "id", parent: name, max: 100)
             try validate(self.id, name: "id", parent: name, min: 1)
             try validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.name, name: "name", parent: name, max: 8191)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -1843,11 +1850,14 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
-        public let id: String
+        public let id: String?
+        /// The product name.
+        public let name: String?
 
-        public init(acceptLanguage: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -1855,11 +1865,13 @@ extension ServiceCatalog {
             try validate(self.id, name: "id", parent: name, max: 100)
             try validate(self.id, name: "id", parent: name, min: 1)
             try validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.name, name: "name", parent: name, max: 8191)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -1867,19 +1879,23 @@ extension ServiceCatalog {
 
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
+        /// Information about the associated launch paths.
+        public let launchPaths: [LaunchPath]?
         /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
         /// Information about the provisioning artifacts for the specified product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
-        public init(budgets: [BudgetDetail]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
+        public init(budgets: [BudgetDetail]? = nil, launchPaths: [LaunchPath]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.budgets = budgets
+            self.launchPaths = launchPaths
             self.productViewSummary = productViewSummary
             self.provisioningArtifacts = provisioningArtifacts
         }
 
         private enum CodingKeys: String, CodingKey {
             case budgets = "Budgets"
+            case launchPaths = "LaunchPaths"
             case productViewSummary = "ProductViewSummary"
             case provisioningArtifacts = "ProvisioningArtifacts"
         }
@@ -2035,16 +2051,22 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
-        public let productId: String
+        public let productId: String?
+        /// The product name.
+        public let productName: String?
         /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        public let provisioningArtifactId: String?
+        /// The provisioning artifact name.
+        public let provisioningArtifactName: String?
         /// Indicates whether a verbose level of detail is enabled.
         public let verbose: Bool?
 
-        public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String, verbose: Bool? = nil) {
+        public init(acceptLanguage: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, verbose: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
+            self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.verbose = verbose
         }
 
@@ -2053,15 +2075,19 @@ extension ServiceCatalog {
             try validate(self.productId, name: "productId", parent: name, max: 100)
             try validate(self.productId, name: "productId", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name: "productName", parent: name, max: 8191)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case verbose = "Verbose"
         }
     }
@@ -2737,6 +2763,24 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case accessStatus = "AccessStatus"
+        }
+    }
+
+    public struct LaunchPath: AWSDecodableShape {
+
+        /// The identifier of the launch path.
+        public let id: String?
+        /// The name of the launch path.
+        public let name: String?
+
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -4449,6 +4493,11 @@ extension ServiceCatalog {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 8192)
+            try validate(self.name, name: "name", parent: name, max: 8192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case disableTemplateValidation = "DisableTemplateValidation"
@@ -5698,7 +5747,7 @@ extension ServiceCatalog {
         public let idempotencyToken: String
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
-        /// A map that contains the provisioned product properties to be updated. The OWNER key only accepts user ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
+        /// A map that contains the provisioned product properties to be updated. The OWNER key accepts user ARNs and role ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
@@ -5785,6 +5834,8 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try validate(self.description, name: "description", parent: name, max: 8192)
+            try validate(self.name, name: "name", parent: name, max: 8192)
             try validate(self.productId, name: "productId", parent: name, max: 100)
             try validate(self.productId, name: "productId", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")

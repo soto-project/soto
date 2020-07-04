@@ -161,6 +161,8 @@ extension MediaConvert {
         case ac3 = "AC3"
         case eac3 = "EAC3"
         case eac3Atmos = "EAC3_ATMOS"
+        case vorbis = "VORBIS"
+        case opus = "OPUS"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
@@ -470,6 +472,7 @@ extension MediaConvert {
         case mp4 = "MP4"
         case mpd = "MPD"
         case mxf = "MXF"
+        case webm = "WEBM"
         case raw = "RAW"
         public var description: String { return self.rawValue }
     }
@@ -1840,6 +1843,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum NoiseFilterPostTemporalSharpening: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case auto = "AUTO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NoiseReducerFilter: String, CustomStringConvertible, Codable {
         case bilateral = "BILATERAL"
         case mean = "MEAN"
@@ -2074,12 +2084,81 @@ extension MediaConvert {
         case h265 = "H_265"
         case mpeg2 = "MPEG2"
         case prores = "PRORES"
+        case vp8 = "VP8"
+        case vp9 = "VP9"
         public var description: String { return self.rawValue }
     }
 
     public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp8FramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp8FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp8ParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp8QualityTuningLevel: String, CustomStringConvertible, Codable {
+        case multiPass = "MULTI_PASS"
+        case multiPassHq = "MULTI_PASS_HQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp8RateControlMode: String, CustomStringConvertible, Codable {
+        case vbr = "VBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp9FramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp9FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp9ParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp9QualityTuningLevel: String, CustomStringConvertible, Codable {
+        case multiPass = "MULTI_PASS"
+        case multiPassHq = "MULTI_PASS_HQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Vp9RateControlMode: String, CustomStringConvertible, Codable {
+        case vbr = "VBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WatermarkingStrength: String, CustomStringConvertible, Codable {
+        case lightest = "LIGHTEST"
+        case lighter = "LIGHTER"
+        case `default` = "DEFAULT"
+        case stronger = "STRONGER"
+        case strongest = "STRONGEST"
         public var description: String { return self.rawValue }
     }
 
@@ -2307,10 +2386,14 @@ extension MediaConvert {
         public let mp2Settings: Mp2Settings?
         /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value MP3.
         public let mp3Settings: Mp3Settings?
+        /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value OPUS.
+        public let opusSettings: OpusSettings?
+        /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value Vorbis.
+        public let vorbisSettings: VorbisSettings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value WAV.
         public let wavSettings: WavSettings?
 
-        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, wavSettings: WavSettings? = nil) {
+        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, opusSettings: OpusSettings? = nil, vorbisSettings: VorbisSettings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
             self.aiffSettings = aiffSettings
@@ -2319,6 +2402,8 @@ extension MediaConvert {
             self.eac3Settings = eac3Settings
             self.mp2Settings = mp2Settings
             self.mp3Settings = mp3Settings
+            self.opusSettings = opusSettings
+            self.vorbisSettings = vorbisSettings
             self.wavSettings = wavSettings
         }
 
@@ -2330,6 +2415,8 @@ extension MediaConvert {
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
             try self.mp2Settings?.validate(name: "\(name).mp2Settings")
             try self.mp3Settings?.validate(name: "\(name).mp3Settings")
+            try self.opusSettings?.validate(name: "\(name).opusSettings")
+            try self.vorbisSettings?.validate(name: "\(name).vorbisSettings")
             try self.wavSettings?.validate(name: "\(name).wavSettings")
         }
 
@@ -2342,6 +2429,8 @@ extension MediaConvert {
             case eac3Settings = "eac3Settings"
             case mp2Settings = "mp2Settings"
             case mp3Settings = "mp3Settings"
+            case opusSettings = "opusSettings"
+            case vorbisSettings = "vorbisSettings"
             case wavSettings = "wavSettings"
         }
     }
@@ -2356,7 +2445,7 @@ extension MediaConvert {
         public let audioType: Int?
         /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then that value is passed through to the output. If the input contains no ISO 639 audio_type, the value in Audio Type is included in the output. Otherwise the value in Audio Type is included in the output. Note that this field and audioType are both ignored if audioDescriptionBroadcasterMix is set to BROADCASTER_MIXED_AD.
         public let audioTypeControl: AudioTypeControl?
-        /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value that you choose for Audio codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
+        /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value that you choose for Audio codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings * VORBIS, VorbisSettings * OPUS, OpusSettings
         public let codecSettings: AudioCodecSettings?
         /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control (AudioLanguageCodeControl) to Use configured (USE_CONFIGURED). The service also uses your specified custom language code when you set Language code control (AudioLanguageCodeControl) to Follow input (FOLLOW_INPUT), but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
@@ -2485,7 +2574,7 @@ extension MediaConvert {
             try validate(self.customLanguageCode, name: "customLanguageCode", parent: name, max: 3)
             try validate(self.customLanguageCode, name: "customLanguageCode", parent: name, min: 3)
             try validate(self.customLanguageCode, name: "customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
-            try validate(self.externalAudioFileInput, name: "externalAudioFileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
+            try validate(self.externalAudioFileInput, name: "externalAudioFileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([wW][eE][bB][mM]|[mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.offset, name: "offset", parent: name, max: 2147483647)
             try validate(self.offset, name: "offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
@@ -2564,7 +2653,7 @@ extension MediaConvert {
         public let adaptiveQuantization: Av1AdaptiveQuantization?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: Av1FramerateControl?
-        /// When set to INTERPOLATE, produces smoother motion during frame rate conversion.
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use duplicate drop conversion.
         public let framerateConversionAlgorithm: Av1FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -2924,9 +3013,9 @@ extension MediaConvert {
 
     public struct CaptionSourceFramerate: AWSEncodableShape & AWSDecodableShape {
 
-        /// Specify the denominator of the fraction that represents the framerate for the setting Caption source framerate (CaptionSourceFramerate). Use this setting along with the setting Framerate numerator (framerateNumerator).
+        /// Specify the denominator of the fraction that represents the frame rate for the setting Caption source frame rate (CaptionSourceFramerate). Use this setting along with the setting Framerate numerator (framerateNumerator).
         public let framerateDenominator: Int?
-        /// Specify the numerator of the fraction that represents the framerate for the setting Caption source framerate (CaptionSourceFramerate). Use this setting along with the setting Framerate denominator (framerateDenominator).
+        /// Specify the numerator of the fraction that represents the frame rate for the setting Caption source frame rate (CaptionSourceFramerate). Use this setting along with the setting Framerate denominator (framerateDenominator).
         public let framerateNumerator: Int?
 
         public init(framerateDenominator: Int? = nil, framerateNumerator: Int? = nil) {
@@ -4472,7 +4561,7 @@ extension MediaConvert {
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
-        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing framerates between your input captions and input video, specify the framerate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
+        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
         public let framerate: CaptionSourceFramerate?
         /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', and 'smi'.
         public let sourceFile: String?
@@ -4704,7 +4793,7 @@ extension MediaConvert {
         public let flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: H264FramerateControl?
-        /// When set to INTERPOLATE, produces smoother motion during frame rate conversion.
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use duplicate drop conversion.
         public let framerateConversionAlgorithm: H264FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -4734,13 +4823,13 @@ extension MediaConvert {
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
-        /// Using the API, enable ParFollowSource if you want the service to use the pixel aspect ratio from the input. Using the console, do this by choosing Follow source for Pixel aspect ratio.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: H264ParControl?
-        /// Pixel Aspect Ratio denominator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Pixel Aspect Ratio numerator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Use Quality tuning level (H264QualityTuningLevel) to specifiy whether to use fast single-pass, high-quality singlepass, or high-quality multipass video encoding.
+        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: H264QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.264 codec. Required when you set Rate control mode to QVBR. Not valid when you set Rate control mode to a value other than QVBR, or when you don't define Rate control mode.
         public let qvbrSettings: H264QvbrSettings?
@@ -4929,9 +5018,9 @@ extension MediaConvert {
         public let dynamicSubGop: H265DynamicSubGop?
         /// Adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
         public let flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job sepecification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: H265FramerateControl?
-        /// When set to INTERPOLATE, produces smoother motion during frame rate conversion.
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use duplicate drop conversion.
         public let framerateConversionAlgorithm: H265FramerateConversionAlgorithm?
         /// Frame rate denominator.
         public let framerateDenominator: Int?
@@ -4959,13 +5048,13 @@ extension MediaConvert {
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
-        /// Using the API, enable ParFollowSource if you want the service to use the pixel aspect ratio from the input. Using the console, do this by choosing Follow source for Pixel aspect ratio.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: H265ParControl?
-        /// Pixel Aspect Ratio denominator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Pixel Aspect Ratio numerator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Use Quality tuning level (H265QualityTuningLevel) to specifiy whether to use fast single-pass, high-quality singlepass, or high-quality multipass video encoding.
+        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: H265QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Required when you set Rate control mode to QVBR. Not valid when you set Rate control mode to a value other than QVBR, or when you don't define Rate control mode.
         public let qvbrSettings: H265QvbrSettings?
@@ -5555,13 +5644,13 @@ extension MediaConvert {
 
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
-        /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use mutiple Audio selectors per input.
+        /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
         public let audioSelectors: [String: AudioSelector]?
-        /// Use Captions selectors (CaptionSelectors) to specify the captions data from the input that you will use in your outputs. You can use mutiple captions selectors per input.
+        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
         public let captionSelectors: [String: CaptionSelector]?
         /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
         public let crop: Rectangle?
-        /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manaully controllable for MPEG2 and uncompressed video inputs.
+        /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manually controllable for MPEG2 and uncompressed video inputs.
         public let deblockFilter: InputDeblockFilter?
         /// Settings for decrypting any input files that you encrypt before you upload them to Amazon S3. MediaConvert can decrypt files only when you use AWS Key Management Service (KMS) to encrypt the data key that you use to encrypt your content.
         public let decryptionSettings: InputDecryptionSettings?
@@ -5733,13 +5822,13 @@ extension MediaConvert {
 
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
-        /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use mutiple Audio selectors per input.
+        /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
         public let audioSelectors: [String: AudioSelector]?
-        /// Use Captions selectors (CaptionSelectors) to specify the captions data from the input that you will use in your outputs. You can use mutiple captions selectors per input.
+        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
         public let captionSelectors: [String: CaptionSelector]?
         /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
         public let crop: Rectangle?
-        /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manaully controllable for MPEG2 and uncompressed video inputs.
+        /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manually controllable for MPEG2 and uncompressed video inputs.
         public let deblockFilter: InputDeblockFilter?
         /// Enable Denoise (InputDenoiseFilter) to filter noise from the input.  Default is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
         public let denoiseFilter: InputDenoiseFilter?
@@ -7054,9 +7143,9 @@ extension MediaConvert {
         public let codecProfile: Mpeg2CodecProfile?
         /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames (numberBFramesBetweenReferenceFrames).
         public let dynamicSubGop: Mpeg2DynamicSubGop?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job sepecification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: Mpeg2FramerateControl?
-        /// When set to INTERPOLATE, produces smoother motion during frame rate conversion.
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use duplicate drop conversion.
         public let framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm?
         /// Frame rate denominator.
         public let framerateDenominator: Int?
@@ -7084,13 +7173,13 @@ extension MediaConvert {
         public let minIInterval: Int?
         /// Number of B-frames between reference frames.
         public let numberBFramesBetweenReferenceFrames: Int?
-        /// Using the API, enable ParFollowSource if you want the service to use the pixel aspect ratio from the input. Using the console, do this by choosing Follow source for Pixel aspect ratio.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: Mpeg2ParControl?
-        /// Pixel Aspect Ratio denominator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Pixel Aspect Ratio numerator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Use Quality tuning level (Mpeg2QualityTuningLevel) to specifiy whether to use single-pass or multipass video encoding.
+        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: Mpeg2QualityTuningLevel?
         /// Use Rate control mode (Mpeg2RateControlMode) to specifiy whether the bitrate is variable (vbr) or constant (cbr).
         public let rateControlMode: Mpeg2RateControlMode?
@@ -7311,6 +7400,41 @@ extension MediaConvert {
         }
     }
 
+    public struct NexGuardFileMarkerSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Use the base64 license string that Nagra provides you. Enter it directly in your JSON job specification or in the console. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job.
+        public let license: String?
+        /// Specify the payload ID that you want associated with this output. Valid values vary depending on your Nagra NexGuard forensic watermarking workflow. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job. For PreRelease Content (NGPR/G2), specify an integer from 1 through 4,194,303. You must generate a unique ID for each asset you watermark, and keep a record of which ID you have assigned to each asset. Neither Nagra nor MediaConvert keep track of the relationship between output files and your IDs. For OTT Streaming, create two adaptive bitrate (ABR) stacks for each asset. Do this by setting up two output groups. For one output group, set the value of Payload ID (payload) to 0 in every output. For the other output group, set Payload ID (payload) to 1 in every output.
+        public let payload: Int?
+        /// Enter one of the watermarking preset strings that Nagra provides you. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job.
+        public let preset: String?
+        /// Optional. Ignore this setting unless Nagra support directs you to specify a value. When you don't specify a value here, the Nagra NexGuard library uses its default value.
+        public let strength: WatermarkingStrength?
+
+        public init(license: String? = nil, payload: Int? = nil, preset: String? = nil, strength: WatermarkingStrength? = nil) {
+            self.license = license
+            self.payload = payload
+            self.preset = preset
+            self.strength = strength
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.license, name: "license", parent: name, max: 100000)
+            try validate(self.license, name: "license", parent: name, min: 1)
+            try validate(self.payload, name: "payload", parent: name, max: 4194303)
+            try validate(self.payload, name: "payload", parent: name, min: 0)
+            try validate(self.preset, name: "preset", parent: name, max: 256)
+            try validate(self.preset, name: "preset", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case license = "license"
+            case payload = "payload"
+            case preset = "preset"
+            case strength = "strength"
+        }
+    }
+
     public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
@@ -7420,13 +7544,16 @@ extension MediaConvert {
 
         /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
         public let aggressiveMode: Int?
+        /// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), you can optionally use this setting to apply additional sharpening. The default behavior, Auto (AUTO) allows the transcoder to determine whether to apply filtering, depending on input type and quality.
+        public let postTemporalSharpening: NoiseFilterPostTemporalSharpening?
         /// The speed of the filter (higher number is faster). Low setting reduces bit rate at the cost of transcode time, high setting improves transcode time at the cost of bit rate.
         public let speed: Int?
         /// Specify the strength of the noise reducing filter on this output. Higher values produce stronger filtering. We recommend the following value ranges, depending on the result that you want: * 0-2 for complexity reduction with minimal sharpness loss * 2-8 for complexity reduction with image preservation * 8-16 for a high level of complexity reduction
         public let strength: Int?
 
-        public init(aggressiveMode: Int? = nil, speed: Int? = nil, strength: Int? = nil) {
+        public init(aggressiveMode: Int? = nil, postTemporalSharpening: NoiseFilterPostTemporalSharpening? = nil, speed: Int? = nil, strength: Int? = nil) {
             self.aggressiveMode = aggressiveMode
+            self.postTemporalSharpening = postTemporalSharpening
             self.speed = speed
             self.strength = strength
         }
@@ -7442,8 +7569,40 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case aggressiveMode = "aggressiveMode"
+            case postTemporalSharpening = "postTemporalSharpening"
             case speed = "speed"
             case strength = "strength"
+        }
+    }
+
+    public struct OpusSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Optional. Specify the average bitrate in bits per second. Valid values are multiples of 8000, from 32000 through 192000. The default value is 96000, which we recommend for quality and bandwidth.
+        public let bitrate: Int?
+        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        public let channels: Int?
+        /// Optional. Sample rate in hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
+        public let sampleRate: Int?
+
+        public init(bitrate: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
+            self.bitrate = bitrate
+            self.channels = channels
+            self.sampleRate = sampleRate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bitrate, name: "bitrate", parent: name, max: 192000)
+            try validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
+            try validate(self.channels, name: "channels", parent: name, max: 2)
+            try validate(self.channels, name: "channels", parent: name, min: 1)
+            try validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
+            try validate(self.sampleRate, name: "sampleRate", parent: name, min: 16000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -7455,7 +7614,7 @@ extension MediaConvert {
         public let captionDescriptions: [CaptionDescription]?
         /// Container specific settings.
         public let containerSettings: ContainerSettings?
-        /// Use Extension (Extension) to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
+        /// Use Extension (Extension) to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
         public let `extension`: String?
         /// Use Name modifier (NameModifier) to have the service add a string to the end of each output filename. You specify the base filename as part of your destination URI. When you create multiple outputs in the same output group, Name modifier (NameModifier) is required. Name modifier also accepts format identifiers. For DASH ISO outputs, if you use the format identifiers $Number$ or $Time$ in one output, you must use them in the same way in all outputs of the output group.
         public let nameModifier: String?
@@ -7644,6 +7803,24 @@ extension MediaConvert {
         }
     }
 
+    public struct PartnerWatermarking: AWSEncodableShape & AWSDecodableShape {
+
+        /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2) and OTT Streaming workflows.
+        public let nexguardFileMarkerSettings: NexGuardFileMarkerSettings?
+
+        public init(nexguardFileMarkerSettings: NexGuardFileMarkerSettings? = nil) {
+            self.nexguardFileMarkerSettings = nexguardFileMarkerSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.nexguardFileMarkerSettings?.validate(name: "\(name).nexguardFileMarkerSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nexguardFileMarkerSettings = "nexguardFileMarkerSettings"
+        }
+    }
+
     public struct Preset: AWSDecodableShape {
 
         /// An identifier for this resource that is unique within all of AWS.
@@ -7729,9 +7906,9 @@ extension MediaConvert {
 
         /// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec to use for this output.
         public let codecProfile: ProresCodecProfile?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job sepecification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: ProresFramerateControl?
-        /// When set to INTERPOLATE, produces smoother motion during frame rate conversion.
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use duplicate drop conversion.
         public let framerateConversionAlgorithm: ProresFramerateConversionAlgorithm?
         /// Frame rate denominator.
         public let framerateDenominator: Int?
@@ -7741,11 +7918,11 @@ extension MediaConvert {
         ///   - If the source is interlaced, the output will be interlaced with the same polarity as the source (it will follow the source). The output could therefore be a mix of "top field first" and "bottom field first".
         ///   - If the source is progressive, the output will be interlaced with "top field first" or "bottom field first" polarity, depending on which of the Follow options you chose.
         public let interlaceMode: ProresInterlaceMode?
-        /// Use (ProresParControl) to specify how the service determines the pixel aspect ratio. Set to Follow source (INITIALIZE_FROM_SOURCE) to use the pixel aspect ratio from the input.  To specify a different pixel aspect ratio: Using the console, choose it from the dropdown menu. Using the API, set ProresParControl to (SPECIFIED) and provide  for (ParNumerator) and (ParDenominator).
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: ProresParControl?
-        /// Pixel Aspect Ratio denominator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Pixel Aspect Ratio numerator.
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
         /// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as 25fps, and audio is sped up correspondingly.
         public let slowPal: ProresSlowPal?
@@ -8610,8 +8787,12 @@ extension MediaConvert {
         public let mpeg2Settings: Mpeg2Settings?
         /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value PRORES.
         public let proresSettings: ProresSettings?
+        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value VP8.
+        public let vp8Settings: Vp8Settings?
+        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value VP9.
+        public let vp9Settings: Vp9Settings?
 
-        public init(av1Settings: Av1Settings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil) {
+        public init(av1Settings: Av1Settings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil, vp8Settings: Vp8Settings? = nil, vp9Settings: Vp9Settings? = nil) {
             self.av1Settings = av1Settings
             self.codec = codec
             self.frameCaptureSettings = frameCaptureSettings
@@ -8619,6 +8800,8 @@ extension MediaConvert {
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
             self.proresSettings = proresSettings
+            self.vp8Settings = vp8Settings
+            self.vp9Settings = vp9Settings
         }
 
         public func validate(name: String) throws {
@@ -8628,6 +8811,8 @@ extension MediaConvert {
             try self.h265Settings?.validate(name: "\(name).h265Settings")
             try self.mpeg2Settings?.validate(name: "\(name).mpeg2Settings")
             try self.proresSettings?.validate(name: "\(name).proresSettings")
+            try self.vp8Settings?.validate(name: "\(name).vp8Settings")
+            try self.vp9Settings?.validate(name: "\(name).vp9Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8638,6 +8823,8 @@ extension MediaConvert {
             case h265Settings = "h265Settings"
             case mpeg2Settings = "mpeg2Settings"
             case proresSettings = "proresSettings"
+            case vp8Settings = "vp8Settings"
+            case vp9Settings = "vp9Settings"
         }
     }
 
@@ -8647,7 +8834,7 @@ extension MediaConvert {
         public let afdSignaling: AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public let antiAlias: AntiAlias?
-        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * FRAME_CAPTURE, FrameCaptureSettings * AV1, Av1Settings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
+        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * FRAME_CAPTURE, FrameCaptureSettings * AV1, Av1Settings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VP8, Vp8Settings * VP9, Vp9Settings
         public let codecSettings: VideoCodecSettings?
         /// Choose Insert (INSERT) for this setting to include color metadata in this output. Choose Ignore (IGNORE) to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public let colorMetadata: ColorMetadata?
@@ -8756,15 +8943,18 @@ extension MediaConvert {
         public let imageInserter: ImageInserter?
         /// Enable the Noise reducer (NoiseReducer) feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default.
         public let noiseReducer: NoiseReducer?
+        /// If you work with a third party video watermarking partner, use the group of settings that correspond with your watermarking partner to include watermarks in your output.
+        public let partnerWatermarking: PartnerWatermarking?
         /// Timecode burn-in (TimecodeBurnIn)--Burns the output timecode and specified prefix into the output.
         public let timecodeBurnin: TimecodeBurnin?
 
-        public init(colorCorrector: ColorCorrector? = nil, deinterlacer: Deinterlacer? = nil, dolbyVision: DolbyVision? = nil, imageInserter: ImageInserter? = nil, noiseReducer: NoiseReducer? = nil, timecodeBurnin: TimecodeBurnin? = nil) {
+        public init(colorCorrector: ColorCorrector? = nil, deinterlacer: Deinterlacer? = nil, dolbyVision: DolbyVision? = nil, imageInserter: ImageInserter? = nil, noiseReducer: NoiseReducer? = nil, partnerWatermarking: PartnerWatermarking? = nil, timecodeBurnin: TimecodeBurnin? = nil) {
             self.colorCorrector = colorCorrector
             self.deinterlacer = deinterlacer
             self.dolbyVision = dolbyVision
             self.imageInserter = imageInserter
             self.noiseReducer = noiseReducer
+            self.partnerWatermarking = partnerWatermarking
             self.timecodeBurnin = timecodeBurnin
         }
 
@@ -8773,6 +8963,7 @@ extension MediaConvert {
             try self.dolbyVision?.validate(name: "\(name).dolbyVision")
             try self.imageInserter?.validate(name: "\(name).imageInserter")
             try self.noiseReducer?.validate(name: "\(name).noiseReducer")
+            try self.partnerWatermarking?.validate(name: "\(name).partnerWatermarking")
             try self.timecodeBurnin?.validate(name: "\(name).timecodeBurnin")
         }
 
@@ -8782,6 +8973,7 @@ extension MediaConvert {
             case dolbyVision = "dolbyVision"
             case imageInserter = "imageInserter"
             case noiseReducer = "noiseReducer"
+            case partnerWatermarking = "partnerWatermarking"
             case timecodeBurnin = "timecodeBurnin"
         }
     }
@@ -8829,6 +9021,195 @@ extension MediaConvert {
             case pid = "pid"
             case programNumber = "programNumber"
             case rotate = "rotate"
+        }
+    }
+
+    public struct VorbisSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Optional. Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2. The default value is 2.
+        public let channels: Int?
+        /// Optional. Specify the audio sample rate in Hz. Valid values are 22050, 32000, 44100, and 48000. The default value is 48000.
+        public let sampleRate: Int?
+        /// Optional. Specify the variable audio quality of this Vorbis output from -1 (lowest quality, ~45 kbit/s) to 10 (highest quality, ~500 kbit/s). The default value is 4 (~128 kbit/s). Values 5 and 6 are approximately 160 and 192 kbit/s, respectively.
+        public let vbrQuality: Int?
+
+        public init(channels: Int? = nil, sampleRate: Int? = nil, vbrQuality: Int? = nil) {
+            self.channels = channels
+            self.sampleRate = sampleRate
+            self.vbrQuality = vbrQuality
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channels, name: "channels", parent: name, max: 2)
+            try validate(self.channels, name: "channels", parent: name, min: 1)
+            try validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
+            try validate(self.sampleRate, name: "sampleRate", parent: name, min: 22050)
+            try validate(self.vbrQuality, name: "vbrQuality", parent: name, max: 10)
+            try validate(self.vbrQuality, name: "vbrQuality", parent: name, min: -1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case sampleRate = "sampleRate"
+            case vbrQuality = "vbrQuality"
+        }
+    }
+
+    public struct Vp8Settings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
+        public let bitrate: Int?
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        public let framerateControl: Vp8FramerateControl?
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use Drop duplicate (DUPLICATE_DROP) conversion. When you choose Interpolate (INTERPOLATE) instead, the conversion produces smoother motion.
+        public let framerateConversionAlgorithm: Vp8FramerateConversionAlgorithm?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateDenominator: Int?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateNumerator: Int?
+        /// GOP Length (keyframe interval) in frames. Must be greater than zero.
+        public let gopSize: Double?
+        /// Optional. Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
+        public let hrdBufferSize: Int?
+        /// Ignore this setting unless you set qualityTuningLevel to MULTI_PASS. Optional. Specify the maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. The default behavior uses twice the target bitrate as the maximum bitrate.
+        public let maxBitrate: Int?
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
+        public let parControl: Vp8ParControl?
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        public let parDenominator: Int?
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        public let parNumerator: Int?
+        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, multi-pass encoding.
+        public let qualityTuningLevel: Vp8QualityTuningLevel?
+        /// With the VP8 codec, you can use only the variable bitrate (VBR) rate control mode.
+        public let rateControlMode: Vp8RateControlMode?
+
+        public init(bitrate: Int? = nil, framerateControl: Vp8FramerateControl? = nil, framerateConversionAlgorithm: Vp8FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, hrdBufferSize: Int? = nil, maxBitrate: Int? = nil, parControl: Vp8ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: Vp8QualityTuningLevel? = nil, rateControlMode: Vp8RateControlMode? = nil) {
+            self.bitrate = bitrate
+            self.framerateControl = framerateControl
+            self.framerateConversionAlgorithm = framerateConversionAlgorithm
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.gopSize = gopSize
+            self.hrdBufferSize = hrdBufferSize
+            self.maxBitrate = maxBitrate
+            self.parControl = parControl
+            self.parDenominator = parDenominator
+            self.parNumerator = parNumerator
+            self.qualityTuningLevel = qualityTuningLevel
+            self.rateControlMode = rateControlMode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bitrate, name: "bitrate", parent: name, max: 1152000000)
+            try validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
+            try validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
+            try validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
+            try validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
+            try validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
+            try validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
+            try validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
+            try validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
+            try validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
+            try validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
+            try validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case hrdBufferSize = "hrdBufferSize"
+            case maxBitrate = "maxBitrate"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
+        }
+    }
+
+    public struct Vp9Settings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
+        public let bitrate: Int?
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        public let framerateControl: Vp9FramerateControl?
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use Drop duplicate (DUPLICATE_DROP) conversion. When you choose Interpolate (INTERPOLATE) instead, the conversion produces smoother motion.
+        public let framerateConversionAlgorithm: Vp9FramerateConversionAlgorithm?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateDenominator: Int?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateNumerator: Int?
+        /// GOP Length (keyframe interval) in frames. Must be greater than zero.
+        public let gopSize: Double?
+        /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
+        public let hrdBufferSize: Int?
+        /// Ignore this setting unless you set qualityTuningLevel to MULTI_PASS. Optional. Specify the maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. The default behavior uses twice the target bitrate as the maximum bitrate.
+        public let maxBitrate: Int?
+        /// Optional. Specify how the service determines the pixel aspect ratio for this output. The default behavior is to use the same pixel aspect ratio as your input video.
+        public let parControl: Vp9ParControl?
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        public let parDenominator: Int?
+        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        public let parNumerator: Int?
+        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, multi-pass encoding.
+        public let qualityTuningLevel: Vp9QualityTuningLevel?
+        /// With the VP9 codec, you can use only the variable bitrate (VBR) rate control mode.
+        public let rateControlMode: Vp9RateControlMode?
+
+        public init(bitrate: Int? = nil, framerateControl: Vp9FramerateControl? = nil, framerateConversionAlgorithm: Vp9FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, hrdBufferSize: Int? = nil, maxBitrate: Int? = nil, parControl: Vp9ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: Vp9QualityTuningLevel? = nil, rateControlMode: Vp9RateControlMode? = nil) {
+            self.bitrate = bitrate
+            self.framerateControl = framerateControl
+            self.framerateConversionAlgorithm = framerateConversionAlgorithm
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.gopSize = gopSize
+            self.hrdBufferSize = hrdBufferSize
+            self.maxBitrate = maxBitrate
+            self.parControl = parControl
+            self.parDenominator = parDenominator
+            self.parNumerator = parNumerator
+            self.qualityTuningLevel = qualityTuningLevel
+            self.rateControlMode = rateControlMode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bitrate, name: "bitrate", parent: name, max: 480000000)
+            try validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
+            try validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
+            try validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
+            try validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
+            try validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
+            try validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 480000000)
+            try validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
+            try validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
+            try validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
+            try validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
+            try validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case hrdBufferSize = "hrdBufferSize"
+            case maxBitrate = "maxBitrate"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
         }
     }
 

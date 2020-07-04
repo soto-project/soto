@@ -100,6 +100,16 @@ extension Rekognition {
         return client.paginate(input: input, command: getPersonTracking, tokenKey: \GetPersonTrackingResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Gets the segment detection results of a Amazon Rekognition Video analysis started by StartSegmentDetection. Segment detection with Amazon Rekognition Video is an asynchronous operation. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId). When the segment detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection. To get the results of the segment detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call GetSegmentDetection and pass the job identifier (JobId) from the initial call of StartSegmentDetection.  GetSegmentDetection returns detected segments in an array (Segments) of SegmentDetection objects. Segments is sorted by the segment types specified in the SegmentTypes input parameter of StartSegmentDetection. Each element of the array includes the detected segment, the precentage confidence in the acuracy of the detected segment, the type of the segment, and the frame in which the segment was detected. Use SelectedSegmentTypes to find out the type of segment detection requested in the call to StartSegmentDetection. Use the MaxResults parameter to limit the number of segment detections returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetSegmentDetection and populate the NextToken request parameter with the token value returned from the previous call to GetSegmentDetection. For more information, see Detecting Video Segments in Stored Video in the Amazon Rekognition Developer Guide.
+    public func getSegmentDetectionPaginator(
+        _ input: GetSegmentDetectionRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetSegmentDetectionResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getSegmentDetection, tokenKey: \GetSegmentDetectionResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by calling StartTextDetection which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection.  GetTextDetection returns an array of detected text (TextDetections) sorted by the time the text was detected, up to 50 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous call to GetTextDetection.
     public func getTextDetectionPaginator(
         _ input: GetTextDetectionRequest,
@@ -230,6 +240,17 @@ extension Rekognition.GetPersonTrackingRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
+        )
+
+    }
+}
+
+extension Rekognition.GetSegmentDetectionRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetSegmentDetectionRequest {
+        return .init(
+            jobId: self.jobId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
 
     }

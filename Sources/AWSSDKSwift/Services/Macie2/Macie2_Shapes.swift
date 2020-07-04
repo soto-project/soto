@@ -52,6 +52,7 @@ extension Macie2 {
         case none = "NONE"
         case aes256 = "AES256"
         case awsKms = "aws:kms"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -367,27 +368,6 @@ extension Macie2 {
             case firstSeen = "firstSeen"
             case lastSeen = "lastSeen"
         }
-    }
-
-    public struct ArchiveFindingsRequest: AWSEncodableShape {
-
-        public let findingIds: [String]
-
-        public init(findingIds: [String]) {
-            self.findingIds = findingIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findingIds = "findingIds"
-        }
-    }
-
-    public struct ArchiveFindingsResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct AssumedRole: AWSDecodableShape {
@@ -3351,27 +3331,6 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case matchCount = "matchCount"
         }
-    }
-
-    public struct UnarchiveFindingsRequest: AWSEncodableShape {
-
-        public let findingIds: [String]
-
-        public init(findingIds: [String]) {
-            self.findingIds = findingIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findingIds = "findingIds"
-        }
-    }
-
-    public struct UnarchiveFindingsResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct UnprocessedAccount: AWSDecodableShape {

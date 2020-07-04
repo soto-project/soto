@@ -289,6 +289,45 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsAutoScalingAutoScalingGroupDetails: AWSEncodableShape & AWSDecodableShape {
+
+        /// The datetime when the auto scaling group was created.
+        public let createdTime: String?
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
+        public let healthCheckGracePeriod: Int?
+        /// The service to use for the health checks.
+        public let healthCheckType: String?
+        /// The name of the launch configuration.
+        public let launchConfigurationName: String?
+        /// The list of load balancers associated with the group.
+        public let loadBalancerNames: [String]?
+
+        public init(createdTime: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, loadBalancerNames: [String]? = nil) {
+            self.createdTime = createdTime
+            self.healthCheckGracePeriod = healthCheckGracePeriod
+            self.healthCheckType = healthCheckType
+            self.launchConfigurationName = launchConfigurationName
+            self.loadBalancerNames = loadBalancerNames
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.createdTime, name: "createdTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.healthCheckType, name: "healthCheckType", parent: name, pattern: ".*\\S.*")
+            try validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: ".*\\S.*")
+            try self.loadBalancerNames?.forEach {
+                try validate($0, name: "loadBalancerNames[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case healthCheckType = "HealthCheckType"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case loadBalancerNames = "LoadBalancerNames"
+        }
+    }
+
     public struct AwsCloudFrontDistributionDetails: AWSEncodableShape & AWSDecodableShape {
 
         /// The domain name corresponding to the distribution.
@@ -938,6 +977,123 @@ extension SecurityHub {
             case userId = "UserId"
             case vpcId = "VpcId"
             case vpcPeeringConnectionId = "VpcPeeringConnectionId"
+        }
+    }
+
+    public struct AwsEc2VolumeAttachment: AWSEncodableShape & AWSDecodableShape {
+
+        /// The datetime when the attachment initiated.
+        public let attachTime: String?
+        /// Whether the EBS volume is deleted when the EC2 instance is terminated.
+        public let deleteOnTermination: Bool?
+        /// The identifier of the EC2 instance.
+        public let instanceId: String?
+        /// The attachment state of the volume.
+        public let status: String?
+
+        public init(attachTime: String? = nil, deleteOnTermination: Bool? = nil, instanceId: String? = nil, status: String? = nil) {
+            self.attachTime = attachTime
+            self.deleteOnTermination = deleteOnTermination
+            self.instanceId = instanceId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attachTime, name: "attachTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.instanceId, name: "instanceId", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name: "status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachTime = "AttachTime"
+            case deleteOnTermination = "DeleteOnTermination"
+            case instanceId = "InstanceId"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsEc2VolumeDetails: AWSEncodableShape & AWSDecodableShape {
+
+        /// The volume attachments.
+        public let attachments: [AwsEc2VolumeAttachment]?
+        /// The datetime when the volume was created.
+        public let createTime: String?
+        /// Whether the volume is encrypted.
+        public let encrypted: Bool?
+        /// The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
+        public let kmsKeyId: String?
+        /// The size of the volume, in GiBs.
+        public let size: Int?
+        /// The snapshot from which the volume was created.
+        public let snapshotId: String?
+        /// The volume state.
+        public let status: String?
+
+        public init(attachments: [AwsEc2VolumeAttachment]? = nil, createTime: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, size: Int? = nil, snapshotId: String? = nil, status: String? = nil) {
+            self.attachments = attachments
+            self.createTime = createTime
+            self.encrypted = encrypted
+            self.kmsKeyId = kmsKeyId
+            self.size = size
+            self.snapshotId = snapshotId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.attachments?.forEach {
+                try $0.validate(name: "\(name).attachments[]")
+            }
+            try validate(self.createTime, name: "createTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.snapshotId, name: "snapshotId", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name: "status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "Attachments"
+            case createTime = "CreateTime"
+            case encrypted = "Encrypted"
+            case kmsKeyId = "KmsKeyId"
+            case size = "Size"
+            case snapshotId = "SnapshotId"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsEc2VpcDetails: AWSEncodableShape & AWSDecodableShape {
+
+        /// Information about the IPv4 CIDR blocks associated with the VPC.
+        public let cidrBlockAssociationSet: [CidrBlockAssociation]?
+        /// The identifier of the set of Dynamic Host Configuration Protocol (DHCP) options that are associated with the VPC. If the default options are associated with the VPC, then this is default.
+        public let dhcpOptionsId: String?
+        /// Information about the IPv6 CIDR blocks associated with the VPC.
+        public let ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]?
+        /// The current state of the VPC.
+        public let state: String?
+
+        public init(cidrBlockAssociationSet: [CidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]? = nil, state: String? = nil) {
+            self.cidrBlockAssociationSet = cidrBlockAssociationSet
+            self.dhcpOptionsId = dhcpOptionsId
+            self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.cidrBlockAssociationSet?.forEach {
+                try $0.validate(name: "\(name).cidrBlockAssociationSet[]")
+            }
+            try validate(self.dhcpOptionsId, name: "dhcpOptionsId", parent: name, pattern: ".*\\S.*")
+            try self.ipv6CidrBlockAssociationSet?.forEach {
+                try $0.validate(name: "\(name).ipv6CidrBlockAssociationSet[]")
+            }
+            try validate(self.state, name: "state", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlockAssociationSet = "CidrBlockAssociationSet"
+            case dhcpOptionsId = "DhcpOptionsId"
+            case ipv6CidrBlockAssociationSet = "Ipv6CidrBlockAssociationSet"
+            case state = "State"
         }
     }
 
@@ -1945,6 +2101,8 @@ extension SecurityHub {
         public let malware: [Malware]?
         /// The details of network-related information about a finding.
         public let network: Network?
+        /// Provides information about a network path that is relevant to a finding. Each entry under NetworkPath represents a component of that path.
+        public let networkPath: [NetworkPathComponent]?
         /// A user-defined note added to a finding.
         public let note: Note?
         /// The details of process-related information about a finding.
@@ -1979,12 +2137,14 @@ extension SecurityHub {
         public let userDefinedFields: [String: String]?
         /// Indicates the veracity of a finding. 
         public let verificationState: VerificationState?
+        /// Provides a list of vulnerabilities associated with the findings.
+        public let vulnerabilities: [Vulnerability]?
         /// Provides information about the status of the investigation into a finding.
         public let workflow: Workflow?
         /// The workflow state of a finding. 
         public let workflowState: WorkflowState?
 
-        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
+        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.awsAccountId = awsAccountId
             self.compliance = compliance
             self.confidence = confidence
@@ -1997,6 +2157,7 @@ extension SecurityHub {
             self.lastObservedAt = lastObservedAt
             self.malware = malware
             self.network = network
+            self.networkPath = networkPath
             self.note = note
             self.process = process
             self.productArn = productArn
@@ -2014,6 +2175,7 @@ extension SecurityHub {
             self.updatedAt = updatedAt
             self.userDefinedFields = userDefinedFields
             self.verificationState = verificationState
+            self.vulnerabilities = vulnerabilities
             self.workflow = workflow
             self.workflowState = workflowState
         }
@@ -2031,6 +2193,9 @@ extension SecurityHub {
                 try $0.validate(name: "\(name).malware[]")
             }
             try self.network?.validate(name: "\(name).network")
+            try self.networkPath?.forEach {
+                try $0.validate(name: "\(name).networkPath[]")
+            }
             try self.note?.validate(name: "\(name).note")
             try self.process?.validate(name: "\(name).process")
             try validate(self.productArn, name: "productArn", parent: name, pattern: ".*\\S.*")
@@ -2060,6 +2225,9 @@ extension SecurityHub {
                 try validate($0.key, name: "userDefinedFields.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name: "userDefinedFields[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
+            try self.vulnerabilities?.forEach {
+                try $0.validate(name: "\(name).vulnerabilities[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2075,6 +2243,7 @@ extension SecurityHub {
             case lastObservedAt = "LastObservedAt"
             case malware = "Malware"
             case network = "Network"
+            case networkPath = "NetworkPath"
             case note = "Note"
             case process = "Process"
             case productArn = "ProductArn"
@@ -2092,6 +2261,7 @@ extension SecurityHub {
             case updatedAt = "UpdatedAt"
             case userDefinedFields = "UserDefinedFields"
             case verificationState = "VerificationState"
+            case vulnerabilities = "Vulnerabilities"
             case workflow = "Workflow"
             case workflowState = "WorkflowState"
         }
@@ -3091,6 +3261,34 @@ extension SecurityHub {
         }
     }
 
+    public struct CidrBlockAssociation: AWSEncodableShape & AWSDecodableShape {
+
+        /// The association ID for the IPv4 CIDR block.
+        public let associationId: String?
+        /// The IPv4 CIDR block.
+        public let cidrBlock: String?
+        /// Information about the state of the IPv4 CIDR block.
+        public let cidrBlockState: String?
+
+        public init(associationId: String? = nil, cidrBlock: String? = nil, cidrBlockState: String? = nil) {
+            self.associationId = associationId
+            self.cidrBlock = cidrBlock
+            self.cidrBlockState = cidrBlockState
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.associationId, name: "associationId", parent: name, pattern: ".*\\S.*")
+            try validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: ".*\\S.*")
+            try validate(self.cidrBlockState, name: "cidrBlockState", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case cidrBlock = "CidrBlock"
+            case cidrBlockState = "CidrBlockState"
+        }
+    }
+
     public struct Compliance: AWSEncodableShape & AWSDecodableShape {
 
         /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
@@ -3270,6 +3468,33 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct Cvss: AWSEncodableShape & AWSDecodableShape {
+
+        /// The base CVSS score.
+        public let baseScore: Double?
+        /// The base scoring vector for the CVSS score.
+        public let baseVector: String?
+        /// The version of CVSS for the CVSS score.
+        public let version: String?
+
+        public init(baseScore: Double? = nil, baseVector: String? = nil, version: String? = nil) {
+            self.baseScore = baseScore
+            self.baseVector = baseVector
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.baseVector, name: "baseVector", parent: name, pattern: ".*\\S.*")
+            try validate(self.version, name: "version", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseScore = "BaseScore"
+            case baseVector = "BaseVector"
+            case version = "Version"
         }
     }
 
@@ -4289,6 +4514,34 @@ extension SecurityHub {
         }
     }
 
+    public struct Ipv6CidrBlockAssociation: AWSEncodableShape & AWSDecodableShape {
+
+        /// The association ID for the IPv6 CIDR block.
+        public let associationId: String?
+        /// Information about the state of the CIDR block.
+        public let cidrBlockState: String?
+        /// The IPv6 CIDR block.
+        public let ipv6CidrBlock: String?
+
+        public init(associationId: String? = nil, cidrBlockState: String? = nil, ipv6CidrBlock: String? = nil) {
+            self.associationId = associationId
+            self.cidrBlockState = cidrBlockState
+            self.ipv6CidrBlock = ipv6CidrBlock
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.associationId, name: "associationId", parent: name, pattern: ".*\\S.*")
+            try validate(self.cidrBlockState, name: "cidrBlockState", parent: name, pattern: ".*\\S.*")
+            try validate(self.ipv6CidrBlock, name: "ipv6CidrBlock", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case cidrBlockState = "CidrBlockState"
+            case ipv6CidrBlock = "Ipv6CidrBlock"
+        }
+    }
+
     public struct KeywordFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// A value for the keyword.
@@ -4599,6 +4852,8 @@ extension SecurityHub {
         public let destinationPort: Int?
         /// The direction of network traffic associated with a finding.
         public let direction: NetworkDirection?
+        /// The range of open ports that is present on the network.
+        public let openPortRange: PortRange?
         /// The protocol of network-related information about a finding.
         public let `protocol`: String?
         /// The source domain of network-related information about a finding.
@@ -4612,12 +4867,13 @@ extension SecurityHub {
         /// The source port of network-related information about a finding.
         public let sourcePort: Int?
 
-        public init(destinationDomain: String? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, destinationPort: Int? = nil, direction: NetworkDirection? = nil, protocol: String? = nil, sourceDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, sourcePort: Int? = nil) {
+        public init(destinationDomain: String? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, destinationPort: Int? = nil, direction: NetworkDirection? = nil, openPortRange: PortRange? = nil, protocol: String? = nil, sourceDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, sourcePort: Int? = nil) {
             self.destinationDomain = destinationDomain
             self.destinationIpV4 = destinationIpV4
             self.destinationIpV6 = destinationIpV6
             self.destinationPort = destinationPort
             self.direction = direction
+            self.openPortRange = openPortRange
             self.`protocol` = `protocol`
             self.sourceDomain = sourceDomain
             self.sourceIpV4 = sourceIpV4
@@ -4643,12 +4899,98 @@ extension SecurityHub {
             case destinationIpV6 = "DestinationIpV6"
             case destinationPort = "DestinationPort"
             case direction = "Direction"
+            case openPortRange = "OpenPortRange"
             case `protocol` = "Protocol"
             case sourceDomain = "SourceDomain"
             case sourceIpV4 = "SourceIpV4"
             case sourceIpV6 = "SourceIpV6"
             case sourceMac = "SourceMac"
             case sourcePort = "SourcePort"
+        }
+    }
+
+    public struct NetworkHeader: AWSEncodableShape & AWSDecodableShape {
+
+        /// Information about the destination of the component.
+        public let destination: NetworkPathComponentDetails?
+        /// The protocol used for the component.
+        public let `protocol`: String?
+        /// Information about the origin of the component.
+        public let source: NetworkPathComponentDetails?
+
+        public init(destination: NetworkPathComponentDetails? = nil, protocol: String? = nil, source: NetworkPathComponentDetails? = nil) {
+            self.destination = destination
+            self.`protocol` = `protocol`
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.destination?.validate(name: "\(name).destination")
+            try validate(self.`protocol`, name: "`protocol`", parent: name, pattern: ".*\\S.*")
+            try self.source?.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case `protocol` = "Protocol"
+            case source = "Source"
+        }
+    }
+
+    public struct NetworkPathComponent: AWSEncodableShape & AWSDecodableShape {
+
+        /// The identifier of a component in the network path.
+        public let componentId: String?
+        /// The type of component.
+        public let componentType: String?
+        /// Information about the component that comes after the current component in the network path.
+        public let egress: NetworkHeader?
+        /// Information about the component that comes before the current node in the network path.
+        public let ingress: NetworkHeader?
+
+        public init(componentId: String? = nil, componentType: String? = nil, egress: NetworkHeader? = nil, ingress: NetworkHeader? = nil) {
+            self.componentId = componentId
+            self.componentType = componentType
+            self.egress = egress
+            self.ingress = ingress
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.componentId, name: "componentId", parent: name, pattern: ".*\\S.*")
+            try validate(self.componentType, name: "componentType", parent: name, pattern: ".*\\S.*")
+            try self.egress?.validate(name: "\(name).egress")
+            try self.ingress?.validate(name: "\(name).ingress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentId = "ComponentId"
+            case componentType = "ComponentType"
+            case egress = "Egress"
+            case ingress = "Ingress"
+        }
+    }
+
+    public struct NetworkPathComponentDetails: AWSEncodableShape & AWSDecodableShape {
+
+        /// The IP addresses of the destination.
+        public let address: [String]?
+        /// A list of port ranges for the destination.
+        public let portRanges: [PortRange]?
+
+        public init(address: [String]? = nil, portRanges: [PortRange]? = nil) {
+            self.address = address
+            self.portRanges = portRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.address?.forEach {
+                try validate($0, name: "address[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case portRanges = "PortRanges"
         }
     }
 
@@ -4722,6 +5064,24 @@ extension SecurityHub {
             case eq = "Eq"
             case gte = "Gte"
             case lte = "Lte"
+        }
+    }
+
+    public struct PortRange: AWSEncodableShape & AWSDecodableShape {
+
+        /// The first port in the port range.
+        public let begin: Int?
+        /// The last port in the port range.
+        public let end: Int?
+
+        public init(begin: Int? = nil, end: Int? = nil) {
+            self.begin = begin
+            self.end = end
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case begin = "Begin"
+            case end = "End"
         }
     }
 
@@ -4923,6 +5283,8 @@ extension SecurityHub {
 
     public struct ResourceDetails: AWSEncodableShape & AWSDecodableShape {
 
+        /// Details for an autoscaling group.
+        public let awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails?
         /// Details about a CloudFront distribution.
         public let awsCloudFrontDistribution: AwsCloudFrontDistributionDetails?
         /// Details for an AWS CodeBuild project.
@@ -4933,6 +5295,10 @@ extension SecurityHub {
         public let awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails?
         /// Details for an EC2 security group.
         public let awsEc2SecurityGroup: AwsEc2SecurityGroupDetails?
+        /// Details for an EC2 volume.
+        public let awsEc2Volume: AwsEc2VolumeDetails?
+        /// Details for an EC2 VPC.
+        public let awsEc2Vpc: AwsEc2VpcDetails?
         /// Details for an Elasticsearch domain.
         public let awsElasticsearchDomain: AwsElasticsearchDomainDetails?
         /// Details about a load balancer.
@@ -4964,12 +5330,15 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.   
         public let other: [String: String]?
 
-        public init(awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+            self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
             self.awsCloudFrontDistribution = awsCloudFrontDistribution
             self.awsCodeBuildProject = awsCodeBuildProject
             self.awsEc2Instance = awsEc2Instance
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
+            self.awsEc2Volume = awsEc2Volume
+            self.awsEc2Vpc = awsEc2Vpc
             self.awsElasticsearchDomain = awsElasticsearchDomain
             self.awsElbv2LoadBalancer = awsElbv2LoadBalancer
             self.awsIamAccessKey = awsIamAccessKey
@@ -4988,11 +5357,14 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.awsAutoScalingAutoScalingGroup?.validate(name: "\(name).awsAutoScalingAutoScalingGroup")
             try self.awsCloudFrontDistribution?.validate(name: "\(name).awsCloudFrontDistribution")
             try self.awsCodeBuildProject?.validate(name: "\(name).awsCodeBuildProject")
             try self.awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
             try self.awsEc2NetworkInterface?.validate(name: "\(name).awsEc2NetworkInterface")
             try self.awsEc2SecurityGroup?.validate(name: "\(name).awsEc2SecurityGroup")
+            try self.awsEc2Volume?.validate(name: "\(name).awsEc2Volume")
+            try self.awsEc2Vpc?.validate(name: "\(name).awsEc2Vpc")
             try self.awsElasticsearchDomain?.validate(name: "\(name).awsElasticsearchDomain")
             try self.awsElbv2LoadBalancer?.validate(name: "\(name).awsElbv2LoadBalancer")
             try self.awsIamAccessKey?.validate(name: "\(name).awsIamAccessKey")
@@ -5014,11 +5386,14 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
             case awsCloudFrontDistribution = "AwsCloudFrontDistribution"
             case awsCodeBuildProject = "AwsCodeBuildProject"
             case awsEc2Instance = "AwsEc2Instance"
             case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
             case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
+            case awsEc2Volume = "AwsEc2Volume"
+            case awsEc2Vpc = "AwsEc2Vpc"
             case awsElasticsearchDomain = "AwsElasticsearchDomain"
             case awsElbv2LoadBalancer = "AwsElbv2LoadBalancer"
             case awsIamAccessKey = "AwsIamAccessKey"
@@ -5109,6 +5484,44 @@ extension SecurityHub {
             case label = "Label"
             case normalized = "Normalized"
             case product = "Product"
+        }
+    }
+
+    public struct SoftwarePackage: AWSEncodableShape & AWSDecodableShape {
+
+        /// The architecture used for the software package.
+        public let architecture: String?
+        /// The epoch of the software package.
+        public let epoch: String?
+        /// The name of the software package.
+        public let name: String?
+        /// The release of the software package.
+        public let release: String?
+        /// The version of the software package.
+        public let version: String?
+
+        public init(architecture: String? = nil, epoch: String? = nil, name: String? = nil, release: String? = nil, version: String? = nil) {
+            self.architecture = architecture
+            self.epoch = epoch
+            self.name = name
+            self.release = release
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.architecture, name: "architecture", parent: name, pattern: ".*\\S.*")
+            try validate(self.epoch, name: "epoch", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try validate(self.release, name: "release", parent: name, pattern: ".*\\S.*")
+            try validate(self.version, name: "version", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "Architecture"
+            case epoch = "Epoch"
+            case name = "Name"
+            case release = "Release"
+            case version = "Version"
         }
     }
 
@@ -5548,7 +5961,7 @@ extension SecurityHub {
 
         /// The updated status of the security standard control.
         public let controlStatus: ControlStatus?
-        /// A description of the reason why you are disabling a security standard control.
+        /// A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.
         public let disabledReason: String?
         /// The ARN of the security standard control to enable or disable.
         public let standardsControlArn: String
@@ -5576,6 +5989,95 @@ extension SecurityHub {
         public init() {
         }
 
+    }
+
+    public struct Vulnerability: AWSEncodableShape & AWSDecodableShape {
+
+        /// CVSS scores from the advisory related to the vulnerability.
+        public let cvss: [Cvss]?
+        /// The identifier of the vulnerability.
+        public let id: String
+        /// A list of URLs that provide additional information about the vulnerability.
+        public let referenceUrls: [String]?
+        /// List of vulnerabilities that are related to this vulnerability.
+        public let relatedVulnerabilities: [String]?
+        /// Information about the vendor that generates the vulnerability report.
+        public let vendor: VulnerabilityVendor?
+        /// List of software packages that have the vulnerability.
+        public let vulnerablePackages: [SoftwarePackage]?
+
+        public init(cvss: [Cvss]? = nil, id: String, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, vendor: VulnerabilityVendor? = nil, vulnerablePackages: [SoftwarePackage]? = nil) {
+            self.cvss = cvss
+            self.id = id
+            self.referenceUrls = referenceUrls
+            self.relatedVulnerabilities = relatedVulnerabilities
+            self.vendor = vendor
+            self.vulnerablePackages = vulnerablePackages
+        }
+
+        public func validate(name: String) throws {
+            try self.cvss?.forEach {
+                try $0.validate(name: "\(name).cvss[]")
+            }
+            try validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
+            try self.referenceUrls?.forEach {
+                try validate($0, name: "referenceUrls[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.relatedVulnerabilities?.forEach {
+                try validate($0, name: "relatedVulnerabilities[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.vendor?.validate(name: "\(name).vendor")
+            try self.vulnerablePackages?.forEach {
+                try $0.validate(name: "\(name).vulnerablePackages[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cvss = "Cvss"
+            case id = "Id"
+            case referenceUrls = "ReferenceUrls"
+            case relatedVulnerabilities = "RelatedVulnerabilities"
+            case vendor = "Vendor"
+            case vulnerablePackages = "VulnerablePackages"
+        }
+    }
+
+    public struct VulnerabilityVendor: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the vendor.
+        public let name: String
+        /// The URL of the vulnerability advisory.
+        public let url: String?
+        /// The datetime when the vulnerability advisory was created.
+        public let vendorCreatedAt: String?
+        /// The severity that the vendor assigned to the vulnerability.
+        public let vendorSeverity: String?
+        /// The datetime when the vulnerability advisory was last updated.
+        public let vendorUpdatedAt: String?
+
+        public init(name: String, url: String? = nil, vendorCreatedAt: String? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: String? = nil) {
+            self.name = name
+            self.url = url
+            self.vendorCreatedAt = vendorCreatedAt
+            self.vendorSeverity = vendorSeverity
+            self.vendorUpdatedAt = vendorUpdatedAt
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try validate(self.url, name: "url", parent: name, pattern: ".*\\S.*")
+            try validate(self.vendorCreatedAt, name: "vendorCreatedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.vendorSeverity, name: "vendorSeverity", parent: name, pattern: ".*\\S.*")
+            try validate(self.vendorUpdatedAt, name: "vendorUpdatedAt", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case url = "Url"
+            case vendorCreatedAt = "VendorCreatedAt"
+            case vendorSeverity = "VendorSeverity"
+            case vendorUpdatedAt = "VendorUpdatedAt"
+        }
     }
 
     public struct WafAction: AWSEncodableShape & AWSDecodableShape {

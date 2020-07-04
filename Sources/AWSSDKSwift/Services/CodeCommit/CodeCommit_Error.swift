@@ -110,6 +110,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidPullRequestIdException(message: String?)
     case invalidPullRequestStatusException(message: String?)
     case invalidPullRequestStatusUpdateException(message: String?)
+    case invalidReactionUserArnException(message: String?)
+    case invalidReactionValueException(message: String?)
     case invalidReferenceNameException(message: String?)
     case invalidRelativeFileVersionEnumException(message: String?)
     case invalidReplacementContentException(message: String?)
@@ -166,6 +168,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case pullRequestIdRequiredException(message: String?)
     case pullRequestStatusRequiredException(message: String?)
     case putFileEntryConflictException(message: String?)
+    case reactionLimitExceededException(message: String?)
+    case reactionValueRequiredException(message: String?)
     case referenceDoesNotExistException(message: String?)
     case referenceNameRequiredException(message: String?)
     case referenceTypeNotSupportedException(message: String?)
@@ -392,6 +396,10 @@ extension CodeCommitErrorType {
             self = .invalidPullRequestStatusException(message: message)
         case "InvalidPullRequestStatusUpdateException":
             self = .invalidPullRequestStatusUpdateException(message: message)
+        case "InvalidReactionUserArnException":
+            self = .invalidReactionUserArnException(message: message)
+        case "InvalidReactionValueException":
+            self = .invalidReactionValueException(message: message)
         case "InvalidReferenceNameException":
             self = .invalidReferenceNameException(message: message)
         case "InvalidRelativeFileVersionEnumException":
@@ -504,6 +512,10 @@ extension CodeCommitErrorType {
             self = .pullRequestStatusRequiredException(message: message)
         case "PutFileEntryConflictException":
             self = .putFileEntryConflictException(message: message)
+        case "ReactionLimitExceededException":
+            self = .reactionLimitExceededException(message: message)
+        case "ReactionValueRequiredException":
+            self = .reactionValueRequiredException(message: message)
         case "ReferenceDoesNotExistException":
             self = .referenceDoesNotExistException(message: message)
         case "ReferenceNameRequiredException":
@@ -763,6 +775,10 @@ extension CodeCommitErrorType: CustomStringConvertible {
             return "InvalidPullRequestStatusException: \(message ?? "")"
         case .invalidPullRequestStatusUpdateException(let message):
             return "InvalidPullRequestStatusUpdateException: \(message ?? "")"
+        case .invalidReactionUserArnException(let message):
+            return "InvalidReactionUserArnException: \(message ?? "")"
+        case .invalidReactionValueException(let message):
+            return "InvalidReactionValueException: \(message ?? "")"
         case .invalidReferenceNameException(let message):
             return "InvalidReferenceNameException: \(message ?? "")"
         case .invalidRelativeFileVersionEnumException(let message):
@@ -875,6 +891,10 @@ extension CodeCommitErrorType: CustomStringConvertible {
             return "PullRequestStatusRequiredException: \(message ?? "")"
         case .putFileEntryConflictException(let message):
             return "PutFileEntryConflictException: \(message ?? "")"
+        case .reactionLimitExceededException(let message):
+            return "ReactionLimitExceededException: \(message ?? "")"
+        case .reactionValueRequiredException(let message):
+            return "ReactionValueRequiredException: \(message ?? "")"
         case .referenceDoesNotExistException(let message):
             return "ReferenceDoesNotExistException: \(message ?? "")"
         case .referenceNameRequiredException(let message):

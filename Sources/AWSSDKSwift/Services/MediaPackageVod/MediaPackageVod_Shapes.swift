@@ -107,6 +107,24 @@ extension MediaPackageVod {
         }
     }
 
+    public struct Authorization: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is used for CDN authorization.
+        public let cdnIdentifierSecret: String
+        /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
+        public let secretsRoleArn: String
+
+        public init(cdnIdentifierSecret: String, secretsRoleArn: String) {
+            self.cdnIdentifierSecret = cdnIdentifierSecret
+            self.secretsRoleArn = secretsRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdnIdentifierSecret = "cdnIdentifierSecret"
+            case secretsRoleArn = "secretsRoleArn"
+        }
+    }
+
     public struct CmafEncryption: AWSEncodableShape & AWSDecodableShape {
 
         public let spekeKeyProvider: SpekeKeyProvider
@@ -274,15 +292,18 @@ extension MediaPackageVod {
 
     public struct CreatePackagingGroupRequest: AWSEncodableShape {
 
+        public let authorization: Authorization?
         public let id: String
         public let tags: [String: String]?
 
-        public init(id: String, tags: [String: String]? = nil) {
+        public init(authorization: Authorization? = nil, id: String, tags: [String: String]? = nil) {
+            self.authorization = authorization
             self.id = id
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
             case id = "id"
             case tags = "tags"
         }
@@ -291,12 +312,14 @@ extension MediaPackageVod {
     public struct CreatePackagingGroupResponse: AWSDecodableShape {
 
         public let arn: String?
+        public let authorization: Authorization?
         public let domainName: String?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.domainName = domainName
             self.id = id
             self.tags = tags
@@ -304,6 +327,7 @@ extension MediaPackageVod {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case domainName = "domainName"
             case id = "id"
             case tags = "tags"
@@ -567,12 +591,14 @@ extension MediaPackageVod {
     public struct DescribePackagingGroupResponse: AWSDecodableShape {
 
         public let arn: String?
+        public let authorization: Authorization?
         public let domainName: String?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.domainName = domainName
             self.id = id
             self.tags = tags
@@ -580,6 +606,7 @@ extension MediaPackageVod {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case domainName = "domainName"
             case id = "id"
             case tags = "tags"
@@ -937,14 +964,16 @@ extension MediaPackageVod {
 
         /// The ARN of the PackagingGroup.
         public let arn: String?
+        public let authorization: Authorization?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         /// The ID of the PackagingGroup.
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.domainName = domainName
             self.id = id
             self.tags = tags
@@ -952,6 +981,7 @@ extension MediaPackageVod {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case domainName = "domainName"
             case id = "id"
             case tags = "tags"
@@ -1036,5 +1066,48 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdatePackagingGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+        ]
+
+        public let authorization: Authorization?
+        public let id: String
+
+        public init(authorization: Authorization? = nil, id: String) {
+            self.authorization = authorization
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+        }
+    }
+
+    public struct UpdatePackagingGroupResponse: AWSDecodableShape {
+
+        public let arn: String?
+        public let authorization: Authorization?
+        public let domainName: String?
+        public let id: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.authorization = authorization
+            self.domainName = domainName
+            self.id = id
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case id = "id"
+            case tags = "tags"
+        }
     }
 }

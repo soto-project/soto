@@ -20,6 +20,26 @@ import NIO
 
 extension ElasticsearchService {
 
+    ///  Lists all the inbound cross-cluster search connections for a destination domain.
+    public func describeInboundCrossClusterSearchConnectionsPaginator(
+        _ input: DescribeInboundCrossClusterSearchConnectionsRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeInboundCrossClusterSearchConnectionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeInboundCrossClusterSearchConnections, tokenKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Lists all the outbound cross-cluster search connections for a source domain.
+    public func describeOutboundCrossClusterSearchConnectionsPaginator(
+        _ input: DescribeOutboundCrossClusterSearchConnectionsRequest,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOutboundCrossClusterSearchConnectionsResponse,
+        EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeOutboundCrossClusterSearchConnections, tokenKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     public func describePackagesPaginator(
         _ input: DescribePackagesRequest,
@@ -100,6 +120,28 @@ extension ElasticsearchService {
         return client.paginate(input: input, command: listPackagesForDomain, tokenKey: \ListPackagesForDomainResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+}
+
+extension ElasticsearchService.DescribeInboundCrossClusterSearchConnectionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribeInboundCrossClusterSearchConnectionsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
+extension ElasticsearchService.DescribeOutboundCrossClusterSearchConnectionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribeOutboundCrossClusterSearchConnectionsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
 }
 
 extension ElasticsearchService.DescribePackagesRequest: AWSPaginateToken {

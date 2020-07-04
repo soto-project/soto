@@ -187,7 +187,7 @@ public struct Imagebuilder {
         return client.execute(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   Returns a list of distribution configurations. 
+    ///   Returns a list of image build versions. 
     public func listImageBuildVersions(_ input: ListImageBuildVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImageBuildVersionsResponse> {
         return client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
@@ -207,7 +207,7 @@ public struct Imagebuilder {
         return client.execute(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
-    ///   Returns the list of image build versions for the specified semantic version. 
+    ///   Returns the list of images that you have access to. 
     public func listImages(_ input: ListImagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagesResponse> {
         return client.execute(operation: "ListImages", path: "/ListImages", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
     }

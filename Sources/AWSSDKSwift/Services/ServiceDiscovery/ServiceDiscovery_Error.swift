@@ -25,10 +25,13 @@ public enum ServiceDiscoveryErrorType: AWSErrorType {
     case namespaceAlreadyExists(message: String?)
     case namespaceNotFound(message: String?)
     case operationNotFound(message: String?)
+    case requestLimitExceeded(message: String?)
     case resourceInUse(message: String?)
     case resourceLimitExceeded(message: String?)
+    case resourceNotFoundException(message: String?)
     case serviceAlreadyExists(message: String?)
     case serviceNotFound(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension ServiceDiscoveryErrorType {
@@ -52,14 +55,20 @@ extension ServiceDiscoveryErrorType {
             self = .namespaceNotFound(message: message)
         case "OperationNotFound":
             self = .operationNotFound(message: message)
+        case "RequestLimitExceeded":
+            self = .requestLimitExceeded(message: message)
         case "ResourceInUse":
             self = .resourceInUse(message: message)
         case "ResourceLimitExceeded":
             self = .resourceLimitExceeded(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ServiceAlreadyExists":
             self = .serviceAlreadyExists(message: message)
         case "ServiceNotFound":
             self = .serviceNotFound(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }
@@ -83,14 +92,20 @@ extension ServiceDiscoveryErrorType: CustomStringConvertible {
             return "NamespaceNotFound: \(message ?? "")"
         case .operationNotFound(let message):
             return "OperationNotFound: \(message ?? "")"
+        case .requestLimitExceeded(let message):
+            return "RequestLimitExceeded: \(message ?? "")"
         case .resourceInUse(let message):
             return "ResourceInUse: \(message ?? "")"
         case .resourceLimitExceeded(let message):
             return "ResourceLimitExceeded: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
         case .serviceAlreadyExists(let message):
             return "ServiceAlreadyExists: \(message ?? "")"
         case .serviceNotFound(let message):
             return "ServiceNotFound: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
         }
     }
 }
