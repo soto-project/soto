@@ -115,7 +115,7 @@ extension STS {
 
 extension CredentialProviderFactory {
 
-    public static func assumeRole(
+    public static func stsAssumeRole(
         request: STS.AssumeRoleRequest,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region
@@ -131,14 +131,14 @@ extension CredentialProviderFactory {
         }
     }
     
-    public static func saml(request: STS.AssumeRoleWithSAMLRequest, region: Region) -> CredentialProviderFactory {
+    public static func stsSAML(request: STS.AssumeRoleWithSAMLRequest, region: Region) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithSAMLCredentialProvider(request: request, region: region, httpClient: context.httpClient)
             return RotatingCredentialProvider(eventLoop: context.eventLoop, provider: provider)
         }
     }
     
-    public static func webIdentity(request: STS.AssumeRoleWithWebIdentityRequest, region: Region) -> CredentialProviderFactory {
+    public static func stsWebIdentity(request: STS.AssumeRoleWithWebIdentityRequest, region: Region) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(request: request, region: region, httpClient: context.httpClient)
             return RotatingCredentialProvider(eventLoop: context.eventLoop, provider: provider)
