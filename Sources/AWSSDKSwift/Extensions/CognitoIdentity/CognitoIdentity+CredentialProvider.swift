@@ -30,12 +30,12 @@ extension CognitoIdentity {
     }
 
     struct IdentityCredentialProvider: CredentialProvider {
-        let logins: [String: String]
+        let logins: [String: String]?
         let client: AWSClient
         let cognitoIdentity: CognitoIdentity
         let idPromise: EventLoopPromise<String>
 
-        init(identityPoolId: String, logins: [String: String], region: Region, eventLoop: EventLoop, httpClient: AWSHTTPClient) {
+        init(identityPoolId: String, logins: [String: String]?, region: Region, eventLoop: EventLoop, httpClient: AWSHTTPClient) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.logins = logins
@@ -79,7 +79,12 @@ extension CognitoIdentity {
 }
 
 extension CredentialProviderFactory {
-    public static func cognitoIdentity(identityPoolId: String, logins: [String: String], region: Region) -> CredentialProviderFactory {
+    /// Use CognitoIdentity GetId and GetCredentialsForIdentity to provide credentials
+    /// - Parameters:
+    ///   - identityPoolId: Identity pool to get identity from
+    ///   - logins: Optional tokens for authenticating login
+    ///   - region: Region where we can find the identity pool
+    public static func cognitoIdentity(identityPoolId: String, logins: [String: String]?, region: Region) -> CredentialProviderFactory {
         .custom { context in
             let provider = CognitoIdentity.IdentityCredentialProvider(
                 identityPoolId: identityPoolId,
