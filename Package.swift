@@ -295,7 +295,7 @@ let package = Package(
         .target(name: "AWSCodeStar", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/CodeStar"),
         .target(name: "AWSCodeStarNotifications", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/CodeStarNotifications"),
         .target(name: "AWSCodeStarconnections", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/CodeStarconnections"),
-        .target(name: "AWSCognitoIdentity", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/CognitoIdentity"),
+        .target(name: "AWSCognitoIdentity", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/CognitoIdentity", "Extensions/CognitoIdentity"]),
         .target(name: "AWSCognitoIdentityProvider", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/CognitoIdentityProvider"),
         .target(name: "AWSCognitoSync", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/CognitoSync"),
         .target(name: "AWSComprehend", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Comprehend"),
