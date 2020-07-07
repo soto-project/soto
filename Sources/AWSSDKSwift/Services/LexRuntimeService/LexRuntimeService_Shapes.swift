@@ -323,7 +323,7 @@ extension LexRuntimeService {
     public struct PostContentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "inputStream"
-        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
@@ -374,7 +374,7 @@ extension LexRuntimeService {
     public struct PostContentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "audioStream"
-        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
@@ -594,7 +594,7 @@ extension LexRuntimeService {
     public struct PutSessionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "audioStream"
-        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 

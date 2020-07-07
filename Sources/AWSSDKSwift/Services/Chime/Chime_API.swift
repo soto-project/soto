@@ -38,7 +38,7 @@ public struct Chime {
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     public init(
         client: AWSClient,
-        partition: AWSSDKSwiftCore.Partition = .aws,
+        partition: AWSPartition = .aws,
         endpoint: String? = nil
     ) {
         self.client = client

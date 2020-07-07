@@ -119,7 +119,7 @@ extension AppConfig {
     public struct Configuration: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "content"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationVersion", location: .header(locationName: "Configuration-Version")), 
             AWSMemberEncoding(label: "content", location: .body(locationName: "Content")), 
@@ -442,7 +442,7 @@ extension AppConfig {
     public struct CreateHostedConfigurationVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "content"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")), 
@@ -1086,7 +1086,7 @@ extension AppConfig {
     public struct HostedConfigurationVersion: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "content"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .header(locationName: "Application-Id")), 
             AWSMemberEncoding(label: "configurationProfileId", location: .header(locationName: "Configuration-Profile-Id")), 

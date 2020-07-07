@@ -752,7 +752,7 @@ extension CodeGuruProfiler {
     public struct GetProfileResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "profile"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
@@ -1127,7 +1127,7 @@ extension CodeGuruProfiler {
     public struct PostAgentProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "agentProfile"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "profileToken", location: .querystring(locationName: "profileToken")), 

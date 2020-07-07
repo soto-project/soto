@@ -1206,7 +1206,7 @@ extension CodeArtifact {
     public struct GetPackageVersionAssetResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "asset"
-        public static let _payloadOptions: PayloadOptions = [.raw, .allowStreaming]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "assetName", location: .header(locationName: "X-AssetName")), 
             AWSMemberEncoding(label: "packageVersion", location: .header(locationName: "X-PackageVersion")), 

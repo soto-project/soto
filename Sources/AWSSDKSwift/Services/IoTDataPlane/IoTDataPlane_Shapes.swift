@@ -53,7 +53,7 @@ extension IoTDataPlane {
     public struct DeleteThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
 
         /// The state information, in JSON format.
         public let payload: AWSPayload
@@ -98,7 +98,7 @@ extension IoTDataPlane {
     public struct GetThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
 
         /// The state information, in JSON format.
         public let payload: AWSPayload?
@@ -168,7 +168,7 @@ extension IoTDataPlane {
     public struct PublishRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "qos", location: .querystring(locationName: "qos")), 
             AWSMemberEncoding(label: "topic", location: .uri(locationName: "topic"))
@@ -198,7 +198,7 @@ extension IoTDataPlane {
     public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
@@ -232,7 +232,7 @@ extension IoTDataPlane {
     public struct UpdateThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
 
         /// The state information, in JSON format.
         public let payload: AWSPayload?

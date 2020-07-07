@@ -1788,7 +1788,7 @@ extension APIGateway {
     public struct ExportResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
@@ -2923,7 +2923,7 @@ extension APIGateway {
     public struct ImportApiKeysRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
             AWSMemberEncoding(label: "format", location: .querystring(locationName: "format"))
@@ -2948,7 +2948,7 @@ extension APIGateway {
     public struct ImportDocumentationPartsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
             AWSMemberEncoding(label: "mode", location: .querystring(locationName: "mode")), 
@@ -2977,7 +2977,7 @@ extension APIGateway {
     public struct ImportRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
             AWSMemberEncoding(label: "parameters", location: .querystring(locationName: "parameters"))
@@ -3578,7 +3578,7 @@ extension APIGateway {
     public struct PutRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
             AWSMemberEncoding(label: "mode", location: .querystring(locationName: "mode")), 
@@ -3828,7 +3828,7 @@ extension APIGateway {
     public struct SdkResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _payloadOptions: PayloadOptions = [.raw]
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))

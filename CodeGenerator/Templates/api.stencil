@@ -36,7 +36,7 @@ public struct {{ name }} {
 {% if regionalized %}
         region: AWSSDKSwiftCore.Region? = nil,
 {% endif %}
-        partition: AWSSDKSwiftCore.Partition = .aws,
+        partition: AWSPartition = .aws,
         endpoint: String? = nil
     ) {
         self.client = client

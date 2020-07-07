@@ -42,7 +42,7 @@ public struct IoT1ClickDevicesService {
     public init(
         client: AWSClient,
         region: AWSSDKSwiftCore.Region? = nil,
-        partition: AWSSDKSwiftCore.Partition = .aws,
+        partition: AWSPartition = .aws,
         endpoint: String? = nil
     ) {
         self.client = client

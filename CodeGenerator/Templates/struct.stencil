@@ -4,7 +4,7 @@
         /// The key for the payload
         public static let _payloadPath: String = "{{struct.payload}}"
 {%if struct.payloadOptions %}
-        public static let _payloadOptions: PayloadOptions = [{{struct.payloadOptions}}]
+        public static let _payloadOptions: AWSShapePayloadOptions = [{{struct.payloadOptions}}]
 {%endif %}
 {%endif %}
 {%if struct.namespace %}
