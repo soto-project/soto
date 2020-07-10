@@ -1,7 +1,6 @@
 {%include "header.stencil" %}
 
 @_exported import AWSSDKSwiftCore
-import NIO
 
 {% if middlewareFramework %}
 import {{ middlewareFramework }}
@@ -31,13 +30,15 @@ public struct {{ name }} {
 {% endif %}
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - timeout: Timeout value for HTTP requests
     public init(
         client: AWSClient,
 {% if regionalized %}
         region: AWSSDKSwiftCore.Region? = nil,
 {% endif %}
         partition: AWSPartition = .aws,
-        endpoint: String? = nil
+        endpoint: String? = nil,
+        timeout: TimeAmount? = nil
     ) {
         self.client = client
         self.serviceConfig = AWSServiceConfig(
@@ -61,8 +62,8 @@ public struct {{ name }} {
             serviceEndpoints: [{{ serviceEndpoints|join:", "}}]{% endif %}{% if partitionEndpoints %},
             partitionEndpoints: [{{ partitionEndpoints|join:", "}}]{% endif %}{% if errorTypes %},
             possibleErrorTypes: [{{errorTypes}}.self]{% endif %}{% if middlewareClass %},
-            middlewares: [{{middlewareClass}}]{% endif %}
-
+            middlewares: [{{middlewareClass}}]{% endif %},
+            timeout: timeout
         )
     }
     
