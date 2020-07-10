@@ -63,31 +63,31 @@ public struct ElasticInference {
 
     ///   Describes the locations in which a given accelerator type or set of types is present in a given region. 
     public func describeAcceleratorOfferings(_ input: DescribeAcceleratorOfferingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAcceleratorOfferingsResponse> {
-        return client.execute(operation: "DescribeAcceleratorOfferings", path: "/describe-accelerator-offerings", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeAcceleratorOfferings", path: "/describe-accelerator-offerings", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. 
     public func describeAcceleratorTypes(_ input: DescribeAcceleratorTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAcceleratorTypesResponse> {
-        return client.execute(operation: "DescribeAcceleratorTypes", path: "/describe-accelerator-types", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeAcceleratorTypes", path: "/describe-accelerator-types", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Describes information over a provided set of accelerators belonging to an account. 
     public func describeAccelerators(_ input: DescribeAcceleratorsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAcceleratorsResponse> {
-        return client.execute(operation: "DescribeAccelerators", path: "/describe-accelerators", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeAccelerators", path: "/describe-accelerators", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Returns all tags of an Elastic Inference Accelerator. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Adds the specified tags to an Elastic Inference Accelerator. 
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResult> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///   Removes the specified tags from an Elastic Inference Accelerator. 
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResult> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -61,6 +61,6 @@ public struct WorkMailMessageFlow {
 
     ///  Retrieves the raw content of an in-transit email message, in MIME format. 
     public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRawMessageContentResponse> {
-        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -43,7 +43,7 @@ class AWSRequestTests: XCTestCase {
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
-        httpMethod: String = "POST",
+        httpMethod: HTTPMethod = .POST,
         input: Input,
         expected: String
     ) {
@@ -68,7 +68,7 @@ class AWSRequestTests: XCTestCase {
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
-        httpMethod: String = "POST",
+        httpMethod: HTTPMethod = .POST,
         input: Input
     ) {
         do {
@@ -85,7 +85,7 @@ class AWSRequestTests: XCTestCase {
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
-        httpMethod: String = "POST",
+        httpMethod: HTTPMethod = .POST,
         input: Input
     ) {
         do {
@@ -119,7 +119,7 @@ class AWSRequestTests: XCTestCase {
             config: s3.serviceConfig,
             operation: "PutBucketLifecycleConfiguration",
             path: "/{Bucket}?lifecycle",
-            httpMethod: "PUT",
+            httpMethod: .PUT,
             input: request,
             expected: expectedResult
         )
@@ -135,7 +135,7 @@ class AWSRequestTests: XCTestCase {
             tags: [SNS.Tag(key: "tag1", value: "23"), SNS.Tag(key: "tag2", value: "true")]
         )
 
-        testAWSShapeRequest(config: sns.serviceConfig, operation: "CreateTopic", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(config: sns.serviceConfig, operation: "CreateTopic", path: "/", httpMethod: .POST, input: request, expected: expectedResult)
     }
 
     func testCloudFrontCreateDistribution() {
@@ -167,7 +167,7 @@ class AWSRequestTests: XCTestCase {
             config: cloudFront.serviceConfig,
             operation: "CreateDistribution2019_03_26",
             path: "/2019-03-26/distribution",
-            httpMethod: "POST",
+            httpMethod: .POST,
             input: request,
             expected: expectedResult
         )
@@ -178,7 +178,7 @@ class AWSRequestTests: XCTestCase {
         let expectedResult = "Action=CreateImage&InstanceId=i-123123&Name=TestInstance&Version=2016-11-15"
         let request = EC2.CreateImageRequest(instanceId: "i-123123", name: "TestInstance")
 
-        testAWSShapeRequest(config: ec2.serviceConfig, operation: "CreateImage", path: "/", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(config: ec2.serviceConfig, operation: "CreateImage", path: "/", httpMethod: .POST, input: request, expected: expectedResult)
     }
 
     func testEC2CreateInstanceExportTask() {
@@ -191,7 +191,7 @@ class AWSRequestTests: XCTestCase {
             config: ec2.serviceConfig,
             operation: "CreateInstanceExportTask",
             path: "/",
-            httpMethod: "POST",
+            httpMethod: .POST,
             input: request,
             expected: expectedResult
         )

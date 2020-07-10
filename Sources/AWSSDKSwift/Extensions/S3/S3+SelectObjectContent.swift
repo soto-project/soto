@@ -132,7 +132,7 @@ extension S3 {
     public func selectObjectContentEventStream(_ input: SelectObjectContentRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (SelectObjectContentEventStream, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SelectObjectContentOutput> {
         // byte buffer for storing unprocessed data
         var selectByteBuffer: ByteBuffer? = nil
-        return client.execute(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
+        return client.execute(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
             var byteBuffer = byteBuffer
             if var selectByteBuffer2 = selectByteBuffer {
                 selectByteBuffer2.writeBuffer(&byteBuffer)

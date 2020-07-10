@@ -62,81 +62,81 @@ public struct IoT1ClickProjects {
 
     ///  Associates a physical device with a placement.
     public func associateDeviceWithPlacement(_ input: AssociateDeviceWithPlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateDeviceWithPlacementResponse> {
-        return client.execute(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an empty placement.
     public func createPlacement(_ input: CreatePlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePlacementResponse> {
-        return client.execute(operation: "CreatePlacement", path: "/projects/{projectName}/placements", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreatePlacement", path: "/projects/{projectName}/placements", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
     public func createProject(_ input: CreateProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectResponse> {
-        return client.execute(operation: "CreateProject", path: "/projects", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable. 
     public func deletePlacement(_ input: DeletePlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePlacementResponse> {
-        return client.execute(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable. 
     public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProjectResponse> {
-        return client.execute(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Describes a placement in a project.
     public func describePlacement(_ input: DescribePlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePlacementResponse> {
-        return client.execute(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns an object describing a project.
     public func describeProject(_ input: DescribeProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProjectResponse> {
-        return client.execute(operation: "DescribeProject", path: "/projects/{projectName}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeProject", path: "/projects/{projectName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes a physical device from a placement.
     public func disassociateDeviceFromPlacement(_ input: DisassociateDeviceFromPlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateDeviceFromPlacementResponse> {
-        return client.execute(operation: "DisassociateDeviceFromPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DisassociateDeviceFromPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns an object enumerating the devices in a placement.
     public func getDevicesInPlacement(_ input: GetDevicesInPlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevicesInPlacementResponse> {
-        return client.execute(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the placement(s) of a project.
     public func listPlacements(_ input: ListPlacementsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPlacementsResponse> {
-        return client.execute(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
     public func listProjects(_ input: ListProjectsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProjectsResponse> {
-        return client.execute(operation: "ListProjects", path: "/projects", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the tags (metadata key/value pairs) which you have assigned to the resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see AWS Tagging Strategies.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes one or more tags (metadata key/value pairs) from a resource.
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
     public func updatePlacement(_ input: UpdatePlacementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePlacementResponse> {
-        return client.execute(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
     public func updateProject(_ input: UpdateProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProjectResponse> {
-        return client.execute(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }
