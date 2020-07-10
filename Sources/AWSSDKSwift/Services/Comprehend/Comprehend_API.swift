@@ -62,256 +62,256 @@ public struct Comprehend {
 
     ///  Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages. 
     public func batchDetectDominantLanguage(_ input: BatchDetectDominantLanguageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDetectDominantLanguageResponse> {
-        return client.execute(operation: "BatchDetectDominantLanguage", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "BatchDetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see how-entities 
     public func batchDetectEntities(_ input: BatchDetectEntitiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDetectEntitiesResponse> {
-        return client.execute(operation: "BatchDetectEntities", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "BatchDetectEntities", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Detects the key noun phrases found in a batch of documents.
     public func batchDetectKeyPhrases(_ input: BatchDetectKeyPhrasesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDetectKeyPhrasesResponse> {
-        return client.execute(operation: "BatchDetectKeyPhrases", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "BatchDetectKeyPhrases", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Inspects a batch of documents and returns an inference of the prevailing sentiment, POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
     public func batchDetectSentiment(_ input: BatchDetectSentimentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDetectSentimentResponse> {
-        return client.execute(operation: "BatchDetectSentiment", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "BatchDetectSentiment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see how-syntax.
     public func batchDetectSyntax(_ input: BatchDetectSyntaxRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDetectSyntaxResponse> {
-        return client.execute(operation: "BatchDetectSyntax", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "BatchDetectSyntax", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint.
     public func classifyDocument(_ input: ClassifyDocumentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClassifyDocumentResponse> {
-        return client.execute(operation: "ClassifyDocument", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ClassifyDocument", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new document classifier that you can use to categorize documents. To create a classifier you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see how-document-classification.
     public func createDocumentClassifier(_ input: CreateDocumentClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDocumentClassifierResponse> {
-        return client.execute(operation: "CreateDocumentClassifier", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a model-specific endpoint for synchronous inference for a previously trained custom model 
     public func createEndpoint(_ input: CreateEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEndpointResponse> {
-        return client.execute(operation: "CreateEndpoint", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the API. 
     public func createEntityRecognizer(_ input: CreateEntityRecognizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEntityRecognizerResponse> {
-        return client.execute(operation: "CreateEntityRecognizer", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use. 
     public func deleteDocumentClassifier(_ input: DeleteDocumentClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDocumentClassifierResponse> {
-        return client.execute(operation: "DeleteDocumentClassifier", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted.
     public func deleteEndpoint(_ input: DeleteEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEndpointResponse> {
-        return client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use. 
     public func deleteEntityRecognizer(_ input: DeleteEntityRecognizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEntityRecognizerResponse> {
-        return client.execute(operation: "DeleteEntityRecognizer", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
     public func describeDocumentClassificationJob(_ input: DescribeDocumentClassificationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDocumentClassificationJobResponse> {
-        return client.execute(operation: "DescribeDocumentClassificationJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeDocumentClassificationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a document classifier.
     public func describeDocumentClassifier(_ input: DescribeDocumentClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDocumentClassifierResponse> {
-        return client.execute(operation: "DescribeDocumentClassifier", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a dominant language detection job. Use this operation to get the status of a detection job.
     public func describeDominantLanguageDetectionJob(_ input: DescribeDominantLanguageDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDominantLanguageDetectionJobResponse> {
-        return client.execute(operation: "DescribeDominantLanguageDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeDominantLanguageDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint.
     public func describeEndpoint(_ input: DescribeEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEndpointResponse> {
-        return client.execute(operation: "DescribeEndpoint", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with an entities detection job. Use this operation to get the status of a detection job.
     public func describeEntitiesDetectionJob(_ input: DescribeEntitiesDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEntitiesDetectionJobResponse> {
-        return client.execute(operation: "DescribeEntitiesDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on.
     public func describeEntityRecognizer(_ input: DescribeEntityRecognizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEntityRecognizerResponse> {
-        return client.execute(operation: "DescribeEntityRecognizer", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     public func describeKeyPhrasesDetectionJob(_ input: DescribeKeyPhrasesDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeKeyPhrasesDetectionJobResponse> {
-        return client.execute(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     public func describeSentimentDetectionJob(_ input: DescribeSentimentDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSentimentDetectionJobResponse> {
-        return client.execute(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the properties associated with a topic detection job. Use this operation to get the status of a detection job.
     public func describeTopicsDetectionJob(_ input: DescribeTopicsDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTopicsDetectionJobResponse> {
-        return client.execute(operation: "DescribeTopicsDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeTopicsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Determines the dominant language of the input text. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages. 
     public func detectDominantLanguage(_ input: DetectDominantLanguageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectDominantLanguageResponse> {
-        return client.execute(operation: "DetectDominantLanguage", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Inspects text for named entities, and returns information about them. For more information, about named entities, see how-entities. 
     public func detectEntities(_ input: DetectEntitiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectEntitiesResponse> {
-        return client.execute(operation: "DetectEntities", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DetectEntities", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Detects the key noun phrases found in the text. 
     public func detectKeyPhrases(_ input: DetectKeyPhrasesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectKeyPhrasesResponse> {
-        return client.execute(operation: "DetectKeyPhrases", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DetectKeyPhrases", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE). 
     public func detectSentiment(_ input: DetectSentimentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectSentimentResponse> {
-        return client.execute(operation: "DetectSentiment", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DetectSentiment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Inspects text for syntax and the part of speech of words in the document. For more information, how-syntax.
     public func detectSyntax(_ input: DetectSyntaxRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectSyntaxResponse> {
-        return client.execute(operation: "DetectSyntax", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DetectSyntax", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the documentation classification jobs that you have submitted.
     public func listDocumentClassificationJobs(_ input: ListDocumentClassificationJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentClassificationJobsResponse> {
-        return client.execute(operation: "ListDocumentClassificationJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListDocumentClassificationJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the document classifiers that you have created.
     public func listDocumentClassifiers(_ input: ListDocumentClassifiersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentClassifiersResponse> {
-        return client.execute(operation: "ListDocumentClassifiers", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListDocumentClassifiers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the dominant language detection jobs that you have submitted.
     public func listDominantLanguageDetectionJobs(_ input: ListDominantLanguageDetectionJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDominantLanguageDetectionJobsResponse> {
-        return client.execute(operation: "ListDominantLanguageDetectionJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListDominantLanguageDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of all existing endpoints that you've created.
     public func listEndpoints(_ input: ListEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEndpointsResponse> {
-        return client.execute(operation: "ListEndpoints", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the entity detection jobs that you have submitted.
     public func listEntitiesDetectionJobs(_ input: ListEntitiesDetectionJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntitiesDetectionJobsResponse> {
-        return client.execute(operation: "ListEntitiesDetectionJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListEntitiesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
     public func listEntityRecognizers(_ input: ListEntityRecognizersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntityRecognizersResponse> {
-        return client.execute(operation: "ListEntityRecognizers", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListEntityRecognizers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Get a list of key phrase detection jobs that you have submitted.
     public func listKeyPhrasesDetectionJobs(_ input: ListKeyPhrasesDetectionJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKeyPhrasesDetectionJobsResponse> {
-        return client.execute(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of sentiment detection jobs that you have submitted.
     public func listSentimentDetectionJobs(_ input: ListSentimentDetectionJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSentimentDetectionJobsResponse> {
-        return client.execute(operation: "ListSentimentDetectionJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListSentimentDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists all tags associated with a given Amazon Comprehend resource. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the topic detection jobs that you have submitted.
     public func listTopicsDetectionJobs(_ input: ListTopicsDetectionJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTopicsDetectionJobsResponse> {
-        return client.execute(operation: "ListTopicsDetectionJobs", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTopicsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous document classification job. Use the operation to track the progress of the job.
     public func startDocumentClassificationJob(_ input: StartDocumentClassificationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDocumentClassificationJobResponse> {
-        return client.execute(operation: "StartDocumentClassificationJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StartDocumentClassificationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous dominant language detection job for a collection of documents. Use the operation to track the status of a job.
     public func startDominantLanguageDetectionJob(_ input: StartDominantLanguageDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDominantLanguageDetectionJobResponse> {
-        return client.execute(operation: "StartDominantLanguageDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StartDominantLanguageDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job. This API can be used for either standard entity detection or custom entity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide access to the recognizer being used to detect the custom entity.
     public func startEntitiesDetectionJob(_ input: StartEntitiesDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartEntitiesDetectionJobResponse> {
-        return client.execute(operation: "StartEntitiesDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StartEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     public func startKeyPhrasesDetectionJob(_ input: StartKeyPhrasesDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartKeyPhrasesDetectionJobResponse> {
-        return client.execute(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous sentiment detection job for a collection of documents. use the operation to track the status of a job.
     public func startSentimentDetectionJob(_ input: StartSentimentDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSentimentDetectionJobResponse> {
-        return client.execute(operation: "StartSentimentDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StartSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job.
     public func startTopicsDetectionJob(_ input: StartTopicsDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTopicsDetectionJobResponse> {
-        return client.execute(operation: "StartTopicsDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StartTopicsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopDominantLanguageDetectionJob(_ input: StopDominantLanguageDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopDominantLanguageDetectionJobResponse> {
-        return client.execute(operation: "StopDominantLanguageDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StopDominantLanguageDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopEntitiesDetectionJob(_ input: StopEntitiesDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopEntitiesDetectionJobResponse> {
-        return client.execute(operation: "StopEntitiesDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StopEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopKeyPhrasesDetectionJob(_ input: StopKeyPhrasesDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopKeyPhrasesDetectionJobResponse> {
-        return client.execute(operation: "StopKeyPhrasesDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StopKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops a sentiment detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopSentimentDetectionJob(_ input: StopSentimentDetectionJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSentimentDetectionJobResponse> {
-        return client.execute(operation: "StopSentimentDetectionJob", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StopSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops a document classifier training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. 
     public func stopTrainingDocumentClassifier(_ input: StopTrainingDocumentClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTrainingDocumentClassifierResponse> {
-        return client.execute(operation: "StopTrainingDocumentClassifier", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StopTrainingDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Stops an entity recognizer training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     public func stopTrainingEntityRecognizer(_ input: StopTrainingEntityRecognizerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTrainingEntityRecognizerResponse> {
-        return client.execute(operation: "StopTrainingEntityRecognizer", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "StopTrainingEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes a specific tag associated with an Amazon Comprehend resource. 
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates information about the specified endpoint.
     public func updateEndpoint(_ input: UpdateEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointResponse> {
-        return client.execute(operation: "UpdateEndpoint", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

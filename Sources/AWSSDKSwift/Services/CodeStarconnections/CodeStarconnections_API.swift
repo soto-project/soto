@@ -62,56 +62,56 @@ public struct CodeStarconnections {
 
     ///  Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     public func createConnection(_ input: CreateConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionOutput> {
-        return client.execute(operation: "CreateConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider.  A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console. 
     public func createHost(_ input: CreateHostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHostOutput> {
-        return client.execute(operation: "CreateHost", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateHost", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  The connection to be deleted.
     public func deleteConnection(_ input: DeleteConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionOutput> {
-        return client.execute(operation: "DeleteConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.  A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. 
     public func deleteHost(_ input: DeleteHostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHostOutput> {
-        return client.execute(operation: "DeleteHost", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteHost", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the connection ARN and details such as status, owner, and provider type.
     public func getConnection(_ input: GetConnectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionOutput> {
-        return client.execute(operation: "GetConnection", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
     public func getHost(_ input: GetHostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHostOutput> {
-        return client.execute(operation: "GetHost", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetHost", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the connections associated with your account.
     public func listConnections(_ input: ListConnectionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectionsOutput> {
-        return client.execute(operation: "ListConnections", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListConnections", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists the hosts associated with your account.
     public func listHosts(_ input: ListHostsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHostsOutput> {
-        return client.execute(operation: "ListHosts", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListHosts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes tags from an AWS resource.
     public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

@@ -62,6 +62,6 @@ public struct EC2InstanceConnect {
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
     public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
-        return client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

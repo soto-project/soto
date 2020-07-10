@@ -63,16 +63,16 @@ public struct Pricing {
 
     ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
     public func describeServices(_ input: DescribeServicesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServicesResponse> {
-        return client.execute(operation: "DescribeServices", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of attribute values. Attibutes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the AWS Billing and Cost Management User Guide.
     public func getAttributeValues(_ input: GetAttributeValuesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttributeValuesResponse> {
-        return client.execute(operation: "GetAttributeValues", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetAttributeValues", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Returns a list of all products that match the filter criteria.
     public func getProducts(_ input: GetProductsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProductsResponse> {
-        return client.execute(operation: "GetProducts", path: "/", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetProducts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

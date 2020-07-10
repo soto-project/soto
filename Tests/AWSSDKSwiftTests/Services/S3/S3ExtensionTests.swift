@@ -286,7 +286,7 @@ class S3ExtensionTests: XCTestCase {
             url: url,
             serviceProtocol: Self.s3.serviceConfig.serviceProtocol,
             operation: "TestOperation",
-            httpMethod: "GET",
+            httpMethod: .GET,
             httpHeaders: [:],
             body: .empty
         ).applyMiddlewares(Self.s3.serviceConfig.middlewares)

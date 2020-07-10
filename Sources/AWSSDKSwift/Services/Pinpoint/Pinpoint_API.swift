@@ -63,561 +63,561 @@ public struct Pinpoint {
 
     ///   Creates an application.
     public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
-        return client.execute(operation: "CreateApp", path: "/v1/apps", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateApp", path: "/v1/apps", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new campaign for an application or updates the settings of an existing campaign for an application.
     public func createCampaign(_ input: CreateCampaignRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCampaignResponse> {
-        return client.execute(operation: "CreateCampaign", path: "/v1/apps/{application-id}/campaigns", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateCampaign", path: "/v1/apps/{application-id}/campaigns", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a message template for messages that are sent through the email channel.
     public func createEmailTemplate(_ input: CreateEmailTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEmailTemplateResponse> {
-        return client.execute(operation: "CreateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an export job for an application.
     public func createExportJob(_ input: CreateExportJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExportJobResponse> {
-        return client.execute(operation: "CreateExportJob", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateExportJob", path: "/v1/apps/{application-id}/jobs/export", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an import job for an application.
     public func createImportJob(_ input: CreateImportJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImportJobResponse> {
-        return client.execute(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a journey for an application.
     public func createJourney(_ input: CreateJourneyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJourneyResponse> {
-        return client.execute(operation: "CreateJourney", path: "/v1/apps/{application-id}/journeys", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateJourney", path: "/v1/apps/{application-id}/journeys", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a message template for messages that are sent through a push notification channel.
     public func createPushTemplate(_ input: CreatePushTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePushTemplateResponse> {
-        return client.execute(operation: "CreatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates an Amazon Pinpoint configuration for a recommender model.
     public func createRecommenderConfiguration(_ input: CreateRecommenderConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecommenderConfigurationResponse> {
-        return client.execute(operation: "CreateRecommenderConfiguration", path: "/v1/recommenders", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateRecommenderConfiguration", path: "/v1/recommenders", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     public func createSegment(_ input: CreateSegmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSegmentResponse> {
-        return client.execute(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a message template for messages that are sent through the SMS channel.
     public func createSmsTemplate(_ input: CreateSmsTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSmsTemplateResponse> {
-        return client.execute(operation: "CreateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a message template for messages that are sent through the voice channel.
     public func createVoiceTemplate(_ input: CreateVoiceTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVoiceTemplateResponse> {
-        return client.execute(operation: "CreateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "CreateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the ADM channel for an application and deletes any existing settings for the channel.
     public func deleteAdmChannel(_ input: DeleteAdmChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAdmChannelResponse> {
-        return client.execute(operation: "DeleteAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the APNs channel for an application and deletes any existing settings for the channel.
     public func deleteApnsChannel(_ input: DeleteApnsChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApnsChannelResponse> {
-        return client.execute(operation: "DeleteApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
     public func deleteApnsSandboxChannel(_ input: DeleteApnsSandboxChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApnsSandboxChannelResponse> {
-        return client.execute(operation: "DeleteApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
     public func deleteApnsVoipChannel(_ input: DeleteApnsVoipChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApnsVoipChannelResponse> {
-        return client.execute(operation: "DeleteApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
     public func deleteApnsVoipSandboxChannel(_ input: DeleteApnsVoipSandboxChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApnsVoipSandboxChannelResponse> {
-        return client.execute(operation: "DeleteApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an application.
     public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResponse> {
-        return client.execute(operation: "DeleteApp", path: "/v1/apps/{application-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteApp", path: "/v1/apps/{application-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the Baidu channel for an application and deletes any existing settings for the channel.
     public func deleteBaiduChannel(_ input: DeleteBaiduChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBaiduChannelResponse> {
-        return client.execute(operation: "DeleteBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a campaign from an application.
     public func deleteCampaign(_ input: DeleteCampaignRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCampaignResponse> {
-        return client.execute(operation: "DeleteCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the email channel for an application and deletes any existing settings for the channel.
     public func deleteEmailChannel(_ input: DeleteEmailChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEmailChannelResponse> {
-        return client.execute(operation: "DeleteEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a message template for messages that were sent through the email channel.
     public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEmailTemplateResponse> {
-        return client.execute(operation: "DeleteEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an endpoint from an application.
     public func deleteEndpoint(_ input: DeleteEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEndpointResponse> {
-        return client.execute(operation: "DeleteEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes the event stream for an application.
     public func deleteEventStream(_ input: DeleteEventStreamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEventStreamResponse> {
-        return client.execute(operation: "DeleteEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the GCM channel for an application and deletes any existing settings for the channel.
     public func deleteGcmChannel(_ input: DeleteGcmChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGcmChannelResponse> {
-        return client.execute(operation: "DeleteGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a journey from an application.
     public func deleteJourney(_ input: DeleteJourneyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJourneyResponse> {
-        return client.execute(operation: "DeleteJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a message template for messages that were sent through a push notification channel.
     public func deletePushTemplate(_ input: DeletePushTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePushTemplateResponse> {
-        return client.execute(operation: "DeletePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeletePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes an Amazon Pinpoint configuration for a recommender model.
     public func deleteRecommenderConfiguration(_ input: DeleteRecommenderConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRecommenderConfigurationResponse> {
-        return client.execute(operation: "DeleteRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a segment from an application.
     public func deleteSegment(_ input: DeleteSegmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSegmentResponse> {
-        return client.execute(operation: "DeleteSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the SMS channel for an application and deletes any existing settings for the channel.
     public func deleteSmsChannel(_ input: DeleteSmsChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSmsChannelResponse> {
-        return client.execute(operation: "DeleteSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a message template for messages that were sent through the SMS channel.
     public func deleteSmsTemplate(_ input: DeleteSmsTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSmsTemplateResponse> {
-        return client.execute(operation: "DeleteSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes all the endpoints that are associated with a specific user ID.
     public func deleteUserEndpoints(_ input: DeleteUserEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserEndpointsResponse> {
-        return client.execute(operation: "DeleteUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Disables the voice channel for an application and deletes any existing settings for the channel.
     public func deleteVoiceChannel(_ input: DeleteVoiceChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVoiceChannelResponse> {
-        return client.execute(operation: "DeleteVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Deletes a message template for messages that were sent through the voice channel.
     public func deleteVoiceTemplate(_ input: DeleteVoiceTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVoiceTemplateResponse> {
-        return client.execute(operation: "DeleteVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "DeleteVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the ADM channel for an application.
     public func getAdmChannel(_ input: GetAdmChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAdmChannelResponse> {
-        return client.execute(operation: "GetAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the APNs channel for an application.
     public func getApnsChannel(_ input: GetApnsChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApnsChannelResponse> {
-        return client.execute(operation: "GetApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the APNs sandbox channel for an application.
     public func getApnsSandboxChannel(_ input: GetApnsSandboxChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApnsSandboxChannelResponse> {
-        return client.execute(operation: "GetApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the APNs VoIP channel for an application.
     public func getApnsVoipChannel(_ input: GetApnsVoipChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApnsVoipChannelResponse> {
-        return client.execute(operation: "GetApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
     public func getApnsVoipSandboxChannel(_ input: GetApnsVoipSandboxChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApnsVoipSandboxChannelResponse> {
-        return client.execute(operation: "GetApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about an application.
     public func getApp(_ input: GetAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppResponse> {
-        return client.execute(operation: "GetApp", path: "/v1/apps/{application-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApp", path: "/v1/apps/{application-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
     public func getApplicationDateRangeKpi(_ input: GetApplicationDateRangeKpiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationDateRangeKpiResponse> {
-        return client.execute(operation: "GetApplicationDateRangeKpi", path: "/v1/apps/{application-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApplicationDateRangeKpi", path: "/v1/apps/{application-id}/kpis/daterange/{kpi-name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the settings for an application.
     public func getApplicationSettings(_ input: GetApplicationSettingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationSettingsResponse> {
-        return client.execute(operation: "GetApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
     public func getApps(_ input: GetAppsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppsResponse> {
-        return client.execute(operation: "GetApps", path: "/v1/apps", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetApps", path: "/v1/apps", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the Baidu channel for an application.
     public func getBaiduChannel(_ input: GetBaiduChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBaiduChannelResponse> {
-        return client.execute(operation: "GetBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a campaign.
     public func getCampaign(_ input: GetCampaignRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignResponse> {
-        return client.execute(operation: "GetCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about all the activities for a campaign.
     public func getCampaignActivities(_ input: GetCampaignActivitiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignActivitiesResponse> {
-        return client.execute(operation: "GetCampaignActivities", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/activities", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetCampaignActivities", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/activities", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
     public func getCampaignDateRangeKpi(_ input: GetCampaignDateRangeKpiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignDateRangeKpiResponse> {
-        return client.execute(operation: "GetCampaignDateRangeKpi", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetCampaignDateRangeKpi", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/kpis/daterange/{kpi-name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
     public func getCampaignVersion(_ input: GetCampaignVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignVersionResponse> {
-        return client.execute(operation: "GetCampaignVersion", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions/{version}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetCampaignVersion", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions/{version}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for all versions of a campaign.
     public func getCampaignVersions(_ input: GetCampaignVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignVersionsResponse> {
-        return client.execute(operation: "GetCampaignVersions", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetCampaignVersions", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
     public func getCampaigns(_ input: GetCampaignsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignsResponse> {
-        return client.execute(operation: "GetCampaigns", path: "/v1/apps/{application-id}/campaigns", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetCampaigns", path: "/v1/apps/{application-id}/campaigns", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the history and status of each channel for an application.
     public func getChannels(_ input: GetChannelsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelsResponse> {
-        return client.execute(operation: "GetChannels", path: "/v1/apps/{application-id}/channels", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetChannels", path: "/v1/apps/{application-id}/channels", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the email channel for an application.
     public func getEmailChannel(_ input: GetEmailChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEmailChannelResponse> {
-        return client.execute(operation: "GetEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through the email channel.
     public func getEmailTemplate(_ input: GetEmailTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEmailTemplateResponse> {
-        return client.execute(operation: "GetEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the settings and attributes of a specific endpoint for an application.
     public func getEndpoint(_ input: GetEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEndpointResponse> {
-        return client.execute(operation: "GetEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the event stream settings for an application.
     public func getEventStream(_ input: GetEventStreamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventStreamResponse> {
-        return client.execute(operation: "GetEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of a specific export job for an application.
     public func getExportJob(_ input: GetExportJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExportJobResponse> {
-        return client.execute(operation: "GetExportJob", path: "/v1/apps/{application-id}/jobs/export/{job-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetExportJob", path: "/v1/apps/{application-id}/jobs/export/{job-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of all the export jobs for an application.
     public func getExportJobs(_ input: GetExportJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExportJobsResponse> {
-        return client.execute(operation: "GetExportJobs", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetExportJobs", path: "/v1/apps/{application-id}/jobs/export", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the GCM channel for an application.
     public func getGcmChannel(_ input: GetGcmChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGcmChannelResponse> {
-        return client.execute(operation: "GetGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of a specific import job for an application.
     public func getImportJob(_ input: GetImportJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportJobResponse> {
-        return client.execute(operation: "GetImportJob", path: "/v1/apps/{application-id}/jobs/import/{job-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetImportJob", path: "/v1/apps/{application-id}/jobs/import/{job-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of all the import jobs for an application.
     public func getImportJobs(_ input: GetImportJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportJobsResponse> {
-        return client.execute(operation: "GetImportJobs", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetImportJobs", path: "/v1/apps/{application-id}/jobs/import", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a journey.
     public func getJourney(_ input: GetJourneyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyResponse> {
-        return client.execute(operation: "GetJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
     public func getJourneyDateRangeKpi(_ input: GetJourneyDateRangeKpiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyDateRangeKpiResponse> {
-        return client.execute(operation: "GetJourneyDateRangeKpi", path: "/v1/apps/{application-id}/journeys/{journey-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetJourneyDateRangeKpi", path: "/v1/apps/{application-id}/journeys/{journey-id}/kpis/daterange/{kpi-name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
     public func getJourneyExecutionActivityMetrics(_ input: GetJourneyExecutionActivityMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyExecutionActivityMetricsResponse> {
-        return client.execute(operation: "GetJourneyExecutionActivityMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/activities/{journey-activity-id}/execution-metrics", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetJourneyExecutionActivityMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/activities/{journey-activity-id}/execution-metrics", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
     public func getJourneyExecutionMetrics(_ input: GetJourneyExecutionMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyExecutionMetricsResponse> {
-        return client.execute(operation: "GetJourneyExecutionMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/execution-metrics", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetJourneyExecutionMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/execution-metrics", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     public func getPushTemplate(_ input: GetPushTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPushTemplateResponse> {
-        return client.execute(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about an Amazon Pinpoint configuration for a recommender model.
     public func getRecommenderConfiguration(_ input: GetRecommenderConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecommenderConfigurationResponse> {
-        return client.execute(operation: "GetRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
     public func getRecommenderConfigurations(_ input: GetRecommenderConfigurationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecommenderConfigurationsResponse> {
-        return client.execute(operation: "GetRecommenderConfigurations", path: "/v1/recommenders", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetRecommenderConfigurations", path: "/v1/recommenders", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
     public func getSegment(_ input: GetSegmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSegmentResponse> {
-        return client.execute(operation: "GetSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the export jobs for a segment.
     public func getSegmentExportJobs(_ input: GetSegmentExportJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSegmentExportJobsResponse> {
-        return client.execute(operation: "GetSegmentExportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/export", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSegmentExportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/export", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the import jobs for a segment.
     public func getSegmentImportJobs(_ input: GetSegmentImportJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSegmentImportJobsResponse> {
-        return client.execute(operation: "GetSegmentImportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/import", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSegmentImportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/import", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
     public func getSegmentVersion(_ input: GetSegmentVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSegmentVersionResponse> {
-        return client.execute(operation: "GetSegmentVersion", path: "/v1/apps/{application-id}/segments/{segment-id}/versions/{version}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSegmentVersion", path: "/v1/apps/{application-id}/segments/{segment-id}/versions/{version}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
     public func getSegmentVersions(_ input: GetSegmentVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSegmentVersionsResponse> {
-        return client.execute(operation: "GetSegmentVersions", path: "/v1/apps/{application-id}/segments/{segment-id}/versions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSegmentVersions", path: "/v1/apps/{application-id}/segments/{segment-id}/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
     public func getSegments(_ input: GetSegmentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSegmentsResponse> {
-        return client.execute(operation: "GetSegments", path: "/v1/apps/{application-id}/segments", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSegments", path: "/v1/apps/{application-id}/segments", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the SMS channel for an application.
     public func getSmsChannel(_ input: GetSmsChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSmsChannelResponse> {
-        return client.execute(operation: "GetSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
     public func getSmsTemplate(_ input: GetSmsTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSmsTemplateResponse> {
-        return client.execute(operation: "GetSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about all the endpoints that are associated with a specific user ID.
     public func getUserEndpoints(_ input: GetUserEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserEndpointsResponse> {
-        return client.execute(operation: "GetUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status and settings of the voice channel for an application.
     public func getVoiceChannel(_ input: GetVoiceChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceChannelResponse> {
-        return client.execute(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through the voice channel.
     public func getVoiceTemplate(_ input: GetVoiceTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceTemplateResponse> {
-        return client.execute(operation: "GetVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
     public func listJourneys(_ input: ListJourneysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJourneysResponse> {
-        return client.execute(operation: "ListJourneys", path: "/v1/apps/{application-id}/journeys", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListJourneys", path: "/v1/apps/{application-id}/journeys", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about all the versions of a specific message template.
     public func listTemplateVersions(_ input: ListTemplateVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplateVersionsResponse> {
-        return client.execute(operation: "ListTemplateVersions", path: "/v1/templates/{template-name}/{template-type}/versions", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTemplateVersions", path: "/v1/templates/{template-name}/{template-type}/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
     public func listTemplates(_ input: ListTemplatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplatesResponse> {
-        return client.execute(operation: "ListTemplates", path: "/v1/templates", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListTemplates", path: "/v1/templates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about a phone number.
     public func phoneNumberValidate(_ input: PhoneNumberValidateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PhoneNumberValidateResponse> {
-        return client.execute(operation: "PhoneNumberValidate", path: "/v1/phone/number/validate", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "PhoneNumberValidate", path: "/v1/phone/number/validate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new event stream for an application or updates the settings of an existing event stream for an application.
     public func putEventStream(_ input: PutEventStreamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEventStreamResponse> {
-        return client.execute(operation: "PutEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "PutEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
     public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEventsResponse> {
-        return client.execute(operation: "PutEvents", path: "/v1/apps/{application-id}/events", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "PutEvents", path: "/v1/apps/{application-id}/events", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
     public func removeAttributes(_ input: RemoveAttributesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveAttributesResponse> {
-        return client.execute(operation: "RemoveAttributes", path: "/v1/apps/{application-id}/attributes/{attribute-type}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "RemoveAttributes", path: "/v1/apps/{application-id}/attributes/{attribute-type}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates and sends a direct message.
     public func sendMessages(_ input: SendMessagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendMessagesResponse> {
-        return client.execute(operation: "SendMessages", path: "/v1/apps/{application-id}/messages", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "SendMessages", path: "/v1/apps/{application-id}/messages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates and sends a message to a list of users.
     public func sendUsersMessages(_ input: SendUsersMessagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendUsersMessagesResponse> {
-        return client.execute(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
     public func updateAdmChannel(_ input: UpdateAdmChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAdmChannelResponse> {
-        return client.execute(operation: "UpdateAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
     public func updateApnsChannel(_ input: UpdateApnsChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApnsChannelResponse> {
-        return client.execute(operation: "UpdateApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
     public func updateApnsSandboxChannel(_ input: UpdateApnsSandboxChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApnsSandboxChannelResponse> {
-        return client.execute(operation: "UpdateApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
     public func updateApnsVoipChannel(_ input: UpdateApnsVoipChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApnsVoipChannelResponse> {
-        return client.execute(operation: "UpdateApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
     public func updateApnsVoipSandboxChannel(_ input: UpdateApnsVoipSandboxChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApnsVoipSandboxChannelResponse> {
-        return client.execute(operation: "UpdateApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the settings for an application.
     public func updateApplicationSettings(_ input: UpdateApplicationSettingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApplicationSettingsResponse> {
-        return client.execute(operation: "UpdateApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
     public func updateBaiduChannel(_ input: UpdateBaiduChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBaiduChannelResponse> {
-        return client.execute(operation: "UpdateBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the configuration and other settings for a campaign.
     public func updateCampaign(_ input: UpdateCampaignRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCampaignResponse> {
-        return client.execute(operation: "UpdateCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the email channel for an application or updates the status and settings of the email channel for an application.
     public func updateEmailChannel(_ input: UpdateEmailChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEmailChannelResponse> {
-        return client.execute(operation: "UpdateEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing message template for messages that are sent through the email channel.
     public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEmailTemplateResponse> {
-        return client.execute(operation: "UpdateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     public func updateEndpoint(_ input: UpdateEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointResponse> {
-        return client.execute(operation: "UpdateEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     public func updateEndpointsBatch(_ input: UpdateEndpointsBatchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointsBatchResponse> {
-        return client.execute(operation: "UpdateEndpointsBatch", path: "/v1/apps/{application-id}/endpoints", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateEndpointsBatch", path: "/v1/apps/{application-id}/endpoints", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     public func updateGcmChannel(_ input: UpdateGcmChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGcmChannelResponse> {
-        return client.execute(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates the configuration and other settings for a journey.
     public func updateJourney(_ input: UpdateJourneyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJourneyResponse> {
-        return client.execute(operation: "UpdateJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Cancels (stops) an active journey.
     public func updateJourneyState(_ input: UpdateJourneyStateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJourneyStateResponse> {
-        return client.execute(operation: "UpdateJourneyState", path: "/v1/apps/{application-id}/journeys/{journey-id}/state", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateJourneyState", path: "/v1/apps/{application-id}/journeys/{journey-id}/state", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing message template for messages that are sent through a push notification channel.
     public func updatePushTemplate(_ input: UpdatePushTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePushTemplateResponse> {
-        return client.execute(operation: "UpdatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an Amazon Pinpoint configuration for a recommender model.
     public func updateRecommenderConfiguration(_ input: UpdateRecommenderConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecommenderConfigurationResponse> {
-        return client.execute(operation: "UpdateRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     public func updateSegment(_ input: UpdateSegmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSegmentResponse> {
-        return client.execute(operation: "UpdateSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
     public func updateSmsChannel(_ input: UpdateSmsChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSmsChannelResponse> {
-        return client.execute(operation: "UpdateSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing message template for messages that are sent through the SMS channel.
     public func updateSmsTemplate(_ input: UpdateSmsTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSmsTemplateResponse> {
-        return client.execute(operation: "UpdateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Changes the status of a specific version of a message template to active.
     public func updateTemplateActiveVersion(_ input: UpdateTemplateActiveVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTemplateActiveVersionResponse> {
-        return client.execute(operation: "UpdateTemplateActiveVersion", path: "/v1/templates/{template-name}/{template-type}/active-version", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateTemplateActiveVersion", path: "/v1/templates/{template-name}/{template-type}/active-version", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
     public func updateVoiceChannel(_ input: UpdateVoiceChannelRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceChannelResponse> {
-        return client.execute(operation: "UpdateVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Updates an existing message template for messages that are sent through the voice channel.
     public func updateVoiceTemplate(_ input: UpdateVoiceTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceTemplateResponse> {
-        return client.execute(operation: "UpdateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "PUT", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "UpdateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }

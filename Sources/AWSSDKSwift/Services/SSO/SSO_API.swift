@@ -63,21 +63,21 @@ public struct SSO {
 
     ///  Returns the STS short-term credentials for a given role name that is assigned to the user.
     public func getRoleCredentials(_ input: GetRoleCredentialsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoleCredentialsResponse> {
-        return client.execute(operation: "GetRoleCredentials", path: "/federation/credentials", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "GetRoleCredentials", path: "/federation/credentials", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists all roles that are assigned to the user for a given AWS account.
     public func listAccountRoles(_ input: ListAccountRolesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountRolesResponse> {
-        return client.execute(operation: "ListAccountRoles", path: "/assignment/roles", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListAccountRoles", path: "/assignment/roles", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the AWS SSO User Guide. This operation returns a paginated response.
     public func listAccounts(_ input: ListAccountsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountsResponse> {
-        return client.execute(operation: "ListAccounts", path: "/assignment/accounts", httpMethod: "GET", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "ListAccounts", path: "/assignment/accounts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 
     ///  Removes the client- and server-side session that is associated with the user.
     @discardableResult public func logout(_ input: LogoutRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "Logout", path: "/logout", httpMethod: "POST", serviceConfig: serviceConfig, input: input, on: eventLoop)
+        return client.execute(operation: "Logout", path: "/logout", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
     }
 }
