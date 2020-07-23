@@ -60,62 +60,62 @@ public struct ResourceGroups {
     //MARK: API Calls
 
     ///  Creates a group with a specified name, description, and resource query.
-    public func createGroup(_ input: CreateGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGroupOutput> {
+    public func createGroup(_ input: CreateGroupInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGroupOutput> {
         return client.execute(operation: "CreateGroup", path: "/groups", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a specified resource group. Deleting a resource group does not delete resources that are members of the group; it only deletes the group structure.
-    public func deleteGroup(_ input: DeleteGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGroupOutput> {
+    public func deleteGroup(_ input: DeleteGroupInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGroupOutput> {
         return client.execute(operation: "DeleteGroup", path: "/groups/{GroupName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about a specified resource group.
-    public func getGroup(_ input: GetGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGroupOutput> {
+    public func getGroup(_ input: GetGroupInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGroupOutput> {
         return client.execute(operation: "GetGroup", path: "/groups/{GroupName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the resource query associated with the specified resource group.
-    public func getGroupQuery(_ input: GetGroupQueryInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGroupQueryOutput> {
+    public func getGroupQuery(_ input: GetGroupQueryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGroupQueryOutput> {
         return client.execute(operation: "GetGroupQuery", path: "/groups/{GroupName}/query", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of tags that are associated with a resource group, specified by an ARN.
-    public func getTags(_ input: GetTagsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTagsOutput> {
+    public func getTags(_ input: GetTagsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTagsOutput> {
         return client.execute(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
-    public func listGroupResources(_ input: ListGroupResourcesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupResourcesOutput> {
+    public func listGroupResources(_ input: ListGroupResourcesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupResourcesOutput> {
         return client.execute(operation: "ListGroupResources", path: "/groups/{GroupName}/resource-identifiers-list", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of existing resource groups in your account.
-    public func listGroups(_ input: ListGroupsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupsOutput> {
+    public func listGroups(_ input: ListGroupsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupsOutput> {
         return client.execute(operation: "ListGroups", path: "/groups-list", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
-    public func searchResources(_ input: SearchResourcesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchResourcesOutput> {
+    public func searchResources(_ input: SearchResourcesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchResourcesOutput> {
         return client.execute(operation: "SearchResources", path: "/resources/search", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.
-    public func tag(_ input: TagInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagOutput> {
+    public func tag(_ input: TagInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagOutput> {
         return client.execute(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes specified tags from a specified resource.
-    public func untag(_ input: UntagInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagOutput> {
+    public func untag(_ input: UntagInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagOutput> {
         return client.execute(operation: "Untag", path: "/resources/{Arn}/tags", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing group with a new or changed description. You cannot update the name of a resource group.
-    public func updateGroup(_ input: UpdateGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGroupOutput> {
+    public func updateGroup(_ input: UpdateGroupInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGroupOutput> {
         return client.execute(operation: "UpdateGroup", path: "/groups/{GroupName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the resource query of a group.
-    public func updateGroupQuery(_ input: UpdateGroupQueryInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGroupQueryOutput> {
+    public func updateGroupQuery(_ input: UpdateGroupQueryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGroupQueryOutput> {
         return client.execute(operation: "UpdateGroupQuery", path: "/groups/{GroupName}/query", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

@@ -328,7 +328,15 @@ extension AWSService {
         }
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
         context["streamingOperations"] = streamingOperationContexts.sorted { $0.funcName < $1.funcName }
+        context["logger"] = getSymbol(for: "Logger", from: "Logging", api: api)
         return context
+    }
+
+    func getSymbol(for symbol: String, from framework: String, api: API) -> String {
+        if api.shapes[symbol] != nil {
+            return "\(framework).\(symbol)"
+        }
+        return symbol
     }
 
     /// Generate the context information for outputting the error enums
@@ -429,6 +437,7 @@ extension AWSService {
         if paginatorContexts.count > 0 {
             context["paginators"] = paginatorContexts
         }
+        context["logger"] = getSymbol(for: "Logger", from: "Logging", api: api)
         return context
     }
 

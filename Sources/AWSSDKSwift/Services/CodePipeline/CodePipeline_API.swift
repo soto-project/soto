@@ -61,187 +61,187 @@ public struct CodePipeline {
     //MARK: API Calls
 
     ///  Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
-    public func acknowledgeJob(_ input: AcknowledgeJobInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcknowledgeJobOutput> {
+    public func acknowledgeJob(_ input: AcknowledgeJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcknowledgeJobOutput> {
         return client.execute(operation: "AcknowledgeJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Confirms a job worker has received the specified job. Used for partner actions only.
-    public func acknowledgeThirdPartyJob(_ input: AcknowledgeThirdPartyJobInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcknowledgeThirdPartyJobOutput> {
+    public func acknowledgeThirdPartyJob(_ input: AcknowledgeThirdPartyJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcknowledgeThirdPartyJobOutput> {
         return client.execute(operation: "AcknowledgeThirdPartyJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new custom action that can be used in all pipelines associated with the AWS account. Only used for custom actions.
-    public func createCustomActionType(_ input: CreateCustomActionTypeInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCustomActionTypeOutput> {
+    public func createCustomActionType(_ input: CreateCustomActionTypeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCustomActionTypeOutput> {
         return client.execute(operation: "CreateCustomActionType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a pipeline.  In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
-    public func createPipeline(_ input: CreatePipelineInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePipelineOutput> {
+    public func createPipeline(_ input: CreatePipelineInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePipelineOutput> {
         return client.execute(operation: "CreatePipeline", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only.  To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field. 
-    @discardableResult public func deleteCustomActionType(_ input: DeleteCustomActionTypeInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func deleteCustomActionType(_ input: DeleteCustomActionTypeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeleteCustomActionType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified pipeline.
-    @discardableResult public func deletePipeline(_ input: DeletePipelineInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func deletePipeline(_ input: DeletePipelineInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeletePipeline", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a previously created webhook by name. Deleting the webhook stops AWS CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
-    public func deleteWebhook(_ input: DeleteWebhookInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWebhookOutput> {
+    public func deleteWebhook(_ input: DeleteWebhookInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWebhookOutput> {
         return client.execute(operation: "DeleteWebhook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub.
-    public func deregisterWebhookWithThirdParty(_ input: DeregisterWebhookWithThirdPartyInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterWebhookWithThirdPartyOutput> {
+    public func deregisterWebhookWithThirdParty(_ input: DeregisterWebhookWithThirdPartyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterWebhookWithThirdPartyOutput> {
         return client.execute(operation: "DeregisterWebhookWithThirdParty", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
-    @discardableResult public func disableStageTransition(_ input: DisableStageTransitionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func disableStageTransition(_ input: DisableStageTransitionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "DisableStageTransition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Enables artifacts in a pipeline to transition to a stage in a pipeline.
-    @discardableResult public func enableStageTransition(_ input: EnableStageTransitionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func enableStageTransition(_ input: EnableStageTransitionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "EnableStageTransition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about a job. Used for custom actions only.  When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. 
-    public func getJobDetails(_ input: GetJobDetailsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobDetailsOutput> {
+    public func getJobDetails(_ input: GetJobDetailsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobDetailsOutput> {
         return client.execute(operation: "GetJobDetails", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with UpdatePipeline.
-    public func getPipeline(_ input: GetPipelineInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPipelineOutput> {
+    public func getPipeline(_ input: GetPipelineInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPipelineOutput> {
         return client.execute(operation: "GetPipeline", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
-    public func getPipelineExecution(_ input: GetPipelineExecutionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPipelineExecutionOutput> {
+    public func getPipelineExecution(_ input: GetPipelineExecutionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPipelineExecutionOutput> {
         return client.execute(operation: "GetPipelineExecution", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the state of a pipeline, including the stages and actions.  Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state. 
-    public func getPipelineState(_ input: GetPipelineStateInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPipelineStateOutput> {
+    public func getPipelineState(_ input: GetPipelineStateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPipelineStateOutput> {
         return client.execute(operation: "GetPipelineState", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Requests the details of a job for a third party action. Used for partner actions only.  When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. 
-    public func getThirdPartyJobDetails(_ input: GetThirdPartyJobDetailsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetThirdPartyJobDetailsOutput> {
+    public func getThirdPartyJobDetails(_ input: GetThirdPartyJobDetailsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetThirdPartyJobDetailsOutput> {
         return client.execute(operation: "GetThirdPartyJobDetails", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the action executions that have occurred in a pipeline.
-    public func listActionExecutions(_ input: ListActionExecutionsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListActionExecutionsOutput> {
+    public func listActionExecutions(_ input: ListActionExecutionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListActionExecutionsOutput> {
         return client.execute(operation: "ListActionExecutions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a summary of all AWS CodePipeline action types associated with your account.
-    public func listActionTypes(_ input: ListActionTypesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListActionTypesOutput> {
+    public func listActionTypes(_ input: ListActionTypesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListActionTypesOutput> {
         return client.execute(operation: "ListActionTypes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a summary of the most recent executions for a pipeline.
-    public func listPipelineExecutions(_ input: ListPipelineExecutionsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPipelineExecutionsOutput> {
+    public func listPipelineExecutions(_ input: ListPipelineExecutionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPipelineExecutionsOutput> {
         return client.execute(operation: "ListPipelineExecutions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a summary of all of the pipelines associated with your account.
-    public func listPipelines(_ input: ListPipelinesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPipelinesOutput> {
+    public func listPipelines(_ input: ListPipelinesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPipelinesOutput> {
         return client.execute(operation: "ListPipelines", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
+    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a listing of all the webhooks in this AWS Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
-    public func listWebhooks(_ input: ListWebhooksInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWebhooksOutput> {
+    public func listWebhooks(_ input: ListWebhooksInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWebhooksOutput> {
         return client.execute(operation: "ListWebhooks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about any jobs for AWS CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains "AWS" or "ThirdParty" in the owner field, the PollForJobs action returns an error.  When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. 
-    public func pollForJobs(_ input: PollForJobsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PollForJobsOutput> {
+    public func pollForJobs(_ input: PollForJobsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PollForJobsOutput> {
         return client.execute(operation: "PollForJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only.  When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. 
-    public func pollForThirdPartyJobs(_ input: PollForThirdPartyJobsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PollForThirdPartyJobsOutput> {
+    public func pollForThirdPartyJobs(_ input: PollForThirdPartyJobsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PollForThirdPartyJobsOutput> {
         return client.execute(operation: "PollForThirdPartyJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Provides information to AWS CodePipeline about new revisions to a source.
-    public func putActionRevision(_ input: PutActionRevisionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutActionRevisionOutput> {
+    public func putActionRevision(_ input: PutActionRevisionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutActionRevisionOutput> {
         return client.execute(operation: "PutActionRevision", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Provides the response to a manual approval request to AWS CodePipeline. Valid responses include Approved and Rejected.
-    public func putApprovalResult(_ input: PutApprovalResultInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutApprovalResultOutput> {
+    public func putApprovalResult(_ input: PutApprovalResultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutApprovalResultOutput> {
         return client.execute(operation: "PutApprovalResult", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only.
-    @discardableResult public func putJobFailureResult(_ input: PutJobFailureResultInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func putJobFailureResult(_ input: PutJobFailureResultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "PutJobFailureResult", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only.
-    @discardableResult public func putJobSuccessResult(_ input: PutJobSuccessResultInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func putJobSuccessResult(_ input: PutJobSuccessResultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "PutJobSuccessResult", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
-    @discardableResult public func putThirdPartyJobFailureResult(_ input: PutThirdPartyJobFailureResultInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func putThirdPartyJobFailureResult(_ input: PutThirdPartyJobFailureResultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "PutThirdPartyJobFailureResult", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
-    @discardableResult public func putThirdPartyJobSuccessResult(_ input: PutThirdPartyJobSuccessResultInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+    @discardableResult public func putThirdPartyJobSuccessResult(_ input: PutThirdPartyJobSuccessResultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "PutThirdPartyJobSuccessResult", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL.
-    public func putWebhook(_ input: PutWebhookInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutWebhookOutput> {
+    public func putWebhook(_ input: PutWebhookInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutWebhookOutput> {
         return client.execute(operation: "PutWebhook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Configures a connection between the webhook that was created and the external tool with events to be detected.
-    public func registerWebhookWithThirdParty(_ input: RegisterWebhookWithThirdPartyInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterWebhookWithThirdPartyOutput> {
+    public func registerWebhookWithThirdParty(_ input: RegisterWebhookWithThirdPartyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterWebhookWithThirdPartyOutput> {
         return client.execute(operation: "RegisterWebhookWithThirdParty", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Resumes the pipeline execution by retrying the last failed actions in a stage. You can retry a stage immediately if any of the actions in the stage fail. When you retry, all actions that are still in progress continue working, and failed actions are triggered again.
-    public func retryStageExecution(_ input: RetryStageExecutionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RetryStageExecutionOutput> {
+    public func retryStageExecution(_ input: RetryStageExecutionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RetryStageExecutionOutput> {
         return client.execute(operation: "RetryStageExecution", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
-    public func startPipelineExecution(_ input: StartPipelineExecutionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartPipelineExecutionOutput> {
+    public func startPipelineExecution(_ input: StartPipelineExecutionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartPipelineExecutionOutput> {
         return client.execute(operation: "StartPipelineExecution", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state.
-    public func stopPipelineExecution(_ input: StopPipelineExecutionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopPipelineExecutionOutput> {
+    public func stopPipelineExecution(_ input: StopPipelineExecutionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopPipelineExecutionOutput> {
         return client.execute(operation: "StopPipelineExecution", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource. 
-    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceOutput> {
+    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceOutput> {
         return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes tags from an AWS resource.
-    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceOutput> {
+    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceOutput> {
         return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
-    public func updatePipeline(_ input: UpdatePipelineInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePipelineOutput> {
+    public func updatePipeline(_ input: UpdatePipelineInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePipelineOutput> {
         return client.execute(operation: "UpdatePipeline", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }
