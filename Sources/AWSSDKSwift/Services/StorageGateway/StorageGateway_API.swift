@@ -61,392 +61,392 @@ public struct StorageGateway {
     //MARK: API Calls
 
     ///  Activates the gateway you previously deployed on your host. In the activation process, you specify information such as the AWS Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see UpdateGatewayInformation.  You must turn on the gateway VM before you can activate your gateway. 
-    public func activateGateway(_ input: ActivateGatewayInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateGatewayOutput> {
-        return client.execute(operation: "ActivateGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func activateGateway(_ input: ActivateGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ActivateGatewayOutput> {
+        return client.execute(operation: "ActivateGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Configures one or more gateway local disks as cache for a gateway. This operation is only supported in the cached volume, tape, and file gateway type (see How AWS Storage Gateway works (architecture). In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add cache, and one or more disk IDs that you want to configure as cache.
-    public func addCache(_ input: AddCacheInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddCacheOutput> {
-        return client.execute(operation: "AddCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func addCache(_ input: AddCacheInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddCacheOutput> {
+        return client.execute(operation: "AddCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environment, or team. Each tag consists of a key and a value, which you define. You can add tags to the following AWS Storage Gateway resources:   Storage gateways of all types   Storage volumes   Virtual tapes   NFS and SMB file shares   You can create a maximum of 50 tags for each resource. Virtual tapes and storage volumes that are recovered to a new gateway maintain their tags.
-    public func addTagsToResource(_ input: AddTagsToResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsToResourceOutput> {
-        return client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func addTagsToResource(_ input: AddTagsToResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddTagsToResourceOutput> {
+        return client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Configures one or more gateway local disks as upload buffer for a specified gateway. This operation is supported for the stored volume, cached volume and tape gateway types. In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add upload buffer, and one or more disk IDs that you want to configure as upload buffer.
-    public func addUploadBuffer(_ input: AddUploadBufferInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddUploadBufferOutput> {
-        return client.execute(operation: "AddUploadBuffer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func addUploadBuffer(_ input: AddUploadBufferInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddUploadBufferOutput> {
+        return client.execute(operation: "AddUploadBuffer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Configures one or more gateway local disks as working storage for a gateway. This operation is only supported in the stored volume gateway type. This operation is deprecated in cached volume API version 20120630. Use AddUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the AddUploadBuffer operation to add upload buffer to a stored volume gateway.  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add working storage, and one or more disk IDs that you want to configure as working storage.
-    public func addWorkingStorage(_ input: AddWorkingStorageInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddWorkingStorageOutput> {
-        return client.execute(operation: "AddWorkingStorage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func addWorkingStorage(_ input: AddWorkingStorageInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddWorkingStorageOutput> {
+        return client.execute(operation: "AddWorkingStorage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
-    public func assignTapePool(_ input: AssignTapePoolInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssignTapePoolOutput> {
-        return client.execute(operation: "AssignTapePool", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func assignTapePool(_ input: AssignTapePoolInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssignTapePoolOutput> {
+        return client.execute(operation: "AssignTapePool", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Connects a volume to an iSCSI connection and then attaches the volume to the specified gateway. Detaching and attaching a volume enables you to recover your data from one gateway to a different gateway without creating a snapshot. It also makes it easier to move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
-    public func attachVolume(_ input: AttachVolumeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AttachVolumeOutput> {
-        return client.execute(operation: "AttachVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func attachVolume(_ input: AttachVolumeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AttachVolumeOutput> {
+        return client.execute(operation: "AttachVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Cancels archiving of a virtual tape to the virtual tape shelf (VTS) after the archiving process is initiated. This operation is only supported in the tape gateway type.
-    public func cancelArchival(_ input: CancelArchivalInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelArchivalOutput> {
-        return client.execute(operation: "CancelArchival", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func cancelArchival(_ input: CancelArchivalInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelArchivalOutput> {
+        return client.execute(operation: "CancelArchival", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a gateway after the retrieval process is initiated. The virtual tape is returned to the VTS. This operation is only supported in the tape gateway type.
-    public func cancelRetrieval(_ input: CancelRetrievalInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelRetrievalOutput> {
-        return client.execute(operation: "CancelRetrieval", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func cancelRetrieval(_ input: CancelRetrievalInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelRetrievalOutput> {
+        return client.execute(operation: "CancelRetrieval", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a cached volume on a specified cached volume gateway. This operation is only supported in the cached volume gateway type.  Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway.  In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, the gateway creates the volume and returns information about it. This information includes the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target. Optionally, you can provide the ARN for an existing volume as the SourceVolumeARN for this cached volume, which creates an exact copy of the existing volume’s latest recovery point. The VolumeSizeInBytes value must be equal to or larger than the size of the copied volume, in bytes.
-    public func createCachediSCSIVolume(_ input: CreateCachediSCSIVolumeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCachediSCSIVolumeOutput> {
-        return client.execute(operation: "CreateCachediSCSIVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createCachediSCSIVolume(_ input: CreateCachediSCSIVolumeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCachediSCSIVolumeOutput> {
+        return client.execute(operation: "CreateCachediSCSIVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a Network File System (NFS) file share on an existing file gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an NFS interface. This operation is only supported for file gateways.  File gateway requires AWS Security Token Service (AWS STS) to be activated to enable you to create a file share. Make sure AWS STS is activated in the AWS Region you are creating your file gateway in. If AWS STS is not activated in the AWS Region, activate it. For information about how to activate AWS STS, see Activating and deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. File gateway does not support creating hard or symbolic links on a file share. 
-    public func createNFSFileShare(_ input: CreateNFSFileShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNFSFileShareOutput> {
-        return client.execute(operation: "CreateNFSFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createNFSFileShare(_ input: CreateNFSFileShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNFSFileShareOutput> {
+        return client.execute(operation: "CreateNFSFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a Server Message Block (SMB) file share on an existing file gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway expose file shares using an SMB interface. This operation is only supported for file gateways.  File gateways require AWS Security Token Service (AWS STS) to be activated to enable you to create a file share. Make sure that AWS STS is activated in the AWS Region you are creating your file gateway in. If AWS STS is not activated in this AWS Region, activate it. For information about how to activate AWS STS, see Activating and deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. File gateways don't support creating hard or symbolic links on a file share. 
-    public func createSMBFileShare(_ input: CreateSMBFileShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSMBFileShareOutput> {
-        return client.execute(operation: "CreateSMBFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createSMBFileShare(_ input: CreateSMBFileShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSMBFileShareOutput> {
+        return client.execute(operation: "CreateSMBFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, as well as import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables you to take ad-hoc snapshot. For more information, see Editing a snapshot schedule. In the CreateSnapshot request you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When AWS Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the AWS Storage Gateway Console. In response, AWS Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot. This operation is only supported in stored and cached volume gateway type.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page. 
-    public func createSnapshot(_ input: CreateSnapshotInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSnapshotOutput> {
-        return client.execute(operation: "CreateSnapshot", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createSnapshot(_ input: CreateSnapshotInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSnapshotOutput> {
+        return client.execute(operation: "CreateSnapshot", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Initiates a snapshot of a gateway from a volume recovery point. This operation is only supported in the cached volume gateway type. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot. To get a list of volume recovery point for cached volume gateway, use ListVolumeRecoveryPoints. In the CreateSnapshotFromVolumeRecoveryPoint request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide a description for the snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and its description appear in the AWS Storage Gateway console. In response, the gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference. 
-    public func createSnapshotFromVolumeRecoveryPoint(_ input: CreateSnapshotFromVolumeRecoveryPointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSnapshotFromVolumeRecoveryPointOutput> {
-        return client.execute(operation: "CreateSnapshotFromVolumeRecoveryPoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createSnapshotFromVolumeRecoveryPoint(_ input: CreateSnapshotFromVolumeRecoveryPointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSnapshotFromVolumeRecoveryPointOutput> {
+        return client.execute(operation: "CreateSnapshotFromVolumeRecoveryPoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request you must specify the gateway and the disk information on which you are creating the volume. In response, the gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
-    public func createStorediSCSIVolume(_ input: CreateStorediSCSIVolumeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStorediSCSIVolumeOutput> {
-        return client.execute(operation: "CreateStorediSCSIVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createStorediSCSIVolume(_ input: CreateStorediSCSIVolumeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStorediSCSIVolumeOutput> {
+        return client.execute(operation: "CreateStorediSCSIVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and can not be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type.  Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. 
-    public func createTapeWithBarcode(_ input: CreateTapeWithBarcodeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTapeWithBarcodeOutput> {
-        return client.execute(operation: "CreateTapeWithBarcode", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createTapeWithBarcode(_ input: CreateTapeWithBarcodeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTapeWithBarcodeOutput> {
+        return client.execute(operation: "CreateTapeWithBarcode", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes. This operation is only supported in the tape gateway type.  Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway. 
-    public func createTapes(_ input: CreateTapesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTapesOutput> {
-        return client.execute(operation: "CreateTapes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createTapes(_ input: CreateTapesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTapesOutput> {
+        return client.execute(operation: "CreateTapes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the automatic tape creation policy of a gateway. If you delete this policy, new virtual tapes must be created manually. Use the Amazon Resource Name (ARN) of the gateway in your request to remove the policy.
-    public func deleteAutomaticTapeCreationPolicy(_ input: DeleteAutomaticTapeCreationPolicyInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAutomaticTapeCreationPolicyOutput> {
-        return client.execute(operation: "DeleteAutomaticTapeCreationPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteAutomaticTapeCreationPolicy(_ input: DeleteAutomaticTapeCreationPolicyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAutomaticTapeCreationPolicyOutput> {
+        return client.execute(operation: "DeleteAutomaticTapeCreationPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the bandwidth rate limits of a gateway. You can delete either the upload and download bandwidth rate limit, or you can delete both. If you delete only one of the limits, the other limit remains unchanged. To specify which gateway to work with, use the Amazon Resource Name (ARN) of the gateway in your request. This operation is supported for the stored volume, cached volume and tape gateway types.
-    public func deleteBandwidthRateLimit(_ input: DeleteBandwidthRateLimitInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBandwidthRateLimitOutput> {
-        return client.execute(operation: "DeleteBandwidthRateLimit", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteBandwidthRateLimit(_ input: DeleteBandwidthRateLimitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBandwidthRateLimitOutput> {
+        return client.execute(operation: "DeleteBandwidthRateLimit", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is supported in volume and tape gateway types.
-    public func deleteChapCredentials(_ input: DeleteChapCredentialsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChapCredentialsOutput> {
-        return client.execute(operation: "DeleteChapCredentials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteChapCredentials(_ input: DeleteChapCredentialsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteChapCredentialsOutput> {
+        return client.execute(operation: "DeleteChapCredentials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a file share from a file gateway. This operation is only supported for file gateways.
-    public func deleteFileShare(_ input: DeleteFileShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFileShareOutput> {
-        return client.execute(operation: "DeleteFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteFileShare(_ input: DeleteFileShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteFileShareOutput> {
+        return client.execute(operation: "DeleteFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a gateway. To specify which gateway to delete, use the Amazon Resource Name (ARN) of the gateway in your request. The operation deletes the gateway; however, it does not delete the gateway virtual machine (VM) from your host computer. After you delete a gateway, you cannot reactivate it. Completed snapshots of the gateway volumes are not deleted upon deleting the gateway, however, pending snapshots will not complete. After you delete a gateway, your next step is to remove it from your environment.  You no longer pay software charges after the gateway is deleted; however, your existing Amazon EBS snapshots persist and you will continue to be billed for these snapshots. You can choose to remove all remaining Amazon EBS snapshots by canceling your Amazon EC2 subscription.  If you prefer not to cancel your Amazon EC2 subscription, you can delete your snapshots using the Amazon EC2 console. For more information, see the AWS Storage Gateway detail page. 
-    public func deleteGateway(_ input: DeleteGatewayInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGatewayOutput> {
-        return client.execute(operation: "DeleteGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteGateway(_ input: DeleteGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGatewayOutput> {
+        return client.execute(operation: "DeleteGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a snapshot of a volume. You can take snapshots of your gateway volumes on a scheduled or ad hoc basis. This API action enables you to delete a snapshot schedule for a volume. For more information, see Backing up your volumes. In the DeleteSnapshotSchedule request, you identify the volume by providing its Amazon Resource Name (ARN). This operation is only supported in stored and cached volume gateway types.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference. 
-    public func deleteSnapshotSchedule(_ input: DeleteSnapshotScheduleInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSnapshotScheduleOutput> {
-        return client.execute(operation: "DeleteSnapshotSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteSnapshotSchedule(_ input: DeleteSnapshotScheduleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSnapshotScheduleOutput> {
+        return client.execute(operation: "DeleteSnapshotSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified virtual tape. This operation is only supported in the tape gateway type.
-    public func deleteTape(_ input: DeleteTapeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTapeOutput> {
-        return client.execute(operation: "DeleteTape", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteTape(_ input: DeleteTapeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTapeOutput> {
+        return client.execute(operation: "DeleteTape", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is only supported in the tape gateway type.
-    public func deleteTapeArchive(_ input: DeleteTapeArchiveInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTapeArchiveOutput> {
-        return client.execute(operation: "DeleteTapeArchive", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteTapeArchive(_ input: DeleteTapeArchiveInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTapeArchiveOutput> {
+        return client.execute(operation: "DeleteTapeArchive", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified storage volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API. This operation is only supported in the cached volume and stored volume types. For stored volume gateways, the local disk that was configured as the storage volume is not deleted. You can reuse the local disk to create another storage volume. Before you delete a volume, make sure there are no iSCSI connections to the volume you are deleting. You should also make sure there is no snapshot in progress. You can use the Amazon Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are deleting and check the snapshot status. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference. In the request, you must provide the Amazon Resource Name (ARN) of the storage volume you want to delete.
-    public func deleteVolume(_ input: DeleteVolumeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVolumeOutput> {
-        return client.execute(operation: "DeleteVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteVolume(_ input: DeleteVolumeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteVolumeOutput> {
+        return client.execute(operation: "DeleteVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the most recent High Availability monitoring test that was performed on the host in a cluster. If a test isn't performed, the status and start time in the response would be null.
-    public func describeAvailabilityMonitorTest(_ input: DescribeAvailabilityMonitorTestInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAvailabilityMonitorTestOutput> {
-        return client.execute(operation: "DescribeAvailabilityMonitorTest", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeAvailabilityMonitorTest(_ input: DescribeAvailabilityMonitorTestInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAvailabilityMonitorTestOutput> {
+        return client.execute(operation: "DescribeAvailabilityMonitorTest", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation is supported for the stored volume, cached volume and tape gateway types. This operation only returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
-    public func describeBandwidthRateLimit(_ input: DescribeBandwidthRateLimitInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBandwidthRateLimitOutput> {
-        return client.execute(operation: "DescribeBandwidthRateLimit", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeBandwidthRateLimit(_ input: DescribeBandwidthRateLimitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBandwidthRateLimitOutput> {
+        return client.execute(operation: "DescribeBandwidthRateLimit", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the cache of a gateway. This operation is only supported in the cached volume, tape, and file gateway types. The response includes disk IDs that are configured as cache, and it includes the amount of cache allocated and used.
-    public func describeCache(_ input: DescribeCacheInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCacheOutput> {
-        return client.execute(operation: "DescribeCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeCache(_ input: DescribeCacheInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCacheOutput> {
+        return client.execute(operation: "DescribeCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway types. The list of gateway volumes in the request must be from one gateway. In the response, AWS Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).
-    public func describeCachediSCSIVolumes(_ input: DescribeCachediSCSIVolumesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCachediSCSIVolumesOutput> {
-        return client.execute(operation: "DescribeCachediSCSIVolumes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeCachediSCSIVolumes(_ input: DescribeCachediSCSIVolumesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCachediSCSIVolumesOutput> {
+        return client.execute(operation: "DescribeCachediSCSIVolumes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentials information for a specified iSCSI target, one for each target-initiator pair. This operation is supported in the volume and tape gateway types.
-    public func describeChapCredentials(_ input: DescribeChapCredentialsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChapCredentialsOutput> {
-        return client.execute(operation: "DescribeChapCredentials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeChapCredentials(_ input: DescribeChapCredentialsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeChapCredentialsOutput> {
+        return client.execute(operation: "DescribeChapCredentials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns metadata about a gateway such as its name, network interfaces, configured time zone, and the state (whether the gateway is running or not). To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
-    public func describeGatewayInformation(_ input: DescribeGatewayInformationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGatewayInformationOutput> {
-        return client.execute(operation: "DescribeGatewayInformation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeGatewayInformation(_ input: DescribeGatewayInformationInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeGatewayInformationOutput> {
+        return client.execute(operation: "DescribeGatewayInformation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns your gateway's weekly maintenance start time including the day and time of the week. Note that values are in terms of the gateway's time zone.
-    public func describeMaintenanceStartTime(_ input: DescribeMaintenanceStartTimeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceStartTimeOutput> {
-        return client.execute(operation: "DescribeMaintenanceStartTime", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeMaintenanceStartTime(_ input: DescribeMaintenanceStartTimeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceStartTimeOutput> {
+        return client.execute(operation: "DescribeMaintenanceStartTime", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a description for one or more Network File System (NFS) file shares from a file gateway. This operation is only supported for file gateways.
-    public func describeNFSFileShares(_ input: DescribeNFSFileSharesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNFSFileSharesOutput> {
-        return client.execute(operation: "DescribeNFSFileShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeNFSFileShares(_ input: DescribeNFSFileSharesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeNFSFileSharesOutput> {
+        return client.execute(operation: "DescribeNFSFileShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a description for one or more Server Message Block (SMB) file shares from a file gateway. This operation is only supported for file gateways.
-    public func describeSMBFileShares(_ input: DescribeSMBFileSharesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSMBFileSharesOutput> {
-        return client.execute(operation: "DescribeSMBFileShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeSMBFileShares(_ input: DescribeSMBFileSharesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSMBFileSharesOutput> {
+        return client.execute(operation: "DescribeSMBFileShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a description of a Server Message Block (SMB) file share settings from a file gateway. This operation is only supported for file gateways.
-    public func describeSMBSettings(_ input: DescribeSMBSettingsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSMBSettingsOutput> {
-        return client.execute(operation: "DescribeSMBSettings", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeSMBSettings(_ input: DescribeSMBSettingsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSMBSettingsOutput> {
+        return client.execute(operation: "DescribeSMBSettings", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Describes the snapshot schedule for the specified gateway volume. The snapshot schedule information includes intervals at which snapshots are automatically initiated on the volume. This operation is only supported in the cached volume and stored volume types.
-    public func describeSnapshotSchedule(_ input: DescribeSnapshotScheduleInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSnapshotScheduleOutput> {
-        return client.execute(operation: "DescribeSnapshotSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeSnapshotSchedule(_ input: DescribeSnapshotScheduleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSnapshotScheduleOutput> {
+        return client.execute(operation: "DescribeSnapshotSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the description of the gateway volumes specified in the request. The list of gateway volumes in the request must be from one gateway. In the response, AWS Storage Gateway returns volume information sorted by volume ARNs. This operation is only supported in stored volume gateway type.
-    public func describeStorediSCSIVolumes(_ input: DescribeStorediSCSIVolumesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStorediSCSIVolumesOutput> {
-        return client.execute(operation: "DescribeStorediSCSIVolumes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStorediSCSIVolumes(_ input: DescribeStorediSCSIVolumesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStorediSCSIVolumesOutput> {
+        return client.execute(operation: "DescribeStorediSCSIVolumes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. If a specific TapeARN is not specified, AWS Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
-    public func describeTapeArchives(_ input: DescribeTapeArchivesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTapeArchivesOutput> {
-        return client.execute(operation: "DescribeTapeArchives", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeTapeArchives(_ input: DescribeTapeArchivesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTapeArchivesOutput> {
+        return client.execute(operation: "DescribeTapeArchives", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of virtual tape recovery points that are available for the specified tape gateway. A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway. This operation is only supported in the tape gateway type.
-    public func describeTapeRecoveryPoints(_ input: DescribeTapeRecoveryPointsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTapeRecoveryPointsOutput> {
-        return client.execute(operation: "DescribeTapeRecoveryPoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeTapeRecoveryPoints(_ input: DescribeTapeRecoveryPointsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTapeRecoveryPointsOutput> {
+        return client.execute(operation: "DescribeTapeRecoveryPoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of the specified Amazon Resource Name (ARN) of virtual tapes. If a TapeARN is not specified, returns a description of all virtual tapes associated with the specified gateway. This operation is only supported in the tape gateway type.
-    public func describeTapes(_ input: DescribeTapesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTapesOutput> {
-        return client.execute(operation: "DescribeTapes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeTapes(_ input: DescribeTapesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTapesOutput> {
+        return client.execute(operation: "DescribeTapes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the upload buffer of a gateway. This operation is supported for the stored volume, cached volume, and tape gateway types. The response includes disk IDs that are configured as upload buffer space, and it includes the amount of upload buffer space allocated and used.
-    public func describeUploadBuffer(_ input: DescribeUploadBufferInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUploadBufferOutput> {
-        return client.execute(operation: "DescribeUploadBuffer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeUploadBuffer(_ input: DescribeUploadBufferInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUploadBufferOutput> {
+        return client.execute(operation: "DescribeUploadBuffer", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, AWS Storage Gateway returns VTL device information. This operation is only supported in the tape gateway type.
-    public func describeVTLDevices(_ input: DescribeVTLDevicesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVTLDevicesOutput> {
-        return client.execute(operation: "DescribeVTLDevices", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeVTLDevices(_ input: DescribeVTLDevicesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeVTLDevicesOutput> {
+        return client.execute(operation: "DescribeVTLDevices", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the working storage of a gateway. This operation is only supported in the stored volumes gateway type. This operation is deprecated in cached volumes API version (20120630). Use DescribeUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the DescribeUploadBuffer operation to add upload buffer to a stored volume gateway.  The response includes disk IDs that are configured as working storage, and it includes the amount of working storage allocated and used.
-    public func describeWorkingStorage(_ input: DescribeWorkingStorageInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeWorkingStorageOutput> {
-        return client.execute(operation: "DescribeWorkingStorage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeWorkingStorage(_ input: DescribeWorkingStorageInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkingStorageOutput> {
+        return client.execute(operation: "DescribeWorkingStorage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disconnects a volume from an iSCSI connection and then detaches the volume from the specified gateway. Detaching and attaching a volume enables you to recover your data from one gateway to a different gateway without creating a snapshot. It also makes it easier to move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance. This operation is only supported in the volume gateway type.
-    public func detachVolume(_ input: DetachVolumeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetachVolumeOutput> {
-        return client.execute(operation: "DetachVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func detachVolume(_ input: DetachVolumeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetachVolumeOutput> {
+        return client.execute(operation: "DetachVolume", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disables a tape gateway when the gateway is no longer functioning. For example, if your gateway VM is damaged, you can disable the gateway so you can recover virtual tapes. Use this operation for a tape gateway that is not reachable or not functioning. This operation is only supported in the tape gateway type.  After a gateway is disabled, it cannot be enabled. 
-    public func disableGateway(_ input: DisableGatewayInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableGatewayOutput> {
-        return client.execute(operation: "DisableGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disableGateway(_ input: DisableGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisableGatewayOutput> {
+        return client.execute(operation: "DisableGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds a file gateway to an Active Directory domain. This operation is only supported for file gateways that support the SMB file protocol.
-    public func joinDomain(_ input: JoinDomainInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<JoinDomainOutput> {
-        return client.execute(operation: "JoinDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func joinDomain(_ input: JoinDomainInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<JoinDomainOutput> {
+        return client.execute(operation: "JoinDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the automatic tape creation policies for a gateway. If there are no automatic tape creation policies for the gateway, it returns an empty list. This operation is only supported for tape gateways.
-    public func listAutomaticTapeCreationPolicies(_ input: ListAutomaticTapeCreationPoliciesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAutomaticTapeCreationPoliciesOutput> {
-        return client.execute(operation: "ListAutomaticTapeCreationPolicies", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listAutomaticTapeCreationPolicies(_ input: ListAutomaticTapeCreationPoliciesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAutomaticTapeCreationPoliciesOutput> {
+        return client.execute(operation: "ListAutomaticTapeCreationPolicies", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of the file shares for a specific file gateway, or the list of file shares that belong to the calling user account. This operation is only supported for file gateways.
-    public func listFileShares(_ input: ListFileSharesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFileSharesOutput> {
-        return client.execute(operation: "ListFileShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listFileShares(_ input: ListFileSharesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFileSharesOutput> {
+        return client.execute(operation: "ListFileShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists gateways owned by an AWS account in an AWS Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response. If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
-    public func listGateways(_ input: ListGatewaysInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGatewaysOutput> {
-        return client.execute(operation: "ListGateways", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listGateways(_ input: ListGatewaysInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGatewaysOutput> {
+        return client.execute(operation: "ListGateways", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of the gateway's local disks. To specify which gateway to describe, you use the Amazon Resource Name (ARN) of the gateway in the body of the request. The request returns a list of all disks, specifying which are configured as working storage, cache storage, or stored volume or not configured at all. The response includes a DiskStatus field. This field can have a value of present (the disk is available to use), missing (the disk is no longer connected to the gateway), or mismatch (the disk node is occupied by a disk that has incorrect metadata or the disk content is corrupted).
-    public func listLocalDisks(_ input: ListLocalDisksInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLocalDisksOutput> {
-        return client.execute(operation: "ListLocalDisks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listLocalDisks(_ input: ListLocalDisksInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListLocalDisksOutput> {
+        return client.execute(operation: "ListLocalDisks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the tags that have been added to the specified resource. This operation is supported in storage gateways of all types.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS. This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes. This operation is only supported in the tape gateway type.
-    public func listTapes(_ input: ListTapesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTapesOutput> {
-        return client.execute(operation: "ListTapes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTapes(_ input: ListTapesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTapesOutput> {
+        return client.execute(operation: "ListTapes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists iSCSI initiators that are connected to a volume. You can use this operation to determine whether a volume is being used or not. This operation is only supported in the cached volume and stored volume gateway types.
-    public func listVolumeInitiators(_ input: ListVolumeInitiatorsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVolumeInitiatorsOutput> {
-        return client.execute(operation: "ListVolumeInitiators", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listVolumeInitiators(_ input: ListVolumeInitiatorsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVolumeInitiatorsOutput> {
+        return client.execute(operation: "ListVolumeInitiators", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the recovery points for a specified gateway. This operation is only supported in the cached volume gateway type. Each cache volume has one recovery point. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot or clone a new cached volume from a source volume. To create a snapshot from a volume recovery point use the CreateSnapshotFromVolumeRecoveryPoint operation.
-    public func listVolumeRecoveryPoints(_ input: ListVolumeRecoveryPointsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVolumeRecoveryPointsOutput> {
-        return client.execute(operation: "ListVolumeRecoveryPoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listVolumeRecoveryPoints(_ input: ListVolumeRecoveryPointsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVolumeRecoveryPointsOutput> {
+        return client.execute(operation: "ListVolumeRecoveryPoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API. The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes. This operation is only supported in the cached volume and stored volume gateway types.
-    public func listVolumes(_ input: ListVolumesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVolumesOutput> {
-        return client.execute(operation: "ListVolumes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listVolumes(_ input: ListVolumesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVolumesOutput> {
+        return client.execute(operation: "ListVolumes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sends you notification through CloudWatch Events when all files written to your file share have been uploaded to Amazon S3. AWS Storage Gateway can send a notification through Amazon CloudWatch Events when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to send the notification through event targets such as Amazon SNS or AWS Lambda function. This operation is only supported for file gateways. For more information, see Getting file upload notification in the AWS Storage Gateway User Guide.
-    public func notifyWhenUploaded(_ input: NotifyWhenUploadedInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<NotifyWhenUploadedOutput> {
-        return client.execute(operation: "NotifyWhenUploaded", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func notifyWhenUploaded(_ input: NotifyWhenUploadedInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<NotifyWhenUploadedOutput> {
+        return client.execute(operation: "NotifyWhenUploaded", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Refreshes the cache for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed or replaced since the gateway last listed the bucket's contents and cached the results. This operation is only supported in the file gateway type. You can subscribe to be notified through an Amazon CloudWatch event when your RefreshCache operation completes. For more information, see Getting notified about file operations in the AWS Storage Gateway User Guide. When this API is called, it only initiates the refresh operation. When the API call completes and returns a success code, it doesn't necessarily mean that the file refresh has completed. You should use the refresh-complete notification to determine that the operation has completed before you check for new files on the gateway file share. You can subscribe to be notified through an CloudWatch event when your RefreshCache operation completes. Throttle limit: This API is asynchronous so the gateway will accept no more than two refreshes at any time. We recommend using the refresh-complete CloudWatch event notification before issuing additional requests. For more information, see Getting notified about file operations in the AWS Storage Gateway User Guide. If you invoke the RefreshCache API when two requests are already being processed, any new request will cause an InvalidGatewayRequestException error because too many requests were sent to the server. For more information, see Getting notified about file operations in the AWS Storage Gateway User Guide.
-    public func refreshCache(_ input: RefreshCacheInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RefreshCacheOutput> {
-        return client.execute(operation: "RefreshCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func refreshCache(_ input: RefreshCacheInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RefreshCacheOutput> {
+        return client.execute(operation: "RefreshCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes one or more tags from the specified resource. This operation is supported in storage gateways of all types.
-    public func removeTagsFromResource(_ input: RemoveTagsFromResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveTagsFromResourceOutput> {
-        return client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func removeTagsFromResource(_ input: RemoveTagsFromResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveTagsFromResourceOutput> {
+        return client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Resets all cache disks that have encountered an error and makes the disks available for reconfiguration as cache storage. If your cache disk encounters an error, the gateway prevents read and write operations on virtual tapes in the gateway. For example, an error can occur when a disk is corrupted or removed from the gateway. When a cache is reset, the gateway loses its cache storage. At this point, you can reconfigure the disks as cache disks. This operation is only supported in the cached volume and tape types.  If the cache disk you are resetting contains data that has not been uploaded to Amazon S3 yet, that data can be lost. After you reset cache disks, there will be no configured cache disks left in the gateway, so you must configure at least one new cache disk for your gateway to function properly. 
-    public func resetCache(_ input: ResetCacheInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetCacheOutput> {
-        return client.execute(operation: "ResetCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func resetCache(_ input: ResetCacheInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResetCacheOutput> {
+        return client.execute(operation: "ResetCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a tape gateway. Virtual tapes archived in the VTS are not associated with any gateway. However after a tape is retrieved, it is associated with a gateway, even though it is also listed in the VTS, that is, archive. This operation is only supported in the tape gateway type. Once a tape is successfully retrieved to a gateway, it cannot be retrieved again to another gateway. You must archive the tape again before you can retrieve it to another gateway. This operation is only supported in the tape gateway type.
-    public func retrieveTapeArchive(_ input: RetrieveTapeArchiveInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RetrieveTapeArchiveOutput> {
-        return client.execute(operation: "RetrieveTapeArchive", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func retrieveTapeArchive(_ input: RetrieveTapeArchiveInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RetrieveTapeArchiveOutput> {
+        return client.execute(operation: "RetrieveTapeArchive", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the recovery point for the specified virtual tape. This operation is only supported in the tape gateway type. A recovery point is a point in time view of a virtual tape at which all the data on the tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway.  The virtual tape can be retrieved to only one gateway. The retrieved tape is read-only. The virtual tape can be retrieved to only a tape gateway. There is no charge for retrieving recovery points. 
-    public func retrieveTapeRecoveryPoint(_ input: RetrieveTapeRecoveryPointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RetrieveTapeRecoveryPointOutput> {
-        return client.execute(operation: "RetrieveTapeRecoveryPoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func retrieveTapeRecoveryPoint(_ input: RetrieveTapeRecoveryPointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RetrieveTapeRecoveryPointOutput> {
+        return client.execute(operation: "RetrieveTapeRecoveryPoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sets the password for your VM local console. When you log in to the local console for the first time, you log in to the VM with the default credentials. We recommend that you set a new password. You don't need to know the default password to set a new password.
-    public func setLocalConsolePassword(_ input: SetLocalConsolePasswordInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetLocalConsolePasswordOutput> {
-        return client.execute(operation: "SetLocalConsolePassword", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func setLocalConsolePassword(_ input: SetLocalConsolePasswordInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetLocalConsolePasswordOutput> {
+        return client.execute(operation: "SetLocalConsolePassword", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sets the password for the guest user smbguest. The smbguest user is the user when the authentication method for the file share is set to GuestAccess.
-    public func setSMBGuestPassword(_ input: SetSMBGuestPasswordInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetSMBGuestPasswordOutput> {
-        return client.execute(operation: "SetSMBGuestPassword", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func setSMBGuestPassword(_ input: SetSMBGuestPasswordInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetSMBGuestPasswordOutput> {
+        return client.execute(operation: "SetSMBGuestPassword", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource Name (ARN) of the gateway in the body of your request. The operation shuts down the gateway service component running in the gateway's virtual machine (VM) and not the host VM.  If you want to shut down the VM, it is recommended that you first shut down the gateway component in the VM to avoid unpredictable conditions.  After the gateway is shutdown, you cannot call any other API except StartGateway, DescribeGatewayInformation, and ListGateways. For more information, see ActivateGateway. Your applications cannot read from or write to the gateway's storage volumes, and there are no snapshots taken.  When you make a shutdown request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to shut down. You can call the DescribeGatewayInformation API to check the status. For more information, see ActivateGateway.  If do not intend to use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay software charges associated with the gateway.
-    public func shutdownGateway(_ input: ShutdownGatewayInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ShutdownGatewayOutput> {
-        return client.execute(operation: "ShutdownGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func shutdownGateway(_ input: ShutdownGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ShutdownGatewayOutput> {
+        return client.execute(operation: "ShutdownGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Start a test that verifies that the specified gateway is configured for High Availability monitoring in your host environment. This request only initiates the test and that a successful response only indicates that the test was started. It doesn't indicate that the test passed. For the status of the test, invoke the DescribeAvailabilityMonitorTest API.  Starting this test will cause your gateway to go offline for a brief period. 
-    public func startAvailabilityMonitorTest(_ input: StartAvailabilityMonitorTestInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAvailabilityMonitorTestOutput> {
-        return client.execute(operation: "StartAvailabilityMonitorTest", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func startAvailabilityMonitorTest(_ input: StartAvailabilityMonitorTestInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartAvailabilityMonitorTestOutput> {
+        return client.execute(operation: "StartAvailabilityMonitorTest", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Starts a gateway that you previously shut down (see ShutdownGateway). After the gateway starts, you can then make other API calls, your applications can read from or write to the gateway's storage volumes and you will be able to take snapshot backups.  When you make a request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to be ready. You should call DescribeGatewayInformation and check the status before making any additional API calls. For more information, see ActivateGateway.  To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in your request.
-    public func startGateway(_ input: StartGatewayInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartGatewayOutput> {
-        return client.execute(operation: "StartGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func startGateway(_ input: StartGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartGatewayOutput> {
+        return client.execute(operation: "StartGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the automatic tape creation policy of a gateway. Use this to update the policy with a new set of automatic tape creation rules. This is only supported for tape gateways. By default, there is no automatic tape creation policy.  A gateway can have only one automatic tape creation policy. 
-    public func updateAutomaticTapeCreationPolicy(_ input: UpdateAutomaticTapeCreationPolicyInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAutomaticTapeCreationPolicyOutput> {
-        return client.execute(operation: "UpdateAutomaticTapeCreationPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateAutomaticTapeCreationPolicy(_ input: UpdateAutomaticTapeCreationPolicyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAutomaticTapeCreationPolicyOutput> {
+        return client.execute(operation: "UpdateAutomaticTapeCreationPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the bandwidth rate limits of a gateway. You can update both the upload and download bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate limit, the existing rate limit remains. This operation is supported for the stored volume, cached volume, and tape gateway types. By default, a gateway's bandwidth rate limits are not set. If you don't set any limit, the gateway does not have any limitations on its bandwidth usage and could potentially use the maximum available bandwidth. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
-    public func updateBandwidthRateLimit(_ input: UpdateBandwidthRateLimitInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBandwidthRateLimitOutput> {
-        return client.execute(operation: "UpdateBandwidthRateLimit", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateBandwidthRateLimit(_ input: UpdateBandwidthRateLimitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBandwidthRateLimitOutput> {
+        return client.execute(operation: "UpdateBandwidthRateLimit", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security, you might use it. This operation is supported in the volume and tape gateway types.  When you update CHAP credentials, all existing connections on the target are closed and initiators must reconnect with the new credentials. 
-    public func updateChapCredentials(_ input: UpdateChapCredentialsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChapCredentialsOutput> {
-        return client.execute(operation: "UpdateChapCredentials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateChapCredentials(_ input: UpdateChapCredentialsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateChapCredentialsOutput> {
+        return client.execute(operation: "UpdateChapCredentials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a gateway's metadata, which includes the gateway's name and time zone. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.  For Gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID rather than the gateway name. However, changing the name of the gateway has no effect on the gateway's ARN. 
-    public func updateGatewayInformation(_ input: UpdateGatewayInformationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGatewayInformationOutput> {
-        return client.execute(operation: "UpdateGatewayInformation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateGatewayInformation(_ input: UpdateGatewayInformationInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGatewayInformationOutput> {
+        return client.execute(operation: "UpdateGatewayInformation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. You can call DescribeGatewayInformation to verify the gateway is in the STATE_RUNNING state.   A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by increasing your iSCSI Initiators' timeouts. For more information about increasing iSCSI Initiator timeouts for Windows and Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively. 
-    public func updateGatewaySoftwareNow(_ input: UpdateGatewaySoftwareNowInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGatewaySoftwareNowOutput> {
-        return client.execute(operation: "UpdateGatewaySoftwareNow", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateGatewaySoftwareNow(_ input: UpdateGatewaySoftwareNowInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGatewaySoftwareNowOutput> {
+        return client.execute(operation: "UpdateGatewaySoftwareNow", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a gateway's weekly maintenance start time information, including day and time of the week. The maintenance time is the time in your gateway's time zone.
-    public func updateMaintenanceStartTime(_ input: UpdateMaintenanceStartTimeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMaintenanceStartTimeOutput> {
-        return client.execute(operation: "UpdateMaintenanceStartTime", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateMaintenanceStartTime(_ input: UpdateMaintenanceStartTimeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMaintenanceStartTimeOutput> {
+        return client.execute(operation: "UpdateMaintenanceStartTime", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a Network File System (NFS) file share. This operation is only supported in the file gateway type.  To leave a file share field unchanged, set the corresponding input field to null.  Updates the following file share setting:   Default storage class for your S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your file share   Squash settings   Write status of your file share    To leave a file share field unchanged, set the corresponding input field to null. This operation is only supported in file gateways. 
-    public func updateNFSFileShare(_ input: UpdateNFSFileShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNFSFileShareOutput> {
-        return client.execute(operation: "UpdateNFSFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateNFSFileShare(_ input: UpdateNFSFileShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNFSFileShareOutput> {
+        return client.execute(operation: "UpdateNFSFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a Server Message Block (SMB) file share.  To leave a file share field unchanged, set the corresponding input field to null. This operation is only supported for file gateways.   File gateways require AWS Security Token Service (AWS STS) to be activated to enable you to create a file share. Make sure that AWS STS is activated in the AWS Region you are creating your file gateway in. If AWS STS is not activated in this AWS Region, activate it. For information about how to activate AWS STS, see Activating and deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. File gateways don't support creating hard or symbolic links on a file share. 
-    public func updateSMBFileShare(_ input: UpdateSMBFileShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSMBFileShareOutput> {
-        return client.execute(operation: "UpdateSMBFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateSMBFileShare(_ input: UpdateSMBFileShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSMBFileShareOutput> {
+        return client.execute(operation: "UpdateSMBFileShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the SMB security strategy on a file gateway. This action is only supported in file gateways.  This API is called Security level in the User Guide. A higher security level can affect performance of the gateway. 
-    public func updateSMBSecurityStrategy(_ input: UpdateSMBSecurityStrategyInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSMBSecurityStrategyOutput> {
-        return client.execute(operation: "UpdateSMBSecurityStrategy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateSMBSecurityStrategy(_ input: UpdateSMBSecurityStrategyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSMBSecurityStrategyOutput> {
+        return client.execute(operation: "UpdateSMBSecurityStrategy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a snapshot schedule configured for a gateway volume. This operation is only supported in the cached volume and stored volume gateway types. The default snapshot schedule for volume is once every 24 hours, starting at the creation time of the volume. You can use this API to change the snapshot schedule configured for the volume. In the request you must identify the gateway volume whose snapshot schedule you want to update, and the schedule information, including when you want the snapshot to begin on a day and the frequency (in hours) of snapshots.
-    public func updateSnapshotSchedule(_ input: UpdateSnapshotScheduleInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSnapshotScheduleOutput> {
-        return client.execute(operation: "UpdateSnapshotSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateSnapshotSchedule(_ input: UpdateSnapshotScheduleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSnapshotScheduleOutput> {
+        return client.execute(operation: "UpdateSnapshotSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the type of medium changer in a tape gateway. When you activate a tape gateway, you select a medium changer type for the tape gateway. This operation enables you to select a different type of medium changer after a tape gateway is activated. This operation is only supported in the tape gateway type.
-    public func updateVTLDeviceType(_ input: UpdateVTLDeviceTypeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVTLDeviceTypeOutput> {
-        return client.execute(operation: "UpdateVTLDeviceType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateVTLDeviceType(_ input: UpdateVTLDeviceTypeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVTLDeviceTypeOutput> {
+        return client.execute(operation: "UpdateVTLDeviceType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

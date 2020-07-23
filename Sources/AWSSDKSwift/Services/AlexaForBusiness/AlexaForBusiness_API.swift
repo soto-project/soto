@@ -61,467 +61,467 @@ public struct AlexaForBusiness {
     //MARK: API Calls
 
     ///  Associates a skill with the organization under the customer's AWS account. If a skill is private, the user implicitly accepts access to this skill during enablement.
-    public func approveSkill(_ input: ApproveSkillRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApproveSkillResponse> {
-        return client.execute(operation: "ApproveSkill", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func approveSkill(_ input: ApproveSkillRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ApproveSkillResponse> {
+        return client.execute(operation: "ApproveSkill", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Associates a contact with a given address book.
-    public func associateContactWithAddressBook(_ input: AssociateContactWithAddressBookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateContactWithAddressBookResponse> {
-        return client.execute(operation: "AssociateContactWithAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateContactWithAddressBook(_ input: AssociateContactWithAddressBookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateContactWithAddressBookResponse> {
+        return client.execute(operation: "AssociateContactWithAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Associates a device with the specified network profile.
-    public func associateDeviceWithNetworkProfile(_ input: AssociateDeviceWithNetworkProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateDeviceWithNetworkProfileResponse> {
-        return client.execute(operation: "AssociateDeviceWithNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateDeviceWithNetworkProfile(_ input: AssociateDeviceWithNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateDeviceWithNetworkProfileResponse> {
+        return client.execute(operation: "AssociateDeviceWithNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required. 
-    public func associateDeviceWithRoom(_ input: AssociateDeviceWithRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateDeviceWithRoomResponse> {
-        return client.execute(operation: "AssociateDeviceWithRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateDeviceWithRoom(_ input: AssociateDeviceWithRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateDeviceWithRoomResponse> {
+        return client.execute(operation: "AssociateDeviceWithRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
-    public func associateSkillGroupWithRoom(_ input: AssociateSkillGroupWithRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSkillGroupWithRoomResponse> {
-        return client.execute(operation: "AssociateSkillGroupWithRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateSkillGroupWithRoom(_ input: AssociateSkillGroupWithRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateSkillGroupWithRoomResponse> {
+        return client.execute(operation: "AssociateSkillGroupWithRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Associates a skill with a skill group.
-    public func associateSkillWithSkillGroup(_ input: AssociateSkillWithSkillGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSkillWithSkillGroupResponse> {
-        return client.execute(operation: "AssociateSkillWithSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateSkillWithSkillGroup(_ input: AssociateSkillWithSkillGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateSkillWithSkillGroupResponse> {
+        return client.execute(operation: "AssociateSkillWithSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Makes a private skill available for enrolled users to enable on their devices.
-    public func associateSkillWithUsers(_ input: AssociateSkillWithUsersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSkillWithUsersResponse> {
-        return client.execute(operation: "AssociateSkillWithUsers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateSkillWithUsers(_ input: AssociateSkillWithUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateSkillWithUsersResponse> {
+        return client.execute(operation: "AssociateSkillWithUsers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates an address book with the specified details.
-    public func createAddressBook(_ input: CreateAddressBookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAddressBookResponse> {
-        return client.execute(operation: "CreateAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createAddressBook(_ input: CreateAddressBookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAddressBookResponse> {
+        return client.execute(operation: "CreateAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a recurring schedule for usage reports to deliver to the specified S3 location with a specified daily or weekly interval.
-    public func createBusinessReportSchedule(_ input: CreateBusinessReportScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBusinessReportScheduleResponse> {
-        return client.execute(operation: "CreateBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createBusinessReportSchedule(_ input: CreateBusinessReportScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBusinessReportScheduleResponse> {
+        return client.execute(operation: "CreateBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds a new conference provider under the user's AWS account.
-    public func createConferenceProvider(_ input: CreateConferenceProviderRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConferenceProviderResponse> {
-        return client.execute(operation: "CreateConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createConferenceProvider(_ input: CreateConferenceProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateConferenceProviderResponse> {
+        return client.execute(operation: "CreateConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a contact with the specified details.
-    public func createContact(_ input: CreateContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactResponse> {
-        return client.execute(operation: "CreateContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createContact(_ input: CreateContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateContactResponse> {
+        return client.execute(operation: "CreateContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a gateway group with the specified details.
-    public func createGatewayGroup(_ input: CreateGatewayGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGatewayGroupResponse> {
-        return client.execute(operation: "CreateGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createGatewayGroup(_ input: CreateGatewayGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGatewayGroupResponse> {
+        return client.execute(operation: "CreateGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a network profile with the specified details.
-    public func createNetworkProfile(_ input: CreateNetworkProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkProfileResponse> {
-        return client.execute(operation: "CreateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createNetworkProfile(_ input: CreateNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNetworkProfileResponse> {
+        return client.execute(operation: "CreateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new room profile with the specified details.
-    public func createProfile(_ input: CreateProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileResponse> {
-        return client.execute(operation: "CreateProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createProfile(_ input: CreateProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProfileResponse> {
+        return client.execute(operation: "CreateProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a room with the specified details.
-    public func createRoom(_ input: CreateRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoomResponse> {
-        return client.execute(operation: "CreateRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createRoom(_ input: CreateRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRoomResponse> {
+        return client.execute(operation: "CreateRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a skill group with a specified name and description.
-    public func createSkillGroup(_ input: CreateSkillGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSkillGroupResponse> {
-        return client.execute(operation: "CreateSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createSkillGroup(_ input: CreateSkillGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSkillGroupResponse> {
+        return client.execute(operation: "CreateSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a user.
-    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
-        return client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserResponse> {
+        return client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an address book by the address book ARN.
-    public func deleteAddressBook(_ input: DeleteAddressBookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAddressBookResponse> {
-        return client.execute(operation: "DeleteAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteAddressBook(_ input: DeleteAddressBookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAddressBookResponse> {
+        return client.execute(operation: "DeleteAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the recurring report delivery schedule with the specified schedule ARN.
-    public func deleteBusinessReportSchedule(_ input: DeleteBusinessReportScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBusinessReportScheduleResponse> {
-        return client.execute(operation: "DeleteBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteBusinessReportSchedule(_ input: DeleteBusinessReportScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBusinessReportScheduleResponse> {
+        return client.execute(operation: "DeleteBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a conference provider.
-    public func deleteConferenceProvider(_ input: DeleteConferenceProviderRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConferenceProviderResponse> {
-        return client.execute(operation: "DeleteConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteConferenceProvider(_ input: DeleteConferenceProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConferenceProviderResponse> {
+        return client.execute(operation: "DeleteConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a contact by the contact ARN.
-    public func deleteContact(_ input: DeleteContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactResponse> {
-        return client.execute(operation: "DeleteContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteContact(_ input: DeleteContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteContactResponse> {
+        return client.execute(operation: "DeleteContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes a device from Alexa For Business.
-    public func deleteDevice(_ input: DeleteDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceResponse> {
-        return client.execute(operation: "DeleteDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteDevice(_ input: DeleteDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDeviceResponse> {
+        return client.execute(operation: "DeleteDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
-    public func deleteDeviceUsageData(_ input: DeleteDeviceUsageDataRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceUsageDataResponse> {
-        return client.execute(operation: "DeleteDeviceUsageData", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteDeviceUsageData(_ input: DeleteDeviceUsageDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDeviceUsageDataResponse> {
+        return client.execute(operation: "DeleteDeviceUsageData", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a gateway group.
-    public func deleteGatewayGroup(_ input: DeleteGatewayGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGatewayGroupResponse> {
-        return client.execute(operation: "DeleteGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteGatewayGroup(_ input: DeleteGatewayGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGatewayGroupResponse> {
+        return client.execute(operation: "DeleteGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a network profile by the network profile ARN.
-    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkProfileResponse> {
-        return client.execute(operation: "DeleteNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteNetworkProfileResponse> {
+        return client.execute(operation: "DeleteNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a room profile by the profile ARN.
-    public func deleteProfile(_ input: DeleteProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProfileResponse> {
-        return client.execute(operation: "DeleteProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteProfile(_ input: DeleteProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProfileResponse> {
+        return client.execute(operation: "DeleteProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a room by the room ARN.
-    public func deleteRoom(_ input: DeleteRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRoomResponse> {
-        return client.execute(operation: "DeleteRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteRoom(_ input: DeleteRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRoomResponse> {
+        return client.execute(operation: "DeleteRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes room skill parameter details by room, skill, and parameter key ID.
-    public func deleteRoomSkillParameter(_ input: DeleteRoomSkillParameterRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRoomSkillParameterResponse> {
-        return client.execute(operation: "DeleteRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteRoomSkillParameter(_ input: DeleteRoomSkillParameterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRoomSkillParameterResponse> {
+        return client.execute(operation: "DeleteRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Unlinks a third-party account from a skill.
-    public func deleteSkillAuthorization(_ input: DeleteSkillAuthorizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSkillAuthorizationResponse> {
-        return client.execute(operation: "DeleteSkillAuthorization", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteSkillAuthorization(_ input: DeleteSkillAuthorizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSkillAuthorizationResponse> {
+        return client.execute(operation: "DeleteSkillAuthorization", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a skill group by skill group ARN.
-    public func deleteSkillGroup(_ input: DeleteSkillGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSkillGroupResponse> {
-        return client.execute(operation: "DeleteSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteSkillGroup(_ input: DeleteSkillGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSkillGroupResponse> {
+        return client.execute(operation: "DeleteSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a specified user by user ARN and enrollment ARN.
-    public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResponse> {
-        return client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserResponse> {
+        return client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates a contact from a given address book.
-    public func disassociateContactFromAddressBook(_ input: DisassociateContactFromAddressBookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateContactFromAddressBookResponse> {
-        return client.execute(operation: "DisassociateContactFromAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateContactFromAddressBook(_ input: DisassociateContactFromAddressBookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateContactFromAddressBookResponse> {
+        return client.execute(operation: "DisassociateContactFromAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
-    public func disassociateDeviceFromRoom(_ input: DisassociateDeviceFromRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateDeviceFromRoomResponse> {
-        return client.execute(operation: "DisassociateDeviceFromRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateDeviceFromRoom(_ input: DisassociateDeviceFromRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateDeviceFromRoomResponse> {
+        return client.execute(operation: "DisassociateDeviceFromRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates a skill from a skill group.
-    public func disassociateSkillFromSkillGroup(_ input: DisassociateSkillFromSkillGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSkillFromSkillGroupResponse> {
-        return client.execute(operation: "DisassociateSkillFromSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateSkillFromSkillGroup(_ input: DisassociateSkillFromSkillGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateSkillFromSkillGroupResponse> {
+        return client.execute(operation: "DisassociateSkillFromSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Makes a private skill unavailable for enrolled users and prevents them from enabling it on their devices.
-    public func disassociateSkillFromUsers(_ input: DisassociateSkillFromUsersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSkillFromUsersResponse> {
-        return client.execute(operation: "DisassociateSkillFromUsers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateSkillFromUsers(_ input: DisassociateSkillFromUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateSkillFromUsersResponse> {
+        return client.execute(operation: "DisassociateSkillFromUsers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
-    public func disassociateSkillGroupFromRoom(_ input: DisassociateSkillGroupFromRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSkillGroupFromRoomResponse> {
-        return client.execute(operation: "DisassociateSkillGroupFromRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateSkillGroupFromRoom(_ input: DisassociateSkillGroupFromRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateSkillGroupFromRoomResponse> {
+        return client.execute(operation: "DisassociateSkillGroupFromRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Forgets smart home appliances associated to a room.
-    public func forgetSmartHomeAppliances(_ input: ForgetSmartHomeAppliancesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ForgetSmartHomeAppliancesResponse> {
-        return client.execute(operation: "ForgetSmartHomeAppliances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func forgetSmartHomeAppliances(_ input: ForgetSmartHomeAppliancesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ForgetSmartHomeAppliancesResponse> {
+        return client.execute(operation: "ForgetSmartHomeAppliances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets address the book details by the address book ARN.
-    public func getAddressBook(_ input: GetAddressBookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAddressBookResponse> {
-        return client.execute(operation: "GetAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getAddressBook(_ input: GetAddressBookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAddressBookResponse> {
+        return client.execute(operation: "GetAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the existing conference preferences.
-    public func getConferencePreference(_ input: GetConferencePreferenceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConferencePreferenceResponse> {
-        return client.execute(operation: "GetConferencePreference", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getConferencePreference(_ input: GetConferencePreferenceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConferencePreferenceResponse> {
+        return client.execute(operation: "GetConferencePreference", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets details about a specific conference provider.
-    public func getConferenceProvider(_ input: GetConferenceProviderRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConferenceProviderResponse> {
-        return client.execute(operation: "GetConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getConferenceProvider(_ input: GetConferenceProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConferenceProviderResponse> {
+        return client.execute(operation: "GetConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the contact details by the contact ARN.
-    public func getContact(_ input: GetContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactResponse> {
-        return client.execute(operation: "GetContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getContact(_ input: GetContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetContactResponse> {
+        return client.execute(operation: "GetContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the details of a device by device ARN.
-    public func getDevice(_ input: GetDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceResponse> {
-        return client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDevice(_ input: GetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceResponse> {
+        return client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the details of a gateway.
-    public func getGateway(_ input: GetGatewayRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGatewayResponse> {
-        return client.execute(operation: "GetGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getGateway(_ input: GetGatewayRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGatewayResponse> {
+        return client.execute(operation: "GetGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the details of a gateway group.
-    public func getGatewayGroup(_ input: GetGatewayGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGatewayGroupResponse> {
-        return client.execute(operation: "GetGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getGatewayGroup(_ input: GetGatewayGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGatewayGroupResponse> {
+        return client.execute(operation: "GetGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the configured values for the user enrollment invitation email template.
-    public func getInvitationConfiguration(_ input: GetInvitationConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvitationConfigurationResponse> {
-        return client.execute(operation: "GetInvitationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getInvitationConfiguration(_ input: GetInvitationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInvitationConfigurationResponse> {
+        return client.execute(operation: "GetInvitationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the network profile details by the network profile ARN.
-    public func getNetworkProfile(_ input: GetNetworkProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkProfileResponse> {
-        return client.execute(operation: "GetNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getNetworkProfile(_ input: GetNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetNetworkProfileResponse> {
+        return client.execute(operation: "GetNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the details of a room profile by profile ARN.
-    public func getProfile(_ input: GetProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProfileResponse> {
-        return client.execute(operation: "GetProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getProfile(_ input: GetProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetProfileResponse> {
+        return client.execute(operation: "GetProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets room details by room ARN.
-    public func getRoom(_ input: GetRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoomResponse> {
-        return client.execute(operation: "GetRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getRoom(_ input: GetRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRoomResponse> {
+        return client.execute(operation: "GetRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets room skill parameter details by room, skill, and parameter key ARN.
-    public func getRoomSkillParameter(_ input: GetRoomSkillParameterRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoomSkillParameterResponse> {
-        return client.execute(operation: "GetRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getRoomSkillParameter(_ input: GetRoomSkillParameterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRoomSkillParameterResponse> {
+        return client.execute(operation: "GetRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets skill group details by skill group ARN.
-    public func getSkillGroup(_ input: GetSkillGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSkillGroupResponse> {
-        return client.execute(operation: "GetSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getSkillGroup(_ input: GetSkillGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSkillGroupResponse> {
+        return client.execute(operation: "GetSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
-    public func listBusinessReportSchedules(_ input: ListBusinessReportSchedulesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBusinessReportSchedulesResponse> {
-        return client.execute(operation: "ListBusinessReportSchedules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listBusinessReportSchedules(_ input: ListBusinessReportSchedulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBusinessReportSchedulesResponse> {
+        return client.execute(operation: "ListBusinessReportSchedules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists conference providers under a specific AWS account.
-    public func listConferenceProviders(_ input: ListConferenceProvidersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConferenceProvidersResponse> {
-        return client.execute(operation: "ListConferenceProviders", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listConferenceProviders(_ input: ListConferenceProvidersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListConferenceProvidersResponse> {
+        return client.execute(operation: "ListConferenceProviders", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the device event history, including device connection status, for up to 30 days.
-    public func listDeviceEvents(_ input: ListDeviceEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceEventsResponse> {
-        return client.execute(operation: "ListDeviceEvents", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDeviceEvents(_ input: ListDeviceEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeviceEventsResponse> {
+        return client.execute(operation: "ListDeviceEvents", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
-    public func listGatewayGroups(_ input: ListGatewayGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGatewayGroupsResponse> {
-        return client.execute(operation: "ListGatewayGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listGatewayGroups(_ input: ListGatewayGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGatewayGroupsResponse> {
+        return client.execute(operation: "ListGatewayGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
-    public func listGateways(_ input: ListGatewaysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGatewaysResponse> {
-        return client.execute(operation: "ListGateways", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listGateways(_ input: ListGatewaysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGatewaysResponse> {
+        return client.execute(operation: "ListGateways", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all enabled skills in a specific skill group.
-    public func listSkills(_ input: ListSkillsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSkillsResponse> {
-        return client.execute(operation: "ListSkills", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listSkills(_ input: ListSkillsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSkillsResponse> {
+        return client.execute(operation: "ListSkills", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all categories in the Alexa skill store.
-    public func listSkillsStoreCategories(_ input: ListSkillsStoreCategoriesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSkillsStoreCategoriesResponse> {
-        return client.execute(operation: "ListSkillsStoreCategories", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listSkillsStoreCategories(_ input: ListSkillsStoreCategoriesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSkillsStoreCategoriesResponse> {
+        return client.execute(operation: "ListSkillsStoreCategories", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all skills in the Alexa skill store by category.
-    public func listSkillsStoreSkillsByCategory(_ input: ListSkillsStoreSkillsByCategoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSkillsStoreSkillsByCategoryResponse> {
-        return client.execute(operation: "ListSkillsStoreSkillsByCategory", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listSkillsStoreSkillsByCategory(_ input: ListSkillsStoreSkillsByCategoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSkillsStoreSkillsByCategoryResponse> {
+        return client.execute(operation: "ListSkillsStoreSkillsByCategory", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all of the smart home appliances associated with a room.
-    public func listSmartHomeAppliances(_ input: ListSmartHomeAppliancesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSmartHomeAppliancesResponse> {
-        return client.execute(operation: "ListSmartHomeAppliances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listSmartHomeAppliances(_ input: ListSmartHomeAppliancesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSmartHomeAppliancesResponse> {
+        return client.execute(operation: "ListSmartHomeAppliances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all tags for the specified resource.
-    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
-        return client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsResponse> {
+        return client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sets the conference preferences on a specific conference provider at the account level.
-    public func putConferencePreference(_ input: PutConferencePreferenceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConferencePreferenceResponse> {
-        return client.execute(operation: "PutConferencePreference", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putConferencePreference(_ input: PutConferencePreferenceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutConferencePreferenceResponse> {
+        return client.execute(operation: "PutConferencePreference", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Configures the email template for the user enrollment invitation with the specified attributes.
-    public func putInvitationConfiguration(_ input: PutInvitationConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutInvitationConfigurationResponse> {
-        return client.execute(operation: "PutInvitationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putInvitationConfiguration(_ input: PutInvitationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutInvitationConfigurationResponse> {
+        return client.execute(operation: "PutInvitationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
-    public func putRoomSkillParameter(_ input: PutRoomSkillParameterRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRoomSkillParameterResponse> {
-        return client.execute(operation: "PutRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putRoomSkillParameter(_ input: PutRoomSkillParameterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutRoomSkillParameterResponse> {
+        return client.execute(operation: "PutRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Links a user's account to a third-party skill provider. If this API operation is called by an assumed IAM role, the skill being linked must be a private skill. Also, the skill must be owned by the AWS account that assumed the IAM role.
-    public func putSkillAuthorization(_ input: PutSkillAuthorizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSkillAuthorizationResponse> {
-        return client.execute(operation: "PutSkillAuthorization", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putSkillAuthorization(_ input: PutSkillAuthorizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutSkillAuthorizationResponse> {
+        return client.execute(operation: "PutSkillAuthorization", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using Alexa Voice Service (AVS).
-    public func registerAVSDevice(_ input: RegisterAVSDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterAVSDeviceResponse> {
-        return client.execute(operation: "RegisterAVSDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func registerAVSDevice(_ input: RegisterAVSDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterAVSDeviceResponse> {
+        return client.execute(operation: "RegisterAVSDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates a skill from the organization under a user's AWS account. If the skill is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is rejected can be added later by calling the ApproveSkill API. 
-    public func rejectSkill(_ input: RejectSkillRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectSkillResponse> {
-        return client.execute(operation: "RejectSkill", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func rejectSkill(_ input: RejectSkillRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RejectSkillResponse> {
+        return client.execute(operation: "RejectSkill", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Determines the details for the room from which a skill request was invoked. This operation is used by skill developers.
-    public func resolveRoom(_ input: ResolveRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResolveRoomResponse> {
-        return client.execute(operation: "ResolveRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func resolveRoom(_ input: ResolveRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResolveRoomResponse> {
+        return client.execute(operation: "ResolveRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Revokes an invitation and invalidates the enrollment URL.
-    public func revokeInvitation(_ input: RevokeInvitationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeInvitationResponse> {
-        return client.execute(operation: "RevokeInvitation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func revokeInvitation(_ input: RevokeInvitationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RevokeInvitationResponse> {
+        return client.execute(operation: "RevokeInvitation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches address books and lists the ones that meet a set of filter and sort criteria.
-    public func searchAddressBooks(_ input: SearchAddressBooksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchAddressBooksResponse> {
-        return client.execute(operation: "SearchAddressBooks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchAddressBooks(_ input: SearchAddressBooksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchAddressBooksResponse> {
+        return client.execute(operation: "SearchAddressBooks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches contacts and lists the ones that meet a set of filter and sort criteria.
-    public func searchContacts(_ input: SearchContactsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchContactsResponse> {
-        return client.execute(operation: "SearchContacts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchContacts(_ input: SearchContactsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchContactsResponse> {
+        return client.execute(operation: "SearchContacts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches devices and lists the ones that meet a set of filter criteria.
-    public func searchDevices(_ input: SearchDevicesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDevicesResponse> {
-        return client.execute(operation: "SearchDevices", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchDevices(_ input: SearchDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchDevicesResponse> {
+        return client.execute(operation: "SearchDevices", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches network profiles and lists the ones that meet a set of filter and sort criteria.
-    public func searchNetworkProfiles(_ input: SearchNetworkProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchNetworkProfilesResponse> {
-        return client.execute(operation: "SearchNetworkProfiles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchNetworkProfiles(_ input: SearchNetworkProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchNetworkProfilesResponse> {
+        return client.execute(operation: "SearchNetworkProfiles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches room profiles and lists the ones that meet a set of filter criteria.
-    public func searchProfiles(_ input: SearchProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchProfilesResponse> {
-        return client.execute(operation: "SearchProfiles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchProfiles(_ input: SearchProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchProfilesResponse> {
+        return client.execute(operation: "SearchProfiles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches rooms and lists the ones that meet a set of filter and sort criteria.
-    public func searchRooms(_ input: SearchRoomsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchRoomsResponse> {
-        return client.execute(operation: "SearchRooms", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchRooms(_ input: SearchRoomsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchRoomsResponse> {
+        return client.execute(operation: "SearchRooms", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches skill groups and lists the ones that meet a set of filter and sort criteria.
-    public func searchSkillGroups(_ input: SearchSkillGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchSkillGroupsResponse> {
-        return client.execute(operation: "SearchSkillGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchSkillGroups(_ input: SearchSkillGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchSkillGroupsResponse> {
+        return client.execute(operation: "SearchSkillGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Searches users and lists the ones that meet a set of filter and sort criteria.
-    public func searchUsers(_ input: SearchUsersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchUsersResponse> {
-        return client.execute(operation: "SearchUsers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func searchUsers(_ input: SearchUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchUsersResponse> {
+        return client.execute(operation: "SearchUsers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Triggers an asynchronous flow to send text, SSML, or audio announcements to rooms that are identified by a search or filter. 
-    public func sendAnnouncement(_ input: SendAnnouncementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendAnnouncementResponse> {
-        return client.execute(operation: "SendAnnouncement", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func sendAnnouncement(_ input: SendAnnouncementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendAnnouncementResponse> {
+        return client.execute(operation: "SendAnnouncement", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first. 
-    public func sendInvitation(_ input: SendInvitationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendInvitationResponse> {
-        return client.execute(operation: "SendInvitation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func sendInvitation(_ input: SendInvitationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendInvitationResponse> {
+        return client.execute(operation: "SendInvitation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Resets a device and its account to the known default settings. This clears all information and settings set by previous users in the following ways:   Bluetooth - This unpairs all bluetooth devices paired with your echo device.   Volume - This resets the echo device's volume to the default value.   Notifications - This clears all notifications from your echo device.   Lists - This clears all to-do items from your echo device.   Settings - This internally syncs the room's profile (if the device is assigned to a room), contacts, address books, delegation access for account linking, and communications (if enabled on the room profile).  
-    public func startDeviceSync(_ input: StartDeviceSyncRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeviceSyncResponse> {
-        return client.execute(operation: "StartDeviceSync", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func startDeviceSync(_ input: StartDeviceSyncRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartDeviceSyncResponse> {
+        return client.execute(operation: "StartDeviceSync", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Initiates the discovery of any smart home appliances associated with the room.
-    public func startSmartHomeApplianceDiscovery(_ input: StartSmartHomeApplianceDiscoveryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSmartHomeApplianceDiscoveryResponse> {
-        return client.execute(operation: "StartSmartHomeApplianceDiscovery", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func startSmartHomeApplianceDiscovery(_ input: StartSmartHomeApplianceDiscoveryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSmartHomeApplianceDiscoveryResponse> {
+        return client.execute(operation: "StartSmartHomeApplianceDiscovery", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds metadata tags to a specified resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes metadata tags from a specified resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates address book details by the address book ARN.
-    public func updateAddressBook(_ input: UpdateAddressBookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAddressBookResponse> {
-        return client.execute(operation: "UpdateAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateAddressBook(_ input: UpdateAddressBookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAddressBookResponse> {
+        return client.execute(operation: "UpdateAddressBook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the configuration of the report delivery schedule with the specified schedule ARN.
-    public func updateBusinessReportSchedule(_ input: UpdateBusinessReportScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBusinessReportScheduleResponse> {
-        return client.execute(operation: "UpdateBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateBusinessReportSchedule(_ input: UpdateBusinessReportScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBusinessReportScheduleResponse> {
+        return client.execute(operation: "UpdateBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing conference provider's settings.
-    public func updateConferenceProvider(_ input: UpdateConferenceProviderRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConferenceProviderResponse> {
-        return client.execute(operation: "UpdateConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateConferenceProvider(_ input: UpdateConferenceProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateConferenceProviderResponse> {
+        return client.execute(operation: "UpdateConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the contact details by the contact ARN.
-    public func updateContact(_ input: UpdateContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactResponse> {
-        return client.execute(operation: "UpdateContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateContact(_ input: UpdateContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateContactResponse> {
+        return client.execute(operation: "UpdateContact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the device name by device ARN.
-    public func updateDevice(_ input: UpdateDeviceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeviceResponse> {
-        return client.execute(operation: "UpdateDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateDevice(_ input: UpdateDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDeviceResponse> {
+        return client.execute(operation: "UpdateDevice", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the details of a gateway. If any optional field is not provided, the existing corresponding value is left unmodified.
-    public func updateGateway(_ input: UpdateGatewayRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGatewayResponse> {
-        return client.execute(operation: "UpdateGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateGateway(_ input: UpdateGatewayRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGatewayResponse> {
+        return client.execute(operation: "UpdateGateway", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the details of a gateway group. If any optional field is not provided, the existing corresponding value is left unmodified.
-    public func updateGatewayGroup(_ input: UpdateGatewayGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGatewayGroupResponse> {
-        return client.execute(operation: "UpdateGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateGatewayGroup(_ input: UpdateGatewayGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGatewayGroupResponse> {
+        return client.execute(operation: "UpdateGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a network profile by the network profile ARN.
-    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkProfileResponse> {
-        return client.execute(operation: "UpdateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNetworkProfileResponse> {
+        return client.execute(operation: "UpdateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing room profile by room profile ARN.
-    public func updateProfile(_ input: UpdateProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfileResponse> {
-        return client.execute(operation: "UpdateProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateProfile(_ input: UpdateProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProfileResponse> {
+        return client.execute(operation: "UpdateProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates room details by room ARN.
-    public func updateRoom(_ input: UpdateRoomRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoomResponse> {
-        return client.execute(operation: "UpdateRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateRoom(_ input: UpdateRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRoomResponse> {
+        return client.execute(operation: "UpdateRoom", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates skill group details by skill group ARN.
-    public func updateSkillGroup(_ input: UpdateSkillGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSkillGroupResponse> {
-        return client.execute(operation: "UpdateSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateSkillGroup(_ input: UpdateSkillGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSkillGroupResponse> {
+        return client.execute(operation: "UpdateSkillGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

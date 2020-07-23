@@ -61,47 +61,47 @@ public struct Mobile {
     //MARK: API Calls
 
     ///   Creates an AWS Mobile Hub project. 
-    public func createProject(_ input: CreateProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectResult> {
-        return client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createProject(_ input: CreateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProjectResult> {
+        return client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Delets a project in AWS Mobile Hub. 
-    public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProjectResult> {
-        return client.execute(operation: "DeleteProject", path: "/projects/{projectId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProjectResult> {
+        return client.execute(operation: "DeleteProject", path: "/projects/{projectId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Get the bundle details for the requested bundle id. 
-    public func describeBundle(_ input: DescribeBundleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBundleResult> {
-        return client.execute(operation: "DescribeBundle", path: "/bundles/{bundleId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeBundle(_ input: DescribeBundleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBundleResult> {
+        return client.execute(operation: "DescribeBundle", path: "/bundles/{bundleId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Gets details about a project in AWS Mobile Hub. 
-    public func describeProject(_ input: DescribeProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProjectResult> {
-        return client.execute(operation: "DescribeProject", path: "/project", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeProject(_ input: DescribeProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProjectResult> {
+        return client.execute(operation: "DescribeProject", path: "/project", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources. 
-    public func exportBundle(_ input: ExportBundleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportBundleResult> {
-        return client.execute(operation: "ExportBundle", path: "/bundles/{bundleId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func exportBundle(_ input: ExportBundleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExportBundleResult> {
+        return client.execute(operation: "ExportBundle", path: "/bundles/{bundleId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account. 
-    public func exportProject(_ input: ExportProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportProjectResult> {
-        return client.execute(operation: "ExportProject", path: "/exports/{projectId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func exportProject(_ input: ExportProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExportProjectResult> {
+        return client.execute(operation: "ExportProject", path: "/exports/{projectId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   List all available bundles. 
-    public func listBundles(_ input: ListBundlesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBundlesResult> {
-        return client.execute(operation: "ListBundles", path: "/bundles", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listBundles(_ input: ListBundlesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBundlesResult> {
+        return client.execute(operation: "ListBundles", path: "/bundles", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Lists projects in AWS Mobile Hub. 
-    public func listProjects(_ input: ListProjectsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProjectsResult> {
-        return client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listProjects(_ input: ListProjectsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProjectsResult> {
+        return client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Update an existing project. 
-    public func updateProject(_ input: UpdateProjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProjectResult> {
-        return client.execute(operation: "UpdateProject", path: "/update", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateProject(_ input: UpdateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProjectResult> {
+        return client.execute(operation: "UpdateProject", path: "/update", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

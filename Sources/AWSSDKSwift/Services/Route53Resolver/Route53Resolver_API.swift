@@ -61,112 +61,112 @@ public struct Route53Resolver {
     //MARK: API Calls
 
     ///  Adds IP addresses to an inbound or an outbound resolver endpoint. If you want to adding more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress.
-    public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateResolverEndpointIpAddressResponse> {
-        return client.execute(operation: "AssociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateResolverEndpointIpAddressResponse> {
+        return client.execute(operation: "AssociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Associates a resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see CreateResolverRule. 
-    public func associateResolverRule(_ input: AssociateResolverRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateResolverRuleResponse> {
-        return client.execute(operation: "AssociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateResolverRule(_ input: AssociateResolverRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateResolverRuleResponse> {
+        return client.execute(operation: "AssociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a resolver endpoint. There are two types of resolver endpoints, inbound and outbound:   An inbound resolver endpoint forwards DNS queries to the DNS service for a VPC from your network or another VPC.   An outbound resolver endpoint forwards DNS queries from the DNS service for a VPC to your network or another VPC.  
-    public func createResolverEndpoint(_ input: CreateResolverEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResolverEndpointResponse> {
-        return client.execute(operation: "CreateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createResolverEndpoint(_ input: CreateResolverEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateResolverEndpointResponse> {
+        return client.execute(operation: "CreateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  For DNS queries that originate in your VPCs, specifies which resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
-    public func createResolverRule(_ input: CreateResolverRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResolverRuleResponse> {
-        return client.execute(operation: "CreateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createResolverRule(_ input: CreateResolverRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateResolverRuleResponse> {
+        return client.execute(operation: "CreateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a resolver endpoint. The effect of deleting a resolver endpoint depends on whether it's an inbound or an outbound resolver endpoint:    Inbound: DNS queries from your network or another VPC are no longer routed to the DNS service for the specified VPC.    Outbound: DNS queries from a VPC are no longer routed to your network or to another VPC.  
-    public func deleteResolverEndpoint(_ input: DeleteResolverEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResolverEndpointResponse> {
-        return client.execute(operation: "DeleteResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteResolverEndpoint(_ input: DeleteResolverEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResolverEndpointResponse> {
+        return client.execute(operation: "DeleteResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a resolver rule. Before you can delete a resolver rule, you must disassociate it from all the VPCs that you associated the resolver rule with. For more infomation, see DisassociateResolverRule.
-    public func deleteResolverRule(_ input: DeleteResolverRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResolverRuleResponse> {
-        return client.execute(operation: "DeleteResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteResolverRule(_ input: DeleteResolverRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResolverRuleResponse> {
+        return client.execute(operation: "DeleteResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes IP addresses from an inbound or an outbound resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress.
-    public func disassociateResolverEndpointIpAddress(_ input: DisassociateResolverEndpointIpAddressRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateResolverEndpointIpAddressResponse> {
-        return client.execute(operation: "DisassociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateResolverEndpointIpAddress(_ input: DisassociateResolverEndpointIpAddressRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateResolverEndpointIpAddressResponse> {
+        return client.execute(operation: "DisassociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes the association between a specified resolver rule and a specified VPC.  If you disassociate a resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the resolver rule.  
-    public func disassociateResolverRule(_ input: DisassociateResolverRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateResolverRuleResponse> {
-        return client.execute(operation: "DisassociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateResolverRule(_ input: DisassociateResolverRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateResolverRuleResponse> {
+        return client.execute(operation: "DisassociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a specified resolver endpoint, such as whether it's an inbound or an outbound resolver endpoint, and the current status of the endpoint.
-    public func getResolverEndpoint(_ input: GetResolverEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverEndpointResponse> {
-        return client.execute(operation: "GetResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getResolverEndpoint(_ input: GetResolverEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResolverEndpointResponse> {
+        return client.execute(operation: "GetResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a specified resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound resolver endpoint that the rule is associated with.
-    public func getResolverRule(_ input: GetResolverRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverRuleResponse> {
-        return client.execute(operation: "GetResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getResolverRule(_ input: GetResolverRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResolverRuleResponse> {
+        return client.execute(operation: "GetResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about an association between a specified resolver rule and a VPC. You associate a resolver rule and a VPC using AssociateResolverRule. 
-    public func getResolverRuleAssociation(_ input: GetResolverRuleAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverRuleAssociationResponse> {
-        return client.execute(operation: "GetResolverRuleAssociation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getResolverRuleAssociation(_ input: GetResolverRuleAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResolverRuleAssociationResponse> {
+        return client.execute(operation: "GetResolverRuleAssociation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a resolver rule policy. A resolver rule policy specifies the Resolver operations and resources that you want to allow another AWS account to be able to use. 
-    public func getResolverRulePolicy(_ input: GetResolverRulePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverRulePolicyResponse> {
-        return client.execute(operation: "GetResolverRulePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getResolverRulePolicy(_ input: GetResolverRulePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResolverRulePolicyResponse> {
+        return client.execute(operation: "GetResolverRulePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the IP addresses for a specified resolver endpoint.
-    public func listResolverEndpointIpAddresses(_ input: ListResolverEndpointIpAddressesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolverEndpointIpAddressesResponse> {
-        return client.execute(operation: "ListResolverEndpointIpAddresses", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listResolverEndpointIpAddresses(_ input: ListResolverEndpointIpAddressesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResolverEndpointIpAddressesResponse> {
+        return client.execute(operation: "ListResolverEndpointIpAddresses", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all the resolver endpoints that were created using the current AWS account.
-    public func listResolverEndpoints(_ input: ListResolverEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolverEndpointsResponse> {
-        return client.execute(operation: "ListResolverEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listResolverEndpoints(_ input: ListResolverEndpointsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResolverEndpointsResponse> {
+        return client.execute(operation: "ListResolverEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the associations that were created between resolver rules and VPCs using the current AWS account.
-    public func listResolverRuleAssociations(_ input: ListResolverRuleAssociationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolverRuleAssociationsResponse> {
-        return client.execute(operation: "ListResolverRuleAssociations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listResolverRuleAssociations(_ input: ListResolverRuleAssociationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResolverRuleAssociationsResponse> {
+        return client.execute(operation: "ListResolverRuleAssociations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the resolver rules that were created using the current AWS account.
-    public func listResolverRules(_ input: ListResolverRulesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolverRulesResponse> {
-        return client.execute(operation: "ListResolverRules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listResolverRules(_ input: ListResolverRulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResolverRulesResponse> {
+        return client.execute(operation: "ListResolverRules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the tags that you associated with the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Specifies the Resolver operations and resources that you want to allow another AWS account to be able to use.
-    public func putResolverRulePolicy(_ input: PutResolverRulePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResolverRulePolicyResponse> {
-        return client.execute(operation: "PutResolverRulePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putResolverRulePolicy(_ input: PutResolverRulePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutResolverRulePolicyResponse> {
+        return client.execute(operation: "PutResolverRulePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds one or more tags to a specified resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes one or more tags from a specified resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the name of an inbound or an outbound resolver endpoint. 
-    public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResolverEndpointResponse> {
-        return client.execute(operation: "UpdateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateResolverEndpointResponse> {
+        return client.execute(operation: "UpdateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates settings for a specified resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value.
-    public func updateResolverRule(_ input: UpdateResolverRuleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResolverRuleResponse> {
-        return client.execute(operation: "UpdateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateResolverRule(_ input: UpdateResolverRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateResolverRuleResponse> {
+        return client.execute(operation: "UpdateResolverRule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

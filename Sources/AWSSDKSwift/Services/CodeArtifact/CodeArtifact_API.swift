@@ -60,164 +60,164 @@ public struct CodeArtifact {
     //MARK: API Calls
 
     ///  Adds an existing external connection to a repository. One external connection is allowed per repository.  A repository can have one or more upstream repositories, or an external connection. 
-    public func associateExternalConnection(_ input: AssociateExternalConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateExternalConnectionResult> {
-        return client.execute(operation: "AssociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func associateExternalConnection(_ input: AssociateExternalConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateExternalConnectionResult> {
+        return client.execute(operation: "AssociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Copies package versions from one repository to another repository in the same domain.    You must specify versions or versionRevisions. You cannot specify both.  
-    public func copyPackageVersions(_ input: CopyPackageVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CopyPackageVersionsResult> {
-        return client.execute(operation: "CopyPackageVersions", path: "/v1/package/versions/copy", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func copyPackageVersions(_ input: CopyPackageVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CopyPackageVersionsResult> {
+        return client.execute(operation: "CopyPackageVersions", path: "/v1/package/versions/copy", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different AWS accounts. An asset is stored only once in a domain, even if it's in multiple repositories.  Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration. 
-    public func createDomain(_ input: CreateDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResult> {
-        return client.execute(operation: "CreateDomain", path: "/v1/domain", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createDomain(_ input: CreateDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDomainResult> {
+        return client.execute(operation: "CreateDomain", path: "/v1/domain", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Creates a repository. 
-    public func createRepository(_ input: CreateRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRepositoryResult> {
-        return client.execute(operation: "CreateRepository", path: "/v1/repository", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createRepository(_ input: CreateRepositoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRepositoryResult> {
+        return client.execute(operation: "CreateRepository", path: "/v1/repository", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories. 
-    public func deleteDomain(_ input: DeleteDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainResult> {
-        return client.execute(operation: "DeleteDomain", path: "/v1/domain", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteDomain(_ input: DeleteDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDomainResult> {
+        return client.execute(operation: "DeleteDomain", path: "/v1/domain", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Deletes the resource policy set on a domain. 
-    public func deleteDomainPermissionsPolicy(_ input: DeleteDomainPermissionsPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainPermissionsPolicyResult> {
-        return client.execute(operation: "DeleteDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteDomainPermissionsPolicy(_ input: DeleteDomainPermissionsPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDomainPermissionsPolicyResult> {
+        return client.execute(operation: "DeleteDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example,  ListackageVersions ), but you can restore them using  UpdatePackageVersionsStatus . 
-    public func deletePackageVersions(_ input: DeletePackageVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageVersionsResult> {
-        return client.execute(operation: "DeletePackageVersions", path: "/v1/package/versions/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deletePackageVersions(_ input: DeletePackageVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePackageVersionsResult> {
+        return client.execute(operation: "DeletePackageVersions", path: "/v1/package/versions/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Deletes a repository. 
-    public func deleteRepository(_ input: DeleteRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryResult> {
-        return client.execute(operation: "DeleteRepository", path: "/v1/repository", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteRepository(_ input: DeleteRepositoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRepositoryResult> {
+        return client.execute(operation: "DeleteRepository", path: "/v1/repository", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate.    Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, AWS users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy.  
-    public func deleteRepositoryPermissionsPolicy(_ input: DeleteRepositoryPermissionsPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryPermissionsPolicyResult> {
-        return client.execute(operation: "DeleteRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policies", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteRepositoryPermissionsPolicy(_ input: DeleteRepositoryPermissionsPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRepositoryPermissionsPolicyResult> {
+        return client.execute(operation: "DeleteRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policies", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a  DomainDescription  object that contains information about the requested domain. 
-    public func describeDomain(_ input: DescribeDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainResult> {
-        return client.execute(operation: "DescribeDomain", path: "/v1/domain", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeDomain(_ input: DescribeDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDomainResult> {
+        return client.execute(operation: "DescribeDomain", path: "/v1/domain", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a  PackageVersionDescription  object that contains information about the requested package version. 
-    public func describePackageVersion(_ input: DescribePackageVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageVersionResult> {
-        return client.execute(operation: "DescribePackageVersion", path: "/v1/package/version", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describePackageVersion(_ input: DescribePackageVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePackageVersionResult> {
+        return client.execute(operation: "DescribePackageVersion", path: "/v1/package/version", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a RepositoryDescription object that contains detailed information about the requested repository. 
-    public func describeRepository(_ input: DescribeRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRepositoryResult> {
-        return client.execute(operation: "DescribeRepository", path: "/v1/repository", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeRepository(_ input: DescribeRepositoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRepositoryResult> {
+        return client.execute(operation: "DescribeRepository", path: "/v1/repository", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Removes an existing external connection from a repository. 
-    public func disassociateExternalConnection(_ input: DisassociateExternalConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateExternalConnectionResult> {
-        return client.execute(operation: "DisassociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateExternalConnection(_ input: DisassociateExternalConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateExternalConnectionResult> {
+        return client.execute(operation: "DisassociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted.   To view all disposed package versions in a repository, use  ListackageVersions  and set the  status  parameter to Disposed.   To view information about a disposed package version, use  ListPackageVersions  and set the  status  parameter to Disposed. 
-    public func disposePackageVersions(_ input: DisposePackageVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisposePackageVersionsResult> {
-        return client.execute(operation: "DisposePackageVersions", path: "/v1/package/versions/dispose", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disposePackageVersions(_ input: DisposePackageVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisposePackageVersionsResult> {
+        return client.execute(operation: "DisposePackageVersions", path: "/v1/package/versions/dispose", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Generates a temporary authentication token for accessing repositories in the domain. This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions.   CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command. You can call login periodically to refresh the token. When you create an authorization token with the GetAuthorizationToken API, you can set a custom authorization period, up to a maximum of 12 hours, with the durationSeconds parameter. The authorization period begins after login or GetAuthorizationToken is called. If login or GetAuthorizationToken is called while assuming a role, the token lifetime is independent of the maximum session duration of the role. For example, if you call sts assume-role and specify a session duration of 15 minutes, then generate a CodeArtifact authorization token, the token will be valid for the full authorization period even though this is longer than the 15-minute session duration. See Using IAM Roles for more information on controlling session duration.  
-    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAuthorizationTokenResult> {
-        return client.execute(operation: "GetAuthorizationToken", path: "/v1/authorization-token", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAuthorizationTokenResult> {
+        return client.execute(operation: "GetAuthorizationToken", path: "/v1/authorization-token", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns the resource policy attached to the specified domain.    The policy is a resource-based policy, not an identity-based policy. For more information, see Identity-based policies and resource-based policies  in the AWS Identity and Access Management User Guide.  
-    public func getDomainPermissionsPolicy(_ input: GetDomainPermissionsPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainPermissionsPolicyResult> {
-        return client.execute(operation: "GetDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDomainPermissionsPolicy(_ input: GetDomainPermissionsPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDomainPermissionsPolicyResult> {
+        return client.execute(operation: "GetDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version. 
-    public func getPackageVersionAsset(_ input: GetPackageVersionAssetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionAssetResult> {
-        return client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getPackageVersionAsset(_ input: GetPackageVersionAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPackageVersionAssetResult> {
+        return client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Gets the readme file or descriptive text for a package version. For packages that do not contain a readme file, CodeArtifact extracts a description from a metadata file. For example, from the &lt;description&gt; element in the pom.xml file of a Maven package.   The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText. 
-    public func getPackageVersionReadme(_ input: GetPackageVersionReadmeRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionReadmeResult> {
-        return client.execute(operation: "GetPackageVersionReadme", path: "/v1/package/version/readme", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getPackageVersionReadme(_ input: GetPackageVersionReadmeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPackageVersionReadmeResult> {
+        return client.execute(operation: "GetPackageVersionReadme", path: "/v1/package/version/readme", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:     npm     pypi     maven   
-    public func getRepositoryEndpoint(_ input: GetRepositoryEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryEndpointResult> {
-        return client.execute(operation: "GetRepositoryEndpoint", path: "/v1/repository/endpoint", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getRepositoryEndpoint(_ input: GetRepositoryEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRepositoryEndpointResult> {
+        return client.execute(operation: "GetRepositoryEndpoint", path: "/v1/repository/endpoint", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns the resource policy that is set on a repository. 
-    public func getRepositoryPermissionsPolicy(_ input: GetRepositoryPermissionsPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryPermissionsPolicyResult> {
-        return client.execute(operation: "GetRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getRepositoryPermissionsPolicy(_ input: GetRepositoryPermissionsPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRepositoryPermissionsPolicyResult> {
+        return client.execute(operation: "GetRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of  DomainSummary  objects for all domains owned by the AWS account that makes this call. Each returned DomainSummary object contains information about a domain. 
-    public func listDomains(_ input: ListDomainsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsResult> {
-        return client.execute(operation: "ListDomains", path: "/v1/domains", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDomains(_ input: ListDomainsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainsResult> {
+        return client.execute(operation: "ListDomains", path: "/v1/domains", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of  AssetSummary  objects for assets in a package version. 
-    public func listPackageVersionAssets(_ input: ListPackageVersionAssetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionAssetsResult> {
-        return client.execute(operation: "ListPackageVersionAssets", path: "/v1/package/version/assets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listPackageVersionAssets(_ input: ListPackageVersionAssetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackageVersionAssetsResult> {
+        return client.execute(operation: "ListPackageVersionAssets", path: "/v1/package/version/assets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns the direct dependencies for a package version. The dependencies are returned as  PackageDependency  objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. 
-    public func listPackageVersionDependencies(_ input: ListPackageVersionDependenciesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionDependenciesResult> {
-        return client.execute(operation: "ListPackageVersionDependencies", path: "/v1/package/version/dependencies", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listPackageVersionDependencies(_ input: ListPackageVersionDependenciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackageVersionDependenciesResult> {
+        return client.execute(operation: "ListPackageVersionDependencies", path: "/v1/package/version/dependencies", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters. 
-    public func listPackageVersions(_ input: ListPackageVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionsResult> {
-        return client.execute(operation: "ListPackageVersions", path: "/v1/package/versions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listPackageVersions(_ input: ListPackageVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackageVersionsResult> {
+        return client.execute(operation: "ListPackageVersions", path: "/v1/package/versions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters. 
-    public func listPackages(_ input: ListPackagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesResult> {
-        return client.execute(operation: "ListPackages", path: "/v1/packages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listPackages(_ input: ListPackagesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackagesResult> {
+        return client.execute(operation: "ListPackages", path: "/v1/packages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input parameters. 
-    public func listRepositories(_ input: ListRepositoriesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesResult> {
-        return client.execute(operation: "ListRepositories", path: "/v1/repositories", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listRepositories(_ input: ListRepositoriesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRepositoriesResult> {
+        return client.execute(operation: "ListRepositories", path: "/v1/repositories", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters. 
-    public func listRepositoriesInDomain(_ input: ListRepositoriesInDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesInDomainResult> {
-        return client.execute(operation: "ListRepositoriesInDomain", path: "/v1/domain/repositories", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listRepositoriesInDomain(_ input: ListRepositoriesInDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRepositoriesInDomainResult> {
+        return client.execute(operation: "ListRepositoriesInDomain", path: "/v1/domain/repositories", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Sets a resource policy on a domain that specifies permissions to access it. 
-    public func putDomainPermissionsPolicy(_ input: PutDomainPermissionsPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDomainPermissionsPolicyResult> {
-        return client.execute(operation: "PutDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putDomainPermissionsPolicy(_ input: PutDomainPermissionsPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutDomainPermissionsPolicyResult> {
+        return client.execute(operation: "PutDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Sets the resource policy on a repository that specifies permissions to access it. 
-    public func putRepositoryPermissionsPolicy(_ input: PutRepositoryPermissionsPolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRepositoryPermissionsPolicyResult> {
-        return client.execute(operation: "PutRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putRepositoryPermissionsPolicy(_ input: PutRepositoryPermissionsPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutRepositoryPermissionsPolicyResult> {
+        return client.execute(operation: "PutRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Updates the status of one or more versions of a package. 
-    public func updatePackageVersionsStatus(_ input: UpdatePackageVersionsStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePackageVersionsStatusResult> {
-        return client.execute(operation: "UpdatePackageVersionsStatus", path: "/v1/package/versions/update_status", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updatePackageVersionsStatus(_ input: UpdatePackageVersionsStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePackageVersionsStatusResult> {
+        return client.execute(operation: "UpdatePackageVersionsStatus", path: "/v1/package/versions/update_status", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Update the properties of a repository. 
-    public func updateRepository(_ input: UpdateRepositoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRepositoryResult> {
-        return client.execute(operation: "UpdateRepository", path: "/v1/repository", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateRepository(_ input: UpdateRepositoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRepositoryResult> {
+        return client.execute(operation: "UpdateRepository", path: "/v1/repository", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     //MARK: Streaming API Calls
 
     ///   Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version. 
-    public func getPackageVersionAssetStreaming(_ input: GetPackageVersionAssetRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetPackageVersionAssetResult> {
-        return client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, stream: stream)
+    public func getPackageVersionAssetStreaming(_ input: GetPackageVersionAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetPackageVersionAssetResult> {
+        return client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }
