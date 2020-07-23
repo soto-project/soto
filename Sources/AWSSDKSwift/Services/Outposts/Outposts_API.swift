@@ -61,37 +61,37 @@ public struct Outposts {
     //MARK: API Calls
 
     ///  Creates an Outpost.
-    public func createOutpost(_ input: CreateOutpostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutpostOutput> {
-        return client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createOutpost(_ input: CreateOutpostInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOutpostOutput> {
+        return client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the Outpost.
-    public func deleteOutpost(_ input: DeleteOutpostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteOutpostOutput> {
-        return client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteOutpost(_ input: DeleteOutpostInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteOutpostOutput> {
+        return client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the site.
-    public func deleteSite(_ input: DeleteSiteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSiteOutput> {
-        return client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteSite(_ input: DeleteSiteInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSiteOutput> {
+        return client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about the specified Outpost.
-    public func getOutpost(_ input: GetOutpostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOutpostOutput> {
-        return client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getOutpost(_ input: GetOutpostInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOutpostOutput> {
+        return client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the instance types for the specified Outpost.
-    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
-        return client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
+        return client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List the Outposts for your AWS account.
-    public func listOutposts(_ input: ListOutpostsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOutpostsOutput> {
-        return client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listOutposts(_ input: ListOutpostsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOutpostsOutput> {
+        return client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the sites for the specified AWS account.
-    public func listSites(_ input: ListSitesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSitesOutput> {
-        return client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listSites(_ input: ListSitesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSitesOutput> {
+        return client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

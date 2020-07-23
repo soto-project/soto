@@ -61,27 +61,27 @@ public struct IoTDataPlane {
     //MARK: API Calls
 
     ///  Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
-    public func deleteThingShadow(_ input: DeleteThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingShadowResponse> {
-        return client.execute(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteThingShadow(_ input: DeleteThingShadowRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThingShadowResponse> {
+        return client.execute(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
-    public func getThingShadow(_ input: GetThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThingShadowResponse> {
-        return client.execute(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getThingShadow(_ input: GetThingShadowRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetThingShadowResponse> {
+        return client.execute(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the shadows for the specified thing.
-    public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNamedShadowsForThingResponse> {
-        return client.execute(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNamedShadowsForThingResponse> {
+        return client.execute(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
-    @discardableResult public func publish(_ input: PublishRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "Publish", path: "/topics/{topic}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func publish(_ input: PublishRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "Publish", path: "/topics/{topic}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
-    public func updateThingShadow(_ input: UpdateThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingShadowResponse> {
-        return client.execute(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateThingShadow(_ input: UpdateThingShadowRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThingShadowResponse> {
+        return client.execute(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

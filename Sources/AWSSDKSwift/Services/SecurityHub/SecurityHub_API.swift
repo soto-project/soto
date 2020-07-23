@@ -60,212 +60,212 @@ public struct SecurityHub {
     //MARK: API Calls
 
     ///  Accepts the invitation to be a member account and be monitored by the Security Hub master account that the invitation was sent from. When the member account accepts the invitation, permission is granted to the master account to view findings generated in the member account.
-    public func acceptInvitation(_ input: AcceptInvitationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInvitationResponse> {
-        return client.execute(operation: "AcceptInvitation", path: "/master", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func acceptInvitation(_ input: AcceptInvitationRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcceptInvitationResponse> {
+        return client.execute(operation: "AcceptInvitation", path: "/master", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the AWS Security Hub User Guide.
-    public func batchDisableStandards(_ input: BatchDisableStandardsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisableStandardsResponse> {
-        return client.execute(operation: "BatchDisableStandards", path: "/standards/deregister", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchDisableStandards(_ input: BatchDisableStandardsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDisableStandardsResponse> {
+        return client.execute(operation: "BatchDisableStandards", path: "/standards/deregister", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the  DescribeStandards  operation. For more information, see the Security Standards section of the AWS Security Hub User Guide.
-    public func batchEnableStandards(_ input: BatchEnableStandardsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchEnableStandardsResponse> {
-        return client.execute(operation: "BatchEnableStandards", path: "/standards/register", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchEnableStandards(_ input: BatchEnableStandardsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchEnableStandardsResponse> {
+        return client.execute(operation: "BatchEnableStandards", path: "/standards/register", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Imports security findings generated from an integrated third-party product into Security Hub. This action is requested by the integrated product to import its findings into Security Hub. The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow   
-    public func batchImportFindings(_ input: BatchImportFindingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchImportFindingsResponse> {
-        return client.execute(operation: "BatchImportFindings", path: "/findings/import", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchImportFindings(_ input: BatchImportFindingsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchImportFindingsResponse> {
+        return client.execute(operation: "BatchImportFindings", path: "/findings/import", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Used by Security Hub customers to update information about their investigation into a finding. Requested by master accounts or member accounts. Master accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Master accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    Member accounts can only use BatchUpdateFindings to update the Note object.
-    public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateFindingsResponse> {
-        return client.execute(operation: "BatchUpdateFindings", path: "/findings/batchupdate", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdateFindingsResponse> {
+        return client.execute(operation: "BatchUpdateFindings", path: "/findings/batchupdate", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
-    public func createActionTarget(_ input: CreateActionTargetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateActionTargetResponse> {
-        return client.execute(operation: "CreateActionTarget", path: "/actionTargets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createActionTarget(_ input: CreateActionTargetRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateActionTargetResponse> {
+        return client.execute(operation: "CreateActionTarget", path: "/actionTargets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
-    public func createInsight(_ input: CreateInsightRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInsightResponse> {
-        return client.execute(operation: "CreateInsight", path: "/insights", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createInsight(_ input: CreateInsightRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInsightResponse> {
+        return client.execute(operation: "CreateInsight", path: "/insights", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the master account. To successfully create a member, you must use this action from an account that already has Security Hub enabled. To enable Security Hub, you can use the  EnableSecurityHub  operation. After you use CreateMembers to create member account associations in Security Hub, you must use the  InviteMembers  operation to invite the accounts to enable Security Hub and become member accounts in Security Hub. If the account owner accepts the invitation, the account becomes a member account in Security Hub. A permissions policy is added that permits the master account to view the findings generated in the member account. When Security Hub is enabled in the invited account, findings start to be sent to both the member and master accounts. To remove the association between the master and member accounts, use the  DisassociateFromMasterAccount  or  DisassociateMembers  operation.
-    public func createMembers(_ input: CreateMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMembersResponse> {
-        return client.execute(operation: "CreateMembers", path: "/members", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createMembers(_ input: CreateMembersRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMembersResponse> {
+        return client.execute(operation: "CreateMembers", path: "/members", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Declines invitations to become a member account.
-    public func declineInvitations(_ input: DeclineInvitationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeclineInvitationsResponse> {
-        return client.execute(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func declineInvitations(_ input: DeclineInvitationsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeclineInvitationsResponse> {
+        return client.execute(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
-    public func deleteActionTarget(_ input: DeleteActionTargetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteActionTargetResponse> {
-        return client.execute(operation: "DeleteActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteActionTarget(_ input: DeleteActionTargetRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteActionTargetResponse> {
+        return client.execute(operation: "DeleteActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the insight specified by the InsightArn.
-    public func deleteInsight(_ input: DeleteInsightRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInsightResponse> {
-        return client.execute(operation: "DeleteInsight", path: "/insights/{InsightArn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteInsight(_ input: DeleteInsightRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInsightResponse> {
+        return client.execute(operation: "DeleteInsight", path: "/insights/{InsightArn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes invitations received by the AWS account to become a member account.
-    public func deleteInvitations(_ input: DeleteInvitationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInvitationsResponse> {
-        return client.execute(operation: "DeleteInvitations", path: "/invitations/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteInvitations(_ input: DeleteInvitationsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInvitationsResponse> {
+        return client.execute(operation: "DeleteInvitations", path: "/invitations/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified member accounts from Security Hub.
-    public func deleteMembers(_ input: DeleteMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMembersResponse> {
-        return client.execute(operation: "DeleteMembers", path: "/members/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteMembers(_ input: DeleteMembersRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMembersResponse> {
+        return client.execute(operation: "DeleteMembers", path: "/members/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of the custom action targets in Security Hub in your account.
-    public func describeActionTargets(_ input: DescribeActionTargetsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeActionTargetsResponse> {
-        return client.execute(operation: "DescribeActionTargets", path: "/actionTargets/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeActionTargets(_ input: DescribeActionTargetsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeActionTargetsResponse> {
+        return client.execute(operation: "DescribeActionTargets", path: "/actionTargets/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
-    public func describeHub(_ input: DescribeHubRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHubResponse> {
-        return client.execute(operation: "DescribeHub", path: "/accounts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeHub(_ input: DescribeHubRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHubResponse> {
+        return client.execute(operation: "DescribeHub", path: "/accounts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
-    public func describeProducts(_ input: DescribeProductsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProductsResponse> {
-        return client.execute(operation: "DescribeProducts", path: "/products", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeProducts(_ input: DescribeProductsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProductsResponse> {
+        return client.execute(operation: "DescribeProducts", path: "/products", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
-    public func describeStandards(_ input: DescribeStandardsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStandardsResponse> {
-        return client.execute(operation: "DescribeStandards", path: "/standards", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStandards(_ input: DescribeStandardsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStandardsResponse> {
+        return client.execute(operation: "DescribeStandards", path: "/standards", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
-    public func describeStandardsControls(_ input: DescribeStandardsControlsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStandardsControlsResponse> {
-        return client.execute(operation: "DescribeStandardsControls", path: "/standards/controls/{StandardsSubscriptionArn+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStandardsControls(_ input: DescribeStandardsControlsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStandardsControlsResponse> {
+        return client.execute(operation: "DescribeStandardsControls", path: "/standards/controls/{StandardsSubscriptionArn+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
-    public func disableImportFindingsForProduct(_ input: DisableImportFindingsForProductRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableImportFindingsForProductResponse> {
-        return client.execute(operation: "DisableImportFindingsForProduct", path: "/productSubscriptions/{ProductSubscriptionArn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disableImportFindingsForProduct(_ input: DisableImportFindingsForProductRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisableImportFindingsForProductResponse> {
+        return client.execute(operation: "DisableImportFindingsForProduct", path: "/productSubscriptions/{ProductSubscriptionArn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
-    public func disableSecurityHub(_ input: DisableSecurityHubRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableSecurityHubResponse> {
-        return client.execute(operation: "DisableSecurityHub", path: "/accounts", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disableSecurityHub(_ input: DisableSecurityHubRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisableSecurityHubResponse> {
+        return client.execute(operation: "DisableSecurityHub", path: "/accounts", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates the current Security Hub member account from the associated master account.
-    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
-        return client.execute(operation: "DisassociateFromMasterAccount", path: "/master/disassociate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
+        return client.execute(operation: "DisassociateFromMasterAccount", path: "/master/disassociate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates the specified member accounts from the associated master account.
-    public func disassociateMembers(_ input: DisassociateMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
-        return client.execute(operation: "DisassociateMembers", path: "/members/disassociate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func disassociateMembers(_ input: DisassociateMembersRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateMembersResponse> {
+        return client.execute(operation: "DisassociateMembers", path: "/members/disassociate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
-    public func enableImportFindingsForProduct(_ input: EnableImportFindingsForProductRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableImportFindingsForProductResponse> {
-        return client.execute(operation: "EnableImportFindingsForProduct", path: "/productSubscriptions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func enableImportFindingsForProduct(_ input: EnableImportFindingsForProductRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<EnableImportFindingsForProductResponse> {
+        return client.execute(operation: "EnableImportFindingsForProduct", path: "/productSubscriptions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards.   CIS AWS Foundations   AWS Foundational Security Best Practices   You do not enable the Payment Card Industry Data Security Standard (PCI DSS) standard.  To not enable the automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the  BatchEnableStandards  operation. To disable a standard, use the  BatchDisableStandards  operation. To learn more, see Setting Up AWS Security Hub in the AWS Security Hub User Guide.
-    public func enableSecurityHub(_ input: EnableSecurityHubRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableSecurityHubResponse> {
-        return client.execute(operation: "EnableSecurityHub", path: "/accounts", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func enableSecurityHub(_ input: EnableSecurityHubRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<EnableSecurityHubResponse> {
+        return client.execute(operation: "EnableSecurityHub", path: "/accounts", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of the standards that are currently enabled.
-    public func getEnabledStandards(_ input: GetEnabledStandardsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnabledStandardsResponse> {
-        return client.execute(operation: "GetEnabledStandards", path: "/standards/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getEnabledStandards(_ input: GetEnabledStandardsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetEnabledStandardsResponse> {
+        return client.execute(operation: "GetEnabledStandards", path: "/standards/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of findings that match the specified criteria.
-    public func getFindings(_ input: GetFindingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingsResponse> {
-        return client.execute(operation: "GetFindings", path: "/findings", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getFindings(_ input: GetFindingsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFindingsResponse> {
+        return client.execute(operation: "GetFindings", path: "/findings", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the results of the Security Hub insight specified by the insight ARN.
-    public func getInsightResults(_ input: GetInsightResultsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightResultsResponse> {
-        return client.execute(operation: "GetInsightResults", path: "/insights/results/{InsightArn+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getInsightResults(_ input: GetInsightResultsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInsightResultsResponse> {
+        return client.execute(operation: "GetInsightResults", path: "/insights/results/{InsightArn+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists and describes insights for the specified insight ARNs.
-    public func getInsights(_ input: GetInsightsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightsResponse> {
-        return client.execute(operation: "GetInsights", path: "/insights/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getInsights(_ input: GetInsightsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInsightsResponse> {
+        return client.execute(operation: "GetInsights", path: "/insights/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation. 
-    public func getInvitationsCount(_ input: GetInvitationsCountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvitationsCountResponse> {
-        return client.execute(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getInvitationsCount(_ input: GetInvitationsCountRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInvitationsCountResponse> {
+        return client.execute(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Provides the details for the Security Hub master account for the current member account. 
-    public func getMasterAccount(_ input: GetMasterAccountRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMasterAccountResponse> {
-        return client.execute(operation: "GetMasterAccount", path: "/master", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getMasterAccount(_ input: GetMasterAccountRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMasterAccountResponse> {
+        return client.execute(operation: "GetMasterAccount", path: "/master", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the details for the Security Hub member accounts for the specified account IDs.
-    public func getMembers(_ input: GetMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMembersResponse> {
-        return client.execute(operation: "GetMembers", path: "/members/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getMembers(_ input: GetMembersRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMembersResponse> {
+        return client.execute(operation: "GetMembers", path: "/members/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Invites other AWS accounts to become member accounts for the Security Hub master account that the invitation is sent from. Before you can use this action to invite a member, you must first use the  CreateMembers  action to create the member account in Security Hub. When the account owner accepts the invitation to become a member account and enables Security Hub, the master account can view the findings generated from the member account.
-    public func inviteMembers(_ input: InviteMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InviteMembersResponse> {
-        return client.execute(operation: "InviteMembers", path: "/members/invite", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func inviteMembers(_ input: InviteMembersRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InviteMembersResponse> {
+        return client.execute(operation: "InviteMembers", path: "/members/invite", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
-    public func listEnabledProductsForImport(_ input: ListEnabledProductsForImportRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnabledProductsForImportResponse> {
-        return client.execute(operation: "ListEnabledProductsForImport", path: "/productSubscriptions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listEnabledProductsForImport(_ input: ListEnabledProductsForImportRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEnabledProductsForImportResponse> {
+        return client.execute(operation: "ListEnabledProductsForImport", path: "/productSubscriptions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all Security Hub membership invitations that were sent to the current AWS account. 
-    public func listInvitations(_ input: ListInvitationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvitationsResponse> {
-        return client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listInvitations(_ input: ListInvitationsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInvitationsResponse> {
+        return client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists details about all member accounts for the current Security Hub master account.
-    public func listMembers(_ input: ListMembersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersResponse> {
-        return client.execute(operation: "ListMembers", path: "/members", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listMembers(_ input: ListMembersRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMembersResponse> {
+        return client.execute(operation: "ListMembers", path: "/members", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of tags associated with a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds one or more tags to a resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes one or more tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the name and description of a custom action target in Security Hub.
-    public func updateActionTarget(_ input: UpdateActionTargetRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateActionTargetResponse> {
-        return client.execute(operation: "UpdateActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateActionTarget(_ input: UpdateActionTargetRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateActionTargetResponse> {
+        return client.execute(operation: "UpdateActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
-    public func updateFindings(_ input: UpdateFindingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFindingsResponse> {
-        return client.execute(operation: "UpdateFindings", path: "/findings", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateFindings(_ input: UpdateFindingsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateFindingsResponse> {
+        return client.execute(operation: "UpdateFindings", path: "/findings", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the Security Hub insight identified by the specified insight ARN.
-    public func updateInsight(_ input: UpdateInsightRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInsightResponse> {
-        return client.execute(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateInsight(_ input: UpdateInsightRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInsightResponse> {
+        return client.execute(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Used to control whether an individual security standard control is enabled or disabled.
-    public func updateStandardsControl(_ input: UpdateStandardsControlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStandardsControlResponse> {
-        return client.execute(operation: "UpdateStandardsControl", path: "/standards/control/{StandardsControlArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateStandardsControl(_ input: UpdateStandardsControlRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStandardsControlResponse> {
+        return client.execute(operation: "UpdateStandardsControl", path: "/standards/control/{StandardsControlArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

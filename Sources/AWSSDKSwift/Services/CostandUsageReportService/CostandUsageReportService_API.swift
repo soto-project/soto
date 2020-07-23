@@ -61,22 +61,22 @@ public struct CostandUsageReportService {
     //MARK: API Calls
 
     ///  Deletes the specified report.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReportDefinitionResponse> {
-        return client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteReportDefinitionResponse> {
+        return client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
+        return client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Allows you to programatically update your report preferences.
-    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReportDefinitionResponse> {
-        return client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyReportDefinitionResponse> {
+        return client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new report using the description that you provide.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutReportDefinitionResponse> {
-        return client.execute(operation: "PutReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutReportDefinitionResponse> {
+        return client.execute(operation: "PutReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

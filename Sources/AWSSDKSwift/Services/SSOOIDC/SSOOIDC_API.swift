@@ -62,17 +62,17 @@ public struct SSOOIDC {
     //MARK: API Calls
 
     ///  Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
-    public func createToken(_ input: CreateTokenRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
-        return client.execute(operation: "CreateToken", path: "/token", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createToken(_ input: CreateTokenRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTokenResponse> {
+        return client.execute(operation: "CreateToken", path: "/token", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
-    public func registerClient(_ input: RegisterClientRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterClientResponse> {
-        return client.execute(operation: "RegisterClient", path: "/client/register", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func registerClient(_ input: RegisterClientRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterClientResponse> {
+        return client.execute(operation: "RegisterClient", path: "/client/register", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Initiates device authorization by requesting a pair of verification codes from the authorization service.
-    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
-        return client.execute(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
+        return client.execute(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

@@ -61,27 +61,27 @@ public struct AugmentedAIRuntime {
     //MARK: API Calls
 
     ///  Deletes the specified human loop for a flow definition.
-    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHumanLoopResponse> {
-        return client.execute(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteHumanLoopResponse> {
+        return client.execute(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about the specified human loop.
-    public func describeHumanLoop(_ input: DescribeHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHumanLoopResponse> {
-        return client.execute(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeHumanLoop(_ input: DescribeHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHumanLoopResponse> {
+        return client.execute(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
-    public func listHumanLoops(_ input: ListHumanLoopsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHumanLoopsResponse> {
-        return client.execute(operation: "ListHumanLoops", path: "/human-loops", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listHumanLoops(_ input: ListHumanLoopsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHumanLoopsResponse> {
+        return client.execute(operation: "ListHumanLoops", path: "/human-loops", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Starts a human loop, provided that at least one activation condition is met.
-    public func startHumanLoop(_ input: StartHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartHumanLoopResponse> {
-        return client.execute(operation: "StartHumanLoop", path: "/human-loops", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func startHumanLoop(_ input: StartHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartHumanLoopResponse> {
+        return client.execute(operation: "StartHumanLoop", path: "/human-loops", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Stops the specified human loop.
-    public func stopHumanLoop(_ input: StopHumanLoopRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopHumanLoopResponse> {
-        return client.execute(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func stopHumanLoop(_ input: StopHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopHumanLoopResponse> {
+        return client.execute(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

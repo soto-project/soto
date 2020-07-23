@@ -60,7 +60,7 @@ public struct WorkMailMessageFlow {
     //MARK: API Calls
 
     ///  Retrieves the raw content of an in-transit email message, in MIME format. 
-    public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRawMessageContentResponse> {
-        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRawMessageContentResponse> {
+        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

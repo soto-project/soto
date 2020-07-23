@@ -60,7 +60,7 @@ public struct PersonalizeEvents {
     //MARK: API Calls
 
     ///  Records user interaction event data.
-    @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

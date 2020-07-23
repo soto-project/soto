@@ -60,33 +60,33 @@ public struct RDSDataService {
     //MARK: API Calls
 
     ///  Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. 
-    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchExecuteStatementResponse> {
-        return client.execute(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchExecuteStatementResponse> {
+        return client.execute(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Starts a SQL transaction.  &lt;important&gt; &lt;p&gt;A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours.&lt;/p&gt; &lt;p&gt;A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically.&lt;/p&gt; &lt;p&gt;DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate &lt;code&gt;ExecuteStatement&lt;/code&gt; call with &lt;code&gt;continueAfterTimeout&lt;/code&gt; enabled.&lt;/p&gt; &lt;/important&gt; 
-    public func beginTransaction(_ input: BeginTransactionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BeginTransactionResponse> {
-        return client.execute(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func beginTransaction(_ input: BeginTransactionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BeginTransactionResponse> {
+        return client.execute(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
-    public func commitTransaction(_ input: CommitTransactionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CommitTransactionResponse> {
-        return client.execute(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func commitTransaction(_ input: CommitTransactionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CommitTransactionResponse> {
+        return client.execute(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Runs one or more SQL statements.  This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation. 
     @available(*, deprecated, message:"The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
-    public func executeSql(_ input: ExecuteSqlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteSqlResponse> {
-        return client.execute(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func executeSql(_ input: ExecuteSqlRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteSqlResponse> {
+        return client.execute(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically.  The response size limit is 1 MB. If the call returns more than 1 MB of response data, the call is terminated.
-    public func executeStatement(_ input: ExecuteStatementRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteStatementResponse> {
-        return client.execute(operation: "ExecuteStatement", path: "/Execute", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func executeStatement(_ input: ExecuteStatementRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteStatementResponse> {
+        return client.execute(operation: "ExecuteStatement", path: "/Execute", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
-    public func rollbackTransaction(_ input: RollbackTransactionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RollbackTransactionResponse> {
-        return client.execute(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func rollbackTransaction(_ input: RollbackTransactionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RollbackTransactionResponse> {
+        return client.execute(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

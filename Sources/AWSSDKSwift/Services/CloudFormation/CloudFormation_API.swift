@@ -61,277 +61,277 @@ public struct CloudFormation {
     //MARK: API Calls
 
     ///  Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.  You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. 
-    @discardableResult public func cancelUpdateStack(_ input: CancelUpdateStackInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CancelUpdateStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func cancelUpdateStack(_ input: CancelUpdateStackInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CancelUpdateStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  For a specified stack that is in the UPDATE_ROLLBACK_FAILED state, continues rolling it back to the UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually  fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state), and then try to update the stack again. A stack goes into the UPDATE_ROLLBACK_FAILED state when AWS CloudFormation cannot roll back all changes after a failed stack update. For example, you might have a stack that is rolling back to an old database instance that was deleted outside of AWS CloudFormation. Because AWS CloudFormation doesn't know the database was deleted, it assumes that the database instance still exists and attempts to roll back to it, causing the update rollback to fail.
-    public func continueUpdateRollback(_ input: ContinueUpdateRollbackInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContinueUpdateRollbackOutput> {
-        return client.execute(operation: "ContinueUpdateRollback", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func continueUpdateRollback(_ input: ContinueUpdateRollbackInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ContinueUpdateRollbackOutput> {
+        return client.execute(operation: "ContinueUpdateRollback", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that AWS CloudFormation will create. If you create a change set for an existing stack, AWS CloudFormation compares the stack's information with the information that you submit in the change set and lists the differences. Use change sets to understand which resources AWS CloudFormation will create or change, and how it will change resources in an existing stack, before you create or update a stack. To create a change set for a stack that doesn't exist, for the ChangeSetType parameter, specify CREATE. To create a change set for an existing stack, specify UPDATE for the ChangeSetType parameter. To create a change set for an import operation, specify IMPORT for the ChangeSetType parameter. After the CreateChangeSet call successfully completes, AWS CloudFormation starts creating the change set. To check the status of the change set or to review it, use the DescribeChangeSet action. When you are satisfied with the changes the change set will make, execute the change set by using the ExecuteChangeSet action. AWS CloudFormation doesn't make changes until you execute the change set.
-    public func createChangeSet(_ input: CreateChangeSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChangeSetOutput> {
-        return client.execute(operation: "CreateChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createChangeSet(_ input: CreateChangeSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateChangeSetOutput> {
+        return client.execute(operation: "CreateChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack via the DescribeStacks API.
-    public func createStack(_ input: CreateStackInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStackOutput> {
-        return client.execute(operation: "CreateStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createStack(_ input: CreateStackInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStackOutput> {
+        return client.execute(operation: "CreateStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates stack instances for the specified accounts, within the specified Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions.
-    public func createStackInstances(_ input: CreateStackInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStackInstancesOutput> {
-        return client.execute(operation: "CreateStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createStackInstances(_ input: CreateStackInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStackInstancesOutput> {
+        return client.execute(operation: "CreateStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a stack set.
-    public func createStackSet(_ input: CreateStackSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStackSetOutput> {
-        return client.execute(operation: "CreateStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createStackSet(_ input: CreateStackSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStackSetOutput> {
+        return client.execute(operation: "CreateStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, AWS CloudFormation successfully deleted the change set.
-    public func deleteChangeSet(_ input: DeleteChangeSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChangeSetOutput> {
-        return client.execute(operation: "DeleteChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteChangeSet(_ input: DeleteChangeSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteChangeSetOutput> {
+        return client.execute(operation: "DeleteChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks do not show up in the DescribeStacks API if the deletion has been completed successfully.
-    @discardableResult public func deleteStack(_ input: DeleteStackInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func deleteStack(_ input: DeleteStackInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes stack instances for the specified accounts, in the specified Regions. 
-    public func deleteStackInstances(_ input: DeleteStackInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStackInstancesOutput> {
-        return client.execute(operation: "DeleteStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteStackInstances(_ input: DeleteStackInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteStackInstancesOutput> {
+        return client.execute(operation: "DeleteStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a stack set. Before you can delete a stack set, all of its member stack instances must be deleted. For more information about how to do this, see DeleteStackInstances. 
-    public func deleteStackSet(_ input: DeleteStackSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStackSetOutput> {
-        return client.execute(operation: "DeleteStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteStackSet(_ input: DeleteStackSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteStackSetOutput> {
+        return client.execute(operation: "DeleteStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes a type or type version from active use in the CloudFormation registry. If a type or type version is deregistered, it cannot be used in CloudFormation operations. To deregister a type, you must individually deregister all registered versions of that type. If a type has only a single registered version, deregistering that version results in the type itself being deregistered.  You cannot deregister the default version of a type, unless it is the only registered version of that type, in which case the type itself is deregistered as well. 
-    public func deregisterType(_ input: DeregisterTypeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterTypeOutput> {
-        return client.execute(operation: "DeregisterType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deregisterType(_ input: DeregisterTypeInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterTypeOutput> {
+        return client.execute(operation: "DeregisterType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see AWS CloudFormation Limits in the AWS CloudFormation User Guide.
-    public func describeAccountLimits(_ input: DescribeAccountLimitsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountLimitsOutput> {
-        return client.execute(operation: "DescribeAccountLimits", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeAccountLimits(_ input: DescribeAccountLimitsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAccountLimitsOutput> {
+        return client.execute(operation: "DescribeAccountLimits", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the inputs for the change set and a list of changes that AWS CloudFormation will make if you execute the change set. For more information, see Updating Stacks Using Change Sets in the AWS CloudFormation User Guide.
-    public func describeChangeSet(_ input: DescribeChangeSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChangeSetOutput> {
-        return client.execute(operation: "DescribeChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeChangeSet(_ input: DescribeChangeSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeChangeSetOutput> {
+        return client.execute(operation: "DescribeChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information on stack and resource drift, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackDrift to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its resources.
-    public func describeStackDriftDetectionStatus(_ input: DescribeStackDriftDetectionStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackDriftDetectionStatusOutput> {
-        return client.execute(operation: "DescribeStackDriftDetectionStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackDriftDetectionStatus(_ input: DescribeStackDriftDetectionStatusInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackDriftDetectionStatusOutput> {
+        return client.execute(operation: "DescribeStackDriftDetectionStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the AWS CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). 
-    public func describeStackEvents(_ input: DescribeStackEventsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackEventsOutput> {
-        return client.execute(operation: "DescribeStackEvents", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackEvents(_ input: DescribeStackEventsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackEventsOutput> {
+        return client.execute(operation: "DescribeStackEvents", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the stack instance that's associated with the specified stack set, AWS account, and Region. For a list of stack instances that are associated with a specific stack set, use ListStackInstances.
-    public func describeStackInstance(_ input: DescribeStackInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackInstanceOutput> {
-        return client.execute(operation: "DescribeStackInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackInstance(_ input: DescribeStackInstanceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackInstanceOutput> {
+        return client.execute(operation: "DescribeStackInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of the specified resource in the specified stack. For deleted stacks, DescribeStackResource returns resource information for up to 90 days after the stack has been deleted.
-    public func describeStackResource(_ input: DescribeStackResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackResourceOutput> {
-        return client.execute(operation: "DescribeStackResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackResource(_ input: DescribeStackResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackResourceOutput> {
+        return client.execute(operation: "DescribeStackResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where AWS CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that have not yet been checked for drift are not included. Resources that do not currently support drift detection are not checked, and so not included. For a list of resources that support drift detection, see Resources that Support Drift Detection. Use DetectStackResourceDrift to detect drift on individual resources, or DetectStackDrift to detect drift on all supported resources for a given stack.
-    public func describeStackResourceDrifts(_ input: DescribeStackResourceDriftsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackResourceDriftsOutput> {
-        return client.execute(operation: "DescribeStackResourceDrifts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackResourceDrifts(_ input: DescribeStackResourceDriftsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackResourceDriftsOutput> {
+        return client.execute(operation: "DescribeStackResourceDrifts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns AWS resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned.  Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead.  For deleted stacks, DescribeStackResources returns resource information for up to 90 days after the stack has been deleted. You must specify either StackName or PhysicalResourceId, but not both. In addition, you can specify LogicalResourceId to filter the returned result. For more information about resources, the LogicalResourceId and PhysicalResourceId, go to the AWS CloudFormation User Guide.  A ValidationError is returned if you specify both StackName and PhysicalResourceId in the same request. 
-    public func describeStackResources(_ input: DescribeStackResourcesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackResourcesOutput> {
-        return client.execute(operation: "DescribeStackResources", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackResources(_ input: DescribeStackResourcesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackResourcesOutput> {
+        return client.execute(operation: "DescribeStackResources", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the description of the specified stack set. 
-    public func describeStackSet(_ input: DescribeStackSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackSetOutput> {
-        return client.execute(operation: "DescribeStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackSet(_ input: DescribeStackSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackSetOutput> {
+        return client.execute(operation: "DescribeStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the description of the specified stack set operation. 
-    public func describeStackSetOperation(_ input: DescribeStackSetOperationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStackSetOperationOutput> {
-        return client.execute(operation: "DescribeStackSetOperation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStackSetOperation(_ input: DescribeStackSetOperationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStackSetOperationOutput> {
+        return client.execute(operation: "DescribeStackSetOperation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack does not exist, an AmazonCloudFormationException is returned. 
-    public func describeStacks(_ input: DescribeStacksInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStacksOutput> {
-        return client.execute(operation: "DescribeStacks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeStacks(_ input: DescribeStacksInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStacksOutput> {
+        return client.execute(operation: "DescribeStacks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns detailed information about a type that has been registered. If you specify a VersionId, DescribeType returns information about that specific type version. Otherwise, it returns information about the default type version.
-    public func describeType(_ input: DescribeTypeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTypeOutput> {
-        return client.execute(operation: "DescribeType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeType(_ input: DescribeTypeInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTypeOutput> {
+        return client.execute(operation: "DescribeType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about a type's registration, including its current status and type and version identifiers. When you initiate a registration request using  RegisterType , you can then use  DescribeTypeRegistration  to monitor the progress of that registration request. Once the registration request has completed, use  DescribeType  to return detailed informaiton about a type.
-    public func describeTypeRegistration(_ input: DescribeTypeRegistrationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTypeRegistrationOutput> {
-        return client.execute(operation: "DescribeTypeRegistration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeTypeRegistration(_ input: DescribeTypeRegistrationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTypeRegistrationOutput> {
+        return client.execute(operation: "DescribeTypeRegistration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Detects whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, AWS CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more of its resources differ from their expected template configurations. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackDrift to detect drift on all supported resources for a given stack, or DetectStackResourceDrift to detect drift on individual resources. For a list of stack resources that currently support drift detection, see Resources that Support Drift Detection.  DetectStackDrift can take up to several minutes, depending on the number of resources contained within the stack. Use DescribeStackDriftDetectionStatus to monitor the progress of a detect stack drift operation. Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its resources. When detecting drift on a stack, AWS CloudFormation does not detect drift on any nested stacks belonging to that stack. Perform DetectStackDrift directly on the nested stack itself.
-    public func detectStackDrift(_ input: DetectStackDriftInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectStackDriftOutput> {
-        return client.execute(operation: "DetectStackDrift", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func detectStackDrift(_ input: DetectStackDriftInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectStackDriftOutput> {
+        return client.execute(operation: "DetectStackDrift", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about whether a resource's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which AWS CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackResourceDrift to detect drift on individual resources, or DetectStackDrift to detect drift on all resources in a given stack that support drift detection. Resources that do not currently support drift detection cannot be checked. For a list of resources that support drift detection, see Resources that Support Drift Detection.
-    public func detectStackResourceDrift(_ input: DetectStackResourceDriftInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectStackResourceDriftOutput> {
-        return client.execute(operation: "DetectStackResourceDrift", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func detectStackResourceDrift(_ input: DetectStackResourceDriftInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectStackResourceDriftOutput> {
+        return client.execute(operation: "DetectStackResourceDrift", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Detect drift on a stack set. When CloudFormation performs drift detection on a stack set, it performs drift detection on the stack associated with each stack instance in the stack set. For more information, see How CloudFormation Performs Drift Detection on a Stack Set.  DetectStackSetDrift returns the OperationId of the stack set drift detection operation. Use this operation id with  DescribeStackSetOperation  to monitor the progress of the drift detection operation. The drift detection operation may take some time, depending on the number of stack instances included in the stack set, as well as the number of resources included in each stack. Once the operation has completed, use the following actions to return drift information:   Use  DescribeStackSet  to return detailed informaiton about the stack set, including detailed information about the last completed drift operation performed on the stack set. (Information about drift operations that are in progress is not included.)   Use  ListStackInstances  to return a list of stack instances belonging to the stack set, including the drift status and last drift time checked of each instance.   Use  DescribeStackInstance  to return detailed information about a specific stack instance, including its drift status and last drift time checked.   For more information on performing a drift detection operation on a stack set, see Detecting Unmanaged Changes in Stack Sets.  You can only run a single drift detection operation on a given stack set at one time.  To stop a drift detection stack set operation, use  StopStackSetOperation .
-    public func detectStackSetDrift(_ input: DetectStackSetDriftInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectStackSetDriftOutput> {
-        return client.execute(operation: "DetectStackSetDrift", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func detectStackSetDrift(_ input: DetectStackSetDriftInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectStackSetDriftOutput> {
+        return client.execute(operation: "DetectStackSetDrift", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the estimated monthly cost of a template. The return value is an AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
-    public func estimateTemplateCost(_ input: EstimateTemplateCostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EstimateTemplateCostOutput> {
-        return client.execute(operation: "EstimateTemplateCost", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func estimateTemplateCost(_ input: EstimateTemplateCostInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<EstimateTemplateCostOutput> {
+        return client.execute(operation: "EstimateTemplateCost", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, AWS CloudFormation starts updating the stack. Use the DescribeStacks action to view the status of the update. When you execute a change set, AWS CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack. If a stack policy is associated with the stack, AWS CloudFormation enforces the policy during the update. You can't specify a temporary stack policy that overrides the current policy.
-    public func executeChangeSet(_ input: ExecuteChangeSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteChangeSetOutput> {
-        return client.execute(operation: "ExecuteChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func executeChangeSet(_ input: ExecuteChangeSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteChangeSetOutput> {
+        return client.execute(operation: "ExecuteChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null value is returned.
-    public func getStackPolicy(_ input: GetStackPolicyInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStackPolicyOutput> {
-        return client.execute(operation: "GetStackPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getStackPolicy(_ input: GetStackPolicyInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetStackPolicyOutput> {
+        return client.execute(operation: "GetStackPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the template body for a specified stack. You can get the template for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted.   If the template does not exist, a ValidationError is returned.  
-    public func getTemplate(_ input: GetTemplateInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemplateOutput> {
-        return client.execute(operation: "GetTemplate", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getTemplate(_ input: GetTemplateInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTemplateOutput> {
+        return client.execute(operation: "GetTemplate", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or stack set. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a stack set, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been deleted. If the template does not exist, a ValidationError is returned.
-    public func getTemplateSummary(_ input: GetTemplateSummaryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemplateSummaryOutput> {
-        return client.execute(operation: "GetTemplateSummary", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getTemplateSummary(_ input: GetTemplateSummaryInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTemplateSummaryOutput> {
+        return client.execute(operation: "GetTemplateSummary", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the ID and status of each active change set for a stack. For example, AWS CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
-    public func listChangeSets(_ input: ListChangeSetsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChangeSetsOutput> {
-        return client.execute(operation: "ListChangeSets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listChangeSets(_ input: ListChangeSetsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChangeSetsOutput> {
+        return client.execute(operation: "ListChangeSets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
-    public func listExports(_ input: ListExportsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExportsOutput> {
-        return client.execute(operation: "ListExports", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listExports(_ input: ListExportsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListExportsOutput> {
+        return client.execute(operation: "ListExports", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports.  For more information about importing an exported output value, see the  Fn::ImportValue  function. 
-    public func listImports(_ input: ListImportsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportsOutput> {
-        return client.execute(operation: "ListImports", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listImports(_ input: ListImportsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImportsOutput> {
+        return client.execute(operation: "ListImports", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or Region, or that have a specific status.
-    public func listStackInstances(_ input: ListStackInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackInstancesOutput> {
-        return client.execute(operation: "ListStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listStackInstances(_ input: ListStackInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackInstancesOutput> {
+        return client.execute(operation: "ListStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
-    public func listStackResources(_ input: ListStackResourcesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackResourcesOutput> {
-        return client.execute(operation: "ListStackResources", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listStackResources(_ input: ListStackResourcesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackResourcesOutput> {
+        return client.execute(operation: "ListStackResources", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns summary information about the results of a stack set operation. 
-    public func listStackSetOperationResults(_ input: ListStackSetOperationResultsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackSetOperationResultsOutput> {
-        return client.execute(operation: "ListStackSetOperationResults", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listStackSetOperationResults(_ input: ListStackSetOperationResultsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackSetOperationResultsOutput> {
+        return client.execute(operation: "ListStackSetOperationResults", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns summary information about operations performed on a stack set. 
-    public func listStackSetOperations(_ input: ListStackSetOperationsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackSetOperationsOutput> {
-        return client.execute(operation: "ListStackSetOperations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listStackSetOperations(_ input: ListStackSetOperationsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackSetOperationsOutput> {
+        return client.execute(operation: "ListStackSetOperations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns summary information about stack sets that are associated with the user.
-    public func listStackSets(_ input: ListStackSetsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackSetsOutput> {
-        return client.execute(operation: "ListStackSets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listStackSets(_ input: ListStackSetsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackSetsOutput> {
+        return client.execute(operation: "ListStackSets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
-    public func listStacks(_ input: ListStacksInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStacksOutput> {
-        return client.execute(operation: "ListStacks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listStacks(_ input: ListStacksInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStacksOutput> {
+        return client.execute(operation: "ListStacks", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of registration tokens for the specified type(s).
-    public func listTypeRegistrations(_ input: ListTypeRegistrationsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypeRegistrationsOutput> {
-        return client.execute(operation: "ListTypeRegistrations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTypeRegistrations(_ input: ListTypeRegistrationsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTypeRegistrationsOutput> {
+        return client.execute(operation: "ListTypeRegistrations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns summary information about the versions of a type.
-    public func listTypeVersions(_ input: ListTypeVersionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypeVersionsOutput> {
-        return client.execute(operation: "ListTypeVersions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTypeVersions(_ input: ListTypeVersionsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTypeVersionsOutput> {
+        return client.execute(operation: "ListTypeVersions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns summary information about types that have been registered with CloudFormation.
-    public func listTypes(_ input: ListTypesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypesOutput> {
-        return client.execute(operation: "ListTypes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTypes(_ input: ListTypesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTypesOutput> {
+        return client.execute(operation: "ListTypes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Reports progress of a resource handler to CloudFormation. Reserved for use by the CloudFormation CLI. Do not use this API in your code.
-    public func recordHandlerProgress(_ input: RecordHandlerProgressInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RecordHandlerProgressOutput> {
-        return client.execute(operation: "RecordHandlerProgress", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func recordHandlerProgress(_ input: RecordHandlerProgressInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RecordHandlerProgressOutput> {
+        return client.execute(operation: "RecordHandlerProgress", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Registers a type with the CloudFormation service. Registering a type makes it available for use in CloudFormation templates in your AWS account, and includes:   Validating the resource schema   Determining which handlers have been specified for the resource   Making the resource type available for use in your account   For more information on how to develop types and ready them for registeration, see Creating Resource Providers in the CloudFormation CLI User Guide. You can have a maximum of 50 resource type versions registered at a time. This maximum is per account and per region. Use DeregisterType to deregister specific resource type versions if necessary. Once you have initiated a registration request using  RegisterType , you can use  DescribeTypeRegistration  to monitor the progress of the registration request.
-    public func registerType(_ input: RegisterTypeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTypeOutput> {
-        return client.execute(operation: "RegisterType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func registerType(_ input: RegisterTypeInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterTypeOutput> {
+        return client.execute(operation: "RegisterType", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sets a stack policy for a specified stack.
-    @discardableResult public func setStackPolicy(_ input: SetStackPolicyInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SetStackPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func setStackPolicy(_ input: SetStackPolicyInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SetStackPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Specify the default version of a type. The default version of a type will be used in CloudFormation operations.
-    public func setTypeDefaultVersion(_ input: SetTypeDefaultVersionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetTypeDefaultVersionOutput> {
-        return client.execute(operation: "SetTypeDefaultVersion", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func setTypeDefaultVersion(_ input: SetTypeDefaultVersionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetTypeDefaultVersionOutput> {
+        return client.execute(operation: "SetTypeDefaultVersion", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sends a signal to the specified resource with a success or failure status. You can use the SignalResource API in conjunction with a creation policy or update policy. AWS CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource API is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.
-    @discardableResult public func signalResource(_ input: SignalResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SignalResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func signalResource(_ input: SignalResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SignalResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Stops an in-progress operation on a stack set and its associated stack instances. 
-    public func stopStackSetOperation(_ input: StopStackSetOperationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopStackSetOperationOutput> {
-        return client.execute(operation: "StopStackSetOperation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func stopStackSetOperation(_ input: StopStackSetOperationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopStackSetOperationOutput> {
+        return client.execute(operation: "StopStackSetOperation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack via the DescribeStacks action. To get a copy of the template for an existing stack, you can use the GetTemplate action. For more information about creating an update template, updating a stack, and monitoring the progress of the update, see Updating a Stack.
-    public func updateStack(_ input: UpdateStackInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStackOutput> {
-        return client.execute(operation: "UpdateStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateStack(_ input: UpdateStackInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStackOutput> {
+        return client.execute(operation: "UpdateStack", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the parameter values for stack instances for the specified accounts, within the specified Regions. A stack instance refers to a stack in a specific account and Region.  You can only update stack instances in Regions and accounts where they already exist; to create additional stack instances, use CreateStackInstances.  During stack set updates, any parameters overridden for a stack instance are not updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use UpdateStackSet to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
-    public func updateStackInstances(_ input: UpdateStackInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStackInstancesOutput> {
-        return client.execute(operation: "UpdateStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateStackInstances(_ input: UpdateStackInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStackInstancesOutput> {
+        return client.execute(operation: "UpdateStackInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the stack set, and associated stack instances in the specified accounts and Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent CreateStackInstances calls on the specified stack set use the updated stack set.
-    public func updateStackSet(_ input: UpdateStackSetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStackSetOutput> {
-        return client.execute(operation: "UpdateStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateStackSet(_ input: UpdateStackSetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStackSetOutput> {
+        return client.execute(operation: "UpdateStackSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protecting a Stack From Being Deleted in the AWS CloudFormation User Guide.  For nested stacks, termination protection is set on the root stack and cannot be changed directly on the nested stack.
-    public func updateTerminationProtection(_ input: UpdateTerminationProtectionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTerminationProtectionOutput> {
-        return client.execute(operation: "UpdateTerminationProtection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateTerminationProtection(_ input: UpdateTerminationProtectionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTerminationProtectionOutput> {
+        return client.execute(operation: "UpdateTerminationProtection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Validates a specified template. AWS CloudFormation first checks if the template is valid JSON. If it isn't, AWS CloudFormation checks if the template is valid YAML. If both these checks fail, AWS CloudFormation returns a template validation error.
-    public func validateTemplate(_ input: ValidateTemplateInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ValidateTemplateOutput> {
-        return client.execute(operation: "ValidateTemplate", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func validateTemplate(_ input: ValidateTemplateInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ValidateTemplateOutput> {
+        return client.execute(operation: "ValidateTemplate", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

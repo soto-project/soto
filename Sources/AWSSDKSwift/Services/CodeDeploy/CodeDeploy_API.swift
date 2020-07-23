@@ -61,241 +61,241 @@ public struct CodeDeploy {
     //MARK: API Calls
 
     ///  Adds tags to on-premises instances.
-    @discardableResult public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25.
-    public func batchGetApplicationRevisions(_ input: BatchGetApplicationRevisionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetApplicationRevisionsOutput> {
-        return client.execute(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetApplicationRevisions(_ input: BatchGetApplicationRevisionsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetApplicationRevisionsOutput> {
+        return client.execute(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about one or more applications. The maximum number of applications that can be returned is 100.
-    public func batchGetApplications(_ input: BatchGetApplicationsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetApplicationsOutput> {
-        return client.execute(operation: "BatchGetApplications", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetApplications(_ input: BatchGetApplicationsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetApplicationsOutput> {
+        return client.execute(operation: "BatchGetApplications", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about one or more deployment groups.
-    public func batchGetDeploymentGroups(_ input: BatchGetDeploymentGroupsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDeploymentGroupsOutput> {
-        return client.execute(operation: "BatchGetDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetDeploymentGroups(_ input: BatchGetDeploymentGroupsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetDeploymentGroupsOutput> {
+        return client.execute(operation: "BatchGetDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///    This method works, but is deprecated. Use BatchGetDeploymentTargets instead.    Returns an array of one or more instances associated with a deployment. This method works with EC2/On-premises and AWS Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. The maximum number of instances that can be returned is 25.
     @available(*, deprecated, message:"This operation is deprecated, use BatchGetDeploymentTargets instead.")
-    public func batchGetDeploymentInstances(_ input: BatchGetDeploymentInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDeploymentInstancesOutput> {
-        return client.execute(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetDeploymentInstances(_ input: BatchGetDeploymentInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetDeploymentInstancesOutput> {
+        return client.execute(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25.  The type of targets returned depends on the deployment's compute platform or deployment method:     EC2/On-premises: Information about EC2 instance targets.     AWS Lambda: Information about Lambda functions targets.     Amazon ECS: Information about Amazon ECS service targets.     CloudFormation: Information about targets of blue/green deployments initiated by a CloudFormation stack update.  
-    public func batchGetDeploymentTargets(_ input: BatchGetDeploymentTargetsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDeploymentTargetsOutput> {
-        return client.execute(operation: "BatchGetDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetDeploymentTargets(_ input: BatchGetDeploymentTargetsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetDeploymentTargetsOutput> {
+        return client.execute(operation: "BatchGetDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about one or more deployments. The maximum number of deployments that can be returned is 25.
-    public func batchGetDeployments(_ input: BatchGetDeploymentsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDeploymentsOutput> {
-        return client.execute(operation: "BatchGetDeployments", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetDeployments(_ input: BatchGetDeploymentsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetDeploymentsOutput> {
+        return client.execute(operation: "BatchGetDeployments", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25.
-    public func batchGetOnPremisesInstances(_ input: BatchGetOnPremisesInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetOnPremisesInstancesOutput> {
-        return client.execute(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func batchGetOnPremisesInstances(_ input: BatchGetOnPremisesInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetOnPremisesInstancesOutput> {
+        return client.execute(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) 
-    @discardableResult public func continueDeployment(_ input: ContinueDeploymentInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "ContinueDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func continueDeployment(_ input: ContinueDeploymentInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "ContinueDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates an application.
-    public func createApplication(_ input: CreateApplicationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApplicationOutput> {
-        return client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createApplication(_ input: CreateApplicationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateApplicationOutput> {
+        return client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deploys an application revision through the specified deployment group.
-    public func createDeployment(_ input: CreateDeploymentInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentOutput> {
-        return client.execute(operation: "CreateDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createDeployment(_ input: CreateDeploymentInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDeploymentOutput> {
+        return client.execute(operation: "CreateDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Creates a deployment configuration. 
-    public func createDeploymentConfig(_ input: CreateDeploymentConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentConfigOutput> {
-        return client.execute(operation: "CreateDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createDeploymentConfig(_ input: CreateDeploymentConfigInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDeploymentConfigOutput> {
+        return client.execute(operation: "CreateDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a deployment group to which application revisions are deployed.
-    public func createDeploymentGroup(_ input: CreateDeploymentGroupInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentGroupOutput> {
-        return client.execute(operation: "CreateDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func createDeploymentGroup(_ input: CreateDeploymentGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDeploymentGroupOutput> {
+        return client.execute(operation: "CreateDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an application.
-    @discardableResult public func deleteApplication(_ input: DeleteApplicationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a deployment configuration.  A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. 
-    @discardableResult public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a deployment group.
-    public func deleteDeploymentGroup(_ input: DeleteDeploymentGroupInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeploymentGroupOutput> {
-        return client.execute(operation: "DeleteDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteDeploymentGroup(_ input: DeleteDeploymentGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDeploymentGroupOutput> {
+        return client.execute(operation: "DeleteDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a GitHub account connection.
-    public func deleteGitHubAccountToken(_ input: DeleteGitHubAccountTokenInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGitHubAccountTokenOutput> {
-        return client.execute(operation: "DeleteGitHubAccountToken", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteGitHubAccountToken(_ input: DeleteGitHubAccountTokenInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGitHubAccountTokenOutput> {
+        return client.execute(operation: "DeleteGitHubAccountToken", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes resources linked to an external ID.
-    public func deleteResourcesByExternalId(_ input: DeleteResourcesByExternalIdInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcesByExternalIdOutput> {
-        return client.execute(operation: "DeleteResourcesByExternalId", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func deleteResourcesByExternalId(_ input: DeleteResourcesByExternalIdInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResourcesByExternalIdOutput> {
+        return client.execute(operation: "DeleteResourcesByExternalId", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deregisters an on-premises instance.
-    @discardableResult public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about an application.
-    public func getApplication(_ input: GetApplicationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationOutput> {
-        return client.execute(operation: "GetApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getApplication(_ input: GetApplicationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetApplicationOutput> {
+        return client.execute(operation: "GetApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about an application revision.
-    public func getApplicationRevision(_ input: GetApplicationRevisionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationRevisionOutput> {
-        return client.execute(operation: "GetApplicationRevision", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getApplicationRevision(_ input: GetApplicationRevisionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetApplicationRevisionOutput> {
+        return client.execute(operation: "GetApplicationRevision", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a deployment.   The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.  
-    public func getDeployment(_ input: GetDeploymentInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentOutput> {
-        return client.execute(operation: "GetDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDeployment(_ input: GetDeploymentInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeploymentOutput> {
+        return client.execute(operation: "GetDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a deployment configuration.
-    public func getDeploymentConfig(_ input: GetDeploymentConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentConfigOutput> {
-        return client.execute(operation: "GetDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDeploymentConfig(_ input: GetDeploymentConfigInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeploymentConfigOutput> {
+        return client.execute(operation: "GetDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a deployment group.
-    public func getDeploymentGroup(_ input: GetDeploymentGroupInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentGroupOutput> {
-        return client.execute(operation: "GetDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDeploymentGroup(_ input: GetDeploymentGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeploymentGroupOutput> {
+        return client.execute(operation: "GetDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about an instance as part of a deployment.
     @available(*, deprecated, message:"This operation is deprecated, use GetDeploymentTarget instead.")
-    public func getDeploymentInstance(_ input: GetDeploymentInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentInstanceOutput> {
-        return client.execute(operation: "GetDeploymentInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDeploymentInstance(_ input: GetDeploymentInstanceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeploymentInstanceOutput> {
+        return client.execute(operation: "GetDeploymentInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns information about a deployment target. 
-    public func getDeploymentTarget(_ input: GetDeploymentTargetInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentTargetOutput> {
-        return client.execute(operation: "GetDeploymentTarget", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getDeploymentTarget(_ input: GetDeploymentTargetInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeploymentTargetOutput> {
+        return client.execute(operation: "GetDeploymentTarget", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Gets information about an on-premises instance. 
-    public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOnPremisesInstanceOutput> {
-        return client.execute(operation: "GetOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOnPremisesInstanceOutput> {
+        return client.execute(operation: "GetOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists information about revisions for an application.
-    public func listApplicationRevisions(_ input: ListApplicationRevisionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationRevisionsOutput> {
-        return client.execute(operation: "ListApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listApplicationRevisions(_ input: ListApplicationRevisionsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApplicationRevisionsOutput> {
+        return client.execute(operation: "ListApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the applications registered with the IAM user or AWS account.
-    public func listApplications(_ input: ListApplicationsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationsOutput> {
-        return client.execute(operation: "ListApplications", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listApplications(_ input: ListApplicationsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApplicationsOutput> {
+        return client.execute(operation: "ListApplications", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the deployment configurations with the IAM user or AWS account.
-    public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentConfigsOutput> {
-        return client.execute(operation: "ListDeploymentConfigs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentConfigsOutput> {
+        return client.execute(operation: "ListDeploymentConfigs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the deployment groups for an application registered with the IAM user or AWS account.
-    public func listDeploymentGroups(_ input: ListDeploymentGroupsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentGroupsOutput> {
-        return client.execute(operation: "ListDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDeploymentGroups(_ input: ListDeploymentGroupsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentGroupsOutput> {
+        return client.execute(operation: "ListDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///    The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the IAM user or AWS account. 
     @available(*, deprecated, message:"This operation is deprecated, use ListDeploymentTargets instead.")
-    public func listDeploymentInstances(_ input: ListDeploymentInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentInstancesOutput> {
-        return client.execute(operation: "ListDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDeploymentInstances(_ input: ListDeploymentInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentInstancesOutput> {
+        return client.execute(operation: "ListDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns an array of target IDs that are associated a deployment. 
-    public func listDeploymentTargets(_ input: ListDeploymentTargetsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentTargetsOutput> {
-        return client.execute(operation: "ListDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDeploymentTargets(_ input: ListDeploymentTargetsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentTargetsOutput> {
+        return client.execute(operation: "ListDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the deployments in a deployment group for an application registered with the IAM user or AWS account.
-    public func listDeployments(_ input: ListDeploymentsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentsOutput> {
-        return client.execute(operation: "ListDeployments", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listDeployments(_ input: ListDeploymentsInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentsOutput> {
+        return client.execute(operation: "ListDeployments", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the names of stored connections to GitHub accounts.
-    public func listGitHubAccountTokenNames(_ input: ListGitHubAccountTokenNamesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGitHubAccountTokenNamesOutput> {
-        return client.execute(operation: "ListGitHubAccountTokenNames", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listGitHubAccountTokenNames(_ input: ListGitHubAccountTokenNamesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGitHubAccountTokenNamesOutput> {
+        return client.execute(operation: "ListGitHubAccountTokenNames", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
-    public func listOnPremisesInstances(_ input: ListOnPremisesInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOnPremisesInstancesOutput> {
-        return client.execute(operation: "ListOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listOnPremisesInstances(_ input: ListOnPremisesInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOnPremisesInstancesOutput> {
+        return client.execute(operation: "ListOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. 
-    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the AWS Lambda or Amazon ECS compute platform. For AWS Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see AppSpec 'hooks' Section for an AWS Lambda Deployment  and AppSpec 'hooks' Section for an Amazon ECS Deployment.
-    public func putLifecycleEventHookExecutionStatus(_ input: PutLifecycleEventHookExecutionStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutLifecycleEventHookExecutionStatusOutput> {
-        return client.execute(operation: "PutLifecycleEventHookExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func putLifecycleEventHookExecutionStatus(_ input: PutLifecycleEventHookExecutionStatusInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutLifecycleEventHookExecutionStatusOutput> {
+        return client.execute(operation: "PutLifecycleEventHookExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Registers with AWS CodeDeploy a revision for the specified application.
-    @discardableResult public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "RegisterApplicationRevision", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "RegisterApplicationRevision", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both. 
-    @discardableResult public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes one or more tags from one or more on-premises instances.
-    @discardableResult public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is complete.
     @available(*, deprecated, message:"This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")
-    @discardableResult public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Attempts to stop an ongoing deployment.
-    public func stopDeployment(_ input: StopDeploymentInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopDeploymentOutput> {
-        return client.execute(operation: "StopDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func stopDeployment(_ input: StopDeploymentInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopDeploymentOutput> {
+        return client.execute(operation: "StopDeployment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter. 
-    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceOutput> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///   Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter. 
-    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceOutput> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Changes the name of an application.
-    @discardableResult public func updateApplication(_ input: UpdateApplicationInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UpdateApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    @discardableResult public func updateApplication(_ input: UpdateApplicationInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateApplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Changes information about a deployment group.
-    public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeploymentGroupOutput> {
-        return client.execute(operation: "UpdateDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDeploymentGroupOutput> {
+        return client.execute(operation: "UpdateDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

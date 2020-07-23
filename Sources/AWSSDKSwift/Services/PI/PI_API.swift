@@ -61,12 +61,12 @@ public struct PI {
     //MARK: API Calls
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.
-    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDimensionKeysResponse> {
+        return client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
-    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceMetricsResponse> {
-        return client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop)
+    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourceMetricsResponse> {
+        return client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }
