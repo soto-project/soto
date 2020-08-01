@@ -59,8 +59,14 @@ extension DynamoDB {
                 key[$0] = item[$0]!
                 item[$0] = nil
             }
-            // construct expression attribute name and value arrays from name attribute value map
-            let expressionAttributeNames: [String: String] = .init( item.keys.map { ("#\($0)", $0) }) { first,_ in return first }
+            // construct expression attribute name and value arrays from name attribute value map.
+            // if names already provided along with a custom update expression then use the provided names
+            let expressionAttributeNames: [String: String]
+            if let names = input.expressionAttributeNames, input.updateExpression != nil {
+                expressionAttributeNames = names
+            } else {
+                expressionAttributeNames = .init( item.keys.map { ("#\($0)", $0) }) { first,_ in return first }
+            }
             let expressionAttributeValues: [String: AttributeValue] = .init( item.map { (":\($0.key)", $0.value) }) { first,_ in return first }
             // construct update expression, if one if not already supplied
             let updateExpression: String
@@ -216,6 +222,8 @@ extension DynamoDB {
 
         /// A condition that must be satisfied in order for a conditional update to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information about condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
+        /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide.) To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeNames: [String: String]?
         /// The primary key of the item to be updated. Each element consists of an attribute name. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
         public let key: [String]
         public let returnConsumedCapacity: ReturnConsumedCapacity?
@@ -230,8 +238,9 @@ extension DynamoDB {
         /// Object containing item key and attributes to update
         public let updateItem: T
 
-        public init(conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil, updateItem: T) {
+        public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil, updateItem: T) {
             self.conditionExpression = conditionExpression
+            self.expressionAttributeNames = expressionAttributeNames
             self.key = key
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics

@@ -18,13 +18,16 @@ import XCTest
 
 final class DynamoDBCodableTests: XCTestCase {
 
-    static var dynamoDB = DynamoDB(
-        accessKeyId: TestEnvironment.accessKeyId,
-        secretAccessKey: TestEnvironment.secretAccessKey,
-        region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566"),
+    static var client = AWSClient(
+        credentialProvider: TestEnvironment.credentialProvider,
         middlewares: TestEnvironment.middlewares,
         httpClientProvider: .createNew
+    )
+    
+    static var dynamoDB = DynamoDB(
+        client: client,
+        region: .useast1,
+        endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566")
     )
 
     func createTable(name: String, attributeDefinitions: [DynamoDB.AttributeDefinition]? = nil, keySchema: [DynamoDB.KeySchemaElement]? = nil) -> EventLoopFuture<Void> {
