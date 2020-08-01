@@ -60,8 +60,8 @@ class STSTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
     
-    func testCredentialProviderShutdown() {
-        let client = AWSClient(credentialProvider: .stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now"), region: .euwest2), httpClientProvider: .createNew)
+    func testSTSCredentialProviderShutdown() {
+        let client = AWSClient(credentialProvider: .stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2), httpClientProvider: .createNew)
         XCTAssertNoThrow(try client.syncShutdown())
     }
 }

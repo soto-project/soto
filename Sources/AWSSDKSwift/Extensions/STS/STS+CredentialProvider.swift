@@ -52,9 +52,16 @@ extension STS {
         }
 
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // can call client.syncShutdown here as we have shutdown the credential provider and the
-            // client uses the http client supplied at initialisation.
-            return client.credentialProvider.shutdown(on: eventLoop).flatMapThrowing { _ in try self.client.syncShutdown() }
+            // shutdown AWSClient
+            let promise = eventLoop.makePromise(of: Void.self)
+            client.shutdown { error in
+                if let error = error {
+                    promise.completeWith(.failure(error))
+                } else {
+                    promise.completeWith(.success(()))
+                }
+            }
+            return promise.futureResult
         }
     }
     
@@ -82,14 +89,16 @@ extension STS {
         }
 
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // can call client.syncShutdown here as it has an empty credential provider and
-            // uses the http client supplied at initialisation.
-            do {
-                try client.syncShutdown()
-                return eventLoop.makeSucceededFuture(())
-            } catch {
-                return eventLoop.makeFailedFuture(error)
+            // shutdown AWSClient
+            let promise = eventLoop.makePromise(of: Void.self)
+            client.shutdown { error in
+                if let error = error {
+                    promise.completeWith(.failure(error))
+                } else {
+                    promise.completeWith(.success(()))
+                }
             }
+            return promise.futureResult
         }
     }
     
@@ -117,14 +126,16 @@ extension STS {
         }
 
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // can call client.syncShutdown here as it has an empty credential provider and
-            // uses the http client supplied at initialisation.
-            do {
-                try client.syncShutdown()
-                return eventLoop.makeSucceededFuture(())
-            } catch {
-                return eventLoop.makeFailedFuture(error)
+            // shutdown AWSClient
+            let promise = eventLoop.makePromise(of: Void.self)
+            client.shutdown { error in
+                if let error = error {
+                    promise.completeWith(.failure(error))
+                } else {
+                    promise.completeWith(.success(()))
+                }
             }
+            return promise.futureResult
         }
     }
 }
