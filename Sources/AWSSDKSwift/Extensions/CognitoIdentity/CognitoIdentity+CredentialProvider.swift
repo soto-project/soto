@@ -43,16 +43,16 @@ extension CognitoIdentity {
 
             // only getId once and store in promise
             let request = CognitoIdentity.GetIdInput(identityPoolId: identityPoolId, logins: logins)
-            cognitoIdentity.getId(request).flatMapThrowing { response -> String in
+            cognitoIdentity.getId(request, on: eventLoop).flatMapThrowing { response -> String in
                 guard let identityId = response.identityId else { throw CredentialProviderError.noProvider }
                 return identityId
             }.cascade(to: idPromise)
         }
 
-        func getCredential(on eventLoop: EventLoop) -> EventLoopFuture<Credential> {
+        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return self.idPromise.futureResult.flatMap { identityId -> EventLoopFuture<GetCredentialsForIdentityResponse> in
                 let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identityId, logins: self.logins)
-                return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest)
+                return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, on: eventLoop)
             }
             .flatMapThrowing { response in
                 guard let credentials = response.credentials,
@@ -68,7 +68,7 @@ extension CognitoIdentity {
                     sessionToken: sessionToken,
                     expiration: expiration
                 )
-            }.hop(to: eventLoop)
+            }
         }
 
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
@@ -100,7 +100,7 @@ extension CredentialProviderFactory {
                 eventLoop: context.eventLoop,
                 httpClient: context.httpClient
             )
-            return RotatingCredentialProvider(eventLoop: context.eventLoop, provider: provider)
+            return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
 
