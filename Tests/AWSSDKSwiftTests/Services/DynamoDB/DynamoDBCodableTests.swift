@@ -90,11 +90,11 @@ final class DynamoDBCodableTests: XCTestCase {
         let response = createTable(name: tableName)
             .flatMap { _ -> EventLoopFuture<DynamoDB.PutItemOutput> in
                 let request = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
-                return Self.dynamoDB.putItemCodable(request)
+                return Self.dynamoDB.putItem(request)
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemCodableOutput<TestObject>> in
             let request = DynamoDB.GetItemInput(key: ["id": .s(id)], tableName: tableName)
-            return Self.dynamoDB.getItemCodable(request, type: TestObject.self)
+            return Self.dynamoDB.getItem(request, type: TestObject.self)
         }
         .map { response -> Void in
             XCTAssertEqual(test, response.item)
@@ -128,15 +128,15 @@ final class DynamoDBCodableTests: XCTestCase {
         let response = createTable(name: tableName)
             .flatMap { _ -> EventLoopFuture<DynamoDB.PutItemOutput> in
                 let request = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
-                return Self.dynamoDB.putItemCodable(request)
+                return Self.dynamoDB.putItem(request)
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.UpdateItemOutput> in
             let request = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
-            return Self.dynamoDB.updateItemCodable(request)
+            return Self.dynamoDB.updateItem(request)
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemCodableOutput<TestObject>> in
             let request = DynamoDB.GetItemInput(key: ["id": .s(id)], tableName: tableName)
-            return Self.dynamoDB.getItemCodable(request, type: TestObject.self)
+            return Self.dynamoDB.getItem(request, type: TestObject.self)
         }
         .map { response -> Void in
             XCTAssertEqual("David", response.item?.name)
@@ -169,7 +169,7 @@ final class DynamoDBCodableTests: XCTestCase {
             attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
             keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
         ).flatMap { _ -> EventLoopFuture<Void> in
-            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItemCodable(.init(item: $0, tableName: tableName))}
+            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItem(.init(item: $0, tableName: tableName))}
             return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.QueryCodableOutput<TestObject>> in
@@ -178,7 +178,7 @@ final class DynamoDBCodableTests: XCTestCase {
                 keyConditionExpression: "id = :id and version >= :version",
                 tableName: tableName
             )
-            return Self.dynamoDB.queryCodable(request, type: TestObject.self)
+            return Self.dynamoDB.query(request, type: TestObject.self)
         }
         .map { response in
             XCTAssertEqual(testItems[1], response.items?[0])
@@ -211,7 +211,7 @@ final class DynamoDBCodableTests: XCTestCase {
             attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
             keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
         ).flatMap { _ -> EventLoopFuture<Void> in
-            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItemCodable(.init(item: $0, tableName: tableName))}
+            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItem(.init(item: $0, tableName: tableName))}
             return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
         }
         .flatMap { _ -> EventLoopFuture<Void> in
@@ -221,7 +221,7 @@ final class DynamoDBCodableTests: XCTestCase {
                 limit: 3,
                 tableName: tableName
             )
-            return Self.dynamoDB.queryCodablePaginator(request, type: TestObject.self) { response, eventLoop in
+            return Self.dynamoDB.queryPaginator(request, type: TestObject.self) { response, eventLoop in
                 results.append(contentsOf: response.items ?? [])
                 return eventLoop.makeSucceededFuture(true)
             }
@@ -256,12 +256,12 @@ final class DynamoDBCodableTests: XCTestCase {
             attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
             keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
         ).flatMap { _ -> EventLoopFuture<Void> in
-            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItemCodable(.init(item: $0, tableName: tableName))}
+            let futureResults: [EventLoopFuture<DynamoDB.PutItemOutput>] = testItems.map { Self.dynamoDB.putItem(.init(item: $0, tableName: tableName))}
             return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.ScanCodableOutput<TestObject>> in
             let request = DynamoDB.ScanInput(expressionAttributeValues: [":message": .s("Message 2")], filterExpression: "message = :message", tableName: tableName)
-            return Self.dynamoDB.scanCodable(request, type: TestObject.self)
+            return Self.dynamoDB.scan(request, type: TestObject.self)
         }
         .map { response in
             XCTAssertEqual(testItems[1], response.items?[0])
