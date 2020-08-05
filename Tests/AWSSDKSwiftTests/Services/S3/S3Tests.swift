@@ -14,7 +14,6 @@
 
 import AsyncHTTPClient
 import Foundation
-import AsyncHTTPClient
 import NIO
 import NIOHTTP1
 import XCTest
@@ -23,7 +22,6 @@ import XCTest
 @testable import AWSSDKSwiftCore
 
 class S3Tests: XCTestCase {
-
     static var client: AWSClient!
     static var s3: S3!
 
@@ -61,9 +59,9 @@ class S3Tests: XCTestCase {
             .map { _ in }
             .flatMapErrorThrowing { error in
                 switch error {
-                case S3ErrorType.bucketAlreadyOwnedByYou(_):
+                case S3ErrorType.bucketAlreadyOwnedByYou:
                     return
-                case S3ErrorType.bucketAlreadyExists(_):
+                case S3ErrorType.bucketAlreadyExists:
                     // local stack returns bucketAlreadyExists instead of bucketAlreadyOwnedByYou
                     if !TestEnvironment.isUsingLocalstack {
                         throw error
@@ -71,7 +69,7 @@ class S3Tests: XCTestCase {
                 default:
                     throw error
                 }
-        }
+            }
     }
 
     static func deleteBucket(name: String, s3: S3) -> EventLoopFuture<Void> {
@@ -79,27 +77,27 @@ class S3Tests: XCTestCase {
         return s3.listObjectsV2(request)
             .flatMap { response -> EventLoopFuture<Void> in
                 let eventLoop = s3.client.eventLoopGroup.next()
-                guard let objects = response.contents else { return eventLoop.makeSucceededFuture(())}
+                guard let objects = response.contents else { return eventLoop.makeSucceededFuture(()) }
                 let deleteFutureResults = objects.compactMap { $0.key.map { s3.deleteObject(.init(bucket: name, key: $0)) } }
                 return EventLoopFuture.andAllSucceed(deleteFutureResults, on: eventLoop)
-        }
-        .flatMap { _ in
-            let request = S3.DeleteBucketRequest(bucket: name)
-            return s3.deleteBucket(request).map { _ in }
-        }
+            }
+            .flatMap { _ in
+                let request = S3.DeleteBucketRequest(bucket: name)
+                return s3.deleteBucket(request).map { _ in }
+            }
     }
 
-    //MARK: TESTS
+    // MARK: TESTS
 
     func testHeadBucket() {
         let name = TestEnvironment.generateResourceName()
         let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap {
                 Self.s3.headBucket(.init(bucket: name))
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -116,19 +114,19 @@ class S3Tests: XCTestCase {
                     key: name
                 )
                 return Self.s3.putObject(putRequest)
-        }
-        .map { response -> Void in
-            XCTAssertNotNil(response.eTag)
-        }
-        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return Self.s3.getObject(.init(bucket: name, key: name))
-        }
-        .map { response -> Void in
-            XCTAssertEqual(response.body?.asString(), contents)
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .map { response -> Void in
+                XCTAssertNotNil(response.eTag)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return Self.s3.getObject(.init(bucket: name, key: name))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.body?.asString(), contents)
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -141,20 +139,20 @@ class S3Tests: XCTestCase {
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: keyName)
                 return Self.s3.putObject(putRequest)
-        }
-        .flatMap { response -> EventLoopFuture<S3.CopyObjectOutput> in
-            let copyRequest = S3.CopyObjectRequest(bucket: name, copySource: "\(name)/\(keyName)", key: newKeyName)
-            return Self.s3.copyObject(copyRequest)
-        }
-        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return Self.s3.getObject(.init(bucket: name, key: newKeyName))
-        }
-        .map { response -> Void in
-            XCTAssertEqual(response.body?.asString(), contents)
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .flatMap { _ -> EventLoopFuture<S3.CopyObjectOutput> in
+                let copyRequest = S3.CopyObjectRequest(bucket: name, copySource: "\(name)/\(keyName)", key: newKeyName)
+                return Self.s3.copyObject(copyRequest)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return Self.s3.getObject(.init(bucket: name, key: newKeyName))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.body?.asString(), contents)
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -166,21 +164,21 @@ class S3Tests: XCTestCase {
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: name)
                 return Self.s3.putObject(putRequest)
-        }
-        .flatMapThrowing { response -> String in
-            return try XCTUnwrap(response.eTag)
-        }
-        .flatMap { eTag -> EventLoopFuture<(S3.ListObjectsV2Output, String)> in
-            return Self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag)}
-        }
-        .map { (response, eTag) -> Void in
-            XCTAssertEqual(response.contents?.first?.key, name)
-            XCTAssertEqual(response.contents?.first?.size, Int64(contents.utf8.count))
-            XCTAssertEqual(response.contents?.first?.eTag, eTag)
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .flatMapThrowing { response -> String in
+                return try XCTUnwrap(response.eTag)
+            }
+            .flatMap { eTag -> EventLoopFuture<(S3.ListObjectsV2Output, String)> in
+                return Self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag) }
+            }
+            .map { (response, eTag) -> Void in
+                XCTAssertEqual(response.contents?.first?.key, name)
+                XCTAssertEqual(response.contents?.first?.size, Int64(contents.utf8.count))
+                XCTAssertEqual(response.contents?.first?.eTag, eTag)
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -201,9 +199,9 @@ class S3Tests: XCTestCase {
             XCTAssertNoThrow(try httpClient.syncShutdown())
         }
         let name = TestEnvironment.generateResourceName()
-        let dataSize = 240*1024
-        let blockSize = 64*1024
-        let data = Self.createRandomBuffer(size: 240*1024)
+        let dataSize = 240 * 1024
+        let blockSize = 64 * 1024
+        let data = Self.createRandomBuffer(size: 240 * 1024)
         var byteBuffer = ByteBufferAllocator().buffer(capacity: dataSize)
         byteBuffer.writeBytes(data)
 
@@ -219,16 +217,16 @@ class S3Tests: XCTestCase {
                 }
                 let request = S3.PutObjectRequest(body: payload, bucket: name, key: "tempfile")
                 return s3.putObject(request).map { _ in }
-        }
-        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            return s3.getObject(.init(bucket: name, key: "tempfile"))
-        }
-        .map { response in
-            XCTAssertEqual(response.body?.asData(), data)
-        }
-        .flatAlways { _ in
-            Self.deleteBucket(name: name, s3: s3)
-        }
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return s3.getObject(.init(bucket: name, key: "tempfile"))
+            }
+            .map { response in
+                XCTAssertEqual(response.body?.asData(), data)
+            }
+            .flatAlways { _ in
+                Self.deleteBucket(name: name, s3: s3)
+            }
 
         XCTAssertNoThrow(try response.wait())
     }
@@ -239,9 +237,9 @@ class S3Tests: XCTestCase {
         let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { _ -> EventLoopFuture<Void> in
                 // set lifecycle rules
-                let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7)  // clear incomplete multipart uploads after 7 days
-                let filter = S3.LifecycleRuleFilter(prefix: "")  // everything
-                let transitions = [S3.Transition(days: 14, storageClass: .glacier)]  // transition objects to glacier after 14 days
+                let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
+                let filter = S3.LifecycleRuleFilter(prefix: "") // everything
+                let transitions = [S3.Transition(days: 14, storageClass: .glacier)] // transition objects to glacier after 14 days
                 let lifecycleRules = S3.LifecycleRule(
                     abortIncompleteMultipartUpload: incompleteMultipartUploads,
                     filter: filter,
@@ -251,18 +249,18 @@ class S3Tests: XCTestCase {
                 )
                 let request = S3.PutBucketLifecycleConfigurationRequest(bucket: name, lifecycleConfiguration: .init(rules: [lifecycleRules]))
                 return Self.s3.putBucketLifecycleConfiguration(request)
-        }
-        .flatMap { _ in
-            return Self.s3.getBucketLifecycleConfiguration(.init(bucket: name))
-        }
-        .map { response -> Void in
-            XCTAssertEqual(response.rules?[0].transitions?[0].storageClass, .glacier)
-            XCTAssertEqual(response.rules?[0].transitions?[0].days, 14)
-            XCTAssertEqual(response.rules?[0].abortIncompleteMultipartUpload?.daysAfterInitiation, 7)
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .flatMap { _ in
+                return Self.s3.getBucketLifecycleConfiguration(.init(bucket: name))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.rules?[0].transitions?[0].storageClass, .glacier)
+                XCTAssertEqual(response.rules?[0].transitions?[0].days, 14)
+                XCTAssertEqual(response.rules?[0].abortIncompleteMultipartUpload?.daysAfterInitiation, 7)
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -271,11 +269,11 @@ class S3Tests: XCTestCase {
             return Self.s3.putObject(.init(body: .string(body), bucket: bucket, key: key))
                 .flatMap { _ in
                     return Self.s3.getObject(.init(bucket: bucket, key: key))
-            }
-            .flatMapThrowing { response in
-                let getBody = try XCTUnwrap(response.body)
-                XCTAssertEqual(getBody.asString(), body)
-            }
+                }
+                .flatMapThrowing { response in
+                    let getBody = try XCTUnwrap(response.body)
+                    XCTAssertEqual(getBody.asString(), body)
+                }
         }
 
         let name = TestEnvironment.generateResourceName()
@@ -288,10 +286,10 @@ class S3Tests: XCTestCase {
                     return putGet(body: body, bucket: name, key: filename)
                 }
                 return EventLoopFuture.whenAllSucceed(futureResults, on: eventLoop).map { _ in }
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -307,14 +305,14 @@ class S3Tests: XCTestCase {
                     key: name
                 )
                 return Self.s3.putObject(putRequest)
-        }
-        .flatMap { _ -> EventLoopFuture<S3.GetObjectAclOutput> in
-            return Self.s3.getObjectAcl(.init(bucket: name, key: name, requestPayer: .requester))
-        }
-        .flatAlways { response -> EventLoopFuture<Void> in
-            print(response)
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectAclOutput> in
+                return Self.s3.getObjectAcl(.init(bucket: name, key: name, requestPayer: .requester))
+            }
+            .flatAlways { response -> EventLoopFuture<Void> in
+                print(response)
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -331,25 +329,25 @@ class S3Tests: XCTestCase {
                     return Self.s3.putObject(.init(body: .string(body), bucket: name, key: filename))
                 }
                 return EventLoopFuture.whenAllSucceed(futureResults, on: eventLoop).map { _ in }
-        }
-        .flatMap { _ in
-            return Self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5)) { result, eventLoop in
-                list.append(contentsOf: result.contents ?? [])
-                return eventLoop.makeSucceededFuture(true)
             }
-        }
-        .flatMap { _ in
-            return Self.s3.listObjectsV2(.init(bucket: name))
-        }
-        .map { response in
-            XCTAssertEqual(list.count, response.contents?.count)
-            for i in 0..<list.count {
-                XCTAssertEqual(list[i].key, response.contents?[i].key)
+            .flatMap { _ in
+                return Self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5)) { result, eventLoop in
+                    list.append(contentsOf: result.contents ?? [])
+                    return eventLoop.makeSucceededFuture(true)
+                }
             }
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: Self.s3)
-        }
+            .flatMap { _ in
+                return Self.s3.listObjectsV2(.init(bucket: name))
+            }
+            .map { response in
+                XCTAssertEqual(list.count, response.contents?.count)
+                for i in 0..<list.count {
+                    XCTAssertEqual(list[i].key, response.contents?[i].key)
+                }
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -359,7 +357,8 @@ class S3Tests: XCTestCase {
         let client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middlewares: TestEnvironment.middlewares,
-            httpClientProvider: .shared(httpClient))
+            httpClientProvider: .shared(httpClient)
+        )
         let s3 = S3(
             client: client,
             region: .euwest1,
@@ -372,10 +371,10 @@ class S3Tests: XCTestCase {
         }
 
         // create buffer
-        let dataSize = 257*1024
+        let dataSize = 257 * 1024
         var data = Data(count: dataSize)
         for i in 0..<dataSize {
-            data[i] = UInt8.random(in:0...255)
+            data[i] = UInt8.random(in: 0...255)
         }
 
         let name = TestEnvironment.generateResourceName()
@@ -387,23 +386,22 @@ class S3Tests: XCTestCase {
             .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, key: "tempfile")
                 return s3.putObject(putRequest, on: runOnEventLoop)
-        }
-        .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-            let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
-            return s3.getObjectStreaming(getRequest, on: runOnEventLoop) { byteBuffer, eventLoop in
-                XCTAssertTrue(eventLoop === runOnEventLoop)
-                var byteBuffer = byteBuffer
-                byteBufferCollate.writeBuffer(&byteBuffer)
-                return eventLoop.makeSucceededFuture(())
             }
-        }
-        .map { _ in
-            XCTAssertEqual(data, byteBufferCollate.getData(at: 0, length: byteBufferCollate.readableBytes))
-        }
-        .flatAlways { _ in
-            return Self.deleteBucket(name: name, s3: s3)
-        }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
+                return s3.getObjectStreaming(getRequest, on: runOnEventLoop) { byteBuffer, eventLoop in
+                    XCTAssertTrue(eventLoop === runOnEventLoop)
+                    var byteBuffer = byteBuffer
+                    byteBufferCollate.writeBuffer(&byteBuffer)
+                    return eventLoop.makeSucceededFuture(())
+                }
+            }
+            .map { _ in
+                XCTAssertEqual(data, byteBufferCollate.getData(at: 0, length: byteBufferCollate.readableBytes))
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
-
 }

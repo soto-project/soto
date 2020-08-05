@@ -20,7 +20,6 @@ import XCTest
 // testing EC2 service
 
 class EC2Tests: XCTestCase {
-
     static var client: AWSClient!
     static var ec2: EC2!
 
@@ -48,11 +47,10 @@ class EC2Tests: XCTestCase {
         let response = Self.ec2.describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     static var allTests: [(String, (EC2Tests) -> () throws -> Void)] {
         return [
             ("testRunInstances", testRunInstances),
         ]
     }
 }
-

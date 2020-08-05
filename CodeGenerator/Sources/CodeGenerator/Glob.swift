@@ -16,7 +16,6 @@ import Darwin.C
 import Foundation
 
 public class Glob {
-
     public static func entries(pattern: String) -> [String] {
         var files = [String]()
         var gt: glob_t = glob_t()
@@ -25,10 +24,10 @@ public class Glob {
             return files
         }
 
-        for i in (0..<gt.gl_pathc) {
+        for i in 0..<gt.gl_pathc {
             let x = gt.gl_pathv[Int(i)]
             let c = UnsafePointer<CChar>(x)!
-            let s = String.init(cString: c)
+            let s = String(cString: c)
             files.append(s)
         }
 
@@ -36,4 +35,3 @@ public class Glob {
         return files
     }
 }
-

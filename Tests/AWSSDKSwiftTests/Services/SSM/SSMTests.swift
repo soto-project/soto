@@ -12,13 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
 @testable import AWSSSM
+import XCTest
 
 // testing json service
 
 class SSMTests: XCTestCase {
-
     static var client: AWSClient!
     static var ssm: SSM!
 
@@ -45,48 +44,48 @@ class SSMTests: XCTestCase {
         let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
         return Self.ssm.putParameter(request).map { _ in }
     }
-    
+
     func deleteParameter(name: String) -> EventLoopFuture<Void> {
         let request = SSM.DeleteParameterRequest(name: name)
         return Self.ssm.deleteParameter(request).map { _ in }
     }
-    
-    //MARK: TESTS
+
+    // MARK: TESTS
 
     func testGetParameter() {
         // parameter names cannot begin wih "aws"
         let name = "test" + TestEnvironment.generateResourceName()
-        let response = putParameter(name: name, value: "testdata")
+        let response = self.putParameter(name: name, value: "testdata")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParameterResult> in
                 let request = SSM.GetParameterRequest(name: name)
                 return Self.ssm.getParameter(request)
-        }
-        .flatMapThrowing { response in
-            let parameter = try XCTUnwrap(response.parameter)
-            XCTAssertEqual(parameter.name, name)
-            XCTAssertEqual(parameter.value, "testdata")
-        }
-        .flatAlways { _ in
-            return self.deleteParameter(name: name)
-        }
+            }
+            .flatMapThrowing { response in
+                let parameter = try XCTUnwrap(response.parameter)
+                XCTAssertEqual(parameter.name, name)
+                XCTAssertEqual(parameter.value, "testdata")
+            }
+            .flatAlways { _ in
+                return self.deleteParameter(name: name)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
     func testGetParametersByPath() {
         let name = "/test/" + TestEnvironment.generateResourceName()
-        let response = putParameter(name: name, value: "testdata2")
+        let response = self.putParameter(name: name, value: "testdata2")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
                 let request = SSM.GetParametersByPathRequest(path: "/test/")
                 return Self.ssm.getParametersByPath(request)
-        }
-        .flatMapThrowing { response in
-            let parameter = try XCTUnwrap(response.parameters?.first)
-            XCTAssertEqual(parameter.name,  name)
-            XCTAssertEqual(parameter.value, "testdata2")
-        }
-        .flatAlways { _ in
-            return self.deleteParameter(name: name)
-        }
+            }
+            .flatMapThrowing { response in
+                let parameter = try XCTUnwrap(response.parameters?.first)
+                XCTAssertEqual(parameter.name, name)
+                XCTAssertEqual(parameter.value, "testdata2")
+            }
+            .flatAlways { _ in
+                return self.deleteParameter(name: name)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 }

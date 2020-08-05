@@ -24,7 +24,6 @@ public enum GlacierMiddlewareErrorType: Error {
 }
 
 public struct GlacierRequestMiddleware: AWSServiceMiddleware {
-
     let apiVersion: String
 
     public init(apiVersion: String) {
@@ -33,12 +32,12 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
-        request.httpHeaders.replaceOrAdd(name: "x-amz-glacier-version", value: apiVersion)
+        request.httpHeaders.replaceOrAdd(name: "x-amz-glacier-version", value: self.apiVersion)
 
         if request.httpHeaders["x-amz-sha256-tree-hash"].first == nil {
             if let byteBuffer = request.body.asByteBuffer() {
                 let treeHash = try computeTreeHash(byteBuffer).hexDigest()
-                request.httpHeaders.replaceOrAdd(name: "x-amz-sha256-tree-hash",  value: treeHash)
+                request.httpHeaders.replaceOrAdd(name: "x-amz-sha256-tree-hash", value: treeHash)
             }
         }
 
@@ -115,11 +114,11 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
 extension Array {
     /*
-     [1,2,3,4,5].forEachSlice(2, { print($0) })
-     => [1, 2]
-     => [3, 4]
-     => [5]
-    */
+      [1,2,3,4,5].forEachSlice(2, { print($0) })
+      => [1, 2]
+      => [3, 4]
+      => [5]
+     */
     public func forEachSlice(_ n: Int, _ body: (ArraySlice<Element>) throws -> Void) rethrows {
         assert(n > 0, "n require to be greater than 0")
 

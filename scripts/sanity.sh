@@ -35,6 +35,19 @@ printf "=> Checking services in Package.swift... "
 check_all_services_in_package
 printf "\033[0;32mokay.\033[0m\n"
 
+printf "=> Checking format... "
+FIRST_OUT="$(git status --porcelain)"
+swiftformat Sources/AWSSDKSwift/Extensions Tests CodeGenerator > /dev/null 2>&1
+SECOND_OUT="$(git status --porcelain)"
+if [[ "$FIRST_OUT" != "$SECOND_OUT" ]]; then
+  printf "\033[0;31mformatting issues!\033[0m\n"
+  git --no-pager diff
+  exit 1
+else
+  printf "\033[0;32mokay.\033[0m\n"
+fi
+
+
 printf "=> Checking license headers... "
 tmp=$(mktemp /tmp/.aws-sdk-swift-core-sanity_XXXXXX)
 

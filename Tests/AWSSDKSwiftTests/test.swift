@@ -24,7 +24,7 @@ extension EventLoopFuture {
         let next = eventLoop.makePromise(of: NewValue.self)
         self.whenComplete { result in
             switch result {
-            case .success(_):
+            case .success:
                 callback(result).cascade(to: next)
             case .failure(let error):
                 _ = callback(result).always { _ in next.fail(error) }
@@ -45,16 +45,15 @@ struct TestEnvironment {
     static var middlewares: [AWSServiceMiddleware] {
         return (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     }
-    
+
     /// return endpoint
     static func getEndPoint(environment: String, default: String) -> String? {
-        guard isUsingLocalstack == true else { return nil }
+        guard self.isUsingLocalstack == true else { return nil }
         return ProcessInfo.processInfo.environment[environment] ?? `default`
     }
-    
+
     /// get name to use for AWS resource
     static func generateResourceName(_ function: String = #function) -> String {
-        return "awssdkswift-" + function.filter { $0.isLetter } .lowercased()
+        return "awssdkswift-" + function.filter { $0.isLetter }.lowercased()
     }
-    
 }

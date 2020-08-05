@@ -12,13 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
 @testable import AWSSTS
+import XCTest
 
 // testing query service
 
 class STSTests: XCTestCase {
-
     static var client: AWSClient!
     static var sts: STS!
 
@@ -52,13 +51,12 @@ class STSTests: XCTestCase {
             .map { _ in }
             .flatMapErrorThrowing { error in
                 switch error {
-                case STSErrorType.invalidIdentityTokenException(_):
+                case STSErrorType.invalidIdentityTokenException:
                     return
                 default:
                     throw error
                 }
-        }
+            }
         XCTAssertNoThrow(try response.wait())
     }
 }
-

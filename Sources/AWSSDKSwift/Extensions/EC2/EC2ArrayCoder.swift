@@ -14,7 +14,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: EC2 Array Coder
+// MARK: EC2 Array Coder
 
 // EC2 requires a special case array encoder as it flattens arrays on encode, while still expecting them to have array elements
 // on decode. EC2 will use this Coder instead of the one in aws-sdk-swift-core due to scoping rules.
@@ -28,20 +28,20 @@ extension EC2 {
     public typealias DefaultArrayCoder<Element> = ArrayCoder<DefaultArrayCoderProperties, Element>
 
     /// CodingKey used by Encoder property wrappers
-    internal struct _EncodingWrapperKey : CodingKey {
+    internal struct _EncodingWrapperKey: CodingKey {
         public var stringValue: String
         public var intValue: Int?
-        
+
         public init?(stringValue: String) {
             self.stringValue = stringValue
             self.intValue = nil
         }
-        
+
         public init?(intValue: Int) {
             self.stringValue = "\(intValue)"
             self.intValue = intValue
         }
-        
+
         public init(stringValue: String, intValue: Int?) {
             self.stringValue = stringValue
             self.intValue = intValue
@@ -56,7 +56,7 @@ extension EC2.ArrayCoder: CustomDecoder where Element: Decodable {
         var values: [Element] = []
         let memberKey = EC2._EncodingWrapperKey(stringValue: Properties.member, intValue: nil)
         guard topLevelContainer.contains(memberKey) else { return values }
-        
+
         var container = try topLevelContainer.nestedUnkeyedContainer(forKey: memberKey)
         while !container.isAtEnd {
             values.append(try container.decode(Element.self))
@@ -71,4 +71,3 @@ extension EC2.ArrayCoder: CustomEncoder where Element: Encodable {
         try value.encode(to: encoder)
     }
 }
-

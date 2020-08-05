@@ -18,16 +18,15 @@ import AWSXML
 import Foundation
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
-
     public init() {}
 
     /// edit request before sending to S3
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
 
-        virtualAddressFixup(request: &request)
-        createBucketFixup(request: &request)
-        calculateMD5(request: &request)
+        self.virtualAddressFixup(request: &request)
+        self.createBucketFixup(request: &request)
+        self.calculateMD5(request: &request)
 
         return request
     }
@@ -36,8 +35,8 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     public func chain(response: AWSResponse) throws -> AWSResponse {
         var response = response
 
-        metadataFixup(response: &response)
-        getLocationResponseFixup(response: &response)
+        self.metadataFixup(response: &response)
+        self.getLocationResponseFixup(response: &response)
 
         return response
     }
@@ -54,8 +53,8 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             var urlPath: String
             var urlHost: String
             // if host name contains amazonaws.com and bucket name doesn't contain a period do virtual address look up
-            if host.contains("amazonaws.com") && !bucket.contains(".") {
-                let pathsWithoutBucket = paths.dropFirst()  // bucket
+            if host.contains("amazonaws.com"), !bucket.contains(".") {
+                let pathsWithoutBucket = paths.dropFirst() // bucket
                 urlPath = pathsWithoutBucket.joined(separator: "/")
                 if let firstHostComponent = host.split(separator: ".").first, bucket == firstHostComponent {
                     // Bucket name is part of host. No need to append bucket

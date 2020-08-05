@@ -24,15 +24,15 @@ struct CodeGenerator {
 
     init(command: CodeGeneratorCommand) {
         self.fsLoader = FileSystemLoader(paths: [Path("\(CodeGeneratorCommand.rootPath)/CodeGenerator/Templates/")])
-        self.environment = Environment(loader: fsLoader)
+        self.environment = Environment(loader: self.fsLoader)
         self.command = command
     }
-    
+
     func getModelDirectories() -> [String] {
         if let module = command.module {
-            return Glob.entries(pattern: "\(command.inputFolder)/apis/\(module)")
+            return Glob.entries(pattern: "\(self.command.inputFolder)/apis/\(module)")
         }
-        return Glob.entries(pattern: "\(command.inputFolder)/apis/**")
+        return Glob.entries(pattern: "\(self.command.inputFolder)/apis/**")
     }
 
     func loadEndpointJSON() throws -> Endpoints {
@@ -41,7 +41,7 @@ struct CodeGenerator {
     }
 
     func loadModelJSON() throws -> [(api: API, docs: Docs, paginators: Paginators?)] {
-        let directories = getModelDirectories()
+        let directories = self.getModelDirectories()
 
         return try directories.map {
             let apiFile = Glob.entries(pattern: $0 + "/**/api-*.json")[0]
@@ -68,19 +68,18 @@ struct CodeGenerator {
     /// Generate service files from AWSService
     /// - Parameter codeGenerator: service generated from JSON
     func generateFiles(with service: AWSService) throws {
-
         let basePath = "\(command.outputFolder)/\(service.api.serviceName)/"
         try FileManager.default.createDirectory(atPath: basePath, withIntermediateDirectories: true)
 
         let apiContext = service.generateServiceContext()
-        if try environment.renderTemplate(name: "api.stencil", context: apiContext).writeIfChanged(
+        if try self.environment.renderTemplate(name: "api.stencil", context: apiContext).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_API.swift"
         ) {
             print("Wrote: \(service.api.serviceName)_API.swift")
         }
 
         let shapesContext = service.generateShapesContext()
-        if try environment.renderTemplate(name: "shapes.stencil", context: shapesContext).writeIfChanged(
+        if try self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_Shapes.swift"
         ) {
             print("Wrote: \(service.api.serviceName)_Shapes.swift")
@@ -88,7 +87,7 @@ struct CodeGenerator {
 
         let errorContext = service.generateErrorContext()
         if errorContext["errors"] != nil {
-            if try environment.renderTemplate(name: "error.stencil", context: errorContext).writeIfChanged(
+            if try self.environment.renderTemplate(name: "error.stencil", context: errorContext).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Error.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Error.swift")
@@ -97,7 +96,7 @@ struct CodeGenerator {
 
         let paginatorContext = try service.generatePaginatorContext()
         if paginatorContext["paginators"] != nil {
-            if try environment.renderTemplate(name: "paginator.stencil", context: paginatorContext).writeIfChanged(
+            if try self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Paginator.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Paginator.swift")
@@ -107,7 +106,6 @@ struct CodeGenerator {
     }
 
     func generate() throws {
-
         let startTime = Date()
 
         // load JSON
@@ -151,10 +149,9 @@ extension String {
             let original = try String(contentsOfFile: toFile)
             guard original != self else { return false }
         } catch {
-            //print(error)
+            // print(error)
         }
         try write(toFile: toFile, atomically: true, encoding: .utf8)
         return true
     }
 }
-

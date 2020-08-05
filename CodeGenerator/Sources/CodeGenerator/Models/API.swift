@@ -19,7 +19,7 @@ enum APIError: Error {
     case cannotSerialiseAsEnum
 }
 
-//MARK: API
+// MARK: API
 
 // Used to decode model api_2 files
 struct API: Decodable, PatchBase {
@@ -27,9 +27,9 @@ struct API: Decodable, PatchBase {
         enum ServiceProtocol: String, Decodable {
             case restxml = "rest-xml"
             case restjson = "rest-json"
-            case json = "json"
-            case query = "query"
-            case ec2 = "ec2"
+            case json
+            case query
+            case ec2
         }
 
         var apiVersion: String
@@ -100,44 +100,44 @@ struct API: Decodable, PatchBase {
 extension API {
     /// function run after JSONDecode to fixup some variables
     mutating func postProcess() throws {
-
         // patch error in json files
         try patch()
 
         // post setup of Shape pointers
-        for shape in shapes {
+        for shape in self.shapes {
             shape.value.name = shape.key
             try shape.value.setupShapes(api: self)
         }
 
         // process operations, set where shapes are used, set streaming and eventstream flags
-        for key in operations.keys {
-            let operation = operations[key]!
+        for key in self.operations.keys {
+            let operation = self.operations[key]!
             if let input = operation.input {
                 let inputShape = try getShape(named: input.shapeName)
                 if let xmlNamespace = input.xmlNamespace {
                     inputShape.xmlNamespace = xmlNamespace
                 }
                 inputShape.authtype = operation.authType
-                setShapeUsedIn(shape: inputShape, input: true, output: false)
+                self.setShapeUsedIn(shape: inputShape, input: true, output: false)
             }
             if let output = operation.output {
                 let outputShape = try getShape(named: output.shapeName)
-                setShapeUsedIn(shape: outputShape, input: false, output: true)
+                self.setShapeUsedIn(shape: outputShape, input: false, output: true)
                 // set eventStream flag if payload is flagged as an eventStream, set streaming flags if payload member or payload shape is flagged as streaming
                 if let payload = outputShape.payload,
                     case .structure(let structure) = outputShape.type,
-                    let member = structure.members[payload] {
-                    operations[key]?.eventStream = member.shape.eventStream ?? false
-                    if (member.streaming == true || member.shape.streaming == true) && member.required == false {
-                        operations[key]?.streaming = true
+                    let member = structure.members[payload]
+                {
+                    self.operations[key]?.eventStream = member.shape.eventStream ?? false
+                    if member.streaming == true || member.shape.streaming == true, member.required == false {
+                        self.operations[key]?.streaming = true
                     }
                 }
             }
         }
 
         // post processing of shapes, now that used in flags are set
-        for shape in shapes {
+        for shape in self.shapes {
             shape.value.postProcess(api: self)
         }
     }
@@ -154,13 +154,13 @@ extension API {
 
         switch shape.type {
         case .list(let list):
-            setShapeUsedIn(shape: list.member.shape, input: input, output: output)
+            self.setShapeUsedIn(shape: list.member.shape, input: input, output: output)
         case .map(let map):
-            setShapeUsedIn(shape: map.key.shape, input: input, output: output)
-            setShapeUsedIn(shape: map.value.shape, input: input, output: output)
+            self.setShapeUsedIn(shape: map.key.shape, input: input, output: output)
+            self.setShapeUsedIn(shape: map.value.shape, input: input, output: output)
         case .structure(let structure):
             for member in structure.members.values {
-                setShapeUsedIn(shape: member.shape, input: input, output: output)
+                self.setShapeUsedIn(shape: member.shape, input: input, output: output)
             }
         default:
             break
@@ -168,7 +168,7 @@ extension API {
     }
 }
 
-//MARK: Operation
+// MARK: Operation
 
 /// Operation loaded from api_2.json
 struct Operation: Decodable {
@@ -189,6 +189,7 @@ struct Operation: Decodable {
             case payload
         }
     }
+
     struct Output: Decodable {
         var shapeName: String
         var payload: String?
@@ -197,12 +198,14 @@ struct Operation: Decodable {
             case payload
         }
     }
+
     struct Error: Decodable {
         var shapeName: String
         private enum CodingKeys: String, CodingKey {
             case shapeName = "shape"
         }
     }
+
     var name: String
     var http: HTTP
     var input: Input?
@@ -244,11 +247,10 @@ struct Operation: Decodable {
     }
 }
 
-//MARK: Shape
+// MARK: Shape
 
 /// Shape loaded from api_2.json
 class Shape: Decodable {
-
     enum Location: String, Decodable {
         case header
         case headers
@@ -303,11 +305,11 @@ class Shape: Decodable {
             }
 
             func setupShapes(api: API) throws {
-                if isEnum {
+                if self.isEnum {
                     // enums cannot have required values
-                    guard required.count == 0 else { throw APIError.cannotSerialiseAsEnum }
+                    guard self.required.count == 0 else { throw APIError.cannotSerialiseAsEnum }
                     // enums cannot have variables outside of body
-                    guard members.values.reduce(false, { $0 || ($1.location != nil && $1.location != .body) }) == false else {
+                    guard self.members.values.reduce(false, { $0 || ($1.location != nil && $1.location != .body) }) == false else {
                         throw APIError.cannotSerialiseAsEnum
                     }
                 }
@@ -321,11 +323,11 @@ class Shape: Decodable {
                     }
                     return member
                 }
-                for require in required {
+                for require in self.required {
                     updatedMembers[require]?.required = true
                 }
                 // remove deprecated members
-                members = updatedMembers.compactMapValues {
+                self.members = updatedMembers.compactMapValues {
                     if $0.deprecated == true { return nil }
                     return $0
                 }

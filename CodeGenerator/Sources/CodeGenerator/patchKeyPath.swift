@@ -20,7 +20,7 @@
 protocol PatchKeyPath {
     associatedtype Base
     associatedtype Value
-    
+
     func get(_ object: Base) -> Value?
     func set(_ object: inout Base, value: Value)
 }
@@ -31,13 +31,13 @@ struct PatchKeyPath1<Object, U>: PatchKeyPath {
     typealias Value = U
 
     let keyPath1: WritableKeyPath<Object, U>
-    
+
     init(_ keyPath1: WritableKeyPath<Object, U>) {
         self.keyPath1 = keyPath1
     }
-    
-    func get(_ object: Object) -> U? { return object[keyPath: keyPath1] }
-    func set(_ object: inout Object, value: U) { object[keyPath: keyPath1] = value }
+
+    func get(_ object: Object) -> U? { return object[keyPath: self.keyPath1] }
+    func set(_ object: inout Object, value: U) { object[keyPath: self.keyPath1] = value }
 }
 
 /// Patch key path containing two key paths
@@ -47,18 +47,18 @@ struct PatchKeyPath2<Object, U, V>: PatchKeyPath {
 
     let keyPath1: WritableKeyPath<Object, U?>
     let keyPath2: WritableKeyPath<U, V>
-    
+
     init(_ keyPath1: WritableKeyPath<Object, U?>, _ keyPath2: WritableKeyPath<U, V>) {
         self.keyPath1 = keyPath1
         self.keyPath2 = keyPath2
     }
-    
+
     func get(_ object: Object) -> V? {
-        return object[keyPath: keyPath1]?[keyPath: keyPath2]
+        return object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]
     }
-    
+
     func set(_ object: inout Object, value: V) {
-        object[keyPath: keyPath1]?[keyPath: keyPath2] = value
+        object[keyPath: self.keyPath1]?[keyPath: self.keyPath2] = value
     }
 }
 
@@ -70,19 +70,19 @@ struct PatchKeyPath3<Object, U, V, W>: PatchKeyPath {
     let keyPath1: WritableKeyPath<Object, U?>
     let keyPath2: WritableKeyPath<U, V?>
     let keyPath3: WritableKeyPath<V, W>
-    
+
     init(_ keyPath1: WritableKeyPath<Object, U?>, _ keyPath2: WritableKeyPath<U, V?>, _ keyPath3: WritableKeyPath<V, W>) {
         self.keyPath1 = keyPath1
         self.keyPath2 = keyPath2
         self.keyPath3 = keyPath3
     }
-    
+
     func get(_ object: Object) -> W? {
-        return object[keyPath: keyPath1]?[keyPath: keyPath2]?[keyPath: keyPath3]
+        return object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]?[keyPath: self.keyPath3]
     }
-    
+
     func set(_ object: inout Object, value: W) {
-        object[keyPath: keyPath1]?[keyPath: keyPath2]?[keyPath: keyPath3] = value
+        object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]?[keyPath: self.keyPath3] = value
     }
 }
 
@@ -95,26 +95,25 @@ struct PatchKeyPath4<Object, U, V, W, X>: PatchKeyPath {
     let keyPath2: WritableKeyPath<U, V?>
     let keyPath3: WritableKeyPath<V, W?>
     let keyPath4: WritableKeyPath<W, X>
-    
+
     init(_ keyPath1: WritableKeyPath<Object, U?>, _ keyPath2: WritableKeyPath<U, V?>, _ keyPath3: WritableKeyPath<V, W?>, _ keyPath4: WritableKeyPath<W, X>) {
         self.keyPath1 = keyPath1
         self.keyPath2 = keyPath2
         self.keyPath3 = keyPath3
         self.keyPath4 = keyPath4
     }
-    
+
     func get(_ object: Object) -> X? {
-        return object[keyPath: keyPath1]?[keyPath: keyPath2]?[keyPath: keyPath3]?[keyPath: keyPath4]
+        return object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]?[keyPath: self.keyPath3]?[keyPath: self.keyPath4]
     }
-    
+
     func set(_ object: inout Object, value: X) {
-        object[keyPath: keyPath1]?[keyPath: keyPath2]?[keyPath: keyPath3]?[keyPath: keyPath4] = value
+        object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]?[keyPath: self.keyPath3]?[keyPath: self.keyPath4] = value
     }
 }
 
 /// Protocol for objects that can be patched.
-protocol PatchBase {
-}
+protocol PatchBase {}
 
 extension PatchBase {
     /// extends object to include [patchKeyPath:] subscript

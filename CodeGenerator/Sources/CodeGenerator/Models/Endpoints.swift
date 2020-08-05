@@ -44,10 +44,10 @@ enum Region: String, Decodable {
 }
 
 enum SignatureVersion: String, Decodable {
-    case v2 = "v2"
-    case v4 = "v4"
-    case s3 = "s3"
-    case s3v4 = "s3v4"
+    case v2
+    case v4
+    case s3
+    case s3v4
 }
 
 struct Endpoints: Decodable {
@@ -74,6 +74,7 @@ struct Endpoints: Decodable {
             var protocols: [String]?
             var signatureVersions: [SignatureVersion]?
         }
+
         var defaults: Endpoint?
         var endpoints: [String: Endpoint]
         var isRegionalized: Bool?

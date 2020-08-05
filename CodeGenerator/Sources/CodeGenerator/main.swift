@@ -16,19 +16,18 @@ import ArgumentParser
 import Foundation
 
 struct CodeGeneratorCommand: ParsableCommand {
-    
     @Option(name: .shortAndLong, default: Self.defaultOutputFolder, help: "Folder to output service files to")
     var outputFolder: String
-    
+
     @Option(name: .shortAndLong, default: Self.defaultInputFolder, help: "Folder to find json model files")
     var inputFolder: String
-    
+
     @Option(name: .shortAndLong, help: "Only output files for specified module")
     var module: String?
-    
+
     @Flag(name: .long, default: true, inversion: .prefixedNo, help: "Output files")
     var output: Bool
-    
+
     static var rootPath: String {
         return #file
             .split(separator: "/", omittingEmptySubsequences: false)
@@ -36,6 +35,7 @@ struct CodeGeneratorCommand: ParsableCommand {
             .map { String(describing: $0) }
             .joined(separator: "/")
     }
+
     static var defaultOutputFolder: String { return "\(rootPath)/Sources/AWSSDKSwift/Services" }
     static var defaultInputFolder: String { return "\(rootPath)/models" }
 

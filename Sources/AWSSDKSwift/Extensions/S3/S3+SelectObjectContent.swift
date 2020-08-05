@@ -12,13 +12,13 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
-import AWSXML
 import AWSCrypto
+import AWSXML
 import CAWSZlib
+import Foundation
 import NIO
 
-//MARK: SelectObjectContent EventStream
+// MARK: SelectObjectContent EventStream
 
 public enum S3SelectError: Error {
     case corruptHeader
@@ -28,27 +28,27 @@ public enum S3SelectError: Error {
 
 extension S3.SelectObjectContentEventStream {
     public static func consume(byteBuffer: inout ByteBuffer) throws -> Self? {
-        
         // read header values from ByteBuffer. Format is uint8 name length, name, 7, uint16 value length, value
         func readHeaderValues(_ byteBuffer: ByteBuffer) throws -> [String: String] {
             var byteBuffer = byteBuffer
             var headers: [String: String] = [:]
-            while(byteBuffer.readableBytes > 0) {
+            while byteBuffer.readableBytes > 0 {
                 guard let headerLength: UInt8 = byteBuffer.readInteger(),
                     let header: String = byteBuffer.readString(length: Int(headerLength)),
                     let byte: UInt8 = byteBuffer.readInteger(), byte == 7,
                     let valueLength: UInt16 = byteBuffer.readInteger(),
-                    let value: String = byteBuffer.readString(length: Int(valueLength)) else {
-                        throw S3SelectError.corruptHeader
+                    let value: String = byteBuffer.readString(length: Int(valueLength))
+                else {
+                    throw S3SelectError.corruptHeader
                 }
                 headers[header] = value
             }
             return headers
         }
-        
+
         let rootElement = XML.Element(name: "Payload")
-        
-        while(byteBuffer.readableBytes > 0) {
+
+        while byteBuffer.readableBytes > 0 {
             // get prelude buffer and crc. Return nil if we don't have enough data
             guard var preludeBuffer = byteBuffer.getSlice(at: byteBuffer.readerIndex, length: 8) else { return nil }
             guard let preludeCRC: UInt32 = byteBuffer.getInteger(at: byteBuffer.readerIndex + 8) else { return nil }
@@ -59,10 +59,10 @@ extension S3.SelectObjectContentEventStream {
             // get lengths
             guard let totalLength: Int32 = preludeBuffer.readInteger(),
                 let headerLength: Int32 = preludeBuffer.readInteger() else { return nil }
-            
+
             // get message and message CRC. Return nil if we don't have enough data
             guard var messageBuffer = byteBuffer.readSlice(length: Int(totalLength - 4)),
-                let messageCRC: UInt32 = byteBuffer.readInteger()  else { return nil }
+                let messageCRC: UInt32 = byteBuffer.readInteger() else { return nil }
             // verify message CRC
             let messageBufferView = ByteBufferView(messageBuffer)
             let calculatedCRC = messageBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
@@ -89,10 +89,10 @@ extension S3.SelectObjectContentEventStream {
                 let recordsElement = XML.Element(name: "Records")
                 recordsElement.addChild(payloadElement)
                 rootElement.addChild(recordsElement)
-                
+
             case "Cont":
                 guard payloadSize == 0 else { throw S3SelectError.corruptPayload }
-                
+
             case "Progress":
                 guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
                 let xmlElement = try XML.Element(xmlData: data)
@@ -108,14 +108,13 @@ extension S3.SelectObjectContentEventStream {
                 let progressElement = XML.Element(name: "Stats")
                 progressElement.addChild(xmlElement)
                 rootElement.addChild(progressElement)
-                
+
             case "End":
                 break
-                
+
             default:
                 throw S3SelectError.corruptPayload
             }
-            
         }
 
         return try XMLDecoder().decode(Self.self, from: rootElement)
@@ -129,9 +128,9 @@ extension S3 {
     ///   - input: Request structure
     ///   - stream: callback to process events streamed
     /// - Returns: Response structure
-    public func selectObjectContentEventStream(_ input: SelectObjectContentRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (SelectObjectContentEventStream, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SelectObjectContentOutput> {
+    public func selectObjectContentEventStream(_ input: SelectObjectContentRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (SelectObjectContentEventStream, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<SelectObjectContentOutput> {
         // byte buffer for storing unprocessed data
-        var selectByteBuffer: ByteBuffer? = nil
+        var selectByteBuffer: ByteBuffer?
         return client.execute(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
             var byteBuffer = byteBuffer
             if var selectByteBuffer2 = selectByteBuffer {
