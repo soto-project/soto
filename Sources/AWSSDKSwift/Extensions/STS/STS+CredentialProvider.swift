@@ -16,6 +16,27 @@ import AWSSDKSwiftCore
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
 
+/// Credential Provider that holds an AWSClient
+protocol CredentialProviderWithClient: CredentialProvider {
+    var client: AWSClient { get }
+}
+
+extension CredentialProviderWithClient {
+    /// shutdown credential provider and client
+    func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
+        // shutdown AWSClient
+        let promise = eventLoop.makePromise(of: Void.self)
+        client.shutdown { error in
+            if let error = error {
+                promise.completeWith(.failure(error))
+            } else {
+                promise.completeWith(.success(()))
+            }
+        }
+        return promise.futureResult
+    }
+}
+
 extension STS {
     struct RotatingCredential: ExpiringCredential {
         func isExpiring(within interval: TimeInterval) -> Bool {
@@ -28,7 +49,7 @@ extension STS {
         let expiration: Date
     }
 
-    struct AssumeRoleCredentialProvider: CredentialProvider {
+    struct AssumeRoleCredentialProvider: CredentialProviderWithClient {
         let request: STS.AssumeRoleRequest
         let client: AWSClient
         let sts: STS
@@ -50,22 +71,9 @@ extension STS {
                 )
             }
         }
-
-        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // shutdown AWSClient
-            let promise = eventLoop.makePromise(of: Void.self)
-            client.shutdown { error in
-                if let error = error {
-                    promise.completeWith(.failure(error))
-                } else {
-                    promise.completeWith(.success(()))
-                }
-            }
-            return promise.futureResult
-        }
     }
 
-    struct AssumeRoleWithSAMLCredentialProvider: CredentialProvider {
+    struct AssumeRoleWithSAMLCredentialProvider: CredentialProviderWithClient {
         let request: STS.AssumeRoleWithSAMLRequest
         let client: AWSClient
         let sts: STS
@@ -87,22 +95,9 @@ extension STS {
                 )
             }
         }
-
-        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // shutdown AWSClient
-            let promise = eventLoop.makePromise(of: Void.self)
-            client.shutdown { error in
-                if let error = error {
-                    promise.completeWith(.failure(error))
-                } else {
-                    promise.completeWith(.success(()))
-                }
-            }
-            return promise.futureResult
-        }
     }
-
-    struct AssumeRoleWithWebIdentityCredentialProvider: CredentialProvider {
+    
+    struct AssumeRoleWithWebIdentityCredentialProvider: CredentialProviderWithClient {
         let request: STS.AssumeRoleWithWebIdentityRequest
         let client: AWSClient
         let sts: STS
@@ -124,18 +119,53 @@ extension STS {
                 )
             }
         }
+    }
+    
+    struct FederatedTokenCredentialProvider: CredentialProviderWithClient {
+        let request: STS.GetFederationTokenRequest
+        let client: AWSClient
+        let sts: STS
 
-        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // shutdown AWSClient
-            let promise = eventLoop.makePromise(of: Void.self)
-            client.shutdown { error in
-                if let error = error {
-                    promise.completeWith(.failure(error))
-                } else {
-                    promise.completeWith(.success(()))
-                }
+        init(request: STS.GetFederationTokenRequest, credentialProvider: CredentialProviderFactory, region: Region, httpClient: AWSHTTPClient) {
+            self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
+            self.sts = STS(client: self.client, region: region)
+            self.request = request
+        }
+
+        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+            return sts.getFederationToken(request, on: eventLoop).flatMapThrowing { response in
+                guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
+                return RotatingCredential(
+                    accessKeyId: credentials.accessKeyId,
+                    secretAccessKey: credentials.secretAccessKey,
+                    sessionToken: credentials.sessionToken,
+                    expiration: credentials.expiration.dateValue
+                )
             }
-            return promise.futureResult
+        }
+    }
+    
+    struct SessionTokenCredentialProvider: CredentialProviderWithClient {
+        let request: STS.GetSessionTokenRequest
+        let client: AWSClient
+        let sts: STS
+
+        init(request: STS.GetSessionTokenRequest, credentialProvider: CredentialProviderFactory, region: Region, httpClient: AWSHTTPClient) {
+            self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
+            self.sts = STS(client: self.client, region: region)
+            self.request = request
+        }
+
+        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+            return sts.getSessionToken(request, on: eventLoop).flatMapThrowing { response in
+                guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
+                return RotatingCredential(
+                    accessKeyId: credentials.accessKeyId,
+                    secretAccessKey: credentials.secretAccessKey,
+                    sessionToken: credentials.sessionToken,
+                    expiration: credentials.expiration.dateValue
+                )
+            }
         }
     }
 }
@@ -180,6 +210,48 @@ extension CredentialProviderFactory {
     public static func stsWebIdentity(request: STS.AssumeRoleWithWebIdentityRequest, region: Region) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(request: request, region: region, httpClient: context.httpClient)
+            return RotatingCredentialProvider(context: context, provider: provider)
+        }
+    }
+    
+    /// Use GetFederationToken to provide credentials
+    /// - Parameters:
+    ///   - request: AssumeRole request structure
+    ///   - credentialProvider: Credential provider used in client that runs the GetFederationToken operation
+    ///   - region: Region to run request in
+    public static func federationToken(
+        request: STS.GetFederationTokenRequest,
+        credentialProvider: CredentialProviderFactory = .default,
+        region: Region
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            let provider = STS.FederatedTokenCredentialProvider(
+                request: request,
+                credentialProvider: credentialProvider,
+                region: region,
+                httpClient: context.httpClient
+            )
+            return RotatingCredentialProvider(context: context, provider: provider)
+        }
+    }
+    
+    /// Use GetSessionToken to provide credentials
+    /// - Parameters:
+    ///   - request: AssumeRole request structure
+    ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
+    ///   - region: Region to run request in
+    public static func sessionToken(
+        request: STS.GetSessionTokenRequest,
+        credentialProvider: CredentialProviderFactory = .default,
+        region: Region
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            let provider = STS.SessionTokenCredentialProvider(
+                request: request,
+                credentialProvider: credentialProvider,
+                region: region,
+                httpClient: context.httpClient
+            )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
