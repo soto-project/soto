@@ -96,7 +96,7 @@ extension STS {
             }
         }
     }
-    
+
     struct AssumeRoleWithWebIdentityCredentialProvider: CredentialProviderWithClient {
         let request: STS.AssumeRoleWithWebIdentityRequest
         let client: AWSClient
@@ -120,7 +120,7 @@ extension STS {
             }
         }
     }
-    
+
     struct FederatedTokenCredentialProvider: CredentialProviderWithClient {
         let request: STS.GetFederationTokenRequest
         let client: AWSClient
@@ -144,7 +144,7 @@ extension STS {
             }
         }
     }
-    
+
     struct SessionTokenCredentialProvider: CredentialProviderWithClient {
         let request: STS.GetSessionTokenRequest
         let client: AWSClient
@@ -213,7 +213,7 @@ extension CredentialProviderFactory {
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
-    
+
     /// Use GetFederationToken to provide credentials
     /// - Parameters:
     ///   - request: AssumeRole request structure
@@ -234,7 +234,7 @@ extension CredentialProviderFactory {
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
-    
+
     /// Use GetSessionToken to provide credentials
     /// - Parameters:
     ///   - request: AssumeRole request structure
