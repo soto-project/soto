@@ -59,8 +59,9 @@ extension CognitoIdentity {
                     let accessKeyId = credentials.accessKeyId,
                     let secretAccessKey = credentials.secretKey,
                     let sessionToken = credentials.sessionToken,
-                    let expiration = credentials.expiration?.dateValue else {
-                        throw CredentialProviderError.noProvider
+                    let expiration = credentials.expiration?.dateValue
+                else {
+                    throw CredentialProviderError.noProvider
                 }
                 return RotatingCredential(
                     accessKeyId: accessKeyId,
@@ -84,7 +85,6 @@ extension CognitoIdentity {
             return promise.futureResult
         }
     }
-
 }
 
 extension CredentialProviderFactory {
@@ -105,5 +105,4 @@ extension CredentialProviderFactory {
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
-
 }

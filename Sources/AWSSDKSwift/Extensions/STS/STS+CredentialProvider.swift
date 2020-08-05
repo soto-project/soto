@@ -21,13 +21,13 @@ extension STS {
         func isExpiring(within interval: TimeInterval) -> Bool {
             return self.expiration.timeIntervalSinceNow < interval
         }
-        
+
         let accessKeyId: String
         let secretAccessKey: String
         let sessionToken: String?
         let expiration: Date
     }
-    
+
     struct AssumeRoleCredentialProvider: CredentialProvider {
         let request: STS.AssumeRoleRequest
         let client: AWSClient
@@ -38,7 +38,7 @@ extension STS {
             self.sts = STS(client: self.client, region: region)
             self.request = request
         }
-        
+
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return sts.assumeRole(request, on: eventLoop).flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
@@ -64,12 +64,12 @@ extension STS {
             return promise.futureResult
         }
     }
-    
+
     struct AssumeRoleWithSAMLCredentialProvider: CredentialProvider {
         let request: STS.AssumeRoleWithSAMLRequest
         let client: AWSClient
         let sts: STS
-        
+
         init(request: STS.AssumeRoleWithSAMLRequest, region: Region, httpClient: AWSHTTPClient) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
@@ -101,7 +101,7 @@ extension STS {
             return promise.futureResult
         }
     }
-    
+
     struct AssumeRoleWithWebIdentityCredentialProvider: CredentialProvider {
         let request: STS.AssumeRoleWithWebIdentityRequest
         let client: AWSClient
@@ -141,7 +141,6 @@ extension STS {
 }
 
 extension CredentialProviderFactory {
-
     /// Use AssumeRole to provide credentials
     /// - Parameters:
     ///   - request: AssumeRole request structure
@@ -162,7 +161,7 @@ extension CredentialProviderFactory {
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
-    
+
     /// Use AssumeRoleWithSAML to provide credentials
     /// - Parameters:
     ///   - request: AssumeRoleWithSAML request struct
