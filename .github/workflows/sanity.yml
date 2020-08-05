@@ -6,8 +6,8 @@ on:
     - master
 
 jobs:
-  sanity-sh:
-    runs-on: masOS-latest
+  sanity-check:
+    runs-on: macOS-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
