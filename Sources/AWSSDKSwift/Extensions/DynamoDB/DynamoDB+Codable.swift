@@ -13,9 +13,8 @@
 //===----------------------------------------------------------------------===//
 
 extension DynamoDB {
-    
-    //MARK: Codable API
-    
+    // MARK: Codable API
+
     /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter.  When you add an item, the primary key attributes are the only required attributes. Attribute values cannot be null. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
     public func putItem<T: Encodable>(_ input: PutItemCodableInput<T>, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutItemOutput> {
         do {
@@ -30,7 +29,7 @@ extension DynamoDB {
                 returnValues: input.returnValues,
                 tableName: input.tableName
             )
-            return putItem(request, on: eventLoop)
+            return self.putItem(request, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -39,16 +38,16 @@ extension DynamoDB {
 
     /// The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response.  GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true. Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last updated value.
     public func getItem<T: Decodable>(_ input: GetItemInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetItemCodableOutput<T>> {
-        return getItem(input, on: eventLoop)
+        return self.getItem(input, on: eventLoop)
             .flatMapThrowing { response -> GetItemCodableOutput<T> in
                 let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
                 return GetItemCodableOutput(
                     consumedCapacity: response.consumedCapacity,
                     item: item
                 )
-        }
+            }
     }
-    
+
     /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values). You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
     public func updateItem<T: Encodable>(_ input: UpdateItemCodableInput<T>, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateItemOutput> {
         do {
@@ -65,15 +64,15 @@ extension DynamoDB {
             if let names = input.expressionAttributeNames, input.updateExpression != nil {
                 expressionAttributeNames = names
             } else {
-                expressionAttributeNames = .init( item.keys.map { ("#\($0)", $0) }) { first,_ in return first }
+                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
             }
-            let expressionAttributeValues: [String: AttributeValue] = .init( item.map { (":\($0.key)", $0.value) }) { first,_ in return first }
+            let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
             // construct update expression, if one if not already supplied
             let updateExpression: String
             if let inputUpdateExpression = input.updateExpression {
                 updateExpression = inputUpdateExpression
             } else {
-                let expressions = item.keys.map {"#\($0) = :\($0)"}
+                let expressions = item.keys.map { "#\($0) = :\($0)" }
                 updateExpression = "SET \(expressions.joined(separator: ","))"
             }
             let request = DynamoDB.UpdateItemInput(
@@ -87,7 +86,7 @@ extension DynamoDB {
                 tableName: input.tableName,
                 updateExpression: updateExpression
             )
-            return updateItem(request, on: eventLoop)
+            return self.updateItem(request, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -96,7 +95,7 @@ extension DynamoDB {
 
     /// The Query operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).  Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression. To further refine the Query results, you can optionally provide a FilterExpression. A FilterExpression determines which items within the results should be returned to you. All of the other results are discarded.   A Query operation always returns a result set. If no matching items are found, the result set will be empty. Queries that do not return results consume the minimum number of read capacity units for that type of read operation.    DynamoDB calculates the number of read capacity units consumed based on item size, not on the amount of data that is returned to an application. The number of capacity units consumed will be the same whether you request all of the attributes (the default behavior) or just some of them (using a projection expression). The number will also be the same whether or not you use a FilterExpression.    Query results are always sorted by the sort key value. If the data type of the sort key is Number, the results are returned in numeric order; otherwise, the results are returned in order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set the ScanIndexForward parameter to false.   A single Query operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide.   FilterExpression is applied after a Query finishes, but before the results are returned. A FilterExpression cannot contain partition key or sort key attributes. You need to specify those attributes in the KeyConditionExpression.    A Query operation can return an empty result set and a LastEvaluatedKey if all the items read for the page of results are filtered out.   You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
     public func query<T: Decodable>(_ input: QueryInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryCodableOutput<T>> {
-        return query(input, on: eventLoop)
+        return self.query(input, on: eventLoop)
             .flatMapThrowing { response -> QueryCodableOutput<T> in
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 return QueryCodableOutput(
@@ -106,12 +105,12 @@ extension DynamoDB {
                     lastEvaluatedKey: response.lastEvaluatedKey,
                     scannedCount: response.scannedCount
                 )
-        }
+            }
     }
 
-   /// The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total number of scanned items exceeds the maximum dataset size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.  A single Scan operation reads up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide.   Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide.  Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true.
+    /// The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total number of scanned items exceeds the maximum dataset size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.  A single Scan operation reads up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide.   Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide.  Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true.
     public func scan<T: Decodable>(_ input: ScanInput, type: T.Type, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ScanCodableOutput<T>> {
-        return scan(input, on: eventLoop)
+        return self.scan(input, on: eventLoop)
             .flatMapThrowing { response -> ScanCodableOutput<T> in
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 return ScanCodableOutput(
@@ -121,18 +120,18 @@ extension DynamoDB {
                     lastEvaluatedKey: response.lastEvaluatedKey,
                     scannedCount: response.scannedCount
                 )
-        }
+            }
     }
 
-    //MARK: Codable Paginators
-    
+    // MARK: Codable Paginators
+
     public func queryPaginator<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (QueryCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: query, tokenKey: \QueryOutput.lastEvaluatedKey, on: eventLoop) { (response, eventLoop) -> EventLoopFuture<Bool> in
+        return client.paginate(input: input, command: self.query, tokenKey: \QueryOutput.lastEvaluatedKey, on: eventLoop) { (response, eventLoop) -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let queryOutput = QueryCodableOutput(
@@ -151,11 +150,11 @@ extension DynamoDB {
 
     public func scanPaginator<T: Decodable>(
         _ input: ScanInput,
-        type: T.Type, 
+        type: T.Type,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ScanCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: scan, tokenKey: \ScanOutput.lastEvaluatedKey, on: eventLoop) { (response, eventLoop) -> EventLoopFuture<Bool> in
+        return client.paginate(input: input, command: self.scan, tokenKey: \ScanOutput.lastEvaluatedKey, on: eventLoop) { (response, eventLoop) -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let scanOutput = ScanCodableOutput(
@@ -172,11 +171,10 @@ extension DynamoDB {
         }
     }
 
-    //MARK: Codable Shapes
+    // MARK: Codable Shapes
 
     /// Version of PutItemInput that replaces the `item` with a `Encodable` class that will then be encoded into `[String: AttributeValue]`
     public struct PutItemCodableInput<T: Encodable> {
-
         /// A condition that must be satisfied in order for a conditional PutItem operation to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information on condition expressions, see Condition Expressions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
@@ -206,7 +204,6 @@ extension DynamoDB {
     }
 
     public struct GetItemCodableOutput<T: Decodable> {
-
         /// The capacity units consumed by the GetItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Read/Write Capacity Mode in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// An item containing attributes, as specified by ProjectionExpression.
@@ -219,7 +216,6 @@ extension DynamoDB {
     }
 
     public struct UpdateItemCodableInput<T: Encodable>: AWSEncodableShape {
-
         /// A condition that must be satisfied in order for a conditional update to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information about condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide.) To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
@@ -250,9 +246,8 @@ extension DynamoDB {
             self.updateItem = updateItem
         }
     }
-    
-    public struct QueryCodableOutput<T: Decodable> {
 
+    public struct QueryCodableOutput<T: Decodable> {
         /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you used a QueryFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count and ScannedCount are the same.
@@ -266,7 +261,6 @@ extension DynamoDB {
     }
 
     public struct ScanCodableOutput<T: Decodable> {
-
         /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.
@@ -278,5 +272,4 @@ extension DynamoDB {
         /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
         public let scannedCount: Int?
     }
-
 }

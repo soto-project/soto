@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-struct DynamoDBCodingKey : CodingKey {
+struct DynamoDBCodingKey: CodingKey {
     var stringValue: String
     var intValue: Int?
 
@@ -38,4 +38,3 @@ struct DynamoDBCodingKey : CodingKey {
 
     static let `super` = DynamoDBCodingKey(stringValue: "super")!
 }
-
