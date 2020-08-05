@@ -63,9 +63,11 @@ build_files()
     swift build
     echo "Run the code generator"
     swift run
+    cd "$CURRENT_FOLDER"
+
+    swiftformat Sources/AWSSDKSwift/Services
     echo "Compile service files"
     # build services after having generated the files
-    cd "$CURRENT_FOLDER"
     swift build
 }
 

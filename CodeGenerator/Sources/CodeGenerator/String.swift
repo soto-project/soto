@@ -61,7 +61,7 @@ extension String {
     }
 
     public func toSwiftLabelCase() -> String {
-        if allLetterIsUppercasedAlnum() {
+        if self.allLetterIsUppercasedAlnum() {
             return self.lowercased()
         }
         return self.replacingOccurrences(of: "-", with: "_").camelCased()
@@ -75,7 +75,7 @@ extension String {
     }
 
     public func toSwiftVariableCase() -> String {
-        return toSwiftLabelCase().reservedwordEscaped()
+        return self.toSwiftLabelCase().reservedwordEscaped()
     }
 
     public func toSwiftClassCase() -> String {
@@ -93,7 +93,7 @@ extension String {
     public func toSwiftRegionEnumCase() -> String {
         return self.replacingOccurrences(of: "-", with: "")
     }
-    
+
     public func camelCased(separator: String = "_") -> String {
         let items = self.components(separatedBy: separator)
         var camelCase = ""
@@ -104,7 +104,7 @@ extension String {
     }
 
     public func toSwiftEnumCase() -> String {
-        return toSwiftLabelCase().reservedwordEscaped()
+        return self.toSwiftLabelCase().reservedwordEscaped()
     }
 
     private func allLetterIsUppercasedAlnum() -> Bool {
@@ -112,7 +112,7 @@ extension String {
             guard let ascii = character.unicodeScalars.first?.value else {
                 return false
             }
-            if !(0x30..<0x39).contains(ascii) && !(0x41..<0x5a).contains(ascii) {
+            if !(0x30..<0x39).contains(ascii), !(0x41..<0x5A).contains(ascii) {
                 return false
             }
         }

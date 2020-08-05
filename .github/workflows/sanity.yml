@@ -6,12 +6,16 @@ on:
     - master
 
 jobs:
-  sanity-sh:
-    runs-on: ubuntu-latest
+  sanity-check:
+    runs-on: macOS-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
+    - name: Install Dependencies
+      run: |
+        brew install mint
+        mint install nicklockwood/swiftformat
     - name: run script
       run: ./scripts/sanity.sh

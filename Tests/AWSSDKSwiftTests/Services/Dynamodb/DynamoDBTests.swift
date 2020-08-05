@@ -21,7 +21,6 @@ import XCTest
 // testing json service
 
 class DynamoDBTests: XCTestCase {
-
     static var client: AWSClient!
     static var dynamoDB: DynamoDB!
 
@@ -31,7 +30,7 @@ class DynamoDBTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
-        
+
         Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
         Self.dynamoDB = DynamoDB(
             client: DynamoDBTests.client,
@@ -43,7 +42,7 @@ class DynamoDBTests: XCTestCase {
     override class func tearDown() {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
-    
+
     func createTable(name: String, hashKey: String) -> EventLoopFuture<Void> {
         let input = DynamoDB.CreateTableInput(
             attributeDefinitions: [.init(attributeName: hashKey, attributeType: .s)],
@@ -55,122 +54,122 @@ class DynamoDBTests: XCTestCase {
             .map { response in
                 XCTAssertEqual(response.tableDescription?.tableName, name)
                 return
-        }
-        .flatMapErrorThrowing { error in
-            switch error {
-            case DynamoDBErrorType.resourceInUseException(_):
-                print("Table (\(name)) already exists")
-                return
-            default:
-                throw error
             }
-        }
-        .flatMap { (_) -> EventLoopFuture<Void> in
-            let eventLoop = Self.dynamoDB.client.eventLoopGroup.next()
-            if TestEnvironment.isUsingLocalstack {
-                return eventLoop.makeSucceededFuture(())
+            .flatMapErrorThrowing { error in
+                switch error {
+                case DynamoDBErrorType.resourceInUseException:
+                    print("Table (\(name)) already exists")
+                    return
+                default:
+                    throw error
+                }
             }
-            // wait ten seconds for table to be created. If you don't subsequent commands will fail
-            let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return eventLoop.makeSucceededFuture(()) }
-            return scheduled.futureResult
-        }
+            .flatMap { (_) -> EventLoopFuture<Void> in
+                let eventLoop = Self.dynamoDB.client.eventLoopGroup.next()
+                if TestEnvironment.isUsingLocalstack {
+                    return eventLoop.makeSucceededFuture(())
+                }
+                // wait ten seconds for table to be created. If you don't subsequent commands will fail
+                let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return eventLoop.makeSucceededFuture(()) }
+                return scheduled.futureResult
+            }
     }
-    
+
     func deleteTable(name: String) -> EventLoopFuture<Void> {
         // for some reason delete table is not working while running within a github action. works everywhere else
         // have verified this is an issue with awscli as well, so not an issue with aws-sdk-swift
-        guard ProcessInfo.processInfo.environment["GITHUB_ACTIONS"] != "true"  else {
-             return Self.dynamoDB.client.eventLoopGroup.next().makeSucceededFuture(())
+        guard ProcessInfo.processInfo.environment["GITHUB_ACTIONS"] != "true" else {
+            return Self.dynamoDB.client.eventLoopGroup.next().makeSucceededFuture(())
         }
         let input = DynamoDB.DeleteTableInput(tableName: name)
         return Self.dynamoDB.deleteTable(input).map { _ in }
     }
-    
+
     func putItem(tableName: String, values: [String: Any]) -> EventLoopFuture<DynamoDB.PutItemOutput> {
         let input = DynamoDB.PutItemInput(item: values.mapValues { DynamoDB.AttributeValue(any: $0) }, tableName: tableName)
         return Self.dynamoDB.putItem(input)
     }
-    
+
     func getItem(tableName: String, keys: [String: String]) -> EventLoopFuture<DynamoDB.GetItemOutput> {
         let input = DynamoDB.GetItemInput(key: keys.mapValues { DynamoDB.AttributeValue.s($0) }, tableName: tableName)
         return Self.dynamoDB.getItem(input)
     }
-    
-    //MARK: TESTS
+
+    // MARK: TESTS
 
     func testCreateDeleteTable() {
         let tableName = TestEnvironment.generateResourceName()
-        let response = createTable(name: tableName, hashKey: "ID")
+        let response = self.createTable(name: tableName, hashKey: "ID")
             .flatAlways { _ in
                 return self.deleteTable(name: tableName)
-        }
+            }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testGetObject() {
         let tableName = TestEnvironment.generateResourceName()
-        let response = createTable(name: tableName, hashKey: "ID")
+        let response = self.createTable(name: tableName, hashKey: "ID")
             .flatMap { _ in
                 return self.putItem(tableName: tableName, values: ["ID": "first", "First name": "John", "Surname": "Smith"])
-        }
-        .flatMap { (_) -> EventLoopFuture<DynamoDB.GetItemOutput> in
-            return self.getItem(tableName: tableName, keys: ["ID": "first"])
-        }
-        .map { response -> Void in
-            XCTAssertEqual(response.item?["ID"], .s("first"))
-            XCTAssertEqual(response.item?["First name"], .s("John"))
-            XCTAssertEqual(response.item?["Surname"], .s("Smith"))
-        }
-        .flatAlways { _ in
+            }
+            .flatMap { (_) -> EventLoopFuture<DynamoDB.GetItemOutput> in
+                return self.getItem(tableName: tableName, keys: ["ID": "first"])
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.item?["ID"], .s("first"))
+                XCTAssertEqual(response.item?["First name"], .s("John"))
+                XCTAssertEqual(response.item?["Surname"], .s("Smith"))
+            }
+            .flatAlways { _ in
                 return self.deleteTable(name: tableName)
-        }
+            }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testDataItem() {
         let tableName = TestEnvironment.generateResourceName()
         let data = Data("testdata".utf8)
-        let response = createTable(name: tableName, hashKey: "ID")
+        let response = self.createTable(name: tableName, hashKey: "ID")
             .flatMap { _ in
                 return self.putItem(tableName: tableName, values: ["ID": "1", "data": data])
-        }
-        .flatMap { (_) -> EventLoopFuture<DynamoDB.GetItemOutput> in
-            return self.getItem(tableName: tableName, keys: ["ID": "1"])
-        }
-        .map { response -> Void in
-            XCTAssertEqual(response.item?["ID"], .s("1"))
-            XCTAssertEqual(response.item?["data"], .b(data))
-        }
-        .flatAlways { _ in
+            }
+            .flatMap { (_) -> EventLoopFuture<DynamoDB.GetItemOutput> in
+                return self.getItem(tableName: tableName, keys: ["ID": "1"])
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.item?["ID"], .s("1"))
+                XCTAssertEqual(response.item?["data"], .b(data))
+            }
+            .flatAlways { _ in
                 return self.deleteTable(name: tableName)
-        }
+            }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testNumberSetItem() {
         let tableName = TestEnvironment.generateResourceName()
-        let response = createTable(name: tableName, hashKey: "ID")
+        let response = self.createTable(name: tableName, hashKey: "ID")
             .flatMap { _ in
-                return self.putItem(tableName: tableName, values: ["ID": "1", "numbers": [2,4.001,-6,8]])
-        }
-        .flatMap { (_) -> EventLoopFuture<DynamoDB.GetItemOutput> in
-            return self.getItem(tableName: tableName, keys: ["ID": "1"])
-        }
-        .flatMapThrowing { response -> Void in
-            XCTAssertEqual(response.item?["ID"], .s("1"))
-            if case .ns(let numbers) = response.item?["numbers"] {
-                let numberSet = Set(numbers)
-                XCTAssert(numberSet.contains("2"))
-                XCTAssert(numberSet.contains("4.001"))
-                XCTAssert(numberSet.contains("-6"))
-                XCTAssert(numberSet.contains("8"))
-            } else {
-                XCTFail()
+                return self.putItem(tableName: tableName, values: ["ID": "1", "numbers": [2, 4.001, -6, 8]])
             }
-        }
-        .flatAlways { _ in
+            .flatMap { (_) -> EventLoopFuture<DynamoDB.GetItemOutput> in
+                return self.getItem(tableName: tableName, keys: ["ID": "1"])
+            }
+            .flatMapThrowing { response -> Void in
+                XCTAssertEqual(response.item?["ID"], .s("1"))
+                if case .ns(let numbers) = response.item?["numbers"] {
+                    let numberSet = Set(numbers)
+                    XCTAssert(numberSet.contains("2"))
+                    XCTAssert(numberSet.contains("4.001"))
+                    XCTAssert(numberSet.contains("-6"))
+                    XCTAssert(numberSet.contains("8"))
+                } else {
+                    XCTFail()
+                }
+            }
+            .flatAlways { _ in
                 return self.deleteTable(name: tableName)
-        }
+            }
         XCTAssertNoThrow(try response.wait())
     }
 }
@@ -179,24 +178,23 @@ extension DynamoDB.AttributeValue {
     init(any: Any) {
         switch any {
         case let data as Data:
-            self = .b(data)//self.init(b: data)
+            self = .b(data) // self.init(b: data)
         case let bool as Bool:
-            self = .bool(bool)//self.init(bool: bool)
+            self = .bool(bool) // self.init(bool: bool)
         case let int as Int:
-            self = .n(int.description)//self.init(n: int.description)
+            self = .n(int.description) // self.init(n: int.description)
         case let ints as [Int]:
-            self = .ns(ints.map {$0.description})//self.init(ns: ints.map {$0.description})
+            self = .ns(ints.map { $0.description }) // self.init(ns: ints.map {$0.description})
         case let float as Float:
-            self = .n(float.description)//self.init(n: float.description)
+            self = .n(float.description) // self.init(n: float.description)
         case let double as Double:
-            self = .n(double.description)//self.init(n: double.description)
+            self = .n(double.description) // self.init(n: double.description)
         case let doubles as [Double]:
-            self = .ns(doubles.map {$0.description})//self.init(ns: doubles.map {$0.description})
+            self = .ns(doubles.map { $0.description }) // self.init(ns: doubles.map {$0.description})
         case let string as String:
-            self = .s(string) //self.init(s: string)
+            self = .s(string) // self.init(s: string)
         default:
-            self = .s(String(reflecting: any))//self.init(s: String(reflecting: any))
+            self = .s(String(reflecting: any)) // self.init(s: String(reflecting: any))
         }
     }
 }
-

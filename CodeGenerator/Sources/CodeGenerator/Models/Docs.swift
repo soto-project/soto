@@ -14,7 +14,6 @@
 
 // Used to decode model doc_2.json files
 struct Docs: Decodable {
-
     struct Shape: Decodable {
         var base: String?
         var refs: [String: String]
@@ -29,8 +28,8 @@ struct Docs: Decodable {
             case base
             case refs
         }
-
     }
+
     var version: String
     var service: String
     var operations: [String: String]
@@ -44,7 +43,7 @@ struct Docs: Decodable {
         self.operations = operations.compactMapValues { $0 }
         // sorted shapes by key so we get consistent results when there are key clashes
         let tempShapes = try container.decode([String: Shape].self, forKey: .shapes)
-            .map({ return (key: $0.key, value: $0.value) })
+            .map { return (key: $0.key, value: $0.value) }
             .sorted(by: { $0.key < $1.key })
 
         self.shapes = [:]
@@ -53,10 +52,10 @@ struct Docs: Decodable {
             for ref in shape.value.refs {
                 let components = ref.key.split(separator: "$").map { String($0) }
                 guard components.count == 2 else { continue }
-                if shapes[components[0]] == nil {
-                    shapes[components[0]] = [components[1]: ref.value]
+                if self.shapes[components[0]] == nil {
+                    self.shapes[components[0]] = [components[1]: ref.value]
                 } else {
-                    shapes[components[0]]![components[1]] = ref.value
+                    self.shapes[components[0]]![components[1]] = ref.value
                 }
             }
         }

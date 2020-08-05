@@ -21,7 +21,7 @@ protocol Patch {
     func apply(to api: inout API) throws
 }
 
-protocol Patchable: class {}
+protocol Patchable: AnyObject {}
 
 extension API {
     static let servicePatches: [String: [Patch]] = [
@@ -30,7 +30,7 @@ extension API {
             ReplacePatch(PatchKeyPath3(\.shapes["HttpVersion"], \.type.enum, \.cases[1]), value: "HTTP2", originalValue: "http2"),
         ],
         "CloudTrail": [
-            AddDictionaryPatch(PatchKeyPath1(\.shapes), key: "_UnixDate", value: Shape(type: .timestamp(.unixTimestamp), name: "_UnixDate") ),
+            AddDictionaryPatch(PatchKeyPath1(\.shapes), key: "_UnixDate", value: Shape(type: .timestamp(.unixTimestamp), name: "_UnixDate")),
             ReplacePatch(PatchKeyPath4(\.shapes["LookupEventsRequest"], \.type.structure, \.members["EndTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
             ReplacePatch(PatchKeyPath4(\.shapes["LookupEventsRequest"], \.type.structure, \.members["StartTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
             ReplacePatch(PatchKeyPath4(\.shapes["ListPublicKeysRequest"], \.type.structure, \.members["EndTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
@@ -45,7 +45,7 @@ extension API {
             AddPatch(PatchKeyPath3(\.shapes["EntitySubType"], \.type.enum, \.cases), value: "DX_NAME"),
         ],
         "DynamoDB": [
-            ReplacePatch(PatchKeyPath3(\.shapes["AttributeValue"], \.type.structure, \.isEnum), value: true, originalValue: false)
+            ReplacePatch(PatchKeyPath3(\.shapes["AttributeValue"], \.type.structure, \.isEnum), value: true, originalValue: false),
         ],
         "EC2": [
             ReplacePatch(PatchKeyPath3(\.shapes["PlatformValues"], \.type.enum, \.cases[0]), value: "windows", originalValue: "Windows"),
@@ -58,7 +58,7 @@ extension API {
             ReplacePatch(PatchKeyPath2(\.shapes["SecurityGroupOwnerAlias"], \.type), value: .integer(), originalValue: .string(Shape.ShapeType.StringType())),
         ],
         "ElasticLoadBalancingv2": [
-            ReplacePatch(PatchKeyPath1(\.serviceName), value: "ELBV2", originalValue: "ElasticLoadBalancingv2")
+            ReplacePatch(PatchKeyPath1(\.serviceName), value: "ELBV2", originalValue: "ElasticLoadBalancingv2"),
         ],
         "IAM": [
             AddPatch(PatchKeyPath3(\.shapes["PolicySourceType"], \.type.enum, \.cases), value: "IAM Policy"),
@@ -88,7 +88,7 @@ extension API {
         ],
     ]
 
-    struct ReplacePatch<Value: Equatable, P: PatchKeyPath> : Patch where P.Base == API, P.Value == Value {
+    struct ReplacePatch<Value: Equatable, P: PatchKeyPath>: Patch where P.Base == API, P.Value == Value {
         let patchKeyPath: P
         let value: Value
         let expectedValue: Value
@@ -101,14 +101,14 @@ extension API {
 
         func apply(to api: inout API) throws {
             guard let originalValue = api[patchKeyPath: patchKeyPath] else { throw APIPatchError.doesNotExist }
-            guard originalValue == expectedValue else {
+            guard originalValue == self.expectedValue else {
                 throw APIPatchError.unexpectedValue(expected: "\(self.expectedValue)", got: "\(originalValue)")
             }
-            api[patchKeyPath: patchKeyPath] = value
+            api[patchKeyPath: self.patchKeyPath] = self.value
         }
     }
 
-    struct RemovePatch<Remove: Equatable, P: PatchKeyPath> : Patch where P.Base == API, P.Value == [Remove] {
+    struct RemovePatch<Remove: Equatable, P: PatchKeyPath>: Patch where P.Base == API, P.Value == [Remove] {
         let patchKeyPath: P
         let value: Remove
 
@@ -120,11 +120,11 @@ extension API {
         func apply(to api: inout API) throws {
             guard let array = api[patchKeyPath: patchKeyPath] else { throw APIPatchError.doesNotExist }
             guard let index = array.firstIndex(of: value) else { throw APIPatchError.doesNotExist }
-            api[patchKeyPath: patchKeyPath]?.remove(at: index)
+            api[patchKeyPath: self.patchKeyPath]?.remove(at: index)
         }
     }
 
-    struct AddPatch<Remove: Equatable, P: PatchKeyPath> : Patch where P.Base == API, P.Value == [Remove] {
+    struct AddPatch<Remove: Equatable, P: PatchKeyPath>: Patch where P.Base == API, P.Value == [Remove] {
         let patchKeyPath: P
         let value: Remove
 
@@ -135,11 +135,11 @@ extension API {
 
         func apply(to api: inout API) throws {
             guard let _ = api[patchKeyPath: patchKeyPath] else { throw APIPatchError.doesNotExist }
-            api[patchKeyPath: patchKeyPath]?.append(value)
+            api[patchKeyPath: self.patchKeyPath]?.append(self.value)
         }
     }
 
-    struct AddDictionaryPatch<Remove: Equatable, P: PatchKeyPath> : Patch where P.Base == API, P.Value == [String: Remove] {
+    struct AddDictionaryPatch<Remove: Equatable, P: PatchKeyPath>: Patch where P.Base == API, P.Value == [String: Remove] {
         let patchKeyPath: P
         let key: String
         let value: Remove
@@ -152,7 +152,7 @@ extension API {
 
         func apply(to api: inout API) throws {
             guard let _ = api[patchKeyPath: patchKeyPath] else { throw APIPatchError.doesNotExist }
-            api[patchKeyPath: patchKeyPath]?[key] = value
+            api[patchKeyPath: self.patchKeyPath]?[self.key] = self.value
         }
     }
 }

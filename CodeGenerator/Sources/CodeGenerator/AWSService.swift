@@ -45,7 +45,7 @@ struct AWSService {
         if let version = api.metadata.jsonVersion, api.metadata.protocol == .json {
             return ".json(version: \"\(version)\")"
         }
-        return api.metadata.protocol.enumStringValue
+        return self.api.metadata.protocol.enumStringValue
     }
 
     /// Service endpoints from API and Endpoints structure
@@ -55,15 +55,15 @@ struct AWSService {
             let endpoint: Endpoints.Service.Endpoint
             let partition: String
         }
-        let serviceEndpoints: [(key: String, value: EndpointInfo)] = endpoints.partitions.reduce([]) { value, partition in
+        let serviceEndpoints: [(key: String, value: EndpointInfo)] = self.endpoints.partitions.reduce([]) { value, partition in
             let endpoints = partition.services[api.metadata.endpointPrefix]?.endpoints
-            return value + (endpoints?.map {(key: $0.key, value: EndpointInfo(endpoint: $0.value, partition: partition.partition))} ?? [])
+            return value + (endpoints?.map { (key: $0.key, value: EndpointInfo(endpoint: $0.value, partition: partition.partition)) } ?? [])
         }
         let partitionEndpoints = self.partitionEndpoints
         let partitionEndpointSet = Set<String>(partitionEndpoints.map { $0.value.endpoint })
         return serviceEndpoints.compactMap {
             // if service endpoint isn't in the set of partition endpoints or a region name return nil
-            if partitionEndpointSet.contains($0.key) == false && Region(rawValue: $0.key) == nil {
+            if partitionEndpointSet.contains($0.key) == false, Region(rawValue: $0.key) == nil {
                 return nil
             }
             // if endpoint has a hostname return that
@@ -94,11 +94,11 @@ struct AWSService {
 
     /// Get middleware name
     var middleware: String? {
-        switch api.serviceName {
+        switch self.api.serviceName {
         case "APIGateway":
             return "APIGatewayMiddleware()"
         case "Glacier":
-            return "GlacierRequestMiddleware(apiVersion: \"\(api.metadata.apiVersion)\")"
+            return "GlacierRequestMiddleware(apiVersion: \"\(self.api.metadata.apiVersion)\")"
         case "S3":
             return "S3RequestMiddleware()"
         case "S3Control":
@@ -109,11 +109,11 @@ struct AWSService {
     }
 
     var serviceErrorName: String {
-        return api.serviceName + "ErrorType"
+        return self.api.serviceName + "ErrorType"
     }
 }
 
-//MARK: Generate contexts
+// MARK: Generate contexts
 
 protocol EncodingPropertiesContext {}
 
@@ -246,7 +246,7 @@ extension AWSService {
     /// generate operations context
     func generateOperationContext(_ operation: Operation, name: String) -> OperationContext {
         return OperationContext(
-            comment: docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
+            comment: self.docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase(),
             inputShape: operation.input?.shapeName,
             outputShape: operation.output?.shapeName,
@@ -262,7 +262,7 @@ extension AWSService {
     /// generate operations context for streaming version of function
     func generateStreamingOperationContext(_ operation: Operation, name: String) -> OperationContext {
         return OperationContext(
-            comment: docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
+            comment: self.docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase() + "Streaming",
             inputShape: operation.input?.shapeName,
             outputShape: operation.output?.shapeName,
@@ -280,16 +280,16 @@ extension AWSService {
         var context: [String: Any] = [:]
 
         // Service initialization
-        context["name"] = api.serviceName
-        context["description"] = docs.service.tagStriped()
-        context["amzTarget"] = api.metadata.targetPrefix
-        context["endpointPrefix"] = api.metadata.endpointPrefix
-        if api.metadata.signingName != api.metadata.endpointPrefix {
-            context["signingName"] = api.metadata.signingName
+        context["name"] = self.api.serviceName
+        context["description"] = self.docs.service.tagStriped()
+        context["amzTarget"] = self.api.metadata.targetPrefix
+        context["endpointPrefix"] = self.api.metadata.endpointPrefix
+        if self.api.metadata.signingName != self.api.metadata.endpointPrefix {
+            context["signingName"] = self.api.metadata.signingName
         }
-        context["protocol"] = serviceProtocol
-        context["apiVersion"] = api.metadata.apiVersion
-        let endpoints = serviceEndpoints
+        context["protocol"] = self.serviceProtocol
+        context["apiVersion"] = self.api.metadata.apiVersion
+        let endpoints = self.serviceEndpoints
             .sorted { $0.key < $1.key }
             .map { "\"\($0.key)\": \"\($0.value)\"" }
         if endpoints.count > 0 {
@@ -303,32 +303,32 @@ extension AWSService {
         context["regionalized"] = isRegionalized ?? true
 
         if isRegionalized != true {
-            context["partitionEndpoints"] = partitionEndpoints
+            context["partitionEndpoints"] = self.partitionEndpoints
                 .map { (partition: $0.key, endpoint: $0.value.endpoint, region: $0.value.region) }
                 .sorted { $0.partition < $1.partition }
                 .map { ".\($0.partition.toSwiftRegionEnumCase()): (endpoint: \"\($0.endpoint)\", region: .\($0.region.rawValue.toSwiftRegionEnumCase()))" }
         }
-        
-        context["middlewareClass"] = middleware
 
-        if !errors.isEmpty {
-            context["errorTypes"] = serviceErrorName
+        context["middlewareClass"] = self.middleware
+
+        if !self.errors.isEmpty {
+            context["errorTypes"] = self.serviceErrorName
         }
 
         // Operations
         var operationContexts: [OperationContext] = []
         var streamingOperationContexts: [OperationContext] = []
-        for operation in api.operations {
+        for operation in self.api.operations {
             if operation.value.eventStream != true {
-                operationContexts.append(generateOperationContext(operation.value, name: operation.key))
+                operationContexts.append(self.generateOperationContext(operation.value, name: operation.key))
             }
             if operation.value.streaming == true {
-                streamingOperationContexts.append(generateStreamingOperationContext(operation.value, name: operation.key))
+                streamingOperationContexts.append(self.generateStreamingOperationContext(operation.value, name: operation.key))
             }
         }
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
         context["streamingOperations"] = streamingOperationContexts.sorted { $0.funcName < $1.funcName }
-        context["logger"] = getSymbol(for: "Logger", from: "Logging", api: api)
+        context["logger"] = self.getSymbol(for: "Logger", from: "Logging", api: self.api)
         return context
     }
 
@@ -342,8 +342,8 @@ extension AWSService {
     /// Generate the context information for outputting the error enums
     func generateErrorContext() -> [String: Any] {
         var context: [String: Any] = [:]
-        context["name"] = api.serviceName
-        context["errorName"] = serviceErrorName
+        context["name"] = self.api.serviceName
+        context["errorName"] = self.serviceErrorName
 
         var errorContexts: [ErrorContext] = []
         let errors = self.errors.sorted { $0.name < $1.name }
@@ -362,7 +362,7 @@ extension AWSService {
         guard let pagination = paginators?.pagination else { return [:] }
         let paginators = pagination.map { return (key: $0.key, value: $0.value) }.sorted { $0.key < $1.key }
         var context: [String: Any] = [:]
-        context["name"] = api.serviceName
+        context["name"] = self.api.serviceName
 
         var paginatorContexts: [PaginatorContext] = []
 
@@ -390,7 +390,7 @@ extension AWSService {
             }
 
             let paginatorProtocol = "AWSPaginateToken"
-            let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(api.serviceName)
+            let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
             // process output tokens
             let processedOutputTokens = outputTokens.map { (token) -> String in
@@ -425,7 +425,7 @@ extension AWSService {
             let initParamsArray = initParams.map { "\($0.key): \($0.value)" }.sorted { $0.lowercased() < $1.lowercased() }
             paginatorContexts.append(
                 PaginatorContext(
-                    operation: generateOperationContext(operation, name: paginator.key),
+                    operation: self.generateOperationContext(operation, name: paginator.key),
                     output: processedOutputTokens[0],
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,
@@ -437,13 +437,12 @@ extension AWSService {
         if paginatorContexts.count > 0 {
             context["paginators"] = paginatorContexts
         }
-        context["logger"] = getSymbol(for: "Logger", from: "Logging", api: api)
+        context["logger"] = self.getSymbol(for: "Logger", from: "Logging", api: self.api)
         return context
     }
 
     /// Generate the context information for outputting an enum
     func generateEnumContext(_ shape: Shape, values: [String]) -> EnumContext {
-
         // Operations
         var valueContexts: [EnumMemberContext] = []
         for value in values {
@@ -503,21 +502,21 @@ extension AWSService {
 
         switch member.shape.type {
         case .list(let list):
-            guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
-            guard list.flattened != true && member.flattened != true else { return nil }
-            let entryName = getArrayEntryName(list)
-            if entryName == "member"  {
+            guard self.api.metadata.protocol != .json, self.api.metadata.protocol != .restjson else { return nil }
+            guard list.flattened != true, member.flattened != true else { return nil }
+            let entryName = self.getArrayEntryName(list)
+            if entryName == "member" {
                 return "\(codingWrapper)<DefaultArrayCoder>"
             } else {
-                return "\(codingWrapper)<ArrayCoder<\(encodingName(name)), \(list.member.shape.swiftTypeName)>>"
+                return "\(codingWrapper)<ArrayCoder<\(self.encodingName(name)), \(list.member.shape.swiftTypeName)>>"
             }
         case .map(let map):
-            guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
-            let names = getDictionaryEntryNames(map, member: member)
-            if names.entry == "entry" && names.key == "key" && names.value == "value" {
+            guard self.api.metadata.protocol != .json, self.api.metadata.protocol != .restjson else { return nil }
+            let names = self.getDictionaryEntryNames(map, member: member)
+            if names.entry == "entry", names.key == "key", names.value == "value" {
                 return "\(codingWrapper)<DefaultDictionaryCoder>"
             } else {
-                return "\(codingWrapper)<DictionaryCoder<\(encodingName(name)), \(map.key.shape.swiftTypeName), \(map.value.shape.swiftTypeName)>>"
+                return "\(codingWrapper)<DictionaryCoder<\(self.encodingName(name)), \(map.key.shape.swiftTypeName), \(map.value.shape.swiftTypeName)>>"
             }
         case .timestamp(let format):
             switch format {
@@ -535,22 +534,22 @@ extension AWSService {
 
     /// Generate encoding contexts
     func generateEncodingPropertyContext(_ member: Shape.Member, name: String) -> EncodingPropertiesContext? {
-        guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
+        guard self.api.metadata.protocol != .json, self.api.metadata.protocol != .restjson else { return nil }
         if let location = member.location {
             guard case .body = location else { return nil }
         }
         switch member.shape.type {
-            case .list(let list):
-                guard list.flattened != true && member.flattened != true else { return nil }
-                let entryName = getArrayEntryName(list)
-                guard entryName != "member" else { return nil }
-                return ArrayEncodingPropertiesContext(name: encodingName(name), member: entryName)
-            case .map(let map):
-                let names = getDictionaryEntryNames(map, member: member)
-                guard names.entry != "entry" || names.key != "key" || names.value != "value" else { return nil }
-                return DictionaryEncodingPropertiesContext(name: encodingName(name), entry: names.entry, key: names.key, value: names.value)
-            default:
-                return nil
+        case .list(let list):
+            guard list.flattened != true, member.flattened != true else { return nil }
+            let entryName = self.getArrayEntryName(list)
+            guard entryName != "member" else { return nil }
+            return ArrayEncodingPropertiesContext(name: self.encodingName(name), member: entryName)
+        case .map(let map):
+            let names = self.getDictionaryEntryNames(map, member: member)
+            guard names.entry != "entry" || names.key != "key" || names.value != "value" else { return nil }
+            return DictionaryEncodingPropertiesContext(name: self.encodingName(name), entry: names.entry, key: names.key, value: names.value)
+        default:
+            return nil
         }
     }
 
@@ -594,8 +593,8 @@ extension AWSService {
         } else {
             defaultValue = nil
         }
-        let memberDocs = docs.shapes[shape.name]?[name]?.tagStriped().split(separator: "\n")
-        let propertyWrapper = generatePropertyWrapper(member, name: name)
+        let memberDocs = self.docs.shapes[shape.name]?[name]?.tagStriped().split(separator: "\n")
+        let propertyWrapper = self.generatePropertyWrapper(member, name: name)
         guard propertyWrapper == nil || member.location == .body || member.location == nil else {
             preconditionFailure("Cannot have a non-body variable with a property wrapper")
         }
@@ -639,11 +638,11 @@ extension AWSService {
         var locationName: String? = member.locationName
         let location = member.location ?? .body
 
-        if (isPayload || location != .body) && locationName == nil {
+        if isPayload || location != .body, locationName == nil {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
-        if location == .body && (locationName == name.toSwiftLabelCase() || !isPayload) {
+        if location == .body, locationName == name.toSwiftLabelCase() || !isPayload {
             locationName = nil
         }
         guard locationName != nil else { return nil }
@@ -679,7 +678,6 @@ extension AWSService {
         case .blob(let min, let max), .payload(let min, let max):
             requirements["max"] = max
             requirements["min"] = min
-            break
 
         case .list(let list):
             requirements["max"] = list.max
@@ -704,14 +702,14 @@ extension AWSService {
         case .map(let map):
             // validation code doesn't support containers inside containers. Only service affected by this is SSM
             if !container {
-                let keyValidationContext = generateValidationContext(
+                let keyValidationContext = self.generateValidationContext(
                     name: name,
                     shape: map.key.shape,
                     required: true,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 )
-                let valueValiationContext = generateValidationContext(
+                let valueValiationContext = self.generateValidationContext(
                     name: name,
                     shape: map.value.shape,
                     required: true,
@@ -738,7 +736,7 @@ extension AWSService {
             var alreadyProcessed = alreadyProcessed
             alreadyProcessed.insert(shape.name)
             for member2 in structure.members {
-                if generateValidationContext(
+                if self.generateValidationContext(
                     name: member2.key,
                     shape: member2.value.shape,
                     required: member2.value.required,
@@ -781,7 +779,7 @@ extension AWSService {
 
         if let payload = shape.payload {
             shapeProtocol += " & AWSShapeWithPayload"
-            
+
             let member = type.members[payload]
             if case .payload = member?.shape.type {
                 shapePayloadOptions.append("raw")
@@ -796,7 +794,7 @@ extension AWSService {
 
         let members = type.members.map { (key: $0.key, value: $0.value) }.sorted { $0.key.lowercased() < $1.key.lowercased() }
         for member in members {
-            var memberContext = generateMemberContext(member.value, name: member.key, shape: shape, typeIsEnum: type.isEnum)
+            var memberContext = self.generateMemberContext(member.value, name: member.key, shape: shape, typeIsEnum: type.isEnum)
 
             // check for duplicates, this seems to be mainly caused by deprecated variables
             let locationPath = member.value.locationName ?? member.key
@@ -834,11 +832,11 @@ extension AWSService {
         }
 
         return StructureContext(
-            object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
+            object: self.doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
             name: shape.swiftTypeName,
             shapeProtocol: shapeProtocol,
             payload: shape.payload?.toSwiftLabelCase(),
-            payloadOptions: shapePayloadOptions.count > 0 ? shapePayloadOptions.map {".\($0)"}.joined(separator: ", ") : nil,
+            payloadOptions: shapePayloadOptions.count > 0 ? shapePayloadOptions.map { ".\($0)" }.joined(separator: ", ") : nil,
             namespace: shape.xmlNamespace?.uri,
             encoding: encodingContexts,
             members: memberContexts,
@@ -851,27 +849,27 @@ extension AWSService {
     /// Generate the context for outputting all the AWSShape (enums and structures)
     func generateShapesContext() -> [String: Any] {
         var context: [String: Any] = [:]
-        context["name"] = api.serviceName
+        context["name"] = self.api.serviceName
 
         var shapeContexts: [[String: Any]] = []
-        let shapes = api.shapes.values.sorted { $0.name < $1.name }
+        let shapes = self.api.shapes.values.sorted { $0.name < $1.name }
         for shape in shapes {
-            if shape.usedInInput == false && shape.usedInOutput == false {
+            if shape.usedInInput == false, shape.usedInOutput == false {
                 continue
             }
 
             switch shape.type {
             case .enum(let enumType):
                 var enumContext: [String: Any] = [:]
-                enumContext["enum"] = generateEnumContext(shape, values: enumType.cases)
+                enumContext["enum"] = self.generateEnumContext(shape, values: enumType.cases)
                 shapeContexts.append(enumContext)
 
             case .structure(let type):
                 var structContext: [String: Any] = [:]
                 if type.isEnum {
-                    structContext["enumWithValues"] = generateStructureContext(shape, type: type)
+                    structContext["enumWithValues"] = self.generateStructureContext(shape, type: type)
                 } else {
-                    structContext["struct"] = generateStructureContext(shape, type: type)
+                    structContext["struct"] = self.generateStructureContext(shape, type: type)
                 }
                 shapeContexts.append(structContext)
 
@@ -884,7 +882,7 @@ extension AWSService {
     }
 }
 
-//MARK: Extensions
+// MARK: Extensions
 
 /// extend Shape to be Hashable so we can store them in a Set<>
 extension Shape: Hashable, Equatable {
@@ -951,7 +949,7 @@ extension Shape {
     /// return swift type name that would compile when referenced outside of service class. You need to prefix all shapes defined in the service class with the service name
     public func swiftTypeNameWithServiceNamePrefix(_ serviceName: String) -> String {
         switch self.type {
-        case .structure(_), .enum(_):
+        case .structure(_), .enum:
             return "\(serviceName).\(name.toSwiftClassCase())"
 
         case .list(let list):

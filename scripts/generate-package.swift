@@ -13,8 +13,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Files            // JohnSundell/Files
-import Stencil          // swift-aws/Stencil
+import Files // JohnSundell/Files
+import Stencil // swift-aws/Stencil
 
 struct GeneratePackage {
     let environment: Environment
@@ -28,7 +28,7 @@ struct GeneratePackage {
 
     init() {
         self.fsLoader = FileSystemLoader(paths: ["./scripts/templates/generate-package"])
-        self.environment = Environment(loader: fsLoader)
+        self.environment = Environment(loader: self.fsLoader)
     }
 
     func run() throws {
@@ -51,13 +51,13 @@ struct GeneratePackage {
         }
         // construct list of tests, plus the ones used in AWSRequestTests.swift
         var testFolders = Set<String>(testFolder.subfolders.map { $0.name })
-        ["ACM", "CloudFront", "EC2", "IAM", "Route53", "S3", "SES", "SNS"].forEach { testFolders.insert($0)}
+        ["ACM", "CloudFront", "EC2", "IAM", "Route53", "S3", "SES", "SNS"].forEach { testFolders.insert($0) }
 
         let context: [String: Any] = [
             "targets": srcFolders,
-            "testTargets": testFolders.map{ $0 }.sorted(),
+            "testTargets": testFolders.map { $0 }.sorted(),
         ]
-        let package = try environment.renderTemplate(name: "_Package.swift", context: context)
+        let package = try environment.renderTemplate(name: "Package.stencil", context: context)
         let packageFile = try currentFolder.createFile(named: "Package.swift")
         try packageFile.write(package)
     }

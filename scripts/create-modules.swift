@@ -13,9 +13,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import ArgumentParser   // apple/swift-argument-parser ~> 0.0.1
-import Files            // JohnSundell/Files
-import Stencil          // swift-aws/Stencil
+import ArgumentParser // apple/swift-argument-parser ~> 0.0.1
+import Files // JohnSundell/Files
+import Stencil // swift-aws/Stencil
 
 class GenerateProcess {
     let parameters: GenerateProjects
@@ -30,12 +30,12 @@ class GenerateProcess {
     init(_ parameters: GenerateProjects) {
         self.parameters = parameters
         self.fsLoader = FileSystemLoader(paths: ["./scripts/templates/create-modules"])
-        self.environment = Environment(loader: fsLoader)
+        self.environment = Environment(loader: self.fsLoader)
     }
 
     func createProject(_ serviceName: String) throws {
         let serviceSourceFolder = try servicesFolder.subfolder(at: serviceName)
-        let extensionSourceFolder = try? extensionsFolder.subfolder(at: serviceName)
+        let extensionSourceFolder = try? self.extensionsFolder.subfolder(at: serviceName)
         let includeZlib = (serviceName == "S3")
 
         // create folders
@@ -51,18 +51,18 @@ class GenerateProcess {
         // if there is an extensions folder copy files across to target source folder
         if let extensionSourceFolder = extensionSourceFolder {
             let serviceSourceTargetFolder = try sourceTargetFolder.subfolder(at: serviceName)
-            try extensionSourceFolder.files.forEach { try $0.copy(to: serviceSourceTargetFolder)}
+            try extensionSourceFolder.files.forEach { try $0.copy(to: serviceSourceTargetFolder) }
         }
         // if zlib is required copy CAWSZlib folder
         if includeZlib {
-            try zlibSourceFolder.copy(to: sourceTargetFolder)
+            try self.zlibSourceFolder.copy(to: sourceTargetFolder)
         }
         // Package.swift
         let context = [
             "name": serviceName,
-            "version": parameters.version
+            "version": parameters.version,
         ]
-        let packageTemplate = includeZlib ? "Package_with_Zlib.swift" : "Package.swift"
+        let packageTemplate = includeZlib ? "Package_with_Zlib.stencil" : "Package.stencil"
         let package = try environment.renderTemplate(name: packageTemplate, context: context)
         let packageFile = try serviceTargetFolder.createFile(named: "Package.swift")
         try packageFile.write(package)
@@ -83,13 +83,13 @@ class GenerateProcess {
     }
 
     func run() throws {
-        servicesFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
-        extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Extensions")
-        zlibSourceFolder = try Folder(path: "./Sources/CAWSZlib")
-        targetFolder = try Folder(path: ".").createSubfolder(at: parameters.targetPath)
+        self.servicesFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
+        self.extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Extensions")
+        self.zlibSourceFolder = try Folder(path: "./Sources/CAWSZlib")
+        self.targetFolder = try Folder(path: ".").createSubfolder(at: self.parameters.targetPath)
 
-        //try Folder(path: "targetFolder").
-        try parameters.services.forEach { service in
+        // try Folder(path: "targetFolder").
+        try self.parameters.services.forEach { service in
             try createProject(service)
         }
     }
@@ -103,18 +103,18 @@ struct GenerateProjects: ParsableCommand {
     var version: String
 
     let services = [
-/*        "APIGateway",
-        "CloudFront",
-        "CloudWatch",
-        "DynamoDB",
-        "EC2",
-        "ECR",
-        "ECS",
-        "IAM",
-        "Kinesis",
-        "Lambda",*/
+        /*        "APIGateway",
+         "CloudFront",
+         "CloudWatch",
+         "DynamoDB",
+         "EC2",
+         "ECR",
+         "ECS",
+         "IAM",
+         "Kinesis",
+         "Lambda",*/
         "S3",
-        "SES"
+        "SES",
     ]
 
     func run() throws {

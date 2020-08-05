@@ -16,7 +16,7 @@ import AWSSDKSwiftCore
 import Foundation
 import NIO
 
-//MARK: Multipart
+// MARK: Multipart
 
 extension S3ErrorType {
     public enum multipart: Error {
@@ -29,7 +29,6 @@ extension S3ErrorType {
 }
 
 extension S3 {
-
     public enum ThreadPoolProvider {
         case createNew
         case shared(NIOThreadPool)
@@ -49,7 +48,6 @@ extension S3 {
         on eventLoop: EventLoop,
         outputStream: @escaping (ByteBuffer, Int64, EventLoop) -> EventLoopFuture<Void>
     ) -> EventLoopFuture<Int64> {
-
         let promise = eventLoop.makePromise(of: Int64.self)
 
         // function downloading part of a file
@@ -72,9 +70,9 @@ extension S3 {
             )
             getObject(getRequest, on: eventLoop)
                 .and(prevPartSave)
-                .map { (output, _) -> () in
+                .map { (output, _) -> Void in
                     // should never happen
-                    guard let body = output.body?.asByteBuffer()  else {
+                    guard let body = output.body?.asByteBuffer() else {
                         return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
                     }
                     guard let length = output.contentLength, length > 0 else {
@@ -83,7 +81,7 @@ extension S3 {
 
                     let newOffset = offset + Int64(partSize)
                     multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body, fileSize, eventLoop))
-            }.cascadeFailure(to: promise)
+                }.cascadeFailure(to: promise)
         }
 
         // get object size before downloading
@@ -107,7 +105,7 @@ extension S3 {
                 }
                 // download file
                 multipartDownloadPart(fileSize: contentLength, offset: 0, prevPartSave: eventLoop.makeSucceededFuture(()))
-        }.cascadeFailure(to: promise)
+            }.cascadeFailure(to: promise)
 
         return promise.futureResult
     }
@@ -155,19 +153,19 @@ extension S3 {
 
             download.whenComplete { _ in
                 if case .createNew = threadPoolProvider {
-                    threadPool.shutdownGracefully() { _ in }
+                    threadPool.shutdownGracefully { _ in }
                 }
             }
             return
                 download
-                .flatMapErrorThrowing { error in
-                    try fileHandle.close()
-                    throw error
-                }
-                .flatMapThrowing { rt in
-                    try fileHandle.close()
-                    return rt
-                }
+                    .flatMapErrorThrowing { error in
+                        try fileHandle.close()
+                        throw error
+                    }
+                    .flatMapThrowing { rt in
+                        try fileHandle.close()
+                        return rt
+                    }
         }
     }
 
@@ -183,7 +181,6 @@ extension S3 {
         on eventLoop: EventLoop,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<ByteBuffer>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-
         // initialize multipart upload
         let result = createMultipartUpload(input, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
             guard let uploadId = upload.uploadId else {
@@ -268,19 +265,19 @@ extension S3 {
             upload.whenComplete { _ in
                 try? progress(Double(prevProgressAmount) / Double(fileSize))
                 if case .createNew = threadPoolProvider {
-                    threadPool.shutdownGracefully() { _ in }
+                    threadPool.shutdownGracefully { _ in }
                 }
             }
             return
                 upload
-                .flatMapErrorThrowing { error in
-                    try fileHandle.close()
-                    throw error
-                }
-                .flatMapThrowing { rt in
-                    try fileHandle.close()
-                    return rt
-                }
+                    .flatMapErrorThrowing { error in
+                        try fileHandle.close()
+                        throw error
+                    }
+                    .flatMapThrowing { rt in
+                        try fileHandle.close()
+                        return rt
+                    }
         }
     }
 }
@@ -324,7 +321,7 @@ extension S3 {
                         return promise.succeed(parts)
                     }
                     multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId, body: data)
-            }.cascadeFailure(to: promise)
+                }.cascadeFailure(to: promise)
         }
 
         // read first block and initiate first upload with result

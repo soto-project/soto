@@ -13,8 +13,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Files            // JohnSundell/Files
-import Stencil          // swift-aws/Stencil
+import Files // JohnSundell/Files
+import Stencil // swift-aws/Stencil
 
 class GenerateProcess {
     let environment: Environment
@@ -22,7 +22,7 @@ class GenerateProcess {
 
     init() {
         self.fsLoader = FileSystemLoader(paths: ["./scripts/templates/create-jazzy-yaml"])
-        self.environment = Environment(loader: fsLoader)
+        self.environment = Environment(loader: self.fsLoader)
     }
 
     func run() throws {
@@ -33,7 +33,7 @@ class GenerateProcess {
             $0 == "AWSSDKSwiftCore"
         }
         let context = [
-            "services": files
+            "services": files,
         ]
         let package = try environment.renderTemplate(name: ".jazzy.yaml", context: context)
         let packageFile = try currentFolder.createFile(named: ".jazzy.yaml")

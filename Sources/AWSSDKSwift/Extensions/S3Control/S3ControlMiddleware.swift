@@ -20,7 +20,6 @@ import struct Foundation.URLComponents
 import struct Foundation.URLQueryItem
 
 public struct S3ControlMiddleware: AWSServiceMiddleware {
-
     public init() {}
 
     /// edit request before sending to S3
