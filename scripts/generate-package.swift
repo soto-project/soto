@@ -57,7 +57,7 @@ struct GeneratePackage {
             "targets": srcFolders,
             "testTargets": testFolders.map { $0 }.sorted(),
         ]
-        let package = try environment.renderTemplate(name: "_Package.swift", context: context)
+        let package = try environment.renderTemplate(name: "Package.stencil", context: context)
         let packageFile = try currentFolder.createFile(named: "Package.swift")
         try packageFile.write(package)
     }

@@ -244,10 +244,10 @@ let package = Package(
         .library(name: "AWSWorkMail", targets: ["AWSWorkMail"]),
         .library(name: "AWSWorkMailMessageFlow", targets: ["AWSWorkMailMessageFlow"]),
         .library(name: "AWSWorkSpaces", targets: ["AWSWorkSpaces"]),
-        .library(name: "AWSXRay", targets: ["AWSXRay"])
+        .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("master"))
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("master")),
     ],
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
@@ -492,7 +492,7 @@ let package = Package(
             "AWSSNS",
             "AWSSQS",
             "AWSSSM",
-            "AWSSTS"
-        ])
+            "AWSSTS",
+        ]),
     ]
 )

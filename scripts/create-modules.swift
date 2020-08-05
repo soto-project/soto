@@ -62,7 +62,7 @@ class GenerateProcess {
             "name": serviceName,
             "version": parameters.version,
         ]
-        let packageTemplate = includeZlib ? "Package_with_Zlib.swift" : "Package.swift"
+        let packageTemplate = includeZlib ? "Package_with_Zlib.stencil" : "Package.stencil"
         let package = try environment.renderTemplate(name: packageTemplate, context: context)
         let packageFile = try serviceTargetFolder.createFile(named: "Package.swift")
         try packageFile.write(package)

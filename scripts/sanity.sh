@@ -37,7 +37,7 @@ printf "\033[0;32mokay.\033[0m\n"
 
 printf "=> Checking format... "
 FIRST_OUT="$(git status --porcelain)"
-swiftformat Sources/AWSSDKSwift/Extensions Tests CodeGenerator > /dev/null 2>&1
+swiftformat --exclude Sources/AWSSDKSwift/Services . > /dev/null 2>&1
 SECOND_OUT="$(git status --porcelain)"
 if [[ "$FIRST_OUT" != "$SECOND_OUT" ]]; then
   printf "\033[0;31mformatting issues!\033[0m\n"
