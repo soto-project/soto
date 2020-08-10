@@ -101,6 +101,10 @@ class S3ExtensionTests: XCTestCase {
                 let request = S3.GetObjectRequest(bucket: name, key: filename)
                 return Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
             }
+            .flatMapErrorThrowing { error in
+                print("\(error)")
+                throw error
+            }
             .flatMapThrowing { size in
                 XCTAssertEqual(size, Int64(data.count))
                 XCTAssert(FileManager.default.fileExists(atPath: filename))
