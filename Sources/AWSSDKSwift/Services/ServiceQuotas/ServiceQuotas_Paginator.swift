@@ -24,7 +24,6 @@ extension ServiceQuotas {
     public func listAWSDefaultServiceQuotasPaginator(
         _ input: ListAWSDefaultServiceQuotasRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAWSDefaultServiceQuotasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAWSDefaultServiceQuotas, tokenKey: \ListAWSDefaultServiceQuotasResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ServiceQuotas {
     public func listRequestedServiceQuotaChangeHistoryPaginator(
         _ input: ListRequestedServiceQuotaChangeHistoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRequestedServiceQuotaChangeHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRequestedServiceQuotaChangeHistory, tokenKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ServiceQuotas {
     public func listRequestedServiceQuotaChangeHistoryByQuotaPaginator(
         _ input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRequestedServiceQuotaChangeHistoryByQuotaResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRequestedServiceQuotaChangeHistoryByQuota, tokenKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ServiceQuotas {
     public func listServiceQuotaIncreaseRequestsInTemplatePaginator(
         _ input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServiceQuotaIncreaseRequestsInTemplateResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServiceQuotaIncreaseRequestsInTemplate, tokenKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ServiceQuotas {
     public func listServiceQuotasPaginator(
         _ input: ListServiceQuotasRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServiceQuotasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServiceQuotas, tokenKey: \ListServiceQuotasResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ServiceQuotas {
     public func listServicesPaginator(
         _ input: ListServicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, on: eventLoop, onPage: onPage)

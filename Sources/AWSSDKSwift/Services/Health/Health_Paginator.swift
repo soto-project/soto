@@ -24,7 +24,6 @@ extension Health {
     public func describeAffectedAccountsForOrganizationPaginator(
         _ input: DescribeAffectedAccountsForOrganizationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAffectedAccountsForOrganizationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAffectedAccountsForOrganization, tokenKey: \DescribeAffectedAccountsForOrganizationResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Health {
     public func describeAffectedEntitiesPaginator(
         _ input: DescribeAffectedEntitiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAffectedEntitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAffectedEntities, tokenKey: \DescribeAffectedEntitiesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Health {
     public func describeAffectedEntitiesForOrganizationPaginator(
         _ input: DescribeAffectedEntitiesForOrganizationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAffectedEntitiesForOrganizationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAffectedEntitiesForOrganization, tokenKey: \DescribeAffectedEntitiesForOrganizationResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Health {
     public func describeEventAggregatesPaginator(
         _ input: DescribeEventAggregatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventAggregatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventAggregates, tokenKey: \DescribeEventAggregatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Health {
     public func describeEventTypesPaginator(
         _ input: DescribeEventTypesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventTypes, tokenKey: \DescribeEventTypesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Health {
     public func describeEventsPaginator(
         _ input: DescribeEventsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \DescribeEventsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Health {
     public func describeEventsForOrganizationPaginator(
         _ input: DescribeEventsForOrganizationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventsForOrganizationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventsForOrganization, tokenKey: \DescribeEventsForOrganizationResponse.nextToken, on: eventLoop, onPage: onPage)

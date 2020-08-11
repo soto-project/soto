@@ -21,12 +21,12 @@ Client object for interacting with AWS ElasticsearchService service.
 
 Amazon Elasticsearch Configuration Service Use the Amazon Elasticsearch Configuration API to create, configure, and manage Elasticsearch domains. For sample code that uses the Configuration API, see the Amazon Elasticsearch Service Developer Guide. The guide also contains sample code for sending signed HTTP requests to the Elasticsearch APIs. The endpoint for configuration service requests is region-specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported regions and endpoints, see Regions and Endpoints.
 */
-public struct ElasticsearchService {
+public struct ElasticsearchService: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,202 +45,213 @@ public struct ElasticsearchService {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "es",
             serviceProtocol: .restjson,
             apiVersion: "2015-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ElasticsearchServiceErrorType.self],
+            errorType: ElasticsearchServiceErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Allows the destination domain owner to accept an inbound cross-cluster search connection request.
-    public func acceptInboundCrossClusterSearchConnection(_ input: AcceptInboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcceptInboundCrossClusterSearchConnectionResponse> {
-        return client.execute(operation: "AcceptInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}/accept", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func acceptInboundCrossClusterSearchConnection(_ input: AcceptInboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInboundCrossClusterSearchConnectionResponse> {
+        return client.execute(operation: "AcceptInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}/accept", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon Elasticsearch Service Domains for more information.
-    @discardableResult public func addTags(_ input: AddTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func addTags(_ input: AddTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates a package with an Amazon ES domain.
-    public func associatePackage(_ input: AssociatePackageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociatePackageResponse> {
-        return client.execute(operation: "AssociatePackage", path: "/2015-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associatePackage(_ input: AssociatePackageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePackageResponse> {
+        return client.execute(operation: "AssociatePackage", path: "/2015-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
-    public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelElasticsearchServiceSoftwareUpdateResponse> {
-        return client.execute(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelElasticsearchServiceSoftwareUpdateResponse> {
+        return client.execute(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
-    public func createElasticsearchDomain(_ input: CreateElasticsearchDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateElasticsearchDomainResponse> {
-        return client.execute(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createElasticsearchDomain(_ input: CreateElasticsearchDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateElasticsearchDomainResponse> {
+        return client.execute(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new cross-cluster search connection from a source domain to a destination domain.
-    public func createOutboundCrossClusterSearchConnection(_ input: CreateOutboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOutboundCrossClusterSearchConnectionResponse> {
-        return client.execute(operation: "CreateOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createOutboundCrossClusterSearchConnection(_ input: CreateOutboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutboundCrossClusterSearchConnectionResponse> {
+        return client.execute(operation: "CreateOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Create a package for use with Amazon ES domains.
-    public func createPackage(_ input: CreatePackageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePackageResponse> {
-        return client.execute(operation: "CreatePackage", path: "/2015-01-01/packages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPackage(_ input: CreatePackageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackageResponse> {
+        return client.execute(operation: "CreatePackage", path: "/2015-01-01/packages", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
-    public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteElasticsearchDomainResponse> {
-        return client.execute(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteElasticsearchDomainResponse> {
+        return client.execute(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
-    @discardableResult public func deleteElasticsearchServiceRole(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: .DELETE, serviceConfig: serviceConfig, on: eventLoop, logger: logger)
+    @discardableResult public func deleteElasticsearchServiceRole(on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: .DELETE, serviceContext: context, on: eventLoop)
     }
 
     ///  Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
-    public func deleteInboundCrossClusterSearchConnection(_ input: DeleteInboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInboundCrossClusterSearchConnectionResponse> {
-        return client.execute(operation: "DeleteInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteInboundCrossClusterSearchConnection(_ input: DeleteInboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInboundCrossClusterSearchConnectionResponse> {
+        return client.execute(operation: "DeleteInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Allows the source domain owner to delete an existing outbound cross-cluster search connection.
-    public func deleteOutboundCrossClusterSearchConnection(_ input: DeleteOutboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteOutboundCrossClusterSearchConnectionResponse> {
-        return client.execute(operation: "DeleteOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteOutboundCrossClusterSearchConnection(_ input: DeleteOutboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteOutboundCrossClusterSearchConnectionResponse> {
+        return client.execute(operation: "DeleteOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Delete the package.
-    public func deletePackage(_ input: DeletePackageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePackageResponse> {
-        return client.execute(operation: "DeletePackage", path: "/2015-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deletePackage(_ input: DeletePackageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResponse> {
+        return client.execute(operation: "DeletePackage", path: "/2015-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
-    public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeElasticsearchDomainResponse> {
-        return client.execute(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeElasticsearchDomainResponse> {
+        return client.execute(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
-    public func describeElasticsearchDomainConfig(_ input: DescribeElasticsearchDomainConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeElasticsearchDomainConfigResponse> {
-        return client.execute(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeElasticsearchDomainConfig(_ input: DescribeElasticsearchDomainConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeElasticsearchDomainConfigResponse> {
+        return client.execute(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
-    public func describeElasticsearchDomains(_ input: DescribeElasticsearchDomainsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeElasticsearchDomainsResponse> {
-        return client.execute(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeElasticsearchDomains(_ input: DescribeElasticsearchDomainsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeElasticsearchDomainsResponse> {
+        return client.execute(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the  DomainName  to know what Limits are supported for modifying. 
-    public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeElasticsearchInstanceTypeLimitsResponse> {
-        return client.execute(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeElasticsearchInstanceTypeLimitsResponse> {
+        return client.execute(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all the inbound cross-cluster search connections for a destination domain.
-    public func describeInboundCrossClusterSearchConnections(_ input: DescribeInboundCrossClusterSearchConnectionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInboundCrossClusterSearchConnectionsResponse> {
-        return client.execute(operation: "DescribeInboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/inboundConnection/search", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeInboundCrossClusterSearchConnections(_ input: DescribeInboundCrossClusterSearchConnectionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInboundCrossClusterSearchConnectionsResponse> {
+        return client.execute(operation: "DescribeInboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/inboundConnection/search", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all the outbound cross-cluster search connections for a source domain.
-    public func describeOutboundCrossClusterSearchConnections(_ input: DescribeOutboundCrossClusterSearchConnectionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeOutboundCrossClusterSearchConnectionsResponse> {
-        return client.execute(operation: "DescribeOutboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/outboundConnection/search", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeOutboundCrossClusterSearchConnections(_ input: DescribeOutboundCrossClusterSearchConnectionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOutboundCrossClusterSearchConnectionsResponse> {
+        return client.execute(operation: "DescribeOutboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/outboundConnection/search", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
-    public func describePackages(_ input: DescribePackagesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePackagesResponse> {
-        return client.execute(operation: "DescribePackages", path: "/2015-01-01/packages/describe", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describePackages(_ input: DescribePackagesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackagesResponse> {
+        return client.execute(operation: "DescribePackages", path: "/2015-01-01/packages/describe", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists available reserved Elasticsearch instance offerings.
-    public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReservedElasticsearchInstanceOfferingsResponse> {
-        return client.execute(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservedElasticsearchInstanceOfferingsResponse> {
+        return client.execute(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about reserved Elasticsearch instances for this account.
-    public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReservedElasticsearchInstancesResponse> {
-        return client.execute(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservedElasticsearchInstancesResponse> {
+        return client.execute(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Dissociates a package from the Amazon ES domain.
-    public func dissociatePackage(_ input: DissociatePackageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DissociatePackageResponse> {
-        return client.execute(operation: "DissociatePackage", path: "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func dissociatePackage(_ input: DissociatePackageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DissociatePackageResponse> {
+        return client.execute(operation: "DissociatePackage", path: "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a  DomainName  to get all upgrade compatible Elasticsearch versions for that specific domain. 
-    public func getCompatibleElasticsearchVersions(_ input: GetCompatibleElasticsearchVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCompatibleElasticsearchVersionsResponse> {
-        return client.execute(operation: "GetCompatibleElasticsearchVersions", path: "/2015-01-01/es/compatibleVersions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCompatibleElasticsearchVersions(_ input: GetCompatibleElasticsearchVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleElasticsearchVersionsResponse> {
+        return client.execute(operation: "GetCompatibleElasticsearchVersions", path: "/2015-01-01/es/compatibleVersions", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
-    public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUpgradeHistoryResponse> {
-        return client.execute(operation: "GetUpgradeHistory", path: "/2015-01-01/es/upgradeDomain/{DomainName}/history", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUpgradeHistoryResponse> {
+        return client.execute(operation: "GetUpgradeHistory", path: "/2015-01-01/es/upgradeDomain/{DomainName}/history", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
-    public func getUpgradeStatus(_ input: GetUpgradeStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUpgradeStatusResponse> {
-        return client.execute(operation: "GetUpgradeStatus", path: "/2015-01-01/es/upgradeDomain/{DomainName}/status", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getUpgradeStatus(_ input: GetUpgradeStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUpgradeStatusResponse> {
+        return client.execute(operation: "GetUpgradeStatus", path: "/2015-01-01/es/upgradeDomain/{DomainName}/status", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the name of all Elasticsearch domains owned by the current user's account. 
-    public func listDomainNames(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainNamesResponse> {
-        return client.execute(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: .GET, serviceConfig: serviceConfig, on: eventLoop, logger: logger)
+    public func listDomainNames(on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainNamesResponse> {
+        return client.execute(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: .GET, serviceContext: context, on: eventLoop)
     }
 
     ///  Lists all Amazon ES domains associated with the package.
-    public func listDomainsForPackage(_ input: ListDomainsForPackageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainsForPackageResponse> {
-        return client.execute(operation: "ListDomainsForPackage", path: "/2015-01-01/packages/{PackageID}/domains", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDomainsForPackage(_ input: ListDomainsForPackageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsForPackageResponse> {
+        return client.execute(operation: "ListDomainsForPackage", path: "/2015-01-01/packages/{PackageID}/domains", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
-    public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListElasticsearchInstanceTypesResponse> {
-        return client.execute(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListElasticsearchInstanceTypesResponse> {
+        return client.execute(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  List all supported Elasticsearch versions
-    public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListElasticsearchVersionsResponse> {
-        return client.execute(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListElasticsearchVersionsResponse> {
+        return client.execute(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all packages associated with the Amazon ES domain.
-    public func listPackagesForDomain(_ input: ListPackagesForDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackagesForDomainResponse> {
-        return client.execute(operation: "ListPackagesForDomain", path: "/2015-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPackagesForDomain(_ input: ListPackagesForDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesForDomainResponse> {
+        return client.execute(operation: "ListPackagesForDomain", path: "/2015-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns all tags for the given Elasticsearch domain.
-    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsResponse> {
-        return client.execute(operation: "ListTags", path: "/2015-01-01/tags/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
+        return client.execute(operation: "ListTags", path: "/2015-01-01/tags/", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Allows you to purchase reserved Elasticsearch instances.
-    public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PurchaseReservedElasticsearchInstanceOfferingResponse> {
-        return client.execute(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PurchaseReservedElasticsearchInstanceOfferingResponse> {
+        return client.execute(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Allows the destination domain owner to reject an inbound cross-cluster search connection request.
-    public func rejectInboundCrossClusterSearchConnection(_ input: RejectInboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RejectInboundCrossClusterSearchConnectionResponse> {
-        return client.execute(operation: "RejectInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}/reject", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func rejectInboundCrossClusterSearchConnection(_ input: RejectInboundCrossClusterSearchConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInboundCrossClusterSearchConnectionResponse> {
+        return client.execute(operation: "RejectInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}/reject", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes the specified set of tags from the specified Elasticsearch domain.
-    @discardableResult public func removeTags(_ input: RemoveTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func removeTags(_ input: RemoveTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Schedules a service software update for an Amazon ES domain.
-    public func startElasticsearchServiceSoftwareUpdate(_ input: StartElasticsearchServiceSoftwareUpdateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartElasticsearchServiceSoftwareUpdateResponse> {
-        return client.execute(operation: "StartElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startElasticsearchServiceSoftwareUpdate(_ input: StartElasticsearchServiceSoftwareUpdateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartElasticsearchServiceSoftwareUpdateResponse> {
+        return client.execute(operation: "StartElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/start", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances. 
-    public func updateElasticsearchDomainConfig(_ input: UpdateElasticsearchDomainConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateElasticsearchDomainConfigResponse> {
-        return client.execute(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateElasticsearchDomainConfig(_ input: UpdateElasticsearchDomainConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateElasticsearchDomainConfigResponse> {
+        return client.execute(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
-    public func upgradeElasticsearchDomain(_ input: UpgradeElasticsearchDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpgradeElasticsearchDomainResponse> {
-        return client.execute(operation: "UpgradeElasticsearchDomain", path: "/2015-01-01/es/upgradeDomain", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func upgradeElasticsearchDomain(_ input: UpgradeElasticsearchDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpgradeElasticsearchDomainResponse> {
+        return client.execute(operation: "UpgradeElasticsearchDomain", path: "/2015-01-01/es/upgradeDomain", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension ElasticsearchService {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

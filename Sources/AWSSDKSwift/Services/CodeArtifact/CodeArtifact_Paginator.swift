@@ -24,7 +24,6 @@ extension CodeArtifact {
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeArtifact {
     public func listPackageVersionAssetsPaginator(
         _ input: ListPackageVersionAssetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackageVersionAssetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackageVersionAssets, tokenKey: \ListPackageVersionAssetsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodeArtifact {
     public func listPackageVersionsPaginator(
         _ input: ListPackageVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackageVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackageVersions, tokenKey: \ListPackageVersionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodeArtifact {
     public func listPackagesPaginator(
         _ input: ListPackagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackages, tokenKey: \ListPackagesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CodeArtifact {
     public func listRepositoriesPaginator(
         _ input: ListRepositoriesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositories, tokenKey: \ListRepositoriesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CodeArtifact {
     public func listRepositoriesInDomainPaginator(
         _ input: ListRepositoriesInDomainRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesInDomainResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositoriesInDomain, tokenKey: \ListRepositoriesInDomainResult.nextToken, on: eventLoop, onPage: onPage)

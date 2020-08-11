@@ -24,7 +24,6 @@ extension CodeBuild {
     public func describeTestCasesPaginator(
         _ input: DescribeTestCasesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTestCasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTestCases, tokenKey: \DescribeTestCasesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeBuild {
     public func listBuildsPaginator(
         _ input: ListBuildsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBuilds, tokenKey: \ListBuildsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodeBuild {
     public func listBuildsForProjectPaginator(
         _ input: ListBuildsForProjectInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildsForProjectOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBuildsForProject, tokenKey: \ListBuildsForProjectOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodeBuild {
     public func listProjectsPaginator(
         _ input: ListProjectsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CodeBuild {
     public func listReportGroupsPaginator(
         _ input: ListReportGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReportGroups, tokenKey: \ListReportGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CodeBuild {
     public func listReportsPaginator(
         _ input: ListReportsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReports, tokenKey: \ListReportsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension CodeBuild {
     public func listReportsForReportGroupPaginator(
         _ input: ListReportsForReportGroupInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportsForReportGroupOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReportsForReportGroup, tokenKey: \ListReportsForReportGroupOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension CodeBuild {
     public func listSharedProjectsPaginator(
         _ input: ListSharedProjectsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSharedProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSharedProjects, tokenKey: \ListSharedProjectsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension CodeBuild {
     public func listSharedReportGroupsPaginator(
         _ input: ListSharedReportGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSharedReportGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSharedReportGroups, tokenKey: \ListSharedReportGroupsOutput.nextToken, on: eventLoop, onPage: onPage)

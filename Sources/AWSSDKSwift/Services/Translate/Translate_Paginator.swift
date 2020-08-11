@@ -24,7 +24,6 @@ extension Translate {
     public func listTerminologiesPaginator(
         _ input: ListTerminologiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTerminologiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTerminologies, tokenKey: \ListTerminologiesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Translate {
     public func listTextTranslationJobsPaginator(
         _ input: ListTextTranslationJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTextTranslationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTextTranslationJobs, tokenKey: \ListTextTranslationJobsResponse.nextToken, on: eventLoop, onPage: onPage)

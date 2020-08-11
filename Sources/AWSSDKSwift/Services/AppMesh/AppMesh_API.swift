@@ -33,12 +33,12 @@ AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy to mo
                for Services and Pods in the Kubernetes documentation.
          
 */
-public struct AppMesh {
+public struct AppMesh: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -57,16 +57,20 @@ public struct AppMesh {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "appmesh",
             serviceProtocol: .restjson,
             apiVersion: "2019-01-25",
             endpoint: endpoint,
-            possibleErrorTypes: [AppMeshErrorType.self],
+            errorType: AppMeshErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
@@ -77,16 +81,16 @@ public struct AppMesh {
     ///           create virtual services, virtual nodes, virtual routers, and routes to distribute traffic
     ///           between the applications in your mesh.
     ///           For more information about service meshes, see Service meshes.
-    public func createMesh(_ input: CreateMeshInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMeshOutput> {
-        return client.execute(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMesh(_ input: CreateMeshInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeshOutput> {
+        return client.execute(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a route that is associated with a virtual router.
     ///            You can route several different protocols and define a retry policy for a route.
     ///           Traffic can be routed to one or more virtual nodes.
     ///           For more information about routes, see Routes.
-    public func createRoute(_ input: CreateRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRouteOutput> {
-        return client.execute(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createRoute(_ input: CreateRouteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRouteOutput> {
+        return client.execute(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a virtual node within a service mesh.
@@ -110,8 +114,8 @@ public struct AppMesh {
     ///                 APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
     ///           
     ///           For more information about virtual nodes, see Virtual nodes.
-    public func createVirtualNode(_ input: CreateVirtualNodeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVirtualNodeOutput> {
-        return client.execute(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createVirtualNode(_ input: CreateVirtualNodeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVirtualNodeOutput> {
+        return client.execute(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a virtual router within a service mesh.
@@ -121,8 +125,8 @@ public struct AppMesh {
     ///           create your virtual router, create and associate routes for your virtual router that direct
     ///           incoming requests to different virtual nodes.
     ///           For more information about virtual routers, see Virtual routers.
-    public func createVirtualRouter(_ input: CreateVirtualRouterInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVirtualRouterOutput> {
-        return client.execute(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createVirtualRouter(_ input: CreateVirtualRouterInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVirtualRouterOutput> {
+        return client.execute(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a virtual service within a service mesh.
@@ -132,131 +136,138 @@ public struct AppMesh {
     ///           virtual node or virtual router that is specified as the provider for the virtual
     ///           service.
     ///           For more information about virtual services, see Virtual services.
-    public func createVirtualService(_ input: CreateVirtualServiceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVirtualServiceOutput> {
-        return client.execute(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createVirtualService(_ input: CreateVirtualServiceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVirtualServiceOutput> {
+        return client.execute(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing service mesh.
     ///           You must delete all resources (virtual services, routes, virtual routers, and virtual
     ///           nodes) in the service mesh before you can delete the mesh itself.
-    public func deleteMesh(_ input: DeleteMeshInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMeshOutput> {
-        return client.execute(operation: "DeleteMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteMesh(_ input: DeleteMeshInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMeshOutput> {
+        return client.execute(operation: "DeleteMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing route.
-    public func deleteRoute(_ input: DeleteRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRouteOutput> {
-        return client.execute(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteRoute(_ input: DeleteRouteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRouteOutput> {
+        return client.execute(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing virtual node.
     ///           You must delete any virtual services that list a virtual node as a service provider
     ///           before you can delete the virtual node itself.
-    public func deleteVirtualNode(_ input: DeleteVirtualNodeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteVirtualNodeOutput> {
-        return client.execute(operation: "DeleteVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteVirtualNode(_ input: DeleteVirtualNodeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVirtualNodeOutput> {
+        return client.execute(operation: "DeleteVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing virtual router.
     ///           You must delete any routes associated with the virtual router before you can delete the
     ///           router itself.
-    public func deleteVirtualRouter(_ input: DeleteVirtualRouterInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteVirtualRouterOutput> {
-        return client.execute(operation: "DeleteVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteVirtualRouter(_ input: DeleteVirtualRouterInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVirtualRouterOutput> {
+        return client.execute(operation: "DeleteVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing virtual service.
-    public func deleteVirtualService(_ input: DeleteVirtualServiceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteVirtualServiceOutput> {
-        return client.execute(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteVirtualService(_ input: DeleteVirtualServiceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVirtualServiceOutput> {
+        return client.execute(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes an existing service mesh.
-    public func describeMesh(_ input: DescribeMeshInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMeshOutput> {
-        return client.execute(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeMesh(_ input: DescribeMeshInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMeshOutput> {
+        return client.execute(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes an existing route.
-    public func describeRoute(_ input: DescribeRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRouteOutput> {
-        return client.execute(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRoute(_ input: DescribeRouteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRouteOutput> {
+        return client.execute(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes an existing virtual node.
-    public func describeVirtualNode(_ input: DescribeVirtualNodeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeVirtualNodeOutput> {
-        return client.execute(operation: "DescribeVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeVirtualNode(_ input: DescribeVirtualNodeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVirtualNodeOutput> {
+        return client.execute(operation: "DescribeVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes an existing virtual router.
-    public func describeVirtualRouter(_ input: DescribeVirtualRouterInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeVirtualRouterOutput> {
-        return client.execute(operation: "DescribeVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeVirtualRouter(_ input: DescribeVirtualRouterInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVirtualRouterOutput> {
+        return client.execute(operation: "DescribeVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes an existing virtual service.
-    public func describeVirtualService(_ input: DescribeVirtualServiceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeVirtualServiceOutput> {
-        return client.execute(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeVirtualService(_ input: DescribeVirtualServiceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVirtualServiceOutput> {
+        return client.execute(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of existing service meshes.
-    public func listMeshes(_ input: ListMeshesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMeshesOutput> {
-        return client.execute(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMeshes(_ input: ListMeshesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeshesOutput> {
+        return client.execute(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of existing routes in a service mesh.
-    public func listRoutes(_ input: ListRoutesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRoutesOutput> {
-        return client.execute(operation: "ListRoutes", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRoutes(_ input: ListRoutesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRoutesOutput> {
+        return client.execute(operation: "ListRoutes", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  List the tags for an App Mesh resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return client.execute(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return client.execute(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of existing virtual nodes.
-    public func listVirtualNodes(_ input: ListVirtualNodesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVirtualNodesOutput> {
-        return client.execute(operation: "ListVirtualNodes", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listVirtualNodes(_ input: ListVirtualNodesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVirtualNodesOutput> {
+        return client.execute(operation: "ListVirtualNodes", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of existing virtual routers in a service mesh.
-    public func listVirtualRouters(_ input: ListVirtualRoutersInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVirtualRoutersOutput> {
-        return client.execute(operation: "ListVirtualRouters", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listVirtualRouters(_ input: ListVirtualRoutersInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVirtualRoutersOutput> {
+        return client.execute(operation: "ListVirtualRouters", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of existing virtual services in a service mesh.
-    public func listVirtualServices(_ input: ListVirtualServicesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVirtualServicesOutput> {
-        return client.execute(operation: "ListVirtualServices", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listVirtualServices(_ input: ListVirtualServicesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVirtualServicesOutput> {
+        return client.execute(operation: "ListVirtualServices", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates the specified tags to a resource with the specified resourceArn.
     ///           If existing tags on a resource aren't specified in the request parameters, they aren't
     ///           changed. When a resource is deleted, the tags associated with that resource are also
     ///           deleted.
-    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceOutput> {
-        return client.execute(operation: "TagResource", path: "/v20190125/tag", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
+        return client.execute(operation: "TagResource", path: "/v20190125/tag", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes specified tags from a resource.
-    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceOutput> {
-        return client.execute(operation: "UntagResource", path: "/v20190125/untag", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
+        return client.execute(operation: "UntagResource", path: "/v20190125/untag", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing service mesh.
-    public func updateMesh(_ input: UpdateMeshInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMeshOutput> {
-        return client.execute(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMesh(_ input: UpdateMeshInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMeshOutput> {
+        return client.execute(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing route for a specified service mesh and virtual router.
-    public func updateRoute(_ input: UpdateRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRouteOutput> {
-        return client.execute(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateRoute(_ input: UpdateRouteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRouteOutput> {
+        return client.execute(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing virtual node in a specified service mesh.
-    public func updateVirtualNode(_ input: UpdateVirtualNodeInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVirtualNodeOutput> {
-        return client.execute(operation: "UpdateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateVirtualNode(_ input: UpdateVirtualNodeInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVirtualNodeOutput> {
+        return client.execute(operation: "UpdateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing virtual router in a specified service mesh.
-    public func updateVirtualRouter(_ input: UpdateVirtualRouterInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVirtualRouterOutput> {
-        return client.execute(operation: "UpdateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateVirtualRouter(_ input: UpdateVirtualRouterInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVirtualRouterOutput> {
+        return client.execute(operation: "UpdateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing virtual service in a specified service mesh.
-    public func updateVirtualService(_ input: UpdateVirtualServiceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVirtualServiceOutput> {
-        return client.execute(operation: "UpdateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateVirtualService(_ input: UpdateVirtualServiceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVirtualServiceOutput> {
+        return client.execute(operation: "UpdateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension AppMesh {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

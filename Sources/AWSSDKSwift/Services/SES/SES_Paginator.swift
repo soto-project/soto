@@ -24,7 +24,6 @@ extension SES {
     public func listCustomVerificationEmailTemplatesPaginator(
         _ input: ListCustomVerificationEmailTemplatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCustomVerificationEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCustomVerificationEmailTemplates, tokenKey: \ListCustomVerificationEmailTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SES {
     public func listIdentitiesPaginator(
         _ input: ListIdentitiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIdentitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIdentities, tokenKey: \ListIdentitiesResponse.nextToken, on: eventLoop, onPage: onPage)

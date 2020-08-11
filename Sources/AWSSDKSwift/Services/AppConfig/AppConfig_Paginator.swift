@@ -24,7 +24,6 @@ extension AppConfig {
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Applications, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplications, tokenKey: \Applications.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension AppConfig {
     public func listConfigurationProfilesPaginator(
         _ input: ListConfigurationProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ConfigurationProfiles, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurationProfiles, tokenKey: \ConfigurationProfiles.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension AppConfig {
     public func listDeploymentStrategiesPaginator(
         _ input: ListDeploymentStrategiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DeploymentStrategies, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentStrategies, tokenKey: \DeploymentStrategies.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension AppConfig {
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Deployments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeployments, tokenKey: \Deployments.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension AppConfig {
     public func listEnvironmentsPaginator(
         _ input: ListEnvironmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Environments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension AppConfig {
     public func listHostedConfigurationVersionsPaginator(
         _ input: ListHostedConfigurationVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (HostedConfigurationVersions, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHostedConfigurationVersions, tokenKey: \HostedConfigurationVersions.nextToken, on: eventLoop, onPage: onPage)

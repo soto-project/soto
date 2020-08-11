@@ -24,7 +24,6 @@ extension Signer {
     public func listSigningJobsPaginator(
         _ input: ListSigningJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSigningJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSigningJobs, tokenKey: \ListSigningJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Signer {
     public func listSigningPlatformsPaginator(
         _ input: ListSigningPlatformsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSigningPlatformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSigningPlatforms, tokenKey: \ListSigningPlatformsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Signer {
     public func listSigningProfilesPaginator(
         _ input: ListSigningProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSigningProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSigningProfiles, tokenKey: \ListSigningProfilesResponse.nextToken, on: eventLoop, onPage: onPage)

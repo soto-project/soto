@@ -24,7 +24,6 @@ extension ForecastService {
     public func listDatasetGroupsPaginator(
         _ input: ListDatasetGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatasetGroups, tokenKey: \ListDatasetGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ForecastService {
     public func listDatasetImportJobsPaginator(
         _ input: ListDatasetImportJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatasetImportJobs, tokenKey: \ListDatasetImportJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ForecastService {
     public func listDatasetsPaginator(
         _ input: ListDatasetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatasets, tokenKey: \ListDatasetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ForecastService {
     public func listForecastExportJobsPaginator(
         _ input: ListForecastExportJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListForecastExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listForecastExportJobs, tokenKey: \ListForecastExportJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ForecastService {
     public func listForecastsPaginator(
         _ input: ListForecastsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListForecastsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listForecasts, tokenKey: \ListForecastsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ForecastService {
     public func listPredictorsPaginator(
         _ input: ListPredictorsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPredictorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPredictors, tokenKey: \ListPredictorsResponse.nextToken, on: eventLoop, onPage: onPage)

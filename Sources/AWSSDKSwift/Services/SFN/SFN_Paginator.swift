@@ -24,7 +24,6 @@ extension SFN {
     public func getExecutionHistoryPaginator(
         _ input: GetExecutionHistoryInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetExecutionHistoryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getExecutionHistory, tokenKey: \GetExecutionHistoryOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SFN {
     public func listActivitiesPaginator(
         _ input: ListActivitiesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListActivitiesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listActivities, tokenKey: \ListActivitiesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SFN {
     public func listExecutionsPaginator(
         _ input: ListExecutionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listExecutions, tokenKey: \ListExecutionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SFN {
     public func listStateMachinesPaginator(
         _ input: ListStateMachinesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStateMachinesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStateMachines, tokenKey: \ListStateMachinesOutput.nextToken, on: eventLoop, onPage: onPage)

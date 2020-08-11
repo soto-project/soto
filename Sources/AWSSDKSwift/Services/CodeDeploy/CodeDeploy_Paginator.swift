@@ -24,7 +24,6 @@ extension CodeDeploy {
     public func listApplicationRevisionsPaginator(
         _ input: ListApplicationRevisionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationRevisionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplicationRevisions, tokenKey: \ListApplicationRevisionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeDeploy {
     public func listApplicationsPaginator(
         _ input: ListApplicationsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodeDeploy {
     public func listDeploymentConfigsPaginator(
         _ input: ListDeploymentConfigsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentConfigsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentConfigs, tokenKey: \ListDeploymentConfigsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodeDeploy {
     public func listDeploymentGroupsPaginator(
         _ input: ListDeploymentGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentGroups, tokenKey: \ListDeploymentGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -65,7 +61,6 @@ extension CodeDeploy {
     public func listDeploymentInstancesPaginator(
         _ input: ListDeploymentInstancesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentInstances, tokenKey: \ListDeploymentInstancesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -75,7 +70,6 @@ extension CodeDeploy {
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeployments, tokenKey: \ListDeploymentsOutput.nextToken, on: eventLoop, onPage: onPage)

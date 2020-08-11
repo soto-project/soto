@@ -24,7 +24,6 @@ extension Outposts {
     public func listOutpostsPaginator(
         _ input: ListOutpostsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOutpostsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOutposts, tokenKey: \ListOutpostsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Outposts {
     public func listSitesPaginator(
         _ input: ListSitesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSitesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSites, tokenKey: \ListSitesOutput.nextToken, on: eventLoop, onPage: onPage)

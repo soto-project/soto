@@ -21,12 +21,12 @@ Client object for interacting with AWS WorkMailMessageFlow service.
 
 The WorkMail Message Flow API provides access to email messages as they are being sent and received by a WorkMail organization.
 */
-public struct WorkMailMessageFlow {
+public struct WorkMailMessageFlow: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,22 +45,33 @@ public struct WorkMailMessageFlow {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "workmailmessageflow",
             serviceProtocol: .restjson,
             apiVersion: "2019-05-01",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkMailMessageFlowErrorType.self],
+            errorType: WorkMailMessageFlowErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Retrieves the raw content of an in-transit email message, in MIME format. 
-    public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRawMessageContentResponse> {
-        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRawMessageContentResponse> {
+        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension WorkMailMessageFlow {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

@@ -24,7 +24,6 @@ extension Glue {
     public func getClassifiersPaginator(
         _ input: GetClassifiersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetClassifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getClassifiers, tokenKey: \GetClassifiersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Glue {
     public func getConnectionsPaginator(
         _ input: GetConnectionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getConnections, tokenKey: \GetConnectionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Glue {
     public func getCrawlerMetricsPaginator(
         _ input: GetCrawlerMetricsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCrawlerMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCrawlerMetrics, tokenKey: \GetCrawlerMetricsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Glue {
     public func getCrawlersPaginator(
         _ input: GetCrawlersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCrawlersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCrawlers, tokenKey: \GetCrawlersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Glue {
     public func getDatabasesPaginator(
         _ input: GetDatabasesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDatabasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDatabases, tokenKey: \GetDatabasesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Glue {
     public func getDevEndpointsPaginator(
         _ input: GetDevEndpointsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDevEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDevEndpoints, tokenKey: \GetDevEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Glue {
     public func getJobRunsPaginator(
         _ input: GetJobRunsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetJobRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getJobRuns, tokenKey: \GetJobRunsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Glue {
     public func getJobsPaginator(
         _ input: GetJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getJobs, tokenKey: \GetJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Glue {
     public func getMLTaskRunsPaginator(
         _ input: GetMLTaskRunsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMLTaskRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getMLTaskRuns, tokenKey: \GetMLTaskRunsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Glue {
     public func getMLTransformsPaginator(
         _ input: GetMLTransformsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMLTransformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getMLTransforms, tokenKey: \GetMLTransformsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension Glue {
     public func getPartitionsPaginator(
         _ input: GetPartitionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetPartitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getPartitions, tokenKey: \GetPartitionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension Glue {
     public func getSecurityConfigurationsPaginator(
         _ input: GetSecurityConfigurationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSecurityConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSecurityConfigurations, tokenKey: \GetSecurityConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension Glue {
     public func getTableVersionsPaginator(
         _ input: GetTableVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTableVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTableVersions, tokenKey: \GetTableVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension Glue {
     public func getTablesPaginator(
         _ input: GetTablesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTablesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTables, tokenKey: \GetTablesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension Glue {
     public func getTriggersPaginator(
         _ input: GetTriggersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTriggersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTriggers, tokenKey: \GetTriggersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension Glue {
     public func getUserDefinedFunctionsPaginator(
         _ input: GetUserDefinedFunctionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUserDefinedFunctionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getUserDefinedFunctions, tokenKey: \GetUserDefinedFunctionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension Glue {
     public func getWorkflowRunsPaginator(
         _ input: GetWorkflowRunsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetWorkflowRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getWorkflowRuns, tokenKey: \GetWorkflowRunsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension Glue {
     public func listCrawlersPaginator(
         _ input: ListCrawlersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCrawlersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCrawlers, tokenKey: \ListCrawlersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -204,7 +186,6 @@ extension Glue {
     public func listDevEndpointsPaginator(
         _ input: ListDevEndpointsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDevEndpoints, tokenKey: \ListDevEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -214,7 +195,6 @@ extension Glue {
     public func listJobsPaginator(
         _ input: ListJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -224,7 +204,6 @@ extension Glue {
     public func listMLTransformsPaginator(
         _ input: ListMLTransformsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMLTransformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMLTransforms, tokenKey: \ListMLTransformsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -234,7 +213,6 @@ extension Glue {
     public func listTriggersPaginator(
         _ input: ListTriggersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTriggersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTriggers, tokenKey: \ListTriggersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -244,7 +222,6 @@ extension Glue {
     public func listWorkflowsPaginator(
         _ input: ListWorkflowsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkflowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkflows, tokenKey: \ListWorkflowsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -254,7 +231,6 @@ extension Glue {
     public func searchTablesPaginator(
         _ input: SearchTablesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchTablesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchTables, tokenKey: \SearchTablesResponse.nextToken, on: eventLoop, onPage: onPage)

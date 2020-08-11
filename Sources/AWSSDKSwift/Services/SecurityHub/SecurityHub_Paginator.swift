@@ -24,7 +24,6 @@ extension SecurityHub {
     public func describeActionTargetsPaginator(
         _ input: DescribeActionTargetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeActionTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SecurityHub {
     public func describeProductsPaginator(
         _ input: DescribeProductsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeProductsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SecurityHub {
     public func describeStandardsPaginator(
         _ input: DescribeStandardsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStandardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStandards, tokenKey: \DescribeStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SecurityHub {
     public func describeStandardsControlsPaginator(
         _ input: DescribeStandardsControlsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStandardsControlsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStandardsControls, tokenKey: \DescribeStandardsControlsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension SecurityHub {
     public func getEnabledStandardsPaginator(
         _ input: GetEnabledStandardsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetEnabledStandardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getEnabledStandards, tokenKey: \GetEnabledStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension SecurityHub {
     public func getFindingsPaginator(
         _ input: GetFindingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension SecurityHub {
     public func getInsightsPaginator(
         _ input: GetInsightsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension SecurityHub {
     public func listEnabledProductsForImportPaginator(
         _ input: ListEnabledProductsForImportRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEnabledProductsForImportResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension SecurityHub {
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension SecurityHub {
     public func listMembersPaginator(
         _ input: ListMembersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)

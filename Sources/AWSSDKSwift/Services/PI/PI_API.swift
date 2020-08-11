@@ -21,12 +21,12 @@ Client object for interacting with AWS PI service.
 
 AWS Performance Insights enables you to monitor and explore different dimensions of database load based on data captured from a running RDS instance. The guide provides detailed information about Performance Insights data types, parameters and errors. For more information about Performance Insights capabilities see Using Amazon RDS Performance Insights  in the Amazon RDS User Guide.  The AWS Performance Insights API provides visibility into the performance of your RDS instance, when Performance Insights is enabled for supported engine types. While Amazon CloudWatch provides the authoritative source for AWS service vended monitoring metrics, AWS Performance Insights offers a domain-specific view of database load measured as Average Active Sessions and provided to API consumers as a 2-dimensional time-series dataset. The time dimension of the data provides DB load data for each time point in the queried time range, and each time point decomposes overall load in relation to the requested dimensions, such as SQL, Wait-event, User or Host, measured at that time point.
 */
-public struct PI {
+public struct PI: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct PI {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "PerformanceInsightsv20180227",
@@ -53,20 +53,31 @@ public struct PI {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-02-27",
             endpoint: endpoint,
-            possibleErrorTypes: [PIErrorType.self],
+            errorType: PIErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.
-    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
+        return client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
-    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourceMetricsResponse> {
-        return client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceMetricsResponse> {
+        return client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension PI {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

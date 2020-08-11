@@ -24,7 +24,6 @@ extension Rekognition {
     public func describeProjectVersionsPaginator(
         _ input: DescribeProjectVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeProjectVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeProjectVersions, tokenKey: \DescribeProjectVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Rekognition {
     public func describeProjectsPaginator(
         _ input: DescribeProjectsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeProjects, tokenKey: \DescribeProjectsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Rekognition {
     public func getCelebrityRecognitionPaginator(
         _ input: GetCelebrityRecognitionRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCelebrityRecognitionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCelebrityRecognition, tokenKey: \GetCelebrityRecognitionResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Rekognition {
     public func getContentModerationPaginator(
         _ input: GetContentModerationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetContentModerationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getContentModeration, tokenKey: \GetContentModerationResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Rekognition {
     public func getFaceDetectionPaginator(
         _ input: GetFaceDetectionRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFaceDetectionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getFaceDetection, tokenKey: \GetFaceDetectionResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Rekognition {
     public func getFaceSearchPaginator(
         _ input: GetFaceSearchRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFaceSearchResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getFaceSearch, tokenKey: \GetFaceSearchResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Rekognition {
     public func getLabelDetectionPaginator(
         _ input: GetLabelDetectionRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLabelDetectionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getLabelDetection, tokenKey: \GetLabelDetectionResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Rekognition {
     public func getPersonTrackingPaginator(
         _ input: GetPersonTrackingRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetPersonTrackingResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getPersonTracking, tokenKey: \GetPersonTrackingResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Rekognition {
     public func getSegmentDetectionPaginator(
         _ input: GetSegmentDetectionRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSegmentDetectionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSegmentDetection, tokenKey: \GetSegmentDetectionResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Rekognition {
     public func getTextDetectionPaginator(
         _ input: GetTextDetectionRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTextDetectionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTextDetection, tokenKey: \GetTextDetectionResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension Rekognition {
     public func listCollectionsPaginator(
         _ input: ListCollectionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCollectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCollections, tokenKey: \ListCollectionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension Rekognition {
     public func listFacesPaginator(
         _ input: ListFacesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFacesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFaces, tokenKey: \ListFacesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension Rekognition {
     public func listStreamProcessorsPaginator(
         _ input: ListStreamProcessorsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamProcessorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStreamProcessors, tokenKey: \ListStreamProcessorsResponse.nextToken, on: eventLoop, onPage: onPage)

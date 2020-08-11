@@ -24,7 +24,6 @@ extension IAM {
     public func getAccountAuthorizationDetailsPaginator(
         _ input: GetAccountAuthorizationDetailsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAccountAuthorizationDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAccountAuthorizationDetails, tokenKey: \GetAccountAuthorizationDetailsResponse.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension IAM {
     public func getGroupPaginator(
         _ input: GetGroupRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetGroupResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getGroup, tokenKey: \GetGroupResponse.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension IAM {
     public func listAccessKeysPaginator(
         _ input: ListAccessKeysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccessKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccessKeys, tokenKey: \ListAccessKeysResponse.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension IAM {
     public func listAccountAliasesPaginator(
         _ input: ListAccountAliasesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccountAliases, tokenKey: \ListAccountAliasesResponse.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension IAM {
     public func listAttachedGroupPoliciesPaginator(
         _ input: ListAttachedGroupPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttachedGroupPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttachedGroupPolicies, tokenKey: \ListAttachedGroupPoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension IAM {
     public func listAttachedRolePoliciesPaginator(
         _ input: ListAttachedRolePoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttachedRolePoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttachedRolePolicies, tokenKey: \ListAttachedRolePoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension IAM {
     public func listAttachedUserPoliciesPaginator(
         _ input: ListAttachedUserPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttachedUserPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttachedUserPolicies, tokenKey: \ListAttachedUserPoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension IAM {
     public func listEntitiesForPolicyPaginator(
         _ input: ListEntitiesForPolicyRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitiesForPolicyResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEntitiesForPolicy, tokenKey: \ListEntitiesForPolicyResponse.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension IAM {
     public func listGroupPoliciesPaginator(
         _ input: ListGroupPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroupPolicies, tokenKey: \ListGroupPoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension IAM {
     public func listGroupsPaginator(
         _ input: ListGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsResponse.marker, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension IAM {
     public func listGroupsForUserPaginator(
         _ input: ListGroupsForUserRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsForUserResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroupsForUser, tokenKey: \ListGroupsForUserResponse.marker, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension IAM {
     public func listInstanceProfilesPaginator(
         _ input: ListInstanceProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInstanceProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInstanceProfiles, tokenKey: \ListInstanceProfilesResponse.marker, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension IAM {
     public func listInstanceProfilesForRolePaginator(
         _ input: ListInstanceProfilesForRoleRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInstanceProfilesForRoleResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInstanceProfilesForRole, tokenKey: \ListInstanceProfilesForRoleResponse.marker, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension IAM {
     public func listMFADevicesPaginator(
         _ input: ListMFADevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMFADevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMFADevices, tokenKey: \ListMFADevicesResponse.marker, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension IAM {
     public func listPoliciesPaginator(
         _ input: ListPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicies, tokenKey: \ListPoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension IAM {
     public func listPolicyVersionsPaginator(
         _ input: ListPolicyVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPolicyVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicyVersions, tokenKey: \ListPolicyVersionsResponse.marker, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension IAM {
     public func listRolePoliciesPaginator(
         _ input: ListRolePoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRolePoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRolePolicies, tokenKey: \ListRolePoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension IAM {
     public func listRolesPaginator(
         _ input: ListRolesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRolesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoles, tokenKey: \ListRolesResponse.marker, on: eventLoop, onPage: onPage)
@@ -204,7 +186,6 @@ extension IAM {
     public func listSSHPublicKeysPaginator(
         _ input: ListSSHPublicKeysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSSHPublicKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSSHPublicKeys, tokenKey: \ListSSHPublicKeysResponse.marker, on: eventLoop, onPage: onPage)
@@ -214,7 +195,6 @@ extension IAM {
     public func listServerCertificatesPaginator(
         _ input: ListServerCertificatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServerCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServerCertificates, tokenKey: \ListServerCertificatesResponse.marker, on: eventLoop, onPage: onPage)
@@ -224,7 +204,6 @@ extension IAM {
     public func listSigningCertificatesPaginator(
         _ input: ListSigningCertificatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSigningCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSigningCertificates, tokenKey: \ListSigningCertificatesResponse.marker, on: eventLoop, onPage: onPage)
@@ -234,7 +213,6 @@ extension IAM {
     public func listUserPoliciesPaginator(
         _ input: ListUserPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUserPolicies, tokenKey: \ListUserPoliciesResponse.marker, on: eventLoop, onPage: onPage)
@@ -244,7 +222,6 @@ extension IAM {
     public func listUsersPaginator(
         _ input: ListUsersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.marker, on: eventLoop, onPage: onPage)
@@ -254,7 +231,6 @@ extension IAM {
     public func listVirtualMFADevicesPaginator(
         _ input: ListVirtualMFADevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualMFADevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVirtualMFADevices, tokenKey: \ListVirtualMFADevicesResponse.marker, on: eventLoop, onPage: onPage)
@@ -264,7 +240,6 @@ extension IAM {
     public func simulateCustomPolicyPaginator(
         _ input: SimulateCustomPolicyRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SimulatePolicyResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: simulateCustomPolicy, tokenKey: \SimulatePolicyResponse.marker, on: eventLoop, onPage: onPage)
@@ -274,7 +249,6 @@ extension IAM {
     public func simulatePrincipalPolicyPaginator(
         _ input: SimulatePrincipalPolicyRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SimulatePolicyResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: simulatePrincipalPolicy, tokenKey: \SimulatePolicyResponse.marker, on: eventLoop, onPage: onPage)

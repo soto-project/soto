@@ -24,7 +24,6 @@ extension AccessAnalyzer {
     public func listAnalyzedResourcesPaginator(
         _ input: ListAnalyzedResourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAnalyzedResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAnalyzedResources, tokenKey: \ListAnalyzedResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension AccessAnalyzer {
     public func listAnalyzersPaginator(
         _ input: ListAnalyzersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAnalyzersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAnalyzers, tokenKey: \ListAnalyzersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension AccessAnalyzer {
     public func listArchiveRulesPaginator(
         _ input: ListArchiveRulesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListArchiveRulesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listArchiveRules, tokenKey: \ListArchiveRulesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension AccessAnalyzer {
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)

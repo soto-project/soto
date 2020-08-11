@@ -24,7 +24,6 @@ extension Athena {
     public func getQueryResultsPaginator(
         _ input: GetQueryResultsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetQueryResultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getQueryResults, tokenKey: \GetQueryResultsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Athena {
     public func listDataCatalogsPaginator(
         _ input: ListDataCatalogsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataCatalogsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataCatalogs, tokenKey: \ListDataCatalogsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Athena {
     public func listDatabasesPaginator(
         _ input: ListDatabasesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatabasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatabases, tokenKey: \ListDatabasesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Athena {
     public func listNamedQueriesPaginator(
         _ input: ListNamedQueriesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNamedQueriesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNamedQueries, tokenKey: \ListNamedQueriesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Athena {
     public func listQueryExecutionsPaginator(
         _ input: ListQueryExecutionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueryExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQueryExecutions, tokenKey: \ListQueryExecutionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Athena {
     public func listTableMetadataPaginator(
         _ input: ListTableMetadataInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTableMetadataOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTableMetadata, tokenKey: \ListTableMetadataOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Athena {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Athena {
     public func listWorkGroupsPaginator(
         _ input: ListWorkGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkGroups, tokenKey: \ListWorkGroupsOutput.nextToken, on: eventLoop, onPage: onPage)

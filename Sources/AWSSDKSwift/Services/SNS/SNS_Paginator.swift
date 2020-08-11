@@ -24,7 +24,6 @@ extension SNS {
     public func listEndpointsByPlatformApplicationPaginator(
         _ input: ListEndpointsByPlatformApplicationInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEndpointsByPlatformApplicationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEndpointsByPlatformApplication, tokenKey: \ListEndpointsByPlatformApplicationResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SNS {
     public func listPlatformApplicationsPaginator(
         _ input: ListPlatformApplicationsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlatformApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPlatformApplications, tokenKey: \ListPlatformApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SNS {
     public func listSubscriptionsPaginator(
         _ input: ListSubscriptionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSubscriptions, tokenKey: \ListSubscriptionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SNS {
     public func listSubscriptionsByTopicPaginator(
         _ input: ListSubscriptionsByTopicInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSubscriptionsByTopicResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSubscriptionsByTopic, tokenKey: \ListSubscriptionsByTopicResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension SNS {
     public func listTopicsPaginator(
         _ input: ListTopicsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTopicsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTopics, tokenKey: \ListTopicsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension ElastiCache {
     public func describeCacheClustersPaginator(
         _ input: DescribeCacheClustersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheClusters, tokenKey: \CacheClusterMessage.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ElastiCache {
     public func describeCacheEngineVersionsPaginator(
         _ input: DescribeCacheEngineVersionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheEngineVersions, tokenKey: \CacheEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ElastiCache {
     public func describeCacheParameterGroupsPaginator(
         _ input: DescribeCacheParameterGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheParameterGroups, tokenKey: \CacheParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ElastiCache {
     public func describeCacheParametersPaginator(
         _ input: DescribeCacheParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheParameters, tokenKey: \CacheParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ElastiCache {
     public func describeCacheSecurityGroupsPaginator(
         _ input: DescribeCacheSecurityGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheSecurityGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheSecurityGroups, tokenKey: \CacheSecurityGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ElastiCache {
     public func describeCacheSubnetGroupsPaginator(
         _ input: DescribeCacheSubnetGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheSubnetGroups, tokenKey: \CacheSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension ElastiCache {
     public func describeEngineDefaultParametersPaginator(
         _ input: DescribeEngineDefaultParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension ElastiCache {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension ElastiCache {
     public func describeGlobalReplicationGroupsPaginator(
         _ input: DescribeGlobalReplicationGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeGlobalReplicationGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeGlobalReplicationGroups, tokenKey: \DescribeGlobalReplicationGroupsResult.marker, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension ElastiCache {
     public func describeReplicationGroupsPaginator(
         _ input: DescribeReplicationGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReplicationGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationGroups, tokenKey: \ReplicationGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension ElastiCache {
     public func describeReservedCacheNodesPaginator(
         _ input: DescribeReservedCacheNodesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedCacheNodeMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedCacheNodes, tokenKey: \ReservedCacheNodeMessage.marker, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension ElastiCache {
     public func describeReservedCacheNodesOfferingsPaginator(
         _ input: DescribeReservedCacheNodesOfferingsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedCacheNodesOfferingMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedCacheNodesOfferings, tokenKey: \ReservedCacheNodesOfferingMessage.marker, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension ElastiCache {
     public func describeServiceUpdatesPaginator(
         _ input: DescribeServiceUpdatesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ServiceUpdatesMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeServiceUpdates, tokenKey: \ServiceUpdatesMessage.marker, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension ElastiCache {
     public func describeSnapshotsPaginator(
         _ input: DescribeSnapshotsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSnapshotsListMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSnapshots, tokenKey: \DescribeSnapshotsListMessage.marker, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension ElastiCache {
     public func describeUpdateActionsPaginator(
         _ input: DescribeUpdateActionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UpdateActionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeUpdateActions, tokenKey: \UpdateActionsMessage.marker, on: eventLoop, onPage: onPage)

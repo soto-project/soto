@@ -24,7 +24,6 @@ extension Kendra {
     public func listDataSourceSyncJobsPaginator(
         _ input: ListDataSourceSyncJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourceSyncJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSourceSyncJobs, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Kendra {
     public func listDataSourcesPaginator(
         _ input: ListDataSourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Kendra {
     public func listIndicesPaginator(
         _ input: ListIndicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIndicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIndices, tokenKey: \ListIndicesResponse.nextToken, on: eventLoop, onPage: onPage)

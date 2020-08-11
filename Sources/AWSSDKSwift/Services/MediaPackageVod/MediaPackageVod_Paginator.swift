@@ -24,7 +24,6 @@ extension MediaPackageVod {
     public func listAssetsPaginator(
         _ input: ListAssetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MediaPackageVod {
     public func listPackagingConfigurationsPaginator(
         _ input: ListPackagingConfigurationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagingConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension MediaPackageVod {
     public func listPackagingGroupsPaginator(
         _ input: ListPackagingGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagingGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPackagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)

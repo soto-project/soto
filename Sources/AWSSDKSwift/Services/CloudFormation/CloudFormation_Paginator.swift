@@ -24,7 +24,6 @@ extension CloudFormation {
     public func describeAccountLimitsPaginator(
         _ input: DescribeAccountLimitsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAccountLimitsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAccountLimits, tokenKey: \DescribeAccountLimitsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CloudFormation {
     public func describeStackEventsPaginator(
         _ input: DescribeStackEventsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStackEventsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStackEvents, tokenKey: \DescribeStackEventsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CloudFormation {
     public func describeStackResourceDriftsPaginator(
         _ input: DescribeStackResourceDriftsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStackResourceDriftsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStackResourceDrifts, tokenKey: \DescribeStackResourceDriftsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CloudFormation {
     public func describeStacksPaginator(
         _ input: DescribeStacksInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStacksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStacks, tokenKey: \DescribeStacksOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CloudFormation {
     public func listChangeSetsPaginator(
         _ input: ListChangeSetsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChangeSetsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChangeSets, tokenKey: \ListChangeSetsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CloudFormation {
     public func listExportsPaginator(
         _ input: ListExportsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListExportsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listExports, tokenKey: \ListExportsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension CloudFormation {
     public func listImportsPaginator(
         _ input: ListImportsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImportsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImports, tokenKey: \ListImportsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension CloudFormation {
     public func listStackInstancesPaginator(
         _ input: ListStackInstancesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStackInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStackInstances, tokenKey: \ListStackInstancesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension CloudFormation {
     public func listStackResourcesPaginator(
         _ input: ListStackResourcesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStackResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStackResources, tokenKey: \ListStackResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension CloudFormation {
     public func listStackSetOperationResultsPaginator(
         _ input: ListStackSetOperationResultsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStackSetOperationResultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStackSetOperationResults, tokenKey: \ListStackSetOperationResultsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension CloudFormation {
     public func listStackSetOperationsPaginator(
         _ input: ListStackSetOperationsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStackSetOperationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStackSetOperations, tokenKey: \ListStackSetOperationsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension CloudFormation {
     public func listStackSetsPaginator(
         _ input: ListStackSetsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStackSetsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStackSets, tokenKey: \ListStackSetsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension CloudFormation {
     public func listStacksPaginator(
         _ input: ListStacksInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStacksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStacks, tokenKey: \ListStacksOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension CloudFormation {
     public func listTypeRegistrationsPaginator(
         _ input: ListTypeRegistrationsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTypeRegistrationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypeRegistrations, tokenKey: \ListTypeRegistrationsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension CloudFormation {
     public func listTypeVersionsPaginator(
         _ input: ListTypeVersionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTypeVersionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypeVersions, tokenKey: \ListTypeVersionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension CloudFormation {
     public func listTypesPaginator(
         _ input: ListTypesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTypesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypes, tokenKey: \ListTypesOutput.nextToken, on: eventLoop, onPage: onPage)

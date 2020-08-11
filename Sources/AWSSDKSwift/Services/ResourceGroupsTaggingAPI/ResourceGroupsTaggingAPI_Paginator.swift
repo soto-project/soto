@@ -24,7 +24,6 @@ extension ResourceGroupsTaggingAPI {
     public func getComplianceSummaryPaginator(
         _ input: GetComplianceSummaryInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetComplianceSummaryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getComplianceSummary, tokenKey: \GetComplianceSummaryOutput.paginationToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ResourceGroupsTaggingAPI {
     public func getResourcesPaginator(
         _ input: GetResourcesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResources, tokenKey: \GetResourcesOutput.paginationToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ResourceGroupsTaggingAPI {
     public func getTagKeysPaginator(
         _ input: GetTagKeysInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTagKeysOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTagKeys, tokenKey: \GetTagKeysOutput.paginationToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ResourceGroupsTaggingAPI {
     public func getTagValuesPaginator(
         _ input: GetTagValuesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTagValuesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTagValues, tokenKey: \GetTagValuesOutput.paginationToken, on: eventLoop, onPage: onPage)

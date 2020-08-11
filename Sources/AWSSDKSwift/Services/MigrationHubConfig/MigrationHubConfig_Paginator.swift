@@ -24,7 +24,6 @@ extension MigrationHubConfig {
     public func describeHomeRegionControlsPaginator(
         _ input: DescribeHomeRegionControlsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeHomeRegionControlsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHomeRegionControls, tokenKey: \DescribeHomeRegionControlsResult.nextToken, on: eventLoop, onPage: onPage)

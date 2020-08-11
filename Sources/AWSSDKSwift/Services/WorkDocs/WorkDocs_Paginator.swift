@@ -24,7 +24,6 @@ extension WorkDocs {
     public func describeDocumentVersionsPaginator(
         _ input: DescribeDocumentVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDocumentVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDocumentVersions, tokenKey: \DescribeDocumentVersionsResponse.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension WorkDocs {
     public func describeFolderContentsPaginator(
         _ input: DescribeFolderContentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFolderContentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeFolderContents, tokenKey: \DescribeFolderContentsResponse.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension WorkDocs {
     public func describeUsersPaginator(
         _ input: DescribeUsersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeUsers, tokenKey: \DescribeUsersResponse.marker, on: eventLoop, onPage: onPage)

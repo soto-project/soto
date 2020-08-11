@@ -24,7 +24,6 @@ extension StorageGateway {
     public func describeTapeArchivesPaginator(
         _ input: DescribeTapeArchivesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTapeArchivesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTapeArchives, tokenKey: \DescribeTapeArchivesOutput.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension StorageGateway {
     public func describeTapeRecoveryPointsPaginator(
         _ input: DescribeTapeRecoveryPointsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTapeRecoveryPointsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTapeRecoveryPoints, tokenKey: \DescribeTapeRecoveryPointsOutput.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension StorageGateway {
     public func describeTapesPaginator(
         _ input: DescribeTapesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTapesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTapes, tokenKey: \DescribeTapesOutput.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension StorageGateway {
     public func describeVTLDevicesPaginator(
         _ input: DescribeVTLDevicesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVTLDevicesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVTLDevices, tokenKey: \DescribeVTLDevicesOutput.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension StorageGateway {
     public func listFileSharesPaginator(
         _ input: ListFileSharesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFileSharesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFileShares, tokenKey: \ListFileSharesOutput.nextMarker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension StorageGateway {
     public func listGatewaysPaginator(
         _ input: ListGatewaysInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewaysOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysOutput.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension StorageGateway {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension StorageGateway {
     public func listTapesPaginator(
         _ input: ListTapesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTapesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTapes, tokenKey: \ListTapesOutput.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension StorageGateway {
     public func listVolumesPaginator(
         _ input: ListVolumesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVolumesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVolumes, tokenKey: \ListVolumesOutput.marker, on: eventLoop, onPage: onPage)

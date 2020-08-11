@@ -24,7 +24,6 @@ extension DocDB {
     public func describeDBClustersPaginator(
         _ input: DescribeDBClustersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension DocDB {
     public func describeDBEngineVersionsPaginator(
         _ input: DescribeDBEngineVersionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension DocDB {
     public func describeDBInstancesPaginator(
         _ input: DescribeDBInstancesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension DocDB {
     public func describeDBSubnetGroupsPaginator(
         _ input: DescribeDBSubnetGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension DocDB {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension DocDB {
     public func describeOrderableDBInstanceOptionsPaginator(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)

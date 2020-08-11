@@ -24,7 +24,6 @@ extension LakeFormation {
     public func getEffectivePermissionsForPathPaginator(
         _ input: GetEffectivePermissionsForPathRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetEffectivePermissionsForPathResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getEffectivePermissionsForPath, tokenKey: \GetEffectivePermissionsForPathResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension LakeFormation {
     public func listPermissionsPaginator(
         _ input: ListPermissionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension LakeFormation {
     public func listResourcesPaginator(
         _ input: ListResourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, on: eventLoop, onPage: onPage)

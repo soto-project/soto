@@ -21,12 +21,12 @@ Client object for interacting with AWS GroundStation service.
 
 Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
 */
-public struct GroundStation {
+public struct GroundStation: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,142 +45,153 @@ public struct GroundStation {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "groundstation",
             serviceProtocol: .restjson,
             apiVersion: "2019-05-23",
             endpoint: endpoint,
-            possibleErrorTypes: [GroundStationErrorType.self],
+            errorType: GroundStationErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Cancels a contact with a specified contact ID.
-    public func cancelContact(_ input: CancelContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ContactIdResponse> {
-        return client.execute(operation: "CancelContact", path: "/contact/{contactId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelContact(_ input: CancelContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContactIdResponse> {
+        return client.execute(operation: "CancelContact", path: "/contact/{contactId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a Config with the specified configData parameters. Only one type of configData can be specified.
-    public func createConfig(_ input: CreateConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfigIdResponse> {
-        return client.execute(operation: "CreateConfig", path: "/config", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createConfig(_ input: CreateConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigIdResponse> {
+        return client.execute(operation: "CreateConfig", path: "/config", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
-    public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
-        return client.execute(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
+        return client.execute(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
-    public func createMissionProfile(_ input: CreateMissionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MissionProfileIdResponse> {
-        return client.execute(operation: "CreateMissionProfile", path: "/missionprofile", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMissionProfile(_ input: CreateMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MissionProfileIdResponse> {
+        return client.execute(operation: "CreateMissionProfile", path: "/missionprofile", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a Config.
-    public func deleteConfig(_ input: DeleteConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfigIdResponse> {
-        return client.execute(operation: "DeleteConfig", path: "/config/{configType}/{configId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteConfig(_ input: DeleteConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigIdResponse> {
+        return client.execute(operation: "DeleteConfig", path: "/config/{configType}/{configId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a dataflow endpoint group.
-    public func deleteDataflowEndpointGroup(_ input: DeleteDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
-        return client.execute(operation: "DeleteDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDataflowEndpointGroup(_ input: DeleteDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
+        return client.execute(operation: "DeleteDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a mission profile.
-    public func deleteMissionProfile(_ input: DeleteMissionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MissionProfileIdResponse> {
-        return client.execute(operation: "DeleteMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteMissionProfile(_ input: DeleteMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MissionProfileIdResponse> {
+        return client.execute(operation: "DeleteMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes an existing contact.
-    public func describeContact(_ input: DescribeContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeContactResponse> {
-        return client.execute(operation: "DescribeContact", path: "/contact/{contactId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeContact(_ input: DescribeContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContactResponse> {
+        return client.execute(operation: "DescribeContact", path: "/contact/{contactId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns Config information. Only one Config response can be returned.
-    public func getConfig(_ input: GetConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConfigResponse> {
-        return client.execute(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getConfig(_ input: GetConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigResponse> {
+        return client.execute(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the dataflow endpoint group.
-    public func getDataflowEndpointGroup(_ input: GetDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDataflowEndpointGroupResponse> {
-        return client.execute(operation: "GetDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDataflowEndpointGroup(_ input: GetDataflowEndpointGroupRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataflowEndpointGroupResponse> {
+        return client.execute(operation: "GetDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the number of minutes used by account.
-    public func getMinuteUsage(_ input: GetMinuteUsageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMinuteUsageResponse> {
-        return client.execute(operation: "GetMinuteUsage", path: "/minute-usage", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMinuteUsage(_ input: GetMinuteUsageRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMinuteUsageResponse> {
+        return client.execute(operation: "GetMinuteUsage", path: "/minute-usage", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a mission profile.
-    public func getMissionProfile(_ input: GetMissionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMissionProfileResponse> {
-        return client.execute(operation: "GetMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMissionProfile(_ input: GetMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMissionProfileResponse> {
+        return client.execute(operation: "GetMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a satellite.
-    public func getSatellite(_ input: GetSatelliteRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSatelliteResponse> {
-        return client.execute(operation: "GetSatellite", path: "/satellite/{satelliteId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSatellite(_ input: GetSatelliteRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSatelliteResponse> {
+        return client.execute(operation: "GetSatellite", path: "/satellite/{satelliteId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of Config objects.
-    public func listConfigs(_ input: ListConfigsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListConfigsResponse> {
-        return client.execute(operation: "ListConfigs", path: "/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listConfigs(_ input: ListConfigsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigsResponse> {
+        return client.execute(operation: "ListConfigs", path: "/config", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
-    public func listContacts(_ input: ListContactsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListContactsResponse> {
-        return client.execute(operation: "ListContacts", path: "/contacts", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listContacts(_ input: ListContactsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactsResponse> {
+        return client.execute(operation: "ListContacts", path: "/contacts", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of DataflowEndpoint groups.
-    public func listDataflowEndpointGroups(_ input: ListDataflowEndpointGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataflowEndpointGroupsResponse> {
-        return client.execute(operation: "ListDataflowEndpointGroups", path: "/dataflowEndpointGroup", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDataflowEndpointGroups(_ input: ListDataflowEndpointGroupsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataflowEndpointGroupsResponse> {
+        return client.execute(operation: "ListDataflowEndpointGroups", path: "/dataflowEndpointGroup", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of ground stations. 
-    public func listGroundStations(_ input: ListGroundStationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroundStationsResponse> {
-        return client.execute(operation: "ListGroundStations", path: "/groundstation", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listGroundStations(_ input: ListGroundStationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroundStationsResponse> {
+        return client.execute(operation: "ListGroundStations", path: "/groundstation", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of mission profiles.
-    public func listMissionProfiles(_ input: ListMissionProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMissionProfilesResponse> {
-        return client.execute(operation: "ListMissionProfiles", path: "/missionprofile", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMissionProfiles(_ input: ListMissionProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMissionProfilesResponse> {
+        return client.execute(operation: "ListMissionProfiles", path: "/missionprofile", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of satellites.
-    public func listSatellites(_ input: ListSatellitesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSatellitesResponse> {
-        return client.execute(operation: "ListSatellites", path: "/satellite", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSatellites(_ input: ListSatellitesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSatellitesResponse> {
+        return client.execute(operation: "ListSatellites", path: "/satellite", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of tags for a specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Reserves a contact using specified parameters.
-    public func reserveContact(_ input: ReserveContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ContactIdResponse> {
-        return client.execute(operation: "ReserveContact", path: "/contact", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func reserveContact(_ input: ReserveContactRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContactIdResponse> {
+        return client.execute(operation: "ReserveContact", path: "/contact", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Assigns a tag to a resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deassigns a resource tag.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
-    public func updateConfig(_ input: UpdateConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfigIdResponse> {
-        return client.execute(operation: "UpdateConfig", path: "/config/{configType}/{configId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateConfig(_ input: UpdateConfigRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigIdResponse> {
+        return client.execute(operation: "UpdateConfig", path: "/config/{configType}/{configId}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
-    public func updateMissionProfile(_ input: UpdateMissionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MissionProfileIdResponse> {
-        return client.execute(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMissionProfile(_ input: UpdateMissionProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MissionProfileIdResponse> {
+        return client.execute(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension GroundStation {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

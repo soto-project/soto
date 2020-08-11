@@ -24,7 +24,6 @@ extension Shield {
     public func listAttacksPaginator(
         _ input: ListAttacksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttacksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttacks, tokenKey: \ListAttacksResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Shield {
     public func listProtectionsPaginator(
         _ input: ListProtectionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProtectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProtections, tokenKey: \ListProtectionsResponse.nextToken, on: eventLoop, onPage: onPage)

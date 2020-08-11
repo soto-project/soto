@@ -24,7 +24,6 @@ extension Route53Domains {
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextPageMarker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Route53Domains {
     public func listOperationsPaginator(
         _ input: ListOperationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextPageMarker, on: eventLoop, onPage: onPage)

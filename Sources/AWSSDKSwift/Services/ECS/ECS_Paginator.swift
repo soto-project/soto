@@ -24,7 +24,6 @@ extension ECS {
     public func listAccountSettingsPaginator(
         _ input: ListAccountSettingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccountSettings, tokenKey: \ListAccountSettingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ECS {
     public func listAttributesPaginator(
         _ input: ListAttributesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttributes, tokenKey: \ListAttributesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ECS {
     public func listClustersPaginator(
         _ input: ListClustersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ECS {
     public func listContainerInstancesPaginator(
         _ input: ListContainerInstancesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContainerInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContainerInstances, tokenKey: \ListContainerInstancesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ECS {
     public func listServicesPaginator(
         _ input: ListServicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ECS {
     public func listTaskDefinitionFamiliesPaginator(
         _ input: ListTaskDefinitionFamiliesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTaskDefinitionFamiliesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTaskDefinitionFamilies, tokenKey: \ListTaskDefinitionFamiliesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension ECS {
     public func listTaskDefinitionsPaginator(
         _ input: ListTaskDefinitionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTaskDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTaskDefinitions, tokenKey: \ListTaskDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension ECS {
     public func listTasksPaginator(
         _ input: ListTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTasks, tokenKey: \ListTasksResponse.nextToken, on: eventLoop, onPage: onPage)

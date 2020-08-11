@@ -24,7 +24,6 @@ extension Polly {
     public func listSpeechSynthesisTasksPaginator(
         _ input: ListSpeechSynthesisTasksInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSpeechSynthesisTasksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSpeechSynthesisTasks, tokenKey: \ListSpeechSynthesisTasksOutput.nextToken, on: eventLoop, onPage: onPage)

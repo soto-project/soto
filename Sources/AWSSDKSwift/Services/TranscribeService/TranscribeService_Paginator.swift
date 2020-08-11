@@ -24,7 +24,6 @@ extension TranscribeService {
     public func listMedicalTranscriptionJobsPaginator(
         _ input: ListMedicalTranscriptionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMedicalTranscriptionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMedicalTranscriptionJobs, tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension TranscribeService {
     public func listMedicalVocabulariesPaginator(
         _ input: ListMedicalVocabulariesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMedicalVocabulariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMedicalVocabularies, tokenKey: \ListMedicalVocabulariesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension TranscribeService {
     public func listTranscriptionJobsPaginator(
         _ input: ListTranscriptionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTranscriptionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTranscriptionJobs, tokenKey: \ListTranscriptionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension TranscribeService {
     public func listVocabulariesPaginator(
         _ input: ListVocabulariesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVocabulariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVocabularies, tokenKey: \ListVocabulariesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension TranscribeService {
     public func listVocabularyFiltersPaginator(
         _ input: ListVocabularyFiltersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVocabularyFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVocabularyFilters, tokenKey: \ListVocabularyFiltersResponse.nextToken, on: eventLoop, onPage: onPage)

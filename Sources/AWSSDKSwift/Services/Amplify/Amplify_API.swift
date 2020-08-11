@@ -21,12 +21,12 @@ Client object for interacting with AWS Amplify service.
 
  Welcome to the AWS Amplify API documentation. This reference provides descriptions of the actions and data types for the Amplify API. Amplify enables developers to develop and deploy cloud-powered mobile and web apps. The Amplify Console provides a continuous delivery and hosting service for web applications. For more information, see the Amplify Console User Guide. The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the Amplify Framework. 
 */
-public struct Amplify {
+public struct Amplify: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,202 +45,213 @@ public struct Amplify {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "amplify",
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            possibleErrorTypes: [AmplifyErrorType.self],
+            errorType: AmplifyErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///   Creates a new Amplify app. 
-    public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAppResult> {
-        return client.execute(operation: "CreateApp", path: "/apps", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResult> {
+        return client.execute(operation: "CreateApp", path: "/apps", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Creates a new backend environment for an Amplify app. 
-    public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBackendEnvironmentResult> {
-        return client.execute(operation: "CreateBackendEnvironment", path: "/apps/{appId}/backendenvironments", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendEnvironmentResult> {
+        return client.execute(operation: "CreateBackendEnvironment", path: "/apps/{appId}/backendenvironments", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Creates a new branch for an Amplify app. 
-    public func createBranch(_ input: CreateBranchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBranchResult> {
-        return client.execute(operation: "CreateBranch", path: "/apps/{appId}/branches", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createBranch(_ input: CreateBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBranchResult> {
+        return client.execute(operation: "CreateBranch", path: "/apps/{appId}/branches", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository. 
-    public func createDeployment(_ input: CreateDeploymentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDeploymentResult> {
-        return client.execute(operation: "CreateDeployment", path: "/apps/{appId}/branches/{branchName}/deployments", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDeployment(_ input: CreateDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentResult> {
+        return client.execute(operation: "CreateDeployment", path: "/apps/{appId}/branches/{branchName}/deployments", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app 
-    public func createDomainAssociation(_ input: CreateDomainAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDomainAssociationResult> {
-        return client.execute(operation: "CreateDomainAssociation", path: "/apps/{appId}/domains", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDomainAssociation(_ input: CreateDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainAssociationResult> {
+        return client.execute(operation: "CreateDomainAssociation", path: "/apps/{appId}/domains", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Creates a new webhook on an Amplify app. 
-    public func createWebhook(_ input: CreateWebhookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWebhookResult> {
-        return client.execute(operation: "CreateWebhook", path: "/apps/{appId}/webhooks", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createWebhook(_ input: CreateWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWebhookResult> {
+        return client.execute(operation: "CreateWebhook", path: "/apps/{appId}/webhooks", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes an existing Amplify app specified by an app ID. 
-    public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAppResult> {
-        return client.execute(operation: "DeleteApp", path: "/apps/{appId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResult> {
+        return client.execute(operation: "DeleteApp", path: "/apps/{appId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes a backend environment for an Amplify app. 
-    public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBackendEnvironmentResult> {
-        return client.execute(operation: "DeleteBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendEnvironmentResult> {
+        return client.execute(operation: "DeleteBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes a branch for an Amplify app. 
-    public func deleteBranch(_ input: DeleteBranchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBranchResult> {
-        return client.execute(operation: "DeleteBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteBranch(_ input: DeleteBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBranchResult> {
+        return client.execute(operation: "DeleteBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes a domain association for an Amplify app. 
-    public func deleteDomainAssociation(_ input: DeleteDomainAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDomainAssociationResult> {
-        return client.execute(operation: "DeleteDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDomainAssociation(_ input: DeleteDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainAssociationResult> {
+        return client.execute(operation: "DeleteDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes a job for a branch of an Amplify app. 
-    public func deleteJob(_ input: DeleteJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteJobResult> {
-        return client.execute(operation: "DeleteJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteJob(_ input: DeleteJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobResult> {
+        return client.execute(operation: "DeleteJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes a webhook. 
-    public func deleteWebhook(_ input: DeleteWebhookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWebhookResult> {
-        return client.execute(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteWebhook(_ input: DeleteWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWebhookResult> {
+        return client.execute(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns the website access logs for a specific time range using a presigned URL. 
-    public func generateAccessLogs(_ input: GenerateAccessLogsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GenerateAccessLogsResult> {
-        return client.execute(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func generateAccessLogs(_ input: GenerateAccessLogsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateAccessLogsResult> {
+        return client.execute(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns an existing Amplify app by appID. 
-    public func getApp(_ input: GetAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAppResult> {
-        return client.execute(operation: "GetApp", path: "/apps/{appId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getApp(_ input: GetAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppResult> {
+        return client.execute(operation: "GetApp", path: "/apps/{appId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns the artifact info that corresponds to an artifact id. 
-    public func getArtifactUrl(_ input: GetArtifactUrlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetArtifactUrlResult> {
-        return client.execute(operation: "GetArtifactUrl", path: "/artifacts/{artifactId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getArtifactUrl(_ input: GetArtifactUrlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetArtifactUrlResult> {
+        return client.execute(operation: "GetArtifactUrl", path: "/artifacts/{artifactId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a backend environment for an Amplify app. 
-    public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackendEnvironmentResult> {
-        return client.execute(operation: "GetBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendEnvironmentResult> {
+        return client.execute(operation: "GetBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a branch for an Amplify app. 
-    public func getBranch(_ input: GetBranchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBranchResult> {
-        return client.execute(operation: "GetBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBranch(_ input: GetBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBranchResult> {
+        return client.execute(operation: "GetBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns the domain information for an Amplify app. 
-    public func getDomainAssociation(_ input: GetDomainAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDomainAssociationResult> {
-        return client.execute(operation: "GetDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDomainAssociation(_ input: GetDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainAssociationResult> {
+        return client.execute(operation: "GetDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a job for a branch of an Amplify app. 
-    public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobResult> {
-        return client.execute(operation: "GetJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobResult> {
+        return client.execute(operation: "GetJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns the webhook information that corresponds to a specified webhook ID. 
-    public func getWebhook(_ input: GetWebhookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetWebhookResult> {
-        return client.execute(operation: "GetWebhook", path: "/webhooks/{webhookId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getWebhook(_ input: GetWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWebhookResult> {
+        return client.execute(operation: "GetWebhook", path: "/webhooks/{webhookId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a list of the existing Amplify apps. 
-    public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAppsResult> {
-        return client.execute(operation: "ListApps", path: "/apps", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResult> {
+        return client.execute(operation: "ListApps", path: "/apps", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a list of artifacts for a specified app, branch, and job. 
-    public func listArtifacts(_ input: ListArtifactsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListArtifactsResult> {
-        return client.execute(operation: "ListArtifacts", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listArtifacts(_ input: ListArtifactsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListArtifactsResult> {
+        return client.execute(operation: "ListArtifacts", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Lists the backend environments for an Amplify app. 
-    public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackendEnvironmentsResult> {
-        return client.execute(operation: "ListBackendEnvironments", path: "/apps/{appId}/backendenvironments", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackendEnvironmentsResult> {
+        return client.execute(operation: "ListBackendEnvironments", path: "/apps/{appId}/backendenvironments", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Lists the branches of an Amplify app. 
-    public func listBranches(_ input: ListBranchesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBranchesResult> {
-        return client.execute(operation: "ListBranches", path: "/apps/{appId}/branches", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBranches(_ input: ListBranchesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBranchesResult> {
+        return client.execute(operation: "ListBranches", path: "/apps/{appId}/branches", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns the domain associations for an Amplify app. 
-    public func listDomainAssociations(_ input: ListDomainAssociationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainAssociationsResult> {
-        return client.execute(operation: "ListDomainAssociations", path: "/apps/{appId}/domains", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDomainAssociations(_ input: ListDomainAssociationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainAssociationsResult> {
+        return client.execute(operation: "ListDomainAssociations", path: "/apps/{appId}/domains", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Lists the jobs for a branch of an Amplify app. 
-    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobsResult> {
-        return client.execute(operation: "ListJobs", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResult> {
+        return client.execute(operation: "ListJobs", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a list of tags for a specified Amazon Resource Name (ARN). 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Returns a list of webhooks for an Amplify app. 
-    public func listWebhooks(_ input: ListWebhooksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWebhooksResult> {
-        return client.execute(operation: "ListWebhooks", path: "/apps/{appId}/webhooks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listWebhooks(_ input: ListWebhooksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWebhooksResult> {
+        return client.execute(operation: "ListWebhooks", path: "/apps/{appId}/webhooks", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository. 
-    public func startDeployment(_ input: StartDeploymentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartDeploymentResult> {
-        return client.execute(operation: "StartDeployment", path: "/apps/{appId}/branches/{branchName}/deployments/start", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startDeployment(_ input: StartDeploymentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeploymentResult> {
+        return client.execute(operation: "StartDeployment", path: "/apps/{appId}/branches/{branchName}/deployments/start", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Starts a new job for a branch of an Amplify app. 
-    public func startJob(_ input: StartJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartJobResult> {
-        return client.execute(operation: "StartJob", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startJob(_ input: StartJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobResult> {
+        return client.execute(operation: "StartJob", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Stops a job that is in progress for a branch of an Amplify app. 
-    public func stopJob(_ input: StopJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopJobResult> {
-        return client.execute(operation: "StopJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopJob(_ input: StopJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopJobResult> {
+        return client.execute(operation: "StopJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Tags the resource with a tag key and value. 
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Untags a resource with a specified Amazon Resource Name (ARN). 
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Updates an existing Amplify app. 
-    public func updateApp(_ input: UpdateAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAppResult> {
-        return client.execute(operation: "UpdateApp", path: "/apps/{appId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateApp(_ input: UpdateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppResult> {
+        return client.execute(operation: "UpdateApp", path: "/apps/{appId}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Updates a branch for an Amplify app. 
-    public func updateBranch(_ input: UpdateBranchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBranchResult> {
-        return client.execute(operation: "UpdateBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateBranch(_ input: UpdateBranchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBranchResult> {
+        return client.execute(operation: "UpdateBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Creates a new domain association for an Amplify app.
-    public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDomainAssociationResult> {
-        return client.execute(operation: "UpdateDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainAssociationResult> {
+        return client.execute(operation: "UpdateDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Updates a webhook. 
-    public func updateWebhook(_ input: UpdateWebhookRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateWebhookResult> {
-        return client.execute(operation: "UpdateWebhook", path: "/webhooks/{webhookId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateWebhook(_ input: UpdateWebhookRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWebhookResult> {
+        return client.execute(operation: "UpdateWebhook", path: "/webhooks/{webhookId}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension Amplify {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

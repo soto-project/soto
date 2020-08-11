@@ -21,12 +21,12 @@ Client object for interacting with AWS EBS service.
 
 You can use the Amazon Elastic Block Store (EBS) direct APIs to directly read the data on your EBS snapshots, and identify the difference between two snapshots. You can view the details of blocks in an EBS snapshot, compare the block difference between two snapshots, and directly access the data in a snapshot. If you’re an independent software vendor (ISV) who offers backup services for EBS, the EBS direct APIs make it easier and more cost-effective to track incremental changes on your EBS volumes via EBS snapshots. This can be done without having to create new volumes from EBS snapshots. This API reference provides detailed information about the actions, data types, parameters, and errors of the EBS direct APIs. For more information about the elements that make up the EBS direct APIs, and examples of how to use them effectively, see Accessing the Contents of an EBS Snapshot in the Amazon Elastic Compute Cloud User Guide. For more information about the supported AWS Regions, endpoints, and service quotas for the EBS direct APIs, see Amazon Elastic Block Store Endpoints and Quotas in the AWS General Reference.
 */
-public struct EBS {
+public struct EBS: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,39 +45,50 @@ public struct EBS {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "ebs",
             serviceProtocol: .restjson,
             apiVersion: "2019-11-02",
             endpoint: endpoint,
-            possibleErrorTypes: [EBSErrorType.self],
+            errorType: EBSErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
-    public func getSnapshotBlock(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSnapshotBlock(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSnapshotBlockResponse> {
+        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
-    public func listChangedBlocks(_ input: ListChangedBlocksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChangedBlocksResponse> {
-        return client.execute(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listChangedBlocks(_ input: ListChangedBlocksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChangedBlocksResponse> {
+        return client.execute(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
-    public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSnapshotBlocksResponse> {
-        return client.execute(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSnapshotBlocksResponse> {
+        return client.execute(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     //MARK: Streaming API Calls
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
-    public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger, stream: stream)
+    public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
+        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop, stream: stream)
+    }
+}
+
+extension EBS {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

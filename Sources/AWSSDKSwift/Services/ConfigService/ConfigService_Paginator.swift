@@ -24,7 +24,6 @@ extension ConfigService {
     public func describeRemediationExceptionsPaginator(
         _ input: DescribeRemediationExceptionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRemediationExceptionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeRemediationExceptions, tokenKey: \DescribeRemediationExceptionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ConfigService {
     public func describeRemediationExecutionStatusPaginator(
         _ input: DescribeRemediationExecutionStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRemediationExecutionStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeRemediationExecutionStatus, tokenKey: \DescribeRemediationExecutionStatusResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ConfigService {
     public func getResourceConfigHistoryPaginator(
         _ input: GetResourceConfigHistoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetResourceConfigHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceConfigHistory, tokenKey: \GetResourceConfigHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ConfigService {
     public func selectAggregateResourceConfigPaginator(
         _ input: SelectAggregateResourceConfigRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SelectAggregateResourceConfigResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: selectAggregateResourceConfig, tokenKey: \SelectAggregateResourceConfigResponse.nextToken, on: eventLoop, onPage: onPage)

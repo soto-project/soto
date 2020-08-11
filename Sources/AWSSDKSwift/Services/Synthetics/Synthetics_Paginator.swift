@@ -24,7 +24,6 @@ extension Synthetics {
     public func describeCanariesPaginator(
         _ input: DescribeCanariesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCanariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCanaries, tokenKey: \DescribeCanariesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Synthetics {
     public func describeCanariesLastRunPaginator(
         _ input: DescribeCanariesLastRunRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCanariesLastRunResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCanariesLastRun, tokenKey: \DescribeCanariesLastRunResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Synthetics {
     public func describeRuntimeVersionsPaginator(
         _ input: DescribeRuntimeVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRuntimeVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeRuntimeVersions, tokenKey: \DescribeRuntimeVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Synthetics {
     public func getCanaryRunsPaginator(
         _ input: GetCanaryRunsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCanaryRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCanaryRuns, tokenKey: \GetCanaryRunsResponse.nextToken, on: eventLoop, onPage: onPage)

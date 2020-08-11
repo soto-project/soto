@@ -24,7 +24,6 @@ extension CloudHSMV2 {
     public func describeBackupsPaginator(
         _ input: DescribeBackupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeBackupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeBackups, tokenKey: \DescribeBackupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CloudHSMV2 {
     public func describeClustersPaginator(
         _ input: DescribeClustersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusters, tokenKey: \DescribeClustersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CloudHSMV2 {
     public func listTagsPaginator(
         _ input: ListTagsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)

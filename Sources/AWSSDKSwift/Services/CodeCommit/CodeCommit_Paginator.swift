@@ -24,7 +24,6 @@ extension CodeCommit {
     public func describeMergeConflictsPaginator(
         _ input: DescribeMergeConflictsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMergeConflictsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeMergeConflicts, tokenKey: \DescribeMergeConflictsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeCommit {
     public func describePullRequestEventsPaginator(
         _ input: DescribePullRequestEventsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePullRequestEventsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePullRequestEvents, tokenKey: \DescribePullRequestEventsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodeCommit {
     public func getCommentReactionsPaginator(
         _ input: GetCommentReactionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCommentReactionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCommentReactions, tokenKey: \GetCommentReactionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodeCommit {
     public func getCommentsForComparedCommitPaginator(
         _ input: GetCommentsForComparedCommitInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCommentsForComparedCommitOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCommentsForComparedCommit, tokenKey: \GetCommentsForComparedCommitOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CodeCommit {
     public func getCommentsForPullRequestPaginator(
         _ input: GetCommentsForPullRequestInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCommentsForPullRequestOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCommentsForPullRequest, tokenKey: \GetCommentsForPullRequestOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CodeCommit {
     public func getDifferencesPaginator(
         _ input: GetDifferencesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDifferencesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDifferences, tokenKey: \GetDifferencesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension CodeCommit {
     public func getMergeConflictsPaginator(
         _ input: GetMergeConflictsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMergeConflictsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getMergeConflicts, tokenKey: \GetMergeConflictsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension CodeCommit {
     public func listApprovalRuleTemplatesPaginator(
         _ input: ListApprovalRuleTemplatesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApprovalRuleTemplatesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApprovalRuleTemplates, tokenKey: \ListApprovalRuleTemplatesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension CodeCommit {
     public func listAssociatedApprovalRuleTemplatesForRepositoryPaginator(
         _ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociatedApprovalRuleTemplatesForRepositoryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssociatedApprovalRuleTemplatesForRepository, tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension CodeCommit {
     public func listBranchesPaginator(
         _ input: ListBranchesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBranchesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBranches, tokenKey: \ListBranchesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension CodeCommit {
     public func listPullRequestsPaginator(
         _ input: ListPullRequestsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPullRequestsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPullRequests, tokenKey: \ListPullRequestsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension CodeCommit {
     public func listRepositoriesPaginator(
         _ input: ListRepositoriesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositories, tokenKey: \ListRepositoriesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension CodeCommit {
     public func listRepositoriesForApprovalRuleTemplatePaginator(
         _ input: ListRepositoriesForApprovalRuleTemplateInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesForApprovalRuleTemplateOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositoriesForApprovalRuleTemplate, tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken, on: eventLoop, onPage: onPage)

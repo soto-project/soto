@@ -24,7 +24,6 @@ extension IoTSecureTunneling {
     public func listTunnelsPaginator(
         _ input: ListTunnelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTunnelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTunnels, tokenKey: \ListTunnelsResponse.nextToken, on: eventLoop, onPage: onPage)

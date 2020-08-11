@@ -24,7 +24,6 @@ extension FraudDetector {
     public func describeModelVersionsPaginator(
         _ input: DescribeModelVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeModelVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeModelVersions, tokenKey: \DescribeModelVersionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension FraudDetector {
     public func getDetectorsPaginator(
         _ input: GetDetectorsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDetectorsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDetectors, tokenKey: \GetDetectorsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension FraudDetector {
     public func getExternalModelsPaginator(
         _ input: GetExternalModelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetExternalModelsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getExternalModels, tokenKey: \GetExternalModelsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension FraudDetector {
     public func getModelsPaginator(
         _ input: GetModelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetModelsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getModels, tokenKey: \GetModelsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension FraudDetector {
     public func getOutcomesPaginator(
         _ input: GetOutcomesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetOutcomesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getOutcomes, tokenKey: \GetOutcomesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension FraudDetector {
     public func getRulesPaginator(
         _ input: GetRulesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetRulesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getRules, tokenKey: \GetRulesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension FraudDetector {
     public func getVariablesPaginator(
         _ input: GetVariablesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetVariablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getVariables, tokenKey: \GetVariablesResult.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension SecretsManager {
     public func listSecretVersionIdsPaginator(
         _ input: ListSecretVersionIdsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSecretVersionIdsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSecretVersionIds, tokenKey: \ListSecretVersionIdsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SecretsManager {
     public func listSecretsPaginator(
         _ input: ListSecretsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSecretsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSecrets, tokenKey: \ListSecretsResponse.nextToken, on: eventLoop, onPage: onPage)

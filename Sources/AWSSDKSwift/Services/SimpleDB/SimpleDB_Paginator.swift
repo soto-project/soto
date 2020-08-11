@@ -24,7 +24,6 @@ extension SimpleDB {
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SimpleDB {
     public func selectPaginator(
         _ input: SelectRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SelectResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: select, tokenKey: \SelectResult.nextToken, on: eventLoop, onPage: onPage)

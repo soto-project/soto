@@ -24,7 +24,6 @@ extension CodeGuruReviewer {
     public func listCodeReviewsPaginator(
         _ input: ListCodeReviewsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCodeReviewsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCodeReviews, tokenKey: \ListCodeReviewsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeGuruReviewer {
     public func listRecommendationFeedbackPaginator(
         _ input: ListRecommendationFeedbackRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecommendationFeedbackResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRecommendationFeedback, tokenKey: \ListRecommendationFeedbackResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodeGuruReviewer {
     public func listRecommendationsPaginator(
         _ input: ListRecommendationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRecommendations, tokenKey: \ListRecommendationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodeGuruReviewer {
     public func listRepositoryAssociationsPaginator(
         _ input: ListRepositoryAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoryAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositoryAssociations, tokenKey: \ListRepositoryAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)

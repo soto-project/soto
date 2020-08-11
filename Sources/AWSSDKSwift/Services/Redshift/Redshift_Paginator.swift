@@ -24,7 +24,6 @@ extension Redshift {
     public func describeClusterParameterGroupsPaginator(
         _ input: DescribeClusterParameterGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusterParameterGroups, tokenKey: \ClusterParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Redshift {
     public func describeClusterParametersPaginator(
         _ input: DescribeClusterParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusterParameters, tokenKey: \ClusterParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Redshift {
     public func describeClusterSecurityGroupsPaginator(
         _ input: DescribeClusterSecurityGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClusterSecurityGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusterSecurityGroups, tokenKey: \ClusterSecurityGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Redshift {
     public func describeClusterSnapshotsPaginator(
         _ input: DescribeClusterSnapshotsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusterSnapshots, tokenKey: \SnapshotMessage.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Redshift {
     public func describeClusterSubnetGroupsPaginator(
         _ input: DescribeClusterSubnetGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClusterSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusterSubnetGroups, tokenKey: \ClusterSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Redshift {
     public func describeClusterVersionsPaginator(
         _ input: DescribeClusterVersionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClusterVersionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusterVersions, tokenKey: \ClusterVersionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Redshift {
     public func describeClustersPaginator(
         _ input: DescribeClustersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClustersMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusters, tokenKey: \ClustersMessage.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Redshift {
     public func describeDefaultClusterParametersPaginator(
         _ input: DescribeDefaultClusterParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDefaultClusterParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDefaultClusterParameters, tokenKey: \DescribeDefaultClusterParametersResult.defaultClusterParameters?.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Redshift {
     public func describeEventSubscriptionsPaginator(
         _ input: DescribeEventSubscriptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Redshift {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension Redshift {
     public func describeHsmClientCertificatesPaginator(
         _ input: DescribeHsmClientCertificatesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (HsmClientCertificateMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHsmClientCertificates, tokenKey: \HsmClientCertificateMessage.marker, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension Redshift {
     public func describeHsmConfigurationsPaginator(
         _ input: DescribeHsmConfigurationsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (HsmConfigurationMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHsmConfigurations, tokenKey: \HsmConfigurationMessage.marker, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension Redshift {
     public func describeNodeConfigurationOptionsPaginator(
         _ input: DescribeNodeConfigurationOptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (NodeConfigurationOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNodeConfigurationOptions, tokenKey: \NodeConfigurationOptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension Redshift {
     public func describeOrderableClusterOptionsPaginator(
         _ input: DescribeOrderableClusterOptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableClusterOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableClusterOptions, tokenKey: \OrderableClusterOptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension Redshift {
     public func describeReservedNodeOfferingsPaginator(
         _ input: DescribeReservedNodeOfferingsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedNodeOfferingsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedNodeOfferings, tokenKey: \ReservedNodeOfferingsMessage.marker, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension Redshift {
     public func describeReservedNodesPaginator(
         _ input: DescribeReservedNodesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedNodesMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedNodes, tokenKey: \ReservedNodesMessage.marker, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension Redshift {
     public func describeScheduledActionsPaginator(
         _ input: DescribeScheduledActionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ScheduledActionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledActions, tokenKey: \ScheduledActionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension Redshift {
     public func describeUsageLimitsPaginator(
         _ input: DescribeUsageLimitsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UsageLimitList, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeUsageLimits, tokenKey: \UsageLimitList.marker, on: eventLoop, onPage: onPage)

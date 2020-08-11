@@ -21,12 +21,12 @@ Client object for interacting with AWS MobileAnalytics service.
 
 Amazon Mobile Analytics is a service for collecting, visualizing, and understanding app usage data at scale.
 */
-public struct MobileAnalytics {
+public struct MobileAnalytics: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,22 +45,33 @@ public struct MobileAnalytics {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "mobileanalytics",
             serviceProtocol: .restjson,
             apiVersion: "2014-06-05",
             endpoint: endpoint,
-            possibleErrorTypes: [MobileAnalyticsErrorType.self],
+            errorType: MobileAnalyticsErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  The PutEvents operation records one or more events. You can have up to 1,500 unique custom events per app, any combination of up to 40 attributes and metrics per custom event, and any number of attribute or metric values.
-    @discardableResult public func putEvents(_ input: PutEventsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putEvents(_ input: PutEventsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension MobileAnalytics {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

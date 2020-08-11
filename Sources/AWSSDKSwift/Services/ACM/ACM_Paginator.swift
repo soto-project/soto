@@ -24,7 +24,6 @@ extension ACM {
     public func listCertificatesPaginator(
         _ input: ListCertificatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCertificates, tokenKey: \ListCertificatesResponse.nextToken, on: eventLoop, onPage: onPage)

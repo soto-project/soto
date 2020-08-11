@@ -24,7 +24,6 @@ extension RAM {
     public func getResourcePoliciesPaginator(
         _ input: GetResourcePoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetResourcePoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourcePolicies, tokenKey: \GetResourcePoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension RAM {
     public func getResourceShareAssociationsPaginator(
         _ input: GetResourceShareAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetResourceShareAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceShareAssociations, tokenKey: \GetResourceShareAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension RAM {
     public func getResourceShareInvitationsPaginator(
         _ input: GetResourceShareInvitationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetResourceShareInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceShareInvitations, tokenKey: \GetResourceShareInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension RAM {
     public func getResourceSharesPaginator(
         _ input: GetResourceSharesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetResourceSharesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResourceShares, tokenKey: \GetResourceSharesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension RAM {
     public func listPendingInvitationResourcesPaginator(
         _ input: ListPendingInvitationResourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPendingInvitationResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPendingInvitationResources, tokenKey: \ListPendingInvitationResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension RAM {
     public func listPrincipalsPaginator(
         _ input: ListPrincipalsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPrincipalsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPrincipals, tokenKey: \ListPrincipalsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension RAM {
     public func listResourcesPaginator(
         _ input: ListResourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, on: eventLoop, onPage: onPage)

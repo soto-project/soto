@@ -24,7 +24,6 @@ extension CodeGuruProfiler {
     public func getFindingsReportAccountSummaryPaginator(
         _ input: GetFindingsReportAccountSummaryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFindingsReportAccountSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getFindingsReportAccountSummary, tokenKey: \GetFindingsReportAccountSummaryResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeGuruProfiler {
     public func listFindingsReportsPaginator(
         _ input: ListFindingsReportsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsReportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFindingsReports, tokenKey: \ListFindingsReportsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodeGuruProfiler {
     public func listProfileTimesPaginator(
         _ input: ListProfileTimesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProfileTimesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodeGuruProfiler {
     public func listProfilingGroupsPaginator(
         _ input: ListProfilingGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProfilingGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)

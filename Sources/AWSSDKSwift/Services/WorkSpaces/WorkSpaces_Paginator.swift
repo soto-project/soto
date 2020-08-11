@@ -24,7 +24,6 @@ extension WorkSpaces {
     public func describeWorkspaceBundlesPaginator(
         _ input: DescribeWorkspaceBundlesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeWorkspaceBundlesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeWorkspaceBundles, tokenKey: \DescribeWorkspaceBundlesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension WorkSpaces {
     public func describeWorkspaceDirectoriesPaginator(
         _ input: DescribeWorkspaceDirectoriesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeWorkspaceDirectoriesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeWorkspaceDirectories, tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension WorkSpaces {
     public func describeWorkspacesPaginator(
         _ input: DescribeWorkspacesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeWorkspacesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeWorkspaces, tokenKey: \DescribeWorkspacesResult.nextToken, on: eventLoop, onPage: onPage)

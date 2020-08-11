@@ -24,7 +24,6 @@ extension EMR {
     public func listBootstrapActionsPaginator(
         _ input: ListBootstrapActionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBootstrapActionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBootstrapActions, tokenKey: \ListBootstrapActionsOutput.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension EMR {
     public func listClustersPaginator(
         _ input: ListClustersInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClustersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersOutput.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension EMR {
     public func listInstanceFleetsPaginator(
         _ input: ListInstanceFleetsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInstanceFleetsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInstanceFleets, tokenKey: \ListInstanceFleetsOutput.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension EMR {
     public func listInstanceGroupsPaginator(
         _ input: ListInstanceGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInstanceGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInstanceGroups, tokenKey: \ListInstanceGroupsOutput.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension EMR {
     public func listInstancesPaginator(
         _ input: ListInstancesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesOutput.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension EMR {
     public func listSecurityConfigurationsPaginator(
         _ input: ListSecurityConfigurationsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSecurityConfigurationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSecurityConfigurations, tokenKey: \ListSecurityConfigurationsOutput.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension EMR {
     public func listStepsPaginator(
         _ input: ListStepsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStepsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSteps, tokenKey: \ListStepsOutput.marker, on: eventLoop, onPage: onPage)

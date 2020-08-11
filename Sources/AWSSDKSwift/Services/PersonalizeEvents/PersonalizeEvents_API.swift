@@ -20,12 +20,12 @@
 Client object for interacting with AWS PersonalizeEvents service.
 
 */
-public struct PersonalizeEvents {
+public struct PersonalizeEvents: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -44,7 +44,7 @@ public struct PersonalizeEvents {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "personalize-events",
@@ -52,15 +52,26 @@ public struct PersonalizeEvents {
             serviceProtocol: .restjson,
             apiVersion: "2018-03-22",
             endpoint: endpoint,
-            possibleErrorTypes: [PersonalizeEventsErrorType.self],
+            errorType: PersonalizeEventsErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Records user interaction event data.
-    @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension PersonalizeEvents {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

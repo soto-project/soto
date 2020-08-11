@@ -24,7 +24,6 @@ extension KinesisVideoArchivedMedia {
     public func listFragmentsPaginator(
         _ input: ListFragmentsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFragmentsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFragments, tokenKey: \ListFragmentsOutput.nextToken, on: eventLoop, onPage: onPage)

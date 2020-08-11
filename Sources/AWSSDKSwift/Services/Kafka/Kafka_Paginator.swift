@@ -24,7 +24,6 @@ extension Kafka {
     public func listClusterOperationsPaginator(
         _ input: ListClusterOperationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClusterOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClusterOperations, tokenKey: \ListClusterOperationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Kafka {
     public func listClustersPaginator(
         _ input: ListClustersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Kafka {
     public func listConfigurationRevisionsPaginator(
         _ input: ListConfigurationRevisionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurationRevisions, tokenKey: \ListConfigurationRevisionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Kafka {
     public func listConfigurationsPaginator(
         _ input: ListConfigurationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurations, tokenKey: \ListConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Kafka {
     public func listKafkaVersionsPaginator(
         _ input: ListKafkaVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKafkaVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listKafkaVersions, tokenKey: \ListKafkaVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Kafka {
     public func listNodesPaginator(
         _ input: ListNodesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNodesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesResponse.nextToken, on: eventLoop, onPage: onPage)

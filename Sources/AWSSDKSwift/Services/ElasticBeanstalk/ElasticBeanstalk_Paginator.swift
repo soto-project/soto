@@ -24,7 +24,6 @@ extension ElasticBeanstalk {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventDescriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventDescriptionsMessage.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ElasticBeanstalk {
     public func listPlatformBranchesPaginator(
         _ input: ListPlatformBranchesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlatformBranchesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPlatformBranches, tokenKey: \ListPlatformBranchesResult.nextToken, on: eventLoop, onPage: onPage)

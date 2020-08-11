@@ -24,7 +24,6 @@ extension Pricing {
     public func describeServicesPaginator(
         _ input: DescribeServicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeServices, tokenKey: \DescribeServicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Pricing {
     public func getAttributeValuesPaginator(
         _ input: GetAttributeValuesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAttributeValuesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAttributeValues, tokenKey: \GetAttributeValuesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Pricing {
     public func getProductsPaginator(
         _ input: GetProductsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetProductsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getProducts, tokenKey: \GetProductsResponse.nextToken, on: eventLoop, onPage: onPage)

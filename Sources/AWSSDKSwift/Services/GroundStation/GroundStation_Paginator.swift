@@ -24,7 +24,6 @@ extension GroundStation {
     public func listConfigsPaginator(
         _ input: ListConfigsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigs, tokenKey: \ListConfigsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension GroundStation {
     public func listContactsPaginator(
         _ input: ListContactsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContactsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContacts, tokenKey: \ListContactsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension GroundStation {
     public func listDataflowEndpointGroupsPaginator(
         _ input: ListDataflowEndpointGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataflowEndpointGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataflowEndpointGroups, tokenKey: \ListDataflowEndpointGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension GroundStation {
     public func listGroundStationsPaginator(
         _ input: ListGroundStationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroundStationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroundStations, tokenKey: \ListGroundStationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension GroundStation {
     public func listMissionProfilesPaginator(
         _ input: ListMissionProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMissionProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMissionProfiles, tokenKey: \ListMissionProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension GroundStation {
     public func listSatellitesPaginator(
         _ input: ListSatellitesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSatellitesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSatellites, tokenKey: \ListSatellitesResponse.nextToken, on: eventLoop, onPage: onPage)

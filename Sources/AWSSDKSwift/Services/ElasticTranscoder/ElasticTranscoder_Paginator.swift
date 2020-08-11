@@ -24,7 +24,6 @@ extension ElasticTranscoder {
     public func listJobsByPipelinePaginator(
         _ input: ListJobsByPipelineRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsByPipelineResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobsByPipeline, tokenKey: \ListJobsByPipelineResponse.nextPageToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ElasticTranscoder {
     public func listJobsByStatusPaginator(
         _ input: ListJobsByStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsByStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobsByStatus, tokenKey: \ListJobsByStatusResponse.nextPageToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ElasticTranscoder {
     public func listPipelinesPaginator(
         _ input: ListPipelinesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextPageToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ElasticTranscoder {
     public func listPresetsPaginator(
         _ input: ListPresetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPresetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPresets, tokenKey: \ListPresetsResponse.nextPageToken, on: eventLoop, onPage: onPage)

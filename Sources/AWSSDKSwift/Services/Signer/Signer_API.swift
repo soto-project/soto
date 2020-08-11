@@ -21,12 +21,12 @@ Client object for interacting with AWS Signer service.
 
 With code signing for IoT, you can sign code that you create for any IoT device that is supported by Amazon Web Services (AWS). Code signing is available through Amazon FreeRTOS and AWS IoT Device Management, and integrated with AWS Certificate Manager (ACM). In order to sign code, you import a third-party code signing certificate with ACM that is used to sign updates in Amazon FreeRTOS and AWS IoT Device Management. For general information about using code signing, see the Code Signing for IoT Developer Guide.
 */
-public struct Signer {
+public struct Signer: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,77 +45,88 @@ public struct Signer {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "signer",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-25",
             endpoint: endpoint,
-            possibleErrorTypes: [SignerErrorType.self],
+            errorType: SignerErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs, and is deleted two years after cancelation.
-    @discardableResult public func cancelSigningProfile(_ input: CancelSigningProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func cancelSigningProfile(_ input: CancelSigningProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about a specific code signing job. You specify the job by using the jobId value that is returned by the StartSigningJob operation. 
-    public func describeSigningJob(_ input: DescribeSigningJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSigningJobResponse> {
-        return client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSigningJob(_ input: DescribeSigningJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSigningJobResponse> {
+        return client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information on a specific signing platform.
-    public func getSigningPlatform(_ input: GetSigningPlatformRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSigningPlatformResponse> {
-        return client.execute(operation: "GetSigningPlatform", path: "/signing-platforms/{platformId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSigningPlatform(_ input: GetSigningPlatformRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSigningPlatformResponse> {
+        return client.execute(operation: "GetSigningPlatform", path: "/signing-platforms/{platformId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information on a specific signing profile.
-    public func getSigningProfile(_ input: GetSigningProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSigningProfileResponse> {
-        return client.execute(operation: "GetSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSigningProfile(_ input: GetSigningProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSigningProfileResponse> {
+        return client.execute(operation: "GetSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned. 
-    public func listSigningJobs(_ input: ListSigningJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSigningJobsResponse> {
-        return client.execute(operation: "ListSigningJobs", path: "/signing-jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSigningJobs(_ input: ListSigningJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSigningJobsResponse> {
+        return client.execute(operation: "ListSigningJobs", path: "/signing-jobs", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all signing platforms available in code signing that match the request parameters. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
-    public func listSigningPlatforms(_ input: ListSigningPlatformsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSigningPlatformsResponse> {
-        return client.execute(operation: "ListSigningPlatforms", path: "/signing-platforms", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSigningPlatforms(_ input: ListSigningPlatformsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSigningPlatformsResponse> {
+        return client.execute(operation: "ListSigningPlatforms", path: "/signing-platforms", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all available signing profiles in your AWS account. Returns only profiles with an ACTIVE status unless the includeCanceled request field is set to true. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
-    public func listSigningProfiles(_ input: ListSigningProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSigningProfilesResponse> {
-        return client.execute(operation: "ListSigningProfiles", path: "/signing-profiles", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSigningProfiles(_ input: ListSigningProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSigningProfilesResponse> {
+        return client.execute(operation: "ListSigningProfiles", path: "/signing-profiles", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of the tags associated with a signing profile resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a signing profile. A signing profile is a code signing template that can be used to carry out a pre-defined signing job. For more information, see http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html 
-    public func putSigningProfile(_ input: PutSigningProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutSigningProfileResponse> {
-        return client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putSigningProfile(_ input: PutSigningProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSigningProfileResponse> {
+        return client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation for two years after they are performed. Note the following requirements:     You must create an Amazon S3 source bucket. For more information, see Create a Bucket in the Amazon S3 Getting Started Guide.    Your S3 source bucket must be version enabled.   You must create an S3 destination bucket. Code signing uses your S3 destination bucket to write your signed code.   You specify the name of the source and destination buckets when calling the StartSigningJob operation.   You must also specify a request token that identifies your request to code signing.   You can call the DescribeSigningJob and the ListSigningJobs actions after you call StartSigningJob. For a Java example that shows how to use this action, see http://docs.aws.amazon.com/acm/latest/userguide/ 
-    public func startSigningJob(_ input: StartSigningJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSigningJobResponse> {
-        return client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startSigningJob(_ input: StartSigningJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSigningJobResponse> {
+        return client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Adds one or more tags to a signing profile. Tags are labels that you can use to identify and organize your AWS resources. Each tag consists of a key and an optional value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a key-value pair.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes one or more tags from a signing profile. To remove the tags, specify a list of tag keys.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension Signer {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

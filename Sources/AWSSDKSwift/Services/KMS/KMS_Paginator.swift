@@ -24,7 +24,6 @@ extension KMS {
     public func listAliasesPaginator(
         _ input: ListAliasesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension KMS {
     public func listGrantsPaginator(
         _ input: ListGrantsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGrantsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGrants, tokenKey: \ListGrantsResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension KMS {
     public func listKeyPoliciesPaginator(
         _ input: ListKeyPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKeyPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listKeyPolicies, tokenKey: \ListKeyPoliciesResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension KMS {
     public func listKeysPaginator(
         _ input: ListKeysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listKeys, tokenKey: \ListKeysResponse.nextMarker, on: eventLoop, onPage: onPage)

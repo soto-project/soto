@@ -24,7 +24,6 @@ extension Glacier {
     public func listJobsPaginator(
         _ input: ListJobsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsOutput.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Glacier {
     public func listMultipartUploadsPaginator(
         _ input: ListMultipartUploadsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMultipartUploads, tokenKey: \ListMultipartUploadsOutput.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Glacier {
     public func listPartsPaginator(
         _ input: ListPartsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPartsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listParts, tokenKey: \ListPartsOutput.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Glacier {
     public func listVaultsPaginator(
         _ input: ListVaultsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVaultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVaults, tokenKey: \ListVaultsOutput.marker, on: eventLoop, onPage: onPage)

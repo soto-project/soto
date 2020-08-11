@@ -24,7 +24,6 @@ extension S3Control {
     public func listAccessPointsPaginator(
         _ input: ListAccessPointsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccessPointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccessPoints, tokenKey: \ListAccessPointsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension S3Control {
     public func listJobsPaginator(
         _ input: ListJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, on: eventLoop, onPage: onPage)

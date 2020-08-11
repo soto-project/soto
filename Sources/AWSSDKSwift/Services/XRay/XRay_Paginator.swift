@@ -24,7 +24,6 @@ extension XRay {
     public func batchGetTracesPaginator(
         _ input: BatchGetTracesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (BatchGetTracesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: batchGetTraces, tokenKey: \BatchGetTracesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension XRay {
     public func getGroupsPaginator(
         _ input: GetGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getGroups, tokenKey: \GetGroupsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension XRay {
     public func getSamplingRulesPaginator(
         _ input: GetSamplingRulesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSamplingRulesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSamplingRules, tokenKey: \GetSamplingRulesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension XRay {
     public func getSamplingStatisticSummariesPaginator(
         _ input: GetSamplingStatisticSummariesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSamplingStatisticSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSamplingStatisticSummaries, tokenKey: \GetSamplingStatisticSummariesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension XRay {
     public func getServiceGraphPaginator(
         _ input: GetServiceGraphRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetServiceGraphResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getServiceGraph, tokenKey: \GetServiceGraphResult.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension XRay {
     public func getTimeSeriesServiceStatisticsPaginator(
         _ input: GetTimeSeriesServiceStatisticsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTimeSeriesServiceStatisticsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTimeSeriesServiceStatistics, tokenKey: \GetTimeSeriesServiceStatisticsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension XRay {
     public func getTraceGraphPaginator(
         _ input: GetTraceGraphRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTraceGraphResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTraceGraph, tokenKey: \GetTraceGraphResult.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension XRay {
     public func getTraceSummariesPaginator(
         _ input: GetTraceSummariesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTraceSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTraceSummaries, tokenKey: \GetTraceSummariesResult.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension ELB {
     public func describeLoadBalancersPaginator(
         _ input: DescribeAccessPointsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAccessPointsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeAccessPointsOutput.nextMarker, on: eventLoop, onPage: onPage)

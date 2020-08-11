@@ -24,7 +24,6 @@ extension S3 {
     public func listMultipartUploadsPaginator(
         _ input: ListMultipartUploadsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMultipartUploads, tokenKey: \ListMultipartUploadsOutput.nextKeyMarker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension S3 {
     public func listObjectVersionsPaginator(
         _ input: ListObjectVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectVersionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectVersions, tokenKey: \ListObjectVersionsOutput.nextKeyMarker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension S3 {
     public func listObjectsPaginator(
         _ input: ListObjectsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjects, tokenKey: \ListObjectsOutput.nextMarker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension S3 {
     public func listObjectsV2Paginator(
         _ input: ListObjectsV2Request,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectsV2Output, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectsV2, tokenKey: \ListObjectsV2Output.nextContinuationToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension S3 {
     public func listPartsPaginator(
         _ input: ListPartsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPartsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listParts, tokenKey: \ListPartsOutput.nextPartNumberMarker, on: eventLoop, onPage: onPage)

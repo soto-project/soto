@@ -24,7 +24,6 @@ extension APIGateway {
     public func getApiKeysPaginator(
         _ input: GetApiKeysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ApiKeys, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getApiKeys, tokenKey: \ApiKeys.position, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension APIGateway {
     public func getBasePathMappingsPaginator(
         _ input: GetBasePathMappingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (BasePathMappings, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getBasePathMappings, tokenKey: \BasePathMappings.position, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension APIGateway {
     public func getClientCertificatesPaginator(
         _ input: GetClientCertificatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClientCertificates, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getClientCertificates, tokenKey: \ClientCertificates.position, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension APIGateway {
     public func getDeploymentsPaginator(
         _ input: GetDeploymentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Deployments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDeployments, tokenKey: \Deployments.position, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension APIGateway {
     public func getDomainNamesPaginator(
         _ input: GetDomainNamesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DomainNames, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDomainNames, tokenKey: \DomainNames.position, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension APIGateway {
     public func getModelsPaginator(
         _ input: GetModelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Models, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getModels, tokenKey: \Models.position, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension APIGateway {
     public func getResourcesPaginator(
         _ input: GetResourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Resources, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getResources, tokenKey: \Resources.position, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension APIGateway {
     public func getRestApisPaginator(
         _ input: GetRestApisRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (RestApis, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getRestApis, tokenKey: \RestApis.position, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension APIGateway {
     public func getUsagePaginator(
         _ input: GetUsageRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Usage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getUsage, tokenKey: \Usage.position, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension APIGateway {
     public func getUsagePlanKeysPaginator(
         _ input: GetUsagePlanKeysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UsagePlanKeys, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getUsagePlanKeys, tokenKey: \UsagePlanKeys.position, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension APIGateway {
     public func getUsagePlansPaginator(
         _ input: GetUsagePlansRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UsagePlans, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getUsagePlans, tokenKey: \UsagePlans.position, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension APIGateway {
     public func getVpcLinksPaginator(
         _ input: GetVpcLinksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (VpcLinks, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getVpcLinks, tokenKey: \VpcLinks.position, on: eventLoop, onPage: onPage)

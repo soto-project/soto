@@ -24,7 +24,6 @@ extension MediaLive {
     public func describeSchedulePaginator(
         _ input: DescribeScheduleRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScheduleResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSchedule, tokenKey: \DescribeScheduleResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MediaLive {
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension MediaLive {
     public func listInputDevicesPaginator(
         _ input: ListInputDevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInputDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInputDevices, tokenKey: \ListInputDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension MediaLive {
     public func listInputSecurityGroupsPaginator(
         _ input: ListInputSecurityGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInputSecurityGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension MediaLive {
     public func listInputsPaginator(
         _ input: ListInputsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInputsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInputs, tokenKey: \ListInputsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension MediaLive {
     public func listMultiplexProgramsPaginator(
         _ input: ListMultiplexProgramsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultiplexProgramsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMultiplexPrograms, tokenKey: \ListMultiplexProgramsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension MediaLive {
     public func listMultiplexesPaginator(
         _ input: ListMultiplexesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultiplexesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMultiplexes, tokenKey: \ListMultiplexesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension MediaLive {
     public func listOfferingsPaginator(
         _ input: ListOfferingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension MediaLive {
     public func listReservationsPaginator(
         _ input: ListReservationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReservationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReservations, tokenKey: \ListReservationsResponse.nextToken, on: eventLoop, onPage: onPage)

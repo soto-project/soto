@@ -24,7 +24,6 @@ extension EC2 {
     public func describeByoipCidrsPaginator(
         _ input: DescribeByoipCidrsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeByoipCidrsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeByoipCidrs, tokenKey: \DescribeByoipCidrsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension EC2 {
     public func describeCapacityReservationsPaginator(
         _ input: DescribeCapacityReservationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCapacityReservationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCapacityReservations, tokenKey: \DescribeCapacityReservationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension EC2 {
     public func describeClassicLinkInstancesPaginator(
         _ input: DescribeClassicLinkInstancesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClassicLinkInstancesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClassicLinkInstances, tokenKey: \DescribeClassicLinkInstancesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension EC2 {
     public func describeClientVpnAuthorizationRulesPaginator(
         _ input: DescribeClientVpnAuthorizationRulesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClientVpnAuthorizationRulesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClientVpnAuthorizationRules, tokenKey: \DescribeClientVpnAuthorizationRulesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension EC2 {
     public func describeClientVpnConnectionsPaginator(
         _ input: DescribeClientVpnConnectionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClientVpnConnectionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClientVpnConnections, tokenKey: \DescribeClientVpnConnectionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension EC2 {
     public func describeClientVpnEndpointsPaginator(
         _ input: DescribeClientVpnEndpointsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClientVpnEndpointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClientVpnEndpoints, tokenKey: \DescribeClientVpnEndpointsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension EC2 {
     public func describeClientVpnRoutesPaginator(
         _ input: DescribeClientVpnRoutesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClientVpnRoutesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClientVpnRoutes, tokenKey: \DescribeClientVpnRoutesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension EC2 {
     public func describeClientVpnTargetNetworksPaginator(
         _ input: DescribeClientVpnTargetNetworksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeClientVpnTargetNetworksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClientVpnTargetNetworks, tokenKey: \DescribeClientVpnTargetNetworksResult.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension EC2 {
     public func describeCoipPoolsPaginator(
         _ input: DescribeCoipPoolsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCoipPoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCoipPools, tokenKey: \DescribeCoipPoolsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension EC2 {
     public func describeDhcpOptionsPaginator(
         _ input: DescribeDhcpOptionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDhcpOptionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDhcpOptions, tokenKey: \DescribeDhcpOptionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension EC2 {
     public func describeEgressOnlyInternetGatewaysPaginator(
         _ input: DescribeEgressOnlyInternetGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEgressOnlyInternetGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEgressOnlyInternetGateways, tokenKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension EC2 {
     public func describeExportImageTasksPaginator(
         _ input: DescribeExportImageTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeExportImageTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeExportImageTasks, tokenKey: \DescribeExportImageTasksResult.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension EC2 {
     public func describeFastSnapshotRestoresPaginator(
         _ input: DescribeFastSnapshotRestoresRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFastSnapshotRestoresResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeFastSnapshotRestores, tokenKey: \DescribeFastSnapshotRestoresResult.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension EC2 {
     public func describeFleetsPaginator(
         _ input: DescribeFleetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFleetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeFleets, tokenKey: \DescribeFleetsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension EC2 {
     public func describeFlowLogsPaginator(
         _ input: DescribeFlowLogsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFlowLogsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeFlowLogs, tokenKey: \DescribeFlowLogsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension EC2 {
     public func describeFpgaImagesPaginator(
         _ input: DescribeFpgaImagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFpgaImagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeFpgaImages, tokenKey: \DescribeFpgaImagesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension EC2 {
     public func describeHostReservationOfferingsPaginator(
         _ input: DescribeHostReservationOfferingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeHostReservationOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHostReservationOfferings, tokenKey: \DescribeHostReservationOfferingsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension EC2 {
     public func describeHostReservationsPaginator(
         _ input: DescribeHostReservationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeHostReservationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHostReservations, tokenKey: \DescribeHostReservationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -204,7 +186,6 @@ extension EC2 {
     public func describeHostsPaginator(
         _ input: DescribeHostsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeHostsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeHosts, tokenKey: \DescribeHostsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -214,7 +195,6 @@ extension EC2 {
     public func describeIamInstanceProfileAssociationsPaginator(
         _ input: DescribeIamInstanceProfileAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeIamInstanceProfileAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeIamInstanceProfileAssociations, tokenKey: \DescribeIamInstanceProfileAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -224,7 +204,6 @@ extension EC2 {
     public func describeImportImageTasksPaginator(
         _ input: DescribeImportImageTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImportImageTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImportImageTasks, tokenKey: \DescribeImportImageTasksResult.nextToken, on: eventLoop, onPage: onPage)
@@ -234,7 +213,6 @@ extension EC2 {
     public func describeImportSnapshotTasksPaginator(
         _ input: DescribeImportSnapshotTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImportSnapshotTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImportSnapshotTasks, tokenKey: \DescribeImportSnapshotTasksResult.nextToken, on: eventLoop, onPage: onPage)
@@ -244,7 +222,6 @@ extension EC2 {
     public func describeInstanceCreditSpecificationsPaginator(
         _ input: DescribeInstanceCreditSpecificationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceCreditSpecificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstanceCreditSpecifications, tokenKey: \DescribeInstanceCreditSpecificationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -254,7 +231,6 @@ extension EC2 {
     public func describeInstanceStatusPaginator(
         _ input: DescribeInstanceStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstanceStatus, tokenKey: \DescribeInstanceStatusResult.nextToken, on: eventLoop, onPage: onPage)
@@ -264,7 +240,6 @@ extension EC2 {
     public func describeInstanceTypeOfferingsPaginator(
         _ input: DescribeInstanceTypeOfferingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceTypeOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstanceTypeOfferings, tokenKey: \DescribeInstanceTypeOfferingsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -274,7 +249,6 @@ extension EC2 {
     public func describeInstanceTypesPaginator(
         _ input: DescribeInstanceTypesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceTypesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstanceTypes, tokenKey: \DescribeInstanceTypesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -284,7 +258,6 @@ extension EC2 {
     public func describeInstancesPaginator(
         _ input: DescribeInstancesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstancesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstances, tokenKey: \DescribeInstancesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -294,7 +267,6 @@ extension EC2 {
     public func describeInternetGatewaysPaginator(
         _ input: DescribeInternetGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInternetGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInternetGateways, tokenKey: \DescribeInternetGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
@@ -304,7 +276,6 @@ extension EC2 {
     public func describeIpv6PoolsPaginator(
         _ input: DescribeIpv6PoolsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeIpv6PoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeIpv6Pools, tokenKey: \DescribeIpv6PoolsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -314,7 +285,6 @@ extension EC2 {
     public func describeLaunchTemplateVersionsPaginator(
         _ input: DescribeLaunchTemplateVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLaunchTemplateVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLaunchTemplateVersions, tokenKey: \DescribeLaunchTemplateVersionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -324,7 +294,6 @@ extension EC2 {
     public func describeLaunchTemplatesPaginator(
         _ input: DescribeLaunchTemplatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLaunchTemplatesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLaunchTemplates, tokenKey: \DescribeLaunchTemplatesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -334,7 +303,6 @@ extension EC2 {
     public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsPaginator(
         _ input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations, tokenKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -344,7 +312,6 @@ extension EC2 {
     public func describeLocalGatewayRouteTableVpcAssociationsPaginator(
         _ input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLocalGatewayRouteTableVpcAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLocalGatewayRouteTableVpcAssociations, tokenKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -354,7 +321,6 @@ extension EC2 {
     public func describeLocalGatewayRouteTablesPaginator(
         _ input: DescribeLocalGatewayRouteTablesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLocalGatewayRouteTablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLocalGatewayRouteTables, tokenKey: \DescribeLocalGatewayRouteTablesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -364,7 +330,6 @@ extension EC2 {
     public func describeLocalGatewayVirtualInterfaceGroupsPaginator(
         _ input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLocalGatewayVirtualInterfaceGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLocalGatewayVirtualInterfaceGroups, tokenKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -374,7 +339,6 @@ extension EC2 {
     public func describeLocalGatewayVirtualInterfacesPaginator(
         _ input: DescribeLocalGatewayVirtualInterfacesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLocalGatewayVirtualInterfacesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLocalGatewayVirtualInterfaces, tokenKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -384,7 +348,6 @@ extension EC2 {
     public func describeLocalGatewaysPaginator(
         _ input: DescribeLocalGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLocalGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLocalGateways, tokenKey: \DescribeLocalGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
@@ -394,7 +357,6 @@ extension EC2 {
     public func describeManagedPrefixListsPaginator(
         _ input: DescribeManagedPrefixListsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeManagedPrefixListsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeManagedPrefixLists, tokenKey: \DescribeManagedPrefixListsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -404,7 +366,6 @@ extension EC2 {
     public func describeMovingAddressesPaginator(
         _ input: DescribeMovingAddressesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMovingAddressesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeMovingAddresses, tokenKey: \DescribeMovingAddressesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -414,7 +375,6 @@ extension EC2 {
     public func describeNatGatewaysPaginator(
         _ input: DescribeNatGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeNatGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNatGateways, tokenKey: \DescribeNatGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
@@ -424,7 +384,6 @@ extension EC2 {
     public func describeNetworkAclsPaginator(
         _ input: DescribeNetworkAclsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeNetworkAclsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNetworkAcls, tokenKey: \DescribeNetworkAclsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -434,7 +393,6 @@ extension EC2 {
     public func describeNetworkInterfacePermissionsPaginator(
         _ input: DescribeNetworkInterfacePermissionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeNetworkInterfacePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNetworkInterfacePermissions, tokenKey: \DescribeNetworkInterfacePermissionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -444,7 +402,6 @@ extension EC2 {
     public func describeNetworkInterfacesPaginator(
         _ input: DescribeNetworkInterfacesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeNetworkInterfacesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNetworkInterfaces, tokenKey: \DescribeNetworkInterfacesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -454,7 +411,6 @@ extension EC2 {
     public func describePrefixListsPaginator(
         _ input: DescribePrefixListsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePrefixListsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePrefixLists, tokenKey: \DescribePrefixListsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -464,7 +420,6 @@ extension EC2 {
     public func describePrincipalIdFormatPaginator(
         _ input: DescribePrincipalIdFormatRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePrincipalIdFormatResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePrincipalIdFormat, tokenKey: \DescribePrincipalIdFormatResult.nextToken, on: eventLoop, onPage: onPage)
@@ -474,7 +429,6 @@ extension EC2 {
     public func describePublicIpv4PoolsPaginator(
         _ input: DescribePublicIpv4PoolsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePublicIpv4PoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePublicIpv4Pools, tokenKey: \DescribePublicIpv4PoolsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -484,7 +438,6 @@ extension EC2 {
     public func describeReservedInstancesModificationsPaginator(
         _ input: DescribeReservedInstancesModificationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReservedInstancesModificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedInstancesModifications, tokenKey: \DescribeReservedInstancesModificationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -494,7 +447,6 @@ extension EC2 {
     public func describeReservedInstancesOfferingsPaginator(
         _ input: DescribeReservedInstancesOfferingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReservedInstancesOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedInstancesOfferings, tokenKey: \DescribeReservedInstancesOfferingsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -504,7 +456,6 @@ extension EC2 {
     public func describeRouteTablesPaginator(
         _ input: DescribeRouteTablesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRouteTablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeRouteTables, tokenKey: \DescribeRouteTablesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -514,7 +465,6 @@ extension EC2 {
     public func describeScheduledInstanceAvailabilityPaginator(
         _ input: DescribeScheduledInstanceAvailabilityRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScheduledInstanceAvailabilityResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledInstanceAvailability, tokenKey: \DescribeScheduledInstanceAvailabilityResult.nextToken, on: eventLoop, onPage: onPage)
@@ -524,7 +474,6 @@ extension EC2 {
     public func describeScheduledInstancesPaginator(
         _ input: DescribeScheduledInstancesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScheduledInstancesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledInstances, tokenKey: \DescribeScheduledInstancesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -534,7 +483,6 @@ extension EC2 {
     public func describeSecurityGroupsPaginator(
         _ input: DescribeSecurityGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSecurityGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSecurityGroups, tokenKey: \DescribeSecurityGroupsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -544,7 +492,6 @@ extension EC2 {
     public func describeSnapshotsPaginator(
         _ input: DescribeSnapshotsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSnapshotsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSnapshots, tokenKey: \DescribeSnapshotsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -554,7 +501,6 @@ extension EC2 {
     public func describeSpotFleetRequestsPaginator(
         _ input: DescribeSpotFleetRequestsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSpotFleetRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSpotFleetRequests, tokenKey: \DescribeSpotFleetRequestsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -564,7 +510,6 @@ extension EC2 {
     public func describeSpotInstanceRequestsPaginator(
         _ input: DescribeSpotInstanceRequestsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSpotInstanceRequestsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSpotInstanceRequests, tokenKey: \DescribeSpotInstanceRequestsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -574,7 +519,6 @@ extension EC2 {
     public func describeSpotPriceHistoryPaginator(
         _ input: DescribeSpotPriceHistoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSpotPriceHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSpotPriceHistory, tokenKey: \DescribeSpotPriceHistoryResult.nextToken, on: eventLoop, onPage: onPage)
@@ -584,7 +528,6 @@ extension EC2 {
     public func describeStaleSecurityGroupsPaginator(
         _ input: DescribeStaleSecurityGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStaleSecurityGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStaleSecurityGroups, tokenKey: \DescribeStaleSecurityGroupsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -594,7 +537,6 @@ extension EC2 {
     public func describeSubnetsPaginator(
         _ input: DescribeSubnetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSubnetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSubnets, tokenKey: \DescribeSubnetsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -604,7 +546,6 @@ extension EC2 {
     public func describeTagsPaginator(
         _ input: DescribeTagsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTagsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTags, tokenKey: \DescribeTagsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -614,7 +555,6 @@ extension EC2 {
     public func describeTrafficMirrorFiltersPaginator(
         _ input: DescribeTrafficMirrorFiltersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTrafficMirrorFiltersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTrafficMirrorFilters, tokenKey: \DescribeTrafficMirrorFiltersResult.nextToken, on: eventLoop, onPage: onPage)
@@ -624,7 +564,6 @@ extension EC2 {
     public func describeTrafficMirrorSessionsPaginator(
         _ input: DescribeTrafficMirrorSessionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTrafficMirrorSessionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTrafficMirrorSessions, tokenKey: \DescribeTrafficMirrorSessionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -634,7 +573,6 @@ extension EC2 {
     public func describeTrafficMirrorTargetsPaginator(
         _ input: DescribeTrafficMirrorTargetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTrafficMirrorTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTrafficMirrorTargets, tokenKey: \DescribeTrafficMirrorTargetsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -644,7 +582,6 @@ extension EC2 {
     public func describeTransitGatewayAttachmentsPaginator(
         _ input: DescribeTransitGatewayAttachmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTransitGatewayAttachmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGatewayAttachments, tokenKey: \DescribeTransitGatewayAttachmentsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -654,7 +591,6 @@ extension EC2 {
     public func describeTransitGatewayMulticastDomainsPaginator(
         _ input: DescribeTransitGatewayMulticastDomainsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTransitGatewayMulticastDomainsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGatewayMulticastDomains, tokenKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -664,7 +600,6 @@ extension EC2 {
     public func describeTransitGatewayPeeringAttachmentsPaginator(
         _ input: DescribeTransitGatewayPeeringAttachmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTransitGatewayPeeringAttachmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGatewayPeeringAttachments, tokenKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -674,7 +609,6 @@ extension EC2 {
     public func describeTransitGatewayRouteTablesPaginator(
         _ input: DescribeTransitGatewayRouteTablesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTransitGatewayRouteTablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGatewayRouteTables, tokenKey: \DescribeTransitGatewayRouteTablesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -684,7 +618,6 @@ extension EC2 {
     public func describeTransitGatewayVpcAttachmentsPaginator(
         _ input: DescribeTransitGatewayVpcAttachmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTransitGatewayVpcAttachmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGatewayVpcAttachments, tokenKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -694,7 +627,6 @@ extension EC2 {
     public func describeTransitGatewaysPaginator(
         _ input: DescribeTransitGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTransitGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGateways, tokenKey: \DescribeTransitGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
@@ -704,7 +636,6 @@ extension EC2 {
     public func describeVolumeStatusPaginator(
         _ input: DescribeVolumeStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVolumeStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVolumeStatus, tokenKey: \DescribeVolumeStatusResult.nextToken, on: eventLoop, onPage: onPage)
@@ -714,7 +645,6 @@ extension EC2 {
     public func describeVolumesPaginator(
         _ input: DescribeVolumesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVolumesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVolumes, tokenKey: \DescribeVolumesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -724,7 +654,6 @@ extension EC2 {
     public func describeVolumesModificationsPaginator(
         _ input: DescribeVolumesModificationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVolumesModificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVolumesModifications, tokenKey: \DescribeVolumesModificationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -734,7 +663,6 @@ extension EC2 {
     public func describeVpcClassicLinkDnsSupportPaginator(
         _ input: DescribeVpcClassicLinkDnsSupportRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcClassicLinkDnsSupportResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcClassicLinkDnsSupport, tokenKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken, on: eventLoop, onPage: onPage)
@@ -744,7 +672,6 @@ extension EC2 {
     public func describeVpcEndpointConnectionNotificationsPaginator(
         _ input: DescribeVpcEndpointConnectionNotificationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcEndpointConnectionNotificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcEndpointConnectionNotifications, tokenKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -754,7 +681,6 @@ extension EC2 {
     public func describeVpcEndpointConnectionsPaginator(
         _ input: DescribeVpcEndpointConnectionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcEndpointConnectionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcEndpointConnections, tokenKey: \DescribeVpcEndpointConnectionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -764,7 +690,6 @@ extension EC2 {
     public func describeVpcEndpointServiceConfigurationsPaginator(
         _ input: DescribeVpcEndpointServiceConfigurationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcEndpointServiceConfigurationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcEndpointServiceConfigurations, tokenKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -774,7 +699,6 @@ extension EC2 {
     public func describeVpcEndpointServicePermissionsPaginator(
         _ input: DescribeVpcEndpointServicePermissionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcEndpointServicePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcEndpointServicePermissions, tokenKey: \DescribeVpcEndpointServicePermissionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -784,7 +708,6 @@ extension EC2 {
     public func describeVpcEndpointsPaginator(
         _ input: DescribeVpcEndpointsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcEndpointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcEndpoints, tokenKey: \DescribeVpcEndpointsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -794,7 +717,6 @@ extension EC2 {
     public func describeVpcPeeringConnectionsPaginator(
         _ input: DescribeVpcPeeringConnectionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcPeeringConnectionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcPeeringConnections, tokenKey: \DescribeVpcPeeringConnectionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -804,7 +726,6 @@ extension EC2 {
     public func describeVpcsPaginator(
         _ input: DescribeVpcsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeVpcsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcs, tokenKey: \DescribeVpcsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -814,7 +735,6 @@ extension EC2 {
     public func getAssociatedIpv6PoolCidrsPaginator(
         _ input: GetAssociatedIpv6PoolCidrsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAssociatedIpv6PoolCidrsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAssociatedIpv6PoolCidrs, tokenKey: \GetAssociatedIpv6PoolCidrsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -824,7 +744,6 @@ extension EC2 {
     public func getManagedPrefixListAssociationsPaginator(
         _ input: GetManagedPrefixListAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetManagedPrefixListAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getManagedPrefixListAssociations, tokenKey: \GetManagedPrefixListAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -834,7 +753,6 @@ extension EC2 {
     public func getManagedPrefixListEntriesPaginator(
         _ input: GetManagedPrefixListEntriesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetManagedPrefixListEntriesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getManagedPrefixListEntries, tokenKey: \GetManagedPrefixListEntriesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -844,7 +762,6 @@ extension EC2 {
     public func getTransitGatewayAttachmentPropagationsPaginator(
         _ input: GetTransitGatewayAttachmentPropagationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTransitGatewayAttachmentPropagationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayAttachmentPropagations, tokenKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -854,7 +771,6 @@ extension EC2 {
     public func getTransitGatewayMulticastDomainAssociationsPaginator(
         _ input: GetTransitGatewayMulticastDomainAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTransitGatewayMulticastDomainAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayMulticastDomainAssociations, tokenKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -864,7 +780,6 @@ extension EC2 {
     public func getTransitGatewayRouteTableAssociationsPaginator(
         _ input: GetTransitGatewayRouteTableAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTransitGatewayRouteTableAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayRouteTableAssociations, tokenKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -874,7 +789,6 @@ extension EC2 {
     public func getTransitGatewayRouteTablePropagationsPaginator(
         _ input: GetTransitGatewayRouteTablePropagationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTransitGatewayRouteTablePropagationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayRouteTablePropagations, tokenKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -884,7 +798,6 @@ extension EC2 {
     public func searchLocalGatewayRoutesPaginator(
         _ input: SearchLocalGatewayRoutesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchLocalGatewayRoutesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchLocalGatewayRoutes, tokenKey: \SearchLocalGatewayRoutesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -894,7 +807,6 @@ extension EC2 {
     public func searchTransitGatewayMulticastGroupsPaginator(
         _ input: SearchTransitGatewayMulticastGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchTransitGatewayMulticastGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchTransitGatewayMulticastGroups, tokenKey: \SearchTransitGatewayMulticastGroupsResult.nextToken, on: eventLoop, onPage: onPage)

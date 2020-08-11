@@ -24,7 +24,6 @@ extension Imagebuilder {
     public func listComponentBuildVersionsPaginator(
         _ input: ListComponentBuildVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComponentBuildVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComponentBuildVersions, tokenKey: \ListComponentBuildVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Imagebuilder {
     public func listComponentsPaginator(
         _ input: ListComponentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Imagebuilder {
     public func listDistributionConfigurationsPaginator(
         _ input: ListDistributionConfigurationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDistributionConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDistributionConfigurations, tokenKey: \ListDistributionConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Imagebuilder {
     public func listImageBuildVersionsPaginator(
         _ input: ListImageBuildVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImageBuildVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImageBuildVersions, tokenKey: \ListImageBuildVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Imagebuilder {
     public func listImagePipelineImagesPaginator(
         _ input: ListImagePipelineImagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagePipelineImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImagePipelineImages, tokenKey: \ListImagePipelineImagesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Imagebuilder {
     public func listImagePipelinesPaginator(
         _ input: ListImagePipelinesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagePipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImagePipelines, tokenKey: \ListImagePipelinesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Imagebuilder {
     public func listImageRecipesPaginator(
         _ input: ListImageRecipesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImageRecipesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImageRecipes, tokenKey: \ListImageRecipesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Imagebuilder {
     public func listImagesPaginator(
         _ input: ListImagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Imagebuilder {
     public func listInfrastructureConfigurationsPaginator(
         _ input: ListInfrastructureConfigurationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInfrastructureConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInfrastructureConfigurations, tokenKey: \ListInfrastructureConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)

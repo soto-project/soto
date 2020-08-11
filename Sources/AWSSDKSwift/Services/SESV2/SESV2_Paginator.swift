@@ -24,7 +24,6 @@ extension SESV2 {
     public func getDedicatedIpsPaginator(
         _ input: GetDedicatedIpsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDedicatedIpsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDedicatedIps, tokenKey: \GetDedicatedIpsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SESV2 {
     public func listConfigurationSetsPaginator(
         _ input: ListConfigurationSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurationSets, tokenKey: \ListConfigurationSetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SESV2 {
     public func listDedicatedIpPoolsPaginator(
         _ input: ListDedicatedIpPoolsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDedicatedIpPoolsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDedicatedIpPools, tokenKey: \ListDedicatedIpPoolsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SESV2 {
     public func listDeliverabilityTestReportsPaginator(
         _ input: ListDeliverabilityTestReportsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeliverabilityTestReportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeliverabilityTestReports, tokenKey: \ListDeliverabilityTestReportsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension SESV2 {
     public func listDomainDeliverabilityCampaignsPaginator(
         _ input: ListDomainDeliverabilityCampaignsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainDeliverabilityCampaignsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomainDeliverabilityCampaigns, tokenKey: \ListDomainDeliverabilityCampaignsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension SESV2 {
     public func listEmailIdentitiesPaginator(
         _ input: ListEmailIdentitiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEmailIdentitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEmailIdentities, tokenKey: \ListEmailIdentitiesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension SESV2 {
     public func listSuppressedDestinationsPaginator(
         _ input: ListSuppressedDestinationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSuppressedDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSuppressedDestinations, tokenKey: \ListSuppressedDestinationsResponse.nextToken, on: eventLoop, onPage: onPage)

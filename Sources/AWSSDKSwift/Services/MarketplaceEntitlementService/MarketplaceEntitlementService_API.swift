@@ -21,12 +21,12 @@ Client object for interacting with AWS MarketplaceEntitlementService service.
 
 AWS Marketplace Entitlement Service This reference provides descriptions of the AWS Marketplace Entitlement Service API. AWS Marketplace Entitlement Service is used to determine the entitlement of a customer to a given product. An entitlement represents capacity in a product owned by the customer. For example, a customer might own some number of users or seats in an SaaS application or some amount of data capacity in a multi-tenant database.  Getting Entitlement Records     GetEntitlements- Gets the entitlements for a Marketplace product.  
 */
-public struct MarketplaceEntitlementService {
+public struct MarketplaceEntitlementService: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct MarketplaceEntitlementService {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSMPEntitlementService",
@@ -54,15 +54,26 @@ public struct MarketplaceEntitlementService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self],
+            errorType: MarketplaceEntitlementServiceErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
-    public func getEntitlements(_ input: GetEntitlementsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetEntitlementsResult> {
-        return client.execute(operation: "GetEntitlements", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getEntitlements(_ input: GetEntitlementsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEntitlementsResult> {
+        return client.execute(operation: "GetEntitlements", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension MarketplaceEntitlementService {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

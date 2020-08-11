@@ -24,7 +24,6 @@ extension DynamoDB {
     public func batchGetItemPaginator(
         _ input: BatchGetItemInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (BatchGetItemOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: batchGetItem, tokenKey: \BatchGetItemOutput.unprocessedKeys, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension DynamoDB {
     public func listContributorInsightsPaginator(
         _ input: ListContributorInsightsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContributorInsightsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContributorInsights, tokenKey: \ListContributorInsightsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension DynamoDB {
     public func listTablesPaginator(
         _ input: ListTablesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTablesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTables, tokenKey: \ListTablesOutput.lastEvaluatedTableName, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension DynamoDB {
     public func queryPaginator(
         _ input: QueryInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (QueryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: query, tokenKey: \QueryOutput.lastEvaluatedKey, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension DynamoDB {
     public func scanPaginator(
         _ input: ScanInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ScanOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: scan, tokenKey: \ScanOutput.lastEvaluatedKey, on: eventLoop, onPage: onPage)

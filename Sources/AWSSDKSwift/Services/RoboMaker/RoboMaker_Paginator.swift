@@ -24,7 +24,6 @@ extension RoboMaker {
     public func listDeploymentJobsPaginator(
         _ input: ListDeploymentJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension RoboMaker {
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension RoboMaker {
     public func listRobotApplicationsPaginator(
         _ input: ListRobotApplicationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRobotApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRobotApplications, tokenKey: \ListRobotApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension RoboMaker {
     public func listRobotsPaginator(
         _ input: ListRobotsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRobotsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRobots, tokenKey: \ListRobotsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension RoboMaker {
     public func listSimulationApplicationsPaginator(
         _ input: ListSimulationApplicationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSimulationApplications, tokenKey: \ListSimulationApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension RoboMaker {
     public func listSimulationJobBatchesPaginator(
         _ input: ListSimulationJobBatchesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationJobBatchesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSimulationJobBatches, tokenKey: \ListSimulationJobBatchesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension RoboMaker {
     public func listSimulationJobsPaginator(
         _ input: ListSimulationJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSimulationJobs, tokenKey: \ListSimulationJobsResponse.nextToken, on: eventLoop, onPage: onPage)

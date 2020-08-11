@@ -24,7 +24,6 @@ extension Organizations {
     public func listAWSServiceAccessForOrganizationPaginator(
         _ input: ListAWSServiceAccessForOrganizationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAWSServiceAccessForOrganizationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAWSServiceAccessForOrganization, tokenKey: \ListAWSServiceAccessForOrganizationResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Organizations {
     public func listAccountsPaginator(
         _ input: ListAccountsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Organizations {
     public func listAccountsForParentPaginator(
         _ input: ListAccountsForParentRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsForParentResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccountsForParent, tokenKey: \ListAccountsForParentResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Organizations {
     public func listChildrenPaginator(
         _ input: ListChildrenRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChildrenResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChildren, tokenKey: \ListChildrenResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Organizations {
     public func listCreateAccountStatusPaginator(
         _ input: ListCreateAccountStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCreateAccountStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCreateAccountStatus, tokenKey: \ListCreateAccountStatusResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Organizations {
     public func listDelegatedAdministratorsPaginator(
         _ input: ListDelegatedAdministratorsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDelegatedAdministratorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDelegatedAdministrators, tokenKey: \ListDelegatedAdministratorsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Organizations {
     public func listDelegatedServicesForAccountPaginator(
         _ input: ListDelegatedServicesForAccountRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDelegatedServicesForAccountResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDelegatedServicesForAccount, tokenKey: \ListDelegatedServicesForAccountResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Organizations {
     public func listHandshakesForAccountPaginator(
         _ input: ListHandshakesForAccountRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHandshakesForAccountResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHandshakesForAccount, tokenKey: \ListHandshakesForAccountResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Organizations {
     public func listHandshakesForOrganizationPaginator(
         _ input: ListHandshakesForOrganizationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHandshakesForOrganizationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHandshakesForOrganization, tokenKey: \ListHandshakesForOrganizationResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Organizations {
     public func listOrganizationalUnitsForParentPaginator(
         _ input: ListOrganizationalUnitsForParentRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationalUnitsForParentResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationalUnitsForParent, tokenKey: \ListOrganizationalUnitsForParentResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension Organizations {
     public func listParentsPaginator(
         _ input: ListParentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListParentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listParents, tokenKey: \ListParentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension Organizations {
     public func listPoliciesPaginator(
         _ input: ListPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicies, tokenKey: \ListPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension Organizations {
     public func listPoliciesForTargetPaginator(
         _ input: ListPoliciesForTargetRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPoliciesForTargetResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPoliciesForTarget, tokenKey: \ListPoliciesForTargetResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension Organizations {
     public func listRootsPaginator(
         _ input: ListRootsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRootsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoots, tokenKey: \ListRootsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension Organizations {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension Organizations {
     public func listTargetsForPolicyPaginator(
         _ input: ListTargetsForPolicyRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTargetsForPolicyResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTargetsForPolicy, tokenKey: \ListTargetsForPolicyResponse.nextToken, on: eventLoop, onPage: onPage)

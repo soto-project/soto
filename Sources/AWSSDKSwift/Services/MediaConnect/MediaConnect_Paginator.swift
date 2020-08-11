@@ -24,7 +24,6 @@ extension MediaConnect {
     public func listEntitlementsPaginator(
         _ input: ListEntitlementsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitlementsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEntitlements, tokenKey: \ListEntitlementsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MediaConnect {
     public func listFlowsPaginator(
         _ input: ListFlowsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFlowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFlows, tokenKey: \ListFlowsResponse.nextToken, on: eventLoop, onPage: onPage)

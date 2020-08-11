@@ -21,12 +21,12 @@ Client object for interacting with AWS IoTDataPlane service.
 
 AWS IoT AWS IoT-Data enables secure, bi-directional communication between Internet-connected things (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. It implements a broker for applications and things to publish messages over HTTP (Publish) and retrieve, update, and delete shadows. A shadow is a persistent representation of your things and their state in the AWS cloud. Find the endpoint address for actions in the AWS IoT data plane by running this CLI command:  aws iot describe-endpoint --endpoint-type iot:Data-ATS  The service name used by AWS Signature Version 4 to sign requests is: iotdevicegateway.
 */
-public struct IoTDataPlane {
+public struct IoTDataPlane: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct IoTDataPlane {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "data.iot",
@@ -53,35 +53,46 @@ public struct IoTDataPlane {
             serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTDataPlaneErrorType.self],
+            errorType: IoTDataPlaneErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
-    public func deleteThingShadow(_ input: DeleteThingShadowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThingShadowResponse> {
-        return client.execute(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteThingShadow(_ input: DeleteThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingShadowResponse> {
+        return client.execute(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets the shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
-    public func getThingShadow(_ input: GetThingShadowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetThingShadowResponse> {
-        return client.execute(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getThingShadow(_ input: GetThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThingShadowResponse> {
+        return client.execute(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the shadows for the specified thing.
-    public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNamedShadowsForThingResponse> {
-        return client.execute(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNamedShadowsForThingResponse> {
+        return client.execute(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
-    @discardableResult public func publish(_ input: PublishRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "Publish", path: "/topics/{topic}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func publish(_ input: PublishRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "Publish", path: "/topics/{topic}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
-    public func updateThingShadow(_ input: UpdateThingShadowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThingShadowResponse> {
-        return client.execute(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateThingShadow(_ input: UpdateThingShadowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingShadowResponse> {
+        return client.execute(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension IoTDataPlane {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

@@ -21,12 +21,12 @@ Client object for interacting with AWS SavingsPlans service.
 
 Savings Plans are a pricing model that offer significant savings on AWS usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For more information, see the AWS Savings Plans User Guide.
 */
-public struct SavingsPlans {
+public struct SavingsPlans: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -43,7 +43,7 @@ public struct SavingsPlans {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: nil,
             partition: partition,
             service: "savingsplans",
@@ -52,50 +52,61 @@ public struct SavingsPlans {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "savingsplans.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            possibleErrorTypes: [SavingsPlansErrorType.self],
+            errorType: SavingsPlansErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates a Savings Plan.
-    public func createSavingsPlan(_ input: CreateSavingsPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSavingsPlanResponse> {
-        return client.execute(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createSavingsPlan(_ input: CreateSavingsPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSavingsPlanResponse> {
+        return client.execute(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans rates.
-    public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
-        return client.execute(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
+        return client.execute(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans.
-    public func describeSavingsPlans(_ input: DescribeSavingsPlansRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSavingsPlansResponse> {
-        return client.execute(operation: "DescribeSavingsPlans", path: "/DescribeSavingsPlans", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSavingsPlans(_ input: DescribeSavingsPlansRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansResponse> {
+        return client.execute(operation: "DescribeSavingsPlans", path: "/DescribeSavingsPlans", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans offering rates.
-    public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSavingsPlansOfferingRatesResponse> {
-        return client.execute(operation: "DescribeSavingsPlansOfferingRates", path: "/DescribeSavingsPlansOfferingRates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansOfferingRatesResponse> {
+        return client.execute(operation: "DescribeSavingsPlansOfferingRates", path: "/DescribeSavingsPlansOfferingRates", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the specified Savings Plans offerings.
-    public func describeSavingsPlansOfferings(_ input: DescribeSavingsPlansOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSavingsPlansOfferingsResponse> {
-        return client.execute(operation: "DescribeSavingsPlansOfferings", path: "/DescribeSavingsPlansOfferings", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSavingsPlansOfferings(_ input: DescribeSavingsPlansOfferingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSavingsPlansOfferingsResponse> {
+        return client.execute(operation: "DescribeSavingsPlansOfferings", path: "/DescribeSavingsPlansOfferings", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the tags for the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Adds the specified tags to the specified resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/TagResource", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/TagResource", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes the specified tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/UntagResource", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/UntagResource", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension SavingsPlans {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

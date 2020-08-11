@@ -24,7 +24,6 @@ extension CloudWatchLogs {
     public func describeDestinationsPaginator(
         _ input: DescribeDestinationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDestinations, tokenKey: \DescribeDestinationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CloudWatchLogs {
     public func describeLogGroupsPaginator(
         _ input: DescribeLogGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLogGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLogGroups, tokenKey: \DescribeLogGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CloudWatchLogs {
     public func describeLogStreamsPaginator(
         _ input: DescribeLogStreamsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLogStreamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLogStreams, tokenKey: \DescribeLogStreamsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CloudWatchLogs {
     public func describeMetricFiltersPaginator(
         _ input: DescribeMetricFiltersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMetricFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeMetricFilters, tokenKey: \DescribeMetricFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CloudWatchLogs {
     public func describeSubscriptionFiltersPaginator(
         _ input: DescribeSubscriptionFiltersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSubscriptionFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSubscriptionFilters, tokenKey: \DescribeSubscriptionFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CloudWatchLogs {
     public func filterLogEventsPaginator(
         _ input: FilterLogEventsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (FilterLogEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: filterLogEvents, tokenKey: \FilterLogEventsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension CloudWatchLogs {
     public func getLogEventsPaginator(
         _ input: GetLogEventsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLogEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getLogEvents, tokenKey: \GetLogEventsResponse.nextForwardToken, on: eventLoop, onPage: onPage)

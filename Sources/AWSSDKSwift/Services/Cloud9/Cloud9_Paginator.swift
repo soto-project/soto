@@ -24,7 +24,6 @@ extension Cloud9 {
     public func describeEnvironmentMembershipsPaginator(
         _ input: DescribeEnvironmentMembershipsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEnvironmentMembershipsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEnvironmentMemberships, tokenKey: \DescribeEnvironmentMembershipsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Cloud9 {
     public func listEnvironmentsPaginator(
         _ input: ListEnvironmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEnvironmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEnvironments, tokenKey: \ListEnvironmentsResult.nextToken, on: eventLoop, onPage: onPage)

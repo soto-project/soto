@@ -24,7 +24,6 @@ extension ApplicationInsights {
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ApplicationInsights {
     public func listComponentsPaginator(
         _ input: ListComponentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ApplicationInsights {
     public func listConfigurationHistoryPaginator(
         _ input: ListConfigurationHistoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurationHistory, tokenKey: \ListConfigurationHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ApplicationInsights {
     public func listLogPatternSetsPaginator(
         _ input: ListLogPatternSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLogPatternSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLogPatternSets, tokenKey: \ListLogPatternSetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ApplicationInsights {
     public func listLogPatternsPaginator(
         _ input: ListLogPatternsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLogPatternsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLogPatterns, tokenKey: \ListLogPatternsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ApplicationInsights {
     public func listProblemsPaginator(
         _ input: ListProblemsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProblemsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProblems, tokenKey: \ListProblemsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension CodeStarconnections {
     public func listConnectionsPaginator(
         _ input: ListConnectionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConnectionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodeStarconnections {
     public func listHostsPaginator(
         _ input: ListHostsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHostsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHosts, tokenKey: \ListHostsOutput.nextToken, on: eventLoop, onPage: onPage)

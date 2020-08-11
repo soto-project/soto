@@ -24,7 +24,6 @@ extension WorkLink {
     public func listDevicesPaginator(
         _ input: ListDevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDevices, tokenKey: \ListDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension WorkLink {
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension WorkLink {
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension WorkLink {
     public func listWebsiteAuthorizationProvidersPaginator(
         _ input: ListWebsiteAuthorizationProvidersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWebsiteAuthorizationProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWebsiteAuthorizationProviders, tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension WorkLink {
     public func listWebsiteCertificateAuthoritiesPaginator(
         _ input: ListWebsiteCertificateAuthoritiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWebsiteCertificateAuthoritiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWebsiteCertificateAuthorities, tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension Route53 {
     public func listHealthChecksPaginator(
         _ input: ListHealthChecksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHealthChecksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHealthChecks, tokenKey: \ListHealthChecksResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Route53 {
     public func listHostedZonesPaginator(
         _ input: ListHostedZonesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHostedZonesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHostedZones, tokenKey: \ListHostedZonesResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Route53 {
     public func listQueryLoggingConfigsPaginator(
         _ input: ListQueryLoggingConfigsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueryLoggingConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQueryLoggingConfigs, tokenKey: \ListQueryLoggingConfigsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Route53 {
     public func listResourceRecordSetsPaginator(
         _ input: ListResourceRecordSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourceRecordSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listResourceRecordSets, tokenKey: \ListResourceRecordSetsResponse.nextRecordName, on: eventLoop, onPage: onPage)

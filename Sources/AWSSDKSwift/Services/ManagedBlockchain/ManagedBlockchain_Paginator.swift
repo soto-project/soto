@@ -24,7 +24,6 @@ extension ManagedBlockchain {
     public func listInvitationsPaginator(
         _ input: ListInvitationsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ManagedBlockchain {
     public func listMembersPaginator(
         _ input: ListMembersInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ManagedBlockchain {
     public func listNetworksPaginator(
         _ input: ListNetworksInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNetworksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNetworks, tokenKey: \ListNetworksOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ManagedBlockchain {
     public func listNodesPaginator(
         _ input: ListNodesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNodesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ManagedBlockchain {
     public func listProposalVotesPaginator(
         _ input: ListProposalVotesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProposalVotesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProposalVotes, tokenKey: \ListProposalVotesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ManagedBlockchain {
     public func listProposalsPaginator(
         _ input: ListProposalsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProposalsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProposals, tokenKey: \ListProposalsOutput.nextToken, on: eventLoop, onPage: onPage)

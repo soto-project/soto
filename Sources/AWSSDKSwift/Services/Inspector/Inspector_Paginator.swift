@@ -24,7 +24,6 @@ extension Inspector {
     public func getExclusionsPreviewPaginator(
         _ input: GetExclusionsPreviewRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetExclusionsPreviewResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getExclusionsPreview, tokenKey: \GetExclusionsPreviewResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Inspector {
     public func listAssessmentRunAgentsPaginator(
         _ input: ListAssessmentRunAgentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssessmentRunAgentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssessmentRunAgents, tokenKey: \ListAssessmentRunAgentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Inspector {
     public func listAssessmentRunsPaginator(
         _ input: ListAssessmentRunsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssessmentRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssessmentRuns, tokenKey: \ListAssessmentRunsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Inspector {
     public func listAssessmentTargetsPaginator(
         _ input: ListAssessmentTargetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssessmentTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssessmentTargets, tokenKey: \ListAssessmentTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Inspector {
     public func listAssessmentTemplatesPaginator(
         _ input: ListAssessmentTemplatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssessmentTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssessmentTemplates, tokenKey: \ListAssessmentTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Inspector {
     public func listEventSubscriptionsPaginator(
         _ input: ListEventSubscriptionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEventSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEventSubscriptions, tokenKey: \ListEventSubscriptionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Inspector {
     public func listExclusionsPaginator(
         _ input: ListExclusionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListExclusionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listExclusions, tokenKey: \ListExclusionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Inspector {
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Inspector {
     public func listRulesPackagesPaginator(
         _ input: ListRulesPackagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRulesPackagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRulesPackages, tokenKey: \ListRulesPackagesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Inspector {
     public func previewAgentsPaginator(
         _ input: PreviewAgentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (PreviewAgentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: previewAgents, tokenKey: \PreviewAgentsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension KinesisVideo {
     public func listSignalingChannelsPaginator(
         _ input: ListSignalingChannelsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSignalingChannelsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSignalingChannels, tokenKey: \ListSignalingChannelsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension KinesisVideo {
     public func listStreamsPaginator(
         _ input: ListStreamsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsOutput.nextToken, on: eventLoop, onPage: onPage)

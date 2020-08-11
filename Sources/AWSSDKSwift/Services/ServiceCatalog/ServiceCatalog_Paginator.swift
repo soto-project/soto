@@ -24,7 +24,6 @@ extension ServiceCatalog {
     public func listAcceptedPortfolioSharesPaginator(
         _ input: ListAcceptedPortfolioSharesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAcceptedPortfolioSharesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAcceptedPortfolioShares, tokenKey: \ListAcceptedPortfolioSharesOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ServiceCatalog {
     public func listBudgetsForResourcePaginator(
         _ input: ListBudgetsForResourceInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBudgetsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBudgetsForResource, tokenKey: \ListBudgetsForResourceOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ServiceCatalog {
     public func listConstraintsForPortfolioPaginator(
         _ input: ListConstraintsForPortfolioInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConstraintsForPortfolioOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConstraintsForPortfolio, tokenKey: \ListConstraintsForPortfolioOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ServiceCatalog {
     public func listLaunchPathsPaginator(
         _ input: ListLaunchPathsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLaunchPathsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLaunchPaths, tokenKey: \ListLaunchPathsOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ServiceCatalog {
     public func listOrganizationPortfolioAccessPaginator(
         _ input: ListOrganizationPortfolioAccessInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationPortfolioAccessOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationPortfolioAccess, tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension ServiceCatalog {
     public func listPortfolioAccessPaginator(
         _ input: ListPortfolioAccessInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPortfolioAccessOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPortfolioAccess, tokenKey: \ListPortfolioAccessOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension ServiceCatalog {
     public func listPortfoliosPaginator(
         _ input: ListPortfoliosInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPortfoliosOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPortfolios, tokenKey: \ListPortfoliosOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension ServiceCatalog {
     public func listPortfoliosForProductPaginator(
         _ input: ListPortfoliosForProductInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPortfoliosForProductOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPortfoliosForProduct, tokenKey: \ListPortfoliosForProductOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension ServiceCatalog {
     public func listPrincipalsForPortfolioPaginator(
         _ input: ListPrincipalsForPortfolioInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPrincipalsForPortfolioOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPrincipalsForPortfolio, tokenKey: \ListPrincipalsForPortfolioOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension ServiceCatalog {
     public func listProvisioningArtifactsForServiceActionPaginator(
         _ input: ListProvisioningArtifactsForServiceActionInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProvisioningArtifactsForServiceActionOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProvisioningArtifactsForServiceAction, tokenKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension ServiceCatalog {
     public func listResourcesForTagOptionPaginator(
         _ input: ListResourcesForTagOptionInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourcesForTagOptionOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listResourcesForTagOption, tokenKey: \ListResourcesForTagOptionOutput.pageToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension ServiceCatalog {
     public func listServiceActionsPaginator(
         _ input: ListServiceActionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServiceActionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServiceActions, tokenKey: \ListServiceActionsOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension ServiceCatalog {
     public func listServiceActionsForProvisioningArtifactPaginator(
         _ input: ListServiceActionsForProvisioningArtifactInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServiceActionsForProvisioningArtifactOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listServiceActionsForProvisioningArtifact, tokenKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension ServiceCatalog {
     public func listTagOptionsPaginator(
         _ input: ListTagOptionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagOptionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagOptions, tokenKey: \ListTagOptionsOutput.pageToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension ServiceCatalog {
     public func searchProductsPaginator(
         _ input: SearchProductsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchProductsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchProducts, tokenKey: \SearchProductsOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension ServiceCatalog {
     public func searchProductsAsAdminPaginator(
         _ input: SearchProductsAsAdminInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchProductsAsAdminOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchProductsAsAdmin, tokenKey: \SearchProductsAsAdminOutput.nextPageToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension ServiceCatalog {
     public func searchProvisionedProductsPaginator(
         _ input: SearchProvisionedProductsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchProvisionedProductsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchProvisionedProducts, tokenKey: \SearchProvisionedProductsOutput.nextPageToken, on: eventLoop, onPage: onPage)

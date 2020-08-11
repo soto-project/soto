@@ -24,7 +24,6 @@ extension QLDB {
     public func listJournalKinesisStreamsForLedgerPaginator(
         _ input: ListJournalKinesisStreamsForLedgerRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJournalKinesisStreamsForLedgerResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJournalKinesisStreamsForLedger, tokenKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension QLDB {
     public func listJournalS3ExportsPaginator(
         _ input: ListJournalS3ExportsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJournalS3ExportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJournalS3Exports, tokenKey: \ListJournalS3ExportsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension QLDB {
     public func listJournalS3ExportsForLedgerPaginator(
         _ input: ListJournalS3ExportsForLedgerRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJournalS3ExportsForLedgerResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJournalS3ExportsForLedger, tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension QLDB {
     public func listLedgersPaginator(
         _ input: ListLedgersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLedgersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLedgers, tokenKey: \ListLedgersResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension ACMPCA {
     public func listCertificateAuthoritiesPaginator(
         _ input: ListCertificateAuthoritiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCertificateAuthoritiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCertificateAuthorities, tokenKey: \ListCertificateAuthoritiesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ACMPCA {
     public func listPermissionsPaginator(
         _ input: ListPermissionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ACMPCA {
     public func listTagsPaginator(
         _ input: ListTagsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)

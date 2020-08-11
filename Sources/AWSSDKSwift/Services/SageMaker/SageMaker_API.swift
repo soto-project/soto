@@ -21,12 +21,12 @@ Client object for interacting with AWS SageMaker service.
 
 Provides APIs for creating and managing Amazon SageMaker resources.  Other Resources:    Amazon SageMaker Developer Guide     Amazon Augmented AI Runtime API Reference   
 */
-public struct SageMaker {
+public struct SageMaker: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct SageMaker {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "SageMaker",
@@ -54,675 +54,686 @@ public struct SageMaker {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-07-24",
             endpoint: endpoint,
-            possibleErrorTypes: [SageMakerErrorType.self],
+            errorType: SageMakerErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Adds or overwrites one or more tags for the specified Amazon SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see AWS Tagging Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of CreateHyperParameterTuningJob  
-    public func addTags(_ input: AddTagsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddTagsOutput> {
-        return client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func addTags(_ input: AddTagsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsOutput> {
+        return client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
-    public func associateTrialComponent(_ input: AssociateTrialComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateTrialComponentResponse> {
-        return client.execute(operation: "AssociateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateTrialComponent(_ input: AssociateTrialComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrialComponentResponse> {
+        return client.execute(operation: "AssociateTrialComponent", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Create a machine learning algorithm that you can use in Amazon SageMaker and list in the AWS Marketplace.
-    public func createAlgorithm(_ input: CreateAlgorithmInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAlgorithmOutput> {
-        return client.execute(operation: "CreateAlgorithm", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createAlgorithm(_ input: CreateAlgorithmInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAlgorithmOutput> {
+        return client.execute(operation: "CreateAlgorithm", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a running App for the specified UserProfile. Supported Apps are JupyterServer, KernelGateway, and TensorBoard. This operation is automatically invoked by Amazon SageMaker Studio upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. UserProfiles are limited to 5 concurrently running Apps at a time.
-    public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAppResponse> {
-        return client.execute(operation: "CreateApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createApp(_ input: CreateAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
+        return client.execute(operation: "CreateApp", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an AutoPilot job. After you run an AutoPilot job, you can find the best performing model by calling , and then deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use AutoPilot, see Use AutoPilot to Automate Model Development.
-    public func createAutoMLJob(_ input: CreateAutoMLJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAutoMLJobResponse> {
-        return client.execute(operation: "CreateAutoMLJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createAutoMLJob(_ input: CreateAutoMLJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAutoMLJobResponse> {
+        return client.execute(operation: "CreateAutoMLJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a Git repository as a resource in your Amazon SageMaker account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your Amazon SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in AWS CodeCommit or in any other Git repository.
-    public func createCodeRepository(_ input: CreateCodeRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCodeRepositoryOutput> {
-        return client.execute(operation: "CreateCodeRepository", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createCodeRepository(_ input: CreateCodeRepositoryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCodeRepositoryOutput> {
+        return client.execute(operation: "CreateCodeRepository", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with AWS IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job    Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on     The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the model compilation job    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
-    public func createCompilationJob(_ input: CreateCompilationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCompilationJobResponse> {
-        return client.execute(operation: "CreateCompilationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createCompilationJob(_ input: CreateCompilationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCompilationJobResponse> {
+        return client.execute(operation: "CreateCompilationJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a Domain used by SageMaker Studio. A domain consists of an associated directory, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an Amazon Elastic File System (EFS) volume is also created for use by all of the users within the domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. All traffic between the domain and the EFS volume is communicated through the specified subnet IDs. All other traffic goes over the Internet through an Amazon SageMaker system VPC. The EFS traffic uses the NFS/TCP protocol over port 2049.  NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a SageMaker Studio app successfully. 
-    public func createDomain(_ input: CreateDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDomainResponse> {
-        return client.execute(operation: "CreateDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDomain(_ input: CreateDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
+        return client.execute(operation: "CreateDomain", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an endpoint using the endpoint configuration specified in the request. Amazon SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.   Use this API to deploy models using Amazon SageMaker hosting services.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).    You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within an AWS Region in your AWS account.  When it receives the request, Amazon SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.   When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.  When Amazon SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. Amazon SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provided. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.
-    public func createEndpoint(_ input: CreateEndpointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateEndpointOutput> {
-        return client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createEndpoint(_ input: CreateEndpointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEndpointOutput> {
+        return client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an endpoint configuration that Amazon SageMaker hosting services uses to deploy models. In the configuration, you identify one or more models, created using the CreateModel API, to deploy and the resources that you want Amazon SageMaker to provision. Then you call the CreateEndpoint API.   Use this API if you want to use Amazon SageMaker hosting services to deploy models into production.   In the request, you define a ProductionVariant, for each model that you want to deploy. Each ProductionVariant parameter also describes the resources that you want Amazon SageMaker to provision. This includes the number and type of ML compute instances to deploy.  If you are hosting multiple models, you also assign a VariantWeight to specify how much traffic you want to allocate to each model. For example, suppose that you want to host two models, A and B, and you assign traffic weight 2 for model A and 1 for model B. Amazon SageMaker distributes two-thirds of the traffic to Model A, and one-third to model B.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).   When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read. 
-    public func createEndpointConfig(_ input: CreateEndpointConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateEndpointConfigOutput> {
-        return client.execute(operation: "CreateEndpointConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createEndpointConfig(_ input: CreateEndpointConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEndpointConfigOutput> {
+        return client.execute(operation: "CreateEndpointConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an Amazon SageMaker experiment. An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components, that produce a machine learning model. The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change to one or more inputs, while keeping the remaining inputs constant. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to experiments, trials, trial components and then use the Search API to search for the tags. To add a description to an experiment, specify the optional Description parameter. To add a description later, or to change the description, call the UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
-    public func createExperiment(_ input: CreateExperimentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateExperimentResponse> {
-        return client.execute(operation: "CreateExperiment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createExperiment(_ input: CreateExperimentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExperimentResponse> {
+        return client.execute(operation: "CreateExperiment", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a flow definition.
-    public func createFlowDefinition(_ input: CreateFlowDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateFlowDefinitionResponse> {
-        return client.execute(operation: "CreateFlowDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createFlowDefinition(_ input: CreateFlowDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFlowDefinitionResponse> {
+        return client.execute(operation: "CreateFlowDefinition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
-    public func createHumanTaskUi(_ input: CreateHumanTaskUiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateHumanTaskUiResponse> {
-        return client.execute(operation: "CreateHumanTaskUi", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createHumanTaskUi(_ input: CreateHumanTaskUiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHumanTaskUiResponse> {
+        return client.execute(operation: "CreateHumanTaskUi", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter values that result in a model that performs the best, as measured by an objective metric that you choose.
-    public func createHyperParameterTuningJob(_ input: CreateHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateHyperParameterTuningJobResponse> {
-        return client.execute(operation: "CreateHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createHyperParameterTuningJob(_ input: CreateHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHyperParameterTuningJobResponse> {
+        return client.execute(operation: "CreateHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers:   A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required.   One or more vendors that you select from the AWS Marketplace. Vendors provide expertise in specific areas.    The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be used for public data or data that has been stripped of any personally identifiable information.   You can also use automated data labeling to reduce the number of data objects that need to be labeled by a human. Automated data labeling uses active learning to determine if a data object can be labeled by machine or if it needs to be sent to a human worker. For more information, see Using Automated Data Labeling. The data objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that describes the location of each object. For more information, see Using Input and Output Data. The output can be used as the manifest file for another labeling job or as training data for your machine learning models.
-    public func createLabelingJob(_ input: CreateLabelingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateLabelingJobResponse> {
-        return client.execute(operation: "CreateLabelingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createLabelingJob(_ input: CreateLabelingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLabelingJobResponse> {
+        return client.execute(operation: "CreateLabelingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a model in Amazon SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions. Use this API to create a model if you want to use Amazon SageMaker hosting services or run a batch transform job. To host your model, you create an endpoint configuration with the CreateEndpointConfig API, and then create an endpoint with the CreateEndpoint API. Amazon SageMaker then deploys all of the containers that you defined for the model in the hosting environment.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).  To run a batch transform using your model, you start a job with the CreateTransformJob API. Amazon SageMaker uses your model and your dataset to get inferences which are then saved to a specified S3 location. In the CreateModel request, you must define a container with the PrimaryContainer parameter. In the request, you also provide an IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on ML compute hosting instances or for batch transform jobs. In addition, you also use the IAM role to manage permissions the inference code needs. For example, if the inference code access any other AWS resources, you grant necessary permissions via this role.
-    public func createModel(_ input: CreateModelInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateModelOutput> {
-        return client.execute(operation: "CreateModel", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createModel(_ input: CreateModelInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateModelOutput> {
+        return client.execute(operation: "CreateModel", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a model package that you can use to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To create a model from an algorithm resource that you created or subscribed to in AWS Marketplace, provide a value for SourceAlgorithmSpecification.
-    public func createModelPackage(_ input: CreateModelPackageInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateModelPackageOutput> {
-        return client.execute(operation: "CreateModelPackage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createModelPackage(_ input: CreateModelPackageInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateModelPackageOutput> {
+        return client.execute(operation: "CreateModelPackage", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the data captured for an Amazon SageMaker Endoint.
-    public func createMonitoringSchedule(_ input: CreateMonitoringScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMonitoringScheduleResponse> {
-        return client.execute(operation: "CreateMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMonitoringSchedule(_ input: CreateMonitoringScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMonitoringScheduleResponse> {
+        return client.execute(operation: "CreateMonitoringSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an Amazon SageMaker notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.  In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. Amazon SageMaker launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance.  Amazon SageMaker also provides a set of example notebooks. Each notebook demonstrates how to use Amazon SageMaker with a specific algorithm or with a machine learning framework.  After receiving the request, Amazon SageMaker does the following:   Creates a network interface in the Amazon SageMaker VPC.   (Option) If you specified SubnetId, Amazon SageMaker creates a network interface in your own VPC, which is inferred from the subnet ID that you provide in the input. When creating this network interface, Amazon SageMaker attaches the security group that you specified in the request to the network interface that it creates in your VPC.   Launches an EC2 instance of the type specified in the request in the Amazon SageMaker VPC. If you specified SubnetId of your VPC, Amazon SageMaker specifies both network interfaces when launching this instance. This enables inbound traffic from your own VPC to the notebook instance, assuming that the security groups allow it.   After creating the notebook instance, Amazon SageMaker returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After Amazon SageMaker creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating Amazon SageMaker endpoints, and validate hosted models.  For more information, see How It Works. 
-    public func createNotebookInstance(_ input: CreateNotebookInstanceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNotebookInstanceOutput> {
-        return client.execute(operation: "CreateNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createNotebookInstance(_ input: CreateNotebookInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNotebookInstanceOutput> {
+        return client.execute(operation: "CreateNotebookInstance", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
-    public func createNotebookInstanceLifecycleConfig(_ input: CreateNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNotebookInstanceLifecycleConfigOutput> {
-        return client.execute(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createNotebookInstanceLifecycleConfig(_ input: CreateNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNotebookInstanceLifecycleConfigOutput> {
+        return client.execute(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM. 
-    public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePresignedDomainUrlResponse> {
-        return client.execute(operation: "CreatePresignedDomainUrl", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePresignedDomainUrlResponse> {
+        return client.execute(operation: "CreatePresignedDomainUrl", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the Amazon SageMaker console, when you choose Open next to a notebook instance, Amazon SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page.  The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page. 
-    public func createPresignedNotebookInstanceUrl(_ input: CreatePresignedNotebookInstanceUrlInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePresignedNotebookInstanceUrlOutput> {
-        return client.execute(operation: "CreatePresignedNotebookInstanceUrl", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPresignedNotebookInstanceUrl(_ input: CreatePresignedNotebookInstanceUrlInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePresignedNotebookInstanceUrlOutput> {
+        return client.execute(operation: "CreatePresignedNotebookInstanceUrl", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a processing job.
-    public func createProcessingJob(_ input: CreateProcessingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProcessingJobResponse> {
-        return client.execute(operation: "CreateProcessingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProcessingJob(_ input: CreateProcessingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProcessingJobResponse> {
+        return client.execute(operation: "CreateProcessingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a model training job. After training completes, Amazon SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than Amazon SageMaker, provided that you know how to use them for inferences.  In the request body, you provide the following:     AlgorithmSpecification - Identifies the training algorithm to use.     HyperParameters - Specify these algorithm-specific parameters to enable the estimation of model parameters during training. Hyperparameters can be tuned to optimize this learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.     InputDataConfig - Describes the training dataset and the Amazon S3, EFS, or FSx location where it is stored.    OutputDataConfig - Identifies the Amazon S3 bucket where you want Amazon SageMaker to save the results of model training.      ResourceConfig - Identifies the resources, ML compute instances, and ML storage volumes to deploy for model training. In distributed training, you specify more than one instance.     EnableManagedSpotTraining - Optimize the cost of training machine learning models by up to 80% by using Amazon EC2 Spot instances. For more information, see Managed Spot Training.     RoleARN - The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during model training. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete model training.     StoppingCondition - To help cap training costs, use MaxRuntimeInSeconds to set a time limit for training. Use MaxWaitTimeInSeconds to specify how long you are willing to wait for a managed spot training job to complete.     For more information about Amazon SageMaker, see How It Works. 
-    public func createTrainingJob(_ input: CreateTrainingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTrainingJobResponse> {
-        return client.execute(operation: "CreateTrainingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTrainingJob(_ input: CreateTrainingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrainingJobResponse> {
+        return client.execute(operation: "CreateTrainingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:    TransformJobName - Identifies the transform job. The name must be unique within an AWS Region in an AWS account.    ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon SageMaker model in the same AWS Region and AWS account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances for the transform job.   For more information about how batch transformation works, see Batch Transform.
-    public func createTransformJob(_ input: CreateTransformJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTransformJobResponse> {
-        return client.execute(operation: "CreateTransformJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTransformJob(_ input: CreateTransformJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransformJobResponse> {
+        return client.execute(operation: "CreateTransformJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an Amazon SageMaker trial. A trial is a set of steps called trial components that produce a machine learning model. A trial is part of a single Amazon SageMaker experiment. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial and then use the Search API to search for the tags. To get a list of all your trials, call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
-    public func createTrial(_ input: CreateTrialRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTrialResponse> {
-        return client.execute(operation: "CreateTrial", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTrial(_ input: CreateTrialRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrialResponse> {
+        return client.execute(operation: "CreateTrial", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a trial component, which is a stage of a machine learning trial. A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial component and then use the Search API to search for the tags.   CreateTrialComponent can only be invoked from within an Amazon SageMaker managed environment. This includes Amazon SageMaker training jobs, processing jobs, transform jobs, and Amazon SageMaker notebooks. A call to CreateTrialComponent from outside one of these environments results in an error. 
-    public func createTrialComponent(_ input: CreateTrialComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTrialComponentResponse> {
-        return client.execute(operation: "CreateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTrialComponent(_ input: CreateTrialComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrialComponentResponse> {
+        return client.execute(operation: "CreateTrialComponent", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to Amazon SageMaker Studio. If an administrator invites a person by email or imports them from SSO, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory. 
-    public func createUserProfile(_ input: CreateUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserProfileResponse> {
-        return client.execute(operation: "CreateUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createUserProfile(_ input: CreateUserProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserProfileResponse> {
+        return client.execute(operation: "CreateUserProfile", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new work team for labeling your data. A work team is defined by one or more Amazon Cognito user pools. You must first create the user pools before you can create a work team. You cannot create more than 25 work teams in an account and region.
-    public func createWorkteam(_ input: CreateWorkteamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorkteamResponse> {
-        return client.execute(operation: "CreateWorkteam", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createWorkteam(_ input: CreateWorkteamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkteamResponse> {
+        return client.execute(operation: "CreateWorkteam", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes the specified algorithm from your account.
-    @discardableResult public func deleteAlgorithm(_ input: DeleteAlgorithmInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteAlgorithm", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteAlgorithm(_ input: DeleteAlgorithmInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteAlgorithm", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Used to stop and delete an app.
-    @discardableResult public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteApp", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified Git repository from your account.
-    @discardableResult public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteCodeRepository", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteCodeRepository", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using SSO. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. 
-    @discardableResult public func deleteDomain(_ input: DeleteDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDomain(_ input: DeleteDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteDomain", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an endpoint. Amazon SageMaker frees up all of the resources that were deployed when the endpoint was created.  Amazon SageMaker retires any custom KMS key grants associated with the endpoint, meaning you don't need to use the RevokeGrant API call.
-    @discardableResult public func deleteEndpoint(_ input: DeleteEndpointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteEndpoint(_ input: DeleteEndpointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration.  You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
-    @discardableResult public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteEndpointConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteEndpointConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an Amazon SageMaker experiment. All trials associated with the experiment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment.
-    public func deleteExperiment(_ input: DeleteExperimentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteExperimentResponse> {
-        return client.execute(operation: "DeleteExperiment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteExperiment(_ input: DeleteExperimentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteExperimentResponse> {
+        return client.execute(operation: "DeleteExperiment", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified flow definition.
-    public func deleteFlowDefinition(_ input: DeleteFlowDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteFlowDefinitionResponse> {
-        return client.execute(operation: "DeleteFlowDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteFlowDefinition(_ input: DeleteFlowDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFlowDefinitionResponse> {
+        return client.execute(operation: "DeleteFlowDefinition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a model. The DeleteModel API deletes only the model entry that was created in Amazon SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. 
-    @discardableResult public func deleteModel(_ input: DeleteModelInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteModel", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteModel(_ input: DeleteModelInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteModel", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a model package. A model package is used to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker.
-    @discardableResult public func deleteModelPackage(_ input: DeleteModelPackageInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteModelPackage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteModelPackage(_ input: DeleteModelPackageInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteModelPackage", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule. 
-    @discardableResult public func deleteMonitoringSchedule(_ input: DeleteMonitoringScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteMonitoringSchedule(_ input: DeleteMonitoringScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteMonitoringSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Deletes an Amazon SageMaker notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. Amazon SageMaker removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.  
-    @discardableResult public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteNotebookInstance", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a notebook instance lifecycle configuration.
-    @discardableResult public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified tags from an Amazon SageMaker resource. To list a resource's tags, use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. 
-    public func deleteTags(_ input: DeleteTagsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTagsOutput> {
-        return client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTags(_ input: DeleteTagsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTagsOutput> {
+        return client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
-    public func deleteTrial(_ input: DeleteTrialRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTrialResponse> {
-        return client.execute(operation: "DeleteTrial", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTrial(_ input: DeleteTrialRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTrialResponse> {
+        return client.execute(operation: "DeleteTrial", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
-    public func deleteTrialComponent(_ input: DeleteTrialComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTrialComponentResponse> {
-        return client.execute(operation: "DeleteTrialComponent", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTrialComponent(_ input: DeleteTrialComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTrialComponentResponse> {
+        return client.execute(operation: "DeleteTrialComponent", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
-    @discardableResult public func deleteUserProfile(_ input: DeleteUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUserProfile(_ input: DeleteUserProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteUserProfile", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing work team. This operation can't be undone.
-    public func deleteWorkteam(_ input: DeleteWorkteamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWorkteamResponse> {
-        return client.execute(operation: "DeleteWorkteam", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteWorkteam(_ input: DeleteWorkteamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkteamResponse> {
+        return client.execute(operation: "DeleteWorkteam", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a description of the specified algorithm that is in your account.
-    public func describeAlgorithm(_ input: DescribeAlgorithmInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAlgorithmOutput> {
-        return client.execute(operation: "DescribeAlgorithm", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAlgorithm(_ input: DescribeAlgorithmInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlgorithmOutput> {
+        return client.execute(operation: "DescribeAlgorithm", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the app.
-    public func describeApp(_ input: DescribeAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAppResponse> {
-        return client.execute(operation: "DescribeApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeApp(_ input: DescribeAppRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppResponse> {
+        return client.execute(operation: "DescribeApp", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about an Amazon SageMaker job.
-    public func describeAutoMLJob(_ input: DescribeAutoMLJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAutoMLJobResponse> {
-        return client.execute(operation: "DescribeAutoMLJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAutoMLJob(_ input: DescribeAutoMLJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAutoMLJobResponse> {
+        return client.execute(operation: "DescribeAutoMLJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets details about the specified Git repository.
-    public func describeCodeRepository(_ input: DescribeCodeRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCodeRepositoryOutput> {
-        return client.execute(operation: "DescribeCodeRepository", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCodeRepository(_ input: DescribeCodeRepositoryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCodeRepositoryOutput> {
+        return client.execute(operation: "DescribeCodeRepository", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about a model compilation job. To create a model compilation job, use CreateCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
-    public func describeCompilationJob(_ input: DescribeCompilationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCompilationJobResponse> {
-        return client.execute(operation: "DescribeCompilationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCompilationJob(_ input: DescribeCompilationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCompilationJobResponse> {
+        return client.execute(operation: "DescribeCompilationJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  The description of the domain.
-    public func describeDomain(_ input: DescribeDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDomainResponse> {
-        return client.execute(operation: "DescribeDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDomain(_ input: DescribeDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainResponse> {
+        return client.execute(operation: "DescribeDomain", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the description of an endpoint.
-    public func describeEndpoint(_ input: DescribeEndpointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEndpointOutput> {
-        return client.execute(operation: "DescribeEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeEndpoint(_ input: DescribeEndpointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEndpointOutput> {
+        return client.execute(operation: "DescribeEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the description of an endpoint configuration created using the CreateEndpointConfig API.
-    public func describeEndpointConfig(_ input: DescribeEndpointConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEndpointConfigOutput> {
-        return client.execute(operation: "DescribeEndpointConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeEndpointConfig(_ input: DescribeEndpointConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEndpointConfigOutput> {
+        return client.execute(operation: "DescribeEndpointConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Provides a list of an experiment's properties.
-    public func describeExperiment(_ input: DescribeExperimentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeExperimentResponse> {
-        return client.execute(operation: "DescribeExperiment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeExperiment(_ input: DescribeExperimentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeExperimentResponse> {
+        return client.execute(operation: "DescribeExperiment", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about the specified flow definition.
-    public func describeFlowDefinition(_ input: DescribeFlowDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeFlowDefinitionResponse> {
-        return client.execute(operation: "DescribeFlowDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeFlowDefinition(_ input: DescribeFlowDefinitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFlowDefinitionResponse> {
+        return client.execute(operation: "DescribeFlowDefinition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about the requested human task user interface.
-    public func describeHumanTaskUi(_ input: DescribeHumanTaskUiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHumanTaskUiResponse> {
-        return client.execute(operation: "DescribeHumanTaskUi", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeHumanTaskUi(_ input: DescribeHumanTaskUiRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHumanTaskUiResponse> {
+        return client.execute(operation: "DescribeHumanTaskUi", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a description of a hyperparameter tuning job.
-    public func describeHyperParameterTuningJob(_ input: DescribeHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHyperParameterTuningJobResponse> {
-        return client.execute(operation: "DescribeHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeHyperParameterTuningJob(_ input: DescribeHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHyperParameterTuningJobResponse> {
+        return client.execute(operation: "DescribeHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about a labeling job.
-    public func describeLabelingJob(_ input: DescribeLabelingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeLabelingJobResponse> {
-        return client.execute(operation: "DescribeLabelingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeLabelingJob(_ input: DescribeLabelingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLabelingJobResponse> {
+        return client.execute(operation: "DescribeLabelingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes a model that you created using the CreateModel API.
-    public func describeModel(_ input: DescribeModelInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeModelOutput> {
-        return client.execute(operation: "DescribeModel", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeModel(_ input: DescribeModelInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeModelOutput> {
+        return client.execute(operation: "DescribeModel", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a description of the specified model package, which is used to create Amazon SageMaker models or list them on AWS Marketplace. To create models in Amazon SageMaker, buyers can subscribe to model packages listed on AWS Marketplace.
-    public func describeModelPackage(_ input: DescribeModelPackageInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeModelPackageOutput> {
-        return client.execute(operation: "DescribeModelPackage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeModelPackage(_ input: DescribeModelPackageInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeModelPackageOutput> {
+        return client.execute(operation: "DescribeModelPackage", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the schedule for a monitoring job.
-    public func describeMonitoringSchedule(_ input: DescribeMonitoringScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMonitoringScheduleResponse> {
-        return client.execute(operation: "DescribeMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeMonitoringSchedule(_ input: DescribeMonitoringScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMonitoringScheduleResponse> {
+        return client.execute(operation: "DescribeMonitoringSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about a notebook instance.
-    public func describeNotebookInstance(_ input: DescribeNotebookInstanceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeNotebookInstanceOutput> {
-        return client.execute(operation: "DescribeNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeNotebookInstance(_ input: DescribeNotebookInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNotebookInstanceOutput> {
+        return client.execute(operation: "DescribeNotebookInstance", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a description of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
-    public func describeNotebookInstanceLifecycleConfig(_ input: DescribeNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeNotebookInstanceLifecycleConfigOutput> {
-        return client.execute(operation: "DescribeNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeNotebookInstanceLifecycleConfig(_ input: DescribeNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNotebookInstanceLifecycleConfigOutput> {
+        return client.execute(operation: "DescribeNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a description of a processing job.
-    public func describeProcessingJob(_ input: DescribeProcessingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProcessingJobResponse> {
-        return client.execute(operation: "DescribeProcessingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProcessingJob(_ input: DescribeProcessingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProcessingJobResponse> {
+        return client.execute(operation: "DescribeProcessingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the AWS Marketplace.
-    public func describeSubscribedWorkteam(_ input: DescribeSubscribedWorkteamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSubscribedWorkteamResponse> {
-        return client.execute(operation: "DescribeSubscribedWorkteam", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSubscribedWorkteam(_ input: DescribeSubscribedWorkteamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSubscribedWorkteamResponse> {
+        return client.execute(operation: "DescribeSubscribedWorkteam", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about a training job.
-    public func describeTrainingJob(_ input: DescribeTrainingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTrainingJobResponse> {
-        return client.execute(operation: "DescribeTrainingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTrainingJob(_ input: DescribeTrainingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTrainingJobResponse> {
+        return client.execute(operation: "DescribeTrainingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about a transform job.
-    public func describeTransformJob(_ input: DescribeTransformJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTransformJobResponse> {
-        return client.execute(operation: "DescribeTransformJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTransformJob(_ input: DescribeTransformJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTransformJobResponse> {
+        return client.execute(operation: "DescribeTransformJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Provides a list of a trial's properties.
-    public func describeTrial(_ input: DescribeTrialRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTrialResponse> {
-        return client.execute(operation: "DescribeTrial", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTrial(_ input: DescribeTrialRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTrialResponse> {
+        return client.execute(operation: "DescribeTrial", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Provides a list of a trials component's properties.
-    public func describeTrialComponent(_ input: DescribeTrialComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTrialComponentResponse> {
-        return client.execute(operation: "DescribeTrialComponent", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTrialComponent(_ input: DescribeTrialComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTrialComponentResponse> {
+        return client.execute(operation: "DescribeTrialComponent", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes a user profile. For more information, see CreateUserProfile.
-    public func describeUserProfile(_ input: DescribeUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserProfileResponse> {
-        return client.execute(operation: "DescribeUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeUserProfile(_ input: DescribeUserProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserProfileResponse> {
+        return client.execute(operation: "DescribeUserProfile", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (CIDRs). Allowable IP address ranges are the IP addresses that workers can use to access tasks.   This operation applies only to private workforces. 
-    public func describeWorkforce(_ input: DescribeWorkforceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkforceResponse> {
-        return client.execute(operation: "DescribeWorkforce", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkforce(_ input: DescribeWorkforceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeWorkforceResponse> {
+        return client.execute(operation: "DescribeWorkforce", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about a specific work team. You can see information such as the create date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
-    public func describeWorkteam(_ input: DescribeWorkteamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkteamResponse> {
-        return client.execute(operation: "DescribeWorkteam", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkteam(_ input: DescribeWorkteamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeWorkteamResponse> {
+        return client.execute(operation: "DescribeWorkteam", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the AssociateTrialComponent API. To get a list of the trials a component is associated with, use the Search API. Specify ExperimentTrialComponent for the Resource parameter. The list appears in the response under Results.TrialComponent.Parents.
-    public func disassociateTrialComponent(_ input: DisassociateTrialComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateTrialComponentResponse> {
-        return client.execute(operation: "DisassociateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateTrialComponent(_ input: DisassociateTrialComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTrialComponentResponse> {
+        return client.execute(operation: "DisassociateTrialComponent", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  An auto-complete API for the search functionality in the Amazon SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
-    public func getSearchSuggestions(_ input: GetSearchSuggestionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSearchSuggestionsResponse> {
-        return client.execute(operation: "GetSearchSuggestions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSearchSuggestions(_ input: GetSearchSuggestionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSearchSuggestionsResponse> {
+        return client.execute(operation: "GetSearchSuggestions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the machine learning algorithms that have been created.
-    public func listAlgorithms(_ input: ListAlgorithmsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAlgorithmsOutput> {
-        return client.execute(operation: "ListAlgorithms", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAlgorithms(_ input: ListAlgorithmsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlgorithmsOutput> {
+        return client.execute(operation: "ListAlgorithms", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists apps.
-    public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAppsResponse> {
-        return client.execute(operation: "ListApps", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResponse> {
+        return client.execute(operation: "ListApps", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Request a list of jobs.
-    public func listAutoMLJobs(_ input: ListAutoMLJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAutoMLJobsResponse> {
-        return client.execute(operation: "ListAutoMLJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAutoMLJobs(_ input: ListAutoMLJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAutoMLJobsResponse> {
+        return client.execute(operation: "ListAutoMLJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  List the Candidates created for the job.
-    public func listCandidatesForAutoMLJob(_ input: ListCandidatesForAutoMLJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCandidatesForAutoMLJobResponse> {
-        return client.execute(operation: "ListCandidatesForAutoMLJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCandidatesForAutoMLJob(_ input: ListCandidatesForAutoMLJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCandidatesForAutoMLJobResponse> {
+        return client.execute(operation: "ListCandidatesForAutoMLJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the Git repositories in your account.
-    public func listCodeRepositories(_ input: ListCodeRepositoriesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCodeRepositoriesOutput> {
-        return client.execute(operation: "ListCodeRepositories", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCodeRepositories(_ input: ListCodeRepositoriesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCodeRepositoriesOutput> {
+        return client.execute(operation: "ListCodeRepositories", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists model compilation jobs that satisfy various filters. To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
-    public func listCompilationJobs(_ input: ListCompilationJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCompilationJobsResponse> {
-        return client.execute(operation: "ListCompilationJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCompilationJobs(_ input: ListCompilationJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCompilationJobsResponse> {
+        return client.execute(operation: "ListCompilationJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the domains.
-    public func listDomains(_ input: ListDomainsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainsResponse> {
-        return client.execute(operation: "ListDomains", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDomains(_ input: ListDomainsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsResponse> {
+        return client.execute(operation: "ListDomains", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists endpoint configurations.
-    public func listEndpointConfigs(_ input: ListEndpointConfigsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEndpointConfigsOutput> {
-        return client.execute(operation: "ListEndpointConfigs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listEndpointConfigs(_ input: ListEndpointConfigsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEndpointConfigsOutput> {
+        return client.execute(operation: "ListEndpointConfigs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists endpoints.
-    public func listEndpoints(_ input: ListEndpointsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEndpointsOutput> {
-        return client.execute(operation: "ListEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listEndpoints(_ input: ListEndpointsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEndpointsOutput> {
+        return client.execute(operation: "ListEndpoints", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
-    public func listExperiments(_ input: ListExperimentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListExperimentsResponse> {
-        return client.execute(operation: "ListExperiments", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listExperiments(_ input: ListExperimentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperimentsResponse> {
+        return client.execute(operation: "ListExperiments", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about the flow definitions in your account.
-    public func listFlowDefinitions(_ input: ListFlowDefinitionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFlowDefinitionsResponse> {
-        return client.execute(operation: "ListFlowDefinitions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listFlowDefinitions(_ input: ListFlowDefinitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFlowDefinitionsResponse> {
+        return client.execute(operation: "ListFlowDefinitions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information about the human task user interfaces in your account.
-    public func listHumanTaskUis(_ input: ListHumanTaskUisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHumanTaskUisResponse> {
-        return client.execute(operation: "ListHumanTaskUis", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listHumanTaskUis(_ input: ListHumanTaskUisRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHumanTaskUisResponse> {
+        return client.execute(operation: "ListHumanTaskUis", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
-    public func listHyperParameterTuningJobs(_ input: ListHyperParameterTuningJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHyperParameterTuningJobsResponse> {
-        return client.execute(operation: "ListHyperParameterTuningJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listHyperParameterTuningJobs(_ input: ListHyperParameterTuningJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHyperParameterTuningJobsResponse> {
+        return client.execute(operation: "ListHyperParameterTuningJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of labeling jobs.
-    public func listLabelingJobs(_ input: ListLabelingJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListLabelingJobsResponse> {
-        return client.execute(operation: "ListLabelingJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listLabelingJobs(_ input: ListLabelingJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLabelingJobsResponse> {
+        return client.execute(operation: "ListLabelingJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of labeling jobs assigned to a specified work team.
-    public func listLabelingJobsForWorkteam(_ input: ListLabelingJobsForWorkteamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListLabelingJobsForWorkteamResponse> {
-        return client.execute(operation: "ListLabelingJobsForWorkteam", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listLabelingJobsForWorkteam(_ input: ListLabelingJobsForWorkteamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLabelingJobsForWorkteamResponse> {
+        return client.execute(operation: "ListLabelingJobsForWorkteam", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the model packages that have been created.
-    public func listModelPackages(_ input: ListModelPackagesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListModelPackagesOutput> {
-        return client.execute(operation: "ListModelPackages", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listModelPackages(_ input: ListModelPackagesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelPackagesOutput> {
+        return client.execute(operation: "ListModelPackages", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists models created with the CreateModel API.
-    public func listModels(_ input: ListModelsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListModelsOutput> {
-        return client.execute(operation: "ListModels", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listModels(_ input: ListModelsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelsOutput> {
+        return client.execute(operation: "ListModels", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns list of all monitoring job executions.
-    public func listMonitoringExecutions(_ input: ListMonitoringExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMonitoringExecutionsResponse> {
-        return client.execute(operation: "ListMonitoringExecutions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMonitoringExecutions(_ input: ListMonitoringExecutionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMonitoringExecutionsResponse> {
+        return client.execute(operation: "ListMonitoringExecutions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns list of all monitoring schedules.
-    public func listMonitoringSchedules(_ input: ListMonitoringSchedulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMonitoringSchedulesResponse> {
-        return client.execute(operation: "ListMonitoringSchedules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMonitoringSchedules(_ input: ListMonitoringSchedulesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMonitoringSchedulesResponse> {
+        return client.execute(operation: "ListMonitoringSchedules", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
-    public func listNotebookInstanceLifecycleConfigs(_ input: ListNotebookInstanceLifecycleConfigsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNotebookInstanceLifecycleConfigsOutput> {
-        return client.execute(operation: "ListNotebookInstanceLifecycleConfigs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listNotebookInstanceLifecycleConfigs(_ input: ListNotebookInstanceLifecycleConfigsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotebookInstanceLifecycleConfigsOutput> {
+        return client.execute(operation: "ListNotebookInstanceLifecycleConfigs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an AWS Region. 
-    public func listNotebookInstances(_ input: ListNotebookInstancesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNotebookInstancesOutput> {
-        return client.execute(operation: "ListNotebookInstances", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listNotebookInstances(_ input: ListNotebookInstancesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotebookInstancesOutput> {
+        return client.execute(operation: "ListNotebookInstances", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists processing jobs that satisfy various filters.
-    public func listProcessingJobs(_ input: ListProcessingJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProcessingJobsResponse> {
-        return client.execute(operation: "ListProcessingJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProcessingJobs(_ input: ListProcessingJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProcessingJobsResponse> {
+        return client.execute(operation: "ListProcessingJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of the work teams that you are subscribed to in the AWS Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
-    public func listSubscribedWorkteams(_ input: ListSubscribedWorkteamsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSubscribedWorkteamsResponse> {
-        return client.execute(operation: "ListSubscribedWorkteams", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSubscribedWorkteams(_ input: ListSubscribedWorkteamsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSubscribedWorkteamsResponse> {
+        return client.execute(operation: "ListSubscribedWorkteams", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns the tags for the specified Amazon SageMaker resource.
-    public func listTags(_ input: ListTagsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsOutput> {
-        return client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTags(_ input: ListTagsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsOutput> {
+        return client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists training jobs.
-    public func listTrainingJobs(_ input: ListTrainingJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTrainingJobsResponse> {
-        return client.execute(operation: "ListTrainingJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTrainingJobs(_ input: ListTrainingJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrainingJobsResponse> {
+        return client.execute(operation: "ListTrainingJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
-    public func listTrainingJobsForHyperParameterTuningJob(_ input: ListTrainingJobsForHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTrainingJobsForHyperParameterTuningJobResponse> {
-        return client.execute(operation: "ListTrainingJobsForHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTrainingJobsForHyperParameterTuningJob(_ input: ListTrainingJobsForHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrainingJobsForHyperParameterTuningJobResponse> {
+        return client.execute(operation: "ListTrainingJobsForHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists transform jobs.
-    public func listTransformJobs(_ input: ListTransformJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTransformJobsResponse> {
-        return client.execute(operation: "ListTransformJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTransformJobs(_ input: ListTransformJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTransformJobsResponse> {
+        return client.execute(operation: "ListTransformJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:    ExperimentName     SourceArn     TrialName   
-    public func listTrialComponents(_ input: ListTrialComponentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTrialComponentsResponse> {
-        return client.execute(operation: "ListTrialComponents", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTrialComponents(_ input: ListTrialComponentsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrialComponentsResponse> {
+        return client.execute(operation: "ListTrialComponents", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
-    public func listTrials(_ input: ListTrialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTrialsResponse> {
-        return client.execute(operation: "ListTrials", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTrials(_ input: ListTrialsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrialsResponse> {
+        return client.execute(operation: "ListTrials", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists user profiles.
-    public func listUserProfiles(_ input: ListUserProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserProfilesResponse> {
-        return client.execute(operation: "ListUserProfiles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listUserProfiles(_ input: ListUserProfilesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUserProfilesResponse> {
+        return client.execute(operation: "ListUserProfiles", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
-    public func listWorkteams(_ input: ListWorkteamsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWorkteamsResponse> {
-        return client.execute(operation: "ListWorkteams", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listWorkteams(_ input: ListWorkteamsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkteamsResponse> {
+        return client.execute(operation: "ListWorkteams", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Renders the UI template so that you can preview the worker's experience. 
-    public func renderUiTemplate(_ input: RenderUiTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RenderUiTemplateResponse> {
-        return client.execute(operation: "RenderUiTemplate", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func renderUiTemplate(_ input: RenderUiTemplateRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RenderUiTemplateResponse> {
+        return client.execute(operation: "RenderUiTemplate", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Finds Amazon SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
-    public func search(_ input: SearchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchResponse> {
-        return client.execute(operation: "Search", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func search(_ input: SearchRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResponse> {
+        return client.execute(operation: "Search", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a previously stopped monitoring schedule.  New monitoring schedules are immediately started after creation. 
-    @discardableResult public func startMonitoringSchedule(_ input: StartMonitoringScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StartMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func startMonitoringSchedule(_ input: StartMonitoringScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StartMonitoringSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, Amazon SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook. 
-    @discardableResult public func startNotebookInstance(_ input: StartNotebookInstanceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StartNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func startNotebookInstance(_ input: StartNotebookInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StartNotebookInstance", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  A method for forcing the termination of a running job.
-    @discardableResult public func stopAutoMLJob(_ input: StopAutoMLJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopAutoMLJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopAutoMLJob(_ input: StopAutoMLJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopAutoMLJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a model compilation job.  To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobSummary$CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobSummary$CompilationJobStatus to Stopped. 
-    @discardableResult public func stopCompilationJob(_ input: StopCompilationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopCompilationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopCompilationJob(_ input: StopCompilationJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopCompilationJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job.
-    @discardableResult public func stopHyperParameterTuningJob(_ input: StopHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopHyperParameterTuningJob(_ input: StopHyperParameterTuningJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopHyperParameterTuningJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
-    @discardableResult public func stopLabelingJob(_ input: StopLabelingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopLabelingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopLabelingJob(_ input: StopLabelingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopLabelingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a previously started monitoring schedule.
-    @discardableResult public func stopMonitoringSchedule(_ input: StopMonitoringScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopMonitoringSchedule(_ input: StopMonitoringScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopMonitoringSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Terminates the ML compute instance. Before terminating the instance, Amazon SageMaker disconnects the ML storage volume from it. Amazon SageMaker preserves the ML storage volume. Amazon SageMaker stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work. 
-    @discardableResult public func stopNotebookInstance(_ input: StopNotebookInstanceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopNotebookInstance(_ input: StopNotebookInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopNotebookInstance", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a processing job.
-    @discardableResult public func stopProcessingJob(_ input: StopProcessingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopProcessingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopProcessingJob(_ input: StopProcessingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopProcessingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a training job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost.  When it receives a StopTrainingJob request, Amazon SageMaker changes the status of the job to Stopping. After Amazon SageMaker stops the job, it sets the status to Stopped.
-    @discardableResult public func stopTrainingJob(_ input: StopTrainingJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopTrainingJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopTrainingJob(_ input: StopTrainingJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopTrainingJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
-    @discardableResult public func stopTransformJob(_ input: StopTransformJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopTransformJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopTransformJob(_ input: StopTransformJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopTransformJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified Git repository with the specified values.
-    public func updateCodeRepository(_ input: UpdateCodeRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateCodeRepositoryOutput> {
-        return client.execute(operation: "UpdateCodeRepository", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateCodeRepository(_ input: UpdateCodeRepositoryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCodeRepositoryOutput> {
+        return client.execute(operation: "UpdateCodeRepository", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the default settings for new user profiles in the domain.
-    public func updateDomain(_ input: UpdateDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDomainResponse> {
-        return client.execute(operation: "UpdateDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDomain(_ input: UpdateDomainRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainResponse> {
+        return client.execute(operation: "UpdateDomain", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deploys the new EndpointConfig specified in the request, switches to using newly created endpoint, and then deletes resources provisioned for the endpoint using the previous EndpointConfig (there is no availability loss).  When Amazon SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the DescribeEndpoint API.   You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges. 
-    public func updateEndpoint(_ input: UpdateEndpointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateEndpointOutput> {
-        return client.execute(operation: "UpdateEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateEndpoint(_ input: UpdateEndpointInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointOutput> {
+        return client.execute(operation: "UpdateEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, Amazon SageMaker sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the DescribeEndpoint API. 
-    public func updateEndpointWeightsAndCapacities(_ input: UpdateEndpointWeightsAndCapacitiesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateEndpointWeightsAndCapacitiesOutput> {
-        return client.execute(operation: "UpdateEndpointWeightsAndCapacities", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateEndpointWeightsAndCapacities(_ input: UpdateEndpointWeightsAndCapacitiesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEndpointWeightsAndCapacitiesOutput> {
+        return client.execute(operation: "UpdateEndpointWeightsAndCapacities", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
-    public func updateExperiment(_ input: UpdateExperimentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateExperimentResponse> {
-        return client.execute(operation: "UpdateExperiment", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateExperiment(_ input: UpdateExperimentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateExperimentResponse> {
+        return client.execute(operation: "UpdateExperiment", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a previously created schedule.
-    public func updateMonitoringSchedule(_ input: UpdateMonitoringScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMonitoringScheduleResponse> {
-        return client.execute(operation: "UpdateMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMonitoringSchedule(_ input: UpdateMonitoringScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMonitoringScheduleResponse> {
+        return client.execute(operation: "UpdateMonitoringSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
-    public func updateNotebookInstance(_ input: UpdateNotebookInstanceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNotebookInstanceOutput> {
-        return client.execute(operation: "UpdateNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateNotebookInstance(_ input: UpdateNotebookInstanceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotebookInstanceOutput> {
+        return client.execute(operation: "UpdateNotebookInstance", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
-    public func updateNotebookInstanceLifecycleConfig(_ input: UpdateNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNotebookInstanceLifecycleConfigOutput> {
-        return client.execute(operation: "UpdateNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateNotebookInstanceLifecycleConfig(_ input: UpdateNotebookInstanceLifecycleConfigInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotebookInstanceLifecycleConfigOutput> {
+        return client.execute(operation: "UpdateNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the display name of a trial.
-    public func updateTrial(_ input: UpdateTrialRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTrialResponse> {
-        return client.execute(operation: "UpdateTrial", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTrial(_ input: UpdateTrialRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrialResponse> {
+        return client.execute(operation: "UpdateTrial", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates one or more properties of a trial component.
-    public func updateTrialComponent(_ input: UpdateTrialComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTrialComponentResponse> {
-        return client.execute(operation: "UpdateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTrialComponent(_ input: UpdateTrialComponentRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrialComponentResponse> {
+        return client.execute(operation: "UpdateTrialComponent", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a user profile.
-    public func updateUserProfile(_ input: UpdateUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserProfileResponse> {
-        return client.execute(operation: "UpdateUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateUserProfile(_ input: UpdateUserProfileRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserProfileResponse> {
+        return client.execute(operation: "UpdateUserProfile", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Restricts access to tasks assigned to workers in the specified workforce to those within specific ranges of IP addresses. You specify allowed IP addresses by creating a list of up to four CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied access and get a Not Found error message on the worker portal. After restricting access with this operation, you can see the allowed IP values for a private workforce with the operation.  This operation applies only to private workforces. 
-    public func updateWorkforce(_ input: UpdateWorkforceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateWorkforceResponse> {
-        return client.execute(operation: "UpdateWorkforce", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateWorkforce(_ input: UpdateWorkforceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkforceResponse> {
+        return client.execute(operation: "UpdateWorkforce", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing work team with new member definitions or description.
-    public func updateWorkteam(_ input: UpdateWorkteamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateWorkteamResponse> {
-        return client.execute(operation: "UpdateWorkteam", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateWorkteam(_ input: UpdateWorkteamRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkteamResponse> {
+        return client.execute(operation: "UpdateWorkteam", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension SageMaker {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

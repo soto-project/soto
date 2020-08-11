@@ -24,7 +24,6 @@ extension MigrationHub {
     public func listApplicationStatesPaginator(
         _ input: ListApplicationStatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationStatesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplicationStates, tokenKey: \ListApplicationStatesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MigrationHub {
     public func listCreatedArtifactsPaginator(
         _ input: ListCreatedArtifactsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCreatedArtifactsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCreatedArtifacts, tokenKey: \ListCreatedArtifactsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension MigrationHub {
     public func listDiscoveredResourcesPaginator(
         _ input: ListDiscoveredResourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDiscoveredResourcesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDiscoveredResources, tokenKey: \ListDiscoveredResourcesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension MigrationHub {
     public func listMigrationTasksPaginator(
         _ input: ListMigrationTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMigrationTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMigrationTasks, tokenKey: \ListMigrationTasksResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension MigrationHub {
     public func listProgressUpdateStreamsPaginator(
         _ input: ListProgressUpdateStreamsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProgressUpdateStreamsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProgressUpdateStreams, tokenKey: \ListProgressUpdateStreamsResult.nextToken, on: eventLoop, onPage: onPage)

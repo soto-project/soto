@@ -24,7 +24,6 @@ extension GuardDuty {
     public func listDetectorsPaginator(
         _ input: ListDetectorsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDetectorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDetectors, tokenKey: \ListDetectorsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension GuardDuty {
     public func listFiltersPaginator(
         _ input: ListFiltersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFilters, tokenKey: \ListFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension GuardDuty {
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension GuardDuty {
     public func listIPSetsPaginator(
         _ input: ListIPSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIPSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIPSets, tokenKey: \ListIPSetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension GuardDuty {
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension GuardDuty {
     public func listMembersPaginator(
         _ input: ListMembersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension GuardDuty {
     public func listOrganizationAdminAccountsPaginator(
         _ input: ListOrganizationAdminAccountsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension GuardDuty {
     public func listPublishingDestinationsPaginator(
         _ input: ListPublishingDestinationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPublishingDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPublishingDestinations, tokenKey: \ListPublishingDestinationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension GuardDuty {
     public func listThreatIntelSetsPaginator(
         _ input: ListThreatIntelSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListThreatIntelSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listThreatIntelSets, tokenKey: \ListThreatIntelSetsResponse.nextToken, on: eventLoop, onPage: onPage)

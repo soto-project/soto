@@ -24,7 +24,6 @@ extension IoT1ClickProjects {
     public func listPlacementsPaginator(
         _ input: ListPlacementsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlacementsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPlacements, tokenKey: \ListPlacementsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension IoT1ClickProjects {
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, on: eventLoop, onPage: onPage)

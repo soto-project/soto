@@ -21,12 +21,12 @@ Client object for interacting with AWS EC2InstanceConnect service.
 
 AWS EC2 Connect Service is a service that enables system administrators to publish temporary SSH keys to their EC2 instances in order to establish connections to their instances without leaving a permanent authentication option.
 */
-public struct EC2InstanceConnect {
+public struct EC2InstanceConnect: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct EC2InstanceConnect {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSEC2InstanceConnectService",
@@ -53,15 +53,26 @@ public struct EC2InstanceConnect {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-02",
             endpoint: endpoint,
-            possibleErrorTypes: [EC2InstanceConnectErrorType.self],
+            errorType: EC2InstanceConnectErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
-    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendSSHPublicKeyResponse> {
-        return client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
+        return client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension EC2InstanceConnect {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

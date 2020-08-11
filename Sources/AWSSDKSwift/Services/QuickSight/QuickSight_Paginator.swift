@@ -24,7 +24,6 @@ extension QuickSight {
     public func listDashboardVersionsPaginator(
         _ input: ListDashboardVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDashboardVersions, tokenKey: \ListDashboardVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension QuickSight {
     public func listDashboardsPaginator(
         _ input: ListDashboardsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension QuickSight {
     public func listDataSetsPaginator(
         _ input: ListDataSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension QuickSight {
     public func listDataSourcesPaginator(
         _ input: ListDataSourcesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension QuickSight {
     public func listIngestionsPaginator(
         _ input: ListIngestionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIngestionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIngestions, tokenKey: \ListIngestionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension QuickSight {
     public func listTemplateAliasesPaginator(
         _ input: ListTemplateAliasesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplateAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTemplateAliases, tokenKey: \ListTemplateAliasesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension QuickSight {
     public func listTemplateVersionsPaginator(
         _ input: ListTemplateVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplateVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTemplateVersions, tokenKey: \ListTemplateVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension QuickSight {
     public func listTemplatesPaginator(
         _ input: ListTemplatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension QuickSight {
     public func searchDashboardsPaginator(
         _ input: SearchDashboardsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchDashboards, tokenKey: \SearchDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)

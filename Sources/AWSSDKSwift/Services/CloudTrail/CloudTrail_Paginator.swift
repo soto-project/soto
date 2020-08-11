@@ -24,7 +24,6 @@ extension CloudTrail {
     public func listPublicKeysPaginator(
         _ input: ListPublicKeysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPublicKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPublicKeys, tokenKey: \ListPublicKeysResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CloudTrail {
     public func listTagsPaginator(
         _ input: ListTagsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CloudTrail {
     public func listTrailsPaginator(
         _ input: ListTrailsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrailsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrails, tokenKey: \ListTrailsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CloudTrail {
     public func lookupEventsPaginator(
         _ input: LookupEventsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (LookupEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: lookupEvents, tokenKey: \LookupEventsResponse.nextToken, on: eventLoop, onPage: onPage)

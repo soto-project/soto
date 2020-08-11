@@ -24,7 +24,6 @@ extension SageMaker {
     public func listAlgorithmsPaginator(
         _ input: ListAlgorithmsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAlgorithmsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAlgorithms, tokenKey: \ListAlgorithmsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SageMaker {
     public func listAppsPaginator(
         _ input: ListAppsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAppsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApps, tokenKey: \ListAppsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SageMaker {
     public func listAutoMLJobsPaginator(
         _ input: ListAutoMLJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAutoMLJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAutoMLJobs, tokenKey: \ListAutoMLJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SageMaker {
     public func listCandidatesForAutoMLJobPaginator(
         _ input: ListCandidatesForAutoMLJobRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCandidatesForAutoMLJobResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCandidatesForAutoMLJob, tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension SageMaker {
     public func listCodeRepositoriesPaginator(
         _ input: ListCodeRepositoriesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCodeRepositoriesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCodeRepositories, tokenKey: \ListCodeRepositoriesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension SageMaker {
     public func listCompilationJobsPaginator(
         _ input: ListCompilationJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCompilationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCompilationJobs, tokenKey: \ListCompilationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension SageMaker {
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension SageMaker {
     public func listEndpointConfigsPaginator(
         _ input: ListEndpointConfigsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEndpointConfigsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEndpointConfigs, tokenKey: \ListEndpointConfigsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension SageMaker {
     public func listEndpointsPaginator(
         _ input: ListEndpointsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEndpointsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEndpoints, tokenKey: \ListEndpointsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension SageMaker {
     public func listExperimentsPaginator(
         _ input: ListExperimentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListExperimentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listExperiments, tokenKey: \ListExperimentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension SageMaker {
     public func listFlowDefinitionsPaginator(
         _ input: ListFlowDefinitionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFlowDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFlowDefinitions, tokenKey: \ListFlowDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension SageMaker {
     public func listHumanTaskUisPaginator(
         _ input: ListHumanTaskUisRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHumanTaskUisResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHumanTaskUis, tokenKey: \ListHumanTaskUisResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension SageMaker {
     public func listHyperParameterTuningJobsPaginator(
         _ input: ListHyperParameterTuningJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHyperParameterTuningJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHyperParameterTuningJobs, tokenKey: \ListHyperParameterTuningJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension SageMaker {
     public func listLabelingJobsPaginator(
         _ input: ListLabelingJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLabelingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLabelingJobs, tokenKey: \ListLabelingJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension SageMaker {
     public func listLabelingJobsForWorkteamPaginator(
         _ input: ListLabelingJobsForWorkteamRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLabelingJobsForWorkteamResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLabelingJobsForWorkteam, tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension SageMaker {
     public func listModelPackagesPaginator(
         _ input: ListModelPackagesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListModelPackagesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listModelPackages, tokenKey: \ListModelPackagesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension SageMaker {
     public func listModelsPaginator(
         _ input: ListModelsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListModelsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listModels, tokenKey: \ListModelsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension SageMaker {
     public func listMonitoringExecutionsPaginator(
         _ input: ListMonitoringExecutionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMonitoringExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMonitoringExecutions, tokenKey: \ListMonitoringExecutionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -204,7 +186,6 @@ extension SageMaker {
     public func listMonitoringSchedulesPaginator(
         _ input: ListMonitoringSchedulesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMonitoringSchedulesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMonitoringSchedules, tokenKey: \ListMonitoringSchedulesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -214,7 +195,6 @@ extension SageMaker {
     public func listNotebookInstanceLifecycleConfigsPaginator(
         _ input: ListNotebookInstanceLifecycleConfigsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNotebookInstanceLifecycleConfigsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNotebookInstanceLifecycleConfigs, tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -224,7 +204,6 @@ extension SageMaker {
     public func listNotebookInstancesPaginator(
         _ input: ListNotebookInstancesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNotebookInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNotebookInstances, tokenKey: \ListNotebookInstancesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -234,7 +213,6 @@ extension SageMaker {
     public func listProcessingJobsPaginator(
         _ input: ListProcessingJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProcessingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProcessingJobs, tokenKey: \ListProcessingJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -244,7 +222,6 @@ extension SageMaker {
     public func listSubscribedWorkteamsPaginator(
         _ input: ListSubscribedWorkteamsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSubscribedWorkteamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSubscribedWorkteams, tokenKey: \ListSubscribedWorkteamsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -254,7 +231,6 @@ extension SageMaker {
     public func listTagsPaginator(
         _ input: ListTagsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -264,7 +240,6 @@ extension SageMaker {
     public func listTrainingJobsPaginator(
         _ input: ListTrainingJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrainingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrainingJobs, tokenKey: \ListTrainingJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -274,7 +249,6 @@ extension SageMaker {
     public func listTrainingJobsForHyperParameterTuningJobPaginator(
         _ input: ListTrainingJobsForHyperParameterTuningJobRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrainingJobsForHyperParameterTuningJobResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrainingJobsForHyperParameterTuningJob, tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -284,7 +258,6 @@ extension SageMaker {
     public func listTransformJobsPaginator(
         _ input: ListTransformJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTransformJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTransformJobs, tokenKey: \ListTransformJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -294,7 +267,6 @@ extension SageMaker {
     public func listTrialComponentsPaginator(
         _ input: ListTrialComponentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrialComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrialComponents, tokenKey: \ListTrialComponentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -304,7 +276,6 @@ extension SageMaker {
     public func listTrialsPaginator(
         _ input: ListTrialsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrialsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrials, tokenKey: \ListTrialsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -314,7 +285,6 @@ extension SageMaker {
     public func listUserProfilesPaginator(
         _ input: ListUserProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUserProfiles, tokenKey: \ListUserProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -324,7 +294,6 @@ extension SageMaker {
     public func listWorkteamsPaginator(
         _ input: ListWorkteamsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkteamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkteams, tokenKey: \ListWorkteamsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -334,7 +303,6 @@ extension SageMaker {
     public func searchPaginator(
         _ input: SearchRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: search, tokenKey: \SearchResponse.nextToken, on: eventLoop, onPage: onPage)

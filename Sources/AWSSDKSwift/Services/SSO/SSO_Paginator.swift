@@ -24,7 +24,6 @@ extension SSO {
     public func listAccountRolesPaginator(
         _ input: ListAccountRolesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountRolesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccountRoles, tokenKey: \ListAccountRolesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SSO {
     public func listAccountsPaginator(
         _ input: ListAccountsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)

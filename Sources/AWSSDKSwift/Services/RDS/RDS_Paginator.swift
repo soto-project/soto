@@ -24,7 +24,6 @@ extension RDS {
     public func describeCertificatesPaginator(
         _ input: DescribeCertificatesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CertificateMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCertificates, tokenKey: \CertificateMessage.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension RDS {
     public func describeCustomAvailabilityZonesPaginator(
         _ input: DescribeCustomAvailabilityZonesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCustomAvailabilityZones, tokenKey: \CustomAvailabilityZoneMessage.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension RDS {
     public func describeDBClusterBacktracksPaginator(
         _ input: DescribeDBClusterBacktracksMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterBacktrackMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusterBacktracks, tokenKey: \DBClusterBacktrackMessage.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension RDS {
     public func describeDBClusterEndpointsPaginator(
         _ input: DescribeDBClusterEndpointsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterEndpointMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusterEndpoints, tokenKey: \DBClusterEndpointMessage.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension RDS {
     public func describeDBClusterParameterGroupsPaginator(
         _ input: DescribeDBClusterParameterGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusterParameterGroups, tokenKey: \DBClusterParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension RDS {
     public func describeDBClusterParametersPaginator(
         _ input: DescribeDBClusterParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusterParameters, tokenKey: \DBClusterParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension RDS {
     public func describeDBClusterSnapshotsPaginator(
         _ input: DescribeDBClusterSnapshotsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusterSnapshots, tokenKey: \DBClusterSnapshotMessage.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension RDS {
     public func describeDBClustersPaginator(
         _ input: DescribeDBClustersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension RDS {
     public func describeDBEngineVersionsPaginator(
         _ input: DescribeDBEngineVersionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension RDS {
     public func describeDBInstanceAutomatedBackupsPaginator(
         _ input: DescribeDBInstanceAutomatedBackupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceAutomatedBackupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstanceAutomatedBackups, tokenKey: \DBInstanceAutomatedBackupMessage.marker, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension RDS {
     public func describeDBInstancesPaginator(
         _ input: DescribeDBInstancesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension RDS {
     public func describeDBLogFilesPaginator(
         _ input: DescribeDBLogFilesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBLogFilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBLogFiles, tokenKey: \DescribeDBLogFilesResponse.marker, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension RDS {
     public func describeDBParameterGroupsPaginator(
         _ input: DescribeDBParameterGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension RDS {
     public func describeDBParametersPaginator(
         _ input: DescribeDBParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension RDS {
     public func describeDBProxiesPaginator(
         _ input: DescribeDBProxiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBProxiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxies, tokenKey: \DescribeDBProxiesResponse.marker, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension RDS {
     public func describeDBProxyTargetGroupsPaginator(
         _ input: DescribeDBProxyTargetGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBProxyTargetGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxyTargetGroups, tokenKey: \DescribeDBProxyTargetGroupsResponse.marker, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension RDS {
     public func describeDBProxyTargetsPaginator(
         _ input: DescribeDBProxyTargetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBProxyTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxyTargets, tokenKey: \DescribeDBProxyTargetsResponse.marker, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension RDS {
     public func describeDBSecurityGroupsPaginator(
         _ input: DescribeDBSecurityGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSecurityGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSecurityGroups, tokenKey: \DBSecurityGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -204,7 +186,6 @@ extension RDS {
     public func describeDBSnapshotsPaginator(
         _ input: DescribeDBSnapshotsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSnapshots, tokenKey: \DBSnapshotMessage.marker, on: eventLoop, onPage: onPage)
@@ -214,7 +195,6 @@ extension RDS {
     public func describeDBSubnetGroupsPaginator(
         _ input: DescribeDBSubnetGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -224,7 +204,6 @@ extension RDS {
     public func describeEngineDefaultParametersPaginator(
         _ input: DescribeEngineDefaultParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, on: eventLoop, onPage: onPage)
@@ -234,7 +213,6 @@ extension RDS {
     public func describeEventSubscriptionsPaginator(
         _ input: DescribeEventSubscriptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -244,7 +222,6 @@ extension RDS {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
@@ -254,7 +231,6 @@ extension RDS {
     public func describeExportTasksPaginator(
         _ input: DescribeExportTasksMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ExportTasksMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeExportTasks, tokenKey: \ExportTasksMessage.marker, on: eventLoop, onPage: onPage)
@@ -264,7 +240,6 @@ extension RDS {
     public func describeGlobalClustersPaginator(
         _ input: DescribeGlobalClustersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GlobalClustersMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeGlobalClusters, tokenKey: \GlobalClustersMessage.marker, on: eventLoop, onPage: onPage)
@@ -274,7 +249,6 @@ extension RDS {
     public func describeInstallationMediaPaginator(
         _ input: DescribeInstallationMediaMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (InstallationMediaMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstallationMedia, tokenKey: \InstallationMediaMessage.marker, on: eventLoop, onPage: onPage)
@@ -284,7 +258,6 @@ extension RDS {
     public func describeOptionGroupOptionsPaginator(
         _ input: DescribeOptionGroupOptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OptionGroupOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOptionGroupOptions, tokenKey: \OptionGroupOptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -294,7 +267,6 @@ extension RDS {
     public func describeOptionGroupsPaginator(
         _ input: DescribeOptionGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OptionGroups, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOptionGroups, tokenKey: \OptionGroups.marker, on: eventLoop, onPage: onPage)
@@ -304,7 +276,6 @@ extension RDS {
     public func describeOrderableDBInstanceOptionsPaginator(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -314,7 +285,6 @@ extension RDS {
     public func describePendingMaintenanceActionsPaginator(
         _ input: DescribePendingMaintenanceActionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (PendingMaintenanceActionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePendingMaintenanceActions, tokenKey: \PendingMaintenanceActionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -324,7 +294,6 @@ extension RDS {
     public func describeReservedDBInstancesPaginator(
         _ input: DescribeReservedDBInstancesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedDBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedDBInstances, tokenKey: \ReservedDBInstanceMessage.marker, on: eventLoop, onPage: onPage)
@@ -334,7 +303,6 @@ extension RDS {
     public func describeReservedDBInstancesOfferingsPaginator(
         _ input: DescribeReservedDBInstancesOfferingsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedDBInstancesOfferingMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedDBInstancesOfferings, tokenKey: \ReservedDBInstancesOfferingMessage.marker, on: eventLoop, onPage: onPage)
@@ -344,7 +312,6 @@ extension RDS {
     public func describeSourceRegionsPaginator(
         _ input: DescribeSourceRegionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SourceRegionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSourceRegions, tokenKey: \SourceRegionMessage.marker, on: eventLoop, onPage: onPage)
@@ -354,7 +321,6 @@ extension RDS {
     public func downloadDBLogFilePortionPaginator(
         _ input: DownloadDBLogFilePortionMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DownloadDBLogFilePortionDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: downloadDBLogFilePortion, tokenKey: \DownloadDBLogFilePortionDetails.marker, on: eventLoop, onPage: onPage)

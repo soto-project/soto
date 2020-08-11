@@ -24,7 +24,6 @@ extension MediaPackage {
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MediaPackage {
     public func listHarvestJobsPaginator(
         _ input: ListHarvestJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHarvestJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHarvestJobs, tokenKey: \ListHarvestJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension MediaPackage {
     public func listOriginEndpointsPaginator(
         _ input: ListOriginEndpointsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOriginEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOriginEndpoints, tokenKey: \ListOriginEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)

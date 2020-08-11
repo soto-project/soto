@@ -24,7 +24,6 @@ extension Neptune {
     public func describeDBEngineVersionsPaginator(
         _ input: DescribeDBEngineVersionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Neptune {
     public func describeDBInstancesPaginator(
         _ input: DescribeDBInstancesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Neptune {
     public func describeDBParameterGroupsPaginator(
         _ input: DescribeDBParameterGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Neptune {
     public func describeDBParametersPaginator(
         _ input: DescribeDBParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Neptune {
     public func describeDBSubnetGroupsPaginator(
         _ input: DescribeDBSubnetGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Neptune {
     public func describeEngineDefaultParametersPaginator(
         _ input: DescribeEngineDefaultParametersMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Neptune {
     public func describeEventSubscriptionsPaginator(
         _ input: DescribeEventSubscriptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Neptune {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Neptune {
     public func describeOrderableDBInstanceOptionsPaginator(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)

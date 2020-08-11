@@ -24,7 +24,6 @@ extension Snowball {
     public func describeAddressesPaginator(
         _ input: DescribeAddressesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAddressesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAddresses, tokenKey: \DescribeAddressesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Snowball {
     public func listJobsPaginator(
         _ input: ListJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, on: eventLoop, onPage: onPage)

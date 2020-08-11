@@ -24,7 +24,6 @@ extension CloudWatch {
     public func describeAlarmHistoryPaginator(
         _ input: DescribeAlarmHistoryInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAlarmHistoryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAlarmHistory, tokenKey: \DescribeAlarmHistoryOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CloudWatch {
     public func describeAlarmsPaginator(
         _ input: DescribeAlarmsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAlarmsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAlarms, tokenKey: \DescribeAlarmsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CloudWatch {
     public func describeInsightRulesPaginator(
         _ input: DescribeInsightRulesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInsightRulesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInsightRules, tokenKey: \DescribeInsightRulesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CloudWatch {
     public func getMetricDataPaginator(
         _ input: GetMetricDataInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMetricDataOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getMetricData, tokenKey: \GetMetricDataOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CloudWatch {
     public func listDashboardsPaginator(
         _ input: ListDashboardsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CloudWatch {
     public func listMetricsPaginator(
         _ input: ListMetricsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMetricsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMetrics, tokenKey: \ListMetricsOutput.nextToken, on: eventLoop, onPage: onPage)

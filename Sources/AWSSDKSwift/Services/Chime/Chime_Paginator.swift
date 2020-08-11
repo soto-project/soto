@@ -24,7 +24,6 @@ extension Chime {
     public func listAccountsPaginator(
         _ input: ListAccountsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Chime {
     public func listAttendeesPaginator(
         _ input: ListAttendeesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttendeesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttendees, tokenKey: \ListAttendeesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Chime {
     public func listBotsPaginator(
         _ input: ListBotsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBotsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBots, tokenKey: \ListBotsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Chime {
     public func listMeetingsPaginator(
         _ input: ListMeetingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMeetingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMeetings, tokenKey: \ListMeetingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Chime {
     public func listPhoneNumberOrdersPaginator(
         _ input: ListPhoneNumberOrdersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPhoneNumberOrdersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPhoneNumberOrders, tokenKey: \ListPhoneNumberOrdersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Chime {
     public func listPhoneNumbersPaginator(
         _ input: ListPhoneNumbersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPhoneNumbersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Chime {
     public func listProxySessionsPaginator(
         _ input: ListProxySessionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProxySessionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProxySessions, tokenKey: \ListProxySessionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Chime {
     public func listRoomMembershipsPaginator(
         _ input: ListRoomMembershipsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoomMembershipsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoomMemberships, tokenKey: \ListRoomMembershipsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Chime {
     public func listRoomsPaginator(
         _ input: ListRoomsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoomsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRooms, tokenKey: \ListRoomsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Chime {
     public func listUsersPaginator(
         _ input: ListUsersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension Chime {
     public func listVoiceConnectorGroupsPaginator(
         _ input: ListVoiceConnectorGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVoiceConnectorGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVoiceConnectorGroups, tokenKey: \ListVoiceConnectorGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension Chime {
     public func listVoiceConnectorsPaginator(
         _ input: ListVoiceConnectorsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVoiceConnectorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVoiceConnectors, tokenKey: \ListVoiceConnectorsResponse.nextToken, on: eventLoop, onPage: onPage)

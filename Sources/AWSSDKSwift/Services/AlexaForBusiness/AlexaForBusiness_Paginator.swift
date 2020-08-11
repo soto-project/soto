@@ -24,7 +24,6 @@ extension AlexaForBusiness {
     public func listBusinessReportSchedulesPaginator(
         _ input: ListBusinessReportSchedulesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBusinessReportSchedulesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBusinessReportSchedules, tokenKey: \ListBusinessReportSchedulesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension AlexaForBusiness {
     public func listConferenceProvidersPaginator(
         _ input: ListConferenceProvidersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConferenceProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConferenceProviders, tokenKey: \ListConferenceProvidersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension AlexaForBusiness {
     public func listDeviceEventsPaginator(
         _ input: ListDeviceEventsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeviceEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeviceEvents, tokenKey: \ListDeviceEventsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension AlexaForBusiness {
     public func listGatewayGroupsPaginator(
         _ input: ListGatewayGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewayGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGatewayGroups, tokenKey: \ListGatewayGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension AlexaForBusiness {
     public func listGatewaysPaginator(
         _ input: ListGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewaysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension AlexaForBusiness {
     public func listSkillsPaginator(
         _ input: ListSkillsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSkillsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSkills, tokenKey: \ListSkillsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension AlexaForBusiness {
     public func listSkillsStoreCategoriesPaginator(
         _ input: ListSkillsStoreCategoriesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSkillsStoreCategoriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSkillsStoreCategories, tokenKey: \ListSkillsStoreCategoriesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension AlexaForBusiness {
     public func listSkillsStoreSkillsByCategoryPaginator(
         _ input: ListSkillsStoreSkillsByCategoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSkillsStoreSkillsByCategoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSkillsStoreSkillsByCategory, tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension AlexaForBusiness {
     public func listSmartHomeAppliancesPaginator(
         _ input: ListSmartHomeAppliancesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSmartHomeAppliancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSmartHomeAppliances, tokenKey: \ListSmartHomeAppliancesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension AlexaForBusiness {
     public func listTagsPaginator(
         _ input: ListTagsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension AlexaForBusiness {
     public func searchAddressBooksPaginator(
         _ input: SearchAddressBooksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchAddressBooksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchAddressBooks, tokenKey: \SearchAddressBooksResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension AlexaForBusiness {
     public func searchContactsPaginator(
         _ input: SearchContactsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchContactsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchContacts, tokenKey: \SearchContactsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension AlexaForBusiness {
     public func searchDevicesPaginator(
         _ input: SearchDevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchDevices, tokenKey: \SearchDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension AlexaForBusiness {
     public func searchNetworkProfilesPaginator(
         _ input: SearchNetworkProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchNetworkProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchNetworkProfiles, tokenKey: \SearchNetworkProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension AlexaForBusiness {
     public func searchProfilesPaginator(
         _ input: SearchProfilesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchProfiles, tokenKey: \SearchProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension AlexaForBusiness {
     public func searchRoomsPaginator(
         _ input: SearchRoomsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchRoomsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchRooms, tokenKey: \SearchRoomsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension AlexaForBusiness {
     public func searchSkillGroupsPaginator(
         _ input: SearchSkillGroupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchSkillGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchSkillGroups, tokenKey: \SearchSkillGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension AlexaForBusiness {
     public func searchUsersPaginator(
         _ input: SearchUsersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchUsers, tokenKey: \SearchUsersResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension SSM {
     public func describeActivationsPaginator(
         _ input: DescribeActivationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeActivationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeActivations, tokenKey: \DescribeActivationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SSM {
     public func describeInstanceInformationPaginator(
         _ input: DescribeInstanceInformationRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceInformationResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstanceInformation, tokenKey: \DescribeInstanceInformationResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SSM {
     public func describeParametersPaginator(
         _ input: DescribeParametersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeParameters, tokenKey: \DescribeParametersResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SSM {
     public func getParameterHistoryPaginator(
         _ input: GetParameterHistoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetParameterHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getParameterHistory, tokenKey: \GetParameterHistoryResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension SSM {
     public func getParametersByPathPaginator(
         _ input: GetParametersByPathRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetParametersByPathResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getParametersByPath, tokenKey: \GetParametersByPathResult.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension SSM {
     public func listAssociationsPaginator(
         _ input: ListAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssociations, tokenKey: \ListAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension SSM {
     public func listCommandInvocationsPaginator(
         _ input: ListCommandInvocationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCommandInvocationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCommandInvocations, tokenKey: \ListCommandInvocationsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension SSM {
     public func listCommandsPaginator(
         _ input: ListCommandsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCommandsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCommands, tokenKey: \ListCommandsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension SSM {
     public func listDocumentsPaginator(
         _ input: ListDocumentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDocuments, tokenKey: \ListDocumentsResult.nextToken, on: eventLoop, onPage: onPage)

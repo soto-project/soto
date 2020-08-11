@@ -24,7 +24,6 @@ extension ApplicationDiscoveryService {
     public func describeContinuousExportsPaginator(
         _ input: DescribeContinuousExportsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeContinuousExportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeContinuousExports, tokenKey: \DescribeContinuousExportsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ApplicationDiscoveryService {
     public func describeImportTasksPaginator(
         _ input: DescribeImportTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImportTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImportTasks, tokenKey: \DescribeImportTasksResponse.nextToken, on: eventLoop, onPage: onPage)

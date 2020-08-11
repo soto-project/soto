@@ -24,7 +24,6 @@ extension Support {
     public func describeCasesPaginator(
         _ input: DescribeCasesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCases, tokenKey: \DescribeCasesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Support {
     public func describeCommunicationsPaginator(
         _ input: DescribeCommunicationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCommunicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCommunications, tokenKey: \DescribeCommunicationsResponse.nextToken, on: eventLoop, onPage: onPage)

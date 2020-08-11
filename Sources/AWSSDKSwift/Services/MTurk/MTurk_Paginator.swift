@@ -24,7 +24,6 @@ extension MTurk {
     public func listAssignmentsForHITPaginator(
         _ input: ListAssignmentsForHITRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssignmentsForHITResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssignmentsForHIT, tokenKey: \ListAssignmentsForHITResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MTurk {
     public func listBonusPaymentsPaginator(
         _ input: ListBonusPaymentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBonusPaymentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBonusPayments, tokenKey: \ListBonusPaymentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension MTurk {
     public func listHITsPaginator(
         _ input: ListHITsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHITsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHITs, tokenKey: \ListHITsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension MTurk {
     public func listHITsForQualificationTypePaginator(
         _ input: ListHITsForQualificationTypeRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHITsForQualificationTypeResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHITsForQualificationType, tokenKey: \ListHITsForQualificationTypeResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension MTurk {
     public func listQualificationRequestsPaginator(
         _ input: ListQualificationRequestsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQualificationRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQualificationRequests, tokenKey: \ListQualificationRequestsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension MTurk {
     public func listQualificationTypesPaginator(
         _ input: ListQualificationTypesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQualificationTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQualificationTypes, tokenKey: \ListQualificationTypesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension MTurk {
     public func listReviewPolicyResultsForHITPaginator(
         _ input: ListReviewPolicyResultsForHITRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReviewPolicyResultsForHITResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReviewPolicyResultsForHIT, tokenKey: \ListReviewPolicyResultsForHITResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension MTurk {
     public func listReviewableHITsPaginator(
         _ input: ListReviewableHITsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReviewableHITsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReviewableHITs, tokenKey: \ListReviewableHITsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension MTurk {
     public func listWorkerBlocksPaginator(
         _ input: ListWorkerBlocksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkerBlocksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkerBlocks, tokenKey: \ListWorkerBlocksResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension MTurk {
     public func listWorkersWithQualificationTypePaginator(
         _ input: ListWorkersWithQualificationTypeRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkersWithQualificationTypeResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkersWithQualificationType, tokenKey: \ListWorkersWithQualificationTypeResponse.nextToken, on: eventLoop, onPage: onPage)

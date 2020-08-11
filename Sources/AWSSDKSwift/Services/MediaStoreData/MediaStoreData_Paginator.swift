@@ -24,7 +24,6 @@ extension MediaStoreData {
     public func listItemsPaginator(
         _ input: ListItemsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListItemsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listItems, tokenKey: \ListItemsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension Batch {
     public func describeComputeEnvironmentsPaginator(
         _ input: DescribeComputeEnvironmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeComputeEnvironmentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeComputeEnvironments, tokenKey: \DescribeComputeEnvironmentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Batch {
     public func describeJobDefinitionsPaginator(
         _ input: DescribeJobDefinitionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeJobDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeJobDefinitions, tokenKey: \DescribeJobDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Batch {
     public func describeJobQueuesPaginator(
         _ input: DescribeJobQueuesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeJobQueuesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeJobQueues, tokenKey: \DescribeJobQueuesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Batch {
     public func listJobsPaginator(
         _ input: ListJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, on: eventLoop, onPage: onPage)

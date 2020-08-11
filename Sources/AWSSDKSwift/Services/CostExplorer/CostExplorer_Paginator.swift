@@ -24,7 +24,6 @@ extension CostExplorer {
     public func getSavingsPlansCoveragePaginator(
         _ input: GetSavingsPlansCoverageRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSavingsPlansCoverageResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSavingsPlansCoverage, tokenKey: \GetSavingsPlansCoverageResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CostExplorer {
     public func getSavingsPlansUtilizationDetailsPaginator(
         _ input: GetSavingsPlansUtilizationDetailsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSavingsPlansUtilizationDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSavingsPlansUtilizationDetails, tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CostExplorer {
     public func listCostCategoryDefinitionsPaginator(
         _ input: ListCostCategoryDefinitionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCostCategoryDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCostCategoryDefinitions, tokenKey: \ListCostCategoryDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension AutoScaling {
     public func describeAutoScalingGroupsPaginator(
         _ input: AutoScalingGroupNamesType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (AutoScalingGroupsType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAutoScalingGroups, tokenKey: \AutoScalingGroupsType.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension AutoScaling {
     public func describeAutoScalingInstancesPaginator(
         _ input: DescribeAutoScalingInstancesType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (AutoScalingInstancesType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeAutoScalingInstances, tokenKey: \AutoScalingInstancesType.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension AutoScaling {
     public func describeLaunchConfigurationsPaginator(
         _ input: LaunchConfigurationNamesType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (LaunchConfigurationsType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLaunchConfigurations, tokenKey: \LaunchConfigurationsType.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension AutoScaling {
     public func describeNotificationConfigurationsPaginator(
         _ input: DescribeNotificationConfigurationsType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeNotificationConfigurationsAnswer, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeNotificationConfigurations, tokenKey: \DescribeNotificationConfigurationsAnswer.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension AutoScaling {
     public func describePoliciesPaginator(
         _ input: DescribePoliciesType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (PoliciesType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePolicies, tokenKey: \PoliciesType.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension AutoScaling {
     public func describeScalingActivitiesPaginator(
         _ input: DescribeScalingActivitiesType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ActivitiesType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalingActivities, tokenKey: \ActivitiesType.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension AutoScaling {
     public func describeScheduledActionsPaginator(
         _ input: DescribeScheduledActionsType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ScheduledActionsType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledActions, tokenKey: \ScheduledActionsType.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension AutoScaling {
     public func describeTagsPaginator(
         _ input: DescribeTagsType,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (TagsType, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTags, tokenKey: \TagsType.nextToken, on: eventLoop, onPage: onPage)

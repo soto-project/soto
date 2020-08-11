@@ -24,7 +24,6 @@ extension IoTSiteWise {
     public func getAssetPropertyAggregatesPaginator(
         _ input: GetAssetPropertyAggregatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAssetPropertyAggregatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAssetPropertyAggregates, tokenKey: \GetAssetPropertyAggregatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension IoTSiteWise {
     public func getAssetPropertyValueHistoryPaginator(
         _ input: GetAssetPropertyValueHistoryRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAssetPropertyValueHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAssetPropertyValueHistory, tokenKey: \GetAssetPropertyValueHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension IoTSiteWise {
     public func listAccessPoliciesPaginator(
         _ input: ListAccessPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccessPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccessPolicies, tokenKey: \ListAccessPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension IoTSiteWise {
     public func listAssetModelsPaginator(
         _ input: ListAssetModelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssetModelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssetModels, tokenKey: \ListAssetModelsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension IoTSiteWise {
     public func listAssetsPaginator(
         _ input: ListAssetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension IoTSiteWise {
     public func listAssociatedAssetsPaginator(
         _ input: ListAssociatedAssetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociatedAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssociatedAssets, tokenKey: \ListAssociatedAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension IoTSiteWise {
     public func listDashboardsPaginator(
         _ input: ListDashboardsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension IoTSiteWise {
     public func listGatewaysPaginator(
         _ input: ListGatewaysRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewaysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension IoTSiteWise {
     public func listPortalsPaginator(
         _ input: ListPortalsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPortalsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPortals, tokenKey: \ListPortalsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension IoTSiteWise {
     public func listProjectAssetsPaginator(
         _ input: ListProjectAssetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjectAssets, tokenKey: \ListProjectAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension IoTSiteWise {
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension ELBV2 {
     public func describeListenersPaginator(
         _ input: DescribeListenersInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeListenersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeListeners, tokenKey: \DescribeListenersOutput.nextMarker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ELBV2 {
     public func describeLoadBalancersPaginator(
         _ input: DescribeLoadBalancersInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLoadBalancersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeLoadBalancersOutput.nextMarker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ELBV2 {
     public func describeTargetGroupsPaginator(
         _ input: DescribeTargetGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTargetGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTargetGroups, tokenKey: \DescribeTargetGroupsOutput.nextMarker, on: eventLoop, onPage: onPage)

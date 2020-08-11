@@ -21,12 +21,12 @@ Client object for interacting with AWS AutoScalingPlans service.
 
 AWS Auto Scaling Use AWS Auto Scaling to quickly discover all the scalable AWS resources for your application and configure dynamic scaling and predictive scaling for your resources using scaling plans. Use this service in conjunction with the Amazon EC2 Auto Scaling, Application Auto Scaling, Amazon CloudWatch, and AWS CloudFormation services.  Currently, predictive scaling is only available for Amazon EC2 Auto Scaling groups. For more information about AWS Auto Scaling, including information about granting IAM users required permissions for AWS Auto Scaling actions, see the AWS Auto Scaling User Guide.
 */
-public struct AutoScalingPlans {
+public struct AutoScalingPlans: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct AutoScalingPlans {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AnyScaleScalingPlannerFrontendService",
@@ -53,40 +53,51 @@ public struct AutoScalingPlans {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-06",
             endpoint: endpoint,
-            possibleErrorTypes: [AutoScalingPlansErrorType.self],
+            errorType: AutoScalingPlansErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates a scaling plan.
-    public func createScalingPlan(_ input: CreateScalingPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateScalingPlanResponse> {
-        return client.execute(operation: "CreateScalingPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createScalingPlan(_ input: CreateScalingPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScalingPlanResponse> {
+        return client.execute(operation: "CreateScalingPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying ScalingInstruction for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately.
-    public func deleteScalingPlan(_ input: DeleteScalingPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteScalingPlanResponse> {
-        return client.execute(operation: "DeleteScalingPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteScalingPlan(_ input: DeleteScalingPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScalingPlanResponse> {
+        return client.execute(operation: "DeleteScalingPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes the scalable resources in the specified scaling plan.
-    public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingPlanResourcesResponse> {
-        return client.execute(operation: "DescribeScalingPlanResources", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScalingPlanResourcesResponse> {
+        return client.execute(operation: "DescribeScalingPlanResources", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes one or more of your scaling plans.
-    public func describeScalingPlans(_ input: DescribeScalingPlansRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingPlansResponse> {
-        return client.execute(operation: "DescribeScalingPlans", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeScalingPlans(_ input: DescribeScalingPlansRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScalingPlansResponse> {
+        return client.execute(operation: "DescribeScalingPlans", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days. 
-    public func getScalingPlanResourceForecastData(_ input: GetScalingPlanResourceForecastDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetScalingPlanResourceForecastDataResponse> {
-        return client.execute(operation: "GetScalingPlanResourceForecastData", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getScalingPlanResourceForecastData(_ input: GetScalingPlanResourceForecastDataRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetScalingPlanResourceForecastDataResponse> {
+        return client.execute(operation: "GetScalingPlanResourceForecastData", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
-    public func updateScalingPlan(_ input: UpdateScalingPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateScalingPlanResponse> {
-        return client.execute(operation: "UpdateScalingPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateScalingPlan(_ input: UpdateScalingPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateScalingPlanResponse> {
+        return client.execute(operation: "UpdateScalingPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension AutoScalingPlans {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

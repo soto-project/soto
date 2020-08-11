@@ -24,7 +24,6 @@ extension FMS {
     public func listComplianceStatusPaginator(
         _ input: ListComplianceStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComplianceStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComplianceStatus, tokenKey: \ListComplianceStatusResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension FMS {
     public func listMemberAccountsPaginator(
         _ input: ListMemberAccountsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMemberAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension FMS {
     public func listPoliciesPaginator(
         _ input: ListPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicies, tokenKey: \ListPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)

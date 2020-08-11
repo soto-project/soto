@@ -24,7 +24,6 @@ extension ImportExport {
     public func listJobsPaginator(
         _ input: ListJobsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsOutput.jobs?.last?.jobId, on: eventLoop, onPage: onPage)

@@ -24,7 +24,6 @@ extension CloudDirectory {
     public func listAppliedSchemaArnsPaginator(
         _ input: ListAppliedSchemaArnsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAppliedSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAppliedSchemaArns, tokenKey: \ListAppliedSchemaArnsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CloudDirectory {
     public func listAttachedIndicesPaginator(
         _ input: ListAttachedIndicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttachedIndicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttachedIndices, tokenKey: \ListAttachedIndicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CloudDirectory {
     public func listDevelopmentSchemaArnsPaginator(
         _ input: ListDevelopmentSchemaArnsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevelopmentSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDevelopmentSchemaArns, tokenKey: \ListDevelopmentSchemaArnsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CloudDirectory {
     public func listDirectoriesPaginator(
         _ input: ListDirectoriesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDirectoriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDirectories, tokenKey: \ListDirectoriesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CloudDirectory {
     public func listFacetAttributesPaginator(
         _ input: ListFacetAttributesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFacetAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFacetAttributes, tokenKey: \ListFacetAttributesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CloudDirectory {
     public func listFacetNamesPaginator(
         _ input: ListFacetNamesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFacetNamesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFacetNames, tokenKey: \ListFacetNamesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension CloudDirectory {
     public func listIndexPaginator(
         _ input: ListIndexRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIndexResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listIndex, tokenKey: \ListIndexResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension CloudDirectory {
     public func listManagedSchemaArnsPaginator(
         _ input: ListManagedSchemaArnsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListManagedSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listManagedSchemaArns, tokenKey: \ListManagedSchemaArnsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension CloudDirectory {
     public func listObjectAttributesPaginator(
         _ input: ListObjectAttributesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectAttributes, tokenKey: \ListObjectAttributesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension CloudDirectory {
     public func listObjectChildrenPaginator(
         _ input: ListObjectChildrenRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectChildrenResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectChildren, tokenKey: \ListObjectChildrenResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension CloudDirectory {
     public func listObjectParentPathsPaginator(
         _ input: ListObjectParentPathsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectParentPathsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectParentPaths, tokenKey: \ListObjectParentPathsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension CloudDirectory {
     public func listObjectParentsPaginator(
         _ input: ListObjectParentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectParentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectParents, tokenKey: \ListObjectParentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension CloudDirectory {
     public func listObjectPoliciesPaginator(
         _ input: ListObjectPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectPolicies, tokenKey: \ListObjectPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension CloudDirectory {
     public func listPolicyAttachmentsPaginator(
         _ input: ListPolicyAttachmentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPolicyAttachmentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicyAttachments, tokenKey: \ListPolicyAttachmentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension CloudDirectory {
     public func listPublishedSchemaArnsPaginator(
         _ input: ListPublishedSchemaArnsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPublishedSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPublishedSchemaArns, tokenKey: \ListPublishedSchemaArnsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension CloudDirectory {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension CloudDirectory {
     public func listTypedLinkFacetAttributesPaginator(
         _ input: ListTypedLinkFacetAttributesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTypedLinkFacetAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypedLinkFacetAttributes, tokenKey: \ListTypedLinkFacetAttributesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension CloudDirectory {
     public func listTypedLinkFacetNamesPaginator(
         _ input: ListTypedLinkFacetNamesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTypedLinkFacetNamesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypedLinkFacetNames, tokenKey: \ListTypedLinkFacetNamesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -204,7 +186,6 @@ extension CloudDirectory {
     public func lookupPolicyPaginator(
         _ input: LookupPolicyRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (LookupPolicyResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: lookupPolicy, tokenKey: \LookupPolicyResponse.nextToken, on: eventLoop, onPage: onPage)

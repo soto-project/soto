@@ -24,7 +24,6 @@ extension ApplicationAutoScaling {
     public func describeScalableTargetsPaginator(
         _ input: DescribeScalableTargetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScalableTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalableTargets, tokenKey: \DescribeScalableTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ApplicationAutoScaling {
     public func describeScalingActivitiesPaginator(
         _ input: DescribeScalingActivitiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScalingActivitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalingActivities, tokenKey: \DescribeScalingActivitiesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ApplicationAutoScaling {
     public func describeScalingPoliciesPaginator(
         _ input: DescribeScalingPoliciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScalingPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScalingPolicies, tokenKey: \DescribeScalingPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ApplicationAutoScaling {
     public func describeScheduledActionsPaginator(
         _ input: DescribeScheduledActionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScheduledActionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeScheduledActions, tokenKey: \DescribeScheduledActionsResponse.nextToken, on: eventLoop, onPage: onPage)

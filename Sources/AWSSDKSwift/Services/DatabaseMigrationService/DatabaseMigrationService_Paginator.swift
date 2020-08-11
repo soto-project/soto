@@ -24,7 +24,6 @@ extension DatabaseMigrationService {
     public func describeCertificatesPaginator(
         _ input: DescribeCertificatesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCertificates, tokenKey: \DescribeCertificatesResponse.marker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension DatabaseMigrationService {
     public func describeConnectionsPaginator(
         _ input: DescribeConnectionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeConnections, tokenKey: \DescribeConnectionsResponse.marker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension DatabaseMigrationService {
     public func describeEndpointTypesPaginator(
         _ input: DescribeEndpointTypesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEndpointTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEndpointTypes, tokenKey: \DescribeEndpointTypesResponse.marker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension DatabaseMigrationService {
     public func describeEndpointsPaginator(
         _ input: DescribeEndpointsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEndpoints, tokenKey: \DescribeEndpointsResponse.marker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension DatabaseMigrationService {
     public func describeEventSubscriptionsPaginator(
         _ input: DescribeEventSubscriptionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \DescribeEventSubscriptionsResponse.marker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension DatabaseMigrationService {
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \DescribeEventsResponse.marker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension DatabaseMigrationService {
     public func describeOrderableReplicationInstancesPaginator(
         _ input: DescribeOrderableReplicationInstancesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeOrderableReplicationInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeOrderableReplicationInstances, tokenKey: \DescribeOrderableReplicationInstancesResponse.marker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension DatabaseMigrationService {
     public func describePendingMaintenanceActionsPaginator(
         _ input: DescribePendingMaintenanceActionsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePendingMaintenanceActionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describePendingMaintenanceActions, tokenKey: \DescribePendingMaintenanceActionsResponse.marker, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension DatabaseMigrationService {
     public func describeReplicationInstanceTaskLogsPaginator(
         _ input: DescribeReplicationInstanceTaskLogsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationInstanceTaskLogsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationInstanceTaskLogs, tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension DatabaseMigrationService {
     public func describeReplicationInstancesPaginator(
         _ input: DescribeReplicationInstancesMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationInstances, tokenKey: \DescribeReplicationInstancesResponse.marker, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension DatabaseMigrationService {
     public func describeReplicationSubnetGroupsPaginator(
         _ input: DescribeReplicationSubnetGroupsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationSubnetGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationSubnetGroups, tokenKey: \DescribeReplicationSubnetGroupsResponse.marker, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension DatabaseMigrationService {
     public func describeReplicationTaskAssessmentResultsPaginator(
         _ input: DescribeReplicationTaskAssessmentResultsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationTaskAssessmentResultsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationTaskAssessmentResults, tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension DatabaseMigrationService {
     public func describeReplicationTasksPaginator(
         _ input: DescribeReplicationTasksMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationTasks, tokenKey: \DescribeReplicationTasksResponse.marker, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension DatabaseMigrationService {
     public func describeSchemasPaginator(
         _ input: DescribeSchemasMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSchemas, tokenKey: \DescribeSchemasResponse.marker, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension DatabaseMigrationService {
     public func describeTableStatisticsPaginator(
         _ input: DescribeTableStatisticsMessage,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTableStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTableStatistics, tokenKey: \DescribeTableStatisticsResponse.marker, on: eventLoop, onPage: onPage)

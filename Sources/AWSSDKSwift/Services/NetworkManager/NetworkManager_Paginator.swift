@@ -24,7 +24,6 @@ extension NetworkManager {
     public func describeGlobalNetworksPaginator(
         _ input: DescribeGlobalNetworksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeGlobalNetworksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeGlobalNetworks, tokenKey: \DescribeGlobalNetworksResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension NetworkManager {
     public func getCustomerGatewayAssociationsPaginator(
         _ input: GetCustomerGatewayAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCustomerGatewayAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCustomerGatewayAssociations, tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension NetworkManager {
     public func getDevicesPaginator(
         _ input: GetDevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getDevices, tokenKey: \GetDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension NetworkManager {
     public func getLinkAssociationsPaginator(
         _ input: GetLinkAssociationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLinkAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getLinkAssociations, tokenKey: \GetLinkAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension NetworkManager {
     public func getLinksPaginator(
         _ input: GetLinksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLinksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getLinks, tokenKey: \GetLinksResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension NetworkManager {
     public func getSitesPaginator(
         _ input: GetSitesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSitesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSites, tokenKey: \GetSitesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension NetworkManager {
     public func getTransitGatewayRegistrationsPaginator(
         _ input: GetTransitGatewayRegistrationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTransitGatewayRegistrationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayRegistrations, tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken, on: eventLoop, onPage: onPage)

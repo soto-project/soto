@@ -24,7 +24,6 @@ extension IoTAnalytics {
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension IoTAnalytics {
     public func listDatasetContentsPaginator(
         _ input: ListDatasetContentsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetContentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatasetContents, tokenKey: \ListDatasetContentsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension IoTAnalytics {
     public func listDatasetsPaginator(
         _ input: ListDatasetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatasets, tokenKey: \ListDatasetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension IoTAnalytics {
     public func listDatastoresPaginator(
         _ input: ListDatastoresRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatastoresResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDatastores, tokenKey: \ListDatastoresResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension IoTAnalytics {
     public func listPipelinesPaginator(
         _ input: ListPipelinesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextToken, on: eventLoop, onPage: onPage)

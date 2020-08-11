@@ -24,7 +24,6 @@ extension Lambda {
     public func listAliasesPaginator(
         _ input: ListAliasesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Lambda {
     public func listEventSourceMappingsPaginator(
         _ input: ListEventSourceMappingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEventSourceMappingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEventSourceMappings, tokenKey: \ListEventSourceMappingsResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Lambda {
     public func listFunctionEventInvokeConfigsPaginator(
         _ input: ListFunctionEventInvokeConfigsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFunctionEventInvokeConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFunctionEventInvokeConfigs, tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Lambda {
     public func listFunctionsPaginator(
         _ input: ListFunctionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFunctionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFunctions, tokenKey: \ListFunctionsResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Lambda {
     public func listLayerVersionsPaginator(
         _ input: ListLayerVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLayerVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLayerVersions, tokenKey: \ListLayerVersionsResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Lambda {
     public func listLayersPaginator(
         _ input: ListLayersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLayersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLayers, tokenKey: \ListLayersResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Lambda {
     public func listProvisionedConcurrencyConfigsPaginator(
         _ input: ListProvisionedConcurrencyConfigsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProvisionedConcurrencyConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProvisionedConcurrencyConfigs, tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Lambda {
     public func listVersionsByFunctionPaginator(
         _ input: ListVersionsByFunctionRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVersionsByFunctionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVersionsByFunction, tokenKey: \ListVersionsByFunctionResponse.nextMarker, on: eventLoop, onPage: onPage)

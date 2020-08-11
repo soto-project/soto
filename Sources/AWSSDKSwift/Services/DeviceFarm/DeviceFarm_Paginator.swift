@@ -24,7 +24,6 @@ extension DeviceFarm {
     public func getOfferingStatusPaginator(
         _ input: GetOfferingStatusRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetOfferingStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getOfferingStatus, tokenKey: \GetOfferingStatusResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension DeviceFarm {
     public func listArtifactsPaginator(
         _ input: ListArtifactsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListArtifactsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listArtifacts, tokenKey: \ListArtifactsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension DeviceFarm {
     public func listDevicePoolsPaginator(
         _ input: ListDevicePoolsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevicePoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDevicePools, tokenKey: \ListDevicePoolsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension DeviceFarm {
     public func listDevicesPaginator(
         _ input: ListDevicesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevicesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDevices, tokenKey: \ListDevicesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension DeviceFarm {
     public func listJobsPaginator(
         _ input: ListJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension DeviceFarm {
     public func listOfferingTransactionsPaginator(
         _ input: ListOfferingTransactionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOfferingTransactionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOfferingTransactions, tokenKey: \ListOfferingTransactionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension DeviceFarm {
     public func listOfferingsPaginator(
         _ input: ListOfferingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension DeviceFarm {
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension DeviceFarm {
     public func listRunsPaginator(
         _ input: ListRunsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRunsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRuns, tokenKey: \ListRunsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension DeviceFarm {
     public func listSamplesPaginator(
         _ input: ListSamplesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSamplesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSamples, tokenKey: \ListSamplesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension DeviceFarm {
     public func listSuitesPaginator(
         _ input: ListSuitesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSuitesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSuites, tokenKey: \ListSuitesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension DeviceFarm {
     public func listTestGridProjectsPaginator(
         _ input: ListTestGridProjectsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTestGridProjectsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTestGridProjects, tokenKey: \ListTestGridProjectsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -144,7 +132,6 @@ extension DeviceFarm {
     public func listTestGridSessionActionsPaginator(
         _ input: ListTestGridSessionActionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTestGridSessionActionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTestGridSessionActions, tokenKey: \ListTestGridSessionActionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -154,7 +141,6 @@ extension DeviceFarm {
     public func listTestGridSessionArtifactsPaginator(
         _ input: ListTestGridSessionArtifactsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTestGridSessionArtifactsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTestGridSessionArtifacts, tokenKey: \ListTestGridSessionArtifactsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -164,7 +150,6 @@ extension DeviceFarm {
     public func listTestGridSessionsPaginator(
         _ input: ListTestGridSessionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTestGridSessionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTestGridSessions, tokenKey: \ListTestGridSessionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -174,7 +159,6 @@ extension DeviceFarm {
     public func listTestsPaginator(
         _ input: ListTestsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTestsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTests, tokenKey: \ListTestsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -184,7 +168,6 @@ extension DeviceFarm {
     public func listUniqueProblemsPaginator(
         _ input: ListUniqueProblemsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUniqueProblemsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUniqueProblems, tokenKey: \ListUniqueProblemsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -194,7 +177,6 @@ extension DeviceFarm {
     public func listUploadsPaginator(
         _ input: ListUploadsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUploadsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUploads, tokenKey: \ListUploadsResult.nextToken, on: eventLoop, onPage: onPage)

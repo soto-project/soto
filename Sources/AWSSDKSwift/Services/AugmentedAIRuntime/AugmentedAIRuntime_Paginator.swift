@@ -24,7 +24,6 @@ extension AugmentedAIRuntime {
     public func listHumanLoopsPaginator(
         _ input: ListHumanLoopsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHumanLoopsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listHumanLoops, tokenKey: \ListHumanLoopsResponse.nextToken, on: eventLoop, onPage: onPage)

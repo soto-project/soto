@@ -24,7 +24,6 @@ extension FSx {
     public func describeBackupsPaginator(
         _ input: DescribeBackupsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeBackupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeBackups, tokenKey: \DescribeBackupsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension FSx {
     public func describeDataRepositoryTasksPaginator(
         _ input: DescribeDataRepositoryTasksRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDataRepositoryTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDataRepositoryTasks, tokenKey: \DescribeDataRepositoryTasksResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension FSx {
     public func describeFileSystemsPaginator(
         _ input: DescribeFileSystemsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFileSystemsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeFileSystems, tokenKey: \DescribeFileSystemsResponse.nextToken, on: eventLoop, onPage: onPage)

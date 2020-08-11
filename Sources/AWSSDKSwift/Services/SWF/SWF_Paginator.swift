@@ -24,7 +24,6 @@ extension SWF {
     public func getWorkflowExecutionHistoryPaginator(
         _ input: GetWorkflowExecutionHistoryInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (History, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getWorkflowExecutionHistory, tokenKey: \History.nextPageToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SWF {
     public func listActivityTypesPaginator(
         _ input: ListActivityTypesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ActivityTypeInfos, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listActivityTypes, tokenKey: \ActivityTypeInfos.nextPageToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension SWF {
     public func listClosedWorkflowExecutionsPaginator(
         _ input: ListClosedWorkflowExecutionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (WorkflowExecutionInfos, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listClosedWorkflowExecutions, tokenKey: \WorkflowExecutionInfos.nextPageToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension SWF {
     public func listDomainsPaginator(
         _ input: ListDomainsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DomainInfos, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDomains, tokenKey: \DomainInfos.nextPageToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension SWF {
     public func listOpenWorkflowExecutionsPaginator(
         _ input: ListOpenWorkflowExecutionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (WorkflowExecutionInfos, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOpenWorkflowExecutions, tokenKey: \WorkflowExecutionInfos.nextPageToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension SWF {
     public func listWorkflowTypesPaginator(
         _ input: ListWorkflowTypesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (WorkflowTypeInfos, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkflowTypes, tokenKey: \WorkflowTypeInfos.nextPageToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension SWF {
     public func pollForDecisionTaskPaginator(
         _ input: PollForDecisionTaskInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DecisionTask, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: pollForDecisionTask, tokenKey: \DecisionTask.nextPageToken, on: eventLoop, onPage: onPage)

@@ -21,12 +21,12 @@ Client object for interacting with AWS Outposts service.
 
 AWS Outposts is a fully-managed service that extends AWS infrastructure, APIs, and tools to customer premises. By providing local access to AWS-managed infrastructure, AWS Outposts enables customers to build and run applications on premises using the same programming interfaces as in AWS Regions, while using local compute and storage resources for lower latency and local data processing needs.
 */
-public struct Outposts {
+public struct Outposts: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct Outposts {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "outposts",
@@ -53,45 +53,56 @@ public struct Outposts {
             apiVersion: "2019-12-03",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "outposts.us-gov-east-1.amazonaws.com", "us-gov-west-1": "outposts.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [OutpostsErrorType.self],
+            errorType: OutpostsErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates an Outpost.
-    public func createOutpost(_ input: CreateOutpostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOutpostOutput> {
-        return client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createOutpost(_ input: CreateOutpostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutpostOutput> {
+        return client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the Outpost.
-    public func deleteOutpost(_ input: DeleteOutpostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteOutpostOutput> {
-        return client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteOutpost(_ input: DeleteOutpostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteOutpostOutput> {
+        return client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the site.
-    public func deleteSite(_ input: DeleteSiteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSiteOutput> {
-        return client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteSite(_ input: DeleteSiteInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSiteOutput> {
+        return client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified Outpost.
-    public func getOutpost(_ input: GetOutpostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOutpostOutput> {
-        return client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getOutpost(_ input: GetOutpostInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOutpostOutput> {
+        return client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the instance types for the specified Outpost.
-    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
-        return client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
+        return client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  List the Outposts for your AWS account.
-    public func listOutposts(_ input: ListOutpostsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOutpostsOutput> {
-        return client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listOutposts(_ input: ListOutpostsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOutpostsOutput> {
+        return client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the sites for the specified AWS account.
-    public func listSites(_ input: ListSitesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSitesOutput> {
-        return client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSites(_ input: ListSitesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSitesOutput> {
+        return client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension Outposts {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

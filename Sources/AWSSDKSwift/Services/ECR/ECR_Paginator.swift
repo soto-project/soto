@@ -24,7 +24,6 @@ extension ECR {
     public func describeImageScanFindingsPaginator(
         _ input: DescribeImageScanFindingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImageScanFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImageScanFindings, tokenKey: \DescribeImageScanFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ECR {
     public func describeImagesPaginator(
         _ input: DescribeImagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ECR {
     public func describeRepositoriesPaginator(
         _ input: DescribeRepositoriesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRepositoriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeRepositories, tokenKey: \DescribeRepositoriesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension ECR {
     public func getLifecyclePolicyPreviewPaginator(
         _ input: GetLifecyclePolicyPreviewRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLifecyclePolicyPreviewResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getLifecyclePolicyPreview, tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension ECR {
     public func listImagesPaginator(
         _ input: ListImagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, on: eventLoop, onPage: onPage)

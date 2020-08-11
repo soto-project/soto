@@ -21,12 +21,12 @@ Client object for interacting with AWS IoTJobsDataPlane service.
 
 AWS IoT Jobs is a service that allows you to define a set of jobs — remote operations that are sent to and executed on one or more devices connected to AWS IoT. For example, you can define a job that instructs a set of devices to download and install application or firmware updates, reboot, rotate certificates, or perform remote troubleshooting operations.  To create a job, you make a job document which is a description of the remote operations to be performed, and you specify a list of targets that should perform the operations. The targets can be individual things, thing groups or both.  AWS IoT Jobs sends a message to inform the targets that a job is available. The target starts the execution of the job by downloading the job document, performing the operations it specifies, and reporting its progress to AWS IoT. The Jobs service provides commands to track the progress of a job on a specific target and for all the targets of the job
 */
-public struct IoTJobsDataPlane {
+public struct IoTJobsDataPlane: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct IoTJobsDataPlane {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             service: "data.jobs.iot",
@@ -53,30 +53,41 @@ public struct IoTJobsDataPlane {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-29",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTJobsDataPlaneErrorType.self],
+            errorType: IoTJobsDataPlaneErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Gets details of a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeJobExecutionResponse> {
-        return client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobExecutionResponse> {
+        return client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets the list of all jobs for a thing that are not in a terminal status.
-    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPendingJobExecutionsResponse> {
-        return client.execute(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPendingJobExecutionsResponse> {
+        return client.execute(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
-    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartNextPendingJobExecutionResponse> {
-        return client.execute(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartNextPendingJobExecutionResponse> {
+        return client.execute(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: .PUT, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the status of a job execution.
-    public func updateJobExecution(_ input: UpdateJobExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateJobExecutionResponse> {
-        return client.execute(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateJobExecution(_ input: UpdateJobExecutionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobExecutionResponse> {
+        return client.execute(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension IoTJobsDataPlane {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

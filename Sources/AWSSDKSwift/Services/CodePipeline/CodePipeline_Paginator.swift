@@ -24,7 +24,6 @@ extension CodePipeline {
     public func listActionExecutionsPaginator(
         _ input: ListActionExecutionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListActionExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listActionExecutions, tokenKey: \ListActionExecutionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension CodePipeline {
     public func listActionTypesPaginator(
         _ input: ListActionTypesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListActionTypesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listActionTypes, tokenKey: \ListActionTypesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension CodePipeline {
     public func listPipelineExecutionsPaginator(
         _ input: ListPipelineExecutionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelineExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPipelineExecutions, tokenKey: \ListPipelineExecutionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension CodePipeline {
     public func listPipelinesPaginator(
         _ input: ListPipelinesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension CodePipeline {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension CodePipeline {
     public func listWebhooksPaginator(
         _ input: ListWebhooksInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWebhooksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWebhooks, tokenKey: \ListWebhooksOutput.nextToken, on: eventLoop, onPage: onPage)

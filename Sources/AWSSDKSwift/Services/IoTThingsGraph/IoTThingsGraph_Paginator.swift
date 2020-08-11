@@ -24,7 +24,6 @@ extension IoTThingsGraph {
     public func getFlowTemplateRevisionsPaginator(
         _ input: GetFlowTemplateRevisionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFlowTemplateRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getFlowTemplateRevisions, tokenKey: \GetFlowTemplateRevisionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension IoTThingsGraph {
     public func getSystemTemplateRevisionsPaginator(
         _ input: GetSystemTemplateRevisionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSystemTemplateRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getSystemTemplateRevisions, tokenKey: \GetSystemTemplateRevisionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension IoTThingsGraph {
     public func listFlowExecutionMessagesPaginator(
         _ input: ListFlowExecutionMessagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFlowExecutionMessagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFlowExecutionMessages, tokenKey: \ListFlowExecutionMessagesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension IoTThingsGraph {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension IoTThingsGraph {
     public func searchEntitiesPaginator(
         _ input: SearchEntitiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchEntitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchEntities, tokenKey: \SearchEntitiesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension IoTThingsGraph {
     public func searchFlowExecutionsPaginator(
         _ input: SearchFlowExecutionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchFlowExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchFlowExecutions, tokenKey: \SearchFlowExecutionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension IoTThingsGraph {
     public func searchFlowTemplatesPaginator(
         _ input: SearchFlowTemplatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchFlowTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchFlowTemplates, tokenKey: \SearchFlowTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension IoTThingsGraph {
     public func searchSystemInstancesPaginator(
         _ input: SearchSystemInstancesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchSystemInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchSystemInstances, tokenKey: \SearchSystemInstancesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension IoTThingsGraph {
     public func searchSystemTemplatesPaginator(
         _ input: SearchSystemTemplatesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchSystemTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchSystemTemplates, tokenKey: \SearchSystemTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension IoTThingsGraph {
     public func searchThingsPaginator(
         _ input: SearchThingsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchThingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchThings, tokenKey: \SearchThingsResponse.nextToken, on: eventLoop, onPage: onPage)

@@ -21,12 +21,12 @@ Client object for interacting with AWS DynamoDBStreams service.
 
 Amazon DynamoDB Amazon DynamoDB Streams provides API actions for accessing streams and processing stream records. To learn more about application development with Streams, see Capturing Table Activity with DynamoDB Streams in the Amazon DynamoDB Developer Guide.
 */
-public struct DynamoDBStreams {
+public struct DynamoDBStreams: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct DynamoDBStreams {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "DynamoDBStreams_20120810",
@@ -54,30 +54,41 @@ public struct DynamoDBStreams {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
-            possibleErrorTypes: [DynamoDBStreamsErrorType.self],
+            errorType: DynamoDBStreamsErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.  You can call DescribeStream at a maximum rate of 10 times per second.  Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber, then the shard is still open (able to receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are present, then that shard is closed and can no longer receive more data.
-    public func describeStream(_ input: DescribeStreamInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStreamOutput> {
-        return client.execute(operation: "DescribeStream", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeStream(_ input: DescribeStreamInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStreamOutput> {
+        return client.execute(operation: "DescribeStream", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the stream records from a given shard. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records.   GetRecords can retrieve a maximum of 1 MB of data or 1000 stream records, whichever comes first. 
-    public func getRecords(_ input: GetRecordsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRecordsOutput> {
-        return client.execute(operation: "GetRecords", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRecords(_ input: GetRecordsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecordsOutput> {
+        return client.execute(operation: "GetRecords", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard.  A shard iterator expires 15 minutes after it is returned to the requester. 
-    public func getShardIterator(_ input: GetShardIteratorInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetShardIteratorOutput> {
-        return client.execute(operation: "GetShardIterator", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getShardIterator(_ input: GetShardIteratorInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetShardIteratorOutput> {
+        return client.execute(operation: "GetShardIterator", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table.  You can call ListStreams at a maximum rate of 5 times per second. 
-    public func listStreams(_ input: ListStreamsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStreamsOutput> {
-        return client.execute(operation: "ListStreams", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listStreams(_ input: ListStreamsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamsOutput> {
+        return client.execute(operation: "ListStreams", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension DynamoDBStreams {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

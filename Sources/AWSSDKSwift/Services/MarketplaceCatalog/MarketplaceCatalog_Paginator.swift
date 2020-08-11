@@ -24,7 +24,6 @@ extension MarketplaceCatalog {
     public func listChangeSetsPaginator(
         _ input: ListChangeSetsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChangeSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChangeSets, tokenKey: \ListChangeSetsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension MarketplaceCatalog {
     public func listEntitiesPaginator(
         _ input: ListEntitiesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEntities, tokenKey: \ListEntitiesResponse.nextToken, on: eventLoop, onPage: onPage)

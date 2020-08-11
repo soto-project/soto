@@ -24,7 +24,6 @@ extension Comprehend {
     public func listDocumentClassificationJobsPaginator(
         _ input: ListDocumentClassificationJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentClassificationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDocumentClassificationJobs, tokenKey: \ListDocumentClassificationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Comprehend {
     public func listDocumentClassifiersPaginator(
         _ input: ListDocumentClassifiersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentClassifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDocumentClassifiers, tokenKey: \ListDocumentClassifiersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Comprehend {
     public func listDominantLanguageDetectionJobsPaginator(
         _ input: ListDominantLanguageDetectionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDominantLanguageDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDominantLanguageDetectionJobs, tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Comprehend {
     public func listEntitiesDetectionJobsPaginator(
         _ input: ListEntitiesDetectionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitiesDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEntitiesDetectionJobs, tokenKey: \ListEntitiesDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Comprehend {
     public func listEntityRecognizersPaginator(
         _ input: ListEntityRecognizersRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntityRecognizersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEntityRecognizers, tokenKey: \ListEntityRecognizersResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Comprehend {
     public func listKeyPhrasesDetectionJobsPaginator(
         _ input: ListKeyPhrasesDetectionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKeyPhrasesDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listKeyPhrasesDetectionJobs, tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Comprehend {
     public func listSentimentDetectionJobsPaginator(
         _ input: ListSentimentDetectionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSentimentDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSentimentDetectionJobs, tokenKey: \ListSentimentDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Comprehend {
     public func listTopicsDetectionJobsPaginator(
         _ input: ListTopicsDetectionJobsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTopicsDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTopicsDetectionJobs, tokenKey: \ListTopicsDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)

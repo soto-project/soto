@@ -24,7 +24,6 @@ extension AppStream {
     public func describeImagePermissionsPaginator(
         _ input: DescribeImagePermissionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImagePermissions, tokenKey: \DescribeImagePermissionsResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension AppStream {
     public func describeImagesPaginator(
         _ input: DescribeImagesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResult.nextToken, on: eventLoop, onPage: onPage)

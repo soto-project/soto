@@ -24,7 +24,6 @@ extension ResourceGroups {
     public func listGroupResourcesPaginator(
         _ input: ListGroupResourcesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroupResources, tokenKey: \ListGroupResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ResourceGroups {
     public func listGroupsPaginator(
         _ input: ListGroupsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ResourceGroups {
     public func searchResourcesPaginator(
         _ input: SearchResourcesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, on: eventLoop, onPage: onPage)

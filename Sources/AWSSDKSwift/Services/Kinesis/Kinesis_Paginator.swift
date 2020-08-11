@@ -24,7 +24,6 @@ extension Kinesis {
     public func describeStreamPaginator(
         _ input: DescribeStreamInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStreamOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeStream, tokenKey: \DescribeStreamOutput.streamDescription.shards.last?.shardId, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Kinesis {
     public func listStreamConsumersPaginator(
         _ input: ListStreamConsumersInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamConsumersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStreamConsumers, tokenKey: \ListStreamConsumersOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Kinesis {
     public func listStreamsPaginator(
         _ input: ListStreamsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsOutput.streamNames.last, on: eventLoop, onPage: onPage)

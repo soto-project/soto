@@ -24,7 +24,6 @@ extension ServerlessApplicationRepository {
     public func listApplicationDependenciesPaginator(
         _ input: ListApplicationDependenciesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationDependenciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplicationDependencies, tokenKey: \ListApplicationDependenciesResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension ServerlessApplicationRepository {
     public func listApplicationVersionsPaginator(
         _ input: ListApplicationVersionsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplicationVersions, tokenKey: \ListApplicationVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension ServerlessApplicationRepository {
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)

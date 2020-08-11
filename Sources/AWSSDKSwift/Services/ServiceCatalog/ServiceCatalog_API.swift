@@ -21,12 +21,12 @@ Client object for interacting with AWS ServiceCatalog service.
 
 AWS Service Catalog  AWS Service Catalog enables organizations to create and manage catalogs of IT services that are approved for use on AWS. To get the most out of this documentation, you should be familiar with the terminology discussed in AWS Service Catalog Concepts.
 */
-public struct ServiceCatalog {
+public struct ServiceCatalog: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct ServiceCatalog {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWS242ServiceCatalogService",
@@ -53,425 +53,436 @@ public struct ServiceCatalog {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-12-10",
             endpoint: endpoint,
-            possibleErrorTypes: [ServiceCatalogErrorType.self],
+            errorType: ServiceCatalogErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Accepts an offer to share the specified portfolio.
-    public func acceptPortfolioShare(_ input: AcceptPortfolioShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcceptPortfolioShareOutput> {
-        return client.execute(operation: "AcceptPortfolioShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func acceptPortfolioShare(_ input: AcceptPortfolioShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptPortfolioShareOutput> {
+        return client.execute(operation: "AcceptPortfolioShare", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates the specified budget with the specified resource.
-    public func associateBudgetWithResource(_ input: AssociateBudgetWithResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateBudgetWithResourceOutput> {
-        return client.execute(operation: "AssociateBudgetWithResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateBudgetWithResource(_ input: AssociateBudgetWithResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateBudgetWithResourceOutput> {
+        return client.execute(operation: "AssociateBudgetWithResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates the specified principal ARN with the specified portfolio.
-    public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociatePrincipalWithPortfolioOutput> {
-        return client.execute(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePrincipalWithPortfolioOutput> {
+        return client.execute(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
-    public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateProductWithPortfolioOutput> {
-        return client.execute(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateProductWithPortfolioOutput> {
+        return client.execute(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates a self-service action with a provisioning artifact.
-    public func associateServiceActionWithProvisioningArtifact(_ input: AssociateServiceActionWithProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateServiceActionWithProvisioningArtifactOutput> {
-        return client.execute(operation: "AssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateServiceActionWithProvisioningArtifact(_ input: AssociateServiceActionWithProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateServiceActionWithProvisioningArtifactOutput> {
+        return client.execute(operation: "AssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associate the specified TagOption with the specified portfolio or product.
-    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateTagOptionWithResourceOutput> {
-        return client.execute(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTagOptionWithResourceOutput> {
+        return client.execute(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Associates multiple self-service actions with provisioning artifacts.
-    public func batchAssociateServiceActionWithProvisioningArtifact(_ input: BatchAssociateServiceActionWithProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchAssociateServiceActionWithProvisioningArtifactOutput> {
-        return client.execute(operation: "BatchAssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchAssociateServiceActionWithProvisioningArtifact(_ input: BatchAssociateServiceActionWithProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateServiceActionWithProvisioningArtifactOutput> {
+        return client.execute(operation: "BatchAssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates a batch of self-service actions from the specified provisioning artifact.
-    public func batchDisassociateServiceActionFromProvisioningArtifact(_ input: BatchDisassociateServiceActionFromProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDisassociateServiceActionFromProvisioningArtifactOutput> {
-        return client.execute(operation: "BatchDisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchDisassociateServiceActionFromProvisioningArtifact(_ input: BatchDisassociateServiceActionFromProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisassociateServiceActionFromProvisioningArtifactOutput> {
+        return client.execute(operation: "BatchDisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same region or another region. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
-    public func copyProduct(_ input: CopyProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CopyProductOutput> {
-        return client.execute(operation: "CopyProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func copyProduct(_ input: CopyProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CopyProductOutput> {
+        return client.execute(operation: "CopyProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a constraint. A delegated admin is authorized to invoke this command.
-    public func createConstraint(_ input: CreateConstraintInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateConstraintOutput> {
-        return client.execute(operation: "CreateConstraint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createConstraint(_ input: CreateConstraintInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConstraintOutput> {
+        return client.execute(operation: "CreateConstraint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a portfolio. A delegated admin is authorized to invoke this command.
-    public func createPortfolio(_ input: CreatePortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePortfolioOutput> {
-        return client.execute(operation: "CreatePortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPortfolio(_ input: CreatePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortfolioOutput> {
+        return client.execute(operation: "CreatePortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
-    public func createPortfolioShare(_ input: CreatePortfolioShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePortfolioShareOutput> {
-        return client.execute(operation: "CreatePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPortfolioShare(_ input: CreatePortfolioShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortfolioShareOutput> {
+        return client.execute(operation: "CreatePortfolioShare", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a product. A delegated admin is authorized to invoke this command.
-    public func createProduct(_ input: CreateProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProductOutput> {
-        return client.execute(operation: "CreateProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProduct(_ input: CreateProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProductOutput> {
+        return client.execute(operation: "CreateProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan per provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILBLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan. To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
-    public func createProvisionedProductPlan(_ input: CreateProvisionedProductPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProvisionedProductPlanOutput> {
-        return client.execute(operation: "CreateProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProvisionedProductPlan(_ input: CreateProvisionedProductPlanInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProvisionedProductPlanOutput> {
+        return client.execute(operation: "CreateProvisionedProductPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you.
-    public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProvisioningArtifactOutput> {
-        return client.execute(operation: "CreateProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProvisioningArtifactOutput> {
+        return client.execute(operation: "CreateProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a self-service action.
-    public func createServiceAction(_ input: CreateServiceActionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateServiceActionOutput> {
-        return client.execute(operation: "CreateServiceAction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createServiceAction(_ input: CreateServiceActionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceActionOutput> {
+        return client.execute(operation: "CreateServiceAction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a TagOption.
-    public func createTagOption(_ input: CreateTagOptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTagOptionOutput> {
-        return client.execute(operation: "CreateTagOption", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTagOption(_ input: CreateTagOptionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTagOptionOutput> {
+        return client.execute(operation: "CreateTagOption", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified constraint. A delegated admin is authorized to invoke this command.
-    public func deleteConstraint(_ input: DeleteConstraintInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConstraintOutput> {
-        return client.execute(operation: "DeleteConstraint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteConstraint(_ input: DeleteConstraintInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConstraintOutput> {
+        return client.execute(operation: "DeleteConstraint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
-    public func deletePortfolio(_ input: DeletePortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePortfolioOutput> {
-        return client.execute(operation: "DeletePortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deletePortfolio(_ input: DeletePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePortfolioOutput> {
+        return client.execute(operation: "DeletePortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
-    public func deletePortfolioShare(_ input: DeletePortfolioShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePortfolioShareOutput> {
-        return client.execute(operation: "DeletePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deletePortfolioShare(_ input: DeletePortfolioShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePortfolioShareOutput> {
+        return client.execute(operation: "DeletePortfolioShare", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
-    public func deleteProduct(_ input: DeleteProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProductOutput> {
-        return client.execute(operation: "DeleteProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProduct(_ input: DeleteProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProductOutput> {
+        return client.execute(operation: "DeleteProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified plan.
-    public func deleteProvisionedProductPlan(_ input: DeleteProvisionedProductPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProvisionedProductPlanOutput> {
-        return client.execute(operation: "DeleteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProvisionedProductPlan(_ input: DeleteProvisionedProductPlanInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProvisionedProductPlanOutput> {
+        return client.execute(operation: "DeleteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact.
-    public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProvisioningArtifactOutput> {
-        return client.execute(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProvisioningArtifactOutput> {
+        return client.execute(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a self-service action.
-    public func deleteServiceAction(_ input: DeleteServiceActionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteServiceActionOutput> {
-        return client.execute(operation: "DeleteServiceAction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteServiceAction(_ input: DeleteServiceActionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceActionOutput> {
+        return client.execute(operation: "DeleteServiceAction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
-    public func deleteTagOption(_ input: DeleteTagOptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTagOptionOutput> {
-        return client.execute(operation: "DeleteTagOption", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTagOption(_ input: DeleteTagOptionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTagOptionOutput> {
+        return client.execute(operation: "DeleteTagOption", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified constraint.
-    public func describeConstraint(_ input: DescribeConstraintInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeConstraintOutput> {
-        return client.execute(operation: "DescribeConstraint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeConstraint(_ input: DescribeConstraintInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConstraintOutput> {
+        return client.execute(operation: "DescribeConstraint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets the status of the specified copy product operation.
-    public func describeCopyProductStatus(_ input: DescribeCopyProductStatusInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCopyProductStatusOutput> {
-        return client.execute(operation: "DescribeCopyProductStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCopyProductStatus(_ input: DescribeCopyProductStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCopyProductStatusOutput> {
+        return client.execute(operation: "DescribeCopyProductStatus", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
-    public func describePortfolio(_ input: DescribePortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePortfolioOutput> {
-        return client.execute(operation: "DescribePortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describePortfolio(_ input: DescribePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePortfolioOutput> {
+        return client.execute(operation: "DescribePortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization or by a delegated admin.
-    public func describePortfolioShareStatus(_ input: DescribePortfolioShareStatusInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePortfolioShareStatusOutput> {
-        return client.execute(operation: "DescribePortfolioShareStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describePortfolioShareStatus(_ input: DescribePortfolioShareStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePortfolioShareStatusOutput> {
+        return client.execute(operation: "DescribePortfolioShareStatus", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified product.
-    public func describeProduct(_ input: DescribeProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProductOutput> {
-        return client.execute(operation: "DescribeProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProduct(_ input: DescribeProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProductOutput> {
+        return client.execute(operation: "DescribeProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified product. This operation is run with administrator access.
-    public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProductAsAdminOutput> {
-        return client.execute(operation: "DescribeProductAsAdmin", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProductAsAdminOutput> {
+        return client.execute(operation: "DescribeProductAsAdmin", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified product.
-    public func describeProductView(_ input: DescribeProductViewInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProductViewOutput> {
-        return client.execute(operation: "DescribeProductView", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProductView(_ input: DescribeProductViewInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProductViewOutput> {
+        return client.execute(operation: "DescribeProductView", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified provisioned product.
-    public func describeProvisionedProduct(_ input: DescribeProvisionedProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProvisionedProductOutput> {
-        return client.execute(operation: "DescribeProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProvisionedProduct(_ input: DescribeProvisionedProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProvisionedProductOutput> {
+        return client.execute(operation: "DescribeProvisionedProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the resource changes for the specified plan.
-    public func describeProvisionedProductPlan(_ input: DescribeProvisionedProductPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProvisionedProductPlanOutput> {
-        return client.execute(operation: "DescribeProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProvisionedProductPlan(_ input: DescribeProvisionedProductPlanInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProvisionedProductPlanOutput> {
+        return client.execute(operation: "DescribeProvisionedProductPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified provisioning artifact (also known as a version) for the specified product.
-    public func describeProvisioningArtifact(_ input: DescribeProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProvisioningArtifactOutput> {
-        return client.execute(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProvisioningArtifact(_ input: DescribeProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProvisioningArtifactOutput> {
+        return client.execute(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to ProvisionProduct, do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
-    public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProvisioningParametersOutput> {
-        return client.execute(operation: "DescribeProvisioningParameters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProvisioningParametersOutput> {
+        return client.execute(operation: "DescribeProvisioningParameters", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to see the product's history from when he was the owner. 
-    public func describeRecord(_ input: DescribeRecordInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRecordOutput> {
-        return client.execute(operation: "DescribeRecord", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRecord(_ input: DescribeRecordInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecordOutput> {
+        return client.execute(operation: "DescribeRecord", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Describes a self-service action.
-    public func describeServiceAction(_ input: DescribeServiceActionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeServiceActionOutput> {
-        return client.execute(operation: "DescribeServiceAction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeServiceAction(_ input: DescribeServiceActionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServiceActionOutput> {
+        return client.execute(operation: "DescribeServiceAction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
-    public func describeServiceActionExecutionParameters(_ input: DescribeServiceActionExecutionParametersInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeServiceActionExecutionParametersOutput> {
-        return client.execute(operation: "DescribeServiceActionExecutionParameters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeServiceActionExecutionParameters(_ input: DescribeServiceActionExecutionParametersInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServiceActionExecutionParametersOutput> {
+        return client.execute(operation: "DescribeServiceActionExecutionParameters", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the specified TagOption.
-    public func describeTagOption(_ input: DescribeTagOptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTagOptionOutput> {
-        return client.execute(operation: "DescribeTagOption", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTagOption(_ input: DescribeTagOptionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTagOptionOutput> {
+        return client.execute(operation: "DescribeTagOption", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
-    public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisableAWSOrganizationsAccessOutput> {
-        return client.execute(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableAWSOrganizationsAccessOutput> {
+        return client.execute(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates the specified budget from the specified resource.
-    public func disassociateBudgetFromResource(_ input: DisassociateBudgetFromResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateBudgetFromResourceOutput> {
-        return client.execute(operation: "DisassociateBudgetFromResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateBudgetFromResource(_ input: DisassociateBudgetFromResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateBudgetFromResourceOutput> {
+        return client.execute(operation: "DisassociateBudgetFromResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates a previously associated principal ARN from a specified portfolio.
-    public func disassociatePrincipalFromPortfolio(_ input: DisassociatePrincipalFromPortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociatePrincipalFromPortfolioOutput> {
-        return client.execute(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociatePrincipalFromPortfolio(_ input: DisassociatePrincipalFromPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePrincipalFromPortfolioOutput> {
+        return client.execute(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates the specified product from the specified portfolio.  A delegated admin is authorized to invoke this command.
-    public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateProductFromPortfolioOutput> {
-        return client.execute(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateProductFromPortfolioOutput> {
+        return client.execute(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates the specified self-service action association from the specified provisioning artifact.
-    public func disassociateServiceActionFromProvisioningArtifact(_ input: DisassociateServiceActionFromProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateServiceActionFromProvisioningArtifactOutput> {
-        return client.execute(operation: "DisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateServiceActionFromProvisioningArtifact(_ input: DisassociateServiceActionFromProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateServiceActionFromProvisioningArtifactOutput> {
+        return client.execute(operation: "DisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Disassociates the specified TagOption from the specified resource.
-    public func disassociateTagOptionFromResource(_ input: DisassociateTagOptionFromResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateTagOptionFromResourceOutput> {
-        return client.execute(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateTagOptionFromResource(_ input: DisassociateTagOptionFromResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTagOptionFromResourceOutput> {
+        return client.execute(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
-    public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<EnableAWSOrganizationsAccessOutput> {
-        return client.execute(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableAWSOrganizationsAccessOutput> {
+        return client.execute(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Provisions or modifies a product based on the resource changes for the specified plan.
-    public func executeProvisionedProductPlan(_ input: ExecuteProvisionedProductPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteProvisionedProductPlanOutput> {
-        return client.execute(operation: "ExecuteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func executeProvisionedProductPlan(_ input: ExecuteProvisionedProductPlanInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteProvisionedProductPlanOutput> {
+        return client.execute(operation: "ExecuteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Executes a self-service action against a provisioned product.
-    public func executeProvisionedProductServiceAction(_ input: ExecuteProvisionedProductServiceActionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteProvisionedProductServiceActionOutput> {
-        return client.execute(operation: "ExecuteProvisionedProductServiceAction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func executeProvisionedProductServiceAction(_ input: ExecuteProvisionedProductServiceActionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteProvisionedProductServiceActionOutput> {
+        return client.execute(operation: "ExecuteProvisionedProductServiceAction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization or by a delegated admin.
-    public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAWSOrganizationsAccessStatusOutput> {
-        return client.execute(operation: "GetAWSOrganizationsAccessStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAWSOrganizationsAccessStatusOutput> {
+        return client.execute(operation: "GetAWSOrganizationsAccessStatus", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all portfolios for which sharing was accepted by this account.
-    public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAcceptedPortfolioSharesOutput> {
-        return client.execute(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAcceptedPortfolioSharesOutput> {
+        return client.execute(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all the budgets associated to the specified resource.
-    public func listBudgetsForResource(_ input: ListBudgetsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBudgetsForResourceOutput> {
-        return client.execute(operation: "ListBudgetsForResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBudgetsForResource(_ input: ListBudgetsForResourceInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBudgetsForResourceOutput> {
+        return client.execute(operation: "ListBudgetsForResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the constraints for the specified portfolio and product.
-    public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListConstraintsForPortfolioOutput> {
-        return client.execute(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConstraintsForPortfolioOutput> {
+        return client.execute(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
-    public func listLaunchPaths(_ input: ListLaunchPathsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListLaunchPathsOutput> {
-        return client.execute(operation: "ListLaunchPaths", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listLaunchPaths(_ input: ListLaunchPathsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLaunchPathsOutput> {
+        return client.execute(operation: "ListLaunchPaths", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
-    public func listOrganizationPortfolioAccess(_ input: ListOrganizationPortfolioAccessInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOrganizationPortfolioAccessOutput> {
-        return client.execute(operation: "ListOrganizationPortfolioAccess", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listOrganizationPortfolioAccess(_ input: ListOrganizationPortfolioAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationPortfolioAccessOutput> {
+        return client.execute(operation: "ListOrganizationPortfolioAccess", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
-    public func listPortfolioAccess(_ input: ListPortfolioAccessInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPortfolioAccessOutput> {
-        return client.execute(operation: "ListPortfolioAccess", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPortfolioAccess(_ input: ListPortfolioAccessInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPortfolioAccessOutput> {
+        return client.execute(operation: "ListPortfolioAccess", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all portfolios in the catalog.
-    public func listPortfolios(_ input: ListPortfoliosInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPortfoliosOutput> {
-        return client.execute(operation: "ListPortfolios", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPortfolios(_ input: ListPortfoliosInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPortfoliosOutput> {
+        return client.execute(operation: "ListPortfolios", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all portfolios that the specified product is associated with.
-    public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPortfoliosForProductOutput> {
-        return client.execute(operation: "ListPortfoliosForProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPortfoliosForProductOutput> {
+        return client.execute(operation: "ListPortfoliosForProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all principal ARNs associated with the specified portfolio.
-    public func listPrincipalsForPortfolio(_ input: ListPrincipalsForPortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPrincipalsForPortfolioOutput> {
-        return client.execute(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPrincipalsForPortfolio(_ input: ListPrincipalsForPortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPrincipalsForPortfolioOutput> {
+        return client.execute(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the plans for the specified provisioned product or all plans to which the user has access.
-    public func listProvisionedProductPlans(_ input: ListProvisionedProductPlansInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProvisionedProductPlansOutput> {
-        return client.execute(operation: "ListProvisionedProductPlans", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProvisionedProductPlans(_ input: ListProvisionedProductPlansInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProvisionedProductPlansOutput> {
+        return client.execute(operation: "ListProvisionedProductPlans", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all provisioning artifacts (also known as versions) for the specified product.
-    public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProvisioningArtifactsOutput> {
-        return client.execute(operation: "ListProvisioningArtifacts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProvisioningArtifactsOutput> {
+        return client.execute(operation: "ListProvisioningArtifacts", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all provisioning artifacts (also known as versions) for the specified self-service action.
-    public func listProvisioningArtifactsForServiceAction(_ input: ListProvisioningArtifactsForServiceActionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProvisioningArtifactsForServiceActionOutput> {
-        return client.execute(operation: "ListProvisioningArtifactsForServiceAction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProvisioningArtifactsForServiceAction(_ input: ListProvisioningArtifactsForServiceActionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProvisioningArtifactsForServiceActionOutput> {
+        return client.execute(operation: "ListProvisioningArtifactsForServiceAction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the specified requests or all performed requests.
-    public func listRecordHistory(_ input: ListRecordHistoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRecordHistoryOutput> {
-        return client.execute(operation: "ListRecordHistory", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRecordHistory(_ input: ListRecordHistoryInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecordHistoryOutput> {
+        return client.execute(operation: "ListRecordHistory", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the resources associated with the specified TagOption.
-    public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourcesForTagOptionOutput> {
-        return client.execute(operation: "ListResourcesForTagOption", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourcesForTagOptionOutput> {
+        return client.execute(operation: "ListResourcesForTagOption", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all self-service actions.
-    public func listServiceActions(_ input: ListServiceActionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListServiceActionsOutput> {
-        return client.execute(operation: "ListServiceActions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listServiceActions(_ input: ListServiceActionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceActionsOutput> {
+        return client.execute(operation: "ListServiceActions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
-    public func listServiceActionsForProvisioningArtifact(_ input: ListServiceActionsForProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListServiceActionsForProvisioningArtifactOutput> {
-        return client.execute(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listServiceActionsForProvisioningArtifact(_ input: ListServiceActionsForProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceActionsForProvisioningArtifactOutput> {
+        return client.execute(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific AWS account name or region. 
-    public func listStackInstancesForProvisionedProduct(_ input: ListStackInstancesForProvisionedProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackInstancesForProvisionedProductOutput> {
-        return client.execute(operation: "ListStackInstancesForProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listStackInstancesForProvisionedProduct(_ input: ListStackInstancesForProvisionedProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStackInstancesForProvisionedProductOutput> {
+        return client.execute(operation: "ListStackInstancesForProvisionedProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the specified TagOptions or all TagOptions.
-    public func listTagOptions(_ input: ListTagOptionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagOptionsOutput> {
-        return client.execute(operation: "ListTagOptions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagOptions(_ input: ListTagOptionsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagOptionsOutput> {
+        return client.execute(operation: "ListTagOptions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product based on a CloudFormation template launches a CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord. If the request contains a tag key with an empty list of values, there is a tag conflict for that key. Do not include conflicted keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value".
-    public func provisionProduct(_ input: ProvisionProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ProvisionProductOutput> {
-        return client.execute(operation: "ProvisionProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func provisionProduct(_ input: ProvisionProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionProductOutput> {
+        return client.execute(operation: "ProvisionProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Rejects an offer to share the specified portfolio.
-    public func rejectPortfolioShare(_ input: RejectPortfolioShareInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RejectPortfolioShareOutput> {
-        return client.execute(operation: "RejectPortfolioShare", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func rejectPortfolioShare(_ input: RejectPortfolioShareInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectPortfolioShareOutput> {
+        return client.execute(operation: "RejectPortfolioShare", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists the provisioned products that are available (not terminated). To use additional filtering, see SearchProvisionedProducts.
-    public func scanProvisionedProducts(_ input: ScanProvisionedProductsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ScanProvisionedProductsOutput> {
-        return client.execute(operation: "ScanProvisionedProducts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func scanProvisionedProducts(_ input: ScanProvisionedProductsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ScanProvisionedProductsOutput> {
+        return client.execute(operation: "ScanProvisionedProducts", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the products to which the caller has access.
-    public func searchProducts(_ input: SearchProductsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchProductsOutput> {
-        return client.execute(operation: "SearchProducts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func searchProducts(_ input: SearchProductsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchProductsOutput> {
+        return client.execute(operation: "SearchProducts", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the products for the specified portfolio or all products.
-    public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchProductsAsAdminOutput> {
-        return client.execute(operation: "SearchProductsAsAdmin", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchProductsAsAdminOutput> {
+        return client.execute(operation: "SearchProductsAsAdmin", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets information about the provisioned products that meet the specified criteria.
-    public func searchProvisionedProducts(_ input: SearchProvisionedProductsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchProvisionedProductsOutput> {
-        return client.execute(operation: "SearchProvisionedProducts", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func searchProvisionedProducts(_ input: SearchProvisionedProductsInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchProvisionedProductsOutput> {
+        return client.execute(operation: "SearchProvisionedProducts", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using DescribeRecord.
-    public func terminateProvisionedProduct(_ input: TerminateProvisionedProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TerminateProvisionedProductOutput> {
-        return client.execute(operation: "TerminateProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func terminateProvisionedProduct(_ input: TerminateProvisionedProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TerminateProvisionedProductOutput> {
+        return client.execute(operation: "TerminateProvisionedProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified constraint.
-    public func updateConstraint(_ input: UpdateConstraintInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateConstraintOutput> {
-        return client.execute(operation: "UpdateConstraint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateConstraint(_ input: UpdateConstraintInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConstraintOutput> {
+        return client.execute(operation: "UpdateConstraint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified portfolio. You cannot update a product that was shared with you.
-    public func updatePortfolio(_ input: UpdatePortfolioInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePortfolioOutput> {
-        return client.execute(operation: "UpdatePortfolio", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updatePortfolio(_ input: UpdatePortfolioInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePortfolioOutput> {
+        return client.execute(operation: "UpdatePortfolio", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified product.
-    public func updateProduct(_ input: UpdateProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProductOutput> {
-        return client.execute(operation: "UpdateProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProduct(_ input: UpdateProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProductOutput> {
+        return client.execute(operation: "UpdateProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using DescribeRecord.
-    public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProvisionedProductOutput> {
-        return client.execute(operation: "UpdateProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProvisionedProductOutput> {
+        return client.execute(operation: "UpdateProvisionedProduct", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Requests updates to the properties of the specified provisioned product.
-    public func updateProvisionedProductProperties(_ input: UpdateProvisionedProductPropertiesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProvisionedProductPropertiesOutput> {
-        return client.execute(operation: "UpdateProvisionedProductProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProvisionedProductProperties(_ input: UpdateProvisionedProductPropertiesInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProvisionedProductPropertiesOutput> {
+        return client.execute(operation: "UpdateProvisionedProductProperties", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
-    public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProvisioningArtifactOutput> {
-        return client.execute(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProvisioningArtifactOutput> {
+        return client.execute(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a self-service action.
-    public func updateServiceAction(_ input: UpdateServiceActionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateServiceActionOutput> {
-        return client.execute(operation: "UpdateServiceAction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateServiceAction(_ input: UpdateServiceActionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceActionOutput> {
+        return client.execute(operation: "UpdateServiceAction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the specified TagOption.
-    public func updateTagOption(_ input: UpdateTagOptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTagOptionOutput> {
-        return client.execute(operation: "UpdateTagOption", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTagOption(_ input: UpdateTagOptionInput, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTagOptionOutput> {
+        return client.execute(operation: "UpdateTagOption", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension ServiceCatalog {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

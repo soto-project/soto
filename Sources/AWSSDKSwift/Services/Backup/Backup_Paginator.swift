@@ -24,7 +24,6 @@ extension Backup {
     public func listBackupJobsPaginator(
         _ input: ListBackupJobsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBackupJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupJobs, tokenKey: \ListBackupJobsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension Backup {
     public func listBackupPlanTemplatesPaginator(
         _ input: ListBackupPlanTemplatesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBackupPlanTemplatesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupPlanTemplates, tokenKey: \ListBackupPlanTemplatesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension Backup {
     public func listBackupPlanVersionsPaginator(
         _ input: ListBackupPlanVersionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBackupPlanVersionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupPlanVersions, tokenKey: \ListBackupPlanVersionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension Backup {
     public func listBackupPlansPaginator(
         _ input: ListBackupPlansInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBackupPlansOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupPlans, tokenKey: \ListBackupPlansOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension Backup {
     public func listBackupSelectionsPaginator(
         _ input: ListBackupSelectionsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBackupSelectionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupSelections, tokenKey: \ListBackupSelectionsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension Backup {
     public func listBackupVaultsPaginator(
         _ input: ListBackupVaultsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBackupVaultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupVaults, tokenKey: \ListBackupVaultsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -84,7 +78,6 @@ extension Backup {
     public func listCopyJobsPaginator(
         _ input: ListCopyJobsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCopyJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCopyJobs, tokenKey: \ListCopyJobsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -94,7 +87,6 @@ extension Backup {
     public func listProtectedResourcesPaginator(
         _ input: ListProtectedResourcesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProtectedResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProtectedResources, tokenKey: \ListProtectedResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -104,7 +96,6 @@ extension Backup {
     public func listRecoveryPointsByBackupVaultPaginator(
         _ input: ListRecoveryPointsByBackupVaultInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecoveryPointsByBackupVaultOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRecoveryPointsByBackupVault, tokenKey: \ListRecoveryPointsByBackupVaultOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -114,7 +105,6 @@ extension Backup {
     public func listRecoveryPointsByResourcePaginator(
         _ input: ListRecoveryPointsByResourceInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecoveryPointsByResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRecoveryPointsByResource, tokenKey: \ListRecoveryPointsByResourceOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -124,7 +114,6 @@ extension Backup {
     public func listRestoreJobsPaginator(
         _ input: ListRestoreJobsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRestoreJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRestoreJobs, tokenKey: \ListRestoreJobsOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -134,7 +123,6 @@ extension Backup {
     public func listTagsPaginator(
         _ input: ListTagsInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsOutput.nextToken, on: eventLoop, onPage: onPage)

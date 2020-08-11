@@ -21,12 +21,12 @@ Client object for interacting with AWS Glue service.
 
 AWS Glue Defines the public endpoint for the AWS Glue service.
 */
-public struct Glue {
+public struct Glue: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct Glue {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.context = AWSServiceContext(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSGlue",
@@ -53,665 +53,676 @@ public struct Glue {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-31",
             endpoint: endpoint,
-            possibleErrorTypes: [GlueErrorType.self],
+            errorType: GlueErrorType.self,
             timeout: timeout
         )
+    }
+    
+    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, context: transform(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates one or more partitions in a batch operation.
-    public func batchCreatePartition(_ input: BatchCreatePartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchCreatePartitionResponse> {
-        return client.execute(operation: "BatchCreatePartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchCreatePartition(_ input: BatchCreatePartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreatePartitionResponse> {
+        return client.execute(operation: "BatchCreatePartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a list of connection definitions from the Data Catalog.
-    public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeleteConnectionResponse> {
-        return client.execute(operation: "BatchDeleteConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteConnectionResponse> {
+        return client.execute(operation: "BatchDeleteConnection", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes one or more partitions in a batch operation.
-    public func batchDeletePartition(_ input: BatchDeletePartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeletePartitionResponse> {
-        return client.execute(operation: "BatchDeletePartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchDeletePartition(_ input: BatchDeletePartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeletePartitionResponse> {
+        return client.execute(operation: "BatchDeletePartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes multiple tables at once.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
-    public func batchDeleteTable(_ input: BatchDeleteTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeleteTableResponse> {
-        return client.execute(operation: "BatchDeleteTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchDeleteTable(_ input: BatchDeleteTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteTableResponse> {
+        return client.execute(operation: "BatchDeleteTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified batch of versions of a table.
-    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeleteTableVersionResponse> {
-        return client.execute(operation: "BatchDeleteTableVersion", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteTableVersionResponse> {
+        return client.execute(operation: "BatchDeleteTableVersion", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetCrawlersResponse> {
-        return client.execute(operation: "BatchGetCrawlers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCrawlersResponse> {
+        return client.execute(operation: "BatchGetCrawlers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetDevEndpointsResponse> {
-        return client.execute(operation: "BatchGetDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDevEndpointsResponse> {
+        return client.execute(operation: "BatchGetDevEndpoints", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. 
-    public func batchGetJobs(_ input: BatchGetJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetJobsResponse> {
-        return client.execute(operation: "BatchGetJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchGetJobs(_ input: BatchGetJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetJobsResponse> {
+        return client.execute(operation: "BatchGetJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves partitions in a batch request.
-    public func batchGetPartition(_ input: BatchGetPartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetPartitionResponse> {
-        return client.execute(operation: "BatchGetPartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchGetPartition(_ input: BatchGetPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetPartitionResponse> {
+        return client.execute(operation: "BatchGetPartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetTriggers(_ input: BatchGetTriggersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetTriggersResponse> {
-        return client.execute(operation: "BatchGetTriggers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchGetTriggers(_ input: BatchGetTriggersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetTriggersResponse> {
+        return client.execute(operation: "BatchGetTriggers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetWorkflowsResponse> {
-        return client.execute(operation: "BatchGetWorkflows", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetWorkflowsResponse> {
+        return client.execute(operation: "BatchGetWorkflows", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops one or more job runs for a specified job definition.
-    public func batchStopJobRun(_ input: BatchStopJobRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchStopJobRunResponse> {
-        return client.execute(operation: "BatchStopJobRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchStopJobRun(_ input: BatchStopJobRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchStopJobRunResponse> {
+        return client.execute(operation: "BatchStopJobRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId. 
-    public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelMLTaskRunResponse> {
-        return client.execute(operation: "CancelMLTaskRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelMLTaskRunResponse> {
+        return client.execute(operation: "CancelMLTaskRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
-    public func createClassifier(_ input: CreateClassifierRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateClassifierResponse> {
-        return client.execute(operation: "CreateClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createClassifier(_ input: CreateClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateClassifierResponse> {
+        return client.execute(operation: "CreateClassifier", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a connection definition in the Data Catalog.
-    public func createConnection(_ input: CreateConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateConnectionResponse> {
-        return client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createConnection(_ input: CreateConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionResponse> {
+        return client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
-    public func createCrawler(_ input: CreateCrawlerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCrawlerResponse> {
-        return client.execute(operation: "CreateCrawler", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createCrawler(_ input: CreateCrawlerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCrawlerResponse> {
+        return client.execute(operation: "CreateCrawler", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new database in a Data Catalog.
-    public func createDatabase(_ input: CreateDatabaseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDatabaseResponse> {
-        return client.execute(operation: "CreateDatabase", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDatabase(_ input: CreateDatabaseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatabaseResponse> {
+        return client.execute(operation: "CreateDatabase", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new development endpoint.
-    public func createDevEndpoint(_ input: CreateDevEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDevEndpointResponse> {
-        return client.execute(operation: "CreateDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDevEndpoint(_ input: CreateDevEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDevEndpointResponse> {
+        return client.execute(operation: "CreateDevEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new job definition.
-    public func createJob(_ input: CreateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateJobResponse> {
-        return client.execute(operation: "CreateJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createJob(_ input: CreateJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResponse> {
+        return client.execute(operation: "CreateJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates an AWS Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that AWS Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see Jobs.
-    public func createMLTransform(_ input: CreateMLTransformRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMLTransformResponse> {
-        return client.execute(operation: "CreateMLTransform", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMLTransform(_ input: CreateMLTransformRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMLTransformResponse> {
+        return client.execute(operation: "CreateMLTransform", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new partition.
-    public func createPartition(_ input: CreatePartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePartitionResponse> {
-        return client.execute(operation: "CreatePartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPartition(_ input: CreatePartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePartitionResponse> {
+        return client.execute(operation: "CreatePartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Transforms a directed acyclic graph (DAG) into code.
-    public func createScript(_ input: CreateScriptRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateScriptResponse> {
-        return client.execute(operation: "CreateScript", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createScript(_ input: CreateScriptRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScriptResponse> {
+        return client.execute(operation: "CreateScript", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new security configuration. A security configuration is a set of security properties that can be used by AWS Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in AWS Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
-    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSecurityConfigurationResponse> {
-        return client.execute(operation: "CreateSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSecurityConfigurationResponse> {
+        return client.execute(operation: "CreateSecurityConfiguration", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new table definition in the Data Catalog.
-    public func createTable(_ input: CreateTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTableResponse> {
-        return client.execute(operation: "CreateTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTable(_ input: CreateTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTableResponse> {
+        return client.execute(operation: "CreateTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new trigger.
-    public func createTrigger(_ input: CreateTriggerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTriggerResponse> {
-        return client.execute(operation: "CreateTrigger", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTrigger(_ input: CreateTriggerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTriggerResponse> {
+        return client.execute(operation: "CreateTrigger", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new function definition in the Data Catalog.
-    public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserDefinedFunctionResponse> {
-        return client.execute(operation: "CreateUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserDefinedFunctionResponse> {
+        return client.execute(operation: "CreateUserDefinedFunction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates a new workflow.
-    public func createWorkflow(_ input: CreateWorkflowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorkflowResponse> {
-        return client.execute(operation: "CreateWorkflow", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createWorkflow(_ input: CreateWorkflowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkflowResponse> {
+        return client.execute(operation: "CreateWorkflow", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes a classifier from the Data Catalog.
-    public func deleteClassifier(_ input: DeleteClassifierRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteClassifierResponse> {
-        return client.execute(operation: "DeleteClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteClassifier(_ input: DeleteClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteClassifierResponse> {
+        return client.execute(operation: "DeleteClassifier", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Delete the partition column statistics of a column.
-    public func deleteColumnStatisticsForPartition(_ input: DeleteColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteColumnStatisticsForPartitionResponse> {
-        return client.execute(operation: "DeleteColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteColumnStatisticsForPartition(_ input: DeleteColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteColumnStatisticsForPartitionResponse> {
+        return client.execute(operation: "DeleteColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves table statistics of columns.
-    public func deleteColumnStatisticsForTable(_ input: DeleteColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteColumnStatisticsForTableResponse> {
-        return client.execute(operation: "DeleteColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteColumnStatisticsForTable(_ input: DeleteColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteColumnStatisticsForTableResponse> {
+        return client.execute(operation: "DeleteColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a connection from the Data Catalog.
-    public func deleteConnection(_ input: DeleteConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConnectionResponse> {
-        return client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteConnection(_ input: DeleteConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionResponse> {
+        return client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes a specified crawler from the AWS Glue Data Catalog, unless the crawler state is RUNNING.
-    public func deleteCrawler(_ input: DeleteCrawlerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteCrawlerResponse> {
-        return client.execute(operation: "DeleteCrawler", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteCrawler(_ input: DeleteCrawlerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCrawlerResponse> {
+        return client.execute(operation: "DeleteCrawler", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes a specified database from a Data Catalog.  After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database. 
-    public func deleteDatabase(_ input: DeleteDatabaseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDatabaseResponse> {
-        return client.execute(operation: "DeleteDatabase", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDatabase(_ input: DeleteDatabaseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDatabaseResponse> {
+        return client.execute(operation: "DeleteDatabase", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified development endpoint.
-    public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDevEndpointResponse> {
-        return client.execute(operation: "DeleteDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDevEndpointResponse> {
+        return client.execute(operation: "DeleteDevEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified job definition. If the job definition is not found, no exception is thrown.
-    public func deleteJob(_ input: DeleteJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteJobResponse> {
-        return client.execute(operation: "DeleteJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteJob(_ input: DeleteJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobResponse> {
+        return client.execute(operation: "DeleteJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an AWS Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any AWS Glue jobs that still reference the deleted transform will no longer succeed.
-    public func deleteMLTransform(_ input: DeleteMLTransformRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMLTransformResponse> {
-        return client.execute(operation: "DeleteMLTransform", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteMLTransform(_ input: DeleteMLTransformRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMLTransformResponse> {
+        return client.execute(operation: "DeleteMLTransform", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified partition.
-    public func deletePartition(_ input: DeletePartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePartitionResponse> {
-        return client.execute(operation: "DeletePartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deletePartition(_ input: DeletePartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePartitionResponse> {
+        return client.execute(operation: "DeletePartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified policy.
-    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResourcePolicyResponse> {
-        return client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePolicyResponse> {
+        return client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified security configuration.
-    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSecurityConfigurationResponse> {
-        return client.execute(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSecurityConfigurationResponse> {
+        return client.execute(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes a table definition from the Data Catalog.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
-    public func deleteTable(_ input: DeleteTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTableResponse> {
-        return client.execute(operation: "DeleteTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTable(_ input: DeleteTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTableResponse> {
+        return client.execute(operation: "DeleteTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified version of a table.
-    public func deleteTableVersion(_ input: DeleteTableVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTableVersionResponse> {
-        return client.execute(operation: "DeleteTableVersion", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTableVersion(_ input: DeleteTableVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTableVersionResponse> {
+        return client.execute(operation: "DeleteTableVersion", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a specified trigger. If the trigger is not found, no exception is thrown.
-    public func deleteTrigger(_ input: DeleteTriggerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTriggerResponse> {
-        return client.execute(operation: "DeleteTrigger", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTrigger(_ input: DeleteTriggerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTriggerResponse> {
+        return client.execute(operation: "DeleteTrigger", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes an existing function definition from the Data Catalog.
-    public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserDefinedFunctionResponse> {
-        return client.execute(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserDefinedFunctionResponse> {
+        return client.execute(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Deletes a workflow.
-    public func deleteWorkflow(_ input: DeleteWorkflowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWorkflowResponse> {
-        return client.execute(operation: "DeleteWorkflow", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteWorkflow(_ input: DeleteWorkflowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkflowResponse> {
+        return client.execute(operation: "DeleteWorkflow", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the status of a migration operation.
-    public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCatalogImportStatusResponse> {
-        return client.execute(operation: "GetCatalogImportStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCatalogImportStatusResponse> {
+        return client.execute(operation: "GetCatalogImportStatus", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieve a classifier by name.
-    public func getClassifier(_ input: GetClassifierRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetClassifierResponse> {
-        return client.execute(operation: "GetClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getClassifier(_ input: GetClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetClassifierResponse> {
+        return client.execute(operation: "GetClassifier", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists all classifier objects in the Data Catalog.
-    public func getClassifiers(_ input: GetClassifiersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetClassifiersResponse> {
-        return client.execute(operation: "GetClassifiers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getClassifiers(_ input: GetClassifiersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetClassifiersResponse> {
+        return client.execute(operation: "GetClassifiers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves partition statistics of columns.
-    public func getColumnStatisticsForPartition(_ input: GetColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetColumnStatisticsForPartitionResponse> {
-        return client.execute(operation: "GetColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getColumnStatisticsForPartition(_ input: GetColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetColumnStatisticsForPartitionResponse> {
+        return client.execute(operation: "GetColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves table statistics of columns.
-    public func getColumnStatisticsForTable(_ input: GetColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetColumnStatisticsForTableResponse> {
-        return client.execute(operation: "GetColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getColumnStatisticsForTable(_ input: GetColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetColumnStatisticsForTableResponse> {
+        return client.execute(operation: "GetColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a connection definition from the Data Catalog.
-    public func getConnection(_ input: GetConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConnectionResponse> {
-        return client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getConnection(_ input: GetConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionResponse> {
+        return client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a list of connection definitions from the Data Catalog.
-    public func getConnections(_ input: GetConnectionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConnectionsResponse> {
-        return client.execute(operation: "GetConnections", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getConnections(_ input: GetConnectionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionsResponse> {
+        return client.execute(operation: "GetConnections", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves metadata for a specified crawler.
-    public func getCrawler(_ input: GetCrawlerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCrawlerResponse> {
-        return client.execute(operation: "GetCrawler", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCrawler(_ input: GetCrawlerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCrawlerResponse> {
+        return client.execute(operation: "GetCrawler", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves metrics about specified crawlers.
-    public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCrawlerMetricsResponse> {
-        return client.execute(operation: "GetCrawlerMetrics", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCrawlerMetricsResponse> {
+        return client.execute(operation: "GetCrawlerMetrics", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves metadata for all crawlers defined in the customer account.
-    public func getCrawlers(_ input: GetCrawlersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCrawlersResponse> {
-        return client.execute(operation: "GetCrawlers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCrawlers(_ input: GetCrawlersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCrawlersResponse> {
+        return client.execute(operation: "GetCrawlers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the security configuration for a specified catalog.
-    public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDataCatalogEncryptionSettingsResponse> {
-        return client.execute(operation: "GetDataCatalogEncryptionSettings", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataCatalogEncryptionSettingsResponse> {
+        return client.execute(operation: "GetDataCatalogEncryptionSettings", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the definition of a specified database.
-    public func getDatabase(_ input: GetDatabaseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDatabaseResponse> {
-        return client.execute(operation: "GetDatabase", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDatabase(_ input: GetDatabaseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatabaseResponse> {
+        return client.execute(operation: "GetDatabase", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves all databases defined in a given Data Catalog.
-    public func getDatabases(_ input: GetDatabasesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDatabasesResponse> {
-        return client.execute(operation: "GetDatabases", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDatabases(_ input: GetDatabasesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatabasesResponse> {
+        return client.execute(operation: "GetDatabases", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Transforms a Python script into a directed acyclic graph (DAG). 
-    public func getDataflowGraph(_ input: GetDataflowGraphRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDataflowGraphResponse> {
-        return client.execute(operation: "GetDataflowGraph", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDataflowGraph(_ input: GetDataflowGraphRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataflowGraphResponse> {
+        return client.execute(operation: "GetDataflowGraph", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about a specified development endpoint.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpoint(_ input: GetDevEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDevEndpointResponse> {
-        return client.execute(operation: "GetDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDevEndpoint(_ input: GetDevEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevEndpointResponse> {
+        return client.execute(operation: "GetDevEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpoints(_ input: GetDevEndpointsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDevEndpointsResponse> {
-        return client.execute(operation: "GetDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDevEndpoints(_ input: GetDevEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevEndpointsResponse> {
+        return client.execute(operation: "GetDevEndpoints", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves an existing job definition.
-    public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobResponse> {
-        return client.execute(operation: "GetJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobResponse> {
+        return client.execute(operation: "GetJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Returns information on a job bookmark entry.
-    public func getJobBookmark(_ input: GetJobBookmarkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobBookmarkResponse> {
-        return client.execute(operation: "GetJobBookmark", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJobBookmark(_ input: GetJobBookmarkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobBookmarkResponse> {
+        return client.execute(operation: "GetJobBookmark", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the metadata for a given job run.
-    public func getJobRun(_ input: GetJobRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobRunResponse> {
-        return client.execute(operation: "GetJobRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJobRun(_ input: GetJobRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobRunResponse> {
+        return client.execute(operation: "GetJobRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves metadata for all runs of a given job definition.
-    public func getJobRuns(_ input: GetJobRunsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobRunsResponse> {
-        return client.execute(operation: "GetJobRuns", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJobRuns(_ input: GetJobRunsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobRunsResponse> {
+        return client.execute(operation: "GetJobRuns", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves all current job definitions.
-    public func getJobs(_ input: GetJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobsResponse> {
-        return client.execute(operation: "GetJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJobs(_ input: GetJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobsResponse> {
+        return client.execute(operation: "GetJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
-    public func getMLTaskRun(_ input: GetMLTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMLTaskRunResponse> {
-        return client.execute(operation: "GetMLTaskRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMLTaskRun(_ input: GetMLTaskRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMLTaskRunResponse> {
+        return client.execute(operation: "GetMLTaskRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
-    public func getMLTaskRuns(_ input: GetMLTaskRunsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMLTaskRunsResponse> {
-        return client.execute(operation: "GetMLTaskRuns", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMLTaskRuns(_ input: GetMLTaskRunsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMLTaskRunsResponse> {
+        return client.execute(operation: "GetMLTaskRuns", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets an AWS Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue. You can retrieve their metadata by calling GetMLTransform.
-    public func getMLTransform(_ input: GetMLTransformRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMLTransformResponse> {
-        return client.execute(operation: "GetMLTransform", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMLTransform(_ input: GetMLTransformRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMLTransformResponse> {
+        return client.execute(operation: "GetMLTransform", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets a sortable, filterable list of existing AWS Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue, and you can retrieve their metadata by calling GetMLTransforms.
-    public func getMLTransforms(_ input: GetMLTransformsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMLTransformsResponse> {
-        return client.execute(operation: "GetMLTransforms", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMLTransforms(_ input: GetMLTransformsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMLTransformsResponse> {
+        return client.execute(operation: "GetMLTransforms", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates mappings.
-    public func getMapping(_ input: GetMappingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMappingResponse> {
-        return client.execute(operation: "GetMapping", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getMapping(_ input: GetMappingRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMappingResponse> {
+        return client.execute(operation: "GetMapping", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about a specified partition.
-    public func getPartition(_ input: GetPartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPartitionResponse> {
-        return client.execute(operation: "GetPartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPartition(_ input: GetPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPartitionResponse> {
+        return client.execute(operation: "GetPartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves information about the partitions in a table.
-    public func getPartitions(_ input: GetPartitionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPartitionsResponse> {
-        return client.execute(operation: "GetPartitions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPartitions(_ input: GetPartitionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPartitionsResponse> {
+        return client.execute(operation: "GetPartitions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets code to perform a specified mapping.
-    public func getPlan(_ input: GetPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPlanResponse> {
-        return client.execute(operation: "GetPlan", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPlan(_ input: GetPlanRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPlanResponse> {
+        return client.execute(operation: "GetPlan", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a specified resource policy.
-    public func getResourcePolicy(_ input: GetResourcePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourcePolicyResponse> {
-        return client.execute(operation: "GetResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePolicyResponse> {
+        return client.execute(operation: "GetResourcePolicy", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a specified security configuration.
-    public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSecurityConfigurationResponse> {
-        return client.execute(operation: "GetSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSecurityConfigurationResponse> {
+        return client.execute(operation: "GetSecurityConfiguration", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a list of all security configurations.
-    public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSecurityConfigurationsResponse> {
-        return client.execute(operation: "GetSecurityConfigurations", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSecurityConfigurationsResponse> {
+        return client.execute(operation: "GetSecurityConfigurations", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the Table definition in a Data Catalog for a specified table.
-    public func getTable(_ input: GetTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTableResponse> {
-        return client.execute(operation: "GetTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTable(_ input: GetTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTableResponse> {
+        return client.execute(operation: "GetTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a specified version of a table.
-    public func getTableVersion(_ input: GetTableVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTableVersionResponse> {
-        return client.execute(operation: "GetTableVersion", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTableVersion(_ input: GetTableVersionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTableVersionResponse> {
+        return client.execute(operation: "GetTableVersion", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a list of strings that identify available versions of a specified table.
-    public func getTableVersions(_ input: GetTableVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTableVersionsResponse> {
-        return client.execute(operation: "GetTableVersions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTableVersions(_ input: GetTableVersionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTableVersionsResponse> {
+        return client.execute(operation: "GetTableVersions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the definitions of some or all of the tables in a given Database.
-    public func getTables(_ input: GetTablesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTablesResponse> {
-        return client.execute(operation: "GetTables", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTables(_ input: GetTablesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTablesResponse> {
+        return client.execute(operation: "GetTables", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a list of tags associated with a resource.
-    public func getTags(_ input: GetTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTagsResponse> {
-        return client.execute(operation: "GetTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTags(_ input: GetTagsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTagsResponse> {
+        return client.execute(operation: "GetTags", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the definition of a trigger.
-    public func getTrigger(_ input: GetTriggerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTriggerResponse> {
-        return client.execute(operation: "GetTrigger", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTrigger(_ input: GetTriggerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTriggerResponse> {
+        return client.execute(operation: "GetTrigger", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Gets all the triggers associated with a job.
-    public func getTriggers(_ input: GetTriggersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTriggersResponse> {
-        return client.execute(operation: "GetTriggers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTriggers(_ input: GetTriggersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTriggersResponse> {
+        return client.execute(operation: "GetTriggers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves a specified function definition from the Data Catalog.
-    public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserDefinedFunctionResponse> {
-        return client.execute(operation: "GetUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserDefinedFunctionResponse> {
+        return client.execute(operation: "GetUserDefinedFunction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves multiple function definitions from the Data Catalog.
-    public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserDefinedFunctionsResponse> {
-        return client.execute(operation: "GetUserDefinedFunctions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserDefinedFunctionsResponse> {
+        return client.execute(operation: "GetUserDefinedFunctions", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves resource metadata for a workflow.
-    public func getWorkflow(_ input: GetWorkflowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetWorkflowResponse> {
-        return client.execute(operation: "GetWorkflow", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getWorkflow(_ input: GetWorkflowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkflowResponse> {
+        return client.execute(operation: "GetWorkflow", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the metadata for a given workflow run. 
-    public func getWorkflowRun(_ input: GetWorkflowRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetWorkflowRunResponse> {
-        return client.execute(operation: "GetWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getWorkflowRun(_ input: GetWorkflowRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkflowRunResponse> {
+        return client.execute(operation: "GetWorkflowRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the workflow run properties which were set during the run.
-    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetWorkflowRunPropertiesResponse> {
-        return client.execute(operation: "GetWorkflowRunProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkflowRunPropertiesResponse> {
+        return client.execute(operation: "GetWorkflowRunProperties", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves metadata for all runs of a given workflow.
-    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetWorkflowRunsResponse> {
-        return client.execute(operation: "GetWorkflowRuns", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkflowRunsResponse> {
+        return client.execute(operation: "GetWorkflowRuns", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Imports an existing Amazon Athena Data Catalog to AWS Glue
-    public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportCatalogToGlueResponse> {
-        return client.execute(operation: "ImportCatalogToGlue", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportCatalogToGlueResponse> {
+        return client.execute(operation: "ImportCatalogToGlue", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listCrawlers(_ input: ListCrawlersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCrawlersResponse> {
-        return client.execute(operation: "ListCrawlers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCrawlers(_ input: ListCrawlersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCrawlersResponse> {
+        return client.execute(operation: "ListCrawlers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listDevEndpoints(_ input: ListDevEndpointsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDevEndpointsResponse> {
-        return client.execute(operation: "ListDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDevEndpoints(_ input: ListDevEndpointsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevEndpointsResponse> {
+        return client.execute(operation: "ListDevEndpoints", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobsResponse> {
-        return client.execute(operation: "ListJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResponse> {
+        return client.execute(operation: "ListJobs", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///   Retrieves a sortable, filterable list of existing AWS Glue machine learning transforms in this AWS account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved. 
-    public func listMLTransforms(_ input: ListMLTransformsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMLTransformsResponse> {
-        return client.execute(operation: "ListMLTransforms", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMLTransforms(_ input: ListMLTransformsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMLTransformsResponse> {
+        return client.execute(operation: "ListMLTransforms", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listTriggers(_ input: ListTriggersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTriggersResponse> {
-        return client.execute(operation: "ListTriggers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTriggers(_ input: ListTriggersRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTriggersResponse> {
+        return client.execute(operation: "ListTriggers", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Lists names of workflows created in the account.
-    public func listWorkflows(_ input: ListWorkflowsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWorkflowsResponse> {
-        return client.execute(operation: "ListWorkflows", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listWorkflows(_ input: ListWorkflowsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkflowsResponse> {
+        return client.execute(operation: "ListWorkflows", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
-    public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutDataCatalogEncryptionSettingsResponse> {
-        return client.execute(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDataCatalogEncryptionSettingsResponse> {
+        return client.execute(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Sets the Data Catalog resource policy for access control.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutResourcePolicyResponse> {
-        return client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourcePolicyResponse> {
+        return client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
-    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutWorkflowRunPropertiesResponse> {
-        return client.execute(operation: "PutWorkflowRunProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutWorkflowRunPropertiesResponse> {
+        return client.execute(operation: "PutWorkflowRunProperties", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Resets a bookmark entry.
-    public func resetJobBookmark(_ input: ResetJobBookmarkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResetJobBookmarkResponse> {
-        return client.execute(operation: "ResetJobBookmark", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func resetJobBookmark(_ input: ResetJobBookmarkRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetJobBookmarkResponse> {
+        return client.execute(operation: "ResetJobBookmark", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search. 
-    public func searchTables(_ input: SearchTablesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchTablesResponse> {
-        return client.execute(operation: "SearchTables", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func searchTables(_ input: SearchTablesRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchTablesResponse> {
+        return client.execute(operation: "SearchTables", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
-    public func startCrawler(_ input: StartCrawlerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartCrawlerResponse> {
-        return client.execute(operation: "StartCrawler", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startCrawler(_ input: StartCrawlerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCrawlerResponse> {
+        return client.execute(operation: "StartCrawler", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
-    public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartCrawlerScheduleResponse> {
-        return client.execute(operation: "StartCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCrawlerScheduleResponse> {
+        return client.execute(operation: "StartCrawlerSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
-    public func startExportLabelsTaskRun(_ input: StartExportLabelsTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartExportLabelsTaskRunResponse> {
-        return client.execute(operation: "StartExportLabelsTaskRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startExportLabelsTaskRun(_ input: StartExportLabelsTaskRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartExportLabelsTaskRunResponse> {
+        return client.execute(operation: "StartExportLabelsTaskRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform.  After the StartMLLabelingSetGenerationTaskRun finishes, AWS Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation. 
-    public func startImportLabelsTaskRun(_ input: StartImportLabelsTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartImportLabelsTaskRunResponse> {
-        return client.execute(operation: "StartImportLabelsTaskRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startImportLabelsTaskRun(_ input: StartImportLabelsTaskRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportLabelsTaskRunResponse> {
+        return client.execute(operation: "StartImportLabelsTaskRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a job run using a job definition.
-    public func startJobRun(_ input: StartJobRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartJobRunResponse> {
-        return client.execute(operation: "StartJobRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startJobRun(_ input: StartJobRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobRunResponse> {
+        return client.execute(operation: "StartJobRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a task to estimate the quality of the transform.  When you provide label sets as examples of truth, AWS Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
-    public func startMLEvaluationTaskRun(_ input: StartMLEvaluationTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartMLEvaluationTaskRunResponse> {
-        return client.execute(operation: "StartMLEvaluationTaskRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startMLEvaluationTaskRun(_ input: StartMLEvaluationTaskRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMLEvaluationTaskRunResponse> {
+        return client.execute(operation: "StartMLEvaluationTaskRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, AWS Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
-    public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartMLLabelingSetGenerationTaskRunResponse> {
-        return client.execute(operation: "StartMLLabelingSetGenerationTaskRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMLLabelingSetGenerationTaskRunResponse> {
+        return client.execute(operation: "StartMLLabelingSetGenerationTaskRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
-    public func startTrigger(_ input: StartTriggerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartTriggerResponse> {
-        return client.execute(operation: "StartTrigger", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startTrigger(_ input: StartTriggerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTriggerResponse> {
+        return client.execute(operation: "StartTrigger", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Starts a new run of the specified workflow.
-    public func startWorkflowRun(_ input: StartWorkflowRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartWorkflowRunResponse> {
-        return client.execute(operation: "StartWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startWorkflowRun(_ input: StartWorkflowRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartWorkflowRunResponse> {
+        return client.execute(operation: "StartWorkflowRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  If the specified crawler is running, stops the crawl.
-    public func stopCrawler(_ input: StopCrawlerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopCrawlerResponse> {
-        return client.execute(operation: "StopCrawler", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopCrawler(_ input: StopCrawlerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopCrawlerResponse> {
+        return client.execute(operation: "StopCrawler", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
-    public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopCrawlerScheduleResponse> {
-        return client.execute(operation: "StopCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopCrawlerScheduleResponse> {
+        return client.execute(operation: "StopCrawlerSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops a specified trigger.
-    public func stopTrigger(_ input: StopTriggerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopTriggerResponse> {
-        return client.execute(operation: "StopTrigger", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopTrigger(_ input: StopTriggerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTriggerResponse> {
+        return client.execute(operation: "StopTrigger", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Stops the execution of the specified workflow run.
-    public func stopWorkflowRun(_ input: StopWorkflowRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopWorkflowRunResponse> {
-        return client.execute(operation: "StopWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopWorkflowRun(_ input: StopWorkflowRunRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopWorkflowRunResponse> {
+        return client.execute(operation: "StopWorkflowRun", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS Glue, you can tag only certain resources. For information about what resources you can tag, see AWS Tags in AWS Glue.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Removes tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
-    public func updateClassifier(_ input: UpdateClassifierRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateClassifierResponse> {
-        return client.execute(operation: "UpdateClassifier", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateClassifier(_ input: UpdateClassifierRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClassifierResponse> {
+        return client.execute(operation: "UpdateClassifier", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates or updates partition statistics of columns.
-    public func updateColumnStatisticsForPartition(_ input: UpdateColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateColumnStatisticsForPartitionResponse> {
-        return client.execute(operation: "UpdateColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateColumnStatisticsForPartition(_ input: UpdateColumnStatisticsForPartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateColumnStatisticsForPartitionResponse> {
+        return client.execute(operation: "UpdateColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Creates or updates table statistics of columns.
-    public func updateColumnStatisticsForTable(_ input: UpdateColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateColumnStatisticsForTableResponse> {
-        return client.execute(operation: "UpdateColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateColumnStatisticsForTable(_ input: UpdateColumnStatisticsForTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateColumnStatisticsForTableResponse> {
+        return client.execute(operation: "UpdateColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a connection definition in the Data Catalog.
-    public func updateConnection(_ input: UpdateConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateConnectionResponse> {
-        return client.execute(operation: "UpdateConnection", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateConnection(_ input: UpdateConnectionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectionResponse> {
+        return client.execute(operation: "UpdateConnection", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
-    public func updateCrawler(_ input: UpdateCrawlerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateCrawlerResponse> {
-        return client.execute(operation: "UpdateCrawler", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateCrawler(_ input: UpdateCrawlerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCrawlerResponse> {
+        return client.execute(operation: "UpdateCrawler", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates the schedule of a crawler using a cron expression. 
-    public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateCrawlerScheduleResponse> {
-        return client.execute(operation: "UpdateCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCrawlerScheduleResponse> {
+        return client.execute(operation: "UpdateCrawlerSchedule", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing database definition in a Data Catalog.
-    public func updateDatabase(_ input: UpdateDatabaseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDatabaseResponse> {
-        return client.execute(operation: "UpdateDatabase", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDatabase(_ input: UpdateDatabaseRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDatabaseResponse> {
+        return client.execute(operation: "UpdateDatabase", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a specified development endpoint.
-    public func updateDevEndpoint(_ input: UpdateDevEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDevEndpointResponse> {
-        return client.execute(operation: "UpdateDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDevEndpoint(_ input: UpdateDevEndpointRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDevEndpointResponse> {
+        return client.execute(operation: "UpdateDevEndpoint", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing job definition.
-    public func updateJob(_ input: UpdateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateJobResponse> {
-        return client.execute(operation: "UpdateJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateJob(_ input: UpdateJobRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobResponse> {
+        return client.execute(operation: "UpdateJob", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
-    public func updateMLTransform(_ input: UpdateMLTransformRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMLTransformResponse> {
-        return client.execute(operation: "UpdateMLTransform", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMLTransform(_ input: UpdateMLTransformRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMLTransformResponse> {
+        return client.execute(operation: "UpdateMLTransform", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a partition.
-    public func updatePartition(_ input: UpdatePartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePartitionResponse> {
-        return client.execute(operation: "UpdatePartition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updatePartition(_ input: UpdatePartitionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePartitionResponse> {
+        return client.execute(operation: "UpdatePartition", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a metadata table in the Data Catalog.
-    public func updateTable(_ input: UpdateTableRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTableResponse> {
-        return client.execute(operation: "UpdateTable", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTable(_ input: UpdateTableRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTableResponse> {
+        return client.execute(operation: "UpdateTable", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates a trigger definition.
-    public func updateTrigger(_ input: UpdateTriggerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTriggerResponse> {
-        return client.execute(operation: "UpdateTrigger", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTrigger(_ input: UpdateTriggerRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTriggerResponse> {
+        return client.execute(operation: "UpdateTrigger", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing function definition in the Data Catalog.
-    public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserDefinedFunctionResponse> {
-        return client.execute(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserDefinedFunctionResponse> {
+        return client.execute(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
     }
 
     ///  Updates an existing workflow.
-    public func updateWorkflow(_ input: UpdateWorkflowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateWorkflowResponse> {
-        return client.execute(operation: "UpdateWorkflow", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateWorkflow(_ input: UpdateWorkflowRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkflowResponse> {
+        return client.execute(operation: "UpdateWorkflow", path: "/", httpMethod: .POST, serviceContext: context, input: input, on: eventLoop)
+    }
+}
+
+extension Glue {
+    init(client: AWSClient, context: AWSServiceContext) {
+        self.client = client
+        self.context = context
     }
 }

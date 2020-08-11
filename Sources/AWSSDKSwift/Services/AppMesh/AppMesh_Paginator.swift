@@ -24,7 +24,6 @@ extension AppMesh {
     public func listMeshesPaginator(
         _ input: ListMeshesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMeshesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMeshes, tokenKey: \ListMeshesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension AppMesh {
     public func listRoutesPaginator(
         _ input: ListRoutesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoutesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoutes, tokenKey: \ListRoutesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -44,7 +42,6 @@ extension AppMesh {
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -54,7 +51,6 @@ extension AppMesh {
     public func listVirtualNodesPaginator(
         _ input: ListVirtualNodesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualNodesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVirtualNodes, tokenKey: \ListVirtualNodesOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -64,7 +60,6 @@ extension AppMesh {
     public func listVirtualRoutersPaginator(
         _ input: ListVirtualRoutersInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualRoutersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVirtualRouters, tokenKey: \ListVirtualRoutersOutput.nextToken, on: eventLoop, onPage: onPage)
@@ -74,7 +69,6 @@ extension AppMesh {
     public func listVirtualServicesPaginator(
         _ input: ListVirtualServicesInput,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualServicesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVirtualServices, tokenKey: \ListVirtualServicesOutput.nextToken, on: eventLoop, onPage: onPage)

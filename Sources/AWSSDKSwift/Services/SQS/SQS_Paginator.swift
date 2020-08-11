@@ -24,7 +24,6 @@ extension SQS {
     public func listDeadLetterSourceQueuesPaginator(
         _ input: ListDeadLetterSourceQueuesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeadLetterSourceQueuesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeadLetterSourceQueues, tokenKey: \ListDeadLetterSourceQueuesResult.nextToken, on: eventLoop, onPage: onPage)
@@ -34,7 +33,6 @@ extension SQS {
     public func listQueuesPaginator(
         _ input: ListQueuesRequest,
         on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueuesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResult.nextToken, on: eventLoop, onPage: onPage)
