@@ -23,21 +23,29 @@ extension Shield {
     ///  Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
     public func listAttacksPaginator(
         _ input: ListAttacksRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttacksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAttacks, tokenKey: \ListAttacksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAttacks,
+            tokenKey: \ListAttacksResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all Protection objects for the account.
     public func listProtectionsPaginator(
         _ input: ListProtectionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProtectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProtections, tokenKey: \ListProtectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProtections,
+            tokenKey: \ListProtectionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -23,41 +23,57 @@ extension DataExchange {
     ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
     public func listDataSetRevisionsPaginator(
         _ input: ListDataSetRevisionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSetRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSetRevisions, tokenKey: \ListDataSetRevisionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSetRevisions,
+            tokenKey: \ListDataSetRevisionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
     public func listDataSetsPaginator(
         _ input: ListDataSetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSets,
+            tokenKey: \ListDataSetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  This operation lists your jobs sorted by CreatedAt in descending order.
     public func listJobsPaginator(
         _ input: ListJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobs,
+            tokenKey: \ListJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  This operation lists a revision's assets sorted alphabetically in descending order.
     public func listRevisionAssetsPaginator(
         _ input: ListRevisionAssetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRevisionAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRevisionAssets, tokenKey: \ListRevisionAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRevisionAssets,
+            tokenKey: \ListRevisionAssetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

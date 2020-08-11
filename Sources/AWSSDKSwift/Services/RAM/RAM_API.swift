@@ -27,6 +27,7 @@ public struct RAM: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,130 +53,143 @@ public struct RAM: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-01-04",
             endpoint: endpoint,
-            possibleErrorTypes: [RAMErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [RAMErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Accepts an invitation to a resource share from another AWS account.
-    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AcceptResourceShareInvitationResponse> {
-        return self.client.execute(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest) -> EventLoopFuture<AcceptResourceShareInvitationResponse> {
+        return client.execute(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates the specified resource share with the specified principals and resources.
-    public func associateResourceShare(_ input: AssociateResourceShareRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateResourceShareResponse> {
-        return self.client.execute(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func associateResourceShare(_ input: AssociateResourceShareRequest) -> EventLoopFuture<AssociateResourceShareResponse> {
+        return client.execute(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates a permission with a resource share.
-    public func associateResourceSharePermission(_ input: AssociateResourceSharePermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateResourceSharePermissionResponse> {
-        return self.client.execute(operation: "AssociateResourceSharePermission", path: "/associateresourcesharepermission", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func associateResourceSharePermission(_ input: AssociateResourceSharePermissionRequest) -> EventLoopFuture<AssociateResourceSharePermissionResponse> {
+        return client.execute(operation: "AssociateResourceSharePermission", path: "/associateresourcesharepermission", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a resource share.
-    public func createResourceShare(_ input: CreateResourceShareRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateResourceShareResponse> {
-        return self.client.execute(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createResourceShare(_ input: CreateResourceShareRequest) -> EventLoopFuture<CreateResourceShareResponse> {
+        return client.execute(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified resource share.
-    public func deleteResourceShare(_ input: DeleteResourceShareRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResourceShareResponse> {
-        return self.client.execute(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteResourceShare(_ input: DeleteResourceShareRequest) -> EventLoopFuture<DeleteResourceShareResponse> {
+        return client.execute(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Disassociates the specified principals or resources from the specified resource share.
-    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateResourceShareResponse> {
-        return self.client.execute(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest) -> EventLoopFuture<DisassociateResourceShareResponse> {
+        return client.execute(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Disassociates an AWS RAM permission from a resource share.
-    public func disassociateResourceSharePermission(_ input: DisassociateResourceSharePermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateResourceSharePermissionResponse> {
-        return self.client.execute(operation: "DisassociateResourceSharePermission", path: "/disassociateresourcesharepermission", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func disassociateResourceSharePermission(_ input: DisassociateResourceSharePermissionRequest) -> EventLoopFuture<DisassociateResourceSharePermissionResponse> {
+        return client.execute(operation: "DisassociateResourceSharePermission", path: "/disassociateresourcesharepermission", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Enables resource sharing within your AWS Organization. The caller must be the master account for the AWS Organization.
-    public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<EnableSharingWithAwsOrganizationResponse> {
-        return self.client.execute(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest) -> EventLoopFuture<EnableSharingWithAwsOrganizationResponse> {
+        return client.execute(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the contents of an AWS RAM permission in JSON format.
-    public func getPermission(_ input: GetPermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPermissionResponse> {
-        return self.client.execute(operation: "GetPermission", path: "/getpermission", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getPermission(_ input: GetPermissionRequest) -> EventLoopFuture<GetPermissionResponse> {
+        return client.execute(operation: "GetPermission", path: "/getpermission", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the policies for the specified resources that you own and have shared.
-    public func getResourcePolicies(_ input: GetResourcePoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourcePoliciesResponse> {
-        return self.client.execute(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getResourcePolicies(_ input: GetResourcePoliciesRequest) -> EventLoopFuture<GetResourcePoliciesResponse> {
+        return client.execute(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the resources or principals for the resource shares that you own.
-    public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourceShareAssociationsResponse> {
-        return self.client.execute(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest) -> EventLoopFuture<GetResourceShareAssociationsResponse> {
+        return client.execute(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the invitations for resource sharing that you've received.
-    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourceShareInvitationsResponse> {
-        return self.client.execute(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) -> EventLoopFuture<GetResourceShareInvitationsResponse> {
+        return client.execute(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the resource shares that you own or the resource shares that are shared with you.
-    public func getResourceShares(_ input: GetResourceSharesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourceSharesResponse> {
-        return self.client.execute(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getResourceShares(_ input: GetResourceSharesRequest) -> EventLoopFuture<GetResourceSharesResponse> {
+        return client.execute(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
-    public func listPendingInvitationResources(_ input: ListPendingInvitationResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPendingInvitationResourcesResponse> {
-        return self.client.execute(operation: "ListPendingInvitationResources", path: "/listpendinginvitationresources", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listPendingInvitationResources(_ input: ListPendingInvitationResourcesRequest) -> EventLoopFuture<ListPendingInvitationResourcesResponse> {
+        return client.execute(operation: "ListPendingInvitationResources", path: "/listpendinginvitationresources", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the AWS RAM permissions.
-    public func listPermissions(_ input: ListPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPermissionsResponse> {
-        return self.client.execute(operation: "ListPermissions", path: "/listpermissions", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listPermissions(_ input: ListPermissionsRequest) -> EventLoopFuture<ListPermissionsResponse> {
+        return client.execute(operation: "ListPermissions", path: "/listpermissions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the principals that you have shared resources with or that have shared resources with you.
-    public func listPrincipals(_ input: ListPrincipalsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPrincipalsResponse> {
-        return self.client.execute(operation: "ListPrincipals", path: "/listprincipals", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listPrincipals(_ input: ListPrincipalsRequest) -> EventLoopFuture<ListPrincipalsResponse> {
+        return client.execute(operation: "ListPrincipals", path: "/listprincipals", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the AWS RAM permissions that are associated with a resource share.
-    public func listResourceSharePermissions(_ input: ListResourceSharePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourceSharePermissionsResponse> {
-        return self.client.execute(operation: "ListResourceSharePermissions", path: "/listresourcesharepermissions", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listResourceSharePermissions(_ input: ListResourceSharePermissionsRequest) -> EventLoopFuture<ListResourceSharePermissionsResponse> {
+        return client.execute(operation: "ListResourceSharePermissions", path: "/listresourcesharepermissions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the shareable resource types supported by AWS RAM.
-    public func listResourceTypes(_ input: ListResourceTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourceTypesResponse> {
-        return self.client.execute(operation: "ListResourceTypes", path: "/listresourcetypes", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listResourceTypes(_ input: ListResourceTypesRequest) -> EventLoopFuture<ListResourceTypesResponse> {
+        return client.execute(operation: "ListResourceTypes", path: "/listresourcetypes", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
-    public func listResources(_ input: ListResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourcesResponse> {
-        return self.client.execute(operation: "ListResources", path: "/listresources", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listResources(_ input: ListResourcesRequest) -> EventLoopFuture<ListResourcesResponse> {
+        return client.execute(operation: "ListResources", path: "/listresources", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Resource shares that were created by attaching a policy to a resource are visible only to the resource share owner, and the resource share cannot be modified in AWS RAM. Use this API action to promote the resource share. When you promote the resource share, it becomes:   Visible to all principals that it is shared with.   Modifiable in AWS RAM.  
-    public func promoteResourceShareCreatedFromPolicy(_ input: PromoteResourceShareCreatedFromPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PromoteResourceShareCreatedFromPolicyResponse> {
-        return self.client.execute(operation: "PromoteResourceShareCreatedFromPolicy", path: "/promoteresourcesharecreatedfrompolicy", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func promoteResourceShareCreatedFromPolicy(_ input: PromoteResourceShareCreatedFromPolicyRequest) -> EventLoopFuture<PromoteResourceShareCreatedFromPolicyResponse> {
+        return client.execute(operation: "PromoteResourceShareCreatedFromPolicy", path: "/promoteresourcesharecreatedfrompolicy", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Rejects an invitation to a resource share from another AWS account.
-    public func rejectResourceShareInvitation(_ input: RejectResourceShareInvitationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RejectResourceShareInvitationResponse> {
-        return self.client.execute(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func rejectResourceShareInvitation(_ input: RejectResourceShareInvitationRequest) -> EventLoopFuture<RejectResourceShareInvitationResponse> {
+        return client.execute(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds the specified tags to the specified resource share that you own.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tagresource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tagresource", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the specified tags from the specified resource share that you own.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/untagresource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/untagresource", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified resource share that you own.
-    public func updateResourceShare(_ input: UpdateResourceShareRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateResourceShareResponse> {
-        return self.client.execute(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateResourceShare(_ input: UpdateResourceShareRequest) -> EventLoopFuture<UpdateResourceShareResponse> {
+        return client.execute(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension RAM {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

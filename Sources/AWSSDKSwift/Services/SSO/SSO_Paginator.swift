@@ -23,21 +23,29 @@ extension SSO {
     ///  Lists all roles that are assigned to the user for a given AWS account.
     public func listAccountRolesPaginator(
         _ input: ListAccountRolesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountRolesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccountRoles, tokenKey: \ListAccountRolesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccountRoles,
+            tokenKey: \ListAccountRolesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the AWS SSO User Guide. This operation returns a paginated response.
     public func listAccountsPaginator(
         _ input: ListAccountsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccounts,
+            tokenKey: \ListAccountsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

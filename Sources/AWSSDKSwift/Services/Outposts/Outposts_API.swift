@@ -27,6 +27,7 @@ public struct Outposts: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,45 +54,58 @@ public struct Outposts: AWSService {
             apiVersion: "2019-12-03",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "outposts.us-gov-east-1.amazonaws.com", "us-gov-west-1": "outposts.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [OutpostsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [OutpostsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates an Outpost.
-    public func createOutpost(_ input: CreateOutpostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOutpostOutput> {
-        return self.client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createOutpost(_ input: CreateOutpostInput) -> EventLoopFuture<CreateOutpostOutput> {
+        return client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the Outpost.
-    public func deleteOutpost(_ input: DeleteOutpostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteOutpostOutput> {
-        return self.client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteOutpost(_ input: DeleteOutpostInput) -> EventLoopFuture<DeleteOutpostOutput> {
+        return client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the site.
-    public func deleteSite(_ input: DeleteSiteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSiteOutput> {
-        return self.client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteSite(_ input: DeleteSiteInput) -> EventLoopFuture<DeleteSiteOutput> {
+        return client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the specified Outpost.
-    public func getOutpost(_ input: GetOutpostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOutpostOutput> {
-        return self.client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getOutpost(_ input: GetOutpostInput) -> EventLoopFuture<GetOutpostOutput> {
+        return client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the instance types for the specified Outpost.
-    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
-        return self.client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
+        return client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the Outposts for your AWS account.
-    public func listOutposts(_ input: ListOutpostsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOutpostsOutput> {
-        return self.client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listOutposts(_ input: ListOutpostsInput) -> EventLoopFuture<ListOutpostsOutput> {
+        return client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the sites for the specified AWS account.
-    public func listSites(_ input: ListSitesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSitesOutput> {
-        return self.client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listSites(_ input: ListSitesInput) -> EventLoopFuture<ListSitesOutput> {
+        return client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Outposts {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

@@ -27,6 +27,7 @@ public struct PI: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,20 +54,33 @@ public struct PI: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-02-27",
             endpoint: endpoint,
-            possibleErrorTypes: [PIErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [PIErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  For a specific time period, retrieve the top N dimension keys for a metric.
-    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return self.client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest) -> EventLoopFuture<DescribeDimensionKeysResponse> {
+        return client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
-    public func getResourceMetrics(_ input: GetResourceMetricsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourceMetricsResponse> {
-        return self.client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getResourceMetrics(_ input: GetResourceMetricsRequest) -> EventLoopFuture<GetResourceMetricsResponse> {
+        return client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension PI {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

@@ -27,6 +27,7 @@ public struct IoTEventsData: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,30 +54,43 @@ public struct IoTEventsData: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-10-23",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTEventsDataErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [IoTEventsDataErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
-    public func batchPutMessage(_ input: BatchPutMessageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchPutMessageResponse> {
-        return self.client.execute(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchPutMessage(_ input: BatchPutMessageRequest) -> EventLoopFuture<BatchPutMessageResponse> {
+        return client.execute(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
-    public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdateDetectorResponse> {
-        return self.client.execute(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest) -> EventLoopFuture<BatchUpdateDetectorResponse> {
+        return client.execute(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the specified detector (instance).
-    public func describeDetector(_ input: DescribeDetectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDetectorResponse> {
-        return self.client.execute(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDetector(_ input: DescribeDetectorRequest) -> EventLoopFuture<DescribeDetectorResponse> {
+        return client.execute(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists detectors (the instances of a detector model).
-    public func listDetectors(_ input: ListDetectorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDetectorsResponse> {
-        return self.client.execute(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDetectors(_ input: ListDetectorsRequest) -> EventLoopFuture<ListDetectorsResponse> {
+        return client.execute(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension IoTEventsData {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

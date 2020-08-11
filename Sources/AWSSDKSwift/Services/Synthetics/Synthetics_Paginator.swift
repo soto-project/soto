@@ -23,41 +23,57 @@ extension Synthetics {
     ///  This operation returns a list of the canaries in your account, along with full details about each canary. This operation does not have resource-level authorization, so if a user is able to use DescribeCanaries, the user can see all of the canaries in the account. A deny policy can only be used to restrict access to all canaries. It cannot be used on specific resources. 
     public func describeCanariesPaginator(
         _ input: DescribeCanariesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCanariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCanaries, tokenKey: \DescribeCanariesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCanaries,
+            tokenKey: \DescribeCanariesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Use this operation to see information from the most recent run of each canary that you have created.
     public func describeCanariesLastRunPaginator(
         _ input: DescribeCanariesLastRunRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCanariesLastRunResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCanariesLastRun, tokenKey: \DescribeCanariesLastRunResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCanariesLastRun,
+            tokenKey: \DescribeCanariesLastRunResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of Synthetics canary runtime versions. For more information, see  Canary Runtime Versions.
     public func describeRuntimeVersionsPaginator(
         _ input: DescribeRuntimeVersionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRuntimeVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeRuntimeVersions, tokenKey: \DescribeRuntimeVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeRuntimeVersions,
+            tokenKey: \DescribeRuntimeVersionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of runs for a specified canary.
     public func getCanaryRunsPaginator(
         _ input: GetCanaryRunsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCanaryRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCanaryRuns, tokenKey: \GetCanaryRunsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCanaryRuns,
+            tokenKey: \GetCanaryRunsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

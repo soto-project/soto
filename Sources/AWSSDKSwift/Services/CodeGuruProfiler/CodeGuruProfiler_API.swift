@@ -27,6 +27,7 @@ public struct CodeGuruProfiler: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,125 +53,138 @@ public struct CodeGuruProfiler: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-07-18",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeGuruProfilerErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CodeGuruProfilerErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Add up to 2 anomaly notifications channels for a profiling group.
-    public func addNotificationChannels(_ input: AddNotificationChannelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddNotificationChannelsResponse> {
-        return self.client.execute(operation: "AddNotificationChannels", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func addNotificationChannels(_ input: AddNotificationChannelsRequest) -> EventLoopFuture<AddNotificationChannelsResponse> {
+        return client.execute(operation: "AddNotificationChannels", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the time series of values for a requested list of frame metrics from a time period.
-    public func batchGetFrameMetricData(_ input: BatchGetFrameMetricDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetFrameMetricDataResponse> {
-        return self.client.execute(operation: "BatchGetFrameMetricData", path: "/profilingGroups/{profilingGroupName}/frames/-/metrics", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchGetFrameMetricData(_ input: BatchGetFrameMetricDataRequest) -> EventLoopFuture<BatchGetFrameMetricDataResponse> {
+        return client.execute(operation: "BatchGetFrameMetricData", path: "/profilingGroups/{profilingGroupName}/frames/-/metrics", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Used by profiler agents to report their current state and to receive remote configuration updates. For example, ConfigureAgent can be used to tell and agent whether to profile or not and for how long to return profiling data. 
-    public func configureAgent(_ input: ConfigureAgentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfigureAgentResponse> {
-        return self.client.execute(operation: "ConfigureAgent", path: "/profilingGroups/{profilingGroupName}/configureAgent", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func configureAgent(_ input: ConfigureAgentRequest) -> EventLoopFuture<ConfigureAgentResponse> {
+        return client.execute(operation: "ConfigureAgent", path: "/profilingGroups/{profilingGroupName}/configureAgent", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a profiling group.
-    public func createProfilingGroup(_ input: CreateProfilingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProfilingGroupResponse> {
-        return self.client.execute(operation: "CreateProfilingGroup", path: "/profilingGroups", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createProfilingGroup(_ input: CreateProfilingGroupRequest) -> EventLoopFuture<CreateProfilingGroupResponse> {
+        return client.execute(operation: "CreateProfilingGroup", path: "/profilingGroups", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a profiling group.
-    public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProfilingGroupResponse> {
-        return self.client.execute(operation: "DeleteProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest) -> EventLoopFuture<DeleteProfilingGroupResponse> {
+        return client.execute(operation: "DeleteProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a  ProfilingGroupDescription  object that contains information about the requested profiling group. 
-    public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProfilingGroupResponse> {
-        return self.client.execute(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest) -> EventLoopFuture<DescribeProfilingGroupResponse> {
+        return client.execute(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of  FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account. 
-    public func getFindingsReportAccountSummary(_ input: GetFindingsReportAccountSummaryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFindingsReportAccountSummaryResponse> {
-        return self.client.execute(operation: "GetFindingsReportAccountSummary", path: "/internal/findingsReports", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getFindingsReportAccountSummary(_ input: GetFindingsReportAccountSummaryRequest) -> EventLoopFuture<GetFindingsReportAccountSummaryResponse> {
+        return client.execute(operation: "GetFindingsReportAccountSummary", path: "/internal/findingsReports", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get the current configuration for anomaly notifications for a profiling group.
-    public func getNotificationConfiguration(_ input: GetNotificationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetNotificationConfigurationResponse> {
-        return self.client.execute(operation: "GetNotificationConfiguration", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getNotificationConfiguration(_ input: GetNotificationConfigurationRequest) -> EventLoopFuture<GetNotificationConfigurationResponse> {
+        return client.execute(operation: "GetNotificationConfiguration", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the JSON-formatted resource-based policy on a profiling group. 
-    public func getPolicy(_ input: GetPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPolicyResponse> {
-        return self.client.execute(operation: "GetPolicy", path: "/profilingGroups/{profilingGroupName}/policy", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getPolicy(_ input: GetPolicyRequest) -> EventLoopFuture<GetPolicyResponse> {
+        return client.execute(operation: "GetPolicy", path: "/profilingGroups/{profilingGroupName}/policy", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles.   &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;GetProfile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed is 7 days. If you specify all 3 parameters, an exception is thrown. If you specify only &lt;code&gt;period&lt;/code&gt;, the latest aggregated profile is returned. &lt;/p&gt; &lt;p&gt; Aggregated profiles are available with aggregation periods of 5 minutes, 1 hour, and 1 day, aligned to UTC. The aggregation period of an aggregated profile determines how long it is retained. For more information, see &lt;a href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html&quot;&gt; &lt;code&gt;AggregatedProfileTime&lt;/code&gt; &lt;/a&gt;. The aggregated profile's aggregation period determines how long it is retained by CodeGuru Profiler. &lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt; If the aggregation period is 5 minutes, the aggregated profile is retained for 15 days. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; If the aggregation period is 1 hour, the aggregated profile is retained for 60 days. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; If the aggregation period is 1 day, the aggregated profile is retained for 3 years. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;There are two use cases for calling &lt;code&gt;GetProfile&lt;/code&gt;.&lt;/p&gt; &lt;ol&gt; &lt;li&gt; &lt;p&gt; If you want to return an aggregated profile that already exists, use &lt;a href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ListProfileTimes.html&quot;&gt; &lt;code&gt;ListProfileTimes&lt;/code&gt; &lt;/a&gt; to view the time ranges of existing aggregated profiles. Use them in a &lt;code&gt;GetProfile&lt;/code&gt; request to return a specific, existing aggregated profile. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; If you want to return an aggregated profile for a time range that doesn't align with an existing aggregated profile, then CodeGuru Profiler makes a best effort to combine existing aggregated profiles from the requested time range and return them as one aggregated profile. &lt;/p&gt; &lt;p&gt; If aggregated profiles do not exist for the full time range requested, then aggregated profiles for a smaller time range are returned. For example, if the requested time range is from 00:00 to 00:20, and the existing aggregated profiles are from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned. &lt;/p&gt; &lt;/li&gt; &lt;/ol&gt; 
-    public func getProfile(_ input: GetProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetProfileResponse> {
-        return self.client.execute(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getProfile(_ input: GetProfileRequest) -> EventLoopFuture<GetProfileResponse> {
+        return client.execute(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of  Recommendation  objects that contain recommendations for a profiling group for a given time period. A list of  Anomaly  objects that contains details about anomalies detected in the profiling group for the same time period is also returned. 
-    public func getRecommendations(_ input: GetRecommendationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRecommendationsResponse> {
-        return self.client.execute(operation: "GetRecommendations", path: "/internal/profilingGroups/{profilingGroupName}/recommendations", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getRecommendations(_ input: GetRecommendationsRequest) -> EventLoopFuture<GetRecommendationsResponse> {
+        return client.execute(operation: "GetRecommendations", path: "/internal/profilingGroups/{profilingGroupName}/recommendations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the available reports for a given profiling group and time range.
-    public func listFindingsReports(_ input: ListFindingsReportsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFindingsReportsResponse> {
-        return self.client.execute(operation: "ListFindingsReports", path: "/internal/profilingGroups/{profilingGroupName}/findingsReports", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listFindingsReports(_ input: ListFindingsReportsRequest) -> EventLoopFuture<ListFindingsReportsResponse> {
+        return client.execute(operation: "ListFindingsReports", path: "/internal/profilingGroups/{profilingGroupName}/findingsReports", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
-    public func listProfileTimes(_ input: ListProfileTimesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProfileTimesResponse> {
-        return self.client.execute(operation: "ListProfileTimes", path: "/profilingGroups/{profilingGroupName}/profileTimes", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listProfileTimes(_ input: ListProfileTimesRequest) -> EventLoopFuture<ListProfileTimesResponse> {
+        return client.execute(operation: "ListProfileTimes", path: "/profilingGroups/{profilingGroupName}/profileTimes", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of profiling groups. The profiling groups are returned as  ProfilingGroupDescription  objects. 
-    public func listProfilingGroups(_ input: ListProfilingGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProfilingGroupsResponse> {
-        return self.client.execute(operation: "ListProfilingGroups", path: "/profilingGroups", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listProfilingGroups(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<ListProfilingGroupsResponse> {
+        return client.execute(operation: "ListProfilingGroups", path: "/profilingGroups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of the tags that are assigned to a specified resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Submits profiling data to an aggregated profile of a profiling group. To get an aggregated profile that is created with this profiling data, use  GetProfile . 
-    public func postAgentProfile(_ input: PostAgentProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PostAgentProfileResponse> {
-        return self.client.execute(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func postAgentProfile(_ input: PostAgentProfileRequest) -> EventLoopFuture<PostAgentProfileResponse> {
+        return client.execute(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a resource-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter.   &lt;p&gt; The one supported action group that can be added is &lt;code&gt;agentPermission&lt;/code&gt; which grants &lt;code&gt;ConfigureAgent&lt;/code&gt; and &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see &lt;a href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html&quot;&gt;Resource-based policies in CodeGuru Profiler&lt;/a&gt; in the &lt;i&gt;Amazon CodeGuru Profiler User Guide&lt;/i&gt;, &lt;a href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html&quot;&gt; &lt;code&gt;ConfigureAgent&lt;/code&gt; &lt;/a&gt;, and &lt;a href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html&quot;&gt; &lt;code&gt;PostAgentProfile&lt;/code&gt; &lt;/a&gt;. &lt;/p&gt; &lt;p&gt; The first time you call &lt;code&gt;PutPermission&lt;/code&gt; on a profiling group, do not specify a &lt;code&gt;revisionId&lt;/code&gt; because it doesn't have a resource-based policy. Subsequent calls must provide a &lt;code&gt;revisionId&lt;/code&gt; to specify which revision of the resource-based policy to add the permissions to. &lt;/p&gt; &lt;p&gt; The response contains the profiling group's JSON-formatted resource policy. &lt;/p&gt; 
-    public func putPermission(_ input: PutPermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutPermissionResponse> {
-        return self.client.execute(operation: "PutPermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putPermission(_ input: PutPermissionRequest) -> EventLoopFuture<PutPermissionResponse> {
+        return client.execute(operation: "PutPermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Remove one anomaly notifications channel for a profiling group.
-    public func removeNotificationChannel(_ input: RemoveNotificationChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveNotificationChannelResponse> {
-        return self.client.execute(operation: "RemoveNotificationChannel", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration/{channelId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func removeNotificationChannel(_ input: RemoveNotificationChannelRequest) -> EventLoopFuture<RemoveNotificationChannelResponse> {
+        return client.execute(operation: "RemoveNotificationChannel", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration/{channelId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based policies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide,  ConfigureAgent , and  PostAgentProfile . 
-    public func removePermission(_ input: RemovePermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemovePermissionResponse> {
-        return self.client.execute(operation: "RemovePermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func removePermission(_ input: RemovePermissionRequest) -> EventLoopFuture<RemovePermissionResponse> {
+        return client.execute(operation: "RemovePermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is useful or not.
-    public func submitFeedback(_ input: SubmitFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SubmitFeedbackResponse> {
-        return self.client.execute(operation: "SubmitFeedback", path: "/internal/profilingGroups/{profilingGroupName}/anomalies/{anomalyInstanceId}/feedback", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func submitFeedback(_ input: SubmitFeedbackRequest) -> EventLoopFuture<SubmitFeedbackResponse> {
+        return client.execute(operation: "SubmitFeedback", path: "/internal/profilingGroups/{profilingGroupName}/anomalies/{anomalyInstanceId}/feedback", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Use to assign one or more tags to a resource. 
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Use to remove one or more tags from a resource. 
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a profiling group.
-    public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProfilingGroupResponse> {
-        return self.client.execute(operation: "UpdateProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest) -> EventLoopFuture<UpdateProfilingGroupResponse> {
+        return client.execute(operation: "UpdateProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CodeGuruProfiler {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

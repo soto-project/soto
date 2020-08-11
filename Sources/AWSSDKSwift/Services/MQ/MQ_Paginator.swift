@@ -23,11 +23,15 @@ extension MQ {
     ///  Returns a list of all brokers.
     public func listBrokersPaginator(
         _ input: ListBrokersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBrokersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBrokers, tokenKey: \ListBrokersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBrokers,
+            tokenKey: \ListBrokersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

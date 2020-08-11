@@ -27,6 +27,7 @@ public struct SSO: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -54,30 +55,43 @@ public struct SSO: AWSService {
             apiVersion: "2019-06-10",
             endpoint: endpoint,
             serviceEndpoints: ["ap-southeast-1": "portal.sso.ap-southeast-1.amazonaws.com", "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com", "ca-central-1": "portal.sso.ca-central-1.amazonaws.com", "eu-central-1": "portal.sso.eu-central-1.amazonaws.com", "eu-west-1": "portal.sso.eu-west-1.amazonaws.com", "eu-west-2": "portal.sso.eu-west-2.amazonaws.com", "us-east-1": "portal.sso.us-east-1.amazonaws.com", "us-east-2": "portal.sso.us-east-2.amazonaws.com", "us-west-2": "portal.sso.us-west-2.amazonaws.com"],
-            possibleErrorTypes: [SSOErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [SSOErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Returns the STS short-term credentials for a given role name that is assigned to the user.
-    public func getRoleCredentials(_ input: GetRoleCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRoleCredentialsResponse> {
-        return self.client.execute(operation: "GetRoleCredentials", path: "/federation/credentials", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getRoleCredentials(_ input: GetRoleCredentialsRequest) -> EventLoopFuture<GetRoleCredentialsResponse> {
+        return client.execute(operation: "GetRoleCredentials", path: "/federation/credentials", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all roles that are assigned to the user for a given AWS account.
-    public func listAccountRoles(_ input: ListAccountRolesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAccountRolesResponse> {
-        return self.client.execute(operation: "ListAccountRoles", path: "/assignment/roles", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listAccountRoles(_ input: ListAccountRolesRequest) -> EventLoopFuture<ListAccountRolesResponse> {
+        return client.execute(operation: "ListAccountRoles", path: "/assignment/roles", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the AWS SSO User Guide. This operation returns a paginated response.
-    public func listAccounts(_ input: ListAccountsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAccountsResponse> {
-        return self.client.execute(operation: "ListAccounts", path: "/assignment/accounts", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listAccounts(_ input: ListAccountsRequest) -> EventLoopFuture<ListAccountsResponse> {
+        return client.execute(operation: "ListAccounts", path: "/assignment/accounts", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the client- and server-side session that is associated with the user.
-    @discardableResult public func logout(_ input: LogoutRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "Logout", path: "/logout", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func logout(_ input: LogoutRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "Logout", path: "/logout", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension SSO {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

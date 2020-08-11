@@ -27,6 +27,7 @@ public struct EC2InstanceConnect: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,15 +54,28 @@ public struct EC2InstanceConnect: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-02",
             endpoint: endpoint,
-            possibleErrorTypes: [EC2InstanceConnectErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [EC2InstanceConnectErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
-    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendSSHPublicKeyResponse> {
-        return self.client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest) -> EventLoopFuture<SendSSHPublicKeyResponse> {
+        return client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension EC2InstanceConnect {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

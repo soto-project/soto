@@ -27,6 +27,7 @@ public struct MQ: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,120 +53,133 @@ public struct MQ: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-11-27",
             endpoint: endpoint,
-            possibleErrorTypes: [MQErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [MQErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a broker. Note: This API is asynchronous.
-    public func createBroker(_ input: CreateBrokerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBrokerResponse> {
-        return self.client.execute(operation: "CreateBroker", path: "/v1/brokers", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createBroker(_ input: CreateBrokerRequest) -> EventLoopFuture<CreateBrokerResponse> {
+        return client.execute(operation: "CreateBroker", path: "/v1/brokers", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
-    public func createConfiguration(_ input: CreateConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateConfigurationResponse> {
-        return self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createConfiguration(_ input: CreateConfigurationRequest) -> EventLoopFuture<CreateConfigurationResponse> {
+        return client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Add a tag to a resource.
-    @discardableResult public func createTags(_ input: CreateTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "CreateTags", path: "/v1/tags/{resource-arn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func createTags(_ input: CreateTagsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CreateTags", path: "/v1/tags/{resource-arn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an ActiveMQ user.
-    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserResponse> {
-        return self.client.execute(operation: "CreateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createUser(_ input: CreateUserRequest) -> EventLoopFuture<CreateUserResponse> {
+        return client.execute(operation: "CreateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a broker. Note: This API is asynchronous.
-    public func deleteBroker(_ input: DeleteBrokerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBrokerResponse> {
-        return self.client.execute(operation: "DeleteBroker", path: "/v1/brokers/{broker-id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteBroker(_ input: DeleteBrokerRequest) -> EventLoopFuture<DeleteBrokerResponse> {
+        return client.execute(operation: "DeleteBroker", path: "/v1/brokers/{broker-id}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a tag from a resource.
-    @discardableResult public func deleteTags(_ input: DeleteTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteTags", path: "/v1/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteTags", path: "/v1/tags/{resource-arn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an ActiveMQ user.
-    public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserResponse> {
-        return self.client.execute(operation: "DeleteUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<DeleteUserResponse> {
+        return client.execute(operation: "DeleteUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the specified broker.
-    public func describeBroker(_ input: DescribeBrokerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBrokerResponse> {
-        return self.client.execute(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeBroker(_ input: DescribeBrokerRequest) -> EventLoopFuture<DescribeBrokerResponse> {
+        return client.execute(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe available engine types and versions.
-    public func describeBrokerEngineTypes(_ input: DescribeBrokerEngineTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBrokerEngineTypesResponse> {
-        return self.client.execute(operation: "DescribeBrokerEngineTypes", path: "/v1/broker-engine-types", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeBrokerEngineTypes(_ input: DescribeBrokerEngineTypesRequest) -> EventLoopFuture<DescribeBrokerEngineTypesResponse> {
+        return client.execute(operation: "DescribeBrokerEngineTypes", path: "/v1/broker-engine-types", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe available broker instance options.
-    public func describeBrokerInstanceOptions(_ input: DescribeBrokerInstanceOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBrokerInstanceOptionsResponse> {
-        return self.client.execute(operation: "DescribeBrokerInstanceOptions", path: "/v1/broker-instance-options", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeBrokerInstanceOptions(_ input: DescribeBrokerInstanceOptionsRequest) -> EventLoopFuture<DescribeBrokerInstanceOptionsResponse> {
+        return client.execute(operation: "DescribeBrokerInstanceOptions", path: "/v1/broker-instance-options", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the specified configuration.
-    public func describeConfiguration(_ input: DescribeConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeConfigurationResponse> {
-        return self.client.execute(operation: "DescribeConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeConfiguration(_ input: DescribeConfigurationRequest) -> EventLoopFuture<DescribeConfigurationResponse> {
+        return client.execute(operation: "DescribeConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the specified configuration revision for the specified configuration.
-    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeConfigurationRevisionResponse> {
-        return self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest) -> EventLoopFuture<DescribeConfigurationRevisionResponse> {
+        return client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about an ActiveMQ user.
-    public func describeUser(_ input: DescribeUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserResponse> {
-        return self.client.execute(operation: "DescribeUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeUser(_ input: DescribeUserRequest) -> EventLoopFuture<DescribeUserResponse> {
+        return client.execute(operation: "DescribeUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all brokers.
-    public func listBrokers(_ input: ListBrokersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBrokersResponse> {
-        return self.client.execute(operation: "ListBrokers", path: "/v1/brokers", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listBrokers(_ input: ListBrokersRequest) -> EventLoopFuture<ListBrokersResponse> {
+        return client.execute(operation: "ListBrokers", path: "/v1/brokers", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all revisions for the specified configuration.
-    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListConfigurationRevisionsResponse> {
-        return self.client.execute(operation: "ListConfigurationRevisions", path: "/v1/configurations/{configuration-id}/revisions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest) -> EventLoopFuture<ListConfigurationRevisionsResponse> {
+        return client.execute(operation: "ListConfigurationRevisions", path: "/v1/configurations/{configuration-id}/revisions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all configurations.
-    public func listConfigurations(_ input: ListConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListConfigurationsResponse> {
-        return self.client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listConfigurations(_ input: ListConfigurationsRequest) -> EventLoopFuture<ListConfigurationsResponse> {
+        return client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists tags for a resource.
-    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsResponse> {
-        return self.client.execute(operation: "ListTags", path: "/v1/tags/{resource-arn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTags(_ input: ListTagsRequest) -> EventLoopFuture<ListTagsResponse> {
+        return client.execute(operation: "ListTags", path: "/v1/tags/{resource-arn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all ActiveMQ users.
-    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUsersResponse> {
-        return self.client.execute(operation: "ListUsers", path: "/v1/brokers/{broker-id}/users", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
+        return client.execute(operation: "ListUsers", path: "/v1/brokers/{broker-id}/users", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Reboots a broker. Note: This API is asynchronous.
-    public func rebootBroker(_ input: RebootBrokerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RebootBrokerResponse> {
-        return self.client.execute(operation: "RebootBroker", path: "/v1/brokers/{broker-id}/reboot", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func rebootBroker(_ input: RebootBrokerRequest) -> EventLoopFuture<RebootBrokerResponse> {
+        return client.execute(operation: "RebootBroker", path: "/v1/brokers/{broker-id}/reboot", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds a pending configuration change to a broker.
-    public func updateBroker(_ input: UpdateBrokerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBrokerResponse> {
-        return self.client.execute(operation: "UpdateBroker", path: "/v1/brokers/{broker-id}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateBroker(_ input: UpdateBrokerRequest) -> EventLoopFuture<UpdateBrokerResponse> {
+        return client.execute(operation: "UpdateBroker", path: "/v1/brokers/{broker-id}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified configuration.
-    public func updateConfiguration(_ input: UpdateConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateConfigurationResponse> {
-        return self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateConfiguration(_ input: UpdateConfigurationRequest) -> EventLoopFuture<UpdateConfigurationResponse> {
+        return client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the information for an ActiveMQ user.
-    public func updateUser(_ input: UpdateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserResponse> {
-        return self.client.execute(operation: "UpdateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUser(_ input: UpdateUserRequest) -> EventLoopFuture<UpdateUserResponse> {
+        return client.execute(operation: "UpdateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension MQ {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

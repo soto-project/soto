@@ -23,41 +23,57 @@ extension SFN {
     ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This API action is not supported by EXPRESS state machines.
     public func getExecutionHistoryPaginator(
         _ input: GetExecutionHistoryInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetExecutionHistoryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getExecutionHistory, tokenKey: \GetExecutionHistoryOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getExecutionHistory,
+            tokenKey: \GetExecutionHistoryOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func listActivitiesPaginator(
         _ input: ListActivitiesInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListActivitiesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listActivities, tokenKey: \ListActivitiesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listActivities,
+            tokenKey: \ListActivitiesOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the executions of a state machine that meet the filtering criteria. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.  This API action is not supported by EXPRESS state machines.
     public func listExecutionsPaginator(
         _ input: ListExecutionsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listExecutions, tokenKey: \ListExecutionsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listExecutions,
+            tokenKey: \ListExecutionsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func listStateMachinesPaginator(
         _ input: ListStateMachinesInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStateMachinesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStateMachines, tokenKey: \ListStateMachinesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStateMachines,
+            tokenKey: \ListStateMachinesOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

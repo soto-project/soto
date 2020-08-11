@@ -27,6 +27,7 @@ public struct IoTEvents: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,90 +53,103 @@ public struct IoTEvents: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-07-27",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTEventsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [IoTEventsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a detector model.
-    public func createDetectorModel(_ input: CreateDetectorModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDetectorModelResponse> {
-        return self.client.execute(operation: "CreateDetectorModel", path: "/detector-models", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createDetectorModel(_ input: CreateDetectorModelRequest) -> EventLoopFuture<CreateDetectorModelResponse> {
+        return client.execute(operation: "CreateDetectorModel", path: "/detector-models", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an input.
-    public func createInput(_ input: CreateInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInputResponse> {
-        return self.client.execute(operation: "CreateInput", path: "/inputs", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createInput(_ input: CreateInputRequest) -> EventLoopFuture<CreateInputResponse> {
+        return client.execute(operation: "CreateInput", path: "/inputs", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a detector model. Any active instances of the detector model are also deleted.
-    public func deleteDetectorModel(_ input: DeleteDetectorModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDetectorModelResponse> {
-        return self.client.execute(operation: "DeleteDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteDetectorModel(_ input: DeleteDetectorModelRequest) -> EventLoopFuture<DeleteDetectorModelResponse> {
+        return client.execute(operation: "DeleteDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an input.
-    public func deleteInput(_ input: DeleteInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInputResponse> {
-        return self.client.execute(operation: "DeleteInput", path: "/inputs/{inputName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteInput(_ input: DeleteInputRequest) -> EventLoopFuture<DeleteInputResponse> {
+        return client.execute(operation: "DeleteInput", path: "/inputs/{inputName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
-    public func describeDetectorModel(_ input: DescribeDetectorModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDetectorModelResponse> {
-        return self.client.execute(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDetectorModel(_ input: DescribeDetectorModelRequest) -> EventLoopFuture<DescribeDetectorModelResponse> {
+        return client.execute(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes an input.
-    public func describeInput(_ input: DescribeInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInputResponse> {
-        return self.client.execute(operation: "DescribeInput", path: "/inputs/{inputName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeInput(_ input: DescribeInputRequest) -> EventLoopFuture<DescribeInputResponse> {
+        return client.execute(operation: "DescribeInput", path: "/inputs/{inputName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves the current settings of the AWS IoT Events logging options.
-    public func describeLoggingOptions(_ input: DescribeLoggingOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeLoggingOptionsResponse> {
-        return self.client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeLoggingOptions(_ input: DescribeLoggingOptionsRequest) -> EventLoopFuture<DescribeLoggingOptionsResponse> {
+        return client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
-    public func listDetectorModelVersions(_ input: ListDetectorModelVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDetectorModelVersionsResponse> {
-        return self.client.execute(operation: "ListDetectorModelVersions", path: "/detector-models/{detectorModelName}/versions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDetectorModelVersions(_ input: ListDetectorModelVersionsRequest) -> EventLoopFuture<ListDetectorModelVersionsResponse> {
+        return client.execute(operation: "ListDetectorModelVersions", path: "/detector-models/{detectorModelName}/versions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the detector models you have created. Only the metadata associated with each detector model is returned.
-    public func listDetectorModels(_ input: ListDetectorModelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDetectorModelsResponse> {
-        return self.client.execute(operation: "ListDetectorModels", path: "/detector-models", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDetectorModels(_ input: ListDetectorModelsRequest) -> EventLoopFuture<ListDetectorModelsResponse> {
+        return client.execute(operation: "ListDetectorModels", path: "/detector-models", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the inputs you have created.
-    public func listInputs(_ input: ListInputsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInputsResponse> {
-        return self.client.execute(operation: "ListInputs", path: "/inputs", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listInputs(_ input: ListInputsRequest) -> EventLoopFuture<ListInputsResponse> {
+        return client.execute(operation: "ListInputs", path: "/inputs", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the tags (metadata) you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
-    @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the given tags (metadata) from the resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
-    public func updateDetectorModel(_ input: UpdateDetectorModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDetectorModelResponse> {
-        return self.client.execute(operation: "UpdateDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDetectorModel(_ input: UpdateDetectorModelRequest) -> EventLoopFuture<UpdateDetectorModelResponse> {
+        return client.execute(operation: "UpdateDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an input.
-    public func updateInput(_ input: UpdateInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInputResponse> {
-        return self.client.execute(operation: "UpdateInput", path: "/inputs/{inputName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateInput(_ input: UpdateInputRequest) -> EventLoopFuture<UpdateInputResponse> {
+        return client.execute(operation: "UpdateInput", path: "/inputs/{inputName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension IoTEvents {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

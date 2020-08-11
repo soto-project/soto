@@ -23,81 +23,113 @@ extension Lambda {
     ///  Returns a list of aliases for a Lambda function.
     public func listAliasesPaginator(
         _ input: ListAliasesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAliases,
+            tokenKey: \ListAliasesResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
     public func listEventSourceMappingsPaginator(
         _ input: ListEventSourceMappingsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEventSourceMappingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEventSourceMappings, tokenKey: \ListEventSourceMappingsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEventSourceMappings,
+            tokenKey: \ListEventSourceMappingsResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func listFunctionEventInvokeConfigsPaginator(
         _ input: ListFunctionEventInvokeConfigsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFunctionEventInvokeConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFunctionEventInvokeConfigs, tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFunctionEventInvokeConfigs,
+            tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
     public func listFunctionsPaginator(
         _ input: ListFunctionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFunctionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFunctions, tokenKey: \ListFunctionsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFunctions,
+            tokenKey: \ListFunctionsResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
     public func listLayerVersionsPaginator(
         _ input: ListLayerVersionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLayerVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLayerVersions, tokenKey: \ListLayerVersionsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLayerVersions,
+            tokenKey: \ListLayerVersionsResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists AWS Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
     public func listLayersPaginator(
         _ input: ListLayersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLayersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLayers, tokenKey: \ListLayersResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLayers,
+            tokenKey: \ListLayersResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of provisioned concurrency configurations for a function.
     public func listProvisionedConcurrencyConfigsPaginator(
         _ input: ListProvisionedConcurrencyConfigsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProvisionedConcurrencyConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProvisionedConcurrencyConfigs, tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProvisionedConcurrencyConfigs,
+            tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     public func listVersionsByFunctionPaginator(
         _ input: ListVersionsByFunctionRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVersionsByFunctionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVersionsByFunction, tokenKey: \ListVersionsByFunctionResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVersionsByFunction,
+            tokenKey: \ListVersionsByFunctionResponse.nextMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

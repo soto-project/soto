@@ -23,11 +23,15 @@ extension Polly {
     ///  Returns a list of SpeechSynthesisTask objects ordered by their creation date. This operation can filter the tasks by their status, for example, allowing users to list only tasks that are completed.
     public func listSpeechSynthesisTasksPaginator(
         _ input: ListSpeechSynthesisTasksInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSpeechSynthesisTasksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSpeechSynthesisTasks, tokenKey: \ListSpeechSynthesisTasksOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSpeechSynthesisTasks,
+            tokenKey: \ListSpeechSynthesisTasksOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

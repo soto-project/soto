@@ -27,6 +27,7 @@ public struct Budgets: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,80 +54,93 @@ public struct Budgets: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "budgets.amazonaws.com.cn", "aws-global": "budgets.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
-            possibleErrorTypes: [BudgetsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [BudgetsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a budget and, if included, notifications and subscribers.   Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func createBudget(_ input: CreateBudgetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBudgetResponse> {
-        return self.client.execute(operation: "CreateBudget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createBudget(_ input: CreateBudgetRequest) -> EventLoopFuture<CreateBudgetResponse> {
+        return client.execute(operation: "CreateBudget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a notification. You must create the budget before you create the associated notification.
-    public func createNotification(_ input: CreateNotificationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNotificationResponse> {
-        return self.client.execute(operation: "CreateNotification", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createNotification(_ input: CreateNotificationRequest) -> EventLoopFuture<CreateNotificationResponse> {
+        return client.execute(operation: "CreateNotification", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
-    public func createSubscriber(_ input: CreateSubscriberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSubscriberResponse> {
-        return self.client.execute(operation: "CreateSubscriber", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createSubscriber(_ input: CreateSubscriberRequest) -> EventLoopFuture<CreateSubscriberResponse> {
+        return client.execute(operation: "CreateSubscriber", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a budget. You can delete your budget at any time.  Deleting a budget also deletes the notifications and subscribers that are associated with that budget. 
-    public func deleteBudget(_ input: DeleteBudgetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBudgetResponse> {
-        return self.client.execute(operation: "DeleteBudget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteBudget(_ input: DeleteBudgetRequest) -> EventLoopFuture<DeleteBudgetResponse> {
+        return client.execute(operation: "DeleteBudget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a notification.  Deleting a notification also deletes the subscribers that are associated with the notification. 
-    public func deleteNotification(_ input: DeleteNotificationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteNotificationResponse> {
-        return self.client.execute(operation: "DeleteNotification", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteNotification(_ input: DeleteNotificationRequest) -> EventLoopFuture<DeleteNotificationResponse> {
+        return client.execute(operation: "DeleteNotification", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a subscriber.  Deleting the last subscriber to a notification also deletes the notification. 
-    public func deleteSubscriber(_ input: DeleteSubscriberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSubscriberResponse> {
-        return self.client.execute(operation: "DeleteSubscriber", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteSubscriber(_ input: DeleteSubscriberRequest) -> EventLoopFuture<DeleteSubscriberResponse> {
+        return client.execute(operation: "DeleteSubscriber", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func describeBudget(_ input: DescribeBudgetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBudgetResponse> {
-        return self.client.execute(operation: "DescribeBudget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeBudget(_ input: DescribeBudgetRequest) -> EventLoopFuture<DescribeBudgetResponse> {
+        return client.execute(operation: "DescribeBudget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
-    public func describeBudgetPerformanceHistory(_ input: DescribeBudgetPerformanceHistoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBudgetPerformanceHistoryResponse> {
-        return self.client.execute(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeBudgetPerformanceHistory(_ input: DescribeBudgetPerformanceHistoryRequest) -> EventLoopFuture<DescribeBudgetPerformanceHistoryResponse> {
+        return client.execute(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func describeBudgets(_ input: DescribeBudgetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBudgetsResponse> {
-        return self.client.execute(operation: "DescribeBudgets", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeBudgets(_ input: DescribeBudgetsRequest) -> EventLoopFuture<DescribeBudgetsResponse> {
+        return client.execute(operation: "DescribeBudgets", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the notifications that are associated with a budget.
-    public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeNotificationsForBudgetResponse> {
-        return self.client.execute(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest) -> EventLoopFuture<DescribeNotificationsForBudgetResponse> {
+        return client.execute(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the subscribers that are associated with a notification.
-    public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSubscribersForNotificationResponse> {
-        return self.client.execute(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest) -> EventLoopFuture<DescribeSubscribersForNotificationResponse> {
+        return client.execute(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func updateBudget(_ input: UpdateBudgetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBudgetResponse> {
-        return self.client.execute(operation: "UpdateBudget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateBudget(_ input: UpdateBudgetRequest) -> EventLoopFuture<UpdateBudgetResponse> {
+        return client.execute(operation: "UpdateBudget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a notification.
-    public func updateNotification(_ input: UpdateNotificationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNotificationResponse> {
-        return self.client.execute(operation: "UpdateNotification", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateNotification(_ input: UpdateNotificationRequest) -> EventLoopFuture<UpdateNotificationResponse> {
+        return client.execute(operation: "UpdateNotification", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a subscriber.
-    public func updateSubscriber(_ input: UpdateSubscriberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSubscriberResponse> {
-        return self.client.execute(operation: "UpdateSubscriber", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateSubscriber(_ input: UpdateSubscriberRequest) -> EventLoopFuture<UpdateSubscriberResponse> {
+        return client.execute(operation: "UpdateSubscriber", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Budgets {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

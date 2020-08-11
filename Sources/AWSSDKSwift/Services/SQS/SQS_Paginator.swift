@@ -23,21 +23,29 @@ extension SQS {
     ///  Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. For more information about using dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon Simple Queue Service Developer Guide.
     public func listDeadLetterSourceQueuesPaginator(
         _ input: ListDeadLetterSourceQueuesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeadLetterSourceQueuesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeadLetterSourceQueues, tokenKey: \ListDeadLetterSourceQueuesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeadLetterSourceQueues,
+            tokenKey: \ListDeadLetterSourceQueuesResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of your queues. The maximum number of queues that can be returned is 1,000. If you specify a value for the optional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned.  Cross-account permissions don't apply to this action. For more information, see Grant Cross-Account Permissions to a Role and a User Name in the Amazon Simple Queue Service Developer Guide. 
     public func listQueuesPaginator(
         _ input: ListQueuesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueuesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listQueues,
+            tokenKey: \ListQueuesResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

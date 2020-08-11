@@ -27,6 +27,7 @@ public struct CodeGuruReviewer: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,60 +53,73 @@ public struct CodeGuruReviewer: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-09-19",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeGuruReviewerErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CodeGuruReviewerErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///   Use to associate an AWS CodeCommit repository or a repostory managed by AWS CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit repository, it must be in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are configured.  Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar Connections to connect to CodeGuru Reviewer. For more information, see Connect to a repository source provider in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information, see Getting started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.  
-    public func associateRepository(_ input: AssociateRepositoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateRepositoryResponse> {
-        return self.client.execute(operation: "AssociateRepository", path: "/associations", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func associateRepository(_ input: AssociateRepositoryRequest) -> EventLoopFuture<AssociateRepositoryResponse> {
+        return client.execute(operation: "AssociateRepository", path: "/associations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the metadata associated with the code review along with its status.
-    public func describeCodeReview(_ input: DescribeCodeReviewRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCodeReviewResponse> {
-        return self.client.execute(operation: "DescribeCodeReview", path: "/codereviews/{CodeReviewArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeCodeReview(_ input: DescribeCodeReviewRequest) -> EventLoopFuture<DescribeCodeReviewResponse> {
+        return client.execute(operation: "DescribeCodeReview", path: "/codereviews/{CodeReviewArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Describes the customer feedback for a CodeGuru Reviewer recommendation. 
-    public func describeRecommendationFeedback(_ input: DescribeRecommendationFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRecommendationFeedbackResponse> {
-        return self.client.execute(operation: "DescribeRecommendationFeedback", path: "/feedback/{CodeReviewArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeRecommendationFeedback(_ input: DescribeRecommendationFeedbackRequest) -> EventLoopFuture<DescribeRecommendationFeedbackResponse> {
+        return client.execute(operation: "DescribeRecommendationFeedback", path: "/feedback/{CodeReviewArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a  RepositoryAssociation  object that contains information about the requested repository association. 
-    public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRepositoryAssociationResponse> {
-        return self.client.execute(operation: "DescribeRepositoryAssociation", path: "/associations/{AssociationArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest) -> EventLoopFuture<DescribeRepositoryAssociationResponse> {
+        return client.execute(operation: "DescribeRepositoryAssociation", path: "/associations/{AssociationArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the association between Amazon CodeGuru Reviewer and a repository.
-    public func disassociateRepository(_ input: DisassociateRepositoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateRepositoryResponse> {
-        return self.client.execute(operation: "DisassociateRepository", path: "/associations/{AssociationArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func disassociateRepository(_ input: DisassociateRepositoryRequest) -> EventLoopFuture<DisassociateRepositoryResponse> {
+        return client.execute(operation: "DisassociateRepository", path: "/associations/{AssociationArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Lists all the code reviews that the customer has created in the past 90 days. 
-    public func listCodeReviews(_ input: ListCodeReviewsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCodeReviewsResponse> {
-        return self.client.execute(operation: "ListCodeReviews", path: "/codereviews", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listCodeReviews(_ input: ListCodeReviewsRequest) -> EventLoopFuture<ListCodeReviewsResponse> {
+        return client.execute(operation: "ListCodeReviews", path: "/codereviews", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of  RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users. 
-    public func listRecommendationFeedback(_ input: ListRecommendationFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRecommendationFeedbackResponse> {
-        return self.client.execute(operation: "ListRecommendationFeedback", path: "/feedback/{CodeReviewArn}/RecommendationFeedback", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listRecommendationFeedback(_ input: ListRecommendationFeedbackRequest) -> EventLoopFuture<ListRecommendationFeedbackResponse> {
+        return client.execute(operation: "ListRecommendationFeedback", path: "/feedback/{CodeReviewArn}/RecommendationFeedback", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the list of all recommendations for a completed code review. 
-    public func listRecommendations(_ input: ListRecommendationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRecommendationsResponse> {
-        return self.client.execute(operation: "ListRecommendations", path: "/codereviews/{CodeReviewArn}/Recommendations", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listRecommendations(_ input: ListRecommendationsRequest) -> EventLoopFuture<ListRecommendationsResponse> {
+        return client.execute(operation: "ListRecommendations", path: "/codereviews/{CodeReviewArn}/Recommendations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of  RepositoryAssociationSummary  objects that contain summary information about a repository association. You can filter the returned list by  ProviderType ,  Name ,  State , and  Owner . 
-    public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
-        return self.client.execute(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
+        return client.execute(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. 
-    public func putRecommendationFeedback(_ input: PutRecommendationFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutRecommendationFeedbackResponse> {
-        return self.client.execute(operation: "PutRecommendationFeedback", path: "/feedback", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putRecommendationFeedback(_ input: PutRecommendationFeedbackRequest) -> EventLoopFuture<PutRecommendationFeedbackResponse> {
+        return client.execute(operation: "PutRecommendationFeedback", path: "/feedback", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CodeGuruReviewer {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

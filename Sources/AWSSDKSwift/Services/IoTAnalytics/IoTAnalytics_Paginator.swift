@@ -23,51 +23,71 @@ extension IoTAnalytics {
     ///  Retrieves a list of channels.
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists information about data set contents that have been created.
     public func listDatasetContentsPaginator(
         _ input: ListDatasetContentsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetContentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasetContents, tokenKey: \ListDatasetContentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatasetContents,
+            tokenKey: \ListDatasetContentsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about data sets.
     public func listDatasetsPaginator(
         _ input: ListDatasetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasets, tokenKey: \ListDatasetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatasets,
+            tokenKey: \ListDatasetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of data stores.
     public func listDatastoresPaginator(
         _ input: ListDatastoresRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatastoresResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatastores, tokenKey: \ListDatastoresResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatastores,
+            tokenKey: \ListDatastoresResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of pipelines.
     public func listPipelinesPaginator(
         _ input: ListPipelinesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPipelines,
+            tokenKey: \ListPipelinesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

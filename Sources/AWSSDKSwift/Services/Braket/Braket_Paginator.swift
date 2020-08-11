@@ -23,21 +23,29 @@ extension Braket {
     ///  Searches for devices using the specified filters.
     public func searchDevicesPaginator(
         _ input: SearchDevicesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchDevices, tokenKey: \SearchDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchDevices,
+            tokenKey: \SearchDevicesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Searches for tasks that match the specified filter values.
     public func searchQuantumTasksPaginator(
         _ input: SearchQuantumTasksRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchQuantumTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchQuantumTasks, tokenKey: \SearchQuantumTasksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchQuantumTasks,
+            tokenKey: \SearchQuantumTasksResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

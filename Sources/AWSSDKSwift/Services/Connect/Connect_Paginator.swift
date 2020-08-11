@@ -23,101 +23,141 @@ extension Connect {
     ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
     public func getCurrentMetricDataPaginator(
         _ input: GetCurrentMetricDataRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCurrentMetricDataResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCurrentMetricData, tokenKey: \GetCurrentMetricDataResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCurrentMetricData,
+            tokenKey: \GetCurrentMetricDataResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
     public func getMetricDataPaginator(
         _ input: GetMetricDataRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMetricDataResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getMetricData, tokenKey: \GetMetricDataResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getMetricData,
+            tokenKey: \GetMetricDataResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides information about the contact flows for the specified Amazon Connect instance.
     public func listContactFlowsPaginator(
         _ input: ListContactFlowsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContactFlowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContactFlows, tokenKey: \ListContactFlowsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listContactFlows,
+            tokenKey: \ListContactFlowsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides information about the hours of operation for the specified Amazon Connect instance.
     public func listHoursOfOperationsPaginator(
         _ input: ListHoursOfOperationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHoursOfOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHoursOfOperations, tokenKey: \ListHoursOfOperationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHoursOfOperations,
+            tokenKey: \ListHoursOfOperationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides information about the phone numbers for the specified Amazon Connect instance.
     public func listPhoneNumbersPaginator(
         _ input: ListPhoneNumbersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPhoneNumbersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPhoneNumbers,
+            tokenKey: \ListPhoneNumbersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides information about the queues for the specified Amazon Connect instance.
     public func listQueuesPaginator(
         _ input: ListQueuesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueuesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listQueues,
+            tokenKey: \ListQueuesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides summary information about the routing profiles for the specified Amazon Connect instance.
     public func listRoutingProfilesPaginator(
         _ input: ListRoutingProfilesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoutingProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRoutingProfiles, tokenKey: \ListRoutingProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRoutingProfiles,
+            tokenKey: \ListRoutingProfilesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides summary information about the security profiles for the specified Amazon Connect instance.
     public func listSecurityProfilesPaginator(
         _ input: ListSecurityProfilesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSecurityProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSecurityProfiles, tokenKey: \ListSecurityProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSecurityProfiles,
+            tokenKey: \ListSecurityProfilesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
     public func listUserHierarchyGroupsPaginator(
         _ input: ListUserHierarchyGroupsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserHierarchyGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserHierarchyGroups, tokenKey: \ListUserHierarchyGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUserHierarchyGroups,
+            tokenKey: \ListUserHierarchyGroupsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Provides summary information about the users for the specified Amazon Connect instance.
     public func listUsersPaginator(
         _ input: ListUsersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsers,
+            tokenKey: \ListUsersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,6 +27,7 @@ public struct CostandUsageReportService: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,30 +54,43 @@ public struct CostandUsageReportService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-06",
             endpoint: endpoint,
-            possibleErrorTypes: [CostandUsageReportServiceErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CostandUsageReportServiceErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Deletes the specified report.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteReportDefinitionResponse> {
-        return self.client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) -> EventLoopFuture<DeleteReportDefinitionResponse> {
+        return client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return self.client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
+        return client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Allows you to programatically update your report preferences.
-    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyReportDefinitionResponse> {
-        return self.client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest) -> EventLoopFuture<ModifyReportDefinitionResponse> {
+        return client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new report using the description that you provide.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutReportDefinitionResponse> {
-        return self.client.execute(operation: "PutReportDefinition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putReportDefinition(_ input: PutReportDefinitionRequest) -> EventLoopFuture<PutReportDefinitionResponse> {
+        return client.execute(operation: "PutReportDefinition", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CostandUsageReportService {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

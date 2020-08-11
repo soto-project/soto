@@ -27,6 +27,7 @@ public struct IVS: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,100 +53,113 @@ public struct IVS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-07-14",
             endpoint: endpoint,
-            possibleErrorTypes: [IVSErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [IVSErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Performs GetChannel on multiple ARNs simultaneously.
-    public func batchGetChannel(_ input: BatchGetChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetChannelResponse> {
-        return self.client.execute(operation: "BatchGetChannel", path: "/BatchGetChannel", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchGetChannel(_ input: BatchGetChannelRequest) -> EventLoopFuture<BatchGetChannelResponse> {
+        return client.execute(operation: "BatchGetChannel", path: "/BatchGetChannel", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Performs GetStreamKey on multiple ARNs simultaneously.
-    public func batchGetStreamKey(_ input: BatchGetStreamKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetStreamKeyResponse> {
-        return self.client.execute(operation: "BatchGetStreamKey", path: "/BatchGetStreamKey", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchGetStreamKey(_ input: BatchGetStreamKeyRequest) -> EventLoopFuture<BatchGetStreamKeyResponse> {
+        return client.execute(operation: "BatchGetStreamKey", path: "/BatchGetStreamKey", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new channel and an associated stream key to start streaming.
-    public func createChannel(_ input: CreateChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateChannelResponse> {
-        return self.client.execute(operation: "CreateChannel", path: "/CreateChannel", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createChannel(_ input: CreateChannelRequest) -> EventLoopFuture<CreateChannelResponse> {
+        return client.execute(operation: "CreateChannel", path: "/CreateChannel", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
-    public func createStreamKey(_ input: CreateStreamKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStreamKeyResponse> {
-        return self.client.execute(operation: "CreateStreamKey", path: "/CreateStreamKey", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createStreamKey(_ input: CreateStreamKeyRequest) -> EventLoopFuture<CreateStreamKeyResponse> {
+        return client.execute(operation: "CreateStreamKey", path: "/CreateStreamKey", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified channel and its associated stream keys.
-    @discardableResult public func deleteChannel(_ input: DeleteChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteChannel", path: "/DeleteChannel", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteChannel(_ input: DeleteChannelRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteChannel", path: "/DeleteChannel", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the stream key for the specified ARN, so it can no longer be used to stream.
-    @discardableResult public func deleteStreamKey(_ input: DeleteStreamKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteStreamKey", path: "/DeleteStreamKey", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteStreamKey(_ input: DeleteStreamKeyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteStreamKey", path: "/DeleteStreamKey", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
-    public func getChannel(_ input: GetChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetChannelResponse> {
-        return self.client.execute(operation: "GetChannel", path: "/GetChannel", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getChannel(_ input: GetChannelRequest) -> EventLoopFuture<GetChannelResponse> {
+        return client.execute(operation: "GetChannel", path: "/GetChannel", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the active (live) stream on a specified channel.
-    public func getStream(_ input: GetStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetStreamResponse> {
-        return self.client.execute(operation: "GetStream", path: "/GetStream", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getStream(_ input: GetStreamRequest) -> EventLoopFuture<GetStreamResponse> {
+        return client.execute(operation: "GetStream", path: "/GetStream", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets stream-key information for a specified ARN.
-    public func getStreamKey(_ input: GetStreamKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetStreamKeyResponse> {
-        return self.client.execute(operation: "GetStreamKey", path: "/GetStreamKey", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getStreamKey(_ input: GetStreamKeyRequest) -> EventLoopFuture<GetStreamKeyResponse> {
+        return client.execute(operation: "GetStreamKey", path: "/GetStreamKey", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets summary information about all channels in your account, in the AWS region where the API request is processed. This list can be filtered to match a specified string.
-    public func listChannels(_ input: ListChannelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChannelsResponse> {
-        return self.client.execute(operation: "ListChannels", path: "/ListChannels", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listChannels(_ input: ListChannelsRequest) -> EventLoopFuture<ListChannelsResponse> {
+        return client.execute(operation: "ListChannels", path: "/ListChannels", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets summary information about stream keys for the specified channel.
-    public func listStreamKeys(_ input: ListStreamKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStreamKeysResponse> {
-        return self.client.execute(operation: "ListStreamKeys", path: "/ListStreamKeys", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listStreamKeys(_ input: ListStreamKeysRequest) -> EventLoopFuture<ListStreamKeysResponse> {
+        return client.execute(operation: "ListStreamKeys", path: "/ListStreamKeys", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets summary information about live streams in your account, in the AWS region where the API request is processed.
-    public func listStreams(_ input: ListStreamsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStreamsResponse> {
-        return self.client.execute(operation: "ListStreams", path: "/ListStreams", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listStreams(_ input: ListStreamsRequest) -> EventLoopFuture<ListStreamsResponse> {
+        return client.execute(operation: "ListStreams", path: "/ListStreams", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about AWS tags for the specified ARN.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Inserts metadata into an RTMPS stream for the specified channel. A maximum of 5 requests per second per channel is allowed, each with a maximum 1KB payload.
-    @discardableResult public func putMetadata(_ input: PutMetadataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutMetadata", path: "/PutMetadata", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putMetadata(_ input: PutMetadataRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutMetadata", path: "/PutMetadata", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with DeleteStreamKey to prevent further streaming to a channel.  Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel. 
-    public func stopStream(_ input: StopStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopStreamResponse> {
-        return self.client.execute(operation: "StopStream", path: "/StopStream", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func stopStream(_ input: StopStreamRequest) -> EventLoopFuture<StopStreamResponse> {
+        return client.execute(operation: "StopStream", path: "/StopStream", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds or updates tags for the AWS resource with the specified ARN.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes tags from the resource with the specified ARN.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a channel's configuration. This does not affect an ongoing stream of this channel. You must stop and restart the stream for the changes to take effect.
-    public func updateChannel(_ input: UpdateChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateChannelResponse> {
-        return self.client.execute(operation: "UpdateChannel", path: "/UpdateChannel", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateChannel(_ input: UpdateChannelRequest) -> EventLoopFuture<UpdateChannelResponse> {
+        return client.execute(operation: "UpdateChannel", path: "/UpdateChannel", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension IVS {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

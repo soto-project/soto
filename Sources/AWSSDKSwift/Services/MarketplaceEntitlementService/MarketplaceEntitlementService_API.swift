@@ -27,6 +27,7 @@ public struct MarketplaceEntitlementService: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -54,15 +55,28 @@ public struct MarketplaceEntitlementService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
-    public func getEntitlements(_ input: GetEntitlementsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetEntitlementsResult> {
-        return self.client.execute(operation: "GetEntitlements", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getEntitlements(_ input: GetEntitlementsRequest) -> EventLoopFuture<GetEntitlementsResult> {
+        return client.execute(operation: "GetEntitlements", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension MarketplaceEntitlementService {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

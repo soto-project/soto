@@ -27,6 +27,7 @@ public struct RDSDataService: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,41 +53,54 @@ public struct RDSDataService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-08-01",
             endpoint: endpoint,
-            possibleErrorTypes: [RDSDataServiceErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [RDSDataServiceErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. 
-    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchExecuteStatementResponse> {
-        return self.client.execute(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) -> EventLoopFuture<BatchExecuteStatementResponse> {
+        return client.execute(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts a SQL transaction.  &lt;important&gt; &lt;p&gt;A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours.&lt;/p&gt; &lt;p&gt;A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically.&lt;/p&gt; &lt;p&gt;DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate &lt;code&gt;ExecuteStatement&lt;/code&gt; call with &lt;code&gt;continueAfterTimeout&lt;/code&gt; enabled.&lt;/p&gt; &lt;/important&gt; 
-    public func beginTransaction(_ input: BeginTransactionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BeginTransactionResponse> {
-        return self.client.execute(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func beginTransaction(_ input: BeginTransactionRequest) -> EventLoopFuture<BeginTransactionResponse> {
+        return client.execute(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
-    public func commitTransaction(_ input: CommitTransactionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CommitTransactionResponse> {
-        return self.client.execute(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func commitTransaction(_ input: CommitTransactionRequest) -> EventLoopFuture<CommitTransactionResponse> {
+        return client.execute(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Runs one or more SQL statements.  This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation. 
     @available(*, deprecated, message:"The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
-    public func executeSql(_ input: ExecuteSqlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteSqlResponse> {
-        return self.client.execute(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func executeSql(_ input: ExecuteSqlRequest) -> EventLoopFuture<ExecuteSqlResponse> {
+        return client.execute(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically.  The response size limit is 1 MB. If the call returns more than 1 MB of response data, the call is terminated.
-    public func executeStatement(_ input: ExecuteStatementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExecuteStatementResponse> {
-        return self.client.execute(operation: "ExecuteStatement", path: "/Execute", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func executeStatement(_ input: ExecuteStatementRequest) -> EventLoopFuture<ExecuteStatementResponse> {
+        return client.execute(operation: "ExecuteStatement", path: "/Execute", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
-    public func rollbackTransaction(_ input: RollbackTransactionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RollbackTransactionResponse> {
-        return self.client.execute(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func rollbackTransaction(_ input: RollbackTransactionRequest) -> EventLoopFuture<RollbackTransactionResponse> {
+        return client.execute(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension RDSDataService {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

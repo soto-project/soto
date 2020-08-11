@@ -27,6 +27,7 @@ public struct Braket: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,40 +53,53 @@ public struct Braket: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-09-01",
             endpoint: endpoint,
-            possibleErrorTypes: [BraketErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [BraketErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Cancels the specified task.
-    public func cancelQuantumTask(_ input: CancelQuantumTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelQuantumTaskResponse> {
-        return self.client.execute(operation: "CancelQuantumTask", path: "/quantum-task/{quantumTaskArn}/cancel", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func cancelQuantumTask(_ input: CancelQuantumTaskRequest) -> EventLoopFuture<CancelQuantumTaskResponse> {
+        return client.execute(operation: "CancelQuantumTask", path: "/quantum-task/{quantumTaskArn}/cancel", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a quantum task.
-    public func createQuantumTask(_ input: CreateQuantumTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateQuantumTaskResponse> {
-        return self.client.execute(operation: "CreateQuantumTask", path: "/quantum-task", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createQuantumTask(_ input: CreateQuantumTaskRequest) -> EventLoopFuture<CreateQuantumTaskResponse> {
+        return client.execute(operation: "CreateQuantumTask", path: "/quantum-task", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves the devices available in Amazon Braket.
-    public func getDevice(_ input: GetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceResponse> {
-        return self.client.execute(operation: "GetDevice", path: "/device/{deviceArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDevice(_ input: GetDeviceRequest) -> EventLoopFuture<GetDeviceResponse> {
+        return client.execute(operation: "GetDevice", path: "/device/{deviceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves the specified quantum task.
-    public func getQuantumTask(_ input: GetQuantumTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetQuantumTaskResponse> {
-        return self.client.execute(operation: "GetQuantumTask", path: "/quantum-task/{quantumTaskArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getQuantumTask(_ input: GetQuantumTaskRequest) -> EventLoopFuture<GetQuantumTaskResponse> {
+        return client.execute(operation: "GetQuantumTask", path: "/quantum-task/{quantumTaskArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Searches for devices using the specified filters.
-    public func searchDevices(_ input: SearchDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchDevicesResponse> {
-        return self.client.execute(operation: "SearchDevices", path: "/devices", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func searchDevices(_ input: SearchDevicesRequest) -> EventLoopFuture<SearchDevicesResponse> {
+        return client.execute(operation: "SearchDevices", path: "/devices", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Searches for tasks that match the specified filter values.
-    public func searchQuantumTasks(_ input: SearchQuantumTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchQuantumTasksResponse> {
-        return self.client.execute(operation: "SearchQuantumTasks", path: "/quantum-tasks", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func searchQuantumTasks(_ input: SearchQuantumTasksRequest) -> EventLoopFuture<SearchQuantumTasksResponse> {
+        return client.execute(operation: "SearchQuantumTasks", path: "/quantum-tasks", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Braket {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

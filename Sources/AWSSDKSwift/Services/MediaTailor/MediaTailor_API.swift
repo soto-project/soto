@@ -27,6 +27,7 @@ public struct MediaTailor: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,45 +54,58 @@ public struct MediaTailor: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-04-23",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaTailorErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [MediaTailorErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Deletes the playback configuration for the specified name. 
-    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePlaybackConfigurationResponse> {
-        return self.client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) -> EventLoopFuture<DeletePlaybackConfigurationResponse> {
+        return client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the playback configuration for the specified name. 
-    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPlaybackConfigurationResponse> {
-        return self.client.execute(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) -> EventLoopFuture<GetPlaybackConfigurationResponse> {
+        return client.execute(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful. 
-    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPlaybackConfigurationsResponse> {
-        return self.client.execute(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) -> EventLoopFuture<ListPlaybackConfigurationsResponse> {
+        return client.execute(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of the tags assigned to the specified playback configuration resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds a new playback configuration to AWS Elemental MediaTailor. 
-    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutPlaybackConfigurationResponse> {
-        return self.client.execute(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) -> EventLoopFuture<PutPlaybackConfigurationResponse> {
+        return client.execute(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds tags to the specified playback configuration resource. You can specify one or more tags to add. 
-    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes tags from the specified playback configuration resource. You can specify one or more tags to remove. 
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension MediaTailor {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

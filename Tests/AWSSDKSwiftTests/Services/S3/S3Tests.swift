@@ -379,17 +379,17 @@ class S3Tests: XCTestCase {
 
         let name = TestEnvironment.generateResourceName()
         let runOnEventLoop = s3.client.eventLoopGroup.next()
+        let s3OnEventLoop = s3.delegating(to: runOnEventLoop)
         var byteBufferCollate = ByteBufferAllocator().buffer(capacity: dataSize)
 
-        let response = Self.createBucket(name: name, s3: s3)
-            .hop(to: runOnEventLoop)
+        let response = Self.createBucket(name: name, s3: s3OnEventLoop)
             .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, key: "tempfile")
-                return s3.putObject(putRequest, on: runOnEventLoop)
+                return s3OnEventLoop.putObject(putRequest)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
-                return s3.getObjectStreaming(getRequest, on: runOnEventLoop) { byteBuffer, eventLoop in
+                return s3OnEventLoop.getObjectStreaming(getRequest) { byteBuffer, eventLoop in
                     XCTAssertTrue(eventLoop === runOnEventLoop)
                     var byteBuffer = byteBuffer
                     byteBufferCollate.writeBuffer(&byteBuffer)
@@ -400,7 +400,7 @@ class S3Tests: XCTestCase {
                 XCTAssertEqual(data, byteBufferCollate.getData(at: 0, length: byteBufferCollate.readableBytes))
             }
             .flatAlways { _ in
-                return Self.deleteBucket(name: name, s3: s3)
+                return Self.deleteBucket(name: name, s3: s3OnEventLoop)
             }
         XCTAssertNoThrow(try response.wait())
     }

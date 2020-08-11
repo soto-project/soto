@@ -27,6 +27,7 @@ public struct MarketplaceCatalog: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,40 +54,53 @@ public struct MarketplaceCatalog: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-17",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceCatalogErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [MarketplaceCatalogErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.
-    public func cancelChangeSet(_ input: CancelChangeSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelChangeSetResponse> {
-        return self.client.execute(operation: "CancelChangeSet", path: "/CancelChangeSet", httpMethod: .PATCH, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func cancelChangeSet(_ input: CancelChangeSetRequest) -> EventLoopFuture<CancelChangeSetResponse> {
+        return client.execute(operation: "CancelChangeSet", path: "/CancelChangeSet", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides information about a given change set.
-    public func describeChangeSet(_ input: DescribeChangeSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeChangeSetResponse> {
-        return self.client.execute(operation: "DescribeChangeSet", path: "/DescribeChangeSet", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeChangeSet(_ input: DescribeChangeSetRequest) -> EventLoopFuture<DescribeChangeSetResponse> {
+        return client.execute(operation: "DescribeChangeSet", path: "/DescribeChangeSet", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the metadata and content of the entity.
-    public func describeEntity(_ input: DescribeEntityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEntityResponse> {
-        return self.client.execute(operation: "DescribeEntity", path: "/DescribeEntity", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEntity(_ input: DescribeEntityRequest) -> EventLoopFuture<DescribeEntityResponse> {
+        return client.execute(operation: "DescribeEntity", path: "/DescribeEntity", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
-    public func listChangeSets(_ input: ListChangeSetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChangeSetsResponse> {
-        return self.client.execute(operation: "ListChangeSets", path: "/ListChangeSets", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listChangeSets(_ input: ListChangeSetsRequest) -> EventLoopFuture<ListChangeSetsResponse> {
+        return client.execute(operation: "ListChangeSets", path: "/ListChangeSets", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides the list of entities of a given type.
-    public func listEntities(_ input: ListEntitiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEntitiesResponse> {
-        return self.client.execute(operation: "ListEntities", path: "/ListEntities", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listEntities(_ input: ListEntitiesRequest) -> EventLoopFuture<ListEntitiesResponse> {
+        return client.execute(operation: "ListEntities", path: "/ListEntities", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation allows you to request changes for your entities. Within a single ChangeSet, you cannot start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the ChangeSet has completed (either succeeded, cancelled, or failed). If you try to start a ChangeSet containing a change against an entity that is already locked, you will receive a ResourceInUseException. For example, you cannot start the ChangeSet described in the example below because it contains two changes to execute the same change type (AddRevisions) against the same entity (entity-id@1).
-    public func startChangeSet(_ input: StartChangeSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartChangeSetResponse> {
-        return self.client.execute(operation: "StartChangeSet", path: "/StartChangeSet", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func startChangeSet(_ input: StartChangeSetRequest) -> EventLoopFuture<StartChangeSetResponse> {
+        return client.execute(operation: "StartChangeSet", path: "/StartChangeSet", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension MarketplaceCatalog {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

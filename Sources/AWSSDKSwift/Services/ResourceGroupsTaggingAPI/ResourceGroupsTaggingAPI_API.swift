@@ -27,6 +27,7 @@ public struct ResourceGroupsTaggingAPI: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,50 +54,63 @@ public struct ResourceGroupsTaggingAPI: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-26",
             endpoint: endpoint,
-            possibleErrorTypes: [ResourceGroupsTaggingAPIErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [ResourceGroupsTaggingAPIErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Describes the status of the StartReportCreation operation.  You can call this operation only from the organization's master account and from the us-east-1 Region.
-    public func describeReportCreation(_ input: DescribeReportCreationInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReportCreationOutput> {
-        return self.client.execute(operation: "DescribeReportCreation", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeReportCreation(_ input: DescribeReportCreationInput) -> EventLoopFuture<DescribeReportCreationOutput> {
+        return client.execute(operation: "DescribeReportCreation", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see Tag Policies in the AWS Organizations User Guide.  You can call this operation only from the organization's master account and from the us-east-1 Region.
-    public func getComplianceSummary(_ input: GetComplianceSummaryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetComplianceSummaryOutput> {
-        return self.client.execute(operation: "GetComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getComplianceSummary(_ input: GetComplianceSummaryInput) -> EventLoopFuture<GetComplianceSummaryOutput> {
+        return client.execute(operation: "GetComplianceSummary", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns all the tagged or previously tagged resources that are located in the specified Region for the AWS account. Depending on what information you want returned, you can also specify the following:    Filters that specify what tags and resource types you want returned. The response includes all tags that are associated with the requested resources.   Information about compliance with the account's effective tag policy. For more information on tag policies, see Tag Policies in the AWS Organizations User Guide.     You can check the PaginationToken response parameter to determine if a query is complete. Queries occasionally return fewer results on a page than allowed. The PaginationToken response parameter value is null only when there are no more results to display.  
-    public func getResources(_ input: GetResourcesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourcesOutput> {
-        return self.client.execute(operation: "GetResources", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getResources(_ input: GetResourcesInput) -> EventLoopFuture<GetResourcesOutput> {
+        return client.execute(operation: "GetResources", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns all tag keys in the specified Region for the AWS account.
-    public func getTagKeys(_ input: GetTagKeysInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTagKeysOutput> {
-        return self.client.execute(operation: "GetTagKeys", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getTagKeys(_ input: GetTagKeysInput) -> EventLoopFuture<GetTagKeysOutput> {
+        return client.execute(operation: "GetTagKeys", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns all tag values for the specified key in the specified Region for the AWS account.
-    public func getTagValues(_ input: GetTagValuesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTagValuesOutput> {
-        return self.client.execute(operation: "GetTagValues", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getTagValues(_ input: GetTagValuesInput) -> EventLoopFuture<GetTagValuesOutput> {
+        return client.execute(operation: "GetTagValues", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Generates a report that lists all tagged resources in accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily.  The generated report is saved to the following location:  s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv  You can call this operation only from the organization's master account and from the us-east-1 Region.
-    public func startReportCreation(_ input: StartReportCreationInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartReportCreationOutput> {
-        return self.client.execute(operation: "StartReportCreation", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func startReportCreation(_ input: StartReportCreationInput) -> EventLoopFuture<StartReportCreationOutput> {
+        return client.execute(operation: "StartReportCreation", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Applies one or more tags to the specified resources. Note the following:   Not all resources can have tags. For a list of services that support tagging, see this list.   Each resource can have up to 50 tags. For other limits, see Tag Naming and Usage Conventions in the AWS General Reference.    You can only tag resources that are located in the specified Region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see this list.    Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data. 
-    public func tagResources(_ input: TagResourcesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourcesOutput> {
-        return self.client.execute(operation: "TagResources", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResources(_ input: TagResourcesInput) -> EventLoopFuture<TagResourcesOutput> {
+        return client.execute(operation: "TagResources", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following:   To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see this list.   You can only tag resources that are located in the specified Region for the AWS account.  
-    public func untagResources(_ input: UntagResourcesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourcesOutput> {
-        return self.client.execute(operation: "UntagResources", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResources(_ input: UntagResourcesInput) -> EventLoopFuture<UntagResourcesOutput> {
+        return client.execute(operation: "UntagResources", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension ResourceGroupsTaggingAPI {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

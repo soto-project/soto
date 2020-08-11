@@ -27,6 +27,7 @@ public struct EBS: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,47 +53,60 @@ public struct EBS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-11-02",
             endpoint: endpoint,
-            possibleErrorTypes: [EBSErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [EBSErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed.
-    public func completeSnapshot(_ input: CompleteSnapshotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CompleteSnapshotResponse> {
-        return self.client.execute(operation: "CompleteSnapshot", path: "/snapshots/completion/{snapshotId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func completeSnapshot(_ input: CompleteSnapshotRequest) -> EventLoopFuture<CompleteSnapshotResponse> {
+        return client.execute(operation: "CompleteSnapshot", path: "/snapshots/completion/{snapshotId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
-    public func getSnapshotBlock(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return self.client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getSnapshotBlock(_ input: GetSnapshotBlockRequest) -> EventLoopFuture<GetSnapshotBlockResponse> {
+        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
-    public func listChangedBlocks(_ input: ListChangedBlocksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChangedBlocksResponse> {
-        return self.client.execute(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listChangedBlocks(_ input: ListChangedBlocksRequest) -> EventLoopFuture<ListChangedBlocksResponse> {
+        return client.execute(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
-    public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSnapshotBlocksResponse> {
-        return self.client.execute(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest) -> EventLoopFuture<ListSnapshotBlocksResponse> {
+        return client.execute(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Writes a block of data to a block in the snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-byte sectors.
-    public func putSnapshotBlock(_ input: PutSnapshotBlockRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutSnapshotBlockResponse> {
-        return self.client.execute(operation: "PutSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putSnapshotBlock(_ input: PutSnapshotBlockRequest) -> EventLoopFuture<PutSnapshotBlockResponse> {
+        return client.execute(operation: "PutSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes.  After creating the snapshot, use  PutSnapshotBlock to write blocks of data to the snapshot.
-    public func startSnapshot(_ input: StartSnapshotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSnapshotResponse> {
-        return self.client.execute(operation: "StartSnapshot", path: "/snapshots", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func startSnapshot(_ input: StartSnapshotRequest) -> EventLoopFuture<StartSnapshotResponse> {
+        return client.execute(operation: "StartSnapshot", path: "/snapshots", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     // MARK: Streaming API Calls
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
-    public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
-        return self.client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger, stream: stream)
+    public func getSnapshotBlockStreaming(_ input: GetSnapshotBlockRequest, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetSnapshotBlockResponse> {
+        return client.execute(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: .GET, input: input, config: self.config, context: self.context, stream: stream)
+    }
+}
+
+extension EBS {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

@@ -27,6 +27,7 @@ public struct AugmentedAIRuntime: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,35 +54,48 @@ public struct AugmentedAIRuntime: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-11-07",
             endpoint: endpoint,
-            possibleErrorTypes: [AugmentedAIRuntimeErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [AugmentedAIRuntimeErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Deletes the specified human loop for a flow definition.
-    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteHumanLoopResponse> {
-        return self.client.execute(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest) -> EventLoopFuture<DeleteHumanLoopResponse> {
+        return client.execute(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the specified human loop.
-    public func describeHumanLoop(_ input: DescribeHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHumanLoopResponse> {
-        return self.client.execute(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeHumanLoop(_ input: DescribeHumanLoopRequest) -> EventLoopFuture<DescribeHumanLoopResponse> {
+        return client.execute(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
-    public func listHumanLoops(_ input: ListHumanLoopsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHumanLoopsResponse> {
-        return self.client.execute(operation: "ListHumanLoops", path: "/human-loops", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listHumanLoops(_ input: ListHumanLoopsRequest) -> EventLoopFuture<ListHumanLoopsResponse> {
+        return client.execute(operation: "ListHumanLoops", path: "/human-loops", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts a human loop, provided that at least one activation condition is met.
-    public func startHumanLoop(_ input: StartHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartHumanLoopResponse> {
-        return self.client.execute(operation: "StartHumanLoop", path: "/human-loops", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func startHumanLoop(_ input: StartHumanLoopRequest) -> EventLoopFuture<StartHumanLoopResponse> {
+        return client.execute(operation: "StartHumanLoop", path: "/human-loops", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops the specified human loop.
-    public func stopHumanLoop(_ input: StopHumanLoopRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopHumanLoopResponse> {
-        return self.client.execute(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func stopHumanLoop(_ input: StopHumanLoopRequest) -> EventLoopFuture<StopHumanLoopResponse> {
+        return client.execute(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension AugmentedAIRuntime {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

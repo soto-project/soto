@@ -27,6 +27,7 @@ public struct ElasticInference: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -54,40 +55,53 @@ public struct ElasticInference: AWSService {
             apiVersion: "2017-07-25",
             endpoint: endpoint,
             serviceEndpoints: ["ap-northeast-1": "api.elastic-inference.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.elastic-inference.ap-northeast-2.amazonaws.com", "eu-west-1": "api.elastic-inference.eu-west-1.amazonaws.com", "us-east-1": "api.elastic-inference.us-east-1.amazonaws.com", "us-east-2": "api.elastic-inference.us-east-2.amazonaws.com", "us-west-2": "api.elastic-inference.us-west-2.amazonaws.com"],
-            possibleErrorTypes: [ElasticInferenceErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [ElasticInferenceErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///   Describes the locations in which a given accelerator type or set of types is present in a given region. 
-    public func describeAcceleratorOfferings(_ input: DescribeAcceleratorOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorOfferingsResponse> {
-        return self.client.execute(operation: "DescribeAcceleratorOfferings", path: "/describe-accelerator-offerings", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAcceleratorOfferings(_ input: DescribeAcceleratorOfferingsRequest) -> EventLoopFuture<DescribeAcceleratorOfferingsResponse> {
+        return client.execute(operation: "DescribeAcceleratorOfferings", path: "/describe-accelerator-offerings", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. 
-    public func describeAcceleratorTypes(_ input: DescribeAcceleratorTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorTypesResponse> {
-        return self.client.execute(operation: "DescribeAcceleratorTypes", path: "/describe-accelerator-types", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAcceleratorTypes(_ input: DescribeAcceleratorTypesRequest) -> EventLoopFuture<DescribeAcceleratorTypesResponse> {
+        return client.execute(operation: "DescribeAcceleratorTypes", path: "/describe-accelerator-types", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Describes information over a provided set of accelerators belonging to an account. 
-    public func describeAccelerators(_ input: DescribeAcceleratorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorsResponse> {
-        return self.client.execute(operation: "DescribeAccelerators", path: "/describe-accelerators", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAccelerators(_ input: DescribeAcceleratorsRequest) -> EventLoopFuture<DescribeAcceleratorsResponse> {
+        return client.execute(operation: "DescribeAccelerators", path: "/describe-accelerators", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns all tags of an Elastic Inference Accelerator. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResult> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Adds the specified tags to an Elastic Inference Accelerator. 
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResult> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Removes the specified tags from an Elastic Inference Accelerator. 
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResult> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension ElasticInference {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

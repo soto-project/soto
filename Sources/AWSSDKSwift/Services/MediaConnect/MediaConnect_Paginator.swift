@@ -23,21 +23,29 @@ extension MediaConnect {
     ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     public func listEntitlementsPaginator(
         _ input: ListEntitlementsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitlementsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEntitlements, tokenKey: \ListEntitlementsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEntitlements,
+            tokenKey: \ListEntitlementsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
     public func listFlowsPaginator(
         _ input: ListFlowsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFlowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFlows, tokenKey: \ListFlowsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFlows,
+            tokenKey: \ListFlowsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

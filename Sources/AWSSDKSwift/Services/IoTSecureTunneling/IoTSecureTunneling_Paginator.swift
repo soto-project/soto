@@ -23,11 +23,15 @@ extension IoTSecureTunneling {
     ///  List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
     public func listTunnelsPaginator(
         _ input: ListTunnelsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTunnelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTunnels, tokenKey: \ListTunnelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTunnels,
+            tokenKey: \ListTunnelsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

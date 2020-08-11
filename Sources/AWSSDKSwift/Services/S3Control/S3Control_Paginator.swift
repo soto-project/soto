@@ -23,21 +23,29 @@ extension S3Control {
     ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.
     public func listAccessPointsPaginator(
         _ input: ListAccessPointsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccessPointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccessPoints, tokenKey: \ListAccessPointsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccessPoints,
+            tokenKey: \ListAccessPointsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists current Amazon S3 Batch Operations jobs and jobs that have ended within the last 30 days for the AWS account making the request. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus   
     public func listJobsPaginator(
         _ input: ListJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobs,
+            tokenKey: \ListJobsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

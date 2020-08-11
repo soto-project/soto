@@ -27,6 +27,7 @@ public struct QuickSight: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,505 +53,518 @@ public struct QuickSight: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-04-01",
             endpoint: endpoint,
-            possibleErrorTypes: [QuickSightErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [QuickSightErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Cancels an ongoing ingestion of data into SPICE.
-    public func cancelIngestion(_ input: CancelIngestionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelIngestionResponse> {
-        return self.client.execute(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func cancelIngestion(_ input: CancelIngestionRequest) -> EventLoopFuture<CancelIngestionResponse> {
+        return client.execute(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates Amazon QuickSight customizations the current AWS Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize QuickSight by removing QuickSight sample assets and videos for all new users, see Customizing QuickSight in the Amazon QuickSight User Guide. You can create customizations for your AWS account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an AWS account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme won't be visible to your users even if you use this API operation to make it the default theme. 
-    public func createAccountCustomization(_ input: CreateAccountCustomizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAccountCustomizationResponse> {
-        return self.client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createAccountCustomization(_ input: CreateAccountCustomizationRequest) -> EventLoopFuture<CreateAccountCustomizationResponse> {
+        return client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an analysis in Amazon QuickSight.
-    public func createAnalysis(_ input: CreateAnalysisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAnalysisResponse> {
-        return self.client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createAnalysis(_ input: CreateAnalysisRequest) -> EventLoopFuture<CreateAnalysisResponse> {
+        return client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a dashboard from a template. To first create a template, see the  CreateTemplate  API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports, created from analyses. You can share QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different AWS account.
-    public func createDashboard(_ input: CreateDashboardRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDashboardResponse> {
-        return self.client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createDashboard(_ input: CreateDashboardRequest) -> EventLoopFuture<CreateDashboardResponse> {
+        return client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a dataset.
-    public func createDataSet(_ input: CreateDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDataSetResponse> {
-        return self.client.execute(operation: "CreateDataSet", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createDataSet(_ input: CreateDataSetRequest) -> EventLoopFuture<CreateDataSetResponse> {
+        return client.execute(operation: "CreateDataSet", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a data source.
-    public func createDataSource(_ input: CreateDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDataSourceResponse> {
-        return self.client.execute(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createDataSource(_ input: CreateDataSourceRequest) -> EventLoopFuture<CreateDataSourceResponse> {
+        return client.execute(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an Amazon QuickSight group. The permissions resource is arn:aws:quicksight:us-east-1:&lt;relevant-aws-account-id&gt;:group/default/&lt;group-name&gt; . The response is a group object.
-    public func createGroup(_ input: CreateGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGroupResponse> {
-        return self.client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createGroup(_ input: CreateGroupRequest) -> EventLoopFuture<CreateGroupResponse> {
+        return client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds an Amazon QuickSight user to an Amazon QuickSight group. 
-    public func createGroupMembership(_ input: CreateGroupMembershipRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGroupMembershipResponse> {
-        return self.client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createGroupMembership(_ input: CreateGroupMembershipRequest) -> EventLoopFuture<CreateGroupMembershipResponse> {
+        return client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy will be assigned to specified groups or users of Amazon QuickSight. The users and groups need to be in the same namespace. 
-    public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest) -> EventLoopFuture<CreateIAMPolicyAssignmentResponse> {
+        return client.execute(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates and starts a new SPICE ingestion on a dataset Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using tags? in the AWS Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
-    public func createIngestion(_ input: CreateIngestionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIngestionResponse> {
-        return self.client.execute(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createIngestion(_ input: CreateIngestionRequest) -> EventLoopFuture<CreateIngestionResponse> {
+        return client.execute(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your AWS account is subscribed to QuickSight. The namespace must be unique within the AWS account. By default, there is a limit of 100 namespaces per AWS account. To increase your limit, create a ticket with AWS Support. 
-    public func createNamespace(_ input: CreateNamespaceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNamespaceResponse> {
-        return self.client.execute(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createNamespace(_ input: CreateNamespaceRequest) -> EventLoopFuture<CreateNamespaceResponse> {
+        return client.execute(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a template from an existing QuickSight analysis or template. You can use the resulting template to create a dashboard. A template is an entity in QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
-    public func createTemplate(_ input: CreateTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTemplateResponse> {
-        return self.client.execute(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createTemplate(_ input: CreateTemplateRequest) -> EventLoopFuture<CreateTemplateResponse> {
+        return client.execute(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a template alias for a template.
-    public func createTemplateAlias(_ input: CreateTemplateAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTemplateAliasResponse> {
-        return self.client.execute(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createTemplateAlias(_ input: CreateTemplateAliasRequest) -> EventLoopFuture<CreateTemplateAliasResponse> {
+        return client.execute(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see Using Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
-    public func createTheme(_ input: CreateThemeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThemeResponse> {
-        return self.client.execute(operation: "CreateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createTheme(_ input: CreateThemeRequest) -> EventLoopFuture<CreateThemeResponse> {
+        return client.execute(operation: "CreateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a theme alias for a theme.
-    public func createThemeAlias(_ input: CreateThemeAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThemeAliasResponse> {
-        return self.client.execute(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createThemeAlias(_ input: CreateThemeAliasRequest) -> EventLoopFuture<CreateThemeAliasResponse> {
+        return client.execute(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes all Amazon QuickSight customizations in this AWS Region for the specified AWS Account and QuickSight namespace.
-    public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAccountCustomizationResponse> {
-        return self.client.execute(operation: "DeleteAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest) -> EventLoopFuture<DeleteAccountCustomizationResponse> {
+        return client.execute(operation: "DeleteAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
-    public func deleteAnalysis(_ input: DeleteAnalysisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAnalysisResponse> {
-        return self.client.execute(operation: "DeleteAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteAnalysis(_ input: DeleteAnalysisRequest) -> EventLoopFuture<DeleteAnalysisResponse> {
+        return client.execute(operation: "DeleteAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a dashboard.
-    public func deleteDashboard(_ input: DeleteDashboardRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDashboardResponse> {
-        return self.client.execute(operation: "DeleteDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteDashboard(_ input: DeleteDashboardRequest) -> EventLoopFuture<DeleteDashboardResponse> {
+        return client.execute(operation: "DeleteDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a dataset.
-    public func deleteDataSet(_ input: DeleteDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDataSetResponse> {
-        return self.client.execute(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteDataSet(_ input: DeleteDataSetRequest) -> EventLoopFuture<DeleteDataSetResponse> {
+        return client.execute(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
-    public func deleteDataSource(_ input: DeleteDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDataSourceResponse> {
-        return self.client.execute(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteDataSource(_ input: DeleteDataSourceRequest) -> EventLoopFuture<DeleteDataSourceResponse> {
+        return client.execute(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a user group from Amazon QuickSight. 
-    public func deleteGroup(_ input: DeleteGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGroupResponse> {
-        return self.client.execute(operation: "DeleteGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteGroup(_ input: DeleteGroupRequest) -> EventLoopFuture<DeleteGroupResponse> {
+        return client.execute(operation: "DeleteGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a user from a group so that the user is no longer a member of the group.
-    public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGroupMembershipResponse> {
-        return self.client.execute(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest) -> EventLoopFuture<DeleteGroupMembershipResponse> {
+        return client.execute(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an existing IAM policy assignment.
-    public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest) -> EventLoopFuture<DeleteIAMPolicyAssignmentResponse> {
+        return client.execute(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset. 
-    public func deleteNamespace(_ input: DeleteNamespaceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteNamespaceResponse> {
-        return self.client.execute(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteNamespace(_ input: DeleteNamespaceRequest) -> EventLoopFuture<DeleteNamespaceResponse> {
+        return client.execute(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a template.
-    public func deleteTemplate(_ input: DeleteTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTemplateResponse> {
-        return self.client.execute(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteTemplate(_ input: DeleteTemplateRequest) -> EventLoopFuture<DeleteTemplateResponse> {
+        return client.execute(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
-    public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTemplateAliasResponse> {
-        return self.client.execute(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest) -> EventLoopFuture<DeleteTemplateAliasResponse> {
+        return client.execute(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a theme.
-    public func deleteTheme(_ input: DeleteThemeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThemeResponse> {
-        return self.client.execute(operation: "DeleteTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteTheme(_ input: DeleteThemeRequest) -> EventLoopFuture<DeleteThemeResponse> {
+        return client.execute(operation: "DeleteTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
-    public func deleteThemeAlias(_ input: DeleteThemeAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThemeAliasResponse> {
-        return self.client.execute(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteThemeAlias(_ input: DeleteThemeAliasRequest) -> EventLoopFuture<DeleteThemeAliasResponse> {
+        return client.execute(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the Amazon QuickSight user that is associated with the identity of the AWS Identity and Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as a result of this call. 
-    public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserResponse> {
-        return self.client.execute(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<DeleteUserResponse> {
+        return client.execute(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a user identified by its principal ID. 
-    public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserByPrincipalIdResponse> {
-        return self.client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest) -> EventLoopFuture<DeleteUserByPrincipalIdResponse> {
+        return client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the customizations associated with the provided AWS account and Amazon QuickSight namespace in an AWS Region. The QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     AWS Account - The AWS account exists at the top of the hierarchy. It has the potential to use all of the AWS Regions and AWS Services. When you subscribe to QuickSight, you choose one AWS Region to use as your home region. That's where your free SPICE capacity is located. You can use QuickSight in any supported AWS Region.     AWS Region - In each AWS Region where you sign in to QuickSight at least once, QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to QuickSight in any AWS Region, unless they are constrained to a namespace.  To run the command in a different AWS Region, you change your region settings. If you're using the AWS CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default AWS Region. Use Enter to key the same settings for your keys. For more information, see Configuring the AWS CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same AWS account and AWS Region.    Applied customizations - Within an AWS Region, a set of QuickSight customizations can apply to an AWS account or to a namespace. Settings that you apply to a namespace override settings that you apply to an AWS Account. All settings are isolated to a single AWS Region. To apply them in other AWS Regions, run the CreateAccountCustomization command in each AWS Region where you want to apply the same customizations.   
-    public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAccountCustomizationResponse> {
-        return self.client.execute(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest) -> EventLoopFuture<DescribeAccountCustomizationResponse> {
+        return client.execute(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the settings that were used when your QuickSight subscription was first created in this AWS Account.
-    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAccountSettingsResponse> {
-        return self.client.execute(operation: "DescribeAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest) -> EventLoopFuture<DescribeAccountSettingsResponse> {
+        return client.execute(operation: "DescribeAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides a summary of the metadata for an analysis.
-    public func describeAnalysis(_ input: DescribeAnalysisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAnalysisResponse> {
-        return self.client.execute(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAnalysis(_ input: DescribeAnalysisRequest) -> EventLoopFuture<DescribeAnalysisResponse> {
+        return client.execute(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides the read and write permissions for an analysis.
-    public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAnalysisPermissionsResponse> {
-        return self.client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest) -> EventLoopFuture<DescribeAnalysisPermissionsResponse> {
+        return client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides a summary for a dashboard.
-    public func describeDashboard(_ input: DescribeDashboardRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDashboardResponse> {
-        return self.client.execute(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDashboard(_ input: DescribeDashboardRequest) -> EventLoopFuture<DescribeDashboardResponse> {
+        return client.execute(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes read and write permissions for a dashboard.
-    public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDashboardPermissionsResponse> {
-        return self.client.execute(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest) -> EventLoopFuture<DescribeDashboardPermissionsResponse> {
+        return client.execute(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a dataset. 
-    public func describeDataSet(_ input: DescribeDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDataSetResponse> {
-        return self.client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDataSet(_ input: DescribeDataSetRequest) -> EventLoopFuture<DescribeDataSetResponse> {
+        return client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
-    public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDataSetPermissionsResponse> {
-        return self.client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest) -> EventLoopFuture<DescribeDataSetPermissionsResponse> {
+        return client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a data source.
-    public func describeDataSource(_ input: DescribeDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDataSourceResponse> {
-        return self.client.execute(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDataSource(_ input: DescribeDataSourceRequest) -> EventLoopFuture<DescribeDataSourceResponse> {
+        return client.execute(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the resource permissions for a data source.
-    public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDataSourcePermissionsResponse> {
-        return self.client.execute(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest) -> EventLoopFuture<DescribeDataSourcePermissionsResponse> {
+        return client.execute(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN). 
-    public func describeGroup(_ input: DescribeGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeGroupResponse> {
-        return self.client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeGroup(_ input: DescribeGroupRequest) -> EventLoopFuture<DescribeGroupResponse> {
+        return client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes an existing IAM policy assignment, as specified by the assignment name.
-    public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest) -> EventLoopFuture<DescribeIAMPolicyAssignmentResponse> {
+        return client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a SPICE ingestion.
-    public func describeIngestion(_ input: DescribeIngestionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIngestionResponse> {
-        return self.client.execute(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeIngestion(_ input: DescribeIngestionRequest) -> EventLoopFuture<DescribeIngestionResponse> {
+        return client.execute(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the current namespace.
-    public func describeNamespace(_ input: DescribeNamespaceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeNamespaceResponse> {
-        return self.client.execute(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeNamespace(_ input: DescribeNamespaceRequest) -> EventLoopFuture<DescribeNamespaceResponse> {
+        return client.execute(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a template's metadata.
-    public func describeTemplate(_ input: DescribeTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTemplateResponse> {
-        return self.client.execute(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeTemplate(_ input: DescribeTemplateRequest) -> EventLoopFuture<DescribeTemplateResponse> {
+        return client.execute(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the template alias for a template.
-    public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTemplateAliasResponse> {
-        return self.client.execute(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest) -> EventLoopFuture<DescribeTemplateAliasResponse> {
+        return client.execute(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes read and write permissions on a template.
-    public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTemplatePermissionsResponse> {
-        return self.client.execute(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest) -> EventLoopFuture<DescribeTemplatePermissionsResponse> {
+        return client.execute(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a theme.
-    public func describeTheme(_ input: DescribeThemeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThemeResponse> {
-        return self.client.execute(operation: "DescribeTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeTheme(_ input: DescribeThemeRequest) -> EventLoopFuture<DescribeThemeResponse> {
+        return client.execute(operation: "DescribeTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the alias for a theme.
-    public func describeThemeAlias(_ input: DescribeThemeAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThemeAliasResponse> {
-        return self.client.execute(operation: "DescribeThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeThemeAlias(_ input: DescribeThemeAliasRequest) -> EventLoopFuture<DescribeThemeAliasResponse> {
+        return client.execute(operation: "DescribeThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the read and write permissions for a theme.
-    public func describeThemePermissions(_ input: DescribeThemePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThemePermissionsResponse> {
-        return self.client.execute(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeThemePermissions(_ input: DescribeThemePermissionsRequest) -> EventLoopFuture<DescribeThemePermissionsResponse> {
+        return client.execute(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a user, given the user name. 
-    public func describeUser(_ input: DescribeUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserResponse> {
-        return self.client.execute(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeUser(_ input: DescribeUserRequest) -> EventLoopFuture<DescribeUserResponse> {
+        return client.execute(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Generates a session URL and authorization code that you can use to embed an Amazon QuickSight read-only dashboard in your web server code. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the combination of URL and authorization code:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   The resulting user session is valid for 10 hours.   For more information, see Embedding Amazon QuickSight in the Amazon QuickSight User Guide .
-    public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDashboardEmbedUrlResponse> {
-        return self.client.execute(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest) -> EventLoopFuture<GetDashboardEmbedUrlResponse> {
+        return client.execute(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Generates a session URL and authorization code that you can use to embed the Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser  API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Amazon QuickSight Console     Customizing Access to the Amazon QuickSight Console   
-    public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSessionEmbedUrlResponse> {
-        return self.client.execute(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest) -> EventLoopFuture<GetSessionEmbedUrlResponse> {
+        return client.execute(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists Amazon QuickSight analyses that exist in the specified AWS account.
-    public func listAnalyses(_ input: ListAnalysesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAnalysesResponse> {
-        return self.client.execute(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listAnalyses(_ input: ListAnalysesRequest) -> EventLoopFuture<ListAnalysesResponse> {
+        return client.execute(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
-    public func listDashboardVersions(_ input: ListDashboardVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDashboardVersionsResponse> {
-        return self.client.execute(operation: "ListDashboardVersions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDashboardVersions(_ input: ListDashboardVersionsRequest) -> EventLoopFuture<ListDashboardVersionsResponse> {
+        return client.execute(operation: "ListDashboardVersions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists dashboards in an AWS account.
-    public func listDashboards(_ input: ListDashboardsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDashboardsResponse> {
-        return self.client.execute(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDashboards(_ input: ListDashboardsRequest) -> EventLoopFuture<ListDashboardsResponse> {
+        return client.execute(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
-    public func listDataSets(_ input: ListDataSetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataSetsResponse> {
-        return self.client.execute(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDataSets(_ input: ListDataSetsRequest) -> EventLoopFuture<ListDataSetsResponse> {
+        return client.execute(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists data sources in current AWS Region that belong to this AWS account.
-    public func listDataSources(_ input: ListDataSourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataSourcesResponse> {
-        return self.client.execute(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDataSources(_ input: ListDataSourcesRequest) -> EventLoopFuture<ListDataSourcesResponse> {
+        return client.execute(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists member users in a group.
-    public func listGroupMemberships(_ input: ListGroupMembershipsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupMembershipsResponse> {
-        return self.client.execute(operation: "ListGroupMemberships", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listGroupMemberships(_ input: ListGroupMembershipsRequest) -> EventLoopFuture<ListGroupMembershipsResponse> {
+        return client.execute(operation: "ListGroupMemberships", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all user groups in Amazon QuickSight. 
-    public func listGroups(_ input: ListGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupsResponse> {
-        return self.client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listGroups(_ input: ListGroupsRequest) -> EventLoopFuture<ListGroupsResponse> {
+        return client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists IAM policy assignments in the current Amazon QuickSight account.
-    public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListIAMPolicyAssignmentsResponse> {
-        return self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest) -> EventLoopFuture<ListIAMPolicyAssignmentsResponse> {
+        return client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the IAM policy assignments, including the Amazon Resource Names (ARNs) for the IAM policies assigned to the specified user and group or groups that the user belongs to.
-    public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListIAMPolicyAssignmentsForUserResponse> {
-        return self.client.execute(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest) -> EventLoopFuture<ListIAMPolicyAssignmentsForUserResponse> {
+        return client.execute(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the history of SPICE ingestions for a dataset.
-    public func listIngestions(_ input: ListIngestionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListIngestionsResponse> {
-        return self.client.execute(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listIngestions(_ input: ListIngestionsRequest) -> EventLoopFuture<ListIngestionsResponse> {
+        return client.execute(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the namespaces for the specified AWS account.
-    public func listNamespaces(_ input: ListNamespacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNamespacesResponse> {
-        return self.client.execute(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listNamespaces(_ input: ListNamespacesRequest) -> EventLoopFuture<ListNamespacesResponse> {
+        return client.execute(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the tags assigned to a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the aliases of a template.
-    public func listTemplateAliases(_ input: ListTemplateAliasesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTemplateAliasesResponse> {
-        return self.client.execute(operation: "ListTemplateAliases", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTemplateAliases(_ input: ListTemplateAliasesRequest) -> EventLoopFuture<ListTemplateAliasesResponse> {
+        return client.execute(operation: "ListTemplateAliases", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the versions of the templates in the current Amazon QuickSight account.
-    public func listTemplateVersions(_ input: ListTemplateVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTemplateVersionsResponse> {
-        return self.client.execute(operation: "ListTemplateVersions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTemplateVersions(_ input: ListTemplateVersionsRequest) -> EventLoopFuture<ListTemplateVersionsResponse> {
+        return client.execute(operation: "ListTemplateVersions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the templates in the current Amazon QuickSight account.
-    public func listTemplates(_ input: ListTemplatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTemplatesResponse> {
-        return self.client.execute(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTemplates(_ input: ListTemplatesRequest) -> EventLoopFuture<ListTemplatesResponse> {
+        return client.execute(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the aliases of a theme.
-    public func listThemeAliases(_ input: ListThemeAliasesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThemeAliasesResponse> {
-        return self.client.execute(operation: "ListThemeAliases", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listThemeAliases(_ input: ListThemeAliasesRequest) -> EventLoopFuture<ListThemeAliasesResponse> {
+        return client.execute(operation: "ListThemeAliases", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the versions of the themes in the current AWS account.
-    public func listThemeVersions(_ input: ListThemeVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThemeVersionsResponse> {
-        return self.client.execute(operation: "ListThemeVersions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listThemeVersions(_ input: ListThemeVersionsRequest) -> EventLoopFuture<ListThemeVersionsResponse> {
+        return client.execute(operation: "ListThemeVersions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the themes in the current AWS account.
-    public func listThemes(_ input: ListThemesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThemesResponse> {
-        return self.client.execute(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listThemes(_ input: ListThemesRequest) -> EventLoopFuture<ListThemesResponse> {
+        return client.execute(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
-    public func listUserGroups(_ input: ListUserGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserGroupsResponse> {
-        return self.client.execute(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUserGroups(_ input: ListUserGroupsRequest) -> EventLoopFuture<ListUserGroupsResponse> {
+        return client.execute(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all of the Amazon QuickSight users belonging to this account. 
-    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUsersResponse> {
-        return self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
+        return client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an Amazon QuickSight user, whose identity is associated with the AWS Identity and Access Management (IAM) identity or role specified in the request. 
-    public func registerUser(_ input: RegisterUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterUserResponse> {
-        return self.client.execute(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func registerUser(_ input: RegisterUserRequest) -> EventLoopFuture<RegisterUserResponse> {
+        return client.execute(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Restores an analysis.
-    public func restoreAnalysis(_ input: RestoreAnalysisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestoreAnalysisResponse> {
-        return self.client.execute(operation: "RestoreAnalysis", path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func restoreAnalysis(_ input: RestoreAnalysisRequest) -> EventLoopFuture<RestoreAnalysisResponse> {
+        return client.execute(operation: "RestoreAnalysis", path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Searches for analyses that belong to the user specified in the filter.
-    public func searchAnalyses(_ input: SearchAnalysesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchAnalysesResponse> {
-        return self.client.execute(operation: "SearchAnalyses", path: "/accounts/{AwsAccountId}/search/analyses", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func searchAnalyses(_ input: SearchAnalysesRequest) -> EventLoopFuture<SearchAnalysesResponse> {
+        return client.execute(operation: "SearchAnalyses", path: "/accounts/{AwsAccountId}/search/analyses", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Searches for dashboards that belong to a user. 
-    public func searchDashboards(_ input: SearchDashboardsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchDashboardsResponse> {
-        return self.client.execute(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func searchDashboards(_ input: SearchDashboardsRequest) -> EventLoopFuture<SearchDashboardsResponse> {
+        return client.execute(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Assigns one or more tags (key-value pairs) to the specified QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. QuickSight supports tagging on data set, data source, dashboard, and template.  Tagging for QuickSight works in a similar way to tagging for other AWS services, except for the following:   You can't use tags to track AWS costs for QuickSight. This restriction is because QuickSight costs are based on users and SPICE capacity, which aren't taggable resources.   QuickSight doesn't currently support the Tag Editor for AWS Resource Groups.  
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a tag or tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates Amazon QuickSight customizations the current AWS Region. Currently, the only customization you can use is a theme. You can use customizations for your AWS account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an AWS account. To find out which customizations apply, use the DescribeAccountCustomization API operation. 
-    public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAccountCustomizationResponse> {
-        return self.client.execute(operation: "UpdateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest) -> EventLoopFuture<UpdateAccountCustomizationResponse> {
+        return client.execute(operation: "UpdateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the Amazon QuickSight settings in your AWS Account.
-    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAccountSettingsResponse> {
-        return self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest) -> EventLoopFuture<UpdateAccountSettingsResponse> {
+        return client.execute(operation: "UpdateAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an analysis in Amazon QuickSight
-    public func updateAnalysis(_ input: UpdateAnalysisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAnalysisResponse> {
-        return self.client.execute(operation: "UpdateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAnalysis(_ input: UpdateAnalysisRequest) -> EventLoopFuture<UpdateAnalysisResponse> {
+        return client.execute(operation: "UpdateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the read and write permissions for an analysis.
-    public func updateAnalysisPermissions(_ input: UpdateAnalysisPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAnalysisPermissionsResponse> {
-        return self.client.execute(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAnalysisPermissions(_ input: UpdateAnalysisPermissionsRequest) -> EventLoopFuture<UpdateAnalysisPermissionsResponse> {
+        return client.execute(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a dashboard in an AWS account.
-    public func updateDashboard(_ input: UpdateDashboardRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDashboardResponse> {
-        return self.client.execute(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDashboard(_ input: UpdateDashboardRequest) -> EventLoopFuture<UpdateDashboardResponse> {
+        return client.execute(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates read and write permissions on a dashboard.
-    public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDashboardPermissionsResponse> {
-        return self.client.execute(operation: "UpdateDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest) -> EventLoopFuture<UpdateDashboardPermissionsResponse> {
+        return client.execute(operation: "UpdateDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the published version of a dashboard.
-    public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDashboardPublishedVersionResponse> {
-        return self.client.execute(operation: "UpdateDashboardPublishedVersion", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest) -> EventLoopFuture<UpdateDashboardPublishedVersionResponse> {
+        return client.execute(operation: "UpdateDashboardPublishedVersion", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a dataset.
-    public func updateDataSet(_ input: UpdateDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDataSetResponse> {
-        return self.client.execute(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDataSet(_ input: UpdateDataSetRequest) -> EventLoopFuture<UpdateDataSetResponse> {
+        return client.execute(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
-    public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDataSetPermissionsResponse> {
-        return self.client.execute(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest) -> EventLoopFuture<UpdateDataSetPermissionsResponse> {
+        return client.execute(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a data source.
-    public func updateDataSource(_ input: UpdateDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDataSourceResponse> {
-        return self.client.execute(operation: "UpdateDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDataSource(_ input: UpdateDataSourceRequest) -> EventLoopFuture<UpdateDataSourceResponse> {
+        return client.execute(operation: "UpdateDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the permissions to a data source.
-    public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDataSourcePermissionsResponse> {
-        return self.client.execute(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest) -> EventLoopFuture<UpdateDataSourcePermissionsResponse> {
+        return client.execute(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Changes a group description. 
-    public func updateGroup(_ input: UpdateGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGroupResponse> {
-        return self.client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateGroup(_ input: UpdateGroupRequest) -> EventLoopFuture<UpdateGroupResponse> {
+        return client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request.
-    public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest) -> EventLoopFuture<UpdateIAMPolicyAssignmentResponse> {
+        return client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a template from an existing Amazon QuickSight analysis or another template.
-    public func updateTemplate(_ input: UpdateTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTemplateResponse> {
-        return self.client.execute(operation: "UpdateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateTemplate(_ input: UpdateTemplateRequest) -> EventLoopFuture<UpdateTemplateResponse> {
+        return client.execute(operation: "UpdateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the template alias of a template.
-    public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTemplateAliasResponse> {
-        return self.client.execute(operation: "UpdateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest) -> EventLoopFuture<UpdateTemplateAliasResponse> {
+        return client.execute(operation: "UpdateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the resource permissions for a template.
-    public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTemplatePermissionsResponse> {
-        return self.client.execute(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest) -> EventLoopFuture<UpdateTemplatePermissionsResponse> {
+        return client.execute(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a theme.
-    public func updateTheme(_ input: UpdateThemeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThemeResponse> {
-        return self.client.execute(operation: "UpdateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateTheme(_ input: UpdateThemeRequest) -> EventLoopFuture<UpdateThemeResponse> {
+        return client.execute(operation: "UpdateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an alias of a theme.
-    public func updateThemeAlias(_ input: UpdateThemeAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThemeAliasResponse> {
-        return self.client.execute(operation: "UpdateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateThemeAlias(_ input: UpdateThemeAliasRequest) -> EventLoopFuture<UpdateThemeAliasResponse> {
+        return client.execute(operation: "UpdateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three levels of permissions, which are user, owner, or no permissions:    User    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"      Owner    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"     "quicksight:DeleteTheme"     "quicksight:UpdateTheme"     "quicksight:CreateThemeAlias"     "quicksight:DeleteThemeAlias"     "quicksight:UpdateThemeAlias"     "quicksight:UpdateThemePermissions"     "quicksight:DescribeThemePermissions"      To specify no permissions, omit the permissions list.  
-    public func updateThemePermissions(_ input: UpdateThemePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThemePermissionsResponse> {
-        return self.client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateThemePermissions(_ input: UpdateThemePermissionsRequest) -> EventLoopFuture<UpdateThemePermissionsResponse> {
+        return client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an Amazon QuickSight user.
-    public func updateUser(_ input: UpdateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserResponse> {
-        return self.client.execute(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUser(_ input: UpdateUserRequest) -> EventLoopFuture<UpdateUserResponse> {
+        return client.execute(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension QuickSight {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

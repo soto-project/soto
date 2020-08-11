@@ -27,6 +27,7 @@ public struct Health: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,75 +54,88 @@ public struct Health: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
-            possibleErrorTypes: [HealthErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [HealthErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Returns a list of accounts in the organization from AWS Organizations that are affected by the provided event. For more information about the different types of AWS Health events, see Event.  Before you can call this operation, you must first enable AWS Health to work with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's master account.  This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. 
-    public func describeAffectedAccountsForOrganization(_ input: DescribeAffectedAccountsForOrganizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAffectedAccountsForOrganizationResponse> {
-        return self.client.execute(operation: "DescribeAffectedAccountsForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAffectedAccountsForOrganization(_ input: DescribeAffectedAccountsForOrganizationRequest) -> EventLoopFuture<DescribeAffectedAccountsForOrganizationResponse> {
+        return client.execute(operation: "DescribeAffectedAccountsForOrganization", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the AWS service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. Results are sorted by the lastUpdatedTime of the entity, starting with the most recent.  This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. 
-    public func describeAffectedEntities(_ input: DescribeAffectedEntitiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAffectedEntitiesResponse> {
-        return self.client.execute(operation: "DescribeAffectedEntities", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAffectedEntities(_ input: DescribeAffectedEntitiesRequest) -> EventLoopFuture<DescribeAffectedEntitiesResponse> {
+        return client.execute(operation: "DescribeAffectedEntities", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in AWS Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the AWS service. At least one event Amazon Resource Name (ARN) and account ID are required. Results are sorted by the lastUpdatedTime of the entity, starting with the most recent. Before you can call this operation, you must first enable AWS Health to work with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's master account.   This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. 
-    public func describeAffectedEntitiesForOrganization(_ input: DescribeAffectedEntitiesForOrganizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAffectedEntitiesForOrganizationResponse> {
-        return self.client.execute(operation: "DescribeAffectedEntitiesForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAffectedEntitiesForOrganization(_ input: DescribeAffectedEntitiesForOrganizationRequest) -> EventLoopFuture<DescribeAffectedEntitiesForOrganizationResponse> {
+        return client.execute(operation: "DescribeAffectedEntitiesForOrganization", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the number of entities that are affected by each of the specified events. If no events are specified, the counts of all affected entities are returned.
-    public func describeEntityAggregates(_ input: DescribeEntityAggregatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEntityAggregatesResponse> {
-        return self.client.execute(operation: "DescribeEntityAggregates", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEntityAggregates(_ input: DescribeEntityAggregatesRequest) -> EventLoopFuture<DescribeEntityAggregatesResponse> {
+        return client.execute(operation: "DescribeEntityAggregates", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned.  This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. 
-    public func describeEventAggregates(_ input: DescribeEventAggregatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventAggregatesResponse> {
-        return self.client.execute(operation: "DescribeEventAggregates", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEventAggregates(_ input: DescribeEventAggregatesRequest) -> EventLoopFuture<DescribeEventAggregatesResponse> {
+        return client.execute(operation: "DescribeEventAggregates", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns detailed information about one or more specified events. Information includes standard event data (Region, service, and so on, as returned by DescribeEvents), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve those, use the DescribeAffectedEntities operation. If a specified event cannot be retrieved, an error message is returned for that event.
-    public func describeEventDetails(_ input: DescribeEventDetailsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventDetailsResponse> {
-        return self.client.execute(operation: "DescribeEventDetails", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEventDetails(_ input: DescribeEventDetailsRequest) -> EventLoopFuture<DescribeEventDetailsResponse> {
+        return client.execute(operation: "DescribeEventDetails", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns detailed information about one or more specified events for one or more accounts in your organization. Information includes standard event data (Region, service, and so on, as returned by DescribeEventsForOrganization), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included; to retrieve those, use the DescribeAffectedEntitiesForOrganization operation. Before you can call this operation, you must first enable AWS Health to work with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's master account. When you call the DescribeEventDetailsForOrganization operation, you specify the organizationEventDetailFilters object in the request. Depending on the AWS Health event type, note the following differences:   If the event is public, the awsAccountId parameter must be empty. If you specify an account ID for a public event, then an error message is returned. That's because the event might apply to all AWS accounts and isn't specific to an account in your organization.   If the event is specific to an account, then you must specify the awsAccountId parameter in the request. If you don't specify an account ID, an error message returns because the event is specific to an AWS account in your organization.    For more information, see Event.
-    public func describeEventDetailsForOrganization(_ input: DescribeEventDetailsForOrganizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventDetailsForOrganizationResponse> {
-        return self.client.execute(operation: "DescribeEventDetailsForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEventDetailsForOrganization(_ input: DescribeEventDetailsForOrganizationRequest) -> EventLoopFuture<DescribeEventDetailsForOrganizationResponse> {
+        return client.execute(operation: "DescribeEventDetailsForOrganization", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the event types that meet the specified filter criteria. If no filter criteria are specified, all event types are returned, in no particular order.  This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. 
-    public func describeEventTypes(_ input: DescribeEventTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventTypesResponse> {
-        return self.client.execute(operation: "DescribeEventTypes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEventTypes(_ input: DescribeEventTypesRequest) -> EventLoopFuture<DescribeEventTypesResponse> {
+        return client.execute(operation: "DescribeEventTypes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime, starting with the most recent event.    When you call the DescribeEvents operation and specify an entity for the entityValues parameter, AWS Health might return public events that aren't specific to that resource. For example, if you call DescribeEvents and specify an ID for an Amazon Elastic Compute Cloud (Amazon EC2) instance, AWS Health might return events that aren't specific to that resource or service. To get events that are specific to a service, use the services parameter in the filter object. For more information, see Event.   This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.   
-    public func describeEvents(_ input: DescribeEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventsResponse> {
-        return self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEvents(_ input: DescribeEventsRequest) -> EventLoopFuture<DescribeEventsResponse> {
+        return client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about events across your organization in AWS Organizations. You can use thefilters parameter to specify the events that you want to return. Events are returned in a summary form and don't include the affected accounts, detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the following operations:    DescribeAffectedAccountsForOrganization     DescribeEventDetailsForOrganization     DescribeAffectedEntitiesForOrganization    If you don't specify a filter, the DescribeEventsForOrganizations returns all events across your organization. Results are sorted by lastModifiedTime, starting with the most recent event.  For more information about the different types of AWS Health events, see Event. Before you can call this operation, you must first enable AWS Health to work with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's master AWS account.  This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. 
-    public func describeEventsForOrganization(_ input: DescribeEventsForOrganizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventsForOrganizationResponse> {
-        return self.client.execute(operation: "DescribeEventsForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEventsForOrganization(_ input: DescribeEventsForOrganizationRequest) -> EventLoopFuture<DescribeEventsForOrganizationResponse> {
+        return client.execute(operation: "DescribeEventsForOrganization", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation provides status information on enabling or disabling AWS Health to work with your organization. To call this operation, you must sign in as an IAM user, assume an IAM role, or sign in as the root user (not recommended) in the organization's master account.
-    public func describeHealthServiceStatusForOrganization(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHealthServiceStatusForOrganizationResponse> {
-        return self.client.execute(operation: "DescribeHealthServiceStatusForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, on: eventLoop, logger: logger)
+    public func describeHealthServiceStatusForOrganization() -> EventLoopFuture<DescribeHealthServiceStatusForOrganizationResponse> {
+        return client.execute(operation: "DescribeHealthServiceStatusForOrganization", path: "/", httpMethod: .POST, config: self.config, context: self.context)
     }
 
     ///  Disables AWS Health from working with AWS Organizations. To call this operation, you must sign in as an AWS Identity and Access Management (IAM) user, assume an IAM role, or sign in as the root user (not recommended) in the organization's master AWS account. For more information, see Aggregating AWS Health events in the AWS Health User Guide. This operation doesn't remove the service-linked role (SLR) from the AWS master account in your organization. You must use the IAM console, API, or AWS Command Line Interface (AWS CLI) to remove the SLR. For more information, see Deleting a Service-Linked Role in the IAM User Guide.  You can also disable the organizational feature by using the Organizations DisableAWSServiceAccess API operation. After you call this operation, AWS Health stops aggregating events for all other AWS accounts in your organization. If you call the AWS Health API operations for organizational view, AWS Health returns an error. AWS Health continues to aggregate health events for your AWS account. 
-    @discardableResult public func disableHealthServiceAccessForOrganization(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisableHealthServiceAccessForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, on: eventLoop, logger: logger)
+    @discardableResult public func disableHealthServiceAccessForOrganization() -> EventLoopFuture<Void> {
+        return client.execute(operation: "DisableHealthServiceAccessForOrganization", path: "/", httpMethod: .POST, config: self.config, context: self.context)
     }
 
     ///  Calling this operation enables AWS Health to work with AWS Organizations. This applies a service-linked role (SLR) to the master account in the organization. To call this operation, you must sign in as an IAM user, assume an IAM role, or sign in as the root user (not recommended) in the organization's master account. For more information, see Aggregating AWS Health events in the AWS Health User Guide.
-    @discardableResult public func enableHealthServiceAccessForOrganization(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "EnableHealthServiceAccessForOrganization", path: "/", httpMethod: .POST, serviceConfig: config, on: eventLoop, logger: logger)
+    @discardableResult public func enableHealthServiceAccessForOrganization() -> EventLoopFuture<Void> {
+        return client.execute(operation: "EnableHealthServiceAccessForOrganization", path: "/", httpMethod: .POST, config: self.config, context: self.context)
+    }
+}
+
+extension Health {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

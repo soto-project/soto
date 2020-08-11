@@ -23,121 +23,169 @@ extension QuickSight {
     ///  Lists Amazon QuickSight analyses that exist in the specified AWS account.
     public func listAnalysesPaginator(
         _ input: ListAnalysesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAnalyses, tokenKey: \ListAnalysesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAnalyses,
+            tokenKey: \ListAnalysesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
     public func listDashboardVersionsPaginator(
         _ input: ListDashboardVersionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboardVersions, tokenKey: \ListDashboardVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDashboardVersions,
+            tokenKey: \ListDashboardVersionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists dashboards in an AWS account.
     public func listDashboardsPaginator(
         _ input: ListDashboardsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDashboards,
+            tokenKey: \ListDashboardsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     public func listDataSetsPaginator(
         _ input: ListDataSetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSets,
+            tokenKey: \ListDataSetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists data sources in current AWS Region that belong to this AWS account.
     public func listDataSourcesPaginator(
         _ input: ListDataSourcesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSources,
+            tokenKey: \ListDataSourcesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the history of SPICE ingestions for a dataset.
     public func listIngestionsPaginator(
         _ input: ListIngestionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIngestionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIngestions, tokenKey: \ListIngestionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIngestions,
+            tokenKey: \ListIngestionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the namespaces for the specified AWS account.
     public func listNamespacesPaginator(
         _ input: ListNamespacesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNamespacesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNamespaces, tokenKey: \ListNamespacesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNamespaces,
+            tokenKey: \ListNamespacesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the aliases of a template.
     public func listTemplateAliasesPaginator(
         _ input: ListTemplateAliasesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplateAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplateAliases, tokenKey: \ListTemplateAliasesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTemplateAliases,
+            tokenKey: \ListTemplateAliasesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the versions of the templates in the current Amazon QuickSight account.
     public func listTemplateVersionsPaginator(
         _ input: ListTemplateVersionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplateVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplateVersions, tokenKey: \ListTemplateVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTemplateVersions,
+            tokenKey: \ListTemplateVersionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the templates in the current Amazon QuickSight account.
     public func listTemplatesPaginator(
         _ input: ListTemplatesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTemplates,
+            tokenKey: \ListTemplatesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Searches for analyses that belong to the user specified in the filter.
     public func searchAnalysesPaginator(
         _ input: SearchAnalysesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchAnalyses, tokenKey: \SearchAnalysesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchAnalyses,
+            tokenKey: \SearchAnalysesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Searches for dashboards that belong to a user. 
     public func searchDashboardsPaginator(
         _ input: SearchDashboardsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchDashboards, tokenKey: \SearchDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchDashboards,
+            tokenKey: \SearchDashboardsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

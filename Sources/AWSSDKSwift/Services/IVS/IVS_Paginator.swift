@@ -23,41 +23,57 @@ extension IVS {
     ///  Gets summary information about all channels in your account, in the AWS region where the API request is processed. This list can be filtered to match a specified string.
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets summary information about stream keys for the specified channel.
     public func listStreamKeysPaginator(
         _ input: ListStreamKeysRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreamKeys, tokenKey: \ListStreamKeysResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreamKeys,
+            tokenKey: \ListStreamKeysResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets summary information about live streams in your account, in the AWS region where the API request is processed.
     public func listStreamsPaginator(
         _ input: ListStreamsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreams,
+            tokenKey: \ListStreamsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about AWS tags for the specified ARN.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,6 +27,7 @@ public struct CodeStarNotifications: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,75 +53,88 @@ public struct CodeStarNotifications: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-10-15",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeStarNotificationsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CodeStarNotificationsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as SNS topics) where you want to receive them.
-    public func createNotificationRule(_ input: CreateNotificationRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNotificationRuleResult> {
-        return self.client.execute(operation: "CreateNotificationRule", path: "/createNotificationRule", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createNotificationRule(_ input: CreateNotificationRuleRequest) -> EventLoopFuture<CreateNotificationRuleResult> {
+        return client.execute(operation: "CreateNotificationRule", path: "/createNotificationRule", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a notification rule for a resource.
-    public func deleteNotificationRule(_ input: DeleteNotificationRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteNotificationRuleResult> {
-        return self.client.execute(operation: "DeleteNotificationRule", path: "/deleteNotificationRule", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteNotificationRule(_ input: DeleteNotificationRuleRequest) -> EventLoopFuture<DeleteNotificationRuleResult> {
+        return client.execute(operation: "DeleteNotificationRule", path: "/deleteNotificationRule", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a specified target for notifications.
-    public func deleteTarget(_ input: DeleteTargetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTargetResult> {
-        return self.client.execute(operation: "DeleteTarget", path: "/deleteTarget", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteTarget(_ input: DeleteTargetRequest) -> EventLoopFuture<DeleteTargetResult> {
+        return client.execute(operation: "DeleteTarget", path: "/deleteTarget", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a specified notification rule.
-    public func describeNotificationRule(_ input: DescribeNotificationRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeNotificationRuleResult> {
-        return self.client.execute(operation: "DescribeNotificationRule", path: "/describeNotificationRule", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeNotificationRule(_ input: DescribeNotificationRuleRequest) -> EventLoopFuture<DescribeNotificationRuleResult> {
+        return client.execute(operation: "DescribeNotificationRule", path: "/describeNotificationRule", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the event types available for configuring notifications.
-    public func listEventTypes(_ input: ListEventTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEventTypesResult> {
-        return self.client.execute(operation: "ListEventTypes", path: "/listEventTypes", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listEventTypes(_ input: ListEventTypesRequest) -> EventLoopFuture<ListEventTypesResult> {
+        return client.execute(operation: "ListEventTypes", path: "/listEventTypes", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of the notification rules for an AWS account.
-    public func listNotificationRules(_ input: ListNotificationRulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNotificationRulesResult> {
-        return self.client.execute(operation: "ListNotificationRules", path: "/listNotificationRules", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listNotificationRules(_ input: ListNotificationRulesRequest) -> EventLoopFuture<ListNotificationRulesResult> {
+        return client.execute(operation: "ListNotificationRules", path: "/listNotificationRules", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of the tags associated with a notification rule.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResult> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/listTagsForResource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
+        return client.execute(operation: "ListTagsForResource", path: "/listTagsForResource", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of the notification rule targets for an AWS account.
-    public func listTargets(_ input: ListTargetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTargetsResult> {
-        return self.client.execute(operation: "ListTargets", path: "/listTargets", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTargets(_ input: ListTargetsRequest) -> EventLoopFuture<ListTargetsResult> {
+        return client.execute(operation: "ListTargets", path: "/listTargets", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an association between a notification rule and an SNS topic so that the associated target can receive notifications when the events described in the rule are triggered.
-    public func subscribe(_ input: SubscribeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SubscribeResult> {
-        return self.client.execute(operation: "Subscribe", path: "/subscribe", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func subscribe(_ input: SubscribeRequest) -> EventLoopFuture<SubscribeResult> {
+        return client.execute(operation: "Subscribe", path: "/subscribe", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates a set of provided tags with a notification rule.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResult> {
-        return self.client.execute(operation: "TagResource", path: "/tagResource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
+        return client.execute(operation: "TagResource", path: "/tagResource", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes an association between a notification rule and an Amazon SNS topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
-    public func unsubscribe(_ input: UnsubscribeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UnsubscribeResult> {
-        return self.client.execute(operation: "Unsubscribe", path: "/unsubscribe", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func unsubscribe(_ input: UnsubscribeRequest) -> EventLoopFuture<UnsubscribeResult> {
+        return client.execute(operation: "Unsubscribe", path: "/unsubscribe", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the association between one or more provided tags and a notification rule.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResult> {
-        return self.client.execute(operation: "UntagResource", path: "/untagResource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
+        return client.execute(operation: "UntagResource", path: "/untagResource", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications.  To add or remove tags for a notification rule, you must use TagResource and UntagResource. 
-    public func updateNotificationRule(_ input: UpdateNotificationRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNotificationRuleResult> {
-        return self.client.execute(operation: "UpdateNotificationRule", path: "/updateNotificationRule", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateNotificationRule(_ input: UpdateNotificationRuleRequest) -> EventLoopFuture<UpdateNotificationRuleResult> {
+        return client.execute(operation: "UpdateNotificationRule", path: "/updateNotificationRule", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CodeStarNotifications {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

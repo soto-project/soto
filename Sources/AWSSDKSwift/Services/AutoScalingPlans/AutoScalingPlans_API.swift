@@ -27,6 +27,7 @@ public struct AutoScalingPlans: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,40 +54,53 @@ public struct AutoScalingPlans: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-06",
             endpoint: endpoint,
-            possibleErrorTypes: [AutoScalingPlansErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [AutoScalingPlansErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a scaling plan.
-    public func createScalingPlan(_ input: CreateScalingPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateScalingPlanResponse> {
-        return self.client.execute(operation: "CreateScalingPlan", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createScalingPlan(_ input: CreateScalingPlanRequest) -> EventLoopFuture<CreateScalingPlanResponse> {
+        return client.execute(operation: "CreateScalingPlan", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying ScalingInstruction for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately.
-    public func deleteScalingPlan(_ input: DeleteScalingPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteScalingPlanResponse> {
-        return self.client.execute(operation: "DeleteScalingPlan", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteScalingPlan(_ input: DeleteScalingPlanRequest) -> EventLoopFuture<DeleteScalingPlanResponse> {
+        return client.execute(operation: "DeleteScalingPlan", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the scalable resources in the specified scaling plan.
-    public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingPlanResourcesResponse> {
-        return self.client.execute(operation: "DescribeScalingPlanResources", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest) -> EventLoopFuture<DescribeScalingPlanResourcesResponse> {
+        return client.execute(operation: "DescribeScalingPlanResources", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes one or more of your scaling plans.
-    public func describeScalingPlans(_ input: DescribeScalingPlansRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingPlansResponse> {
-        return self.client.execute(operation: "DescribeScalingPlans", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeScalingPlans(_ input: DescribeScalingPlansRequest) -> EventLoopFuture<DescribeScalingPlansResponse> {
+        return client.execute(operation: "DescribeScalingPlans", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days. 
-    public func getScalingPlanResourceForecastData(_ input: GetScalingPlanResourceForecastDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetScalingPlanResourceForecastDataResponse> {
-        return self.client.execute(operation: "GetScalingPlanResourceForecastData", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getScalingPlanResourceForecastData(_ input: GetScalingPlanResourceForecastDataRequest) -> EventLoopFuture<GetScalingPlanResourceForecastDataResponse> {
+        return client.execute(operation: "GetScalingPlanResourceForecastData", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
-    public func updateScalingPlan(_ input: UpdateScalingPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateScalingPlanResponse> {
-        return self.client.execute(operation: "UpdateScalingPlan", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateScalingPlan(_ input: UpdateScalingPlanRequest) -> EventLoopFuture<UpdateScalingPlanResponse> {
+        return client.execute(operation: "UpdateScalingPlan", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension AutoScalingPlans {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

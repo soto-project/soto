@@ -23,101 +23,141 @@ extension GuardDuty {
     ///  Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
     public func getUsageStatisticsPaginator(
         _ input: GetUsageStatisticsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsageStatistics, tokenKey: \GetUsageStatisticsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsageStatistics,
+            tokenKey: \GetUsageStatisticsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     public func listDetectorsPaginator(
         _ input: ListDetectorsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDetectorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDetectors, tokenKey: \ListDetectorsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDetectors,
+            tokenKey: \ListDetectorsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a paginated list of the current filters.
     public func listFiltersPaginator(
         _ input: ListFiltersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFilters, tokenKey: \ListFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFilters,
+            tokenKey: \ListFiltersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists Amazon GuardDuty findings for the specified detector ID.
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindings,
+            tokenKey: \ListFindingsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated master account.
     public func listIPSetsPaginator(
         _ input: ListIPSetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIPSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIPSets, tokenKey: \ListIPSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIPSets,
+            tokenKey: \ListIPSetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all GuardDuty membership invitations that were sent to the current AWS account.
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists details about all member accounts for the current GuardDuty master account.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the accounts configured as GuardDuty delegated administrators.
     public func listOrganizationAdminAccountsPaginator(
         _ input: ListOrganizationAdminAccountsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOrganizationAdminAccounts,
+            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of publishing destinations associated with the specified dectectorId.
     public func listPublishingDestinationsPaginator(
         _ input: ListPublishingDestinationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPublishingDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPublishingDestinations, tokenKey: \ListPublishingDestinationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPublishingDestinations,
+            tokenKey: \ListPublishingDestinationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the master account are returned.
     public func listThreatIntelSetsPaginator(
         _ input: ListThreatIntelSetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListThreatIntelSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listThreatIntelSets, tokenKey: \ListThreatIntelSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listThreatIntelSets,
+            tokenKey: \ListThreatIntelSetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

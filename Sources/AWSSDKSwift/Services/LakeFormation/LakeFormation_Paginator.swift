@@ -23,31 +23,43 @@ extension LakeFormation {
     ///  Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
     public func getEffectivePermissionsForPathPaginator(
         _ input: GetEffectivePermissionsForPathRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetEffectivePermissionsForPathResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getEffectivePermissionsForPath, tokenKey: \GetEffectivePermissionsForPathResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getEffectivePermissionsForPath,
+            tokenKey: \GetEffectivePermissionsForPathResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
     public func listPermissionsPaginator(
         _ input: ListPermissionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPermissions,
+            tokenKey: \ListPermissionsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the resources registered to be managed by the Data Catalog.
     public func listResourcesPaginator(
         _ input: ListResourcesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResources,
+            tokenKey: \ListResourcesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

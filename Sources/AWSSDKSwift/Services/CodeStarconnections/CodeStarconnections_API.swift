@@ -27,6 +27,7 @@ public struct CodeStarconnections: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,65 +54,78 @@ public struct CodeStarconnections: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-12-01",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeStarconnectionsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CodeStarconnectionsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
-    public func createConnection(_ input: CreateConnectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateConnectionOutput> {
-        return self.client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createConnection(_ input: CreateConnectionInput) -> EventLoopFuture<CreateConnectionOutput> {
+        return client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider.  A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console. 
-    public func createHost(_ input: CreateHostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateHostOutput> {
-        return self.client.execute(operation: "CreateHost", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createHost(_ input: CreateHostInput) -> EventLoopFuture<CreateHostOutput> {
+        return client.execute(operation: "CreateHost", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  The connection to be deleted.
-    public func deleteConnection(_ input: DeleteConnectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConnectionOutput> {
-        return self.client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteConnection(_ input: DeleteConnectionInput) -> EventLoopFuture<DeleteConnectionOutput> {
+        return client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.  A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. 
-    public func deleteHost(_ input: DeleteHostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteHostOutput> {
-        return self.client.execute(operation: "DeleteHost", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteHost(_ input: DeleteHostInput) -> EventLoopFuture<DeleteHostOutput> {
+        return client.execute(operation: "DeleteHost", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the connection ARN and details such as status, owner, and provider type.
-    public func getConnection(_ input: GetConnectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConnectionOutput> {
-        return self.client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getConnection(_ input: GetConnectionInput) -> EventLoopFuture<GetConnectionOutput> {
+        return client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
-    public func getHost(_ input: GetHostInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetHostOutput> {
-        return self.client.execute(operation: "GetHost", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getHost(_ input: GetHostInput) -> EventLoopFuture<GetHostOutput> {
+        return client.execute(operation: "GetHost", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the connections associated with your account.
-    public func listConnections(_ input: ListConnectionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListConnectionsOutput> {
-        return self.client.execute(operation: "ListConnections", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listConnections(_ input: ListConnectionsInput) -> EventLoopFuture<ListConnectionsOutput> {
+        return client.execute(operation: "ListConnections", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the hosts associated with your account.
-    public func listHosts(_ input: ListHostsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHostsOutput> {
-        return self.client.execute(operation: "ListHosts", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listHosts(_ input: ListHostsInput) -> EventLoopFuture<ListHostsOutput> {
+        return client.execute(operation: "ListHosts", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceInput) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
-    public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceOutput> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceInput) -> EventLoopFuture<TagResourceOutput> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes tags from an AWS resource.
-    public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceOutput> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceInput) -> EventLoopFuture<UntagResourceOutput> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CodeStarconnections {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

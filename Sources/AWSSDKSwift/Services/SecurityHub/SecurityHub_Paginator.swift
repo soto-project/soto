@@ -23,101 +23,141 @@ extension SecurityHub {
     ///  Returns a list of the custom action targets in Security Hub in your account.
     public func describeActionTargetsPaginator(
         _ input: DescribeActionTargetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeActionTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeActionTargets,
+            tokenKey: \DescribeActionTargetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
     public func describeProductsPaginator(
         _ input: DescribeProductsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeProductsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeProducts,
+            tokenKey: \DescribeProductsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
     public func describeStandardsPaginator(
         _ input: DescribeStandardsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStandardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStandards, tokenKey: \DescribeStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeStandards,
+            tokenKey: \DescribeStandardsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
     public func describeStandardsControlsPaginator(
         _ input: DescribeStandardsControlsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStandardsControlsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStandardsControls, tokenKey: \DescribeStandardsControlsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeStandardsControls,
+            tokenKey: \DescribeStandardsControlsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the standards that are currently enabled.
     public func getEnabledStandardsPaginator(
         _ input: GetEnabledStandardsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetEnabledStandardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getEnabledStandards, tokenKey: \GetEnabledStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getEnabledStandards,
+            tokenKey: \GetEnabledStandardsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of findings that match the specified criteria.
     public func getFindingsPaginator(
         _ input: GetFindingsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getFindings,
+            tokenKey: \GetFindingsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists and describes insights for the specified insight ARNs.
     public func getInsightsPaginator(
         _ input: GetInsightsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getInsights,
+            tokenKey: \GetInsightsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     public func listEnabledProductsForImportPaginator(
         _ input: ListEnabledProductsForImportRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEnabledProductsForImportResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEnabledProductsForImport,
+            tokenKey: \ListEnabledProductsForImportResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all Security Hub membership invitations that were sent to the current AWS account. 
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists details about all member accounts for the current Security Hub master account.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -23,51 +23,71 @@ extension ECR {
     ///  Returns the scan findings for the specified image.
     public func describeImageScanFindingsPaginator(
         _ input: DescribeImageScanFindingsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImageScanFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImageScanFindings, tokenKey: \DescribeImageScanFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImageScanFindings,
+            tokenKey: \DescribeImageScanFindingsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
     public func describeImagesPaginator(
         _ input: DescribeImagesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImages,
+            tokenKey: \DescribeImagesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes image repositories in a registry.
     public func describeRepositoriesPaginator(
         _ input: DescribeRepositoriesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRepositoriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeRepositories, tokenKey: \DescribeRepositoriesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeRepositories,
+            tokenKey: \DescribeRepositoriesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the results of the lifecycle policy preview request for the specified repository.
     public func getLifecyclePolicyPreviewPaginator(
         _ input: GetLifecyclePolicyPreviewRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLifecyclePolicyPreviewResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getLifecyclePolicyPreview, tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getLifecyclePolicyPreview,
+            tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     public func listImagesPaginator(
         _ input: ListImagesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listImages,
+            tokenKey: \ListImagesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

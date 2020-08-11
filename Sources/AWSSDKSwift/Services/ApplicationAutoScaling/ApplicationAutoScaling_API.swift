@@ -27,6 +27,7 @@ public struct ApplicationAutoScaling: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,60 +54,73 @@ public struct ApplicationAutoScaling: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-02-06",
             endpoint: endpoint,
-            possibleErrorTypes: [ApplicationAutoScalingErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [ApplicationAutoScalingErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Deletes the specified scaling policy for an Application Auto Scaling scalable target. Deleting a step scaling policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. For more information, see Delete a Step Scaling Policy and Delete a Target Tracking Scaling Policy in the Application Auto Scaling User Guide.
-    public func deleteScalingPolicy(_ input: DeleteScalingPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteScalingPolicyResponse> {
-        return self.client.execute(operation: "DeleteScalingPolicy", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteScalingPolicy(_ input: DeleteScalingPolicyRequest) -> EventLoopFuture<DeleteScalingPolicyResponse> {
+        return client.execute(operation: "DeleteScalingPolicy", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified scheduled action for an Application Auto Scaling scalable target. For more information, see Delete a Scheduled Action in the Application Auto Scaling User Guide.
-    public func deleteScheduledAction(_ input: DeleteScheduledActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteScheduledActionResponse> {
-        return self.client.execute(operation: "DeleteScheduledAction", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteScheduledAction(_ input: DeleteScheduledActionRequest) -> EventLoopFuture<DeleteScheduledActionResponse> {
+        return client.execute(operation: "DeleteScheduledAction", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which resources have been registered, use DescribeScalableTargets.   Deregistering a scalable target deletes the scaling policies and the scheduled actions that are associated with it. 
-    public func deregisterScalableTarget(_ input: DeregisterScalableTargetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterScalableTargetResponse> {
-        return self.client.execute(operation: "DeregisterScalableTarget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deregisterScalableTarget(_ input: DeregisterScalableTargetRequest) -> EventLoopFuture<DeregisterScalableTargetResponse> {
+        return client.execute(operation: "DeregisterScalableTarget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension.
-    public func describeScalableTargets(_ input: DescribeScalableTargetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalableTargetsResponse> {
-        return self.client.execute(operation: "DescribeScalableTargets", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeScalableTargets(_ input: DescribeScalableTargetsRequest) -> EventLoopFuture<DescribeScalableTargetsResponse> {
+        return client.execute(operation: "DescribeScalableTargets", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension.
-    public func describeScalingActivities(_ input: DescribeScalingActivitiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingActivitiesResponse> {
-        return self.client.execute(operation: "DescribeScalingActivities", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeScalingActivities(_ input: DescribeScalingActivitiesRequest) -> EventLoopFuture<DescribeScalingActivitiesResponse> {
+        return client.execute(operation: "DescribeScalingActivities", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the Application Auto Scaling scaling policies for the specified service namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames. For more information, see Target Tracking Scaling Policies and Step Scaling Policies in the Application Auto Scaling User Guide.
-    public func describeScalingPolicies(_ input: DescribeScalingPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingPoliciesResponse> {
-        return self.client.execute(operation: "DescribeScalingPolicies", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeScalingPolicies(_ input: DescribeScalingPoliciesRequest) -> EventLoopFuture<DescribeScalingPoliciesResponse> {
+        return client.execute(operation: "DescribeScalingPolicies", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. For more information, see Scheduled Scaling in the Application Auto Scaling User Guide.
-    public func describeScheduledActions(_ input: DescribeScheduledActionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScheduledActionsResponse> {
-        return self.client.execute(operation: "DescribeScheduledActions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeScheduledActions(_ input: DescribeScheduledActionsRequest) -> EventLoopFuture<DescribeScheduledActionsResponse> {
+        return client.execute(operation: "DescribeScheduledActions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling policy until you have registered the resource as a scalable target. Multiple scaling policies can be in force at the same time for the same scalable target. You can have one or more target tracking scaling policies, one or more step scaling policies, or both. However, there is a chance that multiple policies could conflict, instructing the scalable target to scale out or in at the same time. Application Auto Scaling gives precedence to the policy that provides the largest capacity for both scale out and scale in. For example, if one policy increases capacity by 3, another policy increases capacity by 200 percent, and the current capacity is 10, Application Auto Scaling uses the policy with the highest calculated capacity (200% of 10 = 20) and scales out to 30.  We recommend caution, however, when using target tracking scaling policies with step scaling policies because conflicts between these policies can cause undesirable behavior. For example, if the step scaling policy initiates a scale-in activity before the target tracking policy is ready to scale in, the scale-in activity will not be blocked. After the scale-in activity completes, the target tracking policy could instruct the scalable target to scale out again.  For more information, see Target Tracking Scaling Policies and Step Scaling Policies in the Application Auto Scaling User Guide.  If a scalable target is deregistered, the scalable target is no longer available to execute scaling policies. Any scaling policies that were specified for the scalable target are deleted. 
-    public func putScalingPolicy(_ input: PutScalingPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutScalingPolicyResponse> {
-        return self.client.execute(operation: "PutScalingPolicy", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putScalingPolicy(_ input: PutScalingPolicyRequest) -> EventLoopFuture<PutScalingPolicyResponse> {
+        return client.execute(operation: "PutScalingPolicy", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable target identified by those three attributes. You cannot create a scheduled action until you have registered the resource as a scalable target. When start and end times are specified with a recurring schedule using a cron expression or rates, they form the boundaries of when the recurring action starts and stops. To update a scheduled action, specify the parameters that you want to change. If you don't specify start and end times, the old values are deleted. For more information, see Scheduled Scaling in the Application Auto Scaling User Guide.  If a scalable target is deregistered, the scalable target is no longer available to run scheduled actions. Any scheduled actions that were specified for the scalable target are deleted. 
-    public func putScheduledAction(_ input: PutScheduledActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutScheduledActionResponse> {
-        return self.client.execute(operation: "PutScheduledAction", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func putScheduledAction(_ input: PutScheduledActionRequest) -> EventLoopFuture<PutScheduledActionResponse> {
+        return client.execute(operation: "PutScheduledAction", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Registers or updates a scalable target.  A scalable target is a resource that Application Auto Scaling can scale out and scale in. Scalable targets are uniquely identified by the combination of resource ID, scalable dimension, and namespace.  When you register a new scalable target, you must specify values for minimum and maximum capacity. Application Auto Scaling scaling policies will not scale capacity to values that are outside of this range. After you register a scalable target, you do not need to register it again to use other Application Auto Scaling operations. To see which resources have been registered, use DescribeScalableTargets. You can also view the scaling policies for a service namespace by using DescribeScalableTargets. If you no longer need a scalable target, you can deregister it by using DeregisterScalableTarget. To update a scalable target, specify the parameters that you want to change. Include the parameters that identify the scalable target: resource ID, scalable dimension, and namespace. Any parameters that you don't specify are not changed by this update request. 
-    public func registerScalableTarget(_ input: RegisterScalableTargetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterScalableTargetResponse> {
-        return self.client.execute(operation: "RegisterScalableTarget", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func registerScalableTarget(_ input: RegisterScalableTargetRequest) -> EventLoopFuture<RegisterScalableTargetResponse> {
+        return client.execute(operation: "RegisterScalableTarget", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension ApplicationAutoScaling {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

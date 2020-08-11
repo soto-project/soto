@@ -27,6 +27,7 @@ public struct DeviceFarm: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,395 +54,408 @@ public struct DeviceFarm: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-06-23",
             endpoint: endpoint,
-            possibleErrorTypes: [DeviceFarmErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [DeviceFarmErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Creates a device pool.
-    public func createDevicePool(_ input: CreateDevicePoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDevicePoolResult> {
-        return self.client.execute(operation: "CreateDevicePool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createDevicePool(_ input: CreateDevicePoolRequest) -> EventLoopFuture<CreateDevicePoolResult> {
+        return client.execute(operation: "CreateDevicePool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a profile that can be applied to one or more private fleet device instances.
-    public func createInstanceProfile(_ input: CreateInstanceProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInstanceProfileResult> {
-        return self.client.execute(operation: "CreateInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createInstanceProfile(_ input: CreateInstanceProfileRequest) -> EventLoopFuture<CreateInstanceProfileResult> {
+        return client.execute(operation: "CreateInstanceProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a network profile.
-    public func createNetworkProfile(_ input: CreateNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateNetworkProfileResult> {
-        return self.client.execute(operation: "CreateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createNetworkProfile(_ input: CreateNetworkProfileRequest) -> EventLoopFuture<CreateNetworkProfileResult> {
+        return client.execute(operation: "CreateNetworkProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a project.
-    public func createProject(_ input: CreateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProjectResult> {
-        return self.client.execute(operation: "CreateProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createProject(_ input: CreateProjectRequest) -> EventLoopFuture<CreateProjectResult> {
+        return client.execute(operation: "CreateProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Specifies and starts a remote access session.
-    public func createRemoteAccessSession(_ input: CreateRemoteAccessSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRemoteAccessSessionResult> {
-        return self.client.execute(operation: "CreateRemoteAccessSession", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createRemoteAccessSession(_ input: CreateRemoteAccessSessionRequest) -> EventLoopFuture<CreateRemoteAccessSessionResult> {
+        return client.execute(operation: "CreateRemoteAccessSession", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a Selenium testing project. Projects are used to track TestGridSession instances.
-    public func createTestGridProject(_ input: CreateTestGridProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTestGridProjectResult> {
-        return self.client.execute(operation: "CreateTestGridProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createTestGridProject(_ input: CreateTestGridProjectRequest) -> EventLoopFuture<CreateTestGridProjectResult> {
+        return client.execute(operation: "CreateTestGridProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
-    public func createTestGridUrl(_ input: CreateTestGridUrlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTestGridUrlResult> {
-        return self.client.execute(operation: "CreateTestGridUrl", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createTestGridUrl(_ input: CreateTestGridUrlRequest) -> EventLoopFuture<CreateTestGridUrlResult> {
+        return client.execute(operation: "CreateTestGridUrl", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Uploads an app or test scripts.
-    public func createUpload(_ input: CreateUploadRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUploadResult> {
-        return self.client.execute(operation: "CreateUpload", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createUpload(_ input: CreateUploadRequest) -> EventLoopFuture<CreateUploadResult> {
+        return client.execute(operation: "CreateUpload", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
-    public func createVPCEConfiguration(_ input: CreateVPCEConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVPCEConfigurationResult> {
-        return self.client.execute(operation: "CreateVPCEConfiguration", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createVPCEConfiguration(_ input: CreateVPCEConfigurationRequest) -> EventLoopFuture<CreateVPCEConfigurationResult> {
+        return client.execute(operation: "CreateVPCEConfiguration", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
-    public func deleteDevicePool(_ input: DeleteDevicePoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDevicePoolResult> {
-        return self.client.execute(operation: "DeleteDevicePool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteDevicePool(_ input: DeleteDevicePoolRequest) -> EventLoopFuture<DeleteDevicePoolResult> {
+        return client.execute(operation: "DeleteDevicePool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a profile that can be applied to one or more private device instances.
-    public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInstanceProfileResult> {
-        return self.client.execute(operation: "DeleteInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest) -> EventLoopFuture<DeleteInstanceProfileResult> {
+        return client.execute(operation: "DeleteInstanceProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a network profile.
-    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteNetworkProfileResult> {
-        return self.client.execute(operation: "DeleteNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest) -> EventLoopFuture<DeleteNetworkProfileResult> {
+        return client.execute(operation: "DeleteNetworkProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an AWS Device Farm project, given the project ARN.  Deleting this resource does not stop an in-progress run.
-    public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProjectResult> {
-        return self.client.execute(operation: "DeleteProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteProject(_ input: DeleteProjectRequest) -> EventLoopFuture<DeleteProjectResult> {
+        return client.execute(operation: "DeleteProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a completed remote access session and its results.
-    public func deleteRemoteAccessSession(_ input: DeleteRemoteAccessSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRemoteAccessSessionResult> {
-        return self.client.execute(operation: "DeleteRemoteAccessSession", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteRemoteAccessSession(_ input: DeleteRemoteAccessSessionRequest) -> EventLoopFuture<DeleteRemoteAccessSessionResult> {
+        return client.execute(operation: "DeleteRemoteAccessSession", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the run, given the run ARN.  Deleting this resource does not stop an in-progress run.
-    public func deleteRun(_ input: DeleteRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRunResult> {
-        return self.client.execute(operation: "DeleteRun", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteRun(_ input: DeleteRunRequest) -> EventLoopFuture<DeleteRunResult> {
+        return client.execute(operation: "DeleteRun", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes a Selenium testing project and all content generated under it.   You cannot undo this operation.   You cannot delete a project if it has active sessions. 
-    public func deleteTestGridProject(_ input: DeleteTestGridProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTestGridProjectResult> {
-        return self.client.execute(operation: "DeleteTestGridProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteTestGridProject(_ input: DeleteTestGridProjectRequest) -> EventLoopFuture<DeleteTestGridProjectResult> {
+        return client.execute(operation: "DeleteTestGridProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an upload given the upload ARN.
-    public func deleteUpload(_ input: DeleteUploadRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUploadResult> {
-        return self.client.execute(operation: "DeleteUpload", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteUpload(_ input: DeleteUploadRequest) -> EventLoopFuture<DeleteUploadResult> {
+        return client.execute(operation: "DeleteUpload", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
-    public func deleteVPCEConfiguration(_ input: DeleteVPCEConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteVPCEConfigurationResult> {
-        return self.client.execute(operation: "DeleteVPCEConfiguration", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteVPCEConfiguration(_ input: DeleteVPCEConfigurationRequest) -> EventLoopFuture<DeleteVPCEConfigurationResult> {
+        return client.execute(operation: "DeleteVPCEConfiguration", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAccountSettingsResult> {
-        return self.client.execute(operation: "GetAccountSettings", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getAccountSettings(_ input: GetAccountSettingsRequest) -> EventLoopFuture<GetAccountSettingsResult> {
+        return client.execute(operation: "GetAccountSettings", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a unique device type.
-    public func getDevice(_ input: GetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceResult> {
-        return self.client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDevice(_ input: GetDeviceRequest) -> EventLoopFuture<GetDeviceResult> {
+        return client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a device instance that belongs to a private device fleet.
-    public func getDeviceInstance(_ input: GetDeviceInstanceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceInstanceResult> {
-        return self.client.execute(operation: "GetDeviceInstance", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDeviceInstance(_ input: GetDeviceInstanceRequest) -> EventLoopFuture<GetDeviceInstanceResult> {
+        return client.execute(operation: "GetDeviceInstance", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a device pool.
-    public func getDevicePool(_ input: GetDevicePoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDevicePoolResult> {
-        return self.client.execute(operation: "GetDevicePool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDevicePool(_ input: GetDevicePoolRequest) -> EventLoopFuture<GetDevicePoolResult> {
+        return client.execute(operation: "GetDevicePool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about compatibility with a device pool.
-    public func getDevicePoolCompatibility(_ input: GetDevicePoolCompatibilityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDevicePoolCompatibilityResult> {
-        return self.client.execute(operation: "GetDevicePoolCompatibility", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDevicePoolCompatibility(_ input: GetDevicePoolCompatibilityRequest) -> EventLoopFuture<GetDevicePoolCompatibilityResult> {
+        return client.execute(operation: "GetDevicePoolCompatibility", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the specified instance profile.
-    public func getInstanceProfile(_ input: GetInstanceProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInstanceProfileResult> {
-        return self.client.execute(operation: "GetInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getInstanceProfile(_ input: GetInstanceProfileRequest) -> EventLoopFuture<GetInstanceProfileResult> {
+        return client.execute(operation: "GetInstanceProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a job.
-    public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobResult> {
-        return self.client.execute(operation: "GetJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getJob(_ input: GetJobRequest) -> EventLoopFuture<GetJobResult> {
+        return client.execute(operation: "GetJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a network profile.
-    public func getNetworkProfile(_ input: GetNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetNetworkProfileResult> {
-        return self.client.execute(operation: "GetNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getNetworkProfile(_ input: GetNetworkProfileRequest) -> EventLoopFuture<GetNetworkProfileResult> {
+        return client.execute(operation: "GetNetworkProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
-    public func getOfferingStatus(_ input: GetOfferingStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOfferingStatusResult> {
-        return self.client.execute(operation: "GetOfferingStatus", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getOfferingStatus(_ input: GetOfferingStatusRequest) -> EventLoopFuture<GetOfferingStatusResult> {
+        return client.execute(operation: "GetOfferingStatus", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a project.
-    public func getProject(_ input: GetProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetProjectResult> {
-        return self.client.execute(operation: "GetProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getProject(_ input: GetProjectRequest) -> EventLoopFuture<GetProjectResult> {
+        return client.execute(operation: "GetProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a link to a currently running remote access session.
-    public func getRemoteAccessSession(_ input: GetRemoteAccessSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRemoteAccessSessionResult> {
-        return self.client.execute(operation: "GetRemoteAccessSession", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getRemoteAccessSession(_ input: GetRemoteAccessSessionRequest) -> EventLoopFuture<GetRemoteAccessSessionResult> {
+        return client.execute(operation: "GetRemoteAccessSession", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a run.
-    public func getRun(_ input: GetRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRunResult> {
-        return self.client.execute(operation: "GetRun", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getRun(_ input: GetRunRequest) -> EventLoopFuture<GetRunResult> {
+        return client.execute(operation: "GetRun", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a suite.
-    public func getSuite(_ input: GetSuiteRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSuiteResult> {
-        return self.client.execute(operation: "GetSuite", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getSuite(_ input: GetSuiteRequest) -> EventLoopFuture<GetSuiteResult> {
+        return client.execute(operation: "GetSuite", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a test.
-    public func getTest(_ input: GetTestRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTestResult> {
-        return self.client.execute(operation: "GetTest", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getTest(_ input: GetTestRequest) -> EventLoopFuture<GetTestResult> {
+        return client.execute(operation: "GetTest", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves information about a Selenium testing project.
-    public func getTestGridProject(_ input: GetTestGridProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTestGridProjectResult> {
-        return self.client.execute(operation: "GetTestGridProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getTestGridProject(_ input: GetTestGridProjectRequest) -> EventLoopFuture<GetTestGridProjectResult> {
+        return client.execute(operation: "GetTestGridProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:   The session ARN (GetTestGridSessionRequest$sessionArn).   The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).   
-    public func getTestGridSession(_ input: GetTestGridSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTestGridSessionResult> {
-        return self.client.execute(operation: "GetTestGridSession", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getTestGridSession(_ input: GetTestGridSessionRequest) -> EventLoopFuture<GetTestGridSessionResult> {
+        return client.execute(operation: "GetTestGridSession", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about an upload.
-    public func getUpload(_ input: GetUploadRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUploadResult> {
-        return self.client.execute(operation: "GetUpload", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getUpload(_ input: GetUploadRequest) -> EventLoopFuture<GetUploadResult> {
+        return client.execute(operation: "GetUpload", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
-    public func getVPCEConfiguration(_ input: GetVPCEConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVPCEConfigurationResult> {
-        return self.client.execute(operation: "GetVPCEConfiguration", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getVPCEConfiguration(_ input: GetVPCEConfigurationRequest) -> EventLoopFuture<GetVPCEConfigurationResult> {
+        return client.execute(operation: "GetVPCEConfiguration", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
-    public func installToRemoteAccessSession(_ input: InstallToRemoteAccessSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InstallToRemoteAccessSessionResult> {
-        return self.client.execute(operation: "InstallToRemoteAccessSession", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func installToRemoteAccessSession(_ input: InstallToRemoteAccessSessionRequest) -> EventLoopFuture<InstallToRemoteAccessSessionResult> {
+        return client.execute(operation: "InstallToRemoteAccessSession", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about artifacts.
-    public func listArtifacts(_ input: ListArtifactsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListArtifactsResult> {
-        return self.client.execute(operation: "ListArtifacts", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listArtifacts(_ input: ListArtifactsRequest) -> EventLoopFuture<ListArtifactsResult> {
+        return client.execute(operation: "ListArtifacts", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about the private device instances associated with one or more AWS accounts.
-    public func listDeviceInstances(_ input: ListDeviceInstancesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeviceInstancesResult> {
-        return self.client.execute(operation: "ListDeviceInstances", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDeviceInstances(_ input: ListDeviceInstancesRequest) -> EventLoopFuture<ListDeviceInstancesResult> {
+        return client.execute(operation: "ListDeviceInstances", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about device pools.
-    public func listDevicePools(_ input: ListDevicePoolsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDevicePoolsResult> {
-        return self.client.execute(operation: "ListDevicePools", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDevicePools(_ input: ListDevicePoolsRequest) -> EventLoopFuture<ListDevicePoolsResult> {
+        return client.execute(operation: "ListDevicePools", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about unique device types.
-    public func listDevices(_ input: ListDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDevicesResult> {
-        return self.client.execute(operation: "ListDevices", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDevices(_ input: ListDevicesRequest) -> EventLoopFuture<ListDevicesResult> {
+        return client.execute(operation: "ListDevices", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about all the instance profiles in an AWS account.
-    public func listInstanceProfiles(_ input: ListInstanceProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInstanceProfilesResult> {
-        return self.client.execute(operation: "ListInstanceProfiles", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listInstanceProfiles(_ input: ListInstanceProfilesRequest) -> EventLoopFuture<ListInstanceProfilesResult> {
+        return client.execute(operation: "ListInstanceProfiles", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about jobs for a given test run.
-    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobsResult> {
-        return self.client.execute(operation: "ListJobs", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResult> {
+        return client.execute(operation: "ListJobs", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the list of available network profiles.
-    public func listNetworkProfiles(_ input: ListNetworkProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNetworkProfilesResult> {
-        return self.client.execute(operation: "ListNetworkProfiles", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listNetworkProfiles(_ input: ListNetworkProfilesRequest) -> EventLoopFuture<ListNetworkProfilesResult> {
+        return client.execute(operation: "ListNetworkProfiles", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
-    public func listOfferingPromotions(_ input: ListOfferingPromotionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOfferingPromotionsResult> {
-        return self.client.execute(operation: "ListOfferingPromotions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listOfferingPromotions(_ input: ListOfferingPromotionsRequest) -> EventLoopFuture<ListOfferingPromotionsResult> {
+        return client.execute(operation: "ListOfferingPromotions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
-    public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOfferingTransactionsResult> {
-        return self.client.execute(operation: "ListOfferingTransactions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest) -> EventLoopFuture<ListOfferingTransactionsResult> {
+        return client.execute(operation: "ListOfferingTransactions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
-    public func listOfferings(_ input: ListOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOfferingsResult> {
-        return self.client.execute(operation: "ListOfferings", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listOfferings(_ input: ListOfferingsRequest) -> EventLoopFuture<ListOfferingsResult> {
+        return client.execute(operation: "ListOfferings", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about projects.
-    public func listProjects(_ input: ListProjectsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProjectsResult> {
-        return self.client.execute(operation: "ListProjects", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listProjects(_ input: ListProjectsRequest) -> EventLoopFuture<ListProjectsResult> {
+        return client.execute(operation: "ListProjects", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all currently running remote access sessions.
-    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRemoteAccessSessionsResult> {
-        return self.client.execute(operation: "ListRemoteAccessSessions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) -> EventLoopFuture<ListRemoteAccessSessionsResult> {
+        return client.execute(operation: "ListRemoteAccessSessions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about runs, given an AWS Device Farm project ARN.
-    public func listRuns(_ input: ListRunsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRunsResult> {
-        return self.client.execute(operation: "ListRuns", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listRuns(_ input: ListRunsRequest) -> EventLoopFuture<ListRunsResult> {
+        return client.execute(operation: "ListRuns", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about samples, given an AWS Device Farm job ARN.
-    public func listSamples(_ input: ListSamplesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSamplesResult> {
-        return self.client.execute(operation: "ListSamples", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listSamples(_ input: ListSamplesRequest) -> EventLoopFuture<ListSamplesResult> {
+        return client.execute(operation: "ListSamples", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about test suites for a given job.
-    public func listSuites(_ input: ListSuitesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSuitesResult> {
-        return self.client.execute(operation: "ListSuites", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listSuites(_ input: ListSuitesRequest) -> EventLoopFuture<ListSuitesResult> {
+        return client.execute(operation: "ListSuites", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  List the tags for an AWS Device Farm resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of all Selenium testing projects in your account.
-    public func listTestGridProjects(_ input: ListTestGridProjectsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTestGridProjectsResult> {
-        return self.client.execute(operation: "ListTestGridProjects", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTestGridProjects(_ input: ListTestGridProjectsRequest) -> EventLoopFuture<ListTestGridProjectsResult> {
+        return client.execute(operation: "ListTestGridProjects", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of the actions taken in a TestGridSession.
-    public func listTestGridSessionActions(_ input: ListTestGridSessionActionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTestGridSessionActionsResult> {
-        return self.client.execute(operation: "ListTestGridSessionActions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTestGridSessionActions(_ input: ListTestGridSessionActionsRequest) -> EventLoopFuture<ListTestGridSessionActionsResult> {
+        return client.execute(operation: "ListTestGridSessionActions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list of artifacts created during the session.
-    public func listTestGridSessionArtifacts(_ input: ListTestGridSessionArtifactsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTestGridSessionArtifactsResult> {
-        return self.client.execute(operation: "ListTestGridSessionArtifacts", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTestGridSessionArtifacts(_ input: ListTestGridSessionArtifactsRequest) -> EventLoopFuture<ListTestGridSessionArtifactsResult> {
+        return client.execute(operation: "ListTestGridSessionArtifacts", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list of sessions for a TestGridProject.
-    public func listTestGridSessions(_ input: ListTestGridSessionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTestGridSessionsResult> {
-        return self.client.execute(operation: "ListTestGridSessions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTestGridSessions(_ input: ListTestGridSessionsRequest) -> EventLoopFuture<ListTestGridSessionsResult> {
+        return client.execute(operation: "ListTestGridSessions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about tests in a given test suite.
-    public func listTests(_ input: ListTestsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTestsResult> {
-        return self.client.execute(operation: "ListTests", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTests(_ input: ListTestsRequest) -> EventLoopFuture<ListTestsResult> {
+        return client.execute(operation: "ListTests", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
-    public func listUniqueProblems(_ input: ListUniqueProblemsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUniqueProblemsResult> {
-        return self.client.execute(operation: "ListUniqueProblems", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUniqueProblems(_ input: ListUniqueProblemsRequest) -> EventLoopFuture<ListUniqueProblemsResult> {
+        return client.execute(operation: "ListUniqueProblems", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about uploads, given an AWS Device Farm project ARN.
-    public func listUploads(_ input: ListUploadsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUploadsResult> {
-        return self.client.execute(operation: "ListUploads", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUploads(_ input: ListUploadsRequest) -> EventLoopFuture<ListUploadsResult> {
+        return client.execute(operation: "ListUploads", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
-    public func listVPCEConfigurations(_ input: ListVPCEConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVPCEConfigurationsResult> {
-        return self.client.execute(operation: "ListVPCEConfigurations", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listVPCEConfigurations(_ input: ListVPCEConfigurationsRequest) -> EventLoopFuture<ListVPCEConfigurationsResult> {
+        return client.execute(operation: "ListVPCEConfigurations", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
-    public func purchaseOffering(_ input: PurchaseOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PurchaseOfferingResult> {
-        return self.client.execute(operation: "PurchaseOffering", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func purchaseOffering(_ input: PurchaseOfferingRequest) -> EventLoopFuture<PurchaseOfferingResult> {
+        return client.execute(operation: "PurchaseOffering", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
-    public func renewOffering(_ input: RenewOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RenewOfferingResult> {
-        return self.client.execute(operation: "RenewOffering", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func renewOffering(_ input: RenewOfferingRequest) -> EventLoopFuture<RenewOfferingResult> {
+        return client.execute(operation: "RenewOffering", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Schedules a run.
-    public func scheduleRun(_ input: ScheduleRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ScheduleRunResult> {
-        return self.client.execute(operation: "ScheduleRun", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func scheduleRun(_ input: ScheduleRunRequest) -> EventLoopFuture<ScheduleRunResult> {
+        return client.execute(operation: "ScheduleRun", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
-    public func stopJob(_ input: StopJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopJobResult> {
-        return self.client.execute(operation: "StopJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func stopJob(_ input: StopJobRequest) -> EventLoopFuture<StopJobResult> {
+        return client.execute(operation: "StopJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Ends a specified remote access session.
-    public func stopRemoteAccessSession(_ input: StopRemoteAccessSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopRemoteAccessSessionResult> {
-        return self.client.execute(operation: "StopRemoteAccessSession", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func stopRemoteAccessSession(_ input: StopRemoteAccessSessionRequest) -> EventLoopFuture<StopRemoteAccessSessionResult> {
+        return client.execute(operation: "StopRemoteAccessSession", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
-    public func stopRun(_ input: StopRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopRunResult> {
-        return self.client.execute(operation: "StopRun", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func stopRun(_ input: StopRunRequest) -> EventLoopFuture<StopRunResult> {
+        return client.execute(operation: "StopRun", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates information about a private device instance.
-    public func updateDeviceInstance(_ input: UpdateDeviceInstanceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDeviceInstanceResult> {
-        return self.client.execute(operation: "UpdateDeviceInstance", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDeviceInstance(_ input: UpdateDeviceInstanceRequest) -> EventLoopFuture<UpdateDeviceInstanceResult> {
+        return client.execute(operation: "UpdateDeviceInstance", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
-    public func updateDevicePool(_ input: UpdateDevicePoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDevicePoolResult> {
-        return self.client.execute(operation: "UpdateDevicePool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDevicePool(_ input: UpdateDevicePoolRequest) -> EventLoopFuture<UpdateDevicePoolResult> {
+        return client.execute(operation: "UpdateDevicePool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates information about an existing private device instance profile.
-    public func updateInstanceProfile(_ input: UpdateInstanceProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInstanceProfileResult> {
-        return self.client.execute(operation: "UpdateInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateInstanceProfile(_ input: UpdateInstanceProfileRequest) -> EventLoopFuture<UpdateInstanceProfileResult> {
+        return client.execute(operation: "UpdateInstanceProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the network profile.
-    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateNetworkProfileResult> {
-        return self.client.execute(operation: "UpdateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest) -> EventLoopFuture<UpdateNetworkProfileResult> {
+        return client.execute(operation: "UpdateNetworkProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the specified project name, given the project ARN and a new name.
-    public func updateProject(_ input: UpdateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProjectResult> {
-        return self.client.execute(operation: "UpdateProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateProject(_ input: UpdateProjectRequest) -> EventLoopFuture<UpdateProjectResult> {
+        return client.execute(operation: "UpdateProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Change details of a project.
-    public func updateTestGridProject(_ input: UpdateTestGridProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTestGridProjectResult> {
-        return self.client.execute(operation: "UpdateTestGridProject", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateTestGridProject(_ input: UpdateTestGridProjectRequest) -> EventLoopFuture<UpdateTestGridProjectResult> {
+        return client.execute(operation: "UpdateTestGridProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an uploaded test spec.
-    public func updateUpload(_ input: UpdateUploadRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUploadResult> {
-        return self.client.execute(operation: "UpdateUpload", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUpload(_ input: UpdateUploadRequest) -> EventLoopFuture<UpdateUploadResult> {
+        return client.execute(operation: "UpdateUpload", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
-    public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVPCEConfigurationResult> {
-        return self.client.execute(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest) -> EventLoopFuture<UpdateVPCEConfigurationResult> {
+        return client.execute(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension DeviceFarm {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

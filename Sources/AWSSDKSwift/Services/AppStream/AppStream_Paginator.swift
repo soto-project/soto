@@ -23,21 +23,29 @@ extension AppStream {
     ///  Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own. 
     public func describeImagePermissionsPaginator(
         _ input: DescribeImagePermissionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImagePermissions, tokenKey: \DescribeImagePermissionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImagePermissions,
+            tokenKey: \DescribeImagePermissionsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     public func describeImagesPaginator(
         _ input: DescribeImagesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImages,
+            tokenKey: \DescribeImagesResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,6 +27,7 @@ public struct Kendra: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,130 +54,143 @@ public struct Kendra: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-02-03",
             endpoint: endpoint,
-            possibleErrorTypes: [KendraErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [KendraErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Removes one or more documents from an index. The documents must have been added with the BatchPutDocument operation. The documents are deleted asynchronously. You can see the progress of the deletion by using AWS CloudWatch. Any error messages releated to the processing of the batch are sent to you CloudWatch log.
-    public func batchDeleteDocument(_ input: BatchDeleteDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeleteDocumentResponse> {
-        return self.client.execute(operation: "BatchDeleteDocument", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchDeleteDocument(_ input: BatchDeleteDocumentRequest) -> EventLoopFuture<BatchDeleteDocumentResponse> {
+        return client.execute(operation: "BatchDeleteDocument", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds one or more documents to an index. The BatchPutDocument operation enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this operation to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using AWS CloudWatch. Any error messages related to processing the batch are sent to your AWS CloudWatch log.
-    public func batchPutDocument(_ input: BatchPutDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchPutDocumentResponse> {
-        return self.client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func batchPutDocument(_ input: BatchPutDocumentRequest) -> EventLoopFuture<BatchPutDocumentResponse> {
+        return client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a data source that you use to with an Amazon Kendra index.  You specify a name, connector type and description for your data source. You can choose between an S3 connector, a SharePoint Online connector, and a database connector. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
-    public func createDataSource(_ input: CreateDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDataSourceResponse> {
-        return self.client.execute(operation: "CreateDataSource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createDataSource(_ input: CreateDataSourceRequest) -> EventLoopFuture<CreateDataSourceResponse> {
+        return client.execute(operation: "CreateDataSource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an new set of frequently asked question (FAQ) questions and answers.
-    public func createFaq(_ input: CreateFaqRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateFaqResponse> {
-        return self.client.execute(operation: "CreateFaq", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createFaq(_ input: CreateFaqRequest) -> EventLoopFuture<CreateFaqResponse> {
+        return client.execute(operation: "CreateFaq", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new Amazon Kendra index. Index creation is an asynchronous operation. To determine if index creation has completed, check the Status field returned from a call to . The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the operation or using one of the supported data sources. 
-    public func createIndex(_ input: CreateIndexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIndexResponse> {
-        return self.client.execute(operation: "CreateIndex", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createIndex(_ input: CreateIndexRequest) -> EventLoopFuture<CreateIndexResponse> {
+        return client.execute(operation: "CreateIndex", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an Amazon Kendra data source. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the operation is set to DELETING. For more information, see Deleting Data Sources.
-    @discardableResult public func deleteDataSource(_ input: DeleteDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDataSource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDataSource(_ input: DeleteDataSourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteDataSource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes an FAQ from an index.
-    @discardableResult public func deleteFaq(_ input: DeleteFaqRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFaq", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteFaq(_ input: DeleteFaqRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteFaq", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an existing Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex operation is set to DELETING.
-    @discardableResult public func deleteIndex(_ input: DeleteIndexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteIndex", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteIndex(_ input: DeleteIndexRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteIndex", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a Amazon Kendra data source.
-    public func describeDataSource(_ input: DescribeDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDataSourceResponse> {
-        return self.client.execute(operation: "DescribeDataSource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeDataSource(_ input: DescribeDataSourceRequest) -> EventLoopFuture<DescribeDataSourceResponse> {
+        return client.execute(operation: "DescribeDataSource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about an FAQ list.
-    public func describeFaq(_ input: DescribeFaqRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeFaqResponse> {
-        return self.client.execute(operation: "DescribeFaq", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeFaq(_ input: DescribeFaqRequest) -> EventLoopFuture<DescribeFaqResponse> {
+        return client.execute(operation: "DescribeFaq", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes an existing Amazon Kendra index
-    public func describeIndex(_ input: DescribeIndexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIndexResponse> {
-        return self.client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeIndex(_ input: DescribeIndexRequest) -> EventLoopFuture<DescribeIndexResponse> {
+        return client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
-    public func listDataSourceSyncJobs(_ input: ListDataSourceSyncJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataSourceSyncJobsResponse> {
-        return self.client.execute(operation: "ListDataSourceSyncJobs", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDataSourceSyncJobs(_ input: ListDataSourceSyncJobsRequest) -> EventLoopFuture<ListDataSourceSyncJobsResponse> {
+        return client.execute(operation: "ListDataSourceSyncJobs", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the data sources that you have created.
-    public func listDataSources(_ input: ListDataSourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataSourcesResponse> {
-        return self.client.execute(operation: "ListDataSources", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDataSources(_ input: ListDataSourcesRequest) -> EventLoopFuture<ListDataSourcesResponse> {
+        return client.execute(operation: "ListDataSources", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of FAQ lists associated with an index.
-    public func listFaqs(_ input: ListFaqsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFaqsResponse> {
-        return self.client.execute(operation: "ListFaqs", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listFaqs(_ input: ListFaqsRequest) -> EventLoopFuture<ListFaqsResponse> {
+        return client.execute(operation: "ListFaqs", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the Amazon Kendra indexes that you have created.
-    public func listIndices(_ input: ListIndicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListIndicesResponse> {
-        return self.client.execute(operation: "ListIndices", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listIndices(_ input: ListIndicesRequest) -> EventLoopFuture<ListIndicesResponse> {
+        return client.execute(operation: "ListIndices", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources can have tags associated with them.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Searches an active index. Use this API to search your documents using query. The Query operation enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results.  Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter.
-    public func query(_ input: QueryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<QueryResult> {
-        return self.client.execute(operation: "Query", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func query(_ input: QueryRequest) -> EventLoopFuture<QueryResult> {
+        return client.execute(operation: "Query", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts a synchronization job for a data source. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
-    public func startDataSourceSyncJob(_ input: StartDataSourceSyncJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartDataSourceSyncJobResponse> {
-        return self.client.execute(operation: "StartDataSourceSyncJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func startDataSourceSyncJob(_ input: StartDataSourceSyncJobRequest) -> EventLoopFuture<StartDataSourceSyncJobResponse> {
+        return client.execute(operation: "StartDataSourceSyncJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops a running synchronization job. You can't stop a scheduled synchronization job.
-    @discardableResult public func stopDataSourceSyncJob(_ input: StopDataSourceSyncJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "StopDataSourceSyncJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopDataSourceSyncJob(_ input: StopDataSourceSyncJobRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopDataSourceSyncJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Enables you to provide feedback to Amazon Kendra to improve the performance of the service. 
-    @discardableResult public func submitFeedback(_ input: SubmitFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "SubmitFeedback", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func submitFeedback(_ input: SubmitFeedbackRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SubmitFeedback", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds the specified tag to the specified index, FAQ, or data source resource. If the tag already exists, the existing value is replaced with the new value.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a tag from an index, FAQ, or a data source.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an existing Amazon Kendra data source.
-    @discardableResult public func updateDataSource(_ input: UpdateDataSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDataSource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateDataSource(_ input: UpdateDataSourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateDataSource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an existing Amazon Kendra index.
-    @discardableResult public func updateIndex(_ input: UpdateIndexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateIndex", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateIndex(_ input: UpdateIndexRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateIndex", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Kendra {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

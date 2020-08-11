@@ -27,6 +27,7 @@ public struct TranscribeStreamingService: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,10 +54,23 @@ public struct TranscribeStreamingService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
-            possibleErrorTypes: [TranscribeStreamingServiceErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [TranscribeStreamingServiceErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
+}
+
+extension TranscribeStreamingService {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
+    }
 }

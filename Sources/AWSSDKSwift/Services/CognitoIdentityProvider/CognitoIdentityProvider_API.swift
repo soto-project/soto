@@ -27,6 +27,7 @@ public struct CognitoIdentityProvider: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,510 +54,523 @@ public struct CognitoIdentityProvider: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-04-18",
             endpoint: endpoint,
-            possibleErrorTypes: [CognitoIdentityProviderErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CognitoIdentityProviderErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Adds additional user attributes to the user pool schema.
-    public func addCustomAttributes(_ input: AddCustomAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddCustomAttributesResponse> {
-        return self.client.execute(operation: "AddCustomAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func addCustomAttributes(_ input: AddCustomAttributesRequest) -> EventLoopFuture<AddCustomAttributesResponse> {
+        return client.execute(operation: "AddCustomAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds the specified user to the specified group. Calling this action requires developer credentials.
-    @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AdminAddUserToGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AdminAddUserToGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Calling this action requires developer credentials.
-    public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminConfirmSignUpResponse> {
-        return self.client.execute(operation: "AdminConfirmSignUp", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest) -> EventLoopFuture<AdminConfirmSignUpResponse> {
+        return client.execute(operation: "AdminConfirmSignUp", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new user in the specified user pool. If MessageAction is not set, the default is to send a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Alternatively, you can call AdminCreateUser with “SUPPRESS” for the MessageAction parameter, and Amazon Cognito will not send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password.  AdminCreateUser requires developer credentials.
-    public func adminCreateUser(_ input: AdminCreateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminCreateUserResponse> {
-        return self.client.execute(operation: "AdminCreateUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminCreateUser(_ input: AdminCreateUserRequest) -> EventLoopFuture<AdminCreateUserResponse> {
+        return client.execute(operation: "AdminCreateUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a user as an administrator. Works on any user. Calling this action requires developer credentials.
-    @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AdminDeleteUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AdminDeleteUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
-    public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminDeleteUserAttributesResponse> {
-        return self.client.execute(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest) -> EventLoopFuture<AdminDeleteUserAttributesResponse> {
+        return client.execute(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Disables the user from signing in with the specified external (SAML or social) identity provider. If the user to disable is a Cognito User Pools native username + password user, they are not permitted to use their password to sign-in. If the user to disable is a linked external IdP user, any link between that user and an existing user is removed. The next time the external user (no longer attached to the previously linked DestinationUser) signs in, they must create a new user account. See AdminLinkProviderForUser. This action is enabled only for admin access and requires developer credentials. The ProviderName must match the value specified when creating an IdP for the pool.  To disable a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject, with the ProviderAttributeValue being the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social identity providers. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign-in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked using  AdminLinkProviderForUser call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
-    public func adminDisableProviderForUser(_ input: AdminDisableProviderForUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminDisableProviderForUserResponse> {
-        return self.client.execute(operation: "AdminDisableProviderForUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminDisableProviderForUser(_ input: AdminDisableProviderForUserRequest) -> EventLoopFuture<AdminDisableProviderForUserResponse> {
+        return client.execute(operation: "AdminDisableProviderForUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Disables the specified user. Calling this action requires developer credentials.
-    public func adminDisableUser(_ input: AdminDisableUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminDisableUserResponse> {
-        return self.client.execute(operation: "AdminDisableUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminDisableUser(_ input: AdminDisableUserRequest) -> EventLoopFuture<AdminDisableUserResponse> {
+        return client.execute(operation: "AdminDisableUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Enables the specified user as an administrator. Works on any user. Calling this action requires developer credentials.
-    public func adminEnableUser(_ input: AdminEnableUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminEnableUserResponse> {
-        return self.client.execute(operation: "AdminEnableUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminEnableUser(_ input: AdminEnableUserRequest) -> EventLoopFuture<AdminEnableUserResponse> {
+        return client.execute(operation: "AdminEnableUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Forgets the device, as an administrator. Calling this action requires developer credentials.
-    @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AdminForgetDevice", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AdminForgetDevice", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the device, as an administrator. Calling this action requires developer credentials.
-    public func adminGetDevice(_ input: AdminGetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminGetDeviceResponse> {
-        return self.client.execute(operation: "AdminGetDevice", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminGetDevice(_ input: AdminGetDeviceRequest) -> EventLoopFuture<AdminGetDeviceResponse> {
+        return client.execute(operation: "AdminGetDevice", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the specified user by user name in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
-    public func adminGetUser(_ input: AdminGetUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminGetUserResponse> {
-        return self.client.execute(operation: "AdminGetUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminGetUser(_ input: AdminGetUserRequest) -> EventLoopFuture<AdminGetUserResponse> {
+        return client.execute(operation: "AdminGetUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Initiates the authentication flow, as an administrator. Calling this action requires developer credentials.
-    public func adminInitiateAuth(_ input: AdminInitiateAuthRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminInitiateAuthResponse> {
-        return self.client.execute(operation: "AdminInitiateAuth", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminInitiateAuth(_ input: AdminInitiateAuthRequest) -> EventLoopFuture<AdminInitiateAuthResponse> {
+        return client.execute(operation: "AdminInitiateAuth", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Links an existing user account in a user pool (DestinationUser) to an identity from an external identity provider (SourceUser) based on a specified attribute name and value from the external identity provider. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in, so that the federated user identity can be used to sign in as the existing user account.   For example, if there is an existing user with a username and password, this API links that user to a federated user identity, so that when the federated user identity is used, the user signs in as the existing user account.   The maximum number of federated identities linked to a user is 5.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external identity providers and provider attributes that have been trusted by the application owner.  This action is enabled only for admin access and requires developer credentials.
-    public func adminLinkProviderForUser(_ input: AdminLinkProviderForUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminLinkProviderForUserResponse> {
-        return self.client.execute(operation: "AdminLinkProviderForUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminLinkProviderForUser(_ input: AdminLinkProviderForUserRequest) -> EventLoopFuture<AdminLinkProviderForUserResponse> {
+        return client.execute(operation: "AdminLinkProviderForUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists devices, as an administrator. Calling this action requires developer credentials.
-    public func adminListDevices(_ input: AdminListDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminListDevicesResponse> {
-        return self.client.execute(operation: "AdminListDevices", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminListDevices(_ input: AdminListDevicesRequest) -> EventLoopFuture<AdminListDevicesResponse> {
+        return client.execute(operation: "AdminListDevices", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the groups that the user belongs to. Calling this action requires developer credentials.
-    public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminListGroupsForUserResponse> {
-        return self.client.execute(operation: "AdminListGroupsForUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest) -> EventLoopFuture<AdminListGroupsForUserResponse> {
+        return client.execute(operation: "AdminListGroupsForUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
-    public func adminListUserAuthEvents(_ input: AdminListUserAuthEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminListUserAuthEventsResponse> {
-        return self.client.execute(operation: "AdminListUserAuthEvents", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminListUserAuthEvents(_ input: AdminListUserAuthEventsRequest) -> EventLoopFuture<AdminListUserAuthEventsResponse> {
+        return client.execute(operation: "AdminListUserAuthEvents", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the specified user from the specified group. Calling this action requires developer credentials.
-    @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Calling this action requires developer credentials.
-    public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminResetUserPasswordResponse> {
-        return self.client.execute(operation: "AdminResetUserPassword", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest) -> EventLoopFuture<AdminResetUserPasswordResponse> {
+        return client.execute(operation: "AdminResetUserPassword", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Responds to an authentication challenge, as an administrator. Calling this action requires developer credentials.
-    public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminRespondToAuthChallengeResponse> {
-        return self.client.execute(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest) -> EventLoopFuture<AdminRespondToAuthChallengeResponse> {
+        return client.execute(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the user's multi-factor authentication (MFA) preference, including which MFA options are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in.
-    public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminSetUserMFAPreferenceResponse> {
-        return self.client.execute(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest) -> EventLoopFuture<AdminSetUserMFAPreferenceResponse> {
+        return client.execute(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the specified user's password in a user pool as an administrator. Works on any user.  The password can be temporary or permanent. If it is temporary, the user status will be placed into the FORCE_CHANGE_PASSWORD state. When the user next tries to sign in, the InitiateAuth/AdminInitiateAuth response will contain the NEW_PASSWORD_REQUIRED challenge. If the user does not sign in before it expires, the user will not be able to sign in and their password will need to be reset by an administrator.  Once the user has set a new password, or the password is permanent, the user status will be set to Confirmed.
-    public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminSetUserPasswordResponse> {
-        return self.client.execute(operation: "AdminSetUserPassword", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest) -> EventLoopFuture<AdminSetUserPasswordResponse> {
+        return client.execute(operation: "AdminSetUserPassword", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use AdminSetUserMFAPreference instead.
-    public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminSetUserSettingsResponse> {
-        return self.client.execute(operation: "AdminSetUserSettings", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) -> EventLoopFuture<AdminSetUserSettingsResponse> {
+        return client.execute(operation: "AdminSetUserSettings", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides feedback for an authentication event as to whether it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
-    public func adminUpdateAuthEventFeedback(_ input: AdminUpdateAuthEventFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminUpdateAuthEventFeedbackResponse> {
-        return self.client.execute(operation: "AdminUpdateAuthEventFeedback", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminUpdateAuthEventFeedback(_ input: AdminUpdateAuthEventFeedbackRequest) -> EventLoopFuture<AdminUpdateAuthEventFeedbackResponse> {
+        return client.execute(operation: "AdminUpdateAuthEventFeedback", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the device status as an administrator. Calling this action requires developer credentials.
-    public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminUpdateDeviceStatusResponse> {
-        return self.client.execute(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest) -> EventLoopFuture<AdminUpdateDeviceStatusResponse> {
+        return client.execute(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified. Calling this action requires developer credentials.
-    public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminUpdateUserAttributesResponse> {
-        return self.client.execute(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest) -> EventLoopFuture<AdminUpdateUserAttributesResponse> {
+        return client.execute(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Signs out users from all devices, as an administrator. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued. Calling this action requires developer credentials.
-    public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdminUserGlobalSignOutResponse> {
-        return self.client.execute(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest) -> EventLoopFuture<AdminUserGlobalSignOutResponse> {
+        return client.execute(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a unique generated shared secret key code for the user account. The request takes an access token or a session string, but not both.
-    public func associateSoftwareToken(_ input: AssociateSoftwareTokenRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateSoftwareTokenResponse> {
-        return self.client.execute(operation: "AssociateSoftwareToken", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func associateSoftwareToken(_ input: AssociateSoftwareTokenRequest) -> EventLoopFuture<AssociateSoftwareTokenResponse> {
+        return client.execute(operation: "AssociateSoftwareToken", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Changes the password for a specified user in a user pool.
-    public func changePassword(_ input: ChangePasswordRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ChangePasswordResponse> {
-        return self.client.execute(operation: "ChangePassword", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func changePassword(_ input: ChangePasswordRequest) -> EventLoopFuture<ChangePasswordResponse> {
+        return client.execute(operation: "ChangePassword", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Confirms tracking of the device. This API call is the call that begins device tracking.
-    public func confirmDevice(_ input: ConfirmDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfirmDeviceResponse> {
-        return self.client.execute(operation: "ConfirmDevice", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func confirmDevice(_ input: ConfirmDeviceRequest) -> EventLoopFuture<ConfirmDeviceResponse> {
+        return client.execute(operation: "ConfirmDevice", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Allows a user to enter a confirmation code to reset a forgotten password.
-    public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfirmForgotPasswordResponse> {
-        return self.client.execute(operation: "ConfirmForgotPassword", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest) -> EventLoopFuture<ConfirmForgotPasswordResponse> {
+        return client.execute(operation: "ConfirmForgotPassword", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Confirms registration of a user and handles the existing alias from a previous user.
-    public func confirmSignUp(_ input: ConfirmSignUpRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfirmSignUpResponse> {
-        return self.client.execute(operation: "ConfirmSignUp", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func confirmSignUp(_ input: ConfirmSignUpRequest) -> EventLoopFuture<ConfirmSignUpResponse> {
+        return client.execute(operation: "ConfirmSignUp", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new group in the specified user pool. Calling this action requires developer credentials.
-    public func createGroup(_ input: CreateGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGroupResponse> {
-        return self.client.execute(operation: "CreateGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createGroup(_ input: CreateGroupRequest) -> EventLoopFuture<CreateGroupResponse> {
+        return client.execute(operation: "CreateGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an identity provider for a user pool.
-    public func createIdentityProvider(_ input: CreateIdentityProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIdentityProviderResponse> {
-        return self.client.execute(operation: "CreateIdentityProvider", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createIdentityProvider(_ input: CreateIdentityProviderRequest) -> EventLoopFuture<CreateIdentityProviderResponse> {
+        return client.execute(operation: "CreateIdentityProvider", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new OAuth2.0 resource server and defines custom scopes in it.
-    public func createResourceServer(_ input: CreateResourceServerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateResourceServerResponse> {
-        return self.client.execute(operation: "CreateResourceServer", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createResourceServer(_ input: CreateResourceServerRequest) -> EventLoopFuture<CreateResourceServerResponse> {
+        return client.execute(operation: "CreateResourceServer", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates the user import job.
-    public func createUserImportJob(_ input: CreateUserImportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserImportJobResponse> {
-        return self.client.execute(operation: "CreateUserImportJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createUserImportJob(_ input: CreateUserImportJobRequest) -> EventLoopFuture<CreateUserImportJobResponse> {
+        return client.execute(operation: "CreateUserImportJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new Amazon Cognito user pool and sets the password policy for the pool.
-    public func createUserPool(_ input: CreateUserPoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserPoolResponse> {
-        return self.client.execute(operation: "CreateUserPool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createUserPool(_ input: CreateUserPoolRequest) -> EventLoopFuture<CreateUserPoolResponse> {
+        return client.execute(operation: "CreateUserPool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates the user pool client.
-    public func createUserPoolClient(_ input: CreateUserPoolClientRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserPoolClientResponse> {
-        return self.client.execute(operation: "CreateUserPoolClient", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createUserPoolClient(_ input: CreateUserPoolClientRequest) -> EventLoopFuture<CreateUserPoolClientResponse> {
+        return client.execute(operation: "CreateUserPoolClient", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new domain for a user pool.
-    public func createUserPoolDomain(_ input: CreateUserPoolDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserPoolDomainResponse> {
-        return self.client.execute(operation: "CreateUserPoolDomain", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createUserPoolDomain(_ input: CreateUserPoolDomainRequest) -> EventLoopFuture<CreateUserPoolDomainResponse> {
+        return client.execute(operation: "CreateUserPoolDomain", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a group. Currently only groups with no members can be deleted. Calling this action requires developer credentials.
-    @discardableResult public func deleteGroup(_ input: DeleteGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteGroup(_ input: DeleteGroupRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an identity provider for a user pool.
-    @discardableResult public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteIdentityProvider", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteIdentityProvider", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a resource server.
-    @discardableResult public func deleteResourceServer(_ input: DeleteResourceServerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteResourceServer", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteResourceServer(_ input: DeleteResourceServerRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteResourceServer", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Allows a user to delete himself or herself.
-    @discardableResult public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the attributes for a user.
-    public func deleteUserAttributes(_ input: DeleteUserAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserAttributesResponse> {
-        return self.client.execute(operation: "DeleteUserAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteUserAttributes(_ input: DeleteUserAttributesRequest) -> EventLoopFuture<DeleteUserAttributesResponse> {
+        return client.execute(operation: "DeleteUserAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified Amazon Cognito user pool.
-    @discardableResult public func deleteUserPool(_ input: DeleteUserPoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUserPool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUserPool(_ input: DeleteUserPoolRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteUserPool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Allows the developer to delete the user pool client.
-    @discardableResult public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUserPoolClient", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteUserPoolClient", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a domain for a user pool.
-    public func deleteUserPoolDomain(_ input: DeleteUserPoolDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserPoolDomainResponse> {
-        return self.client.execute(operation: "DeleteUserPoolDomain", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deleteUserPoolDomain(_ input: DeleteUserPoolDomainRequest) -> EventLoopFuture<DeleteUserPoolDomainResponse> {
+        return client.execute(operation: "DeleteUserPoolDomain", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a specific identity provider.
-    public func describeIdentityProvider(_ input: DescribeIdentityProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIdentityProviderResponse> {
-        return self.client.execute(operation: "DescribeIdentityProvider", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeIdentityProvider(_ input: DescribeIdentityProviderRequest) -> EventLoopFuture<DescribeIdentityProviderResponse> {
+        return client.execute(operation: "DescribeIdentityProvider", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a resource server.
-    public func describeResourceServer(_ input: DescribeResourceServerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeResourceServerResponse> {
-        return self.client.execute(operation: "DescribeResourceServer", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeResourceServer(_ input: DescribeResourceServerRequest) -> EventLoopFuture<DescribeResourceServerResponse> {
+        return client.execute(operation: "DescribeResourceServer", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the risk configuration.
-    public func describeRiskConfiguration(_ input: DescribeRiskConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRiskConfigurationResponse> {
-        return self.client.execute(operation: "DescribeRiskConfiguration", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeRiskConfiguration(_ input: DescribeRiskConfigurationRequest) -> EventLoopFuture<DescribeRiskConfigurationResponse> {
+        return client.execute(operation: "DescribeRiskConfiguration", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the user import job.
-    public func describeUserImportJob(_ input: DescribeUserImportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserImportJobResponse> {
-        return self.client.execute(operation: "DescribeUserImportJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeUserImportJob(_ input: DescribeUserImportJobRequest) -> EventLoopFuture<DescribeUserImportJobResponse> {
+        return client.execute(operation: "DescribeUserImportJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the configuration information and metadata of the specified user pool.
-    public func describeUserPool(_ input: DescribeUserPoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserPoolResponse> {
-        return self.client.execute(operation: "DescribeUserPool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeUserPool(_ input: DescribeUserPoolRequest) -> EventLoopFuture<DescribeUserPoolResponse> {
+        return client.execute(operation: "DescribeUserPool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Client method for returning the configuration information and metadata of the specified user pool app client.
-    public func describeUserPoolClient(_ input: DescribeUserPoolClientRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserPoolClientResponse> {
-        return self.client.execute(operation: "DescribeUserPoolClient", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeUserPoolClient(_ input: DescribeUserPoolClientRequest) -> EventLoopFuture<DescribeUserPoolClientResponse> {
+        return client.execute(operation: "DescribeUserPoolClient", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a domain.
-    public func describeUserPoolDomain(_ input: DescribeUserPoolDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserPoolDomainResponse> {
-        return self.client.execute(operation: "DescribeUserPoolDomain", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeUserPoolDomain(_ input: DescribeUserPoolDomainRequest) -> EventLoopFuture<DescribeUserPoolDomainResponse> {
+        return client.execute(operation: "DescribeUserPoolDomain", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Forgets the specified device.
-    @discardableResult public func forgetDevice(_ input: ForgetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "ForgetDevice", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func forgetDevice(_ input: ForgetDeviceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "ForgetDevice", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see Recovering User Accounts in the Amazon Cognito Developer Guide. If neither a verified phone number nor a verified email exists, an InvalidParameterException is thrown. To use the confirmation code for resetting the password, call ConfirmForgotPassword.
-    public func forgotPassword(_ input: ForgotPasswordRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ForgotPasswordResponse> {
-        return self.client.execute(operation: "ForgotPassword", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func forgotPassword(_ input: ForgotPasswordRequest) -> EventLoopFuture<ForgotPasswordResponse> {
+        return client.execute(operation: "ForgotPassword", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the header information for the .csv file to be used as input for the user import job.
-    public func getCSVHeader(_ input: GetCSVHeaderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCSVHeaderResponse> {
-        return self.client.execute(operation: "GetCSVHeader", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getCSVHeader(_ input: GetCSVHeaderRequest) -> EventLoopFuture<GetCSVHeaderResponse> {
+        return client.execute(operation: "GetCSVHeader", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the device.
-    public func getDevice(_ input: GetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceResponse> {
-        return self.client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getDevice(_ input: GetDeviceRequest) -> EventLoopFuture<GetDeviceResponse> {
+        return client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a group. Calling this action requires developer credentials.
-    public func getGroup(_ input: GetGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGroupResponse> {
-        return self.client.execute(operation: "GetGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getGroup(_ input: GetGroupRequest) -> EventLoopFuture<GetGroupResponse> {
+        return client.execute(operation: "GetGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the specified identity provider.
-    public func getIdentityProviderByIdentifier(_ input: GetIdentityProviderByIdentifierRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetIdentityProviderByIdentifierResponse> {
-        return self.client.execute(operation: "GetIdentityProviderByIdentifier", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getIdentityProviderByIdentifier(_ input: GetIdentityProviderByIdentifierRequest) -> EventLoopFuture<GetIdentityProviderByIdentifierResponse> {
+        return client.execute(operation: "GetIdentityProviderByIdentifier", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This method takes a user pool ID, and returns the signing certificate.
-    public func getSigningCertificate(_ input: GetSigningCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSigningCertificateResponse> {
-        return self.client.execute(operation: "GetSigningCertificate", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getSigningCertificate(_ input: GetSigningCertificateRequest) -> EventLoopFuture<GetSigningCertificateResponse> {
+        return client.execute(operation: "GetSigningCertificate", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the UI Customization information for a particular app client's app UI, if there is something set. If nothing is set for the particular client, but there is an existing pool level customization (app clientId will be ALL), then that is returned. If nothing is present, then an empty shape is returned.
-    public func getUICustomization(_ input: GetUICustomizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUICustomizationResponse> {
-        return self.client.execute(operation: "GetUICustomization", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getUICustomization(_ input: GetUICustomizationRequest) -> EventLoopFuture<GetUICustomizationResponse> {
+        return client.execute(operation: "GetUICustomization", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the user attributes and metadata for a user.
-    public func getUser(_ input: GetUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserResponse> {
-        return self.client.execute(operation: "GetUser", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getUser(_ input: GetUserRequest) -> EventLoopFuture<GetUserResponse> {
+        return client.execute(operation: "GetUser", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the user attribute verification code for the specified attribute name.
-    public func getUserAttributeVerificationCode(_ input: GetUserAttributeVerificationCodeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserAttributeVerificationCodeResponse> {
-        return self.client.execute(operation: "GetUserAttributeVerificationCode", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getUserAttributeVerificationCode(_ input: GetUserAttributeVerificationCodeRequest) -> EventLoopFuture<GetUserAttributeVerificationCodeResponse> {
+        return client.execute(operation: "GetUserAttributeVerificationCode", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the user pool multi-factor authentication (MFA) configuration.
-    public func getUserPoolMfaConfig(_ input: GetUserPoolMfaConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserPoolMfaConfigResponse> {
-        return self.client.execute(operation: "GetUserPoolMfaConfig", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getUserPoolMfaConfig(_ input: GetUserPoolMfaConfigRequest) -> EventLoopFuture<GetUserPoolMfaConfigResponse> {
+        return client.execute(operation: "GetUserPoolMfaConfig", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Signs out users from all devices. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued.
-    public func globalSignOut(_ input: GlobalSignOutRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GlobalSignOutResponse> {
-        return self.client.execute(operation: "GlobalSignOut", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func globalSignOut(_ input: GlobalSignOutRequest) -> EventLoopFuture<GlobalSignOutResponse> {
+        return client.execute(operation: "GlobalSignOut", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Initiates the authentication flow.
-    public func initiateAuth(_ input: InitiateAuthRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InitiateAuthResponse> {
-        return self.client.execute(operation: "InitiateAuth", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func initiateAuth(_ input: InitiateAuthRequest) -> EventLoopFuture<InitiateAuthResponse> {
+        return client.execute(operation: "InitiateAuth", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the devices.
-    public func listDevices(_ input: ListDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDevicesResponse> {
-        return self.client.execute(operation: "ListDevices", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listDevices(_ input: ListDevicesRequest) -> EventLoopFuture<ListDevicesResponse> {
+        return client.execute(operation: "ListDevices", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the groups associated with a user pool. Calling this action requires developer credentials.
-    public func listGroups(_ input: ListGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroupsResponse> {
-        return self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listGroups(_ input: ListGroupsRequest) -> EventLoopFuture<ListGroupsResponse> {
+        return client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists information about all identity providers for a user pool.
-    public func listIdentityProviders(_ input: ListIdentityProvidersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListIdentityProvidersResponse> {
-        return self.client.execute(operation: "ListIdentityProviders", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listIdentityProviders(_ input: ListIdentityProvidersRequest) -> EventLoopFuture<ListIdentityProvidersResponse> {
+        return client.execute(operation: "ListIdentityProviders", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the resource servers for a user pool.
-    public func listResourceServers(_ input: ListResourceServersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourceServersResponse> {
-        return self.client.execute(operation: "ListResourceServers", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listResourceServers(_ input: ListResourceServersRequest) -> EventLoopFuture<ListResourceServersResponse> {
+        return client.execute(operation: "ListResourceServers", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the user import jobs.
-    public func listUserImportJobs(_ input: ListUserImportJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserImportJobsResponse> {
-        return self.client.execute(operation: "ListUserImportJobs", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUserImportJobs(_ input: ListUserImportJobsRequest) -> EventLoopFuture<ListUserImportJobsResponse> {
+        return client.execute(operation: "ListUserImportJobs", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the clients that have been created for the specified user pool.
-    public func listUserPoolClients(_ input: ListUserPoolClientsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserPoolClientsResponse> {
-        return self.client.execute(operation: "ListUserPoolClients", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUserPoolClients(_ input: ListUserPoolClientsRequest) -> EventLoopFuture<ListUserPoolClientsResponse> {
+        return client.execute(operation: "ListUserPoolClients", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the user pools associated with an AWS account.
-    public func listUserPools(_ input: ListUserPoolsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserPoolsResponse> {
-        return self.client.execute(operation: "ListUserPools", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUserPools(_ input: ListUserPoolsRequest) -> EventLoopFuture<ListUserPoolsResponse> {
+        return client.execute(operation: "ListUserPools", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the users in the Amazon Cognito user pool.
-    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUsersResponse> {
-        return self.client.execute(operation: "ListUsers", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
+        return client.execute(operation: "ListUsers", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the users in the specified group. Calling this action requires developer credentials.
-    public func listUsersInGroup(_ input: ListUsersInGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUsersInGroupResponse> {
-        return self.client.execute(operation: "ListUsersInGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listUsersInGroup(_ input: ListUsersInGroupRequest) -> EventLoopFuture<ListUsersInGroupResponse> {
+        return client.execute(operation: "ListUsersInGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Resends the confirmation (for confirmation of registration) to a specific user in the user pool.
-    public func resendConfirmationCode(_ input: ResendConfirmationCodeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResendConfirmationCodeResponse> {
-        return self.client.execute(operation: "ResendConfirmationCode", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func resendConfirmationCode(_ input: ResendConfirmationCodeRequest) -> EventLoopFuture<ResendConfirmationCodeResponse> {
+        return client.execute(operation: "ResendConfirmationCode", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Responds to the authentication challenge.
-    public func respondToAuthChallenge(_ input: RespondToAuthChallengeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RespondToAuthChallengeResponse> {
-        return self.client.execute(operation: "RespondToAuthChallenge", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func respondToAuthChallenge(_ input: RespondToAuthChallengeRequest) -> EventLoopFuture<RespondToAuthChallengeResponse> {
+        return client.execute(operation: "RespondToAuthChallenge", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId, pass null values for all four configuration types. To enable Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns keyAdvancedSecurityMode.
-    public func setRiskConfiguration(_ input: SetRiskConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetRiskConfigurationResponse> {
-        return self.client.execute(operation: "SetRiskConfiguration", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func setRiskConfiguration(_ input: SetRiskConfigurationRequest) -> EventLoopFuture<SetRiskConfigurationResponse> {
+        return client.execute(operation: "SetRiskConfiguration", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the UI customization information for a user pool's built-in app UI. You can specify app UI customization settings for a single client (with a specific clientId) or for all clients (by setting the clientId to ALL). If you specify ALL, the default configuration will be used for every client that has no UI customization set previously. If you specify UI customization settings for a particular client, it will no longer fall back to the ALL configuration.   To use this API, your user pool must have a domain associated with it. Otherwise, there is no place to host the app's pages, and the service will throw an error. 
-    public func setUICustomization(_ input: SetUICustomizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetUICustomizationResponse> {
-        return self.client.execute(operation: "SetUICustomization", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func setUICustomization(_ input: SetUICustomizationRequest) -> EventLoopFuture<SetUICustomizationResponse> {
+        return client.execute(operation: "SetUICustomization", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in.
-    public func setUserMFAPreference(_ input: SetUserMFAPreferenceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetUserMFAPreferenceResponse> {
-        return self.client.execute(operation: "SetUserMFAPreference", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func setUserMFAPreference(_ input: SetUserMFAPreferenceRequest) -> EventLoopFuture<SetUserMFAPreferenceResponse> {
+        return client.execute(operation: "SetUserMFAPreference", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Set the user pool multi-factor authentication (MFA) configuration.
-    public func setUserPoolMfaConfig(_ input: SetUserPoolMfaConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetUserPoolMfaConfigResponse> {
-        return self.client.execute(operation: "SetUserPoolMfaConfig", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func setUserPoolMfaConfig(_ input: SetUserPoolMfaConfigRequest) -> EventLoopFuture<SetUserPoolMfaConfigResponse> {
+        return client.execute(operation: "SetUserPoolMfaConfig", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use SetUserMFAPreference instead.
-    public func setUserSettings(_ input: SetUserSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetUserSettingsResponse> {
-        return self.client.execute(operation: "SetUserSettings", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func setUserSettings(_ input: SetUserSettingsRequest) -> EventLoopFuture<SetUserSettingsResponse> {
+        return client.execute(operation: "SetUserSettings", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Registers the user in the specified user pool and creates a user name, password, and user attributes.
-    public func signUp(_ input: SignUpRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SignUpResponse> {
-        return self.client.execute(operation: "SignUp", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func signUp(_ input: SignUpRequest) -> EventLoopFuture<SignUpResponse> {
+        return client.execute(operation: "SignUp", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts the user import.
-    public func startUserImportJob(_ input: StartUserImportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartUserImportJobResponse> {
-        return self.client.execute(operation: "StartUserImportJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func startUserImportJob(_ input: StartUserImportJobRequest) -> EventLoopFuture<StartUserImportJobResponse> {
+        return client.execute(operation: "StartUserImportJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops the user import job.
-    public func stopUserImportJob(_ input: StopUserImportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopUserImportJobResponse> {
-        return self.client.execute(operation: "StopUserImportJob", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func stopUserImportJob(_ input: StopUserImportJobRequest) -> EventLoopFuture<StopUserImportJobResponse> {
+        return client.execute(operation: "StopUserImportJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an IAM policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the specified tags from an Amazon Cognito user pool. You can use this action up to 5 times per second, per account
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides the feedback for an authentication event whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
-    public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAuthEventFeedbackResponse> {
-        return self.client.execute(operation: "UpdateAuthEventFeedback", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest) -> EventLoopFuture<UpdateAuthEventFeedbackResponse> {
+        return client.execute(operation: "UpdateAuthEventFeedback", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the device status.
-    public func updateDeviceStatus(_ input: UpdateDeviceStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDeviceStatusResponse> {
-        return self.client.execute(operation: "UpdateDeviceStatus", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateDeviceStatus(_ input: UpdateDeviceStatusRequest) -> EventLoopFuture<UpdateDeviceStatusResponse> {
+        return client.execute(operation: "UpdateDeviceStatus", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified group with the specified attributes. Calling this action requires developer credentials.  If you don't provide a value for an attribute, it will be set to the default value. 
-    public func updateGroup(_ input: UpdateGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGroupResponse> {
-        return self.client.execute(operation: "UpdateGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateGroup(_ input: UpdateGroupRequest) -> EventLoopFuture<UpdateGroupResponse> {
+        return client.execute(operation: "UpdateGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates identity provider information for a user pool.
-    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateIdentityProviderResponse> {
-        return self.client.execute(operation: "UpdateIdentityProvider", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest) -> EventLoopFuture<UpdateIdentityProviderResponse> {
+        return client.execute(operation: "UpdateIdentityProvider", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the name and scopes of resource server. All other fields are read-only.  If you don't provide a value for an attribute, it will be set to the default value. 
-    public func updateResourceServer(_ input: UpdateResourceServerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateResourceServerResponse> {
-        return self.client.execute(operation: "UpdateResourceServer", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateResourceServer(_ input: UpdateResourceServerRequest) -> EventLoopFuture<UpdateResourceServerResponse> {
+        return client.execute(operation: "UpdateResourceServer", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Allows a user to update a specific attribute (one at a time).
-    public func updateUserAttributes(_ input: UpdateUserAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserAttributesResponse> {
-        return self.client.execute(operation: "UpdateUserAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUserAttributes(_ input: UpdateUserAttributesRequest) -> EventLoopFuture<UpdateUserAttributesResponse> {
+        return client.execute(operation: "UpdateUserAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings using DescribeUserPool.  If you don't provide a value for an attribute, it will be set to the default value. 
-    public func updateUserPool(_ input: UpdateUserPoolRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserPoolResponse> {
-        return self.client.execute(operation: "UpdateUserPool", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUserPool(_ input: UpdateUserPoolRequest) -> EventLoopFuture<UpdateUserPoolResponse> {
+        return client.execute(operation: "UpdateUserPool", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings using DescribeUserPoolClient.  If you don't provide a value for an attribute, it will be set to the default value. 
-    public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserPoolClientResponse> {
-        return self.client.execute(operation: "UpdateUserPoolClient", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) -> EventLoopFuture<UpdateUserPoolClientResponse> {
+        return client.execute(operation: "UpdateUserPoolClient", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
-    public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserPoolDomainResponse> {
-        return self.client.execute(operation: "UpdateUserPoolDomain", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest) -> EventLoopFuture<UpdateUserPoolDomainResponse> {
+        return client.execute(operation: "UpdateUserPoolDomain", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.
-    public func verifySoftwareToken(_ input: VerifySoftwareTokenRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<VerifySoftwareTokenResponse> {
-        return self.client.execute(operation: "VerifySoftwareToken", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func verifySoftwareToken(_ input: VerifySoftwareTokenRequest) -> EventLoopFuture<VerifySoftwareTokenResponse> {
+        return client.execute(operation: "VerifySoftwareToken", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Verifies the specified user attributes in the user pool.
-    public func verifyUserAttribute(_ input: VerifyUserAttributeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<VerifyUserAttributeResponse> {
-        return self.client.execute(operation: "VerifyUserAttribute", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func verifyUserAttribute(_ input: VerifyUserAttributeRequest) -> EventLoopFuture<VerifyUserAttributeResponse> {
+        return client.execute(operation: "VerifyUserAttribute", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CognitoIdentityProvider {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

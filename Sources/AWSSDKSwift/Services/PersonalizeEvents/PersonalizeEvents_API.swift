@@ -27,6 +27,7 @@ public struct PersonalizeEvents: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,15 +54,28 @@ public struct PersonalizeEvents: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-03-22",
             endpoint: endpoint,
-            possibleErrorTypes: [PersonalizeEventsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [PersonalizeEventsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Records user interaction event data. For more information see event-record-api.
-    @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putEvents(_ input: PutEventsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension PersonalizeEvents {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

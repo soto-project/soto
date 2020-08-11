@@ -27,6 +27,7 @@ public struct GlobalAccelerator: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -53,135 +54,148 @@ public struct GlobalAccelerator: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-08-08",
             endpoint: endpoint,
-            possibleErrorTypes: [GlobalAcceleratorErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [GlobalAcceleratorErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Advertises an IPv4 address range that is provisioned for use with your AWS resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to AWS because of propagation delays. To see an AWS CLI example of advertising an address range, scroll down to Example. To stop advertising the BYOIP address range, use  WithdrawByoipCidr. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
-    public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AdvertiseByoipCidrResponse> {
-        return self.client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest) -> EventLoopFuture<AdvertiseByoipCidrResponse> {
+        return client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. To see an AWS CLI example of creating an accelerator, scroll down to Example. If you bring your own IP address ranges to AWS Global Accelerator (BYOIP), you can assign IP addresses from your own pool to your accelerator as the static IP address entry points. Only one IP address from each of your IP address ranges can be used for each accelerator.  You must specify the US West (Oregon) Region to create or update accelerators. 
-    public func createAccelerator(_ input: CreateAcceleratorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAcceleratorResponse> {
-        return self.client.execute(operation: "CreateAccelerator", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createAccelerator(_ input: CreateAcceleratorRequest) -> EventLoopFuture<CreateAcceleratorResponse> {
+        return client.execute(operation: "CreateAccelerator", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one AWS Region. To see an AWS CLI example of creating an endpoint group, scroll down to Example.
-    public func createEndpointGroup(_ input: CreateEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateEndpointGroupResponse> {
-        return self.client.execute(operation: "CreateEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createEndpointGroup(_ input: CreateEndpointGroupRequest) -> EventLoopFuture<CreateEndpointGroupResponse> {
+        return client.execute(operation: "CreateEndpointGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. To see an AWS CLI example of creating a listener, scroll down to Example.
-    public func createListener(_ input: CreateListenerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateListenerResponse> {
-        return self.client.execute(operation: "CreateListener", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func createListener(_ input: CreateListenerRequest) -> EventLoopFuture<CreateListenerResponse> {
+        return client.execute(operation: "CreateListener", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false.  When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges.  The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see Authentication and Access Control in the AWS Global Accelerator Developer Guide. 
-    @discardableResult public func deleteAccelerator(_ input: DeleteAcceleratorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteAccelerator", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteAccelerator(_ input: DeleteAcceleratorRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteAccelerator", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete an endpoint group from a listener.
-    @discardableResult public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteEndpointGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete a listener from an accelerator.
-    @discardableResult public func deleteListener(_ input: DeleteListenerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteListener", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteListener(_ input: DeleteListenerRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteListener", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Releases the specified address range that you provisioned to use with your AWS resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. To see an AWS CLI example of deprovisioning an address range, scroll down to Example. Before you can release an address range, you must stop advertising it by using WithdrawByoipCidr and you must not have any accelerators that are using static IP addresses allocated from its address range.  For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
-    public func deprovisionByoipCidr(_ input: DeprovisionByoipCidrRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeprovisionByoipCidrResponse> {
-        return self.client.execute(operation: "DeprovisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func deprovisionByoipCidr(_ input: DeprovisionByoipCidrRequest) -> EventLoopFuture<DeprovisionByoipCidrResponse> {
+        return client.execute(operation: "DeprovisionByoipCidr", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe an accelerator. To see an AWS CLI example of describing an accelerator, scroll down to Example.
-    public func describeAccelerator(_ input: DescribeAcceleratorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorResponse> {
-        return self.client.execute(operation: "DescribeAccelerator", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAccelerator(_ input: DescribeAcceleratorRequest) -> EventLoopFuture<DescribeAcceleratorResponse> {
+        return client.execute(operation: "DescribeAccelerator", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe the attributes of an accelerator. To see an AWS CLI example of describing the attributes of an accelerator, scroll down to Example.
-    public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorAttributesResponse> {
-        return self.client.execute(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest) -> EventLoopFuture<DescribeAcceleratorAttributesResponse> {
+        return client.execute(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe an endpoint group. To see an AWS CLI example of describing an endpoint group, scroll down to Example.
-    public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEndpointGroupResponse> {
-        return self.client.execute(operation: "DescribeEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest) -> EventLoopFuture<DescribeEndpointGroupResponse> {
+        return client.execute(operation: "DescribeEndpointGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe a listener. To see an AWS CLI example of describing a listener, scroll down to Example.
-    public func describeListener(_ input: DescribeListenerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeListenerResponse> {
-        return self.client.execute(operation: "DescribeListener", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeListener(_ input: DescribeListenerRequest) -> EventLoopFuture<DescribeListenerResponse> {
+        return client.execute(operation: "DescribeListener", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  List the accelerators for an AWS account. To see an AWS CLI example of listing the accelerators for an AWS account, scroll down to Example.
-    public func listAccelerators(_ input: ListAcceleratorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAcceleratorsResponse> {
-        return self.client.execute(operation: "ListAccelerators", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listAccelerators(_ input: ListAcceleratorsRequest) -> EventLoopFuture<ListAcceleratorsResponse> {
+        return client.execute(operation: "ListAccelerators", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, including the current state and a history of state changes. To see an AWS CLI example of listing BYOIP CIDR addresses, scroll down to Example.
-    public func listByoipCidrs(_ input: ListByoipCidrsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListByoipCidrsResponse> {
-        return self.client.execute(operation: "ListByoipCidrs", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listByoipCidrs(_ input: ListByoipCidrsRequest) -> EventLoopFuture<ListByoipCidrsResponse> {
+        return client.execute(operation: "ListByoipCidrs", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  List the endpoint groups that are associated with a listener. To see an AWS CLI example of listing the endpoint groups for listener, scroll down to Example.
-    public func listEndpointGroups(_ input: ListEndpointGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEndpointGroupsResponse> {
-        return self.client.execute(operation: "ListEndpointGroups", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listEndpointGroups(_ input: ListEndpointGroupsRequest) -> EventLoopFuture<ListEndpointGroupsResponse> {
+        return client.execute(operation: "ListEndpointGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  List the listeners for an accelerator. To see an AWS CLI example of listing the listeners for an accelerator, scroll down to Example.
-    public func listListeners(_ input: ListListenersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListListenersResponse> {
-        return self.client.execute(operation: "ListListeners", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listListeners(_ input: ListListenersRequest) -> EventLoopFuture<ListListenersResponse> {
+        return client.execute(operation: "ListListeners", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  List all tags for an accelerator. To see an AWS CLI example of listing tags for an accelerator, scroll down to Example. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provisions an IP address range to use with your AWS resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using  AdvertiseByoipCidr. To see an AWS CLI example of provisioning an address range for BYOIP, scroll down to Example. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
-    public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ProvisionByoipCidrResponse> {
-        return self.client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest) -> EventLoopFuture<ProvisionByoipCidrResponse> {
+        return client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Add tags to an accelerator resource. To see an AWS CLI example of adding tags to an accelerator, scroll down to Example. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide. 
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. To see an AWS CLI example of removing tags from an accelerator, scroll down to Example. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Update an accelerator. To see an AWS CLI example of updating an accelerator, scroll down to Example.  You must specify the US West (Oregon) Region to create or update accelerators. 
-    public func updateAccelerator(_ input: UpdateAcceleratorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAcceleratorResponse> {
-        return self.client.execute(operation: "UpdateAccelerator", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAccelerator(_ input: UpdateAcceleratorRequest) -> EventLoopFuture<UpdateAcceleratorResponse> {
+        return client.execute(operation: "UpdateAccelerator", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Update the attributes for an accelerator. To see an AWS CLI example of updating an accelerator to enable flow logs, scroll down to Example.
-    public func updateAcceleratorAttributes(_ input: UpdateAcceleratorAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAcceleratorAttributesResponse> {
-        return self.client.execute(operation: "UpdateAcceleratorAttributes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateAcceleratorAttributes(_ input: UpdateAcceleratorAttributesRequest) -> EventLoopFuture<UpdateAcceleratorAttributesResponse> {
+        return client.execute(operation: "UpdateAcceleratorAttributes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Update an endpoint group. To see an AWS CLI example of updating an endpoint group, scroll down to Example.
-    public func updateEndpointGroup(_ input: UpdateEndpointGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateEndpointGroupResponse> {
-        return self.client.execute(operation: "UpdateEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateEndpointGroup(_ input: UpdateEndpointGroupRequest) -> EventLoopFuture<UpdateEndpointGroupResponse> {
+        return client.execute(operation: "UpdateEndpointGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Update a listener. To see an AWS CLI example of updating listener, scroll down to Example.
-    public func updateListener(_ input: UpdateListenerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateListenerResponse> {
-        return self.client.execute(operation: "UpdateListener", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func updateListener(_ input: UpdateListenerRequest) -> EventLoopFuture<UpdateListenerResponse> {
+        return client.execute(operation: "UpdateListener", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. To see an AWS CLI example of withdrawing an address range for BYOIP so it will no longer be advertised by AWS, scroll down to Example. It can take a few minutes before traffic to the specified addresses stops routing to AWS because of propagation delays. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
-    public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<WithdrawByoipCidrResponse> {
-        return self.client.execute(operation: "WithdrawByoipCidr", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest) -> EventLoopFuture<WithdrawByoipCidrResponse> {
+        return client.execute(operation: "WithdrawByoipCidr", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension GlobalAccelerator {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

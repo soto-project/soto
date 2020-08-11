@@ -248,12 +248,13 @@ class S3ExtensionTests: XCTestCase {
 
         let name = TestEnvironment.generateResourceName()
         let runOnEventLoop = s3.client.eventLoopGroup.next()
+        let s3OnEventLoop = s3.delegating(to: runOnEventLoop)
 
-        let response = S3Tests.createBucket(name: name, s3: s3)
+        let response = S3Tests.createBucket(name: name, s3: s3OnEventLoop)
             .hop(to: runOnEventLoop)
             .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(file10), bucket: name, key: "file.csv")
-                return s3.putObject(putRequest, on: runOnEventLoop)
+                return s3OnEventLoop.putObject(putRequest)
             }
             .flatMap { _ -> EventLoopFuture<S3.SelectObjectContentOutput> in
                 let expression = "Select * from S3Object"
@@ -268,7 +269,7 @@ class S3ExtensionTests: XCTestCase {
                     outputSerialization: output,
                     requestProgress: S3.RequestProgress(enabled: true)
                 )
-                return s3.selectObjectContentEventStream(request, on: runOnEventLoop) { eventStream, eventLoop in
+                return s3OnEventLoop.selectObjectContentEventStream(request) { eventStream, eventLoop in
                     XCTAssertTrue(eventLoop === runOnEventLoop)
                     if let records = eventStream.records?.payload {
                         print(String(data: records, encoding: .utf8)!)

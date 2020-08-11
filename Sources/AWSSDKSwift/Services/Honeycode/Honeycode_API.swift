@@ -27,6 +27,7 @@ public struct Honeycode: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,20 +53,33 @@ public struct Honeycode: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-03-01",
             endpoint: endpoint,
-            possibleErrorTypes: [HoneycodeErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [HoneycodeErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///   The GetScreenData API allows retrieval of data from a screen in a Honeycode app. The API allows setting local variables in the screen to filter, sort or otherwise affect what will be displayed on the screen. 
-    public func getScreenData(_ input: GetScreenDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetScreenDataResult> {
-        return self.client.execute(operation: "GetScreenData", path: "/screendata", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getScreenData(_ input: GetScreenDataRequest) -> EventLoopFuture<GetScreenDataResult> {
+        return client.execute(operation: "GetScreenData", path: "/screendata", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   The InvokeScreenAutomation API allows invoking an action defined in a screen in a Honeycode app. The API allows setting local variables, which can then be used in the automation being invoked. This allows automating the Honeycode app interactions to write, update or delete data in the workbook. 
-    public func invokeScreenAutomation(_ input: InvokeScreenAutomationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InvokeScreenAutomationResult> {
-        return self.client.execute(operation: "InvokeScreenAutomation", path: "/workbooks/{workbookId}/apps/{appId}/screens/{screenId}/automations/{automationId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func invokeScreenAutomation(_ input: InvokeScreenAutomationRequest) -> EventLoopFuture<InvokeScreenAutomationResult> {
+        return client.execute(operation: "InvokeScreenAutomation", path: "/workbooks/{workbookId}/apps/{appId}/screens/{screenId}/automations/{automationId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Honeycode {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

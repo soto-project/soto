@@ -27,6 +27,7 @@ public struct Pricing: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -54,25 +55,38 @@ public struct Pricing: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-15",
             endpoint: endpoint,
-            possibleErrorTypes: [PricingErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [PricingErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
-    public func describeServices(_ input: DescribeServicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeServicesResponse> {
-        return self.client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func describeServices(_ input: DescribeServicesRequest) -> EventLoopFuture<DescribeServicesResponse> {
+        return client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of attribute values. Attibutes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the AWS Billing and Cost Management User Guide.
-    public func getAttributeValues(_ input: GetAttributeValuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAttributeValuesResponse> {
-        return self.client.execute(operation: "GetAttributeValues", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getAttributeValues(_ input: GetAttributeValuesRequest) -> EventLoopFuture<GetAttributeValuesResponse> {
+        return client.execute(operation: "GetAttributeValues", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of all products that match the filter criteria.
-    public func getProducts(_ input: GetProductsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetProductsResponse> {
-        return self.client.execute(operation: "GetProducts", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getProducts(_ input: GetProductsRequest) -> EventLoopFuture<GetProductsResponse> {
+        return client.execute(operation: "GetProducts", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Pricing {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

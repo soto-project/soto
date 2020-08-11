@@ -19,6 +19,7 @@ public struct {{ name }}: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -62,11 +63,16 @@ public struct {{ name }}: AWSService {
             serviceEndpoints: [{{ serviceEndpoints|join:", "}}]{% endif %}{% if partitionEndpoints %},
             partitionEndpoints: [{{ partitionEndpoints|join:", "}}]{% endif %}{% if errorTypes %},
             possibleErrorTypes: [{{errorTypes}}.self]{% endif %}{% if middlewareClass %},
-            middlewares: [{{middlewareClass}}]{% endif %},
-            timeout: timeout
+            middlewares: [{{middlewareClass}}]{% endif %}
         )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 {%for op in operations %}
 
@@ -79,8 +85,8 @@ public struct {{ name }}: AWSService {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger)
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}{% if op.inputShape %}, input: input{% endif %}, config: self.config, context: self.context)
     }
 {%endfor %}
 {%if streamingOperations.count > 0 %}
@@ -94,9 +100,18 @@ public struct {{ name }}: AWSService {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger{% if op.streaming %}, stream: stream{% endif %})
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}_ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}{% if op.inputShape %}, input: input{% endif %}, config: self.config, context: self.context, stream: stream)
     }
 {%endfor %}
 {%endif %}
+}
+
+extension {{ name }} {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
+    }
 }

@@ -27,6 +27,7 @@ public struct WorkMailMessageFlow: AWSService {
 
     public let client: AWSClient
     public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     // MARK: Initialization
 
@@ -52,15 +53,28 @@ public struct WorkMailMessageFlow: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-05-01",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkMailMessageFlowErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [WorkMailMessageFlowErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
     }
-    
+
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
+    }
+
     // MARK: API Calls
 
     ///  Retrieves the raw content of an in-transit email message, in MIME format. 
-    public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRawMessageContentResponse> {
-        return self.client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    public func getRawMessageContent(_ input: GetRawMessageContentRequest) -> EventLoopFuture<GetRawMessageContentResponse> {
+        return client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension WorkMailMessageFlow {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

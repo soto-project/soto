@@ -23,111 +23,155 @@ extension RoboMaker {
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
     public func listDeploymentJobsPaginator(
         _ input: ListDeploymentJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeploymentJobs,
+            tokenKey: \ListDeploymentJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFleets,
+            tokenKey: \ListFleetsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     public func listRobotApplicationsPaginator(
         _ input: ListRobotApplicationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRobotApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRobotApplications, tokenKey: \ListRobotApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRobotApplications,
+            tokenKey: \ListRobotApplicationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
     public func listRobotsPaginator(
         _ input: ListRobotsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRobotsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRobots, tokenKey: \ListRobotsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRobots,
+            tokenKey: \ListRobotsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
     public func listSimulationApplicationsPaginator(
         _ input: ListSimulationApplicationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationApplications, tokenKey: \ListSimulationApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSimulationApplications,
+            tokenKey: \ListSimulationApplicationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
     public func listSimulationJobBatchesPaginator(
         _ input: ListSimulationJobBatchesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationJobBatchesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationJobBatches, tokenKey: \ListSimulationJobBatchesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSimulationJobBatches,
+            tokenKey: \ListSimulationJobBatchesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
     public func listSimulationJobsPaginator(
         _ input: ListSimulationJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationJobs, tokenKey: \ListSimulationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSimulationJobs,
+            tokenKey: \ListSimulationJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists world export jobs.
     public func listWorldExportJobsPaginator(
         _ input: ListWorldExportJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorldExportJobs, tokenKey: \ListWorldExportJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorldExportJobs,
+            tokenKey: \ListWorldExportJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists world generator jobs.
     public func listWorldGenerationJobsPaginator(
         _ input: ListWorldGenerationJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldGenerationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorldGenerationJobs, tokenKey: \ListWorldGenerationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorldGenerationJobs,
+            tokenKey: \ListWorldGenerationJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists world templates.
     public func listWorldTemplatesPaginator(
         _ input: ListWorldTemplatesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorldTemplates, tokenKey: \ListWorldTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorldTemplates,
+            tokenKey: \ListWorldTemplatesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists worlds.
     public func listWorldsPaginator(
         _ input: ListWorldsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorlds, tokenKey: \ListWorldsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorlds,
+            tokenKey: \ListWorldsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

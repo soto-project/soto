@@ -23,91 +23,127 @@ extension Macie2 {
     ///   Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes.
     public func describeBucketsPaginator(
         _ input: DescribeBucketsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeBucketsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeBuckets, tokenKey: \DescribeBucketsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeBuckets,
+            tokenKey: \DescribeBucketsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     public func getUsageStatisticsPaginator(
         _ input: GetUsageStatisticsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsageStatistics, tokenKey: \GetUsageStatisticsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsageStatistics,
+            tokenKey: \GetUsageStatisticsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a subset of information about one or more classification jobs.
     public func listClassificationJobsPaginator(
         _ input: ListClassificationJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClassificationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClassificationJobs, tokenKey: \ListClassificationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listClassificationJobs,
+            tokenKey: \ListClassificationJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a subset of information about all the custom data identifiers for an account.
     public func listCustomDataIdentifiersPaginator(
         _ input: ListCustomDataIdentifiersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCustomDataIdentifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCustomDataIdentifiers, tokenKey: \ListCustomDataIdentifiersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCustomDataIdentifiers,
+            tokenKey: \ListCustomDataIdentifiersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Retrieves a subset of information about one or more findings.
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindings,
+            tokenKey: \ListFindingsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a subset of information about all the findings filters for an account.
     public func listFindingsFiltersPaginator(
         _ input: ListFindingsFiltersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindingsFilters, tokenKey: \ListFindingsFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindingsFilters,
+            tokenKey: \ListFindingsFiltersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about all the Amazon Macie membership invitations that were received by an account.
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the accounts that are associated with an Amazon Macie master account.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the account that's designated as the delegated administrator of Amazon Macie for an AWS organization.
     public func listOrganizationAdminAccountsPaginator(
         _ input: ListOrganizationAdminAccountsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOrganizationAdminAccounts,
+            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }
