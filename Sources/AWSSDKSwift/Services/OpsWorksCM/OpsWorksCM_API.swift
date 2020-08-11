@@ -58,8 +58,14 @@ public struct OpsWorksCM: AWSService {
         )
     }
     
-    public func transform(_ transform:(AWSServiceContext) -> AWSServiceContext) -> Self {
-        return Self(client: self.client, context: transform(self.context))
+    /// return new `OpsWorksCM` with new timeout value
+    public func timingOut(after timeout: TimeAmount) -> Self {
+        return .init(client: self.client, context: self.context.timingOut(after: timeout))
+    }
+
+    /// return new `OpsWorksCM` logging to specified Logger
+    public func logging(to logger: Logger) -> Self {
+        return .init(client: self.client, context: self.context.logging(to: logger))
     }
     
     //MARK: API Calls
