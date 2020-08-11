@@ -23,31 +23,43 @@ extension MediaPackage {
     ///  Returns a collection of Channels.
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a collection of HarvestJob records.
     public func listHarvestJobsPaginator(
         _ input: ListHarvestJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHarvestJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHarvestJobs, tokenKey: \ListHarvestJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHarvestJobs,
+            tokenKey: \ListHarvestJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a collection of OriginEndpoint records.
     public func listOriginEndpointsPaginator(
         _ input: ListOriginEndpointsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOriginEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOriginEndpoints, tokenKey: \ListOriginEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOriginEndpoints,
+            tokenKey: \ListOriginEndpointsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

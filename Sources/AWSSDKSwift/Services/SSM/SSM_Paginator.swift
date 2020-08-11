@@ -23,91 +23,127 @@ extension SSM {
     ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the IAM role assigned to the instances in the activation, and the number of instances registered by using this activation.
     public func describeActivationsPaginator(
         _ input: DescribeActivationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeActivationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeActivations, tokenKey: \DescribeActivationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeActivations,
+            tokenKey: \DescribeActivationsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes one or more of your instances, including information about the operating system platform, the version of SSM Agent installed on the instance, instance status, and so on. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error.  The IamRole field for this API action is the Amazon Identity and Access Management (IAM) role assigned to on-premises instances. This call does not return the IAM role for EC2 instances. 
     public func describeInstanceInformationPaginator(
         _ input: DescribeInstanceInformationRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceInformationResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstanceInformation, tokenKey: \DescribeInstanceInformationResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstanceInformation,
+            tokenKey: \DescribeInstanceInformationResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Get information about a parameter.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
     public func describeParametersPaginator(
         _ input: DescribeParametersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeParameters, tokenKey: \DescribeParametersResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeParameters,
+            tokenKey: \DescribeParametersResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Query a list of all parameters used by the AWS account.
     public func getParameterHistoryPaginator(
         _ input: GetParameterHistoryRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetParameterHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getParameterHistory, tokenKey: \GetParameterHistoryResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getParameterHistory,
+            tokenKey: \GetParameterHistoryResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve information about one or more parameters in a specific hierarchy.   Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
     public func getParametersByPathPaginator(
         _ input: GetParametersByPathRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetParametersByPathResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getParametersByPath, tokenKey: \GetParametersByPathResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getParametersByPath,
+            tokenKey: \GetParametersByPathResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
     public func listAssociationsPaginator(
         _ input: ListAssociationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssociations, tokenKey: \ListAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssociations,
+            tokenKey: \ListAssociationsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
     public func listCommandInvocationsPaginator(
         _ input: ListCommandInvocationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCommandInvocationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCommandInvocations, tokenKey: \ListCommandInvocationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCommandInvocations,
+            tokenKey: \ListCommandInvocationsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the commands requested by users of the AWS account.
     public func listCommandsPaginator(
         _ input: ListCommandsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCommandsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCommands, tokenKey: \ListCommandsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCommands,
+            tokenKey: \ListCommandsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns all Systems Manager (SSM) documents in the current AWS account and Region. You can limit the results of this request by using a filter.
     public func listDocumentsPaginator(
         _ input: ListDocumentsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDocuments, tokenKey: \ListDocumentsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDocuments,
+            tokenKey: \ListDocumentsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

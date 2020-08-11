@@ -23,91 +23,127 @@ extension CodeBuild {
     ///   Returns a list of details about test cases for a report. 
     public func describeTestCasesPaginator(
         _ input: DescribeTestCasesInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTestCasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeTestCases, tokenKey: \DescribeTestCasesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeTestCases,
+            tokenKey: \DescribeTestCasesOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
     public func listBuildsPaginator(
         _ input: ListBuildsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBuilds, tokenKey: \ListBuildsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBuilds,
+            tokenKey: \ListBuildsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of build IDs for the specified build project, with each build ID representing a single build.
     public func listBuildsForProjectPaginator(
         _ input: ListBuildsForProjectInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildsForProjectOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBuildsForProject, tokenKey: \ListBuildsForProjectOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBuildsForProject,
+            tokenKey: \ListBuildsForProjectOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of build project names, with each build project name representing a single build project.
     public func listProjectsPaginator(
         _ input: ListProjectsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Gets a list ARNs for the report groups in the current AWS account. 
     public func listReportGroupsPaginator(
         _ input: ListReportGroupsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReportGroups, tokenKey: \ListReportGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReportGroups,
+            tokenKey: \ListReportGroupsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of ARNs for the reports in the current AWS account. 
     public func listReportsPaginator(
         _ input: ListReportsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReports, tokenKey: \ListReportsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReports,
+            tokenKey: \ListReportsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of ARNs for the reports that belong to a ReportGroup. 
     public func listReportsForReportGroupPaginator(
         _ input: ListReportsForReportGroupInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportsForReportGroupOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReportsForReportGroup, tokenKey: \ListReportsForReportGroupOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReportsForReportGroup,
+            tokenKey: \ListReportsForReportGroupOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Gets a list of projects that are shared with other AWS accounts or users. 
     public func listSharedProjectsPaginator(
         _ input: ListSharedProjectsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSharedProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSharedProjects, tokenKey: \ListSharedProjectsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSharedProjects,
+            tokenKey: \ListSharedProjectsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Gets a list of report groups that are shared with other AWS accounts or users. 
     public func listSharedReportGroupsPaginator(
         _ input: ListSharedReportGroupsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSharedReportGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSharedReportGroups, tokenKey: \ListSharedReportGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSharedReportGroups,
+            tokenKey: \ListSharedReportGroupsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

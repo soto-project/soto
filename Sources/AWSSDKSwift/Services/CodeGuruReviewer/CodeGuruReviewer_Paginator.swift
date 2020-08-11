@@ -23,41 +23,57 @@ extension CodeGuruReviewer {
     ///   Lists all the code reviews that the customer has created in the past 90 days. 
     public func listCodeReviewsPaginator(
         _ input: ListCodeReviewsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCodeReviewsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCodeReviews, tokenKey: \ListCodeReviewsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCodeReviews,
+            tokenKey: \ListCodeReviewsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users. 
     public func listRecommendationFeedbackPaginator(
         _ input: ListRecommendationFeedbackRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecommendationFeedbackResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRecommendationFeedback, tokenKey: \ListRecommendationFeedbackResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRecommendationFeedback,
+            tokenKey: \ListRecommendationFeedbackResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns the list of all recommendations for a completed code review. 
     public func listRecommendationsPaginator(
         _ input: ListRecommendationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRecommendations, tokenKey: \ListRecommendationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRecommendations,
+            tokenKey: \ListRecommendationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  RepositoryAssociationSummary  objects that contain summary information about a repository association. You can filter the returned list by  ProviderType ,  Name ,  State , and  Owner . 
     public func listRepositoryAssociationsPaginator(
         _ input: ListRepositoryAssociationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoryAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositoryAssociations, tokenKey: \ListRepositoryAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRepositoryAssociations,
+            tokenKey: \ListRepositoryAssociationsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

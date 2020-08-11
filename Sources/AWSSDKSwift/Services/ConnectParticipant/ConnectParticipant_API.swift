@@ -21,12 +21,13 @@ Client object for interacting with AWS ConnectParticipant service.
 
 Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect enables customer contacts through voice or chat. The APIs described here are used by chat participants, such as agents and customers.
 */
-public struct ConnectParticipant {
+public struct ConnectParticipant: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct ConnectParticipant {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "participant.connect",
@@ -53,35 +54,48 @@ public struct ConnectParticipant {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-07",
             endpoint: endpoint,
-            possibleErrorTypes: [ConnectParticipantErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [ConnectParticipantErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until the they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic.  For chat, you need to publish the following on the established websocket connection:  {"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}  Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.
-    public func createParticipantConnection(_ input: CreateParticipantConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateParticipantConnectionResponse> {
-        return client.execute(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createParticipantConnection(_ input: CreateParticipantConnectionRequest) -> EventLoopFuture<CreateParticipantConnectionResponse> {
+        return client.execute(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func disconnectParticipant(_ input: DisconnectParticipantRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisconnectParticipantResponse> {
-        return client.execute(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disconnectParticipant(_ input: DisconnectParticipantRequest) -> EventLoopFuture<DisconnectParticipantResponse> {
+        return client.execute(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func getTranscript(_ input: GetTranscriptRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTranscriptResponse> {
-        return client.execute(operation: "GetTranscript", path: "/participant/transcript", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTranscript(_ input: GetTranscriptRequest) -> EventLoopFuture<GetTranscriptResponse> {
+        return client.execute(operation: "GetTranscript", path: "/participant/transcript", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func sendEvent(_ input: SendEventRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendEventResponse> {
-        return client.execute(operation: "SendEvent", path: "/participant/event", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func sendEvent(_ input: SendEventRequest) -> EventLoopFuture<SendEventResponse> {
+        return client.execute(operation: "SendEvent", path: "/participant/event", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func sendMessage(_ input: SendMessageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendMessageResponse> {
-        return client.execute(operation: "SendMessage", path: "/participant/message", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func sendMessage(_ input: SendMessageRequest) -> EventLoopFuture<SendMessageResponse> {
+        return client.execute(operation: "SendMessage", path: "/participant/message", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension ConnectParticipant {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

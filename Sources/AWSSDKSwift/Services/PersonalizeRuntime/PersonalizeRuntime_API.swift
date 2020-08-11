@@ -20,12 +20,13 @@
 Client object for interacting with AWS PersonalizeRuntime service.
 
 */
-public struct PersonalizeRuntime {
+public struct PersonalizeRuntime: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -44,7 +45,7 @@ public struct PersonalizeRuntime {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "personalize-runtime",
@@ -52,20 +53,33 @@ public struct PersonalizeRuntime {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-22",
             endpoint: endpoint,
-            possibleErrorTypes: [PersonalizeRuntimeErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [PersonalizeRuntimeErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user.  The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING. 
-    public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPersonalizedRankingResponse> {
-        return client.execute(operation: "GetPersonalizedRanking", path: "/personalize-ranking", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest) -> EventLoopFuture<GetPersonalizedRankingResponse> {
+        return client.execute(operation: "GetPersonalizedRanking", path: "/personalize-ranking", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of recommended items. The required input depends on the recipe type used to create the solution backing the campaign, as follows:   RELATED_ITEMS - itemId required, userId not used   USER_PERSONALIZATION - itemId optional, userId required    Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. 
-    public func getRecommendations(_ input: GetRecommendationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRecommendationsResponse> {
-        return client.execute(operation: "GetRecommendations", path: "/recommendations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRecommendations(_ input: GetRecommendationsRequest) -> EventLoopFuture<GetRecommendationsResponse> {
+        return client.execute(operation: "GetRecommendations", path: "/recommendations", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension PersonalizeRuntime {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

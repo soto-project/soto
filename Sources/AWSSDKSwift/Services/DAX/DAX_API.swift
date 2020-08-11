@@ -21,12 +21,13 @@ Client object for interacting with AWS DAX service.
 
 DAX is a managed caching service engineered for Amazon DynamoDB. DAX dramatically speeds up database reads by caching frequently-accessed data from DynamoDB, so applications can access that data with sub-millisecond latency. You can create a DAX cluster easily, using the AWS Management Console. With a few simple modifications to your code, your application can begin taking advantage of the DAX cluster and realize significant improvements in read performance.
 */
-public struct DAX {
+public struct DAX: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct DAX {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AmazonDAXV3",
@@ -53,115 +54,128 @@ public struct DAX {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-19",
             endpoint: endpoint,
-            possibleErrorTypes: [DAXErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [DAXErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
-    public func createCluster(_ input: CreateClusterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateClusterResponse> {
-        return client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createCluster(_ input: CreateClusterRequest) -> EventLoopFuture<CreateClusterResponse> {
+        return client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster.
-    public func createParameterGroup(_ input: CreateParameterGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateParameterGroupResponse> {
-        return client.execute(operation: "CreateParameterGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createParameterGroup(_ input: CreateParameterGroupRequest) -> EventLoopFuture<CreateParameterGroupResponse> {
+        return client.execute(operation: "CreateParameterGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new subnet group.
-    public func createSubnetGroup(_ input: CreateSubnetGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSubnetGroupResponse> {
-        return client.execute(operation: "CreateSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createSubnetGroup(_ input: CreateSubnetGroupRequest) -> EventLoopFuture<CreateSubnetGroupResponse> {
+        return client.execute(operation: "CreateSubnetGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes one or more nodes from a DAX cluster.  You cannot use DecreaseReplicationFactor to remove the last node in a DAX cluster. If you need to do this, use DeleteCluster instead. 
-    public func decreaseReplicationFactor(_ input: DecreaseReplicationFactorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DecreaseReplicationFactorResponse> {
-        return client.execute(operation: "DecreaseReplicationFactor", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func decreaseReplicationFactor(_ input: DecreaseReplicationFactorRequest) -> EventLoopFuture<DecreaseReplicationFactorResponse> {
+        return client.execute(operation: "DecreaseReplicationFactor", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a previously provisioned DAX cluster. DeleteCluster deletes all associated nodes, node endpoints and the DAX cluster itself. When you receive a successful response from this action, DAX immediately begins deleting the cluster; you cannot cancel or revert this action.
-    public func deleteCluster(_ input: DeleteClusterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteClusterResponse> {
-        return client.execute(operation: "DeleteCluster", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteCluster(_ input: DeleteClusterRequest) -> EventLoopFuture<DeleteClusterResponse> {
+        return client.execute(operation: "DeleteCluster", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any DAX clusters.
-    public func deleteParameterGroup(_ input: DeleteParameterGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteParameterGroupResponse> {
-        return client.execute(operation: "DeleteParameterGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteParameterGroup(_ input: DeleteParameterGroupRequest) -> EventLoopFuture<DeleteParameterGroupResponse> {
+        return client.execute(operation: "DeleteParameterGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a subnet group.  You cannot delete a subnet group if it is associated with any DAX clusters. 
-    public func deleteSubnetGroup(_ input: DeleteSubnetGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSubnetGroupResponse> {
-        return client.execute(operation: "DeleteSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteSubnetGroup(_ input: DeleteSubnetGroupRequest) -> EventLoopFuture<DeleteSubnetGroupResponse> {
+        return client.execute(operation: "DeleteSubnetGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about all provisioned DAX clusters if no cluster identifier is specified, or about a specific DAX cluster if a cluster identifier is supplied. If the cluster is in the CREATING state, only cluster level information will be displayed until all of the nodes are successfully provisioned. If the cluster is in the DELETING state, only cluster level information will be displayed. If nodes are currently being added to the DAX cluster, node endpoint information and creation time for the additional nodes will not be displayed until they are completely provisioned. When the DAX cluster state is available, the cluster is ready for use. If nodes are currently being removed from the DAX cluster, no endpoint information for the removed nodes is displayed.
-    public func describeClusters(_ input: DescribeClustersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeClustersResponse> {
-        return client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeClusters(_ input: DescribeClustersRequest) -> EventLoopFuture<DescribeClustersResponse> {
+        return client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the default system parameter information for the DAX caching software.
-    public func describeDefaultParameters(_ input: DescribeDefaultParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDefaultParametersResponse> {
-        return client.execute(operation: "DescribeDefaultParameters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDefaultParameters(_ input: DescribeDefaultParametersRequest) -> EventLoopFuture<DescribeDefaultParametersResponse> {
+        return client.execute(operation: "DescribeDefaultParameters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary.
-    public func describeEvents(_ input: DescribeEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventsResponse> {
-        return client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeEvents(_ input: DescribeEventsRequest) -> EventLoopFuture<DescribeEventsResponse> {
+        return client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of parameter group descriptions. If a parameter group name is specified, the list will contain only the descriptions for that group.
-    public func describeParameterGroups(_ input: DescribeParameterGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeParameterGroupsResponse> {
-        return client.execute(operation: "DescribeParameterGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeParameterGroups(_ input: DescribeParameterGroupsRequest) -> EventLoopFuture<DescribeParameterGroupsResponse> {
+        return client.execute(operation: "DescribeParameterGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the detailed parameter list for a particular parameter group.
-    public func describeParameters(_ input: DescribeParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeParametersResponse> {
-        return client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeParameters(_ input: DescribeParametersRequest) -> EventLoopFuture<DescribeParametersResponse> {
+        return client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of subnet group descriptions. If a subnet group name is specified, the list will contain only the description of that group.
-    public func describeSubnetGroups(_ input: DescribeSubnetGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSubnetGroupsResponse> {
-        return client.execute(operation: "DescribeSubnetGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSubnetGroups(_ input: DescribeSubnetGroupsRequest) -> EventLoopFuture<DescribeSubnetGroupsResponse> {
+        return client.execute(operation: "DescribeSubnetGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds one or more nodes to a DAX cluster.
-    public func increaseReplicationFactor(_ input: IncreaseReplicationFactorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<IncreaseReplicationFactorResponse> {
-        return client.execute(operation: "IncreaseReplicationFactor", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func increaseReplicationFactor(_ input: IncreaseReplicationFactorRequest) -> EventLoopFuture<IncreaseReplicationFactorResponse> {
+        return client.execute(operation: "IncreaseReplicationFactor", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  List all of the tags for a DAX cluster. You can call ListTags up to 10 times per second, per account.
-    public func listTags(_ input: ListTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsResponse> {
-        return client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTags(_ input: ListTagsRequest) -> EventLoopFuture<ListTagsResponse> {
+        return client.execute(operation: "ListTags", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING.   RebootNode restarts the DAX engine process and does not remove the contents of the cache.  
-    public func rebootNode(_ input: RebootNodeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RebootNodeResponse> {
-        return client.execute(operation: "RebootNode", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func rebootNode(_ input: RebootNodeRequest) -> EventLoopFuture<RebootNodeResponse> {
+        return client.execute(operation: "RebootNode", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account. 
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account. 
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the settings for a DAX cluster. You can use this action to change one or more cluster configuration parameters by specifying the parameters and the new values.
-    public func updateCluster(_ input: UpdateClusterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateClusterResponse> {
-        return client.execute(operation: "UpdateCluster", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateCluster(_ input: UpdateClusterRequest) -> EventLoopFuture<UpdateClusterResponse> {
+        return client.execute(operation: "UpdateCluster", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
-    public func updateParameterGroup(_ input: UpdateParameterGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateParameterGroupResponse> {
-        return client.execute(operation: "UpdateParameterGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateParameterGroup(_ input: UpdateParameterGroupRequest) -> EventLoopFuture<UpdateParameterGroupResponse> {
+        return client.execute(operation: "UpdateParameterGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies an existing subnet group.
-    public func updateSubnetGroup(_ input: UpdateSubnetGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSubnetGroupResponse> {
-        return client.execute(operation: "UpdateSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateSubnetGroup(_ input: UpdateSubnetGroupRequest) -> EventLoopFuture<UpdateSubnetGroupResponse> {
+        return client.execute(operation: "UpdateSubnetGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension DAX {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

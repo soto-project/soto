@@ -21,12 +21,13 @@ Client object for interacting with AWS MarketplaceCommerceAnalytics service.
 
 Provides AWS Marketplace business intelligence data on-demand.
 */
-public struct MarketplaceCommerceAnalytics {
+public struct MarketplaceCommerceAnalytics: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct MarketplaceCommerceAnalytics {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "MarketplaceCommerceAnalytics20150701",
@@ -53,20 +54,33 @@ public struct MarketplaceCommerceAnalytics {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-07-01",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceCommerceAnalyticsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [MarketplaceCommerceAnalyticsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD.csv. If a file with the same name already exists (e.g. if the same data set is requested twice), the original file will be overwritten by the new file. Requires a Role with an attached permissions policy providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
-    public func generateDataSet(_ input: GenerateDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GenerateDataSetResult> {
-        return client.execute(operation: "GenerateDataSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func generateDataSet(_ input: GenerateDataSetRequest) -> EventLoopFuture<GenerateDataSetResult> {
+        return client.execute(operation: "GenerateDataSet", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Given a data set type and a from date, asynchronously publishes the requested customer support data to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD'T'HH-mm-ss'Z'.csv. If a file with the same name already exists (e.g. if the same data set is requested twice), the original file will be overwritten by the new file. Requires a Role with an attached permissions policy providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
-    public func startSupportDataExport(_ input: StartSupportDataExportRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSupportDataExportResult> {
-        return client.execute(operation: "StartSupportDataExport", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startSupportDataExport(_ input: StartSupportDataExportRequest) -> EventLoopFuture<StartSupportDataExportResult> {
+        return client.execute(operation: "StartSupportDataExport", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension MarketplaceCommerceAnalytics {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

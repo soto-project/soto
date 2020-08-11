@@ -21,12 +21,13 @@ Client object for interacting with AWS Schemas service.
 
 Amazon EventBridge Schema Registry
 */
-public struct Schemas {
+public struct Schemas: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,167 +46,180 @@ public struct Schemas {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "schemas",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
-            possibleErrorTypes: [SchemasErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [SchemasErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Creates a discoverer.
-    public func createDiscoverer(_ input: CreateDiscovererRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDiscovererResponse> {
-        return client.execute(operation: "CreateDiscoverer", path: "/v1/discoverers", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDiscoverer(_ input: CreateDiscovererRequest) -> EventLoopFuture<CreateDiscovererResponse> {
+        return client.execute(operation: "CreateDiscoverer", path: "/v1/discoverers", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a registry.
-    public func createRegistry(_ input: CreateRegistryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRegistryResponse> {
-        return client.execute(operation: "CreateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createRegistry(_ input: CreateRegistryRequest) -> EventLoopFuture<CreateRegistryResponse> {
+        return client.execute(operation: "CreateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a schema definition. Inactive schemas will be deleted after two years.
-    public func createSchema(_ input: CreateSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSchemaResponse> {
-        return client.execute(operation: "CreateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createSchema(_ input: CreateSchemaRequest) -> EventLoopFuture<CreateSchemaResponse> {
+        return client.execute(operation: "CreateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a discoverer.
-    @discardableResult public func deleteDiscoverer(_ input: DeleteDiscovererRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDiscoverer(_ input: DeleteDiscovererRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a Registry.
-    @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete the resource-based policy attached to the specified registry.
-    @discardableResult public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteResourcePolicy", path: "/v1/policy", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteResourcePolicy", path: "/v1/policy", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete a schema definition.
-    @discardableResult public func deleteSchema(_ input: DeleteSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteSchema(_ input: DeleteSchemaRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete the schema version definition
-    @discardableResult public func deleteSchemaVersion(_ input: DeleteSchemaVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteSchemaVersion", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/version/{schemaVersion}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteSchemaVersion(_ input: DeleteSchemaVersionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteSchemaVersion", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/version/{schemaVersion}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe the code binding URI.
-    public func describeCodeBinding(_ input: DescribeCodeBindingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCodeBindingResponse> {
-        return client.execute(operation: "DescribeCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCodeBinding(_ input: DescribeCodeBindingRequest) -> EventLoopFuture<DescribeCodeBindingResponse> {
+        return client.execute(operation: "DescribeCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the discoverer.
-    public func describeDiscoverer(_ input: DescribeDiscovererRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDiscovererResponse> {
-        return client.execute(operation: "DescribeDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDiscoverer(_ input: DescribeDiscovererRequest) -> EventLoopFuture<DescribeDiscovererResponse> {
+        return client.execute(operation: "DescribeDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the registry.
-    public func describeRegistry(_ input: DescribeRegistryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRegistryResponse> {
-        return client.execute(operation: "DescribeRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRegistry(_ input: DescribeRegistryRequest) -> EventLoopFuture<DescribeRegistryResponse> {
+        return client.execute(operation: "DescribeRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieve the schema definition.
-    public func describeSchema(_ input: DescribeSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSchemaResponse> {
-        return client.execute(operation: "DescribeSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSchema(_ input: DescribeSchemaRequest) -> EventLoopFuture<DescribeSchemaResponse> {
+        return client.execute(operation: "DescribeSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get the code binding source URI.
-    public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCodeBindingSourceResponse> {
-        return client.execute(operation: "GetCodeBindingSource", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest) -> EventLoopFuture<GetCodeBindingSourceResponse> {
+        return client.execute(operation: "GetCodeBindingSource", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get the discovered schema that was generated based on sampled events.
-    public func getDiscoveredSchema(_ input: GetDiscoveredSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDiscoveredSchemaResponse> {
-        return client.execute(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDiscoveredSchema(_ input: GetDiscoveredSchemaRequest) -> EventLoopFuture<GetDiscoveredSchemaResponse> {
+        return client.execute(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves the resource-based policy attached to a given registry.
-    public func getResourcePolicy(_ input: GetResourcePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetResourcePolicyResponse> {
-        return client.execute(operation: "GetResourcePolicy", path: "/v1/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest) -> EventLoopFuture<GetResourcePolicyResponse> {
+        return client.execute(operation: "GetResourcePolicy", path: "/v1/policy", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the discoverers.
-    public func listDiscoverers(_ input: ListDiscoverersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDiscoverersResponse> {
-        return client.execute(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDiscoverers(_ input: ListDiscoverersRequest) -> EventLoopFuture<ListDiscoverersResponse> {
+        return client.execute(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the registries.
-    public func listRegistries(_ input: ListRegistriesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRegistriesResponse> {
-        return client.execute(operation: "ListRegistries", path: "/v1/registries", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRegistries(_ input: ListRegistriesRequest) -> EventLoopFuture<ListRegistriesResponse> {
+        return client.execute(operation: "ListRegistries", path: "/v1/registries", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides a list of the schema versions and related information.
-    public func listSchemaVersions(_ input: ListSchemaVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSchemaVersionsResponse> {
-        return client.execute(operation: "ListSchemaVersions", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSchemaVersions(_ input: ListSchemaVersionsRequest) -> EventLoopFuture<ListSchemaVersionsResponse> {
+        return client.execute(operation: "ListSchemaVersions", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/versions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the schemas.
-    public func listSchemas(_ input: ListSchemasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSchemasResponse> {
-        return client.execute(operation: "ListSchemas", path: "/v1/registries/name/{registryName}/schemas", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSchemas(_ input: ListSchemasRequest) -> EventLoopFuture<ListSchemasResponse> {
+        return client.execute(operation: "ListSchemas", path: "/v1/registries/name/{registryName}/schemas", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get tags for resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Put code binding URI
-    public func putCodeBinding(_ input: PutCodeBindingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutCodeBindingResponse> {
-        return client.execute(operation: "PutCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putCodeBinding(_ input: PutCodeBindingRequest) -> EventLoopFuture<PutCodeBindingResponse> {
+        return client.execute(operation: "PutCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  The name of the policy.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutResourcePolicyResponse> {
-        return client.execute(operation: "PutResourcePolicy", path: "/v1/policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest) -> EventLoopFuture<PutResourcePolicyResponse> {
+        return client.execute(operation: "PutResourcePolicy", path: "/v1/policy", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Search the schemas
-    public func searchSchemas(_ input: SearchSchemasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchSchemasResponse> {
-        return client.execute(operation: "SearchSchemas", path: "/v1/registries/name/{registryName}/schemas/search", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func searchSchemas(_ input: SearchSchemasRequest) -> EventLoopFuture<SearchSchemasResponse> {
+        return client.execute(operation: "SearchSchemas", path: "/v1/registries/name/{registryName}/schemas/search", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts the discoverer
-    public func startDiscoverer(_ input: StartDiscovererRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartDiscovererResponse> {
-        return client.execute(operation: "StartDiscoverer", path: "/v1/discoverers/id/{discovererId}/start", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startDiscoverer(_ input: StartDiscovererRequest) -> EventLoopFuture<StartDiscovererResponse> {
+        return client.execute(operation: "StartDiscoverer", path: "/v1/discoverers/id/{discovererId}/start", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops the discoverer
-    public func stopDiscoverer(_ input: StopDiscovererRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopDiscovererResponse> {
-        return client.execute(operation: "StopDiscoverer", path: "/v1/discoverers/id/{discovererId}/stop", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopDiscoverer(_ input: StopDiscovererRequest) -> EventLoopFuture<StopDiscovererResponse> {
+        return client.execute(operation: "StopDiscoverer", path: "/v1/discoverers/id/{discovererId}/stop", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Add tags to a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes tags from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the discoverer
-    public func updateDiscoverer(_ input: UpdateDiscovererRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDiscovererResponse> {
-        return client.execute(operation: "UpdateDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDiscoverer(_ input: UpdateDiscovererRequest) -> EventLoopFuture<UpdateDiscovererResponse> {
+        return client.execute(operation: "UpdateDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a registry.
-    public func updateRegistry(_ input: UpdateRegistryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRegistryResponse> {
-        return client.execute(operation: "UpdateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateRegistry(_ input: UpdateRegistryRequest) -> EventLoopFuture<UpdateRegistryResponse> {
+        return client.execute(operation: "UpdateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the schema definition Inactive schemas will be deleted after two years.
-    public func updateSchema(_ input: UpdateSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSchemaResponse> {
-        return client.execute(operation: "UpdateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateSchema(_ input: UpdateSchemaRequest) -> EventLoopFuture<UpdateSchemaResponse> {
+        return client.execute(operation: "UpdateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Schemas {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

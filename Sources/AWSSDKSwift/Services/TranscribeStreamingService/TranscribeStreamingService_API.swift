@@ -21,12 +21,13 @@ Client object for interacting with AWS TranscribeStreamingService service.
 
 Operations and objects for transcribing streaming speech to text.
 */
-public struct TranscribeStreamingService {
+public struct TranscribeStreamingService: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct TranscribeStreamingService {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "transcribestreaming",
@@ -53,10 +54,23 @@ public struct TranscribeStreamingService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
-            possibleErrorTypes: [TranscribeStreamingServiceErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [TranscribeStreamingServiceErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
+}
+
+extension TranscribeStreamingService {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
+    }
 }

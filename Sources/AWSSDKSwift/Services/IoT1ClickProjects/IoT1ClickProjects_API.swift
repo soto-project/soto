@@ -21,12 +21,13 @@ Client object for interacting with AWS IoT1ClickProjects service.
 
 The AWS IoT 1-Click Projects API Reference
 */
-public struct IoT1ClickProjects {
+public struct IoT1ClickProjects: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct IoT1ClickProjects {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "projects.iot1click",
@@ -53,90 +54,103 @@ public struct IoT1ClickProjects {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-14",
             endpoint: endpoint,
-            possibleErrorTypes: [IoT1ClickProjectsErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [IoT1ClickProjectsErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Associates a physical device with a placement.
-    public func associateDeviceWithPlacement(_ input: AssociateDeviceWithPlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateDeviceWithPlacementResponse> {
-        return client.execute(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateDeviceWithPlacement(_ input: AssociateDeviceWithPlacementRequest) -> EventLoopFuture<AssociateDeviceWithPlacementResponse> {
+        return client.execute(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an empty placement.
-    public func createPlacement(_ input: CreatePlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePlacementResponse> {
-        return client.execute(operation: "CreatePlacement", path: "/projects/{projectName}/placements", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPlacement(_ input: CreatePlacementRequest) -> EventLoopFuture<CreatePlacementResponse> {
+        return client.execute(operation: "CreatePlacement", path: "/projects/{projectName}/placements", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
-    public func createProject(_ input: CreateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProjectResponse> {
-        return client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProject(_ input: CreateProjectRequest) -> EventLoopFuture<CreateProjectResponse> {
+        return client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable. 
-    public func deletePlacement(_ input: DeletePlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePlacementResponse> {
-        return client.execute(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deletePlacement(_ input: DeletePlacementRequest) -> EventLoopFuture<DeletePlacementResponse> {
+        return client.execute(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable. 
-    public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProjectResponse> {
-        return client.execute(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProject(_ input: DeleteProjectRequest) -> EventLoopFuture<DeleteProjectResponse> {
+        return client.execute(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a placement in a project.
-    public func describePlacement(_ input: DescribePlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePlacementResponse> {
-        return client.execute(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describePlacement(_ input: DescribePlacementRequest) -> EventLoopFuture<DescribePlacementResponse> {
+        return client.execute(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an object describing a project.
-    public func describeProject(_ input: DescribeProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProjectResponse> {
-        return client.execute(operation: "DescribeProject", path: "/projects/{projectName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProject(_ input: DescribeProjectRequest) -> EventLoopFuture<DescribeProjectResponse> {
+        return client.execute(operation: "DescribeProject", path: "/projects/{projectName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a physical device from a placement.
-    public func disassociateDeviceFromPlacement(_ input: DisassociateDeviceFromPlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateDeviceFromPlacementResponse> {
-        return client.execute(operation: "DisassociateDeviceFromPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateDeviceFromPlacement(_ input: DisassociateDeviceFromPlacementRequest) -> EventLoopFuture<DisassociateDeviceFromPlacementResponse> {
+        return client.execute(operation: "DisassociateDeviceFromPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an object enumerating the devices in a placement.
-    public func getDevicesInPlacement(_ input: GetDevicesInPlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDevicesInPlacementResponse> {
-        return client.execute(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDevicesInPlacement(_ input: GetDevicesInPlacementRequest) -> EventLoopFuture<GetDevicesInPlacementResponse> {
+        return client.execute(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the placement(s) of a project.
-    public func listPlacements(_ input: ListPlacementsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPlacementsResponse> {
-        return client.execute(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPlacements(_ input: ListPlacementsRequest) -> EventLoopFuture<ListPlacementsResponse> {
+        return client.execute(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
-    public func listProjects(_ input: ListProjectsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProjectsResponse> {
-        return client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProjects(_ input: ListProjectsRequest) -> EventLoopFuture<ListProjectsResponse> {
+        return client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the tags (metadata key/value pairs) which you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see AWS Tagging Strategies.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes one or more tags (metadata key/value pairs) from a resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
-    public func updatePlacement(_ input: UpdatePlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePlacementResponse> {
-        return client.execute(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updatePlacement(_ input: UpdatePlacementRequest) -> EventLoopFuture<UpdatePlacementResponse> {
+        return client.execute(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
-    public func updateProject(_ input: UpdateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProjectResponse> {
-        return client.execute(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProject(_ input: UpdateProjectRequest) -> EventLoopFuture<UpdateProjectResponse> {
+        return client.execute(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension IoT1ClickProjects {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

@@ -23,41 +23,57 @@ extension SMS {
     ///  Describes the connectors registered with the AWS SMS.
     public func getConnectorsPaginator(
         _ input: GetConnectorsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetConnectorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getConnectors, tokenKey: \GetConnectorsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getConnectors,
+            tokenKey: \GetConnectorsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes the specified replication job or all of your replication jobs.
     public func getReplicationJobsPaginator(
         _ input: GetReplicationJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetReplicationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getReplicationJobs, tokenKey: \GetReplicationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getReplicationJobs,
+            tokenKey: \GetReplicationJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes the replication runs for the specified replication job.
     public func getReplicationRunsPaginator(
         _ input: GetReplicationRunsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetReplicationRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getReplicationRuns, tokenKey: \GetReplicationRunsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getReplicationRuns,
+            tokenKey: \GetReplicationRunsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
     public func getServersPaginator(
         _ input: GetServersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetServersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getServers, tokenKey: \GetServersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getServers,
+            tokenKey: \GetServersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

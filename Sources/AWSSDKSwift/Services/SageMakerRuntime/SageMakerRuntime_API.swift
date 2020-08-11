@@ -21,12 +21,13 @@ Client object for interacting with AWS SageMakerRuntime service.
 
  The Amazon SageMaker runtime API. 
 */
-public struct SageMakerRuntime {
+public struct SageMakerRuntime: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct SageMakerRuntime {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "runtime.sagemaker",
@@ -53,15 +54,28 @@ public struct SageMakerRuntime {
             serviceProtocol: .restjson,
             apiVersion: "2017-05-13",
             endpoint: endpoint,
-            possibleErrorTypes: [SageMakerRuntimeErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [SageMakerRuntimeErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint.  For an overview of Amazon SageMaker, see How It Works.  Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax.  Calls to InvokeEndpoint are authenticated by using AWS Signature Version 4. For information, see Authenticating Requests (AWS Signature Version 4) in the Amazon S3 API Reference. A customer's model containers must respond to requests within 60 seconds. The model itself can have a maximum processing time of 60 seconds before responding to the /invocations. If your model is going to take 50-60 seconds of processing time, the SDK socket timeout should be set to be 70 seconds.  Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker determines the account ID from the authentication token that is supplied by the caller. 
-    public func invokeEndpoint(_ input: InvokeEndpointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InvokeEndpointOutput> {
-        return client.execute(operation: "InvokeEndpoint", path: "/endpoints/{EndpointName}/invocations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func invokeEndpoint(_ input: InvokeEndpointInput) -> EventLoopFuture<InvokeEndpointOutput> {
+        return client.execute(operation: "InvokeEndpoint", path: "/endpoints/{EndpointName}/invocations", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension SageMakerRuntime {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

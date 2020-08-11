@@ -23,341 +23,477 @@ extension RDS {
     ///  Lists the set of CA certificates provided by Amazon RDS for this AWS account.
     public func describeCertificatesPaginator(
         _ input: DescribeCertificatesMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CertificateMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCertificates, tokenKey: \CertificateMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCertificates,
+            tokenKey: \CertificateMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
     public func describeCustomAvailabilityZonesPaginator(
         _ input: DescribeCustomAvailabilityZonesMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCustomAvailabilityZones, tokenKey: \CustomAvailabilityZoneMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCustomAvailabilityZones,
+            tokenKey: \CustomAvailabilityZoneMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters. 
     public func describeDBClusterBacktracksPaginator(
         _ input: DescribeDBClusterBacktracksMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterBacktrackMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusterBacktracks, tokenKey: \DBClusterBacktrackMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusterBacktracks,
+            tokenKey: \DBClusterBacktrackMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about endpoints for an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters. 
     public func describeDBClusterEndpointsPaginator(
         _ input: DescribeDBClusterEndpointsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterEndpointMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusterEndpoints, tokenKey: \DBClusterEndpointMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusterEndpoints,
+            tokenKey: \DBClusterEndpointMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterParameterGroupsPaginator(
         _ input: DescribeDBClusterParameterGroupsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusterParameterGroups, tokenKey: \DBClusterParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusterParameterGroups,
+            tokenKey: \DBClusterParameterGroupsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterParametersPaginator(
         _ input: DescribeDBClusterParametersMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusterParameters, tokenKey: \DBClusterParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusterParameters,
+            tokenKey: \DBClusterParameterGroupDetails.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterSnapshotsPaginator(
         _ input: DescribeDBClusterSnapshotsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusterSnapshots, tokenKey: \DBClusterSnapshotMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusterSnapshots,
+            tokenKey: \DBClusterSnapshotMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
     public func describeDBClustersPaginator(
         _ input: DescribeDBClustersMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusters,
+            tokenKey: \DBClusterMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the available DB engines.
     public func describeDBEngineVersionsPaginator(
         _ input: DescribeDBEngineVersionsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBEngineVersions,
+            tokenKey: \DBEngineVersionMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
     public func describeDBInstanceAutomatedBackupsPaginator(
         _ input: DescribeDBInstanceAutomatedBackupsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceAutomatedBackupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstanceAutomatedBackups, tokenKey: \DBInstanceAutomatedBackupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBInstanceAutomatedBackups,
+            tokenKey: \DBInstanceAutomatedBackupMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
     public func describeDBInstancesPaginator(
         _ input: DescribeDBInstancesMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBInstances,
+            tokenKey: \DBInstanceMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DB log files for the DB instance.
     public func describeDBLogFilesPaginator(
         _ input: DescribeDBLogFilesMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBLogFilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBLogFiles, tokenKey: \DescribeDBLogFilesResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBLogFiles,
+            tokenKey: \DescribeDBLogFilesResponse.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. 
     public func describeDBParameterGroupsPaginator(
         _ input: DescribeDBParameterGroupsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBParameterGroups,
+            tokenKey: \DBParameterGroupsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns the detailed parameter list for a particular DB parameter group.
     public func describeDBParametersPaginator(
         _ input: DescribeDBParametersMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBParameters,
+            tokenKey: \DBParameterGroupDetails.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about DB proxies.
     public func describeDBProxiesPaginator(
         _ input: DescribeDBProxiesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBProxiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBProxies, tokenKey: \DescribeDBProxiesResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBProxies,
+            tokenKey: \DescribeDBProxiesResponse.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     public func describeDBProxyTargetGroupsPaginator(
         _ input: DescribeDBProxyTargetGroupsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBProxyTargetGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBProxyTargetGroups, tokenKey: \DescribeDBProxyTargetGroupsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBProxyTargetGroups,
+            tokenKey: \DescribeDBProxyTargetGroupsResponse.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about DBProxyTarget objects. This API supports pagination.
     public func describeDBProxyTargetsPaginator(
         _ input: DescribeDBProxyTargetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDBProxyTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBProxyTargets, tokenKey: \DescribeDBProxyTargetsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBProxyTargets,
+            tokenKey: \DescribeDBProxyTargetsResponse.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. 
     public func describeDBSecurityGroupsPaginator(
         _ input: DescribeDBSecurityGroupsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSecurityGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSecurityGroups, tokenKey: \DBSecurityGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBSecurityGroups,
+            tokenKey: \DBSecurityGroupMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about DB snapshots. This API action supports pagination.
     public func describeDBSnapshotsPaginator(
         _ input: DescribeDBSnapshotsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSnapshots, tokenKey: \DBSnapshotMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBSnapshots,
+            tokenKey: \DBSnapshotMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial. 
     public func describeDBSubnetGroupsPaginator(
         _ input: DescribeDBSubnetGroupsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBSubnetGroups,
+            tokenKey: \DBSubnetGroupMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns the default engine and system parameter information for the specified database engine.
     public func describeEngineDefaultParametersPaginator(
         _ input: DescribeEngineDefaultParametersMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEngineDefaultParameters,
+            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     public func describeEventSubscriptionsPaginator(
         _ input: DescribeEventSubscriptionsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEventSubscriptions,
+            tokenKey: \EventSubscriptionsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvents,
+            tokenKey: \EventsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about a snapshot export to Amazon S3. This API operation supports pagination. 
     public func describeExportTasksPaginator(
         _ input: DescribeExportTasksMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ExportTasksMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeExportTasks, tokenKey: \ExportTasksMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeExportTasks,
+            tokenKey: \ExportTasksMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeGlobalClustersPaginator(
         _ input: DescribeGlobalClustersMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GlobalClustersMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeGlobalClusters, tokenKey: \GlobalClustersMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeGlobalClusters,
+            tokenKey: \GlobalClustersMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
     public func describeInstallationMediaPaginator(
         _ input: DescribeInstallationMediaMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (InstallationMediaMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstallationMedia, tokenKey: \InstallationMediaMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstallationMedia,
+            tokenKey: \InstallationMediaMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes all available options.
     public func describeOptionGroupOptionsPaginator(
         _ input: DescribeOptionGroupOptionsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OptionGroupOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOptionGroupOptions, tokenKey: \OptionGroupOptionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOptionGroupOptions,
+            tokenKey: \OptionGroupOptionsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Describes the available option groups.
     public func describeOptionGroupsPaginator(
         _ input: DescribeOptionGroupsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OptionGroups, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOptionGroups, tokenKey: \OptionGroups.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOptionGroups,
+            tokenKey: \OptionGroups.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of orderable DB instance options for the specified engine.
     public func describeOrderableDBInstanceOptionsPaginator(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOrderableDBInstanceOptions,
+            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     public func describePendingMaintenanceActionsPaginator(
         _ input: DescribePendingMaintenanceActionsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (PendingMaintenanceActionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePendingMaintenanceActions, tokenKey: \PendingMaintenanceActionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePendingMaintenanceActions,
+            tokenKey: \PendingMaintenanceActionsMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     public func describeReservedDBInstancesPaginator(
         _ input: DescribeReservedDBInstancesMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedDBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedDBInstances, tokenKey: \ReservedDBInstanceMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReservedDBInstances,
+            tokenKey: \ReservedDBInstanceMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists available reserved DB instance offerings.
     public func describeReservedDBInstancesOfferingsPaginator(
         _ input: DescribeReservedDBInstancesOfferingsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedDBInstancesOfferingMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedDBInstancesOfferings, tokenKey: \ReservedDBInstancesOfferingMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReservedDBInstancesOfferings,
+            tokenKey: \ReservedDBInstancesOfferingMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica or copy a DB snapshot from. This API action supports pagination.
     public func describeSourceRegionsPaginator(
         _ input: DescribeSourceRegionsMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SourceRegionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSourceRegions, tokenKey: \SourceRegionMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeSourceRegions,
+            tokenKey: \SourceRegionMessage.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Downloads all or a portion of the specified log file, up to 1 MB in size.
     public func downloadDBLogFilePortionPaginator(
         _ input: DownloadDBLogFilePortionMessage,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DownloadDBLogFilePortionDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: downloadDBLogFilePortion, tokenKey: \DownloadDBLogFilePortionDetails.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: downloadDBLogFilePortion,
+            tokenKey: \DownloadDBLogFilePortionDetails.marker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -23,11 +23,15 @@ extension ConnectParticipant {
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
     public func getTranscriptPaginator(
         _ input: GetTranscriptRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTranscriptResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTranscript, tokenKey: \GetTranscriptResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTranscript,
+            tokenKey: \GetTranscriptResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

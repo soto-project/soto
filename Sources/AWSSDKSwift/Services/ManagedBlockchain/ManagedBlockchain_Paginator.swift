@@ -23,61 +23,85 @@ extension ManagedBlockchain {
     ///  Returns a listing of all invitations made on the specified network.
     public func listInvitationsPaginator(
         _ input: ListInvitationsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a listing of the members in a network and properties of their configurations.
     public func listMembersPaginator(
         _ input: ListMembersInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the networks in which the current AWS account has members.
     public func listNetworksPaginator(
         _ input: ListNetworksInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNetworksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNetworks, tokenKey: \ListNetworksOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNetworks,
+            tokenKey: \ListNetworksOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the nodes within a network.
     public func listNodesPaginator(
         _ input: ListNodesInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNodesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNodes,
+            tokenKey: \ListNodesOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
     public func listProposalVotesPaginator(
         _ input: ListProposalVotesInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProposalVotesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProposalVotes, tokenKey: \ListProposalVotesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProposalVotes,
+            tokenKey: \ListProposalVotesOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a listing of proposals for the network.
     public func listProposalsPaginator(
         _ input: ListProposalsInput,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProposalsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProposals, tokenKey: \ListProposalsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProposals,
+            tokenKey: \ListProposalsOutput.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

@@ -23,31 +23,43 @@ extension Kendra {
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
     public func listDataSourceSyncJobsPaginator(
         _ input: ListDataSourceSyncJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourceSyncJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSourceSyncJobs, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSourceSyncJobs,
+            tokenKey: \ListDataSourceSyncJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the data sources that you have created.
     public func listDataSourcesPaginator(
         _ input: ListDataSourcesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSources,
+            tokenKey: \ListDataSourcesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the Amazon Kendra indexes that you have created.
     public func listIndicesPaginator(
         _ input: ListIndicesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIndicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIndices, tokenKey: \ListIndicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIndices,
+            tokenKey: \ListIndicesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

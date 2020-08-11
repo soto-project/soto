@@ -23,21 +23,29 @@ extension Mobile {
     ///   List all available bundles. 
     public func listBundlesPaginator(
         _ input: ListBundlesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBundlesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBundles, tokenKey: \ListBundlesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBundles,
+            tokenKey: \ListBundlesResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///   Lists projects in AWS Mobile Hub. 
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

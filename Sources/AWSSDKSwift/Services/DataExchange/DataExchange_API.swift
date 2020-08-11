@@ -21,12 +21,13 @@ Client object for interacting with AWS DataExchange service.
 
 This is the API reference for AWS Data Exchange.
 */
-public struct DataExchange {
+public struct DataExchange: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,127 +46,140 @@ public struct DataExchange {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "dataexchange",
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            possibleErrorTypes: [DataExchangeErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [DataExchangeErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
-    @discardableResult public func cancelJob(_ input: CancelJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CancelJob", path: "/v1/jobs/{JobId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func cancelJob(_ input: CancelJobRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CancelJob", path: "/v1/jobs/{JobId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation creates a data set.
-    public func createDataSet(_ input: CreateDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDataSetResponse> {
-        return client.execute(operation: "CreateDataSet", path: "/v1/data-sets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDataSet(_ input: CreateDataSetRequest) -> EventLoopFuture<CreateDataSetResponse> {
+        return client.execute(operation: "CreateDataSet", path: "/v1/data-sets", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation creates a job.
-    public func createJob(_ input: CreateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateJobResponse> {
-        return client.execute(operation: "CreateJob", path: "/v1/jobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResponse> {
+        return client.execute(operation: "CreateJob", path: "/v1/jobs", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation creates a revision for a data set.
-    public func createRevision(_ input: CreateRevisionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRevisionResponse> {
-        return client.execute(operation: "CreateRevision", path: "/v1/data-sets/{DataSetId}/revisions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createRevision(_ input: CreateRevisionRequest) -> EventLoopFuture<CreateRevisionResponse> {
+        return client.execute(operation: "CreateRevision", path: "/v1/data-sets/{DataSetId}/revisions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation deletes an asset.
-    @discardableResult public func deleteAsset(_ input: DeleteAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteAsset(_ input: DeleteAssetRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation deletes a data set.
-    @discardableResult public func deleteDataSet(_ input: DeleteDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDataSet(_ input: DeleteDataSetRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation deletes a revision.
-    @discardableResult public func deleteRevision(_ input: DeleteRevisionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRevision(_ input: DeleteRevisionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation returns information about an asset.
-    public func getAsset(_ input: GetAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAssetResponse> {
-        return client.execute(operation: "GetAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getAsset(_ input: GetAssetRequest) -> EventLoopFuture<GetAssetResponse> {
+        return client.execute(operation: "GetAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation returns information about a data set.
-    public func getDataSet(_ input: GetDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDataSetResponse> {
-        return client.execute(operation: "GetDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDataSet(_ input: GetDataSetRequest) -> EventLoopFuture<GetDataSetResponse> {
+        return client.execute(operation: "GetDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation returns information about a job.
-    public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobResponse> {
-        return client.execute(operation: "GetJob", path: "/v1/jobs/{JobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJob(_ input: GetJobRequest) -> EventLoopFuture<GetJobResponse> {
+        return client.execute(operation: "GetJob", path: "/v1/jobs/{JobId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation returns information about a revision.
-    public func getRevision(_ input: GetRevisionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRevisionResponse> {
-        return client.execute(operation: "GetRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRevision(_ input: GetRevisionRequest) -> EventLoopFuture<GetRevisionResponse> {
+        return client.execute(operation: "GetRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
-    public func listDataSetRevisions(_ input: ListDataSetRevisionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataSetRevisionsResponse> {
-        return client.execute(operation: "ListDataSetRevisions", path: "/v1/data-sets/{DataSetId}/revisions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDataSetRevisions(_ input: ListDataSetRevisionsRequest) -> EventLoopFuture<ListDataSetRevisionsResponse> {
+        return client.execute(operation: "ListDataSetRevisions", path: "/v1/data-sets/{DataSetId}/revisions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
-    public func listDataSets(_ input: ListDataSetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDataSetsResponse> {
-        return client.execute(operation: "ListDataSets", path: "/v1/data-sets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDataSets(_ input: ListDataSetsRequest) -> EventLoopFuture<ListDataSetsResponse> {
+        return client.execute(operation: "ListDataSets", path: "/v1/data-sets", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation lists your jobs sorted by CreatedAt in descending order.
-    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobsResponse> {
-        return client.execute(operation: "ListJobs", path: "/v1/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResponse> {
+        return client.execute(operation: "ListJobs", path: "/v1/jobs", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation lists a revision's assets sorted alphabetically in descending order.
-    public func listRevisionAssets(_ input: ListRevisionAssetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRevisionAssetsResponse> {
-        return client.execute(operation: "ListRevisionAssets", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRevisionAssets(_ input: ListRevisionAssetsRequest) -> EventLoopFuture<ListRevisionAssetsResponse> {
+        return client.execute(operation: "ListRevisionAssets", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation lists the tags on the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation starts a job.
-    public func startJob(_ input: StartJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartJobResponse> {
-        return client.execute(operation: "StartJob", path: "/v1/jobs/{JobId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startJob(_ input: StartJobRequest) -> EventLoopFuture<StartJobResponse> {
+        return client.execute(operation: "StartJob", path: "/v1/jobs/{JobId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation tags a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation removes one or more tags from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation updates an asset.
-    public func updateAsset(_ input: UpdateAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAssetResponse> {
-        return client.execute(operation: "UpdateAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateAsset(_ input: UpdateAssetRequest) -> EventLoopFuture<UpdateAssetResponse> {
+        return client.execute(operation: "UpdateAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation updates a data set.
-    public func updateDataSet(_ input: UpdateDataSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDataSetResponse> {
-        return client.execute(operation: "UpdateDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDataSet(_ input: UpdateDataSetRequest) -> EventLoopFuture<UpdateDataSetResponse> {
+        return client.execute(operation: "UpdateDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  This operation updates a revision.
-    public func updateRevision(_ input: UpdateRevisionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRevisionResponse> {
-        return client.execute(operation: "UpdateRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateRevision(_ input: UpdateRevisionRequest) -> EventLoopFuture<UpdateRevisionResponse> {
+        return client.execute(operation: "UpdateRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension DataExchange {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

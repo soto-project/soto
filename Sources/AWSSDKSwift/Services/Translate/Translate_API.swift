@@ -21,12 +21,13 @@ Client object for interacting with AWS Translate service.
 
 Provides translation between one source language and another of the same set of languages.
 */
-public struct Translate {
+public struct Translate: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct Translate {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSShineFrontendService_20170701",
@@ -53,55 +54,68 @@ public struct Translate {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-07-01",
             endpoint: endpoint,
-            possibleErrorTypes: [TranslateErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [TranslateErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  A synchronous action that deletes a custom terminology.
-    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteTerminology", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteTerminology", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the properties associated with an asycnhronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
-    public func describeTextTranslationJob(_ input: DescribeTextTranslationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTextTranslationJobResponse> {
-        return client.execute(operation: "DescribeTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTextTranslationJob(_ input: DescribeTextTranslationJobRequest) -> EventLoopFuture<DescribeTextTranslationJobResponse> {
+        return client.execute(operation: "DescribeTextTranslationJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a custom terminology.
-    public func getTerminology(_ input: GetTerminologyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTerminologyResponse> {
-        return client.execute(operation: "GetTerminology", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTerminology(_ input: GetTerminologyRequest) -> EventLoopFuture<GetTerminologyResponse> {
+        return client.execute(operation: "GetTerminology", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates or updates a custom terminology, depending on whether or not one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. Currently, the only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology take up to 10 minutes to fully propagate and be available for use in a translation due to cache policies with the DataPlane service that performs the translations.
-    public func importTerminology(_ input: ImportTerminologyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportTerminologyResponse> {
-        return client.execute(operation: "ImportTerminology", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func importTerminology(_ input: ImportTerminologyRequest) -> EventLoopFuture<ImportTerminologyResponse> {
+        return client.execute(operation: "ImportTerminology", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides a list of custom terminologies associated with your account.
-    public func listTerminologies(_ input: ListTerminologiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTerminologiesResponse> {
-        return client.execute(operation: "ListTerminologies", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTerminologies(_ input: ListTerminologiesRequest) -> EventLoopFuture<ListTerminologiesResponse> {
+        return client.execute(operation: "ListTerminologies", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of the batch translation jobs that you have submitted.
-    public func listTextTranslationJobs(_ input: ListTextTranslationJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTextTranslationJobsResponse> {
-        return client.execute(operation: "ListTextTranslationJobs", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTextTranslationJobs(_ input: ListTextTranslationJobsRequest) -> EventLoopFuture<ListTextTranslationJobsResponse> {
+        return client.execute(operation: "ListTextTranslationJobs", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts an asynchronous batch translation job. Batch translation jobs can be used to translate large volumes of text across multiple documents at once. For more information, see async. Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.  Amazon Translate does not support batch translation of multiple source languages at once. 
-    public func startTextTranslationJob(_ input: StartTextTranslationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartTextTranslationJobResponse> {
-        return client.execute(operation: "StartTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startTextTranslationJob(_ input: StartTextTranslationJobRequest) -> EventLoopFuture<StartTextTranslationJobResponse> {
+        return client.execute(operation: "StartTextTranslationJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch translation job's JobId.
-    public func stopTextTranslationJob(_ input: StopTextTranslationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopTextTranslationJobResponse> {
-        return client.execute(operation: "StopTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopTextTranslationJob(_ input: StopTextTranslationJobRequest) -> EventLoopFuture<StopTextTranslationJobResponse> {
+        return client.execute(operation: "StopTextTranslationJob", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Translates input text from the source language to the target language. For a list of available languages and language codes, see what-is-languages.
-    public func translateText(_ input: TranslateTextRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TranslateTextResponse> {
-        return client.execute(operation: "TranslateText", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func translateText(_ input: TranslateTextRequest) -> EventLoopFuture<TranslateTextResponse> {
+        return client.execute(operation: "TranslateText", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Translate {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

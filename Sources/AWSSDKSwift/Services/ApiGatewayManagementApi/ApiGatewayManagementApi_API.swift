@@ -21,12 +21,13 @@ Client object for interacting with AWS ApiGatewayManagementApi service.
 
 The Amazon API Gateway Management API allows you to directly manage runtime aspects of your deployed APIs. To use it, you must explicitly set the SDK's endpoint to point to the endpoint of your deployed API. The endpoint will be of the form https://{api-id}.execute-api.{region}.amazonaws.com/{stage}, or will be the endpoint corresponding to your API's custom domain and base path, if applicable.
 */
-public struct ApiGatewayManagementApi {
+public struct ApiGatewayManagementApi: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,32 +46,45 @@ public struct ApiGatewayManagementApi {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "execute-api",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-29",
             endpoint: endpoint,
-            possibleErrorTypes: [ApiGatewayManagementApiErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [ApiGatewayManagementApiErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Delete the connection with the provided id.
-    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Get information about the connection with the provided id.
-    public func getConnection(_ input: GetConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConnectionResponse> {
-        return client.execute(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getConnection(_ input: GetConnectionRequest) -> EventLoopFuture<GetConnectionResponse> {
+        return client.execute(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Sends the provided data to the specified connection.
-    @discardableResult public func postToConnection(_ input: PostToConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func postToConnection(_ input: PostToConnectionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension ApiGatewayManagementApi {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

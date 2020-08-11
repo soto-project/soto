@@ -21,12 +21,13 @@ Client object for interacting with AWS MediaLive service.
 
 API for AWS Elemental MediaLive
 */
-public struct MediaLive {
+public struct MediaLive: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,247 +46,260 @@ public struct MediaLive {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "medialive",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-14",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaLiveErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [MediaLiveErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Update a channel schedule
-    public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdateScheduleResponse> {
-        return client.execute(operation: "BatchUpdateSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest) -> EventLoopFuture<BatchUpdateScheduleResponse> {
+        return client.execute(operation: "BatchUpdateSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new channel
-    public func createChannel(_ input: CreateChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateChannelResponse> {
-        return client.execute(operation: "CreateChannel", path: "/prod/channels", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createChannel(_ input: CreateChannelRequest) -> EventLoopFuture<CreateChannelResponse> {
+        return client.execute(operation: "CreateChannel", path: "/prod/channels", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create an input
-    public func createInput(_ input: CreateInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInputResponse> {
-        return client.execute(operation: "CreateInput", path: "/prod/inputs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createInput(_ input: CreateInputRequest) -> EventLoopFuture<CreateInputResponse> {
+        return client.execute(operation: "CreateInput", path: "/prod/inputs", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a Input Security Group
-    public func createInputSecurityGroup(_ input: CreateInputSecurityGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInputSecurityGroupResponse> {
-        return client.execute(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createInputSecurityGroup(_ input: CreateInputSecurityGroupRequest) -> EventLoopFuture<CreateInputSecurityGroupResponse> {
+        return client.execute(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create a new multiplex.
-    public func createMultiplex(_ input: CreateMultiplexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMultiplexResponse> {
-        return client.execute(operation: "CreateMultiplex", path: "/prod/multiplexes", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMultiplex(_ input: CreateMultiplexRequest) -> EventLoopFuture<CreateMultiplexResponse> {
+        return client.execute(operation: "CreateMultiplex", path: "/prod/multiplexes", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create a new program in the multiplex.
-    public func createMultiplexProgram(_ input: CreateMultiplexProgramRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMultiplexProgramResponse> {
-        return client.execute(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMultiplexProgram(_ input: CreateMultiplexProgramRequest) -> EventLoopFuture<CreateMultiplexProgramResponse> {
+        return client.execute(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create tags for a resource
-    @discardableResult public func createTags(_ input: CreateTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CreateTags", path: "/prod/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func createTags(_ input: CreateTagsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CreateTags", path: "/prod/tags/{resource-arn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts deletion of channel. The associated outputs are also deleted.
-    public func deleteChannel(_ input: DeleteChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteChannelResponse> {
-        return client.execute(operation: "DeleteChannel", path: "/prod/channels/{channelId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteChannel(_ input: DeleteChannelRequest) -> EventLoopFuture<DeleteChannelResponse> {
+        return client.execute(operation: "DeleteChannel", path: "/prod/channels/{channelId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the input end point
-    public func deleteInput(_ input: DeleteInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInputResponse> {
-        return client.execute(operation: "DeleteInput", path: "/prod/inputs/{inputId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteInput(_ input: DeleteInputRequest) -> EventLoopFuture<DeleteInputResponse> {
+        return client.execute(operation: "DeleteInput", path: "/prod/inputs/{inputId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an Input Security Group
-    public func deleteInputSecurityGroup(_ input: DeleteInputSecurityGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInputSecurityGroupResponse> {
-        return client.execute(operation: "DeleteInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteInputSecurityGroup(_ input: DeleteInputSecurityGroupRequest) -> EventLoopFuture<DeleteInputSecurityGroupResponse> {
+        return client.execute(operation: "DeleteInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete a multiplex. The multiplex must be idle.
-    public func deleteMultiplex(_ input: DeleteMultiplexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMultiplexResponse> {
-        return client.execute(operation: "DeleteMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteMultiplex(_ input: DeleteMultiplexRequest) -> EventLoopFuture<DeleteMultiplexResponse> {
+        return client.execute(operation: "DeleteMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete a program from a multiplex.
-    public func deleteMultiplexProgram(_ input: DeleteMultiplexProgramRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMultiplexProgramResponse> {
-        return client.execute(operation: "DeleteMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteMultiplexProgram(_ input: DeleteMultiplexProgramRequest) -> EventLoopFuture<DeleteMultiplexProgramResponse> {
+        return client.execute(operation: "DeleteMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete an expired reservation.
-    public func deleteReservation(_ input: DeleteReservationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteReservationResponse> {
-        return client.execute(operation: "DeleteReservation", path: "/prod/reservations/{reservationId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteReservation(_ input: DeleteReservationRequest) -> EventLoopFuture<DeleteReservationResponse> {
+        return client.execute(operation: "DeleteReservation", path: "/prod/reservations/{reservationId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete all schedule actions on a channel.
-    public func deleteSchedule(_ input: DeleteScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteScheduleResponse> {
-        return client.execute(operation: "DeleteSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteSchedule(_ input: DeleteScheduleRequest) -> EventLoopFuture<DeleteScheduleResponse> {
+        return client.execute(operation: "DeleteSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes tags for a resource
-    @discardableResult public func deleteTags(_ input: DeleteTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteTags", path: "/prod/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteTags", path: "/prod/tags/{resource-arn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets details about a channel
-    public func describeChannel(_ input: DescribeChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeChannelResponse> {
-        return client.execute(operation: "DescribeChannel", path: "/prod/channels/{channelId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeChannel(_ input: DescribeChannelRequest) -> EventLoopFuture<DescribeChannelResponse> {
+        return client.execute(operation: "DescribeChannel", path: "/prod/channels/{channelId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Produces details about an input
-    public func describeInput(_ input: DescribeInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInputResponse> {
-        return client.execute(operation: "DescribeInput", path: "/prod/inputs/{inputId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeInput(_ input: DescribeInputRequest) -> EventLoopFuture<DescribeInputResponse> {
+        return client.execute(operation: "DescribeInput", path: "/prod/inputs/{inputId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the details for the input device
-    public func describeInputDevice(_ input: DescribeInputDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInputDeviceResponse> {
-        return client.execute(operation: "DescribeInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeInputDevice(_ input: DescribeInputDeviceRequest) -> EventLoopFuture<DescribeInputDeviceResponse> {
+        return client.execute(operation: "DescribeInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Produces a summary of an Input Security Group
-    public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInputSecurityGroupResponse> {
-        return client.execute(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest) -> EventLoopFuture<DescribeInputSecurityGroupResponse> {
+        return client.execute(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets details about a multiplex.
-    public func describeMultiplex(_ input: DescribeMultiplexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMultiplexResponse> {
-        return client.execute(operation: "DescribeMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeMultiplex(_ input: DescribeMultiplexRequest) -> EventLoopFuture<DescribeMultiplexResponse> {
+        return client.execute(operation: "DescribeMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get the details for a program in a multiplex.
-    public func describeMultiplexProgram(_ input: DescribeMultiplexProgramRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMultiplexProgramResponse> {
-        return client.execute(operation: "DescribeMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeMultiplexProgram(_ input: DescribeMultiplexProgramRequest) -> EventLoopFuture<DescribeMultiplexProgramResponse> {
+        return client.execute(operation: "DescribeMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get details for an offering.
-    public func describeOffering(_ input: DescribeOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeOfferingResponse> {
-        return client.execute(operation: "DescribeOffering", path: "/prod/offerings/{offeringId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeOffering(_ input: DescribeOfferingRequest) -> EventLoopFuture<DescribeOfferingResponse> {
+        return client.execute(operation: "DescribeOffering", path: "/prod/offerings/{offeringId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get details for a reservation.
-    public func describeReservation(_ input: DescribeReservationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReservationResponse> {
-        return client.execute(operation: "DescribeReservation", path: "/prod/reservations/{reservationId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeReservation(_ input: DescribeReservationRequest) -> EventLoopFuture<DescribeReservationResponse> {
+        return client.execute(operation: "DescribeReservation", path: "/prod/reservations/{reservationId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Get a channel schedule
-    public func describeSchedule(_ input: DescribeScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScheduleResponse> {
-        return client.execute(operation: "DescribeSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSchedule(_ input: DescribeScheduleRequest) -> EventLoopFuture<DescribeScheduleResponse> {
+        return client.execute(operation: "DescribeSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Produces list of channels that have been created
-    public func listChannels(_ input: ListChannelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChannelsResponse> {
-        return client.execute(operation: "ListChannels", path: "/prod/channels", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listChannels(_ input: ListChannelsRequest) -> EventLoopFuture<ListChannelsResponse> {
+        return client.execute(operation: "ListChannels", path: "/prod/channels", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List input devices
-    public func listInputDevices(_ input: ListInputDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInputDevicesResponse> {
-        return client.execute(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listInputDevices(_ input: ListInputDevicesRequest) -> EventLoopFuture<ListInputDevicesResponse> {
+        return client.execute(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Produces a list of Input Security Groups for an account
-    public func listInputSecurityGroups(_ input: ListInputSecurityGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInputSecurityGroupsResponse> {
-        return client.execute(operation: "ListInputSecurityGroups", path: "/prod/inputSecurityGroups", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listInputSecurityGroups(_ input: ListInputSecurityGroupsRequest) -> EventLoopFuture<ListInputSecurityGroupsResponse> {
+        return client.execute(operation: "ListInputSecurityGroups", path: "/prod/inputSecurityGroups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Produces list of inputs that have been created
-    public func listInputs(_ input: ListInputsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInputsResponse> {
-        return client.execute(operation: "ListInputs", path: "/prod/inputs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listInputs(_ input: ListInputsRequest) -> EventLoopFuture<ListInputsResponse> {
+        return client.execute(operation: "ListInputs", path: "/prod/inputs", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the programs that currently exist for a specific multiplex.
-    public func listMultiplexPrograms(_ input: ListMultiplexProgramsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMultiplexProgramsResponse> {
-        return client.execute(operation: "ListMultiplexPrograms", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMultiplexPrograms(_ input: ListMultiplexProgramsRequest) -> EventLoopFuture<ListMultiplexProgramsResponse> {
+        return client.execute(operation: "ListMultiplexPrograms", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieve a list of the existing multiplexes.
-    public func listMultiplexes(_ input: ListMultiplexesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMultiplexesResponse> {
-        return client.execute(operation: "ListMultiplexes", path: "/prod/multiplexes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMultiplexes(_ input: ListMultiplexesRequest) -> EventLoopFuture<ListMultiplexesResponse> {
+        return client.execute(operation: "ListMultiplexes", path: "/prod/multiplexes", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List offerings available for purchase.
-    public func listOfferings(_ input: ListOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOfferingsResponse> {
-        return client.execute(operation: "ListOfferings", path: "/prod/offerings", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listOfferings(_ input: ListOfferingsRequest) -> EventLoopFuture<ListOfferingsResponse> {
+        return client.execute(operation: "ListOfferings", path: "/prod/offerings", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List purchased reservations.
-    public func listReservations(_ input: ListReservationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListReservationsResponse> {
-        return client.execute(operation: "ListReservations", path: "/prod/reservations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listReservations(_ input: ListReservationsRequest) -> EventLoopFuture<ListReservationsResponse> {
+        return client.execute(operation: "ListReservations", path: "/prod/reservations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Produces list of tags that have been created for a resource
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/prod/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/prod/tags/{resource-arn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Purchase an offering and create a reservation.
-    public func purchaseOffering(_ input: PurchaseOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PurchaseOfferingResponse> {
-        return client.execute(operation: "PurchaseOffering", path: "/prod/offerings/{offeringId}/purchase", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func purchaseOffering(_ input: PurchaseOfferingRequest) -> EventLoopFuture<PurchaseOfferingResponse> {
+        return client.execute(operation: "PurchaseOffering", path: "/prod/offerings/{offeringId}/purchase", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts an existing channel
-    public func startChannel(_ input: StartChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartChannelResponse> {
-        return client.execute(operation: "StartChannel", path: "/prod/channels/{channelId}/start", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startChannel(_ input: StartChannelRequest) -> EventLoopFuture<StartChannelResponse> {
+        return client.execute(operation: "StartChannel", path: "/prod/channels/{channelId}/start", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
-    public func startMultiplex(_ input: StartMultiplexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartMultiplexResponse> {
-        return client.execute(operation: "StartMultiplex", path: "/prod/multiplexes/{multiplexId}/start", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startMultiplex(_ input: StartMultiplexRequest) -> EventLoopFuture<StartMultiplexResponse> {
+        return client.execute(operation: "StartMultiplex", path: "/prod/multiplexes/{multiplexId}/start", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops a running channel
-    public func stopChannel(_ input: StopChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopChannelResponse> {
-        return client.execute(operation: "StopChannel", path: "/prod/channels/{channelId}/stop", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopChannel(_ input: StopChannelRequest) -> EventLoopFuture<StopChannelResponse> {
+        return client.execute(operation: "StopChannel", path: "/prod/channels/{channelId}/stop", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Stops a running multiplex. If the multiplex isn't running, this action has no effect.
-    public func stopMultiplex(_ input: StopMultiplexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopMultiplexResponse> {
-        return client.execute(operation: "StopMultiplex", path: "/prod/multiplexes/{multiplexId}/stop", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopMultiplex(_ input: StopMultiplexRequest) -> EventLoopFuture<StopMultiplexResponse> {
+        return client.execute(operation: "StopMultiplex", path: "/prod/multiplexes/{multiplexId}/stop", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a channel.
-    public func updateChannel(_ input: UpdateChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateChannelResponse> {
-        return client.execute(operation: "UpdateChannel", path: "/prod/channels/{channelId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateChannel(_ input: UpdateChannelRequest) -> EventLoopFuture<UpdateChannelResponse> {
+        return client.execute(operation: "UpdateChannel", path: "/prod/channels/{channelId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Changes the class of the channel.
-    public func updateChannelClass(_ input: UpdateChannelClassRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateChannelClassResponse> {
-        return client.execute(operation: "UpdateChannelClass", path: "/prod/channels/{channelId}/channelClass", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateChannelClass(_ input: UpdateChannelClassRequest) -> EventLoopFuture<UpdateChannelClassResponse> {
+        return client.execute(operation: "UpdateChannelClass", path: "/prod/channels/{channelId}/channelClass", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an input.
-    public func updateInput(_ input: UpdateInputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInputResponse> {
-        return client.execute(operation: "UpdateInput", path: "/prod/inputs/{inputId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateInput(_ input: UpdateInputRequest) -> EventLoopFuture<UpdateInputResponse> {
+        return client.execute(operation: "UpdateInput", path: "/prod/inputs/{inputId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the parameters for the input device.
-    public func updateInputDevice(_ input: UpdateInputDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInputDeviceResponse> {
-        return client.execute(operation: "UpdateInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateInputDevice(_ input: UpdateInputDeviceRequest) -> EventLoopFuture<UpdateInputDeviceResponse> {
+        return client.execute(operation: "UpdateInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Update an Input Security Group's Whilelists.
-    public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInputSecurityGroupResponse> {
-        return client.execute(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest) -> EventLoopFuture<UpdateInputSecurityGroupResponse> {
+        return client.execute(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a multiplex.
-    public func updateMultiplex(_ input: UpdateMultiplexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMultiplexResponse> {
-        return client.execute(operation: "UpdateMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMultiplex(_ input: UpdateMultiplexRequest) -> EventLoopFuture<UpdateMultiplexResponse> {
+        return client.execute(operation: "UpdateMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Update a program in a multiplex.
-    public func updateMultiplexProgram(_ input: UpdateMultiplexProgramRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMultiplexProgramResponse> {
-        return client.execute(operation: "UpdateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMultiplexProgram(_ input: UpdateMultiplexProgramRequest) -> EventLoopFuture<UpdateMultiplexProgramResponse> {
+        return client.execute(operation: "UpdateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Update reservation.
-    public func updateReservation(_ input: UpdateReservationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateReservationResponse> {
-        return client.execute(operation: "UpdateReservation", path: "/prod/reservations/{reservationId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateReservation(_ input: UpdateReservationRequest) -> EventLoopFuture<UpdateReservationResponse> {
+        return client.execute(operation: "UpdateReservation", path: "/prod/reservations/{reservationId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension MediaLive {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

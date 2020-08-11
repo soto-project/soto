@@ -21,12 +21,13 @@ Client object for interacting with AWS IoT service.
 
 AWS IoT AWS IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. The service endpoints that expose this API are listed in AWS IoT Core Endpoints and Quotas. You must use the endpoint for the region that has the resources you want to access. The service name used by AWS Signature Version 4 to sign the request is: execute-api. For more information about how AWS IoT works, see the Developer Guide. For information about how to use the credentials provider for AWS IoT, see Authorizing Direct Calls to AWS Services.
 */
-public struct IoT {
+public struct IoT: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct IoT {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "iot",
@@ -53,1049 +54,1062 @@ public struct IoT {
             serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [IoTErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
-    @discardableResult public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds a thing to a billing group.
-    public func addThingToBillingGroup(_ input: AddThingToBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddThingToBillingGroupResponse> {
-        return client.execute(operation: "AddThingToBillingGroup", path: "/billing-groups/addThingToBillingGroup", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func addThingToBillingGroup(_ input: AddThingToBillingGroupRequest) -> EventLoopFuture<AddThingToBillingGroupResponse> {
+        return client.execute(operation: "AddThingToBillingGroup", path: "/billing-groups/addThingToBillingGroup", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds a thing to a thing group.
-    public func addThingToThingGroup(_ input: AddThingToThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddThingToThingGroupResponse> {
-        return client.execute(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func addThingToThingGroup(_ input: AddThingToThingGroupRequest) -> EventLoopFuture<AddThingToThingGroupResponse> {
+        return client.execute(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.  
-    public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateTargetsWithJobResponse> {
-        return client.execute(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest) -> EventLoopFuture<AssociateTargetsWithJobResponse> {
+        return client.execute(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Attaches a policy to the specified target.
-    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Attaches the specified policy to the specified principal (certificate or other credential).  Note: This API is deprecated. Please use AttachPolicy instead.
     @available(*, deprecated, message:"AttachPrincipalPolicy is deprecated.")
-    @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it.
-    public func attachSecurityProfile(_ input: AttachSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AttachSecurityProfileResponse> {
-        return client.execute(operation: "AttachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func attachSecurityProfile(_ input: AttachSecurityProfileRequest) -> EventLoopFuture<AttachSecurityProfileResponse> {
+        return client.execute(operation: "AttachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Attaches the specified principal to the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
-    public func attachThingPrincipal(_ input: AttachThingPrincipalRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AttachThingPrincipalResponse> {
-        return client.execute(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) -> EventLoopFuture<AttachThingPrincipalResponse> {
+        return client.execute(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs.
-    public func cancelAuditMitigationActionsTask(_ input: CancelAuditMitigationActionsTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelAuditMitigationActionsTaskResponse> {
-        return client.execute(operation: "CancelAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelAuditMitigationActionsTask(_ input: CancelAuditMitigationActionsTaskRequest) -> EventLoopFuture<CancelAuditMitigationActionsTaskResponse> {
+        return client.execute(operation: "CancelAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}/cancel", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Cancels an audit that is in progress. The audit can be either scheduled or on-demand. If the audit is not in progress, an "InvalidRequestException" occurs.
-    public func cancelAuditTask(_ input: CancelAuditTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelAuditTaskResponse> {
-        return client.execute(operation: "CancelAuditTask", path: "/audit/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelAuditTask(_ input: CancelAuditTaskRequest) -> EventLoopFuture<CancelAuditTaskResponse> {
+        return client.execute(operation: "CancelAuditTask", path: "/audit/tasks/{taskId}/cancel", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
-    @discardableResult public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Cancels a job.
-    public func cancelJob(_ input: CancelJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelJobResponse> {
-        return client.execute(operation: "CancelJob", path: "/jobs/{jobId}/cancel", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelJob(_ input: CancelJobRequest) -> EventLoopFuture<CancelJobResponse> {
+        return client.execute(operation: "CancelJob", path: "/jobs/{jobId}/cancel", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Cancels the execution of a job for a given thing.
-    @discardableResult public func cancelJobExecution(_ input: CancelJobExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CancelJobExecution", path: "/things/{thingName}/jobs/{jobId}/cancel", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func cancelJobExecution(_ input: CancelJobExecutionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CancelJobExecution", path: "/things/{thingName}/jobs/{jobId}/cancel", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Clears the default authorizer.
-    public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ClearDefaultAuthorizerResponse> {
-        return client.execute(operation: "ClearDefaultAuthorizer", path: "/default-authorizer", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest) -> EventLoopFuture<ClearDefaultAuthorizerResponse> {
+        return client.execute(operation: "ClearDefaultAuthorizer", path: "/default-authorizer", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Confirms a topic rule destination. When you create a rule requiring a destination, AWS IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint.
-    public func confirmTopicRuleDestination(_ input: ConfirmTopicRuleDestinationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ConfirmTopicRuleDestinationResponse> {
-        return client.execute(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func confirmTopicRuleDestination(_ input: ConfirmTopicRuleDestinationRequest) -> EventLoopFuture<ConfirmTopicRuleDestinationResponse> {
+        return client.execute(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an authorizer.
-    public func createAuthorizer(_ input: CreateAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAuthorizerResponse> {
-        return client.execute(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> EventLoopFuture<CreateAuthorizerResponse> {
+        return client.execute(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a billing group.
-    public func createBillingGroup(_ input: CreateBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBillingGroupResponse> {
-        return client.execute(operation: "CreateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createBillingGroup(_ input: CreateBillingGroupRequest) -> EventLoopFuture<CreateBillingGroupResponse> {
+        return client.execute(operation: "CreateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
-    public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCertificateFromCsrResponse> {
-        return client.execute(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest) -> EventLoopFuture<CreateCertificateFromCsrResponse> {
+        return client.execute(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create a dimension that you can use to limit the scope of a metric used in a security profile for AWS IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
-    public func createDimension(_ input: CreateDimensionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDimensionResponse> {
-        return client.execute(operation: "CreateDimension", path: "/dimensions/{name}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDimension(_ input: CreateDimensionRequest) -> EventLoopFuture<CreateDimensionResponse> {
+        return client.execute(operation: "CreateDimension", path: "/dimensions/{name}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
-    public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDomainConfigurationResponse> {
-        return client.execute(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest) -> EventLoopFuture<CreateDomainConfigurationResponse> {
+        return client.execute(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a dynamic thing group.
-    public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDynamicThingGroupResponse> {
-        return client.execute(operation: "CreateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest) -> EventLoopFuture<CreateDynamicThingGroupResponse> {
+        return client.execute(operation: "CreateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a job.
-    public func createJob(_ input: CreateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateJobResponse> {
-        return client.execute(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResponse> {
+        return client.execute(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
-    public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateKeysAndCertificateResponse> {
-        return client.execute(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) -> EventLoopFuture<CreateKeysAndCertificateResponse> {
+        return client.execute(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Each mitigation action can apply only one type of change.
-    public func createMitigationAction(_ input: CreateMitigationActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMitigationActionResponse> {
-        return client.execute(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createMitigationAction(_ input: CreateMitigationActionRequest) -> EventLoopFuture<CreateMitigationActionResponse> {
+        return client.execute(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an AWS IoT OTAUpdate on a target group of things or groups.
-    public func createOTAUpdate(_ input: CreateOTAUpdateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOTAUpdateResponse> {
-        return client.execute(operation: "CreateOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createOTAUpdate(_ input: CreateOTAUpdateRequest) -> EventLoopFuture<CreateOTAUpdateResponse> {
+        return client.execute(operation: "CreateOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an AWS IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
-    public func createPolicy(_ input: CreatePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePolicyResponse> {
-        return client.execute(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPolicy(_ input: CreatePolicyRequest) -> EventLoopFuture<CreatePolicyResponse> {
+        return client.execute(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new version of the specified AWS IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
-    public func createPolicyVersion(_ input: CreatePolicyVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePolicyVersionResponse> {
-        return client.execute(operation: "CreatePolicyVersion", path: "/policies/{policyName}/version", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createPolicyVersion(_ input: CreatePolicyVersionRequest) -> EventLoopFuture<CreatePolicyVersionResponse> {
+        return client.execute(operation: "CreatePolicyVersion", path: "/policies/{policyName}/version", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a provisioning claim.
-    public func createProvisioningClaim(_ input: CreateProvisioningClaimRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProvisioningClaimResponse> {
-        return client.execute(operation: "CreateProvisioningClaim", path: "/provisioning-templates/{templateName}/provisioning-claim", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProvisioningClaim(_ input: CreateProvisioningClaimRequest) -> EventLoopFuture<CreateProvisioningClaimResponse> {
+        return client.execute(operation: "CreateProvisioningClaim", path: "/provisioning-templates/{templateName}/provisioning-claim", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a fleet provisioning template.
-    public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProvisioningTemplateResponse> {
-        return client.execute(operation: "CreateProvisioningTemplate", path: "/provisioning-templates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest) -> EventLoopFuture<CreateProvisioningTemplateResponse> {
+        return client.execute(operation: "CreateProvisioningTemplate", path: "/provisioning-templates", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new version of a fleet provisioning template.
-    public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProvisioningTemplateVersionResponse> {
-        return client.execute(operation: "CreateProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest) -> EventLoopFuture<CreateProvisioningTemplateVersionResponse> {
+        return client.execute(operation: "CreateProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a role alias.
-    public func createRoleAlias(_ input: CreateRoleAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRoleAliasResponse> {
-        return client.execute(operation: "CreateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createRoleAlias(_ input: CreateRoleAliasRequest) -> EventLoopFuture<CreateRoleAliasResponse> {
+        return client.execute(operation: "CreateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a scheduled audit that is run at a specified time interval.
-    public func createScheduledAudit(_ input: CreateScheduledAuditRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateScheduledAuditResponse> {
-        return client.execute(operation: "CreateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createScheduledAudit(_ input: CreateScheduledAuditRequest) -> EventLoopFuture<CreateScheduledAuditResponse> {
+        return client.execute(operation: "CreateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a Device Defender security profile.
-    public func createSecurityProfile(_ input: CreateSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSecurityProfileResponse> {
-        return client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createSecurityProfile(_ input: CreateSecurityProfileRequest) -> EventLoopFuture<CreateSecurityProfileResponse> {
+        return client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream.
-    public func createStream(_ input: CreateStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStreamResponse> {
-        return client.execute(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createStream(_ input: CreateStreamRequest) -> EventLoopFuture<CreateStreamResponse> {
+        return client.execute(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
-    public func createThing(_ input: CreateThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThingResponse> {
-        return client.execute(operation: "CreateThing", path: "/things/{thingName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createThing(_ input: CreateThingRequest) -> EventLoopFuture<CreateThingResponse> {
+        return client.execute(operation: "CreateThing", path: "/things/{thingName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Create a thing group.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
-    public func createThingGroup(_ input: CreateThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThingGroupResponse> {
-        return client.execute(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createThingGroup(_ input: CreateThingGroupRequest) -> EventLoopFuture<CreateThingGroupResponse> {
+        return client.execute(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new thing type.
-    public func createThingType(_ input: CreateThingTypeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThingTypeResponse> {
-        return client.execute(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createThingType(_ input: CreateThingTypeRequest) -> EventLoopFuture<CreateThingTypeResponse> {
+        return client.execute(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    @discardableResult public func createTopicRule(_ input: CreateTopicRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func createTopicRule(_ input: CreateTopicRuleRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a topic rule destination. The destination must be confirmed prior to use.
-    public func createTopicRuleDestination(_ input: CreateTopicRuleDestinationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTopicRuleDestinationResponse> {
-        return client.execute(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTopicRuleDestination(_ input: CreateTopicRuleDestinationRequest) -> EventLoopFuture<CreateTopicRuleDestinationResponse> {
+        return client.execute(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
-    public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
-        return client.execute(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
+        return client.execute(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an authorizer.
-    public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAuthorizerResponse> {
-        return client.execute(operation: "DeleteAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> EventLoopFuture<DeleteAuthorizerResponse> {
+        return client.execute(operation: "DeleteAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the billing group.
-    public func deleteBillingGroup(_ input: DeleteBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBillingGroupResponse> {
-        return client.execute(operation: "DeleteBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteBillingGroup(_ input: DeleteBillingGroupRequest) -> EventLoopFuture<DeleteBillingGroupResponse> {
+        return client.execute(operation: "DeleteBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a registered CA certificate.
-    public func deleteCACertificate(_ input: DeleteCACertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteCACertificateResponse> {
-        return client.execute(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteCACertificate(_ input: DeleteCACertificateRequest) -> EventLoopFuture<DeleteCACertificateResponse> {
+        return client.execute(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
-    @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the specified dimension from your AWS account.
-    public func deleteDimension(_ input: DeleteDimensionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDimensionResponse> {
-        return client.execute(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDimension(_ input: DeleteDimensionRequest) -> EventLoopFuture<DeleteDimensionResponse> {
+        return client.execute(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change. 
-    public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDomainConfigurationResponse> {
-        return client.execute(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest) -> EventLoopFuture<DeleteDomainConfigurationResponse> {
+        return client.execute(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a dynamic thing group.
-    public func deleteDynamicThingGroup(_ input: DeleteDynamicThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDynamicThingGroupResponse> {
-        return client.execute(operation: "DeleteDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDynamicThingGroup(_ input: DeleteDynamicThingGroupRequest) -> EventLoopFuture<DeleteDynamicThingGroupResponse> {
+        return client.execute(operation: "DeleteDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur.
-    @discardableResult public func deleteJob(_ input: DeleteJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteJob", path: "/jobs/{jobId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteJob(_ input: DeleteJobRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteJob", path: "/jobs/{jobId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a job execution.
-    @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a defined mitigation action from your AWS account.
-    public func deleteMitigationAction(_ input: DeleteMitigationActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMitigationActionResponse> {
-        return client.execute(operation: "DeleteMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteMitigationAction(_ input: DeleteMitigationActionRequest) -> EventLoopFuture<DeleteMitigationActionResponse> {
+        return client.execute(operation: "DeleteMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Delete an OTA update.
-    public func deleteOTAUpdate(_ input: DeleteOTAUpdateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteOTAUpdateResponse> {
-        return client.execute(operation: "DeleteOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteOTAUpdate(_ input: DeleteOTAUpdateRequest) -> EventLoopFuture<DeleteOTAUpdateResponse> {
+        return client.execute(operation: "DeleteOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
-    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions.
-    @discardableResult public func deletePolicyVersion(_ input: DeletePolicyVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a fleet provisioning template.
-    public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProvisioningTemplateResponse> {
-        return client.execute(operation: "DeleteProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest) -> EventLoopFuture<DeleteProvisioningTemplateResponse> {
+        return client.execute(operation: "DeleteProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a fleet provisioning template version.
-    public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProvisioningTemplateVersionResponse> {
-        return client.execute(operation: "DeleteProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest) -> EventLoopFuture<DeleteProvisioningTemplateVersionResponse> {
+        return client.execute(operation: "DeleteProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a CA certificate registration code.
-    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRegistrationCodeResponse> {
-        return client.execute(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest) -> EventLoopFuture<DeleteRegistrationCodeResponse> {
+        return client.execute(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a role alias
-    public func deleteRoleAlias(_ input: DeleteRoleAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRoleAliasResponse> {
-        return client.execute(operation: "DeleteRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteRoleAlias(_ input: DeleteRoleAliasRequest) -> EventLoopFuture<DeleteRoleAliasResponse> {
+        return client.execute(operation: "DeleteRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a scheduled audit.
-    public func deleteScheduledAudit(_ input: DeleteScheduledAuditRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteScheduledAuditResponse> {
-        return client.execute(operation: "DeleteScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteScheduledAudit(_ input: DeleteScheduledAuditRequest) -> EventLoopFuture<DeleteScheduledAuditResponse> {
+        return client.execute(operation: "DeleteScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a Device Defender security profile.
-    public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSecurityProfileResponse> {
-        return client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest) -> EventLoopFuture<DeleteSecurityProfileResponse> {
+        return client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a stream.
-    public func deleteStream(_ input: DeleteStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteStreamResponse> {
-        return client.execute(operation: "DeleteStream", path: "/streams/{streamId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteStream(_ input: DeleteStreamRequest) -> EventLoopFuture<DeleteStreamResponse> {
+        return client.execute(operation: "DeleteStream", path: "/streams/{streamId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist.
-    public func deleteThing(_ input: DeleteThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThingResponse> {
-        return client.execute(operation: "DeleteThing", path: "/things/{thingName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteThing(_ input: DeleteThingRequest) -> EventLoopFuture<DeleteThingResponse> {
+        return client.execute(operation: "DeleteThing", path: "/things/{thingName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a thing group.
-    public func deleteThingGroup(_ input: DeleteThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThingGroupResponse> {
-        return client.execute(operation: "DeleteThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteThingGroup(_ input: DeleteThingGroupRequest) -> EventLoopFuture<DeleteThingGroupResponse> {
+        return client.execute(operation: "DeleteThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type.
-    public func deleteThingType(_ input: DeleteThingTypeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteThingTypeResponse> {
-        return client.execute(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteThingType(_ input: DeleteThingTypeRequest) -> EventLoopFuture<DeleteThingTypeResponse> {
+        return client.execute(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the rule.
-    @discardableResult public func deleteTopicRule(_ input: DeleteTopicRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteTopicRule(_ input: DeleteTopicRuleRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a topic rule destination.
-    public func deleteTopicRuleDestination(_ input: DeleteTopicRuleDestinationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTopicRuleDestinationResponse> {
-        return client.execute(operation: "DeleteTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTopicRuleDestination(_ input: DeleteTopicRuleDestinationRequest) -> EventLoopFuture<DeleteTopicRuleDestinationResponse> {
+        return client.execute(operation: "DeleteTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a logging level.
-    @discardableResult public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deprecates a thing type. You can not associate new things with deprecated thing type.
-    public func deprecateThingType(_ input: DeprecateThingTypeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeprecateThingTypeResponse> {
-        return client.execute(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deprecateThingType(_ input: DeprecateThingTypeRequest) -> EventLoopFuture<DeprecateThingTypeResponse> {
+        return client.execute(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
-    public func describeAccountAuditConfiguration(_ input: DescribeAccountAuditConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAccountAuditConfigurationResponse> {
-        return client.execute(operation: "DescribeAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAccountAuditConfiguration(_ input: DescribeAccountAuditConfigurationRequest) -> EventLoopFuture<DescribeAccountAuditConfigurationResponse> {
+        return client.execute(operation: "DescribeAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and when the audit that returned the finding was started.
-    public func describeAuditFinding(_ input: DescribeAuditFindingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuditFindingResponse> {
-        return client.execute(operation: "DescribeAuditFinding", path: "/audit/findings/{findingId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAuditFinding(_ input: DescribeAuditFindingRequest) -> EventLoopFuture<DescribeAuditFindingResponse> {
+        return client.execute(operation: "DescribeAuditFinding", path: "/audit/findings/{findingId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
-    public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuditMitigationActionsTaskResponse> {
-        return client.execute(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest) -> EventLoopFuture<DescribeAuditMitigationActionsTaskResponse> {
+        return client.execute(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a Device Defender audit.
-    public func describeAuditTask(_ input: DescribeAuditTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuditTaskResponse> {
-        return client.execute(operation: "DescribeAuditTask", path: "/audit/tasks/{taskId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAuditTask(_ input: DescribeAuditTaskRequest) -> EventLoopFuture<DescribeAuditTaskResponse> {
+        return client.execute(operation: "DescribeAuditTask", path: "/audit/tasks/{taskId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes an authorizer.
-    public func describeAuthorizer(_ input: DescribeAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuthorizerResponse> {
-        return client.execute(operation: "DescribeAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAuthorizer(_ input: DescribeAuthorizerRequest) -> EventLoopFuture<DescribeAuthorizerResponse> {
+        return client.execute(operation: "DescribeAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a billing group.
-    public func describeBillingGroup(_ input: DescribeBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBillingGroupResponse> {
-        return client.execute(operation: "DescribeBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeBillingGroup(_ input: DescribeBillingGroupRequest) -> EventLoopFuture<DescribeBillingGroupResponse> {
+        return client.execute(operation: "DescribeBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a registered CA certificate.
-    public func describeCACertificate(_ input: DescribeCACertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCACertificateResponse> {
-        return client.execute(operation: "DescribeCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCACertificate(_ input: DescribeCACertificateRequest) -> EventLoopFuture<DescribeCACertificateResponse> {
+        return client.execute(operation: "DescribeCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the specified certificate.
-    public func describeCertificate(_ input: DescribeCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCertificateResponse> {
-        return client.execute(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCertificate(_ input: DescribeCertificateRequest) -> EventLoopFuture<DescribeCertificateResponse> {
+        return client.execute(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the default authorizer.
-    public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDefaultAuthorizerResponse> {
-        return client.execute(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest) -> EventLoopFuture<DescribeDefaultAuthorizerResponse> {
+        return client.execute(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Provides details about a dimension that is defined in your AWS account.
-    public func describeDimension(_ input: DescribeDimensionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDimensionResponse> {
-        return client.execute(operation: "DescribeDimension", path: "/dimensions/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDimension(_ input: DescribeDimensionRequest) -> EventLoopFuture<DescribeDimensionResponse> {
+        return client.execute(operation: "DescribeDimension", path: "/dimensions/{name}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
-    public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDomainConfigurationResponse> {
-        return client.execute(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest) -> EventLoopFuture<DescribeDomainConfigurationResponse> {
+        return client.execute(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a unique endpoint specific to the AWS account making the call.
-    public func describeEndpoint(_ input: DescribeEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEndpointResponse> {
-        return client.execute(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeEndpoint(_ input: DescribeEndpointRequest) -> EventLoopFuture<DescribeEndpointResponse> {
+        return client.execute(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes event configurations.
-    public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventConfigurationsResponse> {
-        return client.execute(operation: "DescribeEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest) -> EventLoopFuture<DescribeEventConfigurationsResponse> {
+        return client.execute(operation: "DescribeEventConfigurations", path: "/event-configurations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a search index.
-    public func describeIndex(_ input: DescribeIndexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIndexResponse> {
-        return client.execute(operation: "DescribeIndex", path: "/indices/{indexName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeIndex(_ input: DescribeIndexRequest) -> EventLoopFuture<DescribeIndexResponse> {
+        return client.execute(operation: "DescribeIndex", path: "/indices/{indexName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a job.
-    public func describeJob(_ input: DescribeJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeJobResponse> {
-        return client.execute(operation: "DescribeJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeJob(_ input: DescribeJobRequest) -> EventLoopFuture<DescribeJobResponse> {
+        return client.execute(operation: "DescribeJob", path: "/jobs/{jobId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeJobExecutionResponse> {
-        return client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) -> EventLoopFuture<DescribeJobExecutionResponse> {
+        return client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a mitigation action.
-    public func describeMitigationAction(_ input: DescribeMitigationActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMitigationActionResponse> {
-        return client.execute(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeMitigationAction(_ input: DescribeMitigationActionRequest) -> EventLoopFuture<DescribeMitigationActionResponse> {
+        return client.execute(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a fleet provisioning template.
-    public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProvisioningTemplateResponse> {
-        return client.execute(operation: "DescribeProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest) -> EventLoopFuture<DescribeProvisioningTemplateResponse> {
+        return client.execute(operation: "DescribeProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a fleet provisioning template version.
-    public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProvisioningTemplateVersionResponse> {
-        return client.execute(operation: "DescribeProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest) -> EventLoopFuture<DescribeProvisioningTemplateVersionResponse> {
+        return client.execute(operation: "DescribeProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a role alias.
-    public func describeRoleAlias(_ input: DescribeRoleAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRoleAliasResponse> {
-        return client.execute(operation: "DescribeRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRoleAlias(_ input: DescribeRoleAliasRequest) -> EventLoopFuture<DescribeRoleAliasResponse> {
+        return client.execute(operation: "DescribeRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a scheduled audit.
-    public func describeScheduledAudit(_ input: DescribeScheduledAuditRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScheduledAuditResponse> {
-        return client.execute(operation: "DescribeScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeScheduledAudit(_ input: DescribeScheduledAuditRequest) -> EventLoopFuture<DescribeScheduledAuditResponse> {
+        return client.execute(operation: "DescribeScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a Device Defender security profile.
-    public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSecurityProfileResponse> {
-        return client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest) -> EventLoopFuture<DescribeSecurityProfileResponse> {
+        return client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a stream.
-    public func describeStream(_ input: DescribeStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeStreamResponse> {
-        return client.execute(operation: "DescribeStream", path: "/streams/{streamId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeStream(_ input: DescribeStreamRequest) -> EventLoopFuture<DescribeStreamResponse> {
+        return client.execute(operation: "DescribeStream", path: "/streams/{streamId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the specified thing.
-    public func describeThing(_ input: DescribeThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThingResponse> {
-        return client.execute(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeThing(_ input: DescribeThingRequest) -> EventLoopFuture<DescribeThingResponse> {
+        return client.execute(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describe a thing group.
-    public func describeThingGroup(_ input: DescribeThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThingGroupResponse> {
-        return client.execute(operation: "DescribeThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeThingGroup(_ input: DescribeThingGroupRequest) -> EventLoopFuture<DescribeThingGroupResponse> {
+        return client.execute(operation: "DescribeThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a bulk thing provisioning task.
-    public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThingRegistrationTaskResponse> {
-        return client.execute(operation: "DescribeThingRegistrationTask", path: "/thing-registration-tasks/{taskId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest) -> EventLoopFuture<DescribeThingRegistrationTaskResponse> {
+        return client.execute(operation: "DescribeThingRegistrationTask", path: "/thing-registration-tasks/{taskId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the specified thing type.
-    public func describeThingType(_ input: DescribeThingTypeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeThingTypeResponse> {
-        return client.execute(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeThingType(_ input: DescribeThingTypeRequest) -> EventLoopFuture<DescribeThingTypeResponse> {
+        return client.execute(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Detaches a policy from the specified target.
-    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the specified policy from the specified certificate.  Note: This API is deprecated. Please use DetachPolicy instead.
     @available(*, deprecated, message:"DetachPrincipalPolicy is deprecated.")
-    @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Disassociates a Device Defender security profile from a thing group or from this account.
-    public func detachSecurityProfile(_ input: DetachSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetachSecurityProfileResponse> {
-        return client.execute(operation: "DetachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func detachSecurityProfile(_ input: DetachSecurityProfileRequest) -> EventLoopFuture<DetachSecurityProfileResponse> {
+        return client.execute(operation: "DetachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  This call is asynchronous. It might take several seconds for the detachment to propagate. 
-    public func detachThingPrincipal(_ input: DetachThingPrincipalRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetachThingPrincipalResponse> {
-        return client.execute(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func detachThingPrincipal(_ input: DetachThingPrincipalRequest) -> EventLoopFuture<DetachThingPrincipalResponse> {
+        return client.execute(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Disables the rule.
-    @discardableResult public func disableTopicRule(_ input: DisableTopicRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func disableTopicRule(_ input: DisableTopicRuleRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Enables the rule.
-    @discardableResult public func enableTopicRule(_ input: EnableTopicRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func enableTopicRule(_ input: EnableTopicRuleRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the approximate count of unique values that match the query.
-    public func getCardinality(_ input: GetCardinalityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCardinalityResponse> {
-        return client.execute(operation: "GetCardinality", path: "/indices/cardinality", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getCardinality(_ input: GetCardinalityRequest) -> EventLoopFuture<GetCardinalityResponse> {
+        return client.execute(operation: "GetCardinality", path: "/indices/cardinality", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the AWS IoT device gateway.
-    public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetEffectivePoliciesResponse> {
-        return client.execute(operation: "GetEffectivePolicies", path: "/effective-policies", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest) -> EventLoopFuture<GetEffectivePoliciesResponse> {
+        return client.execute(operation: "GetEffectivePolicies", path: "/effective-policies", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the indexing configuration.
-    public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetIndexingConfigurationResponse> {
-        return client.execute(operation: "GetIndexingConfiguration", path: "/indexing/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest) -> EventLoopFuture<GetIndexingConfigurationResponse> {
+        return client.execute(operation: "GetIndexingConfiguration", path: "/indexing/config", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a job document.
-    public func getJobDocument(_ input: GetJobDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobDocumentResponse> {
-        return client.execute(operation: "GetJobDocument", path: "/jobs/{jobId}/job-document", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getJobDocument(_ input: GetJobDocumentRequest) -> EventLoopFuture<GetJobDocumentResponse> {
+        return client.execute(operation: "GetJobDocument", path: "/jobs/{jobId}/job-document", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead.
-    public func getLoggingOptions(_ input: GetLoggingOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetLoggingOptionsResponse> {
-        return client.execute(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getLoggingOptions(_ input: GetLoggingOptionsRequest) -> EventLoopFuture<GetLoggingOptionsResponse> {
+        return client.execute(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets an OTA update.
-    public func getOTAUpdate(_ input: GetOTAUpdateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOTAUpdateResponse> {
-        return client.execute(operation: "GetOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getOTAUpdate(_ input: GetOTAUpdateRequest) -> EventLoopFuture<GetOTAUpdateResponse> {
+        return client.execute(operation: "GetOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values.
-    public func getPercentiles(_ input: GetPercentilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPercentilesResponse> {
-        return client.execute(operation: "GetPercentiles", path: "/indices/percentiles", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPercentiles(_ input: GetPercentilesRequest) -> EventLoopFuture<GetPercentilesResponse> {
+        return client.execute(operation: "GetPercentiles", path: "/indices/percentiles", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the specified policy with the policy document of the default version.
-    public func getPolicy(_ input: GetPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPolicyResponse> {
-        return client.execute(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPolicy(_ input: GetPolicyRequest) -> EventLoopFuture<GetPolicyResponse> {
+        return client.execute(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the specified policy version.
-    public func getPolicyVersion(_ input: GetPolicyVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPolicyVersionResponse> {
-        return client.execute(operation: "GetPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getPolicyVersion(_ input: GetPolicyVersionRequest) -> EventLoopFuture<GetPolicyVersionResponse> {
+        return client.execute(operation: "GetPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a registration code used to register a CA certificate with AWS IoT.
-    public func getRegistrationCode(_ input: GetRegistrationCodeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRegistrationCodeResponse> {
-        return client.execute(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRegistrationCode(_ input: GetRegistrationCodeRequest) -> EventLoopFuture<GetRegistrationCodeResponse> {
+        return client.execute(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned.
-    public func getStatistics(_ input: GetStatisticsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetStatisticsResponse> {
-        return client.execute(operation: "GetStatistics", path: "/indices/statistics", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getStatistics(_ input: GetStatisticsRequest) -> EventLoopFuture<GetStatisticsResponse> {
+        return client.execute(operation: "GetStatistics", path: "/indices/statistics", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the rule.
-    public func getTopicRule(_ input: GetTopicRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTopicRuleResponse> {
-        return client.execute(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTopicRule(_ input: GetTopicRuleRequest) -> EventLoopFuture<GetTopicRuleResponse> {
+        return client.execute(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about a topic rule destination.
-    public func getTopicRuleDestination(_ input: GetTopicRuleDestinationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTopicRuleDestinationResponse> {
-        return client.execute(operation: "GetTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getTopicRuleDestination(_ input: GetTopicRuleDestinationRequest) -> EventLoopFuture<GetTopicRuleDestinationResponse> {
+        return client.execute(operation: "GetTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the fine grained logging options.
-    public func getV2LoggingOptions(_ input: GetV2LoggingOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetV2LoggingOptionsResponse> {
-        return client.execute(operation: "GetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getV2LoggingOptions(_ input: GetV2LoggingOptionsRequest) -> EventLoopFuture<GetV2LoggingOptionsResponse> {
+        return client.execute(operation: "GetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the active violations for a given Device Defender security profile.
-    public func listActiveViolations(_ input: ListActiveViolationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListActiveViolationsResponse> {
-        return client.execute(operation: "ListActiveViolations", path: "/active-violations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listActiveViolations(_ input: ListActiveViolationsRequest) -> EventLoopFuture<ListActiveViolationsResponse> {
+        return client.execute(operation: "ListActiveViolations", path: "/active-violations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the policies attached to the specified thing group.
-    public func listAttachedPolicies(_ input: ListAttachedPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAttachedPoliciesResponse> {
-        return client.execute(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAttachedPolicies(_ input: ListAttachedPoliciesRequest) -> EventLoopFuture<ListAttachedPoliciesResponse> {
+        return client.execute(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 180 days.)
-    public func listAuditFindings(_ input: ListAuditFindingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditFindingsResponse> {
-        return client.execute(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAuditFindings(_ input: ListAuditFindingsRequest) -> EventLoopFuture<ListAuditFindingsResponse> {
+        return client.execute(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the status of audit mitigation action tasks that were executed.
-    public func listAuditMitigationActionsExecutions(_ input: ListAuditMitigationActionsExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditMitigationActionsExecutionsResponse> {
-        return client.execute(operation: "ListAuditMitigationActionsExecutions", path: "/audit/mitigationactions/executions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAuditMitigationActionsExecutions(_ input: ListAuditMitigationActionsExecutionsRequest) -> EventLoopFuture<ListAuditMitigationActionsExecutionsResponse> {
+        return client.execute(operation: "ListAuditMitigationActionsExecutions", path: "/audit/mitigationactions/executions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of audit mitigation action tasks that match the specified filters.
-    public func listAuditMitigationActionsTasks(_ input: ListAuditMitigationActionsTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditMitigationActionsTasksResponse> {
-        return client.execute(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAuditMitigationActionsTasks(_ input: ListAuditMitigationActionsTasksRequest) -> EventLoopFuture<ListAuditMitigationActionsTasksResponse> {
+        return client.execute(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the Device Defender audits that have been performed during a given time period.
-    public func listAuditTasks(_ input: ListAuditTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditTasksResponse> {
-        return client.execute(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAuditTasks(_ input: ListAuditTasksRequest) -> EventLoopFuture<ListAuditTasksResponse> {
+        return client.execute(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the authorizers registered in your account.
-    public func listAuthorizers(_ input: ListAuthorizersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuthorizersResponse> {
-        return client.execute(operation: "ListAuthorizers", path: "/authorizers/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAuthorizers(_ input: ListAuthorizersRequest) -> EventLoopFuture<ListAuthorizersResponse> {
+        return client.execute(operation: "ListAuthorizers", path: "/authorizers/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the billing groups you have created.
-    public func listBillingGroups(_ input: ListBillingGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBillingGroupsResponse> {
-        return client.execute(operation: "ListBillingGroups", path: "/billing-groups", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBillingGroups(_ input: ListBillingGroupsRequest) -> EventLoopFuture<ListBillingGroupsResponse> {
+        return client.execute(operation: "ListBillingGroups", path: "/billing-groups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the CA certificates registered for your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
-    public func listCACertificates(_ input: ListCACertificatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCACertificatesResponse> {
-        return client.execute(operation: "ListCACertificates", path: "/cacertificates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCACertificates(_ input: ListCACertificatesRequest) -> EventLoopFuture<ListCACertificatesResponse> {
+        return client.execute(operation: "ListCACertificates", path: "/cacertificates", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
-    public func listCertificates(_ input: ListCertificatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCertificatesResponse> {
-        return client.execute(operation: "ListCertificates", path: "/certificates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCertificates(_ input: ListCertificatesRequest) -> EventLoopFuture<ListCertificatesResponse> {
+        return client.execute(operation: "ListCertificates", path: "/certificates", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the device certificates signed by the specified CA certificate.
-    public func listCertificatesByCA(_ input: ListCertificatesByCARequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCertificatesByCAResponse> {
-        return client.execute(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCertificatesByCA(_ input: ListCertificatesByCARequest) -> EventLoopFuture<ListCertificatesByCAResponse> {
+        return client.execute(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the set of dimensions that are defined for your AWS account.
-    public func listDimensions(_ input: ListDimensionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDimensionsResponse> {
-        return client.execute(operation: "ListDimensions", path: "/dimensions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDimensions(_ input: ListDimensionsRequest) -> EventLoopFuture<ListDimensionsResponse> {
+        return client.execute(operation: "ListDimensions", path: "/dimensions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
-    public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainConfigurationsResponse> {
-        return client.execute(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest) -> EventLoopFuture<ListDomainConfigurationsResponse> {
+        return client.execute(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the search indices.
-    public func listIndices(_ input: ListIndicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListIndicesResponse> {
-        return client.execute(operation: "ListIndices", path: "/indices", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listIndices(_ input: ListIndicesRequest) -> EventLoopFuture<ListIndicesResponse> {
+        return client.execute(operation: "ListIndices", path: "/indices", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the job executions for a job.
-    public func listJobExecutionsForJob(_ input: ListJobExecutionsForJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobExecutionsForJobResponse> {
-        return client.execute(operation: "ListJobExecutionsForJob", path: "/jobs/{jobId}/things", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJobExecutionsForJob(_ input: ListJobExecutionsForJobRequest) -> EventLoopFuture<ListJobExecutionsForJobResponse> {
+        return client.execute(operation: "ListJobExecutionsForJob", path: "/jobs/{jobId}/things", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the job executions for the specified thing.
-    public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobExecutionsForThingResponse> {
-        return client.execute(operation: "ListJobExecutionsForThing", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest) -> EventLoopFuture<ListJobExecutionsForThingResponse> {
+        return client.execute(operation: "ListJobExecutionsForThing", path: "/things/{thingName}/jobs", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists jobs.
-    public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobsResponse> {
-        return client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResponse> {
+        return client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets a list of all mitigation actions that match the specified filter criteria.
-    public func listMitigationActions(_ input: ListMitigationActionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMitigationActionsResponse> {
-        return client.execute(operation: "ListMitigationActions", path: "/mitigationactions/actions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listMitigationActions(_ input: ListMitigationActionsRequest) -> EventLoopFuture<ListMitigationActionsResponse> {
+        return client.execute(operation: "ListMitigationActions", path: "/mitigationactions/actions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists OTA updates.
-    public func listOTAUpdates(_ input: ListOTAUpdatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOTAUpdatesResponse> {
-        return client.execute(operation: "ListOTAUpdates", path: "/otaUpdates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listOTAUpdates(_ input: ListOTAUpdatesRequest) -> EventLoopFuture<ListOTAUpdatesResponse> {
+        return client.execute(operation: "ListOTAUpdates", path: "/otaUpdates", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists certificates that are being transferred but not yet accepted.
-    public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOutgoingCertificatesResponse> {
-        return client.execute(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest) -> EventLoopFuture<ListOutgoingCertificatesResponse> {
+        return client.execute(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists your policies.
-    public func listPolicies(_ input: ListPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPoliciesResponse> {
-        return client.execute(operation: "ListPolicies", path: "/policies", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPolicies(_ input: ListPoliciesRequest) -> EventLoopFuture<ListPoliciesResponse> {
+        return client.execute(operation: "ListPolicies", path: "/policies", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the principals associated with the specified policy.  Note: This API is deprecated. Please use ListTargetsForPolicy instead.
     @available(*, deprecated, message:"ListPolicyPrincipals is deprecated.")
-    public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPolicyPrincipalsResponse> {
-        return client.execute(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest) -> EventLoopFuture<ListPolicyPrincipalsResponse> {
+        return client.execute(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the versions of the specified policy and identifies the default version.
-    public func listPolicyVersions(_ input: ListPolicyVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPolicyVersionsResponse> {
-        return client.execute(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPolicyVersions(_ input: ListPolicyVersionsRequest) -> EventLoopFuture<ListPolicyVersionsResponse> {
+        return client.execute(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use ListAttachedPolicies instead.
     @available(*, deprecated, message:"ListPrincipalPolicies is deprecated.")
-    public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPrincipalPoliciesResponse> {
-        return client.execute(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest) -> EventLoopFuture<ListPrincipalPoliciesResponse> {
+        return client.execute(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
-    public func listPrincipalThings(_ input: ListPrincipalThingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPrincipalThingsResponse> {
-        return client.execute(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listPrincipalThings(_ input: ListPrincipalThingsRequest) -> EventLoopFuture<ListPrincipalThingsResponse> {
+        return client.execute(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  A list of fleet provisioning template versions.
-    public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProvisioningTemplateVersionsResponse> {
-        return client.execute(operation: "ListProvisioningTemplateVersions", path: "/provisioning-templates/{templateName}/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest) -> EventLoopFuture<ListProvisioningTemplateVersionsResponse> {
+        return client.execute(operation: "ListProvisioningTemplateVersions", path: "/provisioning-templates/{templateName}/versions", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the fleet provisioning templates in your AWS account.
-    public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProvisioningTemplatesResponse> {
-        return client.execute(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest) -> EventLoopFuture<ListProvisioningTemplatesResponse> {
+        return client.execute(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the role aliases registered in your account.
-    public func listRoleAliases(_ input: ListRoleAliasesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRoleAliasesResponse> {
-        return client.execute(operation: "ListRoleAliases", path: "/role-aliases", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRoleAliases(_ input: ListRoleAliasesRequest) -> EventLoopFuture<ListRoleAliasesResponse> {
+        return client.execute(operation: "ListRoleAliases", path: "/role-aliases", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all of your scheduled audits.
-    public func listScheduledAudits(_ input: ListScheduledAuditsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListScheduledAuditsResponse> {
-        return client.execute(operation: "ListScheduledAudits", path: "/audit/scheduledaudits", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listScheduledAudits(_ input: ListScheduledAuditsRequest) -> EventLoopFuture<ListScheduledAuditsResponse> {
+        return client.execute(operation: "ListScheduledAudits", path: "/audit/scheduledaudits", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the Device Defender security profiles you have created. You can use filters to list only those security profiles associated with a thing group or only those associated with your account.
-    public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSecurityProfilesResponse> {
-        return client.execute(operation: "ListSecurityProfiles", path: "/security-profiles", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSecurityProfiles(_ input: ListSecurityProfilesRequest) -> EventLoopFuture<ListSecurityProfilesResponse> {
+        return client.execute(operation: "ListSecurityProfiles", path: "/security-profiles", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the Device Defender security profiles attached to a target (thing group).
-    public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSecurityProfilesForTargetResponse> {
-        return client.execute(operation: "ListSecurityProfilesForTarget", path: "/security-profiles-for-target", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest) -> EventLoopFuture<ListSecurityProfilesForTargetResponse> {
+        return client.execute(operation: "ListSecurityProfilesForTarget", path: "/security-profiles-for-target", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all of the streams in your AWS account.
-    public func listStreams(_ input: ListStreamsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStreamsResponse> {
-        return client.execute(operation: "ListStreams", path: "/streams", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listStreams(_ input: ListStreamsRequest) -> EventLoopFuture<ListStreamsResponse> {
+        return client.execute(operation: "ListStreams", path: "/streams", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the tags (metadata) you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List targets for the specified policy.
-    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTargetsForPolicyResponse> {
-        return client.execute(operation: "ListTargetsForPolicy", path: "/policy-targets/{policyName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest) -> EventLoopFuture<ListTargetsForPolicyResponse> {
+        return client.execute(operation: "ListTargetsForPolicy", path: "/policy-targets/{policyName}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the targets (thing groups) associated with a given Device Defender security profile.
-    public func listTargetsForSecurityProfile(_ input: ListTargetsForSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTargetsForSecurityProfileResponse> {
-        return client.execute(operation: "ListTargetsForSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTargetsForSecurityProfile(_ input: ListTargetsForSecurityProfileRequest) -> EventLoopFuture<ListTargetsForSecurityProfileResponse> {
+        return client.execute(operation: "ListTargetsForSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the thing groups in your account.
-    public func listThingGroups(_ input: ListThingGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingGroupsResponse> {
-        return client.execute(operation: "ListThingGroups", path: "/thing-groups", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingGroups(_ input: ListThingGroupsRequest) -> EventLoopFuture<ListThingGroupsResponse> {
+        return client.execute(operation: "ListThingGroups", path: "/thing-groups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List the thing groups to which the specified thing belongs.
-    public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingGroupsForThingResponse> {
-        return client.execute(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest) -> EventLoopFuture<ListThingGroupsForThingResponse> {
+        return client.execute(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
-    public func listThingPrincipals(_ input: ListThingPrincipalsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingPrincipalsResponse> {
-        return client.execute(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingPrincipals(_ input: ListThingPrincipalsRequest) -> EventLoopFuture<ListThingPrincipalsResponse> {
+        return client.execute(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Information about the thing registration tasks.
-    public func listThingRegistrationTaskReports(_ input: ListThingRegistrationTaskReportsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingRegistrationTaskReportsResponse> {
-        return client.execute(operation: "ListThingRegistrationTaskReports", path: "/thing-registration-tasks/{taskId}/reports", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingRegistrationTaskReports(_ input: ListThingRegistrationTaskReportsRequest) -> EventLoopFuture<ListThingRegistrationTaskReportsResponse> {
+        return client.execute(operation: "ListThingRegistrationTaskReports", path: "/thing-registration-tasks/{taskId}/reports", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  List bulk thing provisioning tasks.
-    public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingRegistrationTasksResponse> {
-        return client.execute(operation: "ListThingRegistrationTasks", path: "/thing-registration-tasks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest) -> EventLoopFuture<ListThingRegistrationTasksResponse> {
+        return client.execute(operation: "ListThingRegistrationTasks", path: "/thing-registration-tasks", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the existing thing types.
-    public func listThingTypes(_ input: ListThingTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingTypesResponse> {
-        return client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingTypes(_ input: ListThingTypesRequest) -> EventLoopFuture<ListThingTypesResponse> {
+        return client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
-    public func listThings(_ input: ListThingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingsResponse> {
-        return client.execute(operation: "ListThings", path: "/things", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThings(_ input: ListThingsRequest) -> EventLoopFuture<ListThingsResponse> {
+        return client.execute(operation: "ListThings", path: "/things", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the things you have added to the given billing group.
-    public func listThingsInBillingGroup(_ input: ListThingsInBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingsInBillingGroupResponse> {
-        return client.execute(operation: "ListThingsInBillingGroup", path: "/billing-groups/{billingGroupName}/things", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingsInBillingGroup(_ input: ListThingsInBillingGroupRequest) -> EventLoopFuture<ListThingsInBillingGroupResponse> {
+        return client.execute(operation: "ListThingsInBillingGroup", path: "/billing-groups/{billingGroupName}/things", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the things in the specified group.
-    public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingsInThingGroupResponse> {
-        return client.execute(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest) -> EventLoopFuture<ListThingsInThingGroupResponse> {
+        return client.execute(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the topic rule destinations in your AWS account.
-    public func listTopicRuleDestinations(_ input: ListTopicRuleDestinationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTopicRuleDestinationsResponse> {
-        return client.execute(operation: "ListTopicRuleDestinations", path: "/destinations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTopicRuleDestinations(_ input: ListTopicRuleDestinationsRequest) -> EventLoopFuture<ListTopicRuleDestinationsResponse> {
+        return client.execute(operation: "ListTopicRuleDestinations", path: "/destinations", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the rules for the specific topic.
-    public func listTopicRules(_ input: ListTopicRulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTopicRulesResponse> {
-        return client.execute(operation: "ListTopicRules", path: "/rules", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTopicRules(_ input: ListTopicRulesRequest) -> EventLoopFuture<ListTopicRulesResponse> {
+        return client.execute(operation: "ListTopicRules", path: "/rules", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists logging levels.
-    public func listV2LoggingLevels(_ input: ListV2LoggingLevelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListV2LoggingLevelsResponse> {
-        return client.execute(operation: "ListV2LoggingLevels", path: "/v2LoggingLevel", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listV2LoggingLevels(_ input: ListV2LoggingLevelsRequest) -> EventLoopFuture<ListV2LoggingLevelsResponse> {
+        return client.execute(operation: "ListV2LoggingLevels", path: "/v2LoggingLevel", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device).
-    public func listViolationEvents(_ input: ListViolationEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListViolationEventsResponse> {
-        return client.execute(operation: "ListViolationEvents", path: "/violation-events", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listViolationEvents(_ input: ListViolationEventsRequest) -> EventLoopFuture<ListViolationEventsResponse> {
+        return client.execute(operation: "ListViolationEvents", path: "/violation-events", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
-    public func registerCACertificate(_ input: RegisterCACertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterCACertificateResponse> {
-        return client.execute(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func registerCACertificate(_ input: RegisterCACertificateRequest) -> EventLoopFuture<RegisterCACertificateResponse> {
+        return client.execute(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Registers a device certificate with AWS IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered.
-    public func registerCertificate(_ input: RegisterCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterCertificateResponse> {
-        return client.execute(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func registerCertificate(_ input: RegisterCertificateRequest) -> EventLoopFuture<RegisterCertificateResponse> {
+        return client.execute(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Register a certificate that does not have a certificate authority (CA).
-    public func registerCertificateWithoutCA(_ input: RegisterCertificateWithoutCARequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterCertificateWithoutCAResponse> {
-        return client.execute(operation: "RegisterCertificateWithoutCA", path: "/certificate/register-no-ca", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func registerCertificateWithoutCA(_ input: RegisterCertificateWithoutCARequest) -> EventLoopFuture<RegisterCertificateWithoutCAResponse> {
+        return client.execute(operation: "RegisterCertificateWithoutCA", path: "/certificate/register-no-ca", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause throttle errors. Please contact AWS Customer Support to raise your throttling limits if necessary.
-    public func registerThing(_ input: RegisterThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterThingResponse> {
-        return client.execute(operation: "RegisterThing", path: "/things", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func registerThing(_ input: RegisterThingRequest) -> EventLoopFuture<RegisterThingResponse> {
+        return client.execute(operation: "RegisterThing", path: "/things", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
-    @discardableResult public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the given thing from the billing group.
-    public func removeThingFromBillingGroup(_ input: RemoveThingFromBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveThingFromBillingGroupResponse> {
-        return client.execute(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func removeThingFromBillingGroup(_ input: RemoveThingFromBillingGroupRequest) -> EventLoopFuture<RemoveThingFromBillingGroupResponse> {
+        return client.execute(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. 
-    public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
-        return client.execute(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
+        return client.execute(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    @discardableResult public func replaceTopicRule(_ input: ReplaceTopicRuleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  The query search index.
-    public func searchIndex(_ input: SearchIndexRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchIndexResponse> {
-        return client.execute(operation: "SearchIndex", path: "/indices/search", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func searchIndex(_ input: SearchIndexRequest) -> EventLoopFuture<SearchIndexResponse> {
+        return client.execute(operation: "SearchIndex", path: "/indices/search", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer.
-    public func setDefaultAuthorizer(_ input: SetDefaultAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SetDefaultAuthorizerResponse> {
-        return client.execute(operation: "SetDefaultAuthorizer", path: "/default-authorizer", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func setDefaultAuthorizer(_ input: SetDefaultAuthorizerRequest) -> EventLoopFuture<SetDefaultAuthorizerResponse> {
+        return client.execute(operation: "SetDefaultAuthorizer", path: "/default-authorizer", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
-    @discardableResult public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead.
-    @discardableResult public func setLoggingOptions(_ input: SetLoggingOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func setLoggingOptions(_ input: SetLoggingOptionsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the logging level.
-    @discardableResult public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the logging options for the V2 logging service.
-    @discardableResult public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts a task that applies a set of mitigation actions to the specified target.
-    public func startAuditMitigationActionsTask(_ input: StartAuditMitigationActionsTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartAuditMitigationActionsTaskResponse> {
-        return client.execute(operation: "StartAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startAuditMitigationActionsTask(_ input: StartAuditMitigationActionsTaskRequest) -> EventLoopFuture<StartAuditMitigationActionsTaskResponse> {
+        return client.execute(operation: "StartAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts an on-demand Device Defender audit.
-    public func startOnDemandAuditTask(_ input: StartOnDemandAuditTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartOnDemandAuditTaskResponse> {
-        return client.execute(operation: "StartOnDemandAuditTask", path: "/audit/tasks", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startOnDemandAuditTask(_ input: StartOnDemandAuditTaskRequest) -> EventLoopFuture<StartOnDemandAuditTaskResponse> {
+        return client.execute(operation: "StartOnDemandAuditTask", path: "/audit/tasks", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a bulk thing provisioning task.
-    public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartThingRegistrationTaskResponse> {
-        return client.execute(operation: "StartThingRegistrationTask", path: "/thing-registration-tasks", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest) -> EventLoopFuture<StartThingRegistrationTaskResponse> {
+        return client.execute(operation: "StartThingRegistrationTask", path: "/thing-registration-tasks", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Cancels a bulk thing provisioning task.
-    public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopThingRegistrationTaskResponse> {
-        return client.execute(operation: "StopThingRegistrationTask", path: "/thing-registration-tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest) -> EventLoopFuture<StopThingRegistrationTaskResponse> {
+        return client.execute(operation: "StopThingRegistrationTask", path: "/thing-registration-tasks/{taskId}/cancel", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Tests if a specified principal is authorized to perform an AWS IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the AWS IoT device gateway.
-    public func testAuthorization(_ input: TestAuthorizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TestAuthorizationResponse> {
-        return client.execute(operation: "TestAuthorization", path: "/test-authorization", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func testAuthorization(_ input: TestAuthorizationRequest) -> EventLoopFuture<TestAuthorizationResponse> {
+        return client.execute(operation: "TestAuthorization", path: "/test-authorization", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the AWS IoT device gateway.
-    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
-        return client.execute(operation: "TestInvokeAuthorizer", path: "/authorizer/{authorizerName}/test", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
+        return client.execute(operation: "TestInvokeAuthorizer", path: "/authorizer/{authorizerName}/test", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Transfers the specified certificate to the specified AWS account. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate API to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPrincipalPolicy API to detach them.
-    public func transferCertificate(_ input: TransferCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TransferCertificateResponse> {
-        return client.execute(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func transferCertificate(_ input: TransferCertificateRequest) -> EventLoopFuture<TransferCertificateResponse> {
+        return client.execute(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes the given tags (metadata) from the resource.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/untag", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/untag", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
-    public func updateAccountAuditConfiguration(_ input: UpdateAccountAuditConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAccountAuditConfigurationResponse> {
-        return client.execute(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateAccountAuditConfiguration(_ input: UpdateAccountAuditConfigurationRequest) -> EventLoopFuture<UpdateAccountAuditConfigurationResponse> {
+        return client.execute(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an authorizer.
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAuthorizerResponse> {
-        return client.execute(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> EventLoopFuture<UpdateAuthorizerResponse> {
+        return client.execute(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates information about the billing group.
-    public func updateBillingGroup(_ input: UpdateBillingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBillingGroupResponse> {
-        return client.execute(operation: "UpdateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateBillingGroup(_ input: UpdateBillingGroupRequest) -> EventLoopFuture<UpdateBillingGroupResponse> {
+        return client.execute(operation: "UpdateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a registered CA certificate.
-    @discardableResult public func updateCACertificate(_ input: UpdateCACertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateCACertificate(_ input: UpdateCACertificateRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
-    @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and re-create it).
-    public func updateDimension(_ input: UpdateDimensionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDimensionResponse> {
-        return client.execute(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDimension(_ input: UpdateDimensionRequest) -> EventLoopFuture<UpdateDimensionResponse> {
+        return client.execute(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change. 
-    public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDomainConfigurationResponse> {
-        return client.execute(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest) -> EventLoopFuture<UpdateDomainConfigurationResponse> {
+        return client.execute(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a dynamic thing group.
-    public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDynamicThingGroupResponse> {
-        return client.execute(operation: "UpdateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest) -> EventLoopFuture<UpdateDynamicThingGroupResponse> {
+        return client.execute(operation: "UpdateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the event configurations.
-    public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateEventConfigurationsResponse> {
-        return client.execute(operation: "UpdateEventConfigurations", path: "/event-configurations", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest) -> EventLoopFuture<UpdateEventConfigurationsResponse> {
+        return client.execute(operation: "UpdateEventConfigurations", path: "/event-configurations", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the search configuration.
-    public func updateIndexingConfiguration(_ input: UpdateIndexingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateIndexingConfigurationResponse> {
-        return client.execute(operation: "UpdateIndexingConfiguration", path: "/indexing/config", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateIndexingConfiguration(_ input: UpdateIndexingConfigurationRequest) -> EventLoopFuture<UpdateIndexingConfigurationResponse> {
+        return client.execute(operation: "UpdateIndexingConfiguration", path: "/indexing/config", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates supported fields of the specified job.
-    @discardableResult public func updateJob(_ input: UpdateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateJob(_ input: UpdateJobRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the definition for the specified mitigation action.
-    public func updateMitigationAction(_ input: UpdateMitigationActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMitigationActionResponse> {
-        return client.execute(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateMitigationAction(_ input: UpdateMitigationActionRequest) -> EventLoopFuture<UpdateMitigationActionResponse> {
+        return client.execute(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a fleet provisioning template.
-    public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProvisioningTemplateResponse> {
-        return client.execute(operation: "UpdateProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest) -> EventLoopFuture<UpdateProvisioningTemplateResponse> {
+        return client.execute(operation: "UpdateProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a role alias.
-    public func updateRoleAlias(_ input: UpdateRoleAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRoleAliasResponse> {
-        return client.execute(operation: "UpdateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateRoleAlias(_ input: UpdateRoleAliasRequest) -> EventLoopFuture<UpdateRoleAliasResponse> {
+        return client.execute(operation: "UpdateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a scheduled audit, including which checks are performed and how often the audit takes place.
-    public func updateScheduledAudit(_ input: UpdateScheduledAuditRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateScheduledAuditResponse> {
-        return client.execute(operation: "UpdateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateScheduledAudit(_ input: UpdateScheduledAuditRequest) -> EventLoopFuture<UpdateScheduledAuditResponse> {
+        return client.execute(operation: "UpdateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a Device Defender security profile.
-    public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSecurityProfileResponse> {
-        return client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest) -> EventLoopFuture<UpdateSecurityProfileResponse> {
+        return client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates an existing stream. The stream version will be incremented by one.
-    public func updateStream(_ input: UpdateStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStreamResponse> {
-        return client.execute(operation: "UpdateStream", path: "/streams/{streamId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateStream(_ input: UpdateStreamRequest) -> EventLoopFuture<UpdateStreamResponse> {
+        return client.execute(operation: "UpdateStream", path: "/streams/{streamId}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the data for a thing.
-    public func updateThing(_ input: UpdateThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThingResponse> {
-        return client.execute(operation: "UpdateThing", path: "/things/{thingName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateThing(_ input: UpdateThingRequest) -> EventLoopFuture<UpdateThingResponse> {
+        return client.execute(operation: "UpdateThing", path: "/things/{thingName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Update a thing group.
-    public func updateThingGroup(_ input: UpdateThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThingGroupResponse> {
-        return client.execute(operation: "UpdateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateThingGroup(_ input: UpdateThingGroupRequest) -> EventLoopFuture<UpdateThingGroupResponse> {
+        return client.execute(operation: "UpdateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the groups to which the thing belongs.
-    public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThingGroupsForThingResponse> {
-        return client.execute(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest) -> EventLoopFuture<UpdateThingGroupsForThingResponse> {
+        return client.execute(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination.
-    public func updateTopicRuleDestination(_ input: UpdateTopicRuleDestinationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTopicRuleDestinationResponse> {
-        return client.execute(operation: "UpdateTopicRuleDestination", path: "/destinations", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTopicRuleDestination(_ input: UpdateTopicRuleDestinationRequest) -> EventLoopFuture<UpdateTopicRuleDestinationResponse> {
+        return client.execute(operation: "UpdateTopicRuleDestination", path: "/destinations", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
     }
 
     ///  Validates a Device Defender security profile behaviors specification.
-    public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ValidateSecurityProfileBehaviorsResponse> {
-        return client.execute(operation: "ValidateSecurityProfileBehaviors", path: "/security-profile-behaviors/validate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest) -> EventLoopFuture<ValidateSecurityProfileBehaviorsResponse> {
+        return client.execute(operation: "ValidateSecurityProfileBehaviors", path: "/security-profile-behaviors/validate", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension IoT {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

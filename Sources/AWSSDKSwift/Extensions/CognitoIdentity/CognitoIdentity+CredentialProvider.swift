@@ -43,7 +43,7 @@ extension CognitoIdentity {
 
             // only getId once and store in promise
             let request = CognitoIdentity.GetIdInput(identityPoolId: identityPoolId, logins: logins)
-            cognitoIdentity.getId(request, on: eventLoop).flatMapThrowing { response -> String in
+            cognitoIdentity.delegating(to: eventLoop).getId(request).flatMapThrowing { response -> String in
                 guard let identityId = response.identityId else { throw CredentialProviderError.noProvider }
                 return identityId
             }.cascade(to: idPromise)
@@ -52,7 +52,7 @@ extension CognitoIdentity {
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return self.idPromise.futureResult.flatMap { identityId -> EventLoopFuture<GetCredentialsForIdentityResponse> in
                 let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identityId, logins: self.logins)
-                return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, on: eventLoop)
+                return self.cognitoIdentity.delegating(to: eventLoop).getCredentialsForIdentity(credentialsRequest)
             }
             .flatMapThrowing { response in
                 guard let credentials = response.credentials,

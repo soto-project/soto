@@ -23,11 +23,15 @@ extension DirectoryService {
     ///  Provides information about any domain controllers in your directory.
     public func describeDomainControllersPaginator(
         _ input: DescribeDomainControllersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDomainControllersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDomainControllers, tokenKey: \DescribeDomainControllersResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDomainControllers,
+            tokenKey: \DescribeDomainControllersResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

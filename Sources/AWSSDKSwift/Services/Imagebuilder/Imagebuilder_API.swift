@@ -21,12 +21,13 @@ Client object for interacting with AWS Imagebuilder service.
 
 EC2 Image Builder is a fully managed AWS service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date “golden” server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
 */
-public struct Imagebuilder {
+public struct Imagebuilder: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,227 +46,240 @@ public struct Imagebuilder {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "imagebuilder",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
-            possibleErrorTypes: [ImagebuilderErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [ImagebuilderErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
-    public func cancelImageCreation(_ input: CancelImageCreationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelImageCreationResponse> {
-        return client.execute(operation: "CancelImageCreation", path: "/CancelImageCreation", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelImageCreation(_ input: CancelImageCreationRequest) -> EventLoopFuture<CancelImageCreationResponse> {
+        return client.execute(operation: "CancelImageCreation", path: "/CancelImageCreation", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new component that can be used to build, validate, test, and assess your image.
-    public func createComponent(_ input: CreateComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateComponentResponse> {
-        return client.execute(operation: "CreateComponent", path: "/CreateComponent", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createComponent(_ input: CreateComponentRequest) -> EventLoopFuture<CreateComponentResponse> {
+        return client.execute(operation: "CreateComponent", path: "/CreateComponent", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
-    public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDistributionConfigurationResponse> {
-        return client.execute(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest) -> EventLoopFuture<CreateDistributionConfigurationResponse> {
+        return client.execute(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. 
-    public func createImage(_ input: CreateImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateImageResponse> {
-        return client.execute(operation: "CreateImage", path: "/CreateImage", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createImage(_ input: CreateImageRequest) -> EventLoopFuture<CreateImageResponse> {
+        return client.execute(operation: "CreateImage", path: "/CreateImage", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images. 
-    public func createImagePipeline(_ input: CreateImagePipelineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateImagePipelineResponse> {
-        return client.execute(operation: "CreateImagePipeline", path: "/CreateImagePipeline", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createImagePipeline(_ input: CreateImagePipelineRequest) -> EventLoopFuture<CreateImagePipelineResponse> {
+        return client.execute(operation: "CreateImagePipeline", path: "/CreateImagePipeline", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Creates a new image recipe. Image recipes define how images are configured, tested, and assessed. 
-    public func createImageRecipe(_ input: CreateImageRecipeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateImageRecipeResponse> {
-        return client.execute(operation: "CreateImageRecipe", path: "/CreateImageRecipe", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createImageRecipe(_ input: CreateImageRecipeRequest) -> EventLoopFuture<CreateImageRecipeResponse> {
+        return client.execute(operation: "CreateImageRecipe", path: "/CreateImageRecipe", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. 
-    public func createInfrastructureConfiguration(_ input: CreateInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInfrastructureConfigurationResponse> {
-        return client.execute(operation: "CreateInfrastructureConfiguration", path: "/CreateInfrastructureConfiguration", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createInfrastructureConfiguration(_ input: CreateInfrastructureConfigurationRequest) -> EventLoopFuture<CreateInfrastructureConfigurationResponse> {
+        return client.execute(operation: "CreateInfrastructureConfiguration", path: "/CreateInfrastructureConfiguration", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes a component build version. 
-    public func deleteComponent(_ input: DeleteComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteComponentResponse> {
-        return client.execute(operation: "DeleteComponent", path: "/DeleteComponent", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteComponent(_ input: DeleteComponentRequest) -> EventLoopFuture<DeleteComponentResponse> {
+        return client.execute(operation: "DeleteComponent", path: "/DeleteComponent", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes a distribution configuration. 
-    public func deleteDistributionConfiguration(_ input: DeleteDistributionConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDistributionConfigurationResponse> {
-        return client.execute(operation: "DeleteDistributionConfiguration", path: "/DeleteDistributionConfiguration", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDistributionConfiguration(_ input: DeleteDistributionConfigurationRequest) -> EventLoopFuture<DeleteDistributionConfigurationResponse> {
+        return client.execute(operation: "DeleteDistributionConfiguration", path: "/DeleteDistributionConfiguration", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes an image. 
-    public func deleteImage(_ input: DeleteImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteImageResponse> {
-        return client.execute(operation: "DeleteImage", path: "/DeleteImage", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteImage(_ input: DeleteImageRequest) -> EventLoopFuture<DeleteImageResponse> {
+        return client.execute(operation: "DeleteImage", path: "/DeleteImage", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes an image pipeline. 
-    public func deleteImagePipeline(_ input: DeleteImagePipelineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteImagePipelineResponse> {
-        return client.execute(operation: "DeleteImagePipeline", path: "/DeleteImagePipeline", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteImagePipeline(_ input: DeleteImagePipelineRequest) -> EventLoopFuture<DeleteImagePipelineResponse> {
+        return client.execute(operation: "DeleteImagePipeline", path: "/DeleteImagePipeline", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes an image recipe. 
-    public func deleteImageRecipe(_ input: DeleteImageRecipeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteImageRecipeResponse> {
-        return client.execute(operation: "DeleteImageRecipe", path: "/DeleteImageRecipe", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteImageRecipe(_ input: DeleteImageRecipeRequest) -> EventLoopFuture<DeleteImageRecipeResponse> {
+        return client.execute(operation: "DeleteImageRecipe", path: "/DeleteImageRecipe", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Deletes an infrastructure configuration. 
-    public func deleteInfrastructureConfiguration(_ input: DeleteInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInfrastructureConfigurationResponse> {
-        return client.execute(operation: "DeleteInfrastructureConfiguration", path: "/DeleteInfrastructureConfiguration", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteInfrastructureConfiguration(_ input: DeleteInfrastructureConfigurationRequest) -> EventLoopFuture<DeleteInfrastructureConfigurationResponse> {
+        return client.execute(operation: "DeleteInfrastructureConfiguration", path: "/DeleteInfrastructureConfiguration", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets a component object. 
-    public func getComponent(_ input: GetComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetComponentResponse> {
-        return client.execute(operation: "GetComponent", path: "/GetComponent", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getComponent(_ input: GetComponentRequest) -> EventLoopFuture<GetComponentResponse> {
+        return client.execute(operation: "GetComponent", path: "/GetComponent", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets a component policy. 
-    public func getComponentPolicy(_ input: GetComponentPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetComponentPolicyResponse> {
-        return client.execute(operation: "GetComponentPolicy", path: "/GetComponentPolicy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getComponentPolicy(_ input: GetComponentPolicyRequest) -> EventLoopFuture<GetComponentPolicyResponse> {
+        return client.execute(operation: "GetComponentPolicy", path: "/GetComponentPolicy", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets a distribution configuration. 
-    public func getDistributionConfiguration(_ input: GetDistributionConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDistributionConfigurationResponse> {
-        return client.execute(operation: "GetDistributionConfiguration", path: "/GetDistributionConfiguration", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDistributionConfiguration(_ input: GetDistributionConfigurationRequest) -> EventLoopFuture<GetDistributionConfigurationResponse> {
+        return client.execute(operation: "GetDistributionConfiguration", path: "/GetDistributionConfiguration", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets an image. 
-    public func getImage(_ input: GetImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetImageResponse> {
-        return client.execute(operation: "GetImage", path: "/GetImage", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getImage(_ input: GetImageRequest) -> EventLoopFuture<GetImageResponse> {
+        return client.execute(operation: "GetImage", path: "/GetImage", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets an image pipeline. 
-    public func getImagePipeline(_ input: GetImagePipelineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetImagePipelineResponse> {
-        return client.execute(operation: "GetImagePipeline", path: "/GetImagePipeline", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getImagePipeline(_ input: GetImagePipelineRequest) -> EventLoopFuture<GetImagePipelineResponse> {
+        return client.execute(operation: "GetImagePipeline", path: "/GetImagePipeline", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets an image policy. 
-    public func getImagePolicy(_ input: GetImagePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetImagePolicyResponse> {
-        return client.execute(operation: "GetImagePolicy", path: "/GetImagePolicy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getImagePolicy(_ input: GetImagePolicyRequest) -> EventLoopFuture<GetImagePolicyResponse> {
+        return client.execute(operation: "GetImagePolicy", path: "/GetImagePolicy", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets an image recipe. 
-    public func getImageRecipe(_ input: GetImageRecipeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetImageRecipeResponse> {
-        return client.execute(operation: "GetImageRecipe", path: "/GetImageRecipe", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getImageRecipe(_ input: GetImageRecipeRequest) -> EventLoopFuture<GetImageRecipeResponse> {
+        return client.execute(operation: "GetImageRecipe", path: "/GetImageRecipe", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets an image recipe policy. 
-    public func getImageRecipePolicy(_ input: GetImageRecipePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetImageRecipePolicyResponse> {
-        return client.execute(operation: "GetImageRecipePolicy", path: "/GetImageRecipePolicy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getImageRecipePolicy(_ input: GetImageRecipePolicyRequest) -> EventLoopFuture<GetImageRecipePolicyResponse> {
+        return client.execute(operation: "GetImageRecipePolicy", path: "/GetImageRecipePolicy", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Gets an infrastructure configuration. 
-    public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInfrastructureConfigurationResponse> {
-        return client.execute(operation: "GetInfrastructureConfiguration", path: "/GetInfrastructureConfiguration", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest) -> EventLoopFuture<GetInfrastructureConfigurationResponse> {
+        return client.execute(operation: "GetInfrastructureConfiguration", path: "/GetInfrastructureConfiguration", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Imports a component and transforms its data into a component document. 
-    public func importComponent(_ input: ImportComponentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportComponentResponse> {
-        return client.execute(operation: "ImportComponent", path: "/ImportComponent", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func importComponent(_ input: ImportComponentRequest) -> EventLoopFuture<ImportComponentResponse> {
+        return client.execute(operation: "ImportComponent", path: "/ImportComponent", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the list of component build versions for the specified semantic version. 
-    public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListComponentBuildVersionsResponse> {
-        return client.execute(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest) -> EventLoopFuture<ListComponentBuildVersionsResponse> {
+        return client.execute(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the list of component build versions for the specified semantic version. 
-    public func listComponents(_ input: ListComponentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListComponentsResponse> {
-        return client.execute(operation: "ListComponents", path: "/ListComponents", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listComponents(_ input: ListComponentsRequest) -> EventLoopFuture<ListComponentsResponse> {
+        return client.execute(operation: "ListComponents", path: "/ListComponents", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of distribution configurations. 
-    public func listDistributionConfigurations(_ input: ListDistributionConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDistributionConfigurationsResponse> {
-        return client.execute(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listDistributionConfigurations(_ input: ListDistributionConfigurationsRequest) -> EventLoopFuture<ListDistributionConfigurationsResponse> {
+        return client.execute(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of image build versions. 
-    public func listImageBuildVersions(_ input: ListImageBuildVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImageBuildVersionsResponse> {
-        return client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listImageBuildVersions(_ input: ListImageBuildVersionsRequest) -> EventLoopFuture<ListImageBuildVersionsResponse> {
+        return client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of images created by the specified pipeline. 
-    public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImagePipelineImagesResponse> {
-        return client.execute(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest) -> EventLoopFuture<ListImagePipelineImagesResponse> {
+        return client.execute(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of image pipelines. 
-    public func listImagePipelines(_ input: ListImagePipelinesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImagePipelinesResponse> {
-        return client.execute(operation: "ListImagePipelines", path: "/ListImagePipelines", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listImagePipelines(_ input: ListImagePipelinesRequest) -> EventLoopFuture<ListImagePipelinesResponse> {
+        return client.execute(operation: "ListImagePipelines", path: "/ListImagePipelines", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of image recipes. 
-    public func listImageRecipes(_ input: ListImageRecipesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImageRecipesResponse> {
-        return client.execute(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listImageRecipes(_ input: ListImageRecipesRequest) -> EventLoopFuture<ListImageRecipesResponse> {
+        return client.execute(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the list of images that you have access to. 
-    public func listImages(_ input: ListImagesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImagesResponse> {
-        return client.execute(operation: "ListImages", path: "/ListImages", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listImages(_ input: ListImagesRequest) -> EventLoopFuture<ListImagesResponse> {
+        return client.execute(operation: "ListImages", path: "/ListImages", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns a list of infrastructure configurations. 
-    public func listInfrastructureConfigurations(_ input: ListInfrastructureConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInfrastructureConfigurationsResponse> {
-        return client.execute(operation: "ListInfrastructureConfigurations", path: "/ListInfrastructureConfigurations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listInfrastructureConfigurations(_ input: ListInfrastructureConfigurationsRequest) -> EventLoopFuture<ListInfrastructureConfigurationsResponse> {
+        return client.execute(operation: "ListInfrastructureConfigurations", path: "/ListInfrastructureConfigurations", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Returns the list of tags for the specified resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///   Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
-    public func putComponentPolicy(_ input: PutComponentPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutComponentPolicyResponse> {
-        return client.execute(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putComponentPolicy(_ input: PutComponentPolicyRequest) -> EventLoopFuture<PutComponentPolicyResponse> {
+        return client.execute(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
-    public func putImagePolicy(_ input: PutImagePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutImagePolicyResponse> {
-        return client.execute(operation: "PutImagePolicy", path: "/PutImagePolicy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putImagePolicy(_ input: PutImagePolicyRequest) -> EventLoopFuture<PutImagePolicyResponse> {
+        return client.execute(operation: "PutImagePolicy", path: "/PutImagePolicy", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
-    public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutImageRecipePolicyResponse> {
-        return client.execute(operation: "PutImageRecipePolicy", path: "/PutImageRecipePolicy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest) -> EventLoopFuture<PutImageRecipePolicyResponse> {
+        return client.execute(operation: "PutImageRecipePolicy", path: "/PutImageRecipePolicy", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Manually triggers a pipeline to create an image. 
-    public func startImagePipelineExecution(_ input: StartImagePipelineExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartImagePipelineExecutionResponse> {
-        return client.execute(operation: "StartImagePipelineExecution", path: "/StartImagePipelineExecution", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startImagePipelineExecution(_ input: StartImagePipelineExecutionRequest) -> EventLoopFuture<StartImagePipelineExecutionResponse> {
+        return client.execute(operation: "StartImagePipelineExecution", path: "/StartImagePipelineExecution", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Adds a tag to a resource. 
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Removes a tag from a resource. 
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///   Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
-    public func updateDistributionConfiguration(_ input: UpdateDistributionConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDistributionConfigurationResponse> {
-        return client.execute(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDistributionConfiguration(_ input: UpdateDistributionConfigurationRequest) -> EventLoopFuture<UpdateDistributionConfigurationResponse> {
+        return client.execute(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Updates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images. 
-    public func updateImagePipeline(_ input: UpdateImagePipelineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateImagePipelineResponse> {
-        return client.execute(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateImagePipeline(_ input: UpdateImagePipelineRequest) -> EventLoopFuture<UpdateImagePipelineResponse> {
+        return client.execute(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///   Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. 
-    public func updateInfrastructureConfiguration(_ input: UpdateInfrastructureConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateInfrastructureConfigurationResponse> {
-        return client.execute(operation: "UpdateInfrastructureConfiguration", path: "/UpdateInfrastructureConfiguration", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateInfrastructureConfiguration(_ input: UpdateInfrastructureConfigurationRequest) -> EventLoopFuture<UpdateInfrastructureConfigurationResponse> {
+        return client.execute(operation: "UpdateInfrastructureConfiguration", path: "/UpdateInfrastructureConfiguration", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Imagebuilder {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

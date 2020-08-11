@@ -21,12 +21,13 @@ Client object for interacting with AWS CodeStar service.
 
 AWS CodeStar This is the API reference for AWS CodeStar. This reference provides descriptions of the operations and data types for the AWS CodeStar API along with usage examples. You can use the AWS CodeStar API to work with: Projects and their resources, by calling the following:    DeleteProject, which deletes a project.    DescribeProject, which lists the attributes of a project.    ListProjects, which lists all projects associated with your AWS account.    ListResources, which lists the resources associated with a project.    ListTagsForProject, which lists the tags associated with a project.    TagProject, which adds tags to a project.    UntagProject, which removes tags from a project.    UpdateProject, which updates the attributes of a project.   Teams and team members, by calling the following:    AssociateTeamMember, which adds an IAM user to the team for a project.    DisassociateTeamMember, which removes an IAM user from the team for a project.    ListTeamMembers, which lists all the IAM users in the team for a project, including their roles and attributes.    UpdateTeamMember, which updates a team member's attributes in a project.   Users, by calling the following:    CreateUserProfile, which creates a user profile that contains data associated with the user across all projects.    DeleteUserProfile, which deletes all user profile information across all projects.    DescribeUserProfile, which describes the profile of a user.    ListUserProfiles, which lists all user profiles.    UpdateUserProfile, which updates the profile for a user.  
 */
-public struct CodeStar {
+public struct CodeStar: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct CodeStar {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "CodeStar_20170419",
@@ -53,100 +54,113 @@ public struct CodeStar {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-19",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeStarErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CodeStarErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Adds an IAM user to the team for an AWS CodeStar project.
-    public func associateTeamMember(_ input: AssociateTeamMemberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateTeamMemberResult> {
-        return client.execute(operation: "AssociateTeamMember", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateTeamMember(_ input: AssociateTeamMemberRequest) -> EventLoopFuture<AssociateTeamMemberResult> {
+        return client.execute(operation: "AssociateTeamMember", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a project, including project resources. This action creates a project based on a submitted project request. A set of source code files and a toolchain template file can be included with the project request. If these are not provided, an empty project is created.
-    public func createProject(_ input: CreateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProjectResult> {
-        return client.execute(operation: "CreateProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createProject(_ input: CreateProjectRequest) -> EventLoopFuture<CreateProjectResult> {
+        return client.execute(operation: "CreateProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a profile for a user that includes user preferences, such as the display name and email address assocciated with the user, in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
-    public func createUserProfile(_ input: CreateUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserProfileResult> {
-        return client.execute(operation: "CreateUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createUserProfile(_ input: CreateUserProfileRequest) -> EventLoopFuture<CreateUserProfileResult> {
+        return client.execute(operation: "CreateUserProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a project, including project resources. Does not delete users associated with the project, but does delete the IAM roles that allowed access to the project.
-    public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProjectResult> {
-        return client.execute(operation: "DeleteProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteProject(_ input: DeleteProjectRequest) -> EventLoopFuture<DeleteProjectResult> {
+        return client.execute(operation: "DeleteProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a user profile in AWS CodeStar, including all personal preference data associated with that profile, such as display name and email address. It does not delete the history of that user, for example the history of commits made by that user.
-    public func deleteUserProfile(_ input: DeleteUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteUserProfileResult> {
-        return client.execute(operation: "DeleteUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteUserProfile(_ input: DeleteUserProfileRequest) -> EventLoopFuture<DeleteUserProfileResult> {
+        return client.execute(operation: "DeleteUserProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a project and its resources.
-    public func describeProject(_ input: DescribeProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProjectResult> {
-        return client.execute(operation: "DescribeProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProject(_ input: DescribeProjectRequest) -> EventLoopFuture<DescribeProjectResult> {
+        return client.execute(operation: "DescribeProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes a user in AWS CodeStar and the user attributes across all projects.
-    public func describeUserProfile(_ input: DescribeUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserProfileResult> {
-        return client.execute(operation: "DescribeUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeUserProfile(_ input: DescribeUserProfileRequest) -> EventLoopFuture<DescribeUserProfileResult> {
+        return client.execute(operation: "DescribeUserProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a user from a project. Removing a user from a project also removes the IAM policies from that user that allowed access to the project and its resources. Disassociating a team member does not remove that user's profile from AWS CodeStar. It does not remove the user from IAM.
-    public func disassociateTeamMember(_ input: DisassociateTeamMemberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateTeamMemberResult> {
-        return client.execute(operation: "DisassociateTeamMember", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateTeamMember(_ input: DisassociateTeamMemberRequest) -> EventLoopFuture<DisassociateTeamMemberResult> {
+        return client.execute(operation: "DisassociateTeamMember", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all projects in AWS CodeStar associated with your AWS account.
-    public func listProjects(_ input: ListProjectsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProjectsResult> {
-        return client.execute(operation: "ListProjects", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProjects(_ input: ListProjectsRequest) -> EventLoopFuture<ListProjectsResult> {
+        return client.execute(operation: "ListProjects", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists resources associated with a project in AWS CodeStar.
-    public func listResources(_ input: ListResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourcesResult> {
-        return client.execute(operation: "ListResources", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listResources(_ input: ListResourcesRequest) -> EventLoopFuture<ListResourcesResult> {
+        return client.execute(operation: "ListResources", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the tags for a project.
-    public func listTagsForProject(_ input: ListTagsForProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForProjectResult> {
-        return client.execute(operation: "ListTagsForProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForProject(_ input: ListTagsForProjectRequest) -> EventLoopFuture<ListTagsForProjectResult> {
+        return client.execute(operation: "ListTagsForProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all team members associated with a project.
-    public func listTeamMembers(_ input: ListTeamMembersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTeamMembersResult> {
-        return client.execute(operation: "ListTeamMembers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTeamMembers(_ input: ListTeamMembersRequest) -> EventLoopFuture<ListTeamMembersResult> {
+        return client.execute(operation: "ListTeamMembers", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all the user profiles configured for your AWS account in AWS CodeStar.
-    public func listUserProfiles(_ input: ListUserProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserProfilesResult> {
-        return client.execute(operation: "ListUserProfiles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listUserProfiles(_ input: ListUserProfilesRequest) -> EventLoopFuture<ListUserProfilesResult> {
+        return client.execute(operation: "ListUserProfiles", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds tags to a project.
-    public func tagProject(_ input: TagProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagProjectResult> {
-        return client.execute(operation: "TagProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagProject(_ input: TagProjectRequest) -> EventLoopFuture<TagProjectResult> {
+        return client.execute(operation: "TagProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes tags from a project.
-    public func untagProject(_ input: UntagProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagProjectResult> {
-        return client.execute(operation: "UntagProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagProject(_ input: UntagProjectRequest) -> EventLoopFuture<UntagProjectResult> {
+        return client.execute(operation: "UntagProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a project in AWS CodeStar.
-    public func updateProject(_ input: UpdateProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProjectResult> {
-        return client.execute(operation: "UpdateProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateProject(_ input: UpdateProjectRequest) -> EventLoopFuture<UpdateProjectResult> {
+        return client.execute(operation: "UpdateProject", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a team member's attributes in an AWS CodeStar project. For example, you can change a team member's role in the project, or change whether they have remote access to project resources.
-    public func updateTeamMember(_ input: UpdateTeamMemberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateTeamMemberResult> {
-        return client.execute(operation: "UpdateTeamMember", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateTeamMember(_ input: UpdateTeamMemberRequest) -> EventLoopFuture<UpdateTeamMemberResult> {
+        return client.execute(operation: "UpdateTeamMember", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates a user's profile in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar. 
-    public func updateUserProfile(_ input: UpdateUserProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserProfileResult> {
-        return client.execute(operation: "UpdateUserProfile", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateUserProfile(_ input: UpdateUserProfileRequest) -> EventLoopFuture<UpdateUserProfileResult> {
+        return client.execute(operation: "UpdateUserProfile", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CodeStar {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

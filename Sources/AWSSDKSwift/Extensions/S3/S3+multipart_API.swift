@@ -45,9 +45,9 @@ extension S3 {
     public func multipartDownload(
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
-        on eventLoop: EventLoop,
         outputStream: @escaping (ByteBuffer, Int64, EventLoop) -> EventLoopFuture<Void>
     ) -> EventLoopFuture<Int64> {
+        let eventLoop = context.eventLoop ?? self.client.eventLoopGroup.next()
         let promise = eventLoop.makePromise(of: Int64.self)
 
         // function downloading part of a file
@@ -68,7 +68,7 @@ extension S3 {
                 sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                 versionId: input.versionId
             )
-            getObject(getRequest, on: eventLoop)
+            getObject(getRequest)
                 .and(prevPartSave)
                 .map { (output, _) -> Void in
                     // should never happen
@@ -98,7 +98,7 @@ extension S3 {
             sSECustomerKeyMD5: input.sSECustomerKeyMD5,
             versionId: input.versionId
         )
-        headObject(headRequest, on: eventLoop)
+        headObject(headRequest)
             .map { (object) -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
@@ -123,11 +123,10 @@ extension S3 {
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
-        on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<Int64> {
-        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+        let eventLoop = context.eventLoop ?? self.client.eventLoopGroup.next()
 
         let threadPool: NIOThreadPool
         switch threadPoolProvider {
@@ -143,7 +142,7 @@ extension S3 {
             (fileHandle) -> EventLoopFuture<Int64> in
             var progressValue: Int64 = 0
 
-            let download = self.multipartDownload(input, partSize: partSize, on: eventLoop) { byteBuffer, fileSize, eventLoop in
+            let download = self.multipartDownload(input, partSize: partSize) { byteBuffer, fileSize, eventLoop in
                 let bufferSize = byteBuffer.readableBytes
                 return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
                     progressValue += Int64(bufferSize)
@@ -178,16 +177,16 @@ extension S3 {
     /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
     public func multipartUpload(
         _ input: CreateMultipartUploadRequest,
-        on eventLoop: EventLoop,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<ByteBuffer>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = context.eventLoop ?? self.client.eventLoopGroup.next()
         // initialize multipart upload
-        let result = createMultipartUpload(input, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
+        let result = createMultipartUpload(input).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
             guard let uploadId = upload.uploadId else {
                 return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId)
             }
             // upload all the parts
-            return self.multipartUploadParts(input, uploadId: uploadId, on: eventLoop, inputStream: inputStream)
+            return self.multipartUploadParts(input, uploadId: uploadId, inputStream: inputStream)
                 .flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
                     let request = S3.CompleteMultipartUploadRequest(
                         bucket: input.bucket,
@@ -196,7 +195,7 @@ extension S3 {
                         requestPayer: input.requestPayer,
                         uploadId: uploadId
                     )
-                    return self.completeMultipartUpload(request, on: eventLoop)
+                    return self.completeMultipartUpload(request)
                 }
                 .flatMapErrorThrowing { error in
                     // if failure then abort the multipart upload
@@ -206,7 +205,7 @@ extension S3 {
                         requestPayer: input.requestPayer,
                         uploadId: uploadId
                     )
-                    _ = self.abortMultipartUpload(request, on: eventLoop)
+                    _ = self.abortMultipartUpload(request)
                     throw error
                 }
         }
@@ -226,11 +225,10 @@ extension S3 {
         _ input: CreateMultipartUploadRequest,
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
-        on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+        let eventLoop = context.eventLoop ?? self.client.eventLoopGroup.next()
 
         let byteBufferAllocator = ByteBufferAllocator()
         let threadPool: NIOThreadPool
@@ -250,7 +248,7 @@ extension S3 {
 
             let fileSize = fileRegion.readableBytes
 
-            let upload = self.multipartUpload(input, on: eventLoop) { eventLoop in
+            let upload = self.multipartUpload(input) { eventLoop in
                 eventLoop.submit {
                     try progress(Double(prevProgressAmount) / Double(fileSize))
                 }.flatMap { _ in
@@ -287,9 +285,9 @@ extension S3 {
     func multipartUploadParts(
         _ input: CreateMultipartUploadRequest,
         uploadId: String,
-        on eventLoop: EventLoop,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<ByteBuffer>
     ) -> EventLoopFuture<[S3.CompletedPart]> {
+        let eventLoop = context.eventLoop ?? self.client.eventLoopGroup.next()
         let promise = eventLoop.makePromise(of: [S3.CompletedPart].self)
         var completedParts: [S3.CompletedPart] = []
         // function uploading part of a file and queueing up upload of the next part
@@ -307,7 +305,7 @@ extension S3 {
                 uploadId: uploadId
             )
             // request upload future
-            let uploadResult = self.uploadPart(request, on: eventLoop).map { output -> [S3.CompletedPart] in
+            let uploadResult = self.uploadPart(request).map { output -> [S3.CompletedPart] in
                 let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
                 completedParts.append(part)
                 return completedParts

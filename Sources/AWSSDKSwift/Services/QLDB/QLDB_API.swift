@@ -21,12 +21,13 @@ Client object for interacting with AWS QLDB service.
 
 The control plane for Amazon QLDB
 */
-public struct QLDB {
+public struct QLDB: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,112 +46,125 @@ public struct QLDB {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "qldb",
             serviceProtocol: .restjson,
             apiVersion: "2019-01-02",
             endpoint: endpoint,
-            possibleErrorTypes: [QLDBErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [QLDBErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.
-    public func cancelJournalKinesisStream(_ input: CancelJournalKinesisStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelJournalKinesisStreamResponse> {
-        return client.execute(operation: "CancelJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func cancelJournalKinesisStream(_ input: CancelJournalKinesisStreamRequest) -> EventLoopFuture<CancelJournalKinesisStreamResponse> {
+        return client.execute(operation: "CancelJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new ledger in your AWS account.
-    public func createLedger(_ input: CreateLedgerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateLedgerResponse> {
-        return client.execute(operation: "CreateLedger", path: "/ledgers", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createLedger(_ input: CreateLedgerRequest) -> EventLoopFuture<CreateLedgerResponse> {
+        return client.execute(operation: "CreateLedger", path: "/ledgers", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a ledger and all of its contents. This action is irreversible. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
-    @discardableResult public func deleteLedger(_ input: DeleteLedgerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteLedger", path: "/ledgers/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteLedger(_ input: DeleteLedgerRequest) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteLedger", path: "/ledgers/{name}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns detailed information about a given Amazon QLDB journal stream. The output includes the Amazon Resource Name (ARN), stream name, current status, creation time, and the parameters of your original stream creation request.
-    public func describeJournalKinesisStream(_ input: DescribeJournalKinesisStreamRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeJournalKinesisStreamResponse> {
-        return client.execute(operation: "DescribeJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeJournalKinesisStream(_ input: DescribeJournalKinesisStreamRequest) -> EventLoopFuture<DescribeJournalKinesisStreamResponse> {
+        return client.execute(operation: "DescribeJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a journal export job, including the ledger name, export ID, when it was created, current status, and its start and end time export parameters. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide. If the export job with the given ExportId doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException.
-    public func describeJournalS3Export(_ input: DescribeJournalS3ExportRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeJournalS3ExportResponse> {
-        return client.execute(operation: "DescribeJournalS3Export", path: "/ledgers/{name}/journal-s3-exports/{exportId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeJournalS3Export(_ input: DescribeJournalS3ExportRequest) -> EventLoopFuture<DescribeJournalS3ExportResponse> {
+        return client.execute(operation: "DescribeJournalS3Export", path: "/ledgers/{name}/journal-s3-exports/{exportId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a ledger, including its state and when it was created.
-    public func describeLedger(_ input: DescribeLedgerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeLedgerResponse> {
-        return client.execute(operation: "DescribeLedger", path: "/ledgers/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeLedger(_ input: DescribeLedgerRequest) -> EventLoopFuture<DescribeLedgerResponse> {
+        return client.execute(operation: "DescribeLedger", path: "/ledgers/{name}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Exports journal contents within a date and time range from a ledger into a specified Amazon Simple Storage Service (Amazon S3) bucket. The data is written as files in Amazon Ion format. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal export requests for each ledger. Beyond this limit, journal export requests throw LimitExceededException.
-    public func exportJournalToS3(_ input: ExportJournalToS3Request, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExportJournalToS3Response> {
-        return client.execute(operation: "ExportJournalToS3", path: "/ledgers/{name}/journal-s3-exports", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func exportJournalToS3(_ input: ExportJournalToS3Request) -> EventLoopFuture<ExportJournalToS3Response> {
+        return client.execute(operation: "ExportJournalToS3", path: "/ledgers/{name}/journal-s3-exports", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see Journal contents in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
-    public func getBlock(_ input: GetBlockRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBlockResponse> {
-        return client.execute(operation: "GetBlock", path: "/ledgers/{name}/block", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBlock(_ input: GetBlockRequest) -> EventLoopFuture<GetBlockResponse> {
+        return client.execute(operation: "GetBlock", path: "/ledgers/{name}/block", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the digest of a ledger at the latest committed block in the journal. The response includes a 256-bit hash value and a block address.
-    public func getDigest(_ input: GetDigestRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDigestResponse> {
-        return client.execute(operation: "GetDigest", path: "/ledgers/{name}/digest", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getDigest(_ input: GetDigestRequest) -> EventLoopFuture<GetDigestResponse> {
+        return client.execute(operation: "GetDigest", path: "/ledgers/{name}/digest", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a revision data object for a specified document ID and block address. Also returns a proof of the specified revision for verification if DigestTipAddress is provided.
-    public func getRevision(_ input: GetRevisionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRevisionResponse> {
-        return client.execute(operation: "GetRevision", path: "/ledgers/{name}/revision", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRevision(_ input: GetRevisionRequest) -> EventLoopFuture<GetRevisionResponse> {
+        return client.execute(operation: "GetRevision", path: "/ledgers/{name}/revision", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an array of all Amazon QLDB journal stream descriptors for a given ledger. The output of each stream descriptor includes the same details that are returned by DescribeJournalKinesisStream. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
-    public func listJournalKinesisStreamsForLedger(_ input: ListJournalKinesisStreamsForLedgerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJournalKinesisStreamsForLedgerResponse> {
-        return client.execute(operation: "ListJournalKinesisStreamsForLedger", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJournalKinesisStreamsForLedger(_ input: ListJournalKinesisStreamsForLedgerRequest) -> EventLoopFuture<ListJournalKinesisStreamsForLedgerResponse> {
+        return client.execute(operation: "ListJournalKinesisStreamsForLedger", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide.
-    public func listJournalS3Exports(_ input: ListJournalS3ExportsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJournalS3ExportsResponse> {
-        return client.execute(operation: "ListJournalS3Exports", path: "/journal-s3-exports", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJournalS3Exports(_ input: ListJournalS3ExportsRequest) -> EventLoopFuture<ListJournalS3ExportsResponse> {
+        return client.execute(operation: "ListJournalS3Exports", path: "/journal-s3-exports", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an array of journal export job descriptions for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide.
-    public func listJournalS3ExportsForLedger(_ input: ListJournalS3ExportsForLedgerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJournalS3ExportsForLedgerResponse> {
-        return client.execute(operation: "ListJournalS3ExportsForLedger", path: "/ledgers/{name}/journal-s3-exports", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listJournalS3ExportsForLedger(_ input: ListJournalS3ExportsForLedgerRequest) -> EventLoopFuture<ListJournalS3ExportsForLedgerResponse> {
+        return client.execute(operation: "ListJournalS3ExportsForLedger", path: "/ledgers/{name}/journal-s3-exports", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an array of ledger summaries that are associated with the current AWS account and Region. This action returns a maximum of 100 items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
-    public func listLedgers(_ input: ListLedgersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListLedgersResponse> {
-        return client.execute(operation: "ListLedgers", path: "/ledgers", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listLedgers(_ input: ListLedgersRequest) -> EventLoopFuture<ListLedgersResponse> {
+        return client.execute(operation: "ListLedgers", path: "/ledgers", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns all tags for a specified Amazon QLDB resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
-    public func streamJournalToKinesis(_ input: StreamJournalToKinesisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StreamJournalToKinesisResponse> {
-        return client.execute(operation: "StreamJournalToKinesis", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func streamJournalToKinesis(_ input: StreamJournalToKinesisRequest) -> EventLoopFuture<StreamJournalToKinesisResponse> {
+        return client.execute(operation: "StreamJournalToKinesis", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds one or more tags to a specified Amazon QLDB resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error.
-    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes one or more tags from a specified Amazon QLDB resource. You can specify up to 50 tag keys to remove.
-    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates properties on a ledger.
-    public func updateLedger(_ input: UpdateLedgerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateLedgerResponse> {
-        return client.execute(operation: "UpdateLedger", path: "/ledgers/{name}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateLedger(_ input: UpdateLedgerRequest) -> EventLoopFuture<UpdateLedgerResponse> {
+        return client.execute(operation: "UpdateLedger", path: "/ledgers/{name}", httpMethod: .PATCH, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension QLDB {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

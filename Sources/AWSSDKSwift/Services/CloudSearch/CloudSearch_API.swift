@@ -21,12 +21,13 @@ Client object for interacting with AWS CloudSearch service.
 
 Amazon CloudSearch Configuration Service You use the Amazon CloudSearch configuration service to create, configure, and manage search domains. Configuration service requests are submitted using the AWS Query protocol. AWS Query requests are HTTP or HTTPS requests submitted via HTTP GET or POST with a query parameter named Action. The endpoint for configuration service requests is region-specific: cloudsearch.region.amazonaws.com. For example, cloudsearch.us-east-1.amazonaws.com. For a current list of supported regions and endpoints, see Regions and Endpoints.
 */
-public struct CloudSearch {
+public struct CloudSearch: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,147 +46,160 @@ public struct CloudSearch {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "cloudsearch",
             serviceProtocol: .query,
             apiVersion: "2013-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudSearchErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [CloudSearchErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Indexes the search suggestions. For more information, see Configuring Suggesters in the Amazon CloudSearch Developer Guide.
-    public func buildSuggesters(_ input: BuildSuggestersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BuildSuggestersResponse> {
-        return client.execute(operation: "BuildSuggesters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func buildSuggesters(_ input: BuildSuggestersRequest) -> EventLoopFuture<BuildSuggestersResponse> {
+        return client.execute(operation: "BuildSuggesters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a new search domain. For more information, see Creating a Search Domain in the Amazon CloudSearch Developer Guide.
-    public func createDomain(_ input: CreateDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDomainResponse> {
-        return client.execute(operation: "CreateDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createDomain(_ input: CreateDomainRequest) -> EventLoopFuture<CreateDomainResponse> {
+        return client.execute(operation: "CreateDomain", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures an analysis scheme that can be applied to a text or text-array field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide.
-    public func defineAnalysisScheme(_ input: DefineAnalysisSchemeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DefineAnalysisSchemeResponse> {
-        return client.execute(operation: "DefineAnalysisScheme", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func defineAnalysisScheme(_ input: DefineAnalysisSchemeRequest) -> EventLoopFuture<DefineAnalysisSchemeResponse> {
+        return client.execute(operation: "DefineAnalysisScheme", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures an Expression for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide.
-    public func defineExpression(_ input: DefineExpressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DefineExpressionResponse> {
-        return client.execute(operation: "DefineExpression", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func defineExpression(_ input: DefineExpressionRequest) -> EventLoopFuture<DefineExpressionResponse> {
+        return client.execute(operation: "DefineExpression", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures an IndexField for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the IndexFieldType. If the field exists, the new configuration replaces the old one. For more information, see Configuring Index Fields in the Amazon CloudSearch Developer Guide. 
-    public func defineIndexField(_ input: DefineIndexFieldRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DefineIndexFieldResponse> {
-        return client.execute(operation: "DefineIndexField", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func defineIndexField(_ input: DefineIndexFieldRequest) -> EventLoopFuture<DefineIndexFieldResponse> {
+        return client.execute(operation: "DefineIndexField", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide.
-    public func defineSuggester(_ input: DefineSuggesterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DefineSuggesterResponse> {
-        return client.execute(operation: "DefineSuggester", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func defineSuggester(_ input: DefineSuggesterRequest) -> EventLoopFuture<DefineSuggesterResponse> {
+        return client.execute(operation: "DefineSuggester", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide. 
-    public func deleteAnalysisScheme(_ input: DeleteAnalysisSchemeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAnalysisSchemeResponse> {
-        return client.execute(operation: "DeleteAnalysisScheme", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteAnalysisScheme(_ input: DeleteAnalysisSchemeRequest) -> EventLoopFuture<DeleteAnalysisSchemeResponse> {
+        return client.execute(operation: "DeleteAnalysisScheme", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information, see Deleting a Search Domain in the Amazon CloudSearch Developer Guide. 
-    public func deleteDomain(_ input: DeleteDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDomainResponse> {
-        return client.execute(operation: "DeleteDomain", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteDomain(_ input: DeleteDomainRequest) -> EventLoopFuture<DeleteDomainResponse> {
+        return client.execute(operation: "DeleteDomain", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes an Expression from the search domain. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide.
-    public func deleteExpression(_ input: DeleteExpressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteExpressionResponse> {
-        return client.execute(operation: "DeleteExpression", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteExpression(_ input: DeleteExpressionRequest) -> EventLoopFuture<DeleteExpressionResponse> {
+        return client.execute(operation: "DeleteExpression", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes an IndexField from the search domain. For more information, see Configuring Index Fields in the Amazon CloudSearch Developer Guide.
-    public func deleteIndexField(_ input: DeleteIndexFieldRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteIndexFieldResponse> {
-        return client.execute(operation: "DeleteIndexField", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteIndexField(_ input: DeleteIndexFieldRequest) -> EventLoopFuture<DeleteIndexFieldResponse> {
+        return client.execute(operation: "DeleteIndexField", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a suggester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide.
-    public func deleteSuggester(_ input: DeleteSuggesterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSuggesterResponse> {
-        return client.execute(operation: "DeleteSuggester", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteSuggester(_ input: DeleteSuggesterRequest) -> EventLoopFuture<DeleteSuggesterResponse> {
+        return client.execute(operation: "DeleteSuggester", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a text field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide.
-    public func describeAnalysisSchemes(_ input: DescribeAnalysisSchemesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAnalysisSchemesResponse> {
-        return client.execute(operation: "DescribeAnalysisSchemes", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAnalysisSchemes(_ input: DescribeAnalysisSchemesRequest) -> EventLoopFuture<DescribeAnalysisSchemesResponse> {
+        return client.execute(operation: "DescribeAnalysisSchemes", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide.
-    public func describeAvailabilityOptions(_ input: DescribeAvailabilityOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAvailabilityOptionsResponse> {
-        return client.execute(operation: "DescribeAvailabilityOptions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAvailabilityOptions(_ input: DescribeAvailabilityOptionsRequest) -> EventLoopFuture<DescribeAvailabilityOptionsResponse> {
+        return client.execute(operation: "DescribeAvailabilityOptions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide.
-    public func describeDomainEndpointOptions(_ input: DescribeDomainEndpointOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDomainEndpointOptionsResponse> {
-        return client.execute(operation: "DescribeDomainEndpointOptions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDomainEndpointOptions(_ input: DescribeDomainEndpointOptionsRequest) -> EventLoopFuture<DescribeDomainEndpointOptionsResponse> {
+        return client.execute(operation: "DescribeDomainEndpointOptions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the search domains owned by this account. Can be limited to specific domains. Shows all domains by default. To get the number of searchable documents in a domain, use the console or submit a matchall request to your domain's search endpoint: q=matchall&amp;amp;q.parser=structured&amp;amp;size=0. For more information, see Getting Information about a Search Domain in the Amazon CloudSearch Developer Guide.
-    public func describeDomains(_ input: DescribeDomainsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDomainsResponse> {
-        return client.execute(operation: "DescribeDomains", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeDomains(_ input: DescribeDomainsRequest) -> EventLoopFuture<DescribeDomainsResponse> {
+        return client.execute(operation: "DescribeDomains", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide.
-    public func describeExpressions(_ input: DescribeExpressionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeExpressionsResponse> {
-        return client.execute(operation: "DescribeExpressions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeExpressions(_ input: DescribeExpressionsRequest) -> EventLoopFuture<DescribeExpressionsResponse> {
+        return client.execute(operation: "DescribeExpressions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the index fields configured for the search domain. Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Getting Domain Information in the Amazon CloudSearch Developer Guide.
-    public func describeIndexFields(_ input: DescribeIndexFieldsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIndexFieldsResponse> {
-        return client.execute(operation: "DescribeIndexFields", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeIndexFields(_ input: DescribeIndexFieldsRequest) -> EventLoopFuture<DescribeIndexFieldsResponse> {
+        return client.execute(operation: "DescribeIndexFields", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
-    public func describeScalingParameters(_ input: DescribeScalingParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeScalingParametersResponse> {
-        return client.execute(operation: "DescribeScalingParameters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeScalingParameters(_ input: DescribeScalingParametersRequest) -> EventLoopFuture<DescribeScalingParametersResponse> {
+        return client.execute(operation: "DescribeScalingParameters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Configuring Access for a Search Domain in the Amazon CloudSearch Developer Guide.
-    public func describeServiceAccessPolicies(_ input: DescribeServiceAccessPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeServiceAccessPoliciesResponse> {
-        return client.execute(operation: "DescribeServiceAccessPolicies", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeServiceAccessPolicies(_ input: DescribeServiceAccessPoliciesRequest) -> EventLoopFuture<DescribeServiceAccessPoliciesResponse> {
+        return client.execute(operation: "DescribeServiceAccessPolicies", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide.
-    public func describeSuggesters(_ input: DescribeSuggestersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSuggestersResponse> {
-        return client.execute(operation: "DescribeSuggesters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeSuggesters(_ input: DescribeSuggestersRequest) -> EventLoopFuture<DescribeSuggestersResponse> {
+        return client.execute(operation: "DescribeSuggesters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is RequiresIndexDocuments.
-    public func indexDocuments(_ input: IndexDocumentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<IndexDocumentsResponse> {
-        return client.execute(operation: "IndexDocuments", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func indexDocuments(_ input: IndexDocumentsRequest) -> EventLoopFuture<IndexDocumentsResponse> {
+        return client.execute(operation: "IndexDocuments", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Lists all search domains owned by an account.
-    public func listDomainNames(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainNamesResponse> {
-        return client.execute(operation: "ListDomainNames", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, on: eventLoop, logger: logger)
+    public func listDomainNames() -> EventLoopFuture<ListDomainNamesResponse> {
+        return client.execute(operation: "ListDomainNames", path: "/", httpMethod: .POST, config: self.config, context: self.context)
     }
 
     ///  Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide.
-    public func updateAvailabilityOptions(_ input: UpdateAvailabilityOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAvailabilityOptionsResponse> {
-        return client.execute(operation: "UpdateAvailabilityOptions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateAvailabilityOptions(_ input: UpdateAvailabilityOptionsRequest) -> EventLoopFuture<UpdateAvailabilityOptionsResponse> {
+        return client.execute(operation: "UpdateAvailabilityOptions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide.
-    public func updateDomainEndpointOptions(_ input: UpdateDomainEndpointOptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDomainEndpointOptionsResponse> {
-        return client.execute(operation: "UpdateDomainEndpointOptions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateDomainEndpointOptions(_ input: UpdateDomainEndpointOptionsRequest) -> EventLoopFuture<UpdateDomainEndpointOptionsResponse> {
+        return client.execute(operation: "UpdateDomainEndpointOptions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide. 
-    public func updateScalingParameters(_ input: UpdateScalingParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateScalingParametersResponse> {
-        return client.execute(operation: "UpdateScalingParameters", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateScalingParameters(_ input: UpdateScalingParametersRequest) -> EventLoopFuture<UpdateScalingParametersResponse> {
+        return client.execute(operation: "UpdateScalingParameters", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Configures the access rules that control access to the domain's document and search endpoints. For more information, see  Configuring Access for an Amazon CloudSearch Domain.
-    public func updateServiceAccessPolicies(_ input: UpdateServiceAccessPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateServiceAccessPoliciesResponse> {
-        return client.execute(operation: "UpdateServiceAccessPolicies", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateServiceAccessPolicies(_ input: UpdateServiceAccessPoliciesRequest) -> EventLoopFuture<UpdateServiceAccessPoliciesResponse> {
+        return client.execute(operation: "UpdateServiceAccessPolicies", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension CloudSearch {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

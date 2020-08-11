@@ -23,31 +23,43 @@ extension CodeStarNotifications {
     ///  Returns information about the event types available for configuring notifications.
     public func listEventTypesPaginator(
         _ input: ListEventTypesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEventTypesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEventTypes, tokenKey: \ListEventTypesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEventTypes,
+            tokenKey: \ListEventTypesResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the notification rules for an AWS account.
     public func listNotificationRulesPaginator(
         _ input: ListNotificationRulesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNotificationRulesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNotificationRules, tokenKey: \ListNotificationRulesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNotificationRules,
+            tokenKey: \ListNotificationRulesResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the notification rule targets for an AWS account.
     public func listTargetsPaginator(
         _ input: ListTargetsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTargets, tokenKey: \ListTargetsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTargets,
+            tokenKey: \ListTargetsResult.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

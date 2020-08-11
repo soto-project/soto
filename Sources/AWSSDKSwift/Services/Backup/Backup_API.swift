@@ -21,12 +21,13 @@ Client object for interacting with AWS Backup service.
 
 AWS Backup AWS Backup is a unified backup service designed to protect AWS services and their associated data. AWS Backup simplifies the creation, migration, restoration, and deletion of backups, while also providing reporting and auditing.
 */
-public struct Backup {
+public struct Backup: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,257 +46,270 @@ public struct Backup {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "backup",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-15",
             endpoint: endpoint,
-            possibleErrorTypes: [BackupErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [BackupErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Backup plans are documents that contain information that AWS Backup uses to schedule tasks that create recovery points of resources. If you call CreateBackupPlan with a plan that already exists, an AlreadyExistsException is returned.
-    public func createBackupPlan(_ input: CreateBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBackupPlanOutput> {
-        return client.execute(operation: "CreateBackupPlan", path: "/backup/plans/", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createBackupPlan(_ input: CreateBackupPlanInput) -> EventLoopFuture<CreateBackupPlanOutput> {
+        return client.execute(operation: "CreateBackupPlan", path: "/backup/plans/", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"STRINGEQUALS"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"STRINGEQUALS"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume Id. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically 'put together using the OR operator. In other words, all patterns that match are selected for backup.
-    public func createBackupSelection(_ input: CreateBackupSelectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBackupSelectionOutput> {
-        return client.execute(operation: "CreateBackupSelection", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createBackupSelection(_ input: CreateBackupSelectionInput) -> EventLoopFuture<CreateBackupSelectionOutput> {
+        return client.execute(operation: "CreateBackupSelection", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID.  Sensitive data, such as passport numbers, should not be included the name of a backup vault. 
-    public func createBackupVault(_ input: CreateBackupVaultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBackupVaultOutput> {
-        return client.execute(operation: "CreateBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createBackupVault(_ input: CreateBackupVaultInput) -> EventLoopFuture<CreateBackupVaultOutput> {
+        return client.execute(operation: "CreateBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
-    public func deleteBackupPlan(_ input: DeleteBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBackupPlanOutput> {
-        return client.execute(operation: "DeleteBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteBackupPlan(_ input: DeleteBackupPlanInput) -> EventLoopFuture<DeleteBackupPlanOutput> {
+        return client.execute(operation: "DeleteBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the resource selection associated with a backup plan that is specified by the SelectionId.
-    @discardableResult public func deleteBackupSelection(_ input: DeleteBackupSelectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteBackupSelection", path: "/backup/plans/{backupPlanId}/selections/{selectionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteBackupSelection(_ input: DeleteBackupSelectionInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteBackupSelection", path: "/backup/plans/{backupPlanId}/selections/{selectionId}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the backup vault identified by its name. A vault can be deleted only if it is empty.
-    @discardableResult public func deleteBackupVault(_ input: DeleteBackupVaultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteBackupVault(_ input: DeleteBackupVaultInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the policy document that manages permissions on a backup vault.
-    @discardableResult public func deleteBackupVaultAccessPolicy(_ input: DeleteBackupVaultAccessPolicyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteBackupVaultAccessPolicy", path: "/backup-vaults/{backupVaultName}/access-policy", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteBackupVaultAccessPolicy(_ input: DeleteBackupVaultAccessPolicyInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteBackupVaultAccessPolicy", path: "/backup-vaults/{backupVaultName}/access-policy", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes event notifications for the specified backup vault.
-    @discardableResult public func deleteBackupVaultNotifications(_ input: DeleteBackupVaultNotificationsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteBackupVaultNotifications(_ input: DeleteBackupVaultNotificationsInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the recovery point specified by a recovery point ID.
-    @discardableResult public func deleteRecoveryPoint(_ input: DeleteRecoveryPointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "DeleteRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRecoveryPoint(_ input: DeleteRecoveryPointInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "DeleteRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .DELETE, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata associated with creating a backup of a resource.
-    public func describeBackupJob(_ input: DescribeBackupJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBackupJobOutput> {
-        return client.execute(operation: "DescribeBackupJob", path: "/backup-jobs/{backupJobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeBackupJob(_ input: DescribeBackupJobInput) -> EventLoopFuture<DescribeBackupJobOutput> {
+        return client.execute(operation: "DescribeBackupJob", path: "/backup-jobs/{backupJobId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata about a backup vault specified by its name.
-    public func describeBackupVault(_ input: DescribeBackupVaultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBackupVaultOutput> {
-        return client.execute(operation: "DescribeBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeBackupVault(_ input: DescribeBackupVaultInput) -> EventLoopFuture<DescribeBackupVaultOutput> {
+        return client.execute(operation: "DescribeBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata associated with creating a copy of a resource.
-    public func describeCopyJob(_ input: DescribeCopyJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCopyJobOutput> {
-        return client.execute(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeCopyJob(_ input: DescribeCopyJobInput) -> EventLoopFuture<DescribeCopyJobOutput> {
+        return client.execute(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
-    public func describeProtectedResource(_ input: DescribeProtectedResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeProtectedResourceOutput> {
-        return client.execute(operation: "DescribeProtectedResource", path: "/resources/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeProtectedResource(_ input: DescribeProtectedResourceInput) -> EventLoopFuture<DescribeProtectedResourceOutput> {
+        return client.execute(operation: "DescribeProtectedResource", path: "/resources/{resourceArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
-    public func describeRecoveryPoint(_ input: DescribeRecoveryPointInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRecoveryPointOutput> {
-        return client.execute(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRecoveryPoint(_ input: DescribeRecoveryPointInput) -> EventLoopFuture<DescribeRecoveryPointOutput> {
+        return client.execute(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
-    public func describeRegionSettings(_ input: DescribeRegionSettingsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRegionSettingsOutput> {
-        return client.execute(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRegionSettings(_ input: DescribeRegionSettingsInput) -> EventLoopFuture<DescribeRegionSettingsOutput> {
+        return client.execute(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata associated with a restore job that is specified by a job ID.
-    public func describeRestoreJob(_ input: DescribeRestoreJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRestoreJobOutput> {
-        return client.execute(operation: "DescribeRestoreJob", path: "/restore-jobs/{restoreJobId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeRestoreJob(_ input: DescribeRestoreJobInput) -> EventLoopFuture<DescribeRestoreJobOutput> {
+        return client.execute(operation: "DescribeRestoreJob", path: "/restore-jobs/{restoreJobId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the backup plan that is specified by the plan ID as a backup template.
-    public func exportBackupPlanTemplate(_ input: ExportBackupPlanTemplateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExportBackupPlanTemplateOutput> {
-        return client.execute(operation: "ExportBackupPlanTemplate", path: "/backup/plans/{backupPlanId}/toTemplate/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func exportBackupPlanTemplate(_ input: ExportBackupPlanTemplateInput) -> EventLoopFuture<ExportBackupPlanTemplateOutput> {
+        return client.execute(operation: "ExportBackupPlanTemplate", path: "/backup/plans/{backupPlanId}/toTemplate/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the body of a backup plan in JSON format, in addition to plan metadata.
-    public func getBackupPlan(_ input: GetBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupPlanOutput> {
-        return client.execute(operation: "GetBackupPlan", path: "/backup/plans/{backupPlanId}/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackupPlan(_ input: GetBackupPlanInput) -> EventLoopFuture<GetBackupPlanOutput> {
+        return client.execute(operation: "GetBackupPlan", path: "/backup/plans/{backupPlanId}/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a valid JSON document specifying a backup plan or an error.
-    public func getBackupPlanFromJSON(_ input: GetBackupPlanFromJSONInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupPlanFromJSONOutput> {
-        return client.execute(operation: "GetBackupPlanFromJSON", path: "/backup/template/json/toPlan", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackupPlanFromJSON(_ input: GetBackupPlanFromJSONInput) -> EventLoopFuture<GetBackupPlanFromJSONOutput> {
+        return client.execute(operation: "GetBackupPlanFromJSON", path: "/backup/template/json/toPlan", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the template specified by its templateId as a backup plan.
-    public func getBackupPlanFromTemplate(_ input: GetBackupPlanFromTemplateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupPlanFromTemplateOutput> {
-        return client.execute(operation: "GetBackupPlanFromTemplate", path: "/backup/template/plans/{templateId}/toPlan", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackupPlanFromTemplate(_ input: GetBackupPlanFromTemplateInput) -> EventLoopFuture<GetBackupPlanFromTemplateOutput> {
+        return client.execute(operation: "GetBackupPlanFromTemplate", path: "/backup/template/plans/{templateId}/toPlan", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan.
-    public func getBackupSelection(_ input: GetBackupSelectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupSelectionOutput> {
-        return client.execute(operation: "GetBackupSelection", path: "/backup/plans/{backupPlanId}/selections/{selectionId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackupSelection(_ input: GetBackupSelectionInput) -> EventLoopFuture<GetBackupSelectionOutput> {
+        return client.execute(operation: "GetBackupSelection", path: "/backup/plans/{backupPlanId}/selections/{selectionId}", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the access policy document that is associated with the named backup vault.
-    public func getBackupVaultAccessPolicy(_ input: GetBackupVaultAccessPolicyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupVaultAccessPolicyOutput> {
-        return client.execute(operation: "GetBackupVaultAccessPolicy", path: "/backup-vaults/{backupVaultName}/access-policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackupVaultAccessPolicy(_ input: GetBackupVaultAccessPolicyInput) -> EventLoopFuture<GetBackupVaultAccessPolicyOutput> {
+        return client.execute(operation: "GetBackupVaultAccessPolicy", path: "/backup-vaults/{backupVaultName}/access-policy", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns event notifications for the specified backup vault.
-    public func getBackupVaultNotifications(_ input: GetBackupVaultNotificationsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupVaultNotificationsOutput> {
-        return client.execute(operation: "GetBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getBackupVaultNotifications(_ input: GetBackupVaultNotificationsInput) -> EventLoopFuture<GetBackupVaultNotificationsOutput> {
+        return client.execute(operation: "GetBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a set of metadata key-value pairs that were used to create the backup.
-    public func getRecoveryPointRestoreMetadata(_ input: GetRecoveryPointRestoreMetadataInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRecoveryPointRestoreMetadataOutput> {
-        return client.execute(operation: "GetRecoveryPointRestoreMetadata", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}/restore-metadata", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func getRecoveryPointRestoreMetadata(_ input: GetRecoveryPointRestoreMetadataInput) -> EventLoopFuture<GetRecoveryPointRestoreMetadataOutput> {
+        return client.execute(operation: "GetRecoveryPointRestoreMetadata", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}/restore-metadata", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns the AWS resource types supported by AWS Backup.
-    public func getSupportedResourceTypes(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSupportedResourceTypesOutput> {
-        return client.execute(operation: "GetSupportedResourceTypes", path: "/supported-resource-types", httpMethod: .GET, serviceConfig: serviceConfig, on: eventLoop, logger: logger)
+    public func getSupportedResourceTypes() -> EventLoopFuture<GetSupportedResourceTypesOutput> {
+        return client.execute(operation: "GetSupportedResourceTypes", path: "/supported-resource-types", httpMethod: .GET, config: self.config, context: self.context)
     }
 
     ///  Returns metadata about your backup jobs.
-    public func listBackupJobs(_ input: ListBackupJobsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupJobsOutput> {
-        return client.execute(operation: "ListBackupJobs", path: "/backup-jobs/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackupJobs(_ input: ListBackupJobsInput) -> EventLoopFuture<ListBackupJobsOutput> {
+        return client.execute(operation: "ListBackupJobs", path: "/backup-jobs/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
-    public func listBackupPlanTemplates(_ input: ListBackupPlanTemplatesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupPlanTemplatesOutput> {
-        return client.execute(operation: "ListBackupPlanTemplates", path: "/backup/template/plans", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackupPlanTemplates(_ input: ListBackupPlanTemplatesInput) -> EventLoopFuture<ListBackupPlanTemplatesOutput> {
+        return client.execute(operation: "ListBackupPlanTemplates", path: "/backup/template/plans", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
-    public func listBackupPlanVersions(_ input: ListBackupPlanVersionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupPlanVersionsOutput> {
-        return client.execute(operation: "ListBackupPlanVersions", path: "/backup/plans/{backupPlanId}/versions/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackupPlanVersions(_ input: ListBackupPlanVersionsInput) -> EventLoopFuture<ListBackupPlanVersionsOutput> {
+        return client.execute(operation: "ListBackupPlanVersions", path: "/backup/plans/{backupPlanId}/versions/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata of your saved backup plans, including Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
-    public func listBackupPlans(_ input: ListBackupPlansInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupPlansOutput> {
-        return client.execute(operation: "ListBackupPlans", path: "/backup/plans/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackupPlans(_ input: ListBackupPlansInput) -> EventLoopFuture<ListBackupPlansOutput> {
+        return client.execute(operation: "ListBackupPlans", path: "/backup/plans/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an array containing metadata of the resources associated with the target backup plan.
-    public func listBackupSelections(_ input: ListBackupSelectionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupSelectionsOutput> {
-        return client.execute(operation: "ListBackupSelections", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackupSelections(_ input: ListBackupSelectionsInput) -> EventLoopFuture<ListBackupSelectionsOutput> {
+        return client.execute(operation: "ListBackupSelections", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of recovery point storage containers along with information about them.
-    public func listBackupVaults(_ input: ListBackupVaultsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupVaultsOutput> {
-        return client.execute(operation: "ListBackupVaults", path: "/backup-vaults/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listBackupVaults(_ input: ListBackupVaultsInput) -> EventLoopFuture<ListBackupVaultsOutput> {
+        return client.execute(operation: "ListBackupVaults", path: "/backup-vaults/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns metadata about your copy jobs.
-    public func listCopyJobs(_ input: ListCopyJobsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCopyJobsOutput> {
-        return client.execute(operation: "ListCopyJobs", path: "/copy-jobs/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listCopyJobs(_ input: ListCopyJobsInput) -> EventLoopFuture<ListCopyJobsOutput> {
+        return client.execute(operation: "ListCopyJobs", path: "/copy-jobs/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns an array of resources successfully backed up by AWS Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
-    public func listProtectedResources(_ input: ListProtectedResourcesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProtectedResourcesOutput> {
-        return client.execute(operation: "ListProtectedResources", path: "/resources/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listProtectedResources(_ input: ListProtectedResourcesInput) -> EventLoopFuture<ListProtectedResourcesOutput> {
+        return client.execute(operation: "ListProtectedResources", path: "/resources/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns detailed information about the recovery points stored in a backup vault.
-    public func listRecoveryPointsByBackupVault(_ input: ListRecoveryPointsByBackupVaultInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRecoveryPointsByBackupVaultOutput> {
-        return client.execute(operation: "ListRecoveryPointsByBackupVault", path: "/backup-vaults/{backupVaultName}/recovery-points/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRecoveryPointsByBackupVault(_ input: ListRecoveryPointsByBackupVaultInput) -> EventLoopFuture<ListRecoveryPointsByBackupVaultOutput> {
+        return client.execute(operation: "ListRecoveryPointsByBackupVault", path: "/backup-vaults/{backupVaultName}/recovery-points/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns detailed information about recovery points of the type specified by a resource Amazon Resource Name (ARN).
-    public func listRecoveryPointsByResource(_ input: ListRecoveryPointsByResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRecoveryPointsByResourceOutput> {
-        return client.execute(operation: "ListRecoveryPointsByResource", path: "/resources/{resourceArn}/recovery-points/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRecoveryPointsByResource(_ input: ListRecoveryPointsByResourceInput) -> EventLoopFuture<ListRecoveryPointsByResourceOutput> {
+        return client.execute(operation: "ListRecoveryPointsByResource", path: "/resources/{resourceArn}/recovery-points/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of jobs that AWS Backup initiated to restore a saved resource, including metadata about the recovery process.
-    public func listRestoreJobs(_ input: ListRestoreJobsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRestoreJobsOutput> {
-        return client.execute(operation: "ListRestoreJobs", path: "/restore-jobs/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listRestoreJobs(_ input: ListRestoreJobsInput) -> EventLoopFuture<ListRestoreJobsOutput> {
+        return client.execute(operation: "ListRestoreJobs", path: "/restore-jobs/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.   ListTags are currently only supported with Amazon EFS backups. 
-    public func listTags(_ input: ListTagsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsOutput> {
-        return client.execute(operation: "ListTags", path: "/tags/{resourceArn}/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listTags(_ input: ListTagsInput) -> EventLoopFuture<ListTagsOutput> {
+        return client.execute(operation: "ListTags", path: "/tags/{resourceArn}/", httpMethod: .GET, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format.
-    @discardableResult public func putBackupVaultAccessPolicy(_ input: PutBackupVaultAccessPolicyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "PutBackupVaultAccessPolicy", path: "/backup-vaults/{backupVaultName}/access-policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putBackupVaultAccessPolicy(_ input: PutBackupVaultAccessPolicyInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutBackupVaultAccessPolicy", path: "/backup-vaults/{backupVaultName}/access-policy", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Turns on notifications on a backup vault for the specified topic and events.
-    @discardableResult public func putBackupVaultNotifications(_ input: PutBackupVaultNotificationsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "PutBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putBackupVaultNotifications(_ input: PutBackupVaultNotificationsInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "PutBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts a job to create a one-time backup of the specified resource.
-    public func startBackupJob(_ input: StartBackupJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartBackupJobOutput> {
-        return client.execute(operation: "StartBackupJob", path: "/backup-jobs", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startBackupJob(_ input: StartBackupJobInput) -> EventLoopFuture<StartBackupJobOutput> {
+        return client.execute(operation: "StartBackupJob", path: "/backup-jobs", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts a job to create a one-time copy of the specified resource.
-    public func startCopyJob(_ input: StartCopyJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartCopyJobOutput> {
-        return client.execute(operation: "StartCopyJob", path: "/copy-jobs", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startCopyJob(_ input: StartCopyJobInput) -> EventLoopFuture<StartCopyJobOutput> {
+        return client.execute(operation: "StartCopyJob", path: "/copy-jobs", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Recovers the saved resource identified by an Amazon Resource Name (ARN).  If the resource ARN is included in the request, then the last complete backup of that resource is recovered. If the ARN of a recovery point is supplied, then that recovery point is restored.
-    public func startRestoreJob(_ input: StartRestoreJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartRestoreJobOutput> {
-        return client.execute(operation: "StartRestoreJob", path: "/restore-jobs", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startRestoreJob(_ input: StartRestoreJobInput) -> EventLoopFuture<StartRestoreJobOutput> {
+        return client.execute(operation: "StartRestoreJob", path: "/restore-jobs", httpMethod: .PUT, input: input, config: self.config, context: self.context)
     }
 
     ///  Attempts to cancel a job to create a one-time backup of a resource.
-    @discardableResult public func stopBackupJob(_ input: StopBackupJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "StopBackupJob", path: "/backup-jobs/{backupJobId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func stopBackupJob(_ input: StopBackupJobInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "StopBackupJob", path: "/backup-jobs/{backupJobId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).
-    @discardableResult public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN)
-    @discardableResult public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UntagResource", path: "/untag/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UntagResource", path: "/untag/{resourceArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Replaces the body of a saved backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
-    public func updateBackupPlan(_ input: UpdateBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBackupPlanOutput> {
-        return client.execute(operation: "UpdateBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateBackupPlan(_ input: UpdateBackupPlanInput) -> EventLoopFuture<UpdateBackupPlanOutput> {
+        return client.execute(operation: "UpdateBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
-    public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRecoveryPointLifecycleOutput> {
-        return client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput) -> EventLoopFuture<UpdateRecoveryPointLifecycleOutput> {
+        return client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Updates the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
-    @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput) -> EventLoopFuture<Void> {
+        return client.execute(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: .PUT, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension Backup {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

@@ -23,51 +23,71 @@ extension TranscribeService {
     ///  Lists medical transcription jobs with a specified status or substring that matches their names.
     public func listMedicalTranscriptionJobsPaginator(
         _ input: ListMedicalTranscriptionJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMedicalTranscriptionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMedicalTranscriptionJobs, tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMedicalTranscriptionJobs,
+            tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of vocabularies that match the specified criteria. You get the entire list of vocabularies if you don't enter a value in any of the request parameters.
     public func listMedicalVocabulariesPaginator(
         _ input: ListMedicalVocabulariesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMedicalVocabulariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMedicalVocabularies, tokenKey: \ListMedicalVocabulariesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMedicalVocabularies,
+            tokenKey: \ListMedicalVocabulariesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists transcription jobs with the specified status.
     public func listTranscriptionJobsPaginator(
         _ input: ListTranscriptionJobsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTranscriptionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTranscriptionJobs, tokenKey: \ListTranscriptionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTranscriptionJobs,
+            tokenKey: \ListTranscriptionJobsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
     public func listVocabulariesPaginator(
         _ input: ListVocabulariesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVocabulariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVocabularies, tokenKey: \ListVocabulariesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVocabularies,
+            tokenKey: \ListVocabulariesResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about vocabulary filters.
     public func listVocabularyFiltersPaginator(
         _ input: ListVocabularyFiltersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVocabularyFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVocabularyFilters, tokenKey: \ListVocabularyFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVocabularyFilters,
+            tokenKey: \ListVocabularyFiltersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

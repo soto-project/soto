@@ -23,61 +23,85 @@ extension AppConfig {
     ///  List all applications in your AWS account.
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Applications, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, tokenKey: \Applications.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApplications,
+            tokenKey: \Applications.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the configuration profiles for an application.
     public func listConfigurationProfilesPaginator(
         _ input: ListConfigurationProfilesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ConfigurationProfiles, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurationProfiles, tokenKey: \ConfigurationProfiles.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConfigurationProfiles,
+            tokenKey: \ConfigurationProfiles.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  List deployment strategies.
     public func listDeploymentStrategiesPaginator(
         _ input: ListDeploymentStrategiesRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DeploymentStrategies, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeploymentStrategies, tokenKey: \DeploymentStrategies.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeploymentStrategies,
+            tokenKey: \DeploymentStrategies.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the deployments for an environment.
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Deployments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeployments, tokenKey: \Deployments.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeployments,
+            tokenKey: \Deployments.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  List the environments for an application.
     public func listEnvironmentsPaginator(
         _ input: ListEnvironmentsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Environments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEnvironments,
+            tokenKey: \Environments.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  View a list of configurations stored in the AppConfig configuration store by version.
     public func listHostedConfigurationVersionsPaginator(
         _ input: ListHostedConfigurationVersionsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (HostedConfigurationVersions, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHostedConfigurationVersions, tokenKey: \HostedConfigurationVersions.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHostedConfigurationVersions,
+            tokenKey: \HostedConfigurationVersions.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

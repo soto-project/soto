@@ -23,91 +23,127 @@ extension CognitoIdentityProvider {
     ///  Lists the groups that the user belongs to. Calling this action requires developer credentials.
     public func adminListGroupsForUserPaginator(
         _ input: AdminListGroupsForUserRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (AdminListGroupsForUserResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: adminListGroupsForUser, tokenKey: \AdminListGroupsForUserResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: adminListGroupsForUser,
+            tokenKey: \AdminListGroupsForUserResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
     public func adminListUserAuthEventsPaginator(
         _ input: AdminListUserAuthEventsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (AdminListUserAuthEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: adminListUserAuthEvents, tokenKey: \AdminListUserAuthEventsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: adminListUserAuthEvents,
+            tokenKey: \AdminListUserAuthEventsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the groups associated with a user pool. Calling this action requires developer credentials.
     public func listGroupsPaginator(
         _ input: ListGroupsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroups,
+            tokenKey: \ListGroupsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists information about all identity providers for a user pool.
     public func listIdentityProvidersPaginator(
         _ input: ListIdentityProvidersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIdentityProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIdentityProviders, tokenKey: \ListIdentityProvidersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIdentityProviders,
+            tokenKey: \ListIdentityProvidersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the resource servers for a user pool.
     public func listResourceServersPaginator(
         _ input: ListResourceServersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourceServersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResourceServers, tokenKey: \ListResourceServersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResourceServers,
+            tokenKey: \ListResourceServersResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the clients that have been created for the specified user pool.
     public func listUserPoolClientsPaginator(
         _ input: ListUserPoolClientsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserPoolClientsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserPoolClients, tokenKey: \ListUserPoolClientsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUserPoolClients,
+            tokenKey: \ListUserPoolClientsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the user pools associated with an AWS account.
     public func listUserPoolsPaginator(
         _ input: ListUserPoolsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserPoolsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserPools, tokenKey: \ListUserPoolsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUserPools,
+            tokenKey: \ListUserPoolsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the users in the Amazon Cognito user pool.
     public func listUsersPaginator(
         _ input: ListUsersRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.paginationToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsers,
+            tokenKey: \ListUsersResponse.paginationToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Lists the users in the specified group. Calling this action requires developer credentials.
     public func listUsersInGroupPaginator(
         _ input: ListUsersInGroupRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersInGroupResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsersInGroup, tokenKey: \ListUsersInGroupResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsersInGroup,
+            tokenKey: \ListUsersInGroupResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

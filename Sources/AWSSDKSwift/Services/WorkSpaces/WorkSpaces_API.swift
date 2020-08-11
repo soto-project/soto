@@ -21,12 +21,13 @@ Client object for interacting with AWS WorkSpaces service.
 
 Amazon WorkSpaces Service Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft Windows and Amazon Linux desktops for your users.
 */
-public struct WorkSpaces {
+public struct WorkSpaces: AWSService {
 
     //MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
+    public let context: AWSServiceContext
 
     //MARK: Initialization
 
@@ -45,7 +46,7 @@ public struct WorkSpaces {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "WorkspacesService",
@@ -53,215 +54,228 @@ public struct WorkSpaces {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-08",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkSpacesErrorType.self],
-            timeout: timeout
-        )
+            possibleErrorTypes: [WorkSpacesErrorType.self]        )
+        self.context = .init(timeout: timeout ?? .seconds(20))
+    }
+    
+    /// create copy of service with new context
+    public func withNewContext(_ process: (AWSServiceContext) -> AWSServiceContext) -> Self {
+        return Self(client: self.client, config: self.config, context: process(self.context))
     }
     
     //MARK: API Calls
 
     ///  Associates the specified IP access control group with the specified directory.
-    public func associateIpGroups(_ input: AssociateIpGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateIpGroupsResult> {
-        return client.execute(operation: "AssociateIpGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func associateIpGroups(_ input: AssociateIpGroupsRequest) -> EventLoopFuture<AssociateIpGroupsResult> {
+        return client.execute(operation: "AssociateIpGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Adds one or more rules to the specified IP access control group. This action gives users permission to access their WorkSpaces from the CIDR address ranges specified in the rules.
-    public func authorizeIpRules(_ input: AuthorizeIpRulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AuthorizeIpRulesResult> {
-        return client.execute(operation: "AuthorizeIpRules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func authorizeIpRules(_ input: AuthorizeIpRulesRequest) -> EventLoopFuture<AuthorizeIpRulesResult> {
+        return client.execute(operation: "AuthorizeIpRules", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Copies the specified image from the specified Region to the current Region.
-    public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CopyWorkspaceImageResult> {
-        return client.execute(operation: "CopyWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest) -> EventLoopFuture<CopyWorkspaceImageResult> {
+        return client.execute(operation: "CopyWorkspaceImage", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
-    public func createIpGroup(_ input: CreateIpGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIpGroupResult> {
-        return client.execute(operation: "CreateIpGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createIpGroup(_ input: CreateIpGroupRequest) -> EventLoopFuture<CreateIpGroupResult> {
+        return client.execute(operation: "CreateIpGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates the specified tags for the specified WorkSpaces resource.
-    public func createTags(_ input: CreateTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateTagsResult> {
-        return client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createTags(_ input: CreateTagsRequest) -> EventLoopFuture<CreateTagsResult> {
+        return client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.
-    public func createWorkspaces(_ input: CreateWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorkspacesResult> {
-        return client.execute(operation: "CreateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func createWorkspaces(_ input: CreateWorkspacesRequest) -> EventLoopFuture<CreateWorkspacesResult> {
+        return client.execute(operation: "CreateWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified IP access control group. You cannot delete an IP access control group that is associated with a directory.
-    public func deleteIpGroup(_ input: DeleteIpGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteIpGroupResult> {
-        return client.execute(operation: "DeleteIpGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteIpGroup(_ input: DeleteIpGroupRequest) -> EventLoopFuture<DeleteIpGroupResult> {
+        return client.execute(operation: "DeleteIpGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified tags from the specified WorkSpaces resource.
-    public func deleteTags(_ input: DeleteTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTagsResult> {
-        return client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteTags(_ input: DeleteTagsRequest) -> EventLoopFuture<DeleteTagsResult> {
+        return client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and un-share the image if it is shared with other accounts. 
-    public func deleteWorkspaceImage(_ input: DeleteWorkspaceImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWorkspaceImageResult> {
-        return client.execute(operation: "DeleteWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deleteWorkspaceImage(_ input: DeleteWorkspaceImageRequest) -> EventLoopFuture<DeleteWorkspaceImageResult> {
+        return client.execute(operation: "DeleteWorkspaceImage", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory.
-    public func deregisterWorkspaceDirectory(_ input: DeregisterWorkspaceDirectoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterWorkspaceDirectoryResult> {
-        return client.execute(operation: "DeregisterWorkspaceDirectory", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func deregisterWorkspaceDirectory(_ input: DeregisterWorkspaceDirectoryRequest) -> EventLoopFuture<DeregisterWorkspaceDirectoryResult> {
+        return client.execute(operation: "DeregisterWorkspaceDirectory", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account.
-    public func describeAccount(_ input: DescribeAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAccountResult> {
-        return client.execute(operation: "DescribeAccount", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAccount(_ input: DescribeAccountRequest) -> EventLoopFuture<DescribeAccountResult> {
+        return client.execute(operation: "DescribeAccount", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account.
-    public func describeAccountModifications(_ input: DescribeAccountModificationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAccountModificationsResult> {
-        return client.execute(operation: "DescribeAccountModifications", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeAccountModifications(_ input: DescribeAccountModificationsRequest) -> EventLoopFuture<DescribeAccountModificationsResult> {
+        return client.execute(operation: "DescribeAccountModifications", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
-    public func describeClientProperties(_ input: DescribeClientPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeClientPropertiesResult> {
-        return client.execute(operation: "DescribeClientProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeClientProperties(_ input: DescribeClientPropertiesRequest) -> EventLoopFuture<DescribeClientPropertiesResult> {
+        return client.execute(operation: "DescribeClientProperties", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes one or more of your IP access control groups.
-    public func describeIpGroups(_ input: DescribeIpGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeIpGroupsResult> {
-        return client.execute(operation: "DescribeIpGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeIpGroups(_ input: DescribeIpGroupsRequest) -> EventLoopFuture<DescribeIpGroupsResult> {
+        return client.execute(operation: "DescribeIpGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the specified tags for the specified WorkSpaces resource.
-    public func describeTags(_ input: DescribeTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTagsResult> {
-        return client.execute(operation: "DescribeTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeTags(_ input: DescribeTagsRequest) -> EventLoopFuture<DescribeTagsResult> {
+        return client.execute(operation: "DescribeTags", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
-    public func describeWorkspaceBundles(_ input: DescribeWorkspaceBundlesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspaceBundlesResult> {
-        return client.execute(operation: "DescribeWorkspaceBundles", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkspaceBundles(_ input: DescribeWorkspaceBundlesRequest) -> EventLoopFuture<DescribeWorkspaceBundlesResult> {
+        return client.execute(operation: "DescribeWorkspaceBundles", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
-    public func describeWorkspaceDirectories(_ input: DescribeWorkspaceDirectoriesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspaceDirectoriesResult> {
-        return client.execute(operation: "DescribeWorkspaceDirectories", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkspaceDirectories(_ input: DescribeWorkspaceDirectoriesRequest) -> EventLoopFuture<DescribeWorkspaceDirectoriesResult> {
+        return client.execute(operation: "DescribeWorkspaceDirectories", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list that describes one or more specified images, if the image identifiers are provided. Otherwise, all images in the account are described. 
-    public func describeWorkspaceImages(_ input: DescribeWorkspaceImagesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspaceImagesResult> {
-        return client.execute(operation: "DescribeWorkspaceImages", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkspaceImages(_ input: DescribeWorkspaceImagesRequest) -> EventLoopFuture<DescribeWorkspaceImagesResult> {
+        return client.execute(operation: "DescribeWorkspaceImages", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the snapshots for the specified WorkSpace.
-    public func describeWorkspaceSnapshots(_ input: DescribeWorkspaceSnapshotsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspaceSnapshotsResult> {
-        return client.execute(operation: "DescribeWorkspaceSnapshots", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkspaceSnapshots(_ input: DescribeWorkspaceSnapshotsRequest) -> EventLoopFuture<DescribeWorkspaceSnapshotsResult> {
+        return client.execute(operation: "DescribeWorkspaceSnapshots", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
-    public func describeWorkspaces(_ input: DescribeWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspacesResult> {
-        return client.execute(operation: "DescribeWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkspaces(_ input: DescribeWorkspacesRequest) -> EventLoopFuture<DescribeWorkspacesResult> {
+        return client.execute(operation: "DescribeWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Describes the connection status of the specified WorkSpaces.
-    public func describeWorkspacesConnectionStatus(_ input: DescribeWorkspacesConnectionStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspacesConnectionStatusResult> {
-        return client.execute(operation: "DescribeWorkspacesConnectionStatus", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func describeWorkspacesConnectionStatus(_ input: DescribeWorkspacesConnectionStatusRequest) -> EventLoopFuture<DescribeWorkspacesConnectionStatusResult> {
+        return client.execute(operation: "DescribeWorkspacesConnectionStatus", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Disassociates the specified IP access control group from the specified directory.
-    public func disassociateIpGroups(_ input: DisassociateIpGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateIpGroupsResult> {
-        return client.execute(operation: "DisassociateIpGroups", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func disassociateIpGroups(_ input: DisassociateIpGroupsRequest) -> EventLoopFuture<DisassociateIpGroupsResult> {
+        return client.execute(operation: "DisassociateIpGroups", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Imports the specified Windows 7 or Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed EC2 image that is in your AWS account, and you must own the image. 
-    public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportWorkspaceImageResult> {
-        return client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest) -> EventLoopFuture<ImportWorkspaceImageResult> {
+        return client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).  The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
-    public func listAvailableManagementCidrRanges(_ input: ListAvailableManagementCidrRangesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAvailableManagementCidrRangesResult> {
-        return client.execute(operation: "ListAvailableManagementCidrRanges", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func listAvailableManagementCidrRanges(_ input: ListAvailableManagementCidrRangesRequest) -> EventLoopFuture<ListAvailableManagementCidrRangesResult> {
+        return client.execute(operation: "ListAvailableManagementCidrRanges", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see Migrate a WorkSpace.
-    public func migrateWorkspace(_ input: MigrateWorkspaceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MigrateWorkspaceResult> {
-        return client.execute(operation: "MigrateWorkspace", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func migrateWorkspace(_ input: MigrateWorkspaceRequest) -> EventLoopFuture<MigrateWorkspaceResult> {
+        return client.execute(operation: "MigrateWorkspace", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
-    public func modifyAccount(_ input: ModifyAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyAccountResult> {
-        return client.execute(operation: "ModifyAccount", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifyAccount(_ input: ModifyAccountRequest) -> EventLoopFuture<ModifyAccountResult> {
+        return client.execute(operation: "ModifyAccount", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the properties of the specified Amazon WorkSpaces clients.
-    public func modifyClientProperties(_ input: ModifyClientPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyClientPropertiesResult> {
-        return client.execute(operation: "ModifyClientProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifyClientProperties(_ input: ModifyClientPropertiesRequest) -> EventLoopFuture<ModifyClientPropertiesResult> {
+        return client.execute(operation: "ModifyClientProperties", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the self-service WorkSpace management capabilities for your users. For more information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
-    public func modifySelfservicePermissions(_ input: ModifySelfservicePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifySelfservicePermissionsResult> {
-        return client.execute(operation: "ModifySelfservicePermissions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifySelfservicePermissions(_ input: ModifySelfservicePermissionsRequest) -> EventLoopFuture<ModifySelfservicePermissionsResult> {
+        return client.execute(operation: "ModifySelfservicePermissions", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Specifies which devices and operating systems users can use to access their WorkSpaces. For more information, see  Control Device Access.
-    public func modifyWorkspaceAccessProperties(_ input: ModifyWorkspaceAccessPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyWorkspaceAccessPropertiesResult> {
-        return client.execute(operation: "ModifyWorkspaceAccessProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifyWorkspaceAccessProperties(_ input: ModifyWorkspaceAccessPropertiesRequest) -> EventLoopFuture<ModifyWorkspaceAccessPropertiesResult> {
+        return client.execute(operation: "ModifyWorkspaceAccessProperties", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modify the default properties used to create WorkSpaces.
-    public func modifyWorkspaceCreationProperties(_ input: ModifyWorkspaceCreationPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyWorkspaceCreationPropertiesResult> {
-        return client.execute(operation: "ModifyWorkspaceCreationProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifyWorkspaceCreationProperties(_ input: ModifyWorkspaceCreationPropertiesRequest) -> EventLoopFuture<ModifyWorkspaceCreationPropertiesResult> {
+        return client.execute(operation: "ModifyWorkspaceCreationProperties", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Modifies the specified WorkSpace properties.
-    public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyWorkspacePropertiesResult> {
-        return client.execute(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest) -> EventLoopFuture<ModifyWorkspacePropertiesResult> {
+        return client.execute(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE. WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state.
-    public func modifyWorkspaceState(_ input: ModifyWorkspaceStateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyWorkspaceStateResult> {
-        return client.execute(operation: "ModifyWorkspaceState", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func modifyWorkspaceState(_ input: ModifyWorkspaceStateRequest) -> EventLoopFuture<ModifyWorkspaceStateResult> {
+        return client.execute(operation: "ModifyWorkspaceState", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE or UNHEALTHY. This operation is asynchronous and returns before the WorkSpaces have rebooted.
-    public func rebootWorkspaces(_ input: RebootWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RebootWorkspacesResult> {
-        return client.execute(operation: "RebootWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func rebootWorkspaces(_ input: RebootWorkspacesRequest) -> EventLoopFuture<RebootWorkspacesResult> {
+        return client.execute(operation: "RebootWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
-    public func rebuildWorkspaces(_ input: RebuildWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RebuildWorkspacesResult> {
-        return client.execute(operation: "RebuildWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func rebuildWorkspaces(_ input: RebuildWorkspacesRequest) -> EventLoopFuture<RebuildWorkspacesResult> {
+        return client.execute(operation: "RebuildWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Registers the specified directory. This operation is asynchronous and returns before the WorkSpace directory is registered. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see  Creating the workspaces_DefaultRole Role.
-    public func registerWorkspaceDirectory(_ input: RegisterWorkspaceDirectoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterWorkspaceDirectoryResult> {
-        return client.execute(operation: "RegisterWorkspaceDirectory", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func registerWorkspaceDirectory(_ input: RegisterWorkspaceDirectoryRequest) -> EventLoopFuture<RegisterWorkspaceDirectoryResult> {
+        return client.execute(operation: "RegisterWorkspaceDirectory", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is  AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Restore a WorkSpace. This operation is asynchronous and returns before the WorkSpace is completely restored.
-    public func restoreWorkspace(_ input: RestoreWorkspaceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestoreWorkspaceResult> {
-        return client.execute(operation: "RestoreWorkspace", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func restoreWorkspace(_ input: RestoreWorkspaceRequest) -> EventLoopFuture<RestoreWorkspaceResult> {
+        return client.execute(operation: "RestoreWorkspace", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Removes one or more rules from the specified IP access control group.
-    public func revokeIpRules(_ input: RevokeIpRulesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RevokeIpRulesResult> {
-        return client.execute(operation: "RevokeIpRules", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func revokeIpRules(_ input: RevokeIpRulesRequest) -> EventLoopFuture<RevokeIpRulesResult> {
+        return client.execute(operation: "RevokeIpRules", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop and a state of STOPPED.
-    public func startWorkspaces(_ input: StartWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartWorkspacesResult> {
-        return client.execute(operation: "StartWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func startWorkspaces(_ input: StartWorkspacesRequest) -> EventLoopFuture<StartWorkspacesResult> {
+        return client.execute(operation: "StartWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///   Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
-    public func stopWorkspaces(_ input: StopWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopWorkspacesResult> {
-        return client.execute(operation: "StopWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func stopWorkspaces(_ input: StopWorkspacesRequest) -> EventLoopFuture<StopWorkspacesResult> {
+        return client.execute(operation: "StopWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated.
-    public func terminateWorkspaces(_ input: TerminateWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TerminateWorkspacesResult> {
-        return client.execute(operation: "TerminateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func terminateWorkspaces(_ input: TerminateWorkspacesRequest) -> EventLoopFuture<TerminateWorkspacesResult> {
+        return client.execute(operation: "TerminateWorkspaces", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
     }
 
     ///  Replaces the current rules of the specified IP access control group with the specified rules.
-    public func updateRulesOfIpGroup(_ input: UpdateRulesOfIpGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRulesOfIpGroupResult> {
-        return client.execute(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    public func updateRulesOfIpGroup(_ input: UpdateRulesOfIpGroupRequest) -> EventLoopFuture<UpdateRulesOfIpGroupResult> {
+        return client.execute(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: .POST, input: input, config: self.config, context: self.context)
+    }
+}
+
+extension WorkSpaces {
+    /// internal initialiser used by `withNewContext`
+    init(client: AWSClient, config: AWSServiceConfig, context: AWSServiceContext) {
+        self.client = client
+        self.config = config
+        self.context = context
     }
 }

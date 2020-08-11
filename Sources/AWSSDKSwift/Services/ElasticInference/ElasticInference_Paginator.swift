@@ -23,11 +23,15 @@ extension ElasticInference {
     ///   Describes information over a provided set of accelerators belonging to an account. 
     public func describeAcceleratorsPaginator(
         _ input: DescribeAcceleratorsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAcceleratorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAccelerators, tokenKey: \DescribeAcceleratorsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAccelerators,
+            tokenKey: \DescribeAcceleratorsResponse.nextToken,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }

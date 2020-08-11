@@ -23,21 +23,29 @@ extension Route53Domains {
     ///  This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextPageMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDomains,
+            tokenKey: \ListDomainsResponse.nextPageMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. 
     public func listOperationsPaginator(
         _ input: ListOperationsRequest,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextPageMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOperations,
+            tokenKey: \ListOperationsResponse.nextPageMarker,
+            context: self.context,
+            onPage: onPage
+        )
     }
 
 }
