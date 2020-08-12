@@ -88,6 +88,7 @@ class S3ExtensionTests: XCTestCase {
     }
 
     func testMultiPartDownload() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
