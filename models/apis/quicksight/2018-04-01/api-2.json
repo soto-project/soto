@@ -28,6 +28,24 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "CreateAccountCustomization":{
+      "name":"CreateAccountCustomization",
+      "http":{
+        "method":"POST",
+        "requestUri":"/accounts/{AwsAccountId}/customizations"
+      },
+      "input":{"shape":"CreateAccountCustomizationRequest"},
+      "output":{"shape":"CreateAccountCustomizationResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
     "CreateDashboard":{
       "name":"CreateDashboard",
       "http":{
@@ -159,6 +177,27 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "CreateNamespace":{
+      "name":"CreateNamespace",
+      "http":{
+        "method":"POST",
+        "requestUri":"/accounts/{AwsAccountId}"
+      },
+      "input":{"shape":"CreateNamespaceRequest"},
+      "output":{"shape":"CreateNamespaceResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"PreconditionNotMetException"},
+        {"shape":"ConflictException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
     "CreateTemplate":{
       "name":"CreateTemplate",
       "http":{
@@ -175,6 +214,7 @@
         {"shape":"ThrottlingException"},
         {"shape":"LimitExceededException"},
         {"shape":"UnsupportedUserEditionException"},
+        {"shape":"ConflictException"},
         {"shape":"InternalFailureException"}
       ]
     },
@@ -193,7 +233,63 @@
         {"shape":"ResourceExistsException"},
         {"shape":"LimitExceededException"},
         {"shape":"UnsupportedUserEditionException"},
+        {"shape":"ConflictException"},
         {"shape":"InternalFailureException"}
+      ]
+    },
+    "CreateTheme":{
+      "name":"CreateTheme",
+      "http":{
+        "method":"POST",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}"
+      },
+      "input":{"shape":"CreateThemeRequest"},
+      "output":{"shape":"CreateThemeResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "CreateThemeAlias":{
+      "name":"CreateThemeAlias",
+      "http":{
+        "method":"POST",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}"
+      },
+      "input":{"shape":"CreateThemeAliasRequest"},
+      "output":{"shape":"CreateThemeAliasResponse"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "DeleteAccountCustomization":{
+      "name":"DeleteAccountCustomization",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/accounts/{AwsAccountId}/customizations"
+      },
+      "input":{"shape":"DeleteAccountCustomizationRequest"},
+      "output":{"shape":"DeleteAccountCustomizationResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
       ]
     },
     "DeleteDashboard":{
@@ -299,6 +395,24 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "DeleteNamespace":{
+      "name":"DeleteNamespace",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/accounts/{AwsAccountId}/namespaces/{Namespace}"
+      },
+      "input":{"shape":"DeleteNamespaceRequest"},
+      "output":{"shape":"DeleteNamespaceResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"PreconditionNotMetException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
     "DeleteTemplate":{
       "name":"DeleteTemplate",
       "http":{
@@ -329,6 +443,42 @@
         {"shape":"ThrottlingException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"UnsupportedUserEditionException"},
+        {"shape":"ConflictException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "DeleteTheme":{
+      "name":"DeleteTheme",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}"
+      },
+      "input":{"shape":"DeleteThemeRequest"},
+      "output":{"shape":"DeleteThemeResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"ConflictException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "DeleteThemeAlias":{
+      "name":"DeleteThemeAlias",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}"
+      },
+      "input":{"shape":"DeleteThemeAliasRequest"},
+      "output":{"shape":"DeleteThemeAliasResponse"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
         {"shape":"InternalFailureException"}
       ]
     },
@@ -345,6 +495,7 @@
         {"shape":"InvalidParameterValueException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
+        {"shape":"PreconditionNotMetException"},
         {"shape":"InternalFailureException"},
         {"shape":"ResourceUnavailableException"}
       ]
@@ -357,6 +508,41 @@
       },
       "input":{"shape":"DeleteUserByPrincipalIdRequest"},
       "output":{"shape":"DeleteUserByPrincipalIdResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"PreconditionNotMetException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
+    "DescribeAccountCustomization":{
+      "name":"DescribeAccountCustomization",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/customizations"
+      },
+      "input":{"shape":"DescribeAccountCustomizationRequest"},
+      "output":{"shape":"DescribeAccountCustomizationResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
+    "DescribeAccountSettings":{
+      "name":"DescribeAccountSettings",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/settings"
+      },
+      "input":{"shape":"DescribeAccountSettingsRequest"},
+      "output":{"shape":"DescribeAccountSettingsResponse"},
       "errors":[
         {"shape":"AccessDeniedException"},
         {"shape":"InvalidParameterValueException"},
@@ -515,6 +701,23 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "DescribeNamespace":{
+      "name":"DescribeNamespace",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/namespaces/{Namespace}"
+      },
+      "input":{"shape":"DescribeNamespaceRequest"},
+      "output":{"shape":"DescribeNamespaceResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
     "DescribeTemplate":{
       "name":"DescribeTemplate",
       "http":{
@@ -566,6 +769,58 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "DescribeTheme":{
+      "name":"DescribeTheme",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}"
+      },
+      "input":{"shape":"DescribeThemeRequest"},
+      "output":{"shape":"DescribeThemeResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "DescribeThemeAlias":{
+      "name":"DescribeThemeAlias",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}"
+      },
+      "input":{"shape":"DescribeThemeAliasRequest"},
+      "output":{"shape":"DescribeThemeAliasResponse"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "DescribeThemePermissions":{
+      "name":"DescribeThemePermissions",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/permissions"
+      },
+      "input":{"shape":"DescribeThemePermissionsRequest"},
+      "output":{"shape":"DescribeThemePermissionsResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
     "DescribeUser":{
       "name":"DescribeUser",
       "http":{
@@ -579,6 +834,7 @@
         {"shape":"InvalidParameterValueException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
+        {"shape":"PreconditionNotMetException"},
         {"shape":"InternalFailureException"},
         {"shape":"ResourceUnavailableException"}
       ]
@@ -600,6 +856,26 @@
         {"shape":"DomainNotWhitelistedException"},
         {"shape":"QuickSightUserNotFoundException"},
         {"shape":"IdentityTypeNotSupportedException"},
+        {"shape":"SessionLifetimeInMinutesInvalidException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "GetSessionEmbedUrl":{
+      "name":"GetSessionEmbedUrl",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/session-embed-url"
+      },
+      "input":{"shape":"GetSessionEmbedUrlRequest"},
+      "output":{"shape":"GetSessionEmbedUrlResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"QuickSightUserNotFoundException"},
         {"shape":"SessionLifetimeInMinutesInvalidException"},
         {"shape":"UnsupportedUserEditionException"},
         {"shape":"InternalFailureException"}
@@ -760,6 +1036,25 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "ListNamespaces":{
+      "name":"ListNamespaces",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/namespaces"
+      },
+      "input":{"shape":"ListNamespacesRequest"},
+      "output":{"shape":"ListNamespacesResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InvalidNextTokenException"},
+        {"shape":"PreconditionNotMetException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
     "ListTagsForResource":{
       "name":"ListTagsForResource",
       "http":{
@@ -785,6 +1080,7 @@
       "input":{"shape":"ListTemplateAliasesRequest"},
       "output":{"shape":"ListTemplateAliasesResponse"},
       "errors":[
+        {"shape":"InvalidNextTokenException"},
         {"shape":"ThrottlingException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"UnsupportedUserEditionException"},
@@ -825,6 +1121,60 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "ListThemeAliases":{
+      "name":"ListThemeAliases",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/aliases"
+      },
+      "input":{"shape":"ListThemeAliasesRequest"},
+      "output":{"shape":"ListThemeAliasesResponse"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"InvalidNextTokenException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "ListThemeVersions":{
+      "name":"ListThemeVersions",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/versions"
+      },
+      "input":{"shape":"ListThemeVersionsRequest"},
+      "output":{"shape":"ListThemeVersionsResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidNextTokenException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "ListThemes":{
+      "name":"ListThemes",
+      "http":{
+        "method":"GET",
+        "requestUri":"/accounts/{AwsAccountId}/themes"
+      },
+      "input":{"shape":"ListThemesRequest"},
+      "output":{"shape":"ListThemesResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"InvalidNextTokenException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
     "ListUserGroups":{
       "name":"ListUserGroups",
       "http":{
@@ -838,6 +1188,7 @@
         {"shape":"InvalidParameterValueException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
+        {"shape":"PreconditionNotMetException"},
         {"shape":"InternalFailureException"},
         {"shape":"ResourceUnavailableException"}
       ]
@@ -856,6 +1207,7 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
         {"shape":"InvalidNextTokenException"},
+        {"shape":"PreconditionNotMetException"},
         {"shape":"InternalFailureException"},
         {"shape":"ResourceUnavailableException"}
       ]
@@ -928,6 +1280,40 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
         {"shape":"InternalFailureException"}
+      ]
+    },
+    "UpdateAccountCustomization":{
+      "name":"UpdateAccountCustomization",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/accounts/{AwsAccountId}/customizations"
+      },
+      "input":{"shape":"UpdateAccountCustomizationRequest"},
+      "output":{"shape":"UpdateAccountCustomizationResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
+      ]
+    },
+    "UpdateAccountSettings":{
+      "name":"UpdateAccountSettings",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/accounts/{AwsAccountId}/settings"
+      },
+      "input":{"shape":"UpdateAccountSettingsRequest"},
+      "output":{"shape":"UpdateAccountSettingsResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceUnavailableException"}
       ]
     },
     "UpdateDashboard":{
@@ -1120,6 +1506,7 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
         {"shape":"UnsupportedUserEditionException"},
+        {"shape":"ConflictException"},
         {"shape":"InternalFailureException"}
       ]
     },
@@ -1140,6 +1527,60 @@
         {"shape":"InternalFailureException"}
       ]
     },
+    "UpdateTheme":{
+      "name":"UpdateTheme",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}"
+      },
+      "input":{"shape":"UpdateThemeRequest"},
+      "output":{"shape":"UpdateThemeResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "UpdateThemeAlias":{
+      "name":"UpdateThemeAlias",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}"
+      },
+      "input":{"shape":"UpdateThemeAliasRequest"},
+      "output":{"shape":"UpdateThemeAliasResponse"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceExistsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
+    "UpdateThemePermissions":{
+      "name":"UpdateThemePermissions",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/accounts/{AwsAccountId}/themes/{ThemeId}/permissions"
+      },
+      "input":{"shape":"UpdateThemePermissionsRequest"},
+      "output":{"shape":"UpdateThemePermissionsResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InvalidParameterValueException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"UnsupportedUserEditionException"},
+        {"shape":"InternalFailureException"}
+      ]
+    },
     "UpdateUser":{
       "name":"UpdateUser",
       "http":{
@@ -1153,6 +1594,7 @@
         {"shape":"InvalidParameterValueException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
+        {"shape":"PreconditionNotMetException"},
         {"shape":"InternalFailureException"},
         {"shape":"ResourceUnavailableException"}
       ]
@@ -1167,6 +1609,21 @@
       },
       "error":{"httpStatusCode":401},
       "exception":true
+    },
+    "AccountCustomization":{
+      "type":"structure",
+      "members":{
+        "DefaultTheme":{"shape":"Arn"}
+      }
+    },
+    "AccountSettings":{
+      "type":"structure",
+      "members":{
+        "AccountName":{"shape":"String"},
+        "Edition":{"shape":"Edition"},
+        "DefaultNamespace":{"shape":"Namespace"},
+        "NotificationEmail":{"shape":"String"}
+      }
     },
     "ActionList":{
       "type":"list",
@@ -1251,6 +1708,10 @@
       "min":12,
       "pattern":"^[0-9]{12}$"
     },
+    "AwsAndAccountId":{
+      "type":"string",
+      "pattern":"^(aws|[0-9]{12})$"
+    },
     "AwsIotAnalyticsParameters":{
       "type":"structure",
       "required":["DataSetName"],
@@ -1259,6 +1720,15 @@
       }
     },
     "Boolean":{"type":"boolean"},
+    "BorderStyle":{
+      "type":"structure",
+      "members":{
+        "Show":{
+          "shape":"boolean",
+          "box":true
+        }
+      }
+    },
     "CalculatedColumn":{
       "type":"structure",
       "required":[
@@ -1335,6 +1805,11 @@
       "type":"string",
       "max":64,
       "min":1
+    },
+    "ColorList":{
+      "type":"list",
+      "member":{"shape":"HexColor"},
+      "max":100
     },
     "ColumnDataType":{
       "type":"string",
@@ -1444,6 +1919,43 @@
       "error":{"httpStatusCode":409},
       "exception":true
     },
+    "CopySourceArn":{
+      "type":"string",
+      "pattern":"^arn:[-a-z0-9]*:quicksight:[-a-z0-9]*:[0-9]{12}:datasource/.+"
+    },
+    "CreateAccountCustomizationRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "AccountCustomization"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{
+          "shape":"Namespace",
+          "location":"querystring",
+          "locationName":"namespace"
+        },
+        "AccountCustomization":{"shape":"AccountCustomization"}
+      }
+    },
+    "CreateAccountCustomizationResponse":{
+      "type":"structure",
+      "members":{
+        "AwsAccountId":{"shape":"AwsAccountId"},
+        "Namespace":{"shape":"Namespace"},
+        "AccountCustomization":{"shape":"AccountCustomization"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
     "CreateColumnsOperation":{
       "type":"structure",
       "required":["Columns"],
@@ -1476,7 +1988,8 @@
         "SourceEntity":{"shape":"DashboardSourceEntity"},
         "Tags":{"shape":"TagList"},
         "VersionDescription":{"shape":"VersionDescription"},
-        "DashboardPublishOptions":{"shape":"DashboardPublishOptions"}
+        "DashboardPublishOptions":{"shape":"DashboardPublishOptions"},
+        "ThemeArn":{"shape":"Arn"}
       }
     },
     "CreateDashboardResponse":{
@@ -1724,6 +2237,39 @@
         }
       }
     },
+    "CreateNamespaceRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "Namespace",
+        "IdentityStore"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{"shape":"Namespace"},
+        "IdentityStore":{"shape":"IdentityStore"},
+        "Tags":{"shape":"TagList"}
+      }
+    },
+    "CreateNamespaceResponse":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "Name":{"shape":"Namespace"},
+        "CapacityRegion":{"shape":"String"},
+        "CreationStatus":{"shape":"NamespaceStatus"},
+        "IdentityStore":{"shape":"IdentityStore"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
     "CreateTemplateAliasRequest":{
       "type":"structure",
       "required":[
@@ -1801,6 +2347,86 @@
         "RequestId":{"shape":"String"}
       }
     },
+    "CreateThemeAliasRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId",
+        "AliasName",
+        "ThemeVersionNumber"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "AliasName":{
+          "shape":"AliasName",
+          "location":"uri",
+          "locationName":"AliasName"
+        },
+        "ThemeVersionNumber":{"shape":"VersionNumber"}
+      }
+    },
+    "CreateThemeAliasResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeAlias":{"shape":"ThemeAlias"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
+    "CreateThemeRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId",
+        "Name",
+        "BaseThemeId",
+        "Configuration"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "Name":{"shape":"ThemeName"},
+        "BaseThemeId":{"shape":"RestrictiveResourceId"},
+        "VersionDescription":{"shape":"VersionDescription"},
+        "Configuration":{"shape":"ThemeConfiguration"},
+        "Permissions":{"shape":"ResourcePermissionList"},
+        "Tags":{"shape":"TagList"}
+      }
+    },
+    "CreateThemeResponse":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "VersionArn":{"shape":"Arn"},
+        "ThemeId":{"shape":"RestrictiveResourceId"},
+        "CreationStatus":{"shape":"ResourceStatus"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
     "CredentialPair":{
       "type":"structure",
       "required":[
@@ -1809,7 +2435,8 @@
       ],
       "members":{
         "Username":{"shape":"Username"},
-        "Password":{"shape":"Password"}
+        "Password":{"shape":"Password"},
+        "AlternateDataSourceParameters":{"shape":"DataSourceParametersList"}
       }
     },
     "CustomSql":{
@@ -1979,6 +2606,14 @@
       "member":{"shape":"DashboardVersionSummary"},
       "max":100
     },
+    "DataColorPalette":{
+      "type":"structure",
+      "members":{
+        "Colors":{"shape":"ColorList"},
+        "MinMaxGradient":{"shape":"ColorList"},
+        "EmptyFillColor":{"shape":"HexColor"}
+      }
+    },
     "DataSet":{
       "type":"structure",
       "members":{
@@ -2075,6 +2710,7 @@
         "CreatedTime":{"shape":"Timestamp"},
         "LastUpdatedTime":{"shape":"Timestamp"},
         "DataSourceParameters":{"shape":"DataSourceParameters"},
+        "AlternateDataSourceParameters":{"shape":"DataSourceParametersList"},
         "VpcConnectionProperties":{"shape":"VpcConnectionProperties"},
         "SslProperties":{"shape":"SslProperties"},
         "ErrorInfo":{"shape":"DataSourceErrorInfo"}
@@ -2083,7 +2719,8 @@
     "DataSourceCredentials":{
       "type":"structure",
       "members":{
-        "CredentialPair":{"shape":"CredentialPair"}
+        "CredentialPair":{"shape":"CredentialPair"},
+        "CopySourceArn":{"shape":"CopySourceArn"}
       },
       "sensitive":true
     },
@@ -2097,6 +2734,8 @@
     "DataSourceErrorInfoType":{
       "type":"string",
       "enum":[
+        "ACCESS_DENIED",
+        "COPY_SOURCE_NOT_FOUND",
         "TIMEOUT",
         "ENGINE_VERSION_NOT_SUPPORTED",
         "UNKNOWN_HOST",
@@ -2132,6 +2771,12 @@
         "TeradataParameters":{"shape":"TeradataParameters"},
         "TwitterParameters":{"shape":"TwitterParameters"}
       }
+    },
+    "DataSourceParametersList":{
+      "type":"list",
+      "member":{"shape":"DataSourceParameters"},
+      "max":50,
+      "min":1
     },
     "DataSourceType":{
       "type":"string",
@@ -2195,6 +2840,32 @@
       "type":"list",
       "member":{"shape":"DecimalParameter"},
       "max":100
+    },
+    "DeleteAccountCustomizationRequest":{
+      "type":"structure",
+      "required":["AwsAccountId"],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{
+          "shape":"Namespace",
+          "location":"querystring",
+          "locationName":"namespace"
+        }
+      }
+    },
+    "DeleteAccountCustomizationResponse":{
+      "type":"structure",
+      "members":{
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
     },
     "DeleteDashboardRequest":{
       "type":"structure",
@@ -2406,6 +3077,35 @@
         }
       }
     },
+    "DeleteNamespaceRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "Namespace"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{
+          "shape":"Namespace",
+          "location":"uri",
+          "locationName":"Namespace"
+        }
+      }
+    },
+    "DeleteNamespaceResponse":{
+      "type":"structure",
+      "members":{
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
     "DeleteTemplateAliasRequest":{
       "type":"structure",
       "required":[
@@ -2478,6 +3178,80 @@
           "shape":"StatusCode",
           "location":"statusCode"
         }
+      }
+    },
+    "DeleteThemeAliasRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId",
+        "AliasName"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "AliasName":{
+          "shape":"AliasName",
+          "location":"uri",
+          "locationName":"AliasName"
+        }
+      }
+    },
+    "DeleteThemeAliasResponse":{
+      "type":"structure",
+      "members":{
+        "AliasName":{"shape":"AliasName"},
+        "Arn":{"shape":"Arn"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "ThemeId":{"shape":"RestrictiveResourceId"}
+      }
+    },
+    "DeleteThemeRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "VersionNumber":{
+          "shape":"VersionNumber",
+          "location":"querystring",
+          "locationName":"version-number"
+        }
+      }
+    },
+    "DeleteThemeResponse":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "ThemeId":{"shape":"RestrictiveResourceId"}
       }
     },
     "DeleteUserByPrincipalIdRequest":{
@@ -2554,6 +3328,62 @@
       "type":"string",
       "max":1,
       "min":1
+    },
+    "DescribeAccountCustomizationRequest":{
+      "type":"structure",
+      "required":["AwsAccountId"],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{
+          "shape":"Namespace",
+          "location":"querystring",
+          "locationName":"namespace"
+        },
+        "Resolved":{
+          "shape":"boolean",
+          "location":"querystring",
+          "locationName":"resolved"
+        }
+      }
+    },
+    "DescribeAccountCustomizationResponse":{
+      "type":"structure",
+      "members":{
+        "AwsAccountId":{"shape":"AwsAccountId"},
+        "Namespace":{"shape":"Namespace"},
+        "AccountCustomization":{"shape":"AccountCustomization"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
+    "DescribeAccountSettingsRequest":{
+      "type":"structure",
+      "required":["AwsAccountId"],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        }
+      }
+    },
+    "DescribeAccountSettingsResponse":{
+      "type":"structure",
+      "members":{
+        "AccountSettings":{"shape":"AccountSettings"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
     },
     "DescribeDashboardPermissionsRequest":{
       "type":"structure",
@@ -2859,6 +3689,36 @@
         }
       }
     },
+    "DescribeNamespaceRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "Namespace"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{
+          "shape":"Namespace",
+          "location":"uri",
+          "locationName":"Namespace"
+        }
+      }
+    },
+    "DescribeNamespaceResponse":{
+      "type":"structure",
+      "members":{
+        "Namespace":{"shape":"NamespaceInfoV2"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
     "DescribeTemplateAliasRequest":{
       "type":"structure",
       "required":[
@@ -2963,7 +3823,116 @@
         "Status":{
           "shape":"StatusCode",
           "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
+    "DescribeThemeAliasRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId",
+        "AliasName"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "AliasName":{
+          "shape":"AliasName",
+          "location":"uri",
+          "locationName":"AliasName"
         }
+      }
+    },
+    "DescribeThemeAliasResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeAlias":{"shape":"ThemeAlias"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
+    "DescribeThemePermissionsRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        }
+      }
+    },
+    "DescribeThemePermissionsResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeId":{"shape":"RestrictiveResourceId"},
+        "ThemeArn":{"shape":"Arn"},
+        "Permissions":{"shape":"ResourcePermissionList"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
+    "DescribeThemeRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAndAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "VersionNumber":{
+          "shape":"VersionNumber",
+          "location":"querystring",
+          "locationName":"version-number"
+        },
+        "AliasName":{
+          "shape":"AliasName",
+          "location":"querystring",
+          "locationName":"alias-name"
+        }
+      }
+    },
+    "DescribeThemeResponse":{
+      "type":"structure",
+      "members":{
+        "Theme":{"shape":"Theme"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
       }
     },
     "DescribeUserRequest":{
@@ -3021,9 +3990,21 @@
       "type":"list",
       "member":{"shape":"Double"}
     },
+    "Edition":{
+      "type":"string",
+      "enum":[
+        "STANDARD",
+        "ENTERPRISE"
+      ]
+    },
     "EmbeddingUrl":{
       "type":"string",
       "sensitive":true
+    },
+    "EntryPoint":{
+      "type":"string",
+      "max":1000,
+      "min":1
     },
     "ErrorInfo":{
       "type":"structure",
@@ -3164,6 +4145,43 @@
         "RequestId":{"shape":"String"}
       }
     },
+    "GetSessionEmbedUrlRequest":{
+      "type":"structure",
+      "required":["AwsAccountId"],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "EntryPoint":{
+          "shape":"EntryPoint",
+          "location":"querystring",
+          "locationName":"entry-point"
+        },
+        "SessionLifetimeInMinutes":{
+          "shape":"SessionLifetimeInMinutes",
+          "location":"querystring",
+          "locationName":"session-lifetime"
+        },
+        "UserArn":{
+          "shape":"Arn",
+          "location":"querystring",
+          "locationName":"user-arn"
+        }
+      }
+    },
+    "GetSessionEmbedUrlResponse":{
+      "type":"structure",
+      "members":{
+        "EmbedUrl":{"shape":"EmbeddingUrl"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
     "Group":{
       "type":"structure",
       "members":{
@@ -3203,6 +4221,19 @@
       "type":"string",
       "min":1,
       "pattern":"[\\u0020-\\u00FF]+"
+    },
+    "GutterStyle":{
+      "type":"structure",
+      "members":{
+        "Show":{
+          "shape":"boolean",
+          "box":true
+        }
+      }
+    },
+    "HexColor":{
+      "type":"string",
+      "pattern":"^#[A-F0-9]{6}$"
     },
     "Host":{
       "type":"string",
@@ -3249,6 +4280,10 @@
     "IdentityNameList":{
       "type":"list",
       "member":{"shape":"IdentityName"}
+    },
+    "IdentityStore":{
+      "type":"string",
+      "enum":["QUICKSIGHT"]
     },
     "IdentityType":{
       "type":"string",
@@ -3866,6 +4901,40 @@
         }
       }
     },
+    "ListNamespacesRequest":{
+      "type":"structure",
+      "required":["AwsAccountId"],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "NextToken":{
+          "shape":"String",
+          "location":"querystring",
+          "locationName":"next-token"
+        },
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true,
+          "location":"querystring",
+          "locationName":"max-results"
+        }
+      }
+    },
+    "ListNamespacesResponse":{
+      "type":"structure",
+      "members":{
+        "Namespaces":{"shape":"Namespaces"},
+        "NextToken":{"shape":"String"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
     "ListTagsForResourceRequest":{
       "type":"structure",
       "required":["ResourceArn"],
@@ -3998,6 +5067,129 @@
       "type":"structure",
       "members":{
         "TemplateSummaryList":{"shape":"TemplateSummaryList"},
+        "NextToken":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
+    "ListThemeAliasesRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "NextToken":{
+          "shape":"String",
+          "location":"querystring",
+          "locationName":"next-token"
+        },
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true,
+          "location":"querystring",
+          "locationName":"max-result"
+        }
+      }
+    },
+    "ListThemeAliasesResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeAliasList":{"shape":"ThemeAliasList"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"},
+        "NextToken":{"shape":"String"}
+      }
+    },
+    "ListThemeVersionsRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "NextToken":{
+          "shape":"String",
+          "location":"querystring",
+          "locationName":"next-token"
+        },
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true,
+          "location":"querystring",
+          "locationName":"max-results"
+        }
+      }
+    },
+    "ListThemeVersionsResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeVersionSummaryList":{"shape":"ThemeVersionSummaryList"},
+        "NextToken":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
+    "ListThemesRequest":{
+      "type":"structure",
+      "required":["AwsAccountId"],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "NextToken":{
+          "shape":"String",
+          "location":"querystring",
+          "locationName":"next-token"
+        },
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true,
+          "location":"querystring",
+          "locationName":"max-results"
+        },
+        "Type":{
+          "shape":"ThemeType",
+          "location":"querystring",
+          "locationName":"type"
+        }
+      }
+    },
+    "ListThemesResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeSummaryList":{"shape":"ThemeSummaryList"},
         "NextToken":{"shape":"String"},
         "Status":{
           "shape":"StatusCode",
@@ -4149,6 +5341,15 @@
         "Key":{"shape":"S3Key"}
       }
     },
+    "MarginStyle":{
+      "type":"structure",
+      "members":{
+        "Show":{
+          "shape":"boolean",
+          "box":true
+        }
+      }
+    },
     "MariaDbParameters":{
       "type":"structure",
       "required":[
@@ -4184,6 +5385,45 @@
       "type":"string",
       "max":64,
       "pattern":"^[a-zA-Z0-9._-]*$"
+    },
+    "NamespaceError":{
+      "type":"structure",
+      "members":{
+        "Type":{"shape":"NamespaceErrorType"},
+        "Message":{"shape":"String"}
+      }
+    },
+    "NamespaceErrorType":{
+      "type":"string",
+      "enum":[
+        "PERMISSION_DENIED",
+        "INTERNAL_SERVICE_ERROR"
+      ]
+    },
+    "NamespaceInfoV2":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"Namespace"},
+        "Arn":{"shape":"Arn"},
+        "CapacityRegion":{"shape":"String"},
+        "CreationStatus":{"shape":"NamespaceStatus"},
+        "IdentityStore":{"shape":"IdentityStore"},
+        "NamespaceError":{"shape":"NamespaceError"}
+      }
+    },
+    "NamespaceStatus":{
+      "type":"string",
+      "enum":[
+        "CREATED",
+        "CREATING",
+        "DELETING",
+        "RETRYABLE_FAILURE",
+        "NON_RETRYABLE_FAILURE"
+      ]
+    },
+    "Namespaces":{
+      "type":"list",
+      "member":{"shape":"NamespaceInfoV2"}
     },
     "NonEmptyString":{
       "type":"string",
@@ -4378,7 +5618,8 @@
           "location":"uri",
           "locationName":"Namespace"
         },
-        "UserName":{"shape":"UserName"}
+        "UserName":{"shape":"UserName"},
+        "CustomPermissionsName":{"shape":"RoleName"}
       }
     },
     "RegisterUserResponse":{
@@ -4497,6 +5738,12 @@
       "min":1,
       "pattern":"[\\w\\-]+"
     },
+    "RoleName":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^[a-zA-Z0-9+=,.@_-]+$"
+    },
     "RoleSessionName":{
       "type":"string",
       "max":64,
@@ -4523,6 +5770,7 @@
         "PermissionPolicy"
       ],
       "members":{
+        "Namespace":{"shape":"Namespace"},
         "Arn":{"shape":"Arn"},
         "PermissionPolicy":{"shape":"RowLevelPermissionPolicy"}
       }
@@ -4617,6 +5865,13 @@
       "type":"structure",
       "members":{
         "VisibilityState":{"shape":"DashboardUIState"}
+      }
+    },
+    "SheetStyle":{
+      "type":"structure",
+      "members":{
+        "Tile":{"shape":"TileStyle"},
+        "TileLayout":{"shape":"TileLayoutStyle"}
       }
     },
     "SiteBaseUrl":{
@@ -4901,6 +6156,112 @@
         "SINGLE_QUOTE"
       ]
     },
+    "Theme":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "Name":{"shape":"ThemeName"},
+        "ThemeId":{"shape":"RestrictiveResourceId"},
+        "Version":{"shape":"ThemeVersion"},
+        "CreatedTime":{"shape":"Timestamp"},
+        "LastUpdatedTime":{"shape":"Timestamp"},
+        "Type":{"shape":"ThemeType"}
+      }
+    },
+    "ThemeAlias":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "AliasName":{"shape":"AliasName"},
+        "ThemeVersionNumber":{"shape":"VersionNumber"}
+      }
+    },
+    "ThemeAliasList":{
+      "type":"list",
+      "member":{"shape":"ThemeAlias"},
+      "max":100
+    },
+    "ThemeConfiguration":{
+      "type":"structure",
+      "members":{
+        "DataColorPalette":{"shape":"DataColorPalette"},
+        "UIColorPalette":{"shape":"UIColorPalette"},
+        "Sheet":{"shape":"SheetStyle"}
+      }
+    },
+    "ThemeError":{
+      "type":"structure",
+      "members":{
+        "Type":{"shape":"ThemeErrorType"},
+        "Message":{"shape":"NonEmptyString"}
+      }
+    },
+    "ThemeErrorList":{
+      "type":"list",
+      "member":{"shape":"ThemeError"},
+      "min":1
+    },
+    "ThemeErrorType":{
+      "type":"string",
+      "enum":["INTERNAL_FAILURE"]
+    },
+    "ThemeName":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "ThemeSummary":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "Name":{"shape":"ThemeName"},
+        "ThemeId":{"shape":"RestrictiveResourceId"},
+        "LatestVersionNumber":{"shape":"VersionNumber"},
+        "CreatedTime":{"shape":"Timestamp"},
+        "LastUpdatedTime":{"shape":"Timestamp"}
+      }
+    },
+    "ThemeSummaryList":{
+      "type":"list",
+      "member":{"shape":"ThemeSummary"},
+      "max":100
+    },
+    "ThemeType":{
+      "type":"string",
+      "enum":[
+        "QUICKSIGHT",
+        "CUSTOM",
+        "ALL"
+      ]
+    },
+    "ThemeVersion":{
+      "type":"structure",
+      "members":{
+        "VersionNumber":{"shape":"VersionNumber"},
+        "Arn":{"shape":"Arn"},
+        "Description":{"shape":"VersionDescription"},
+        "BaseThemeId":{"shape":"RestrictiveResourceId"},
+        "CreatedTime":{"shape":"Timestamp"},
+        "Configuration":{"shape":"ThemeConfiguration"},
+        "Errors":{"shape":"ThemeErrorList"},
+        "Status":{"shape":"ResourceStatus"}
+      }
+    },
+    "ThemeVersionSummary":{
+      "type":"structure",
+      "members":{
+        "VersionNumber":{"shape":"VersionNumber"},
+        "Arn":{"shape":"Arn"},
+        "Description":{"shape":"VersionDescription"},
+        "CreatedTime":{"shape":"Timestamp"},
+        "Status":{"shape":"ResourceStatus"}
+      }
+    },
+    "ThemeVersionSummaryList":{
+      "type":"list",
+      "member":{"shape":"ThemeVersionSummary"},
+      "max":100
+    },
     "ThrottlingException":{
       "type":"structure",
       "members":{
@@ -4909,6 +6270,19 @@
       },
       "error":{"httpStatusCode":429},
       "exception":true
+    },
+    "TileLayoutStyle":{
+      "type":"structure",
+      "members":{
+        "Gutter":{"shape":"GutterStyle"},
+        "Margin":{"shape":"MarginStyle"}
+      }
+    },
+    "TileStyle":{
+      "type":"structure",
+      "members":{
+        "Border":{"shape":"BorderStyle"}
+      }
     },
     "Timestamp":{"type":"timestamp"},
     "TimestampList":{
@@ -4947,6 +6321,27 @@
       "type":"string",
       "max":32
     },
+    "UIColorPalette":{
+      "type":"structure",
+      "members":{
+        "PrimaryForeground":{"shape":"HexColor"},
+        "PrimaryBackground":{"shape":"HexColor"},
+        "SecondaryForeground":{"shape":"HexColor"},
+        "SecondaryBackground":{"shape":"HexColor"},
+        "Accent":{"shape":"HexColor"},
+        "AccentForeground":{"shape":"HexColor"},
+        "Danger":{"shape":"HexColor"},
+        "DangerForeground":{"shape":"HexColor"},
+        "Warning":{"shape":"HexColor"},
+        "WarningForeground":{"shape":"HexColor"},
+        "Success":{"shape":"HexColor"},
+        "SuccessForeground":{"shape":"HexColor"},
+        "Dimension":{"shape":"HexColor"},
+        "DimensionForeground":{"shape":"HexColor"},
+        "Measure":{"shape":"HexColor"},
+        "MeasureForeground":{"shape":"HexColor"}
+      }
+    },
     "UnsupportedUserEditionException":{
       "type":"structure",
       "members":{
@@ -4976,6 +6371,65 @@
       }
     },
     "UntagResourceResponse":{
+      "type":"structure",
+      "members":{
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
+    "UpdateAccountCustomizationRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "AccountCustomization"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "Namespace":{
+          "shape":"Namespace",
+          "location":"querystring",
+          "locationName":"namespace"
+        },
+        "AccountCustomization":{"shape":"AccountCustomization"}
+      }
+    },
+    "UpdateAccountCustomizationResponse":{
+      "type":"structure",
+      "members":{
+        "AwsAccountId":{"shape":"AwsAccountId"},
+        "Namespace":{"shape":"Namespace"},
+        "AccountCustomization":{"shape":"AccountCustomization"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
+    "UpdateAccountSettingsRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "DefaultNamespace"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "DefaultNamespace":{"shape":"Namespace"},
+        "NotificationEmail":{"shape":"String"}
+      }
+    },
+    "UpdateAccountSettingsResponse":{
       "type":"structure",
       "members":{
         "RequestId":{"shape":"String"},
@@ -5079,7 +6533,8 @@
         "SourceEntity":{"shape":"DashboardSourceEntity"},
         "Parameters":{"shape":"Parameters"},
         "VersionDescription":{"shape":"VersionDescription"},
-        "DashboardPublishOptions":{"shape":"DashboardPublishOptions"}
+        "DashboardPublishOptions":{"shape":"DashboardPublishOptions"},
+        "ThemeArn":{"shape":"Arn"}
       }
     },
     "UpdateDashboardResponse":{
@@ -5322,8 +6777,7 @@
     "UpdateResourcePermissionList":{
       "type":"list",
       "member":{"shape":"ResourcePermission"},
-      "max":100,
-      "min":1
+      "max":100
     },
     "UpdateTemplateAliasRequest":{
       "type":"structure",
@@ -5434,6 +6888,116 @@
         "RequestId":{"shape":"String"}
       }
     },
+    "UpdateThemeAliasRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId",
+        "AliasName",
+        "ThemeVersionNumber"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "AliasName":{
+          "shape":"AliasName",
+          "location":"uri",
+          "locationName":"AliasName"
+        },
+        "ThemeVersionNumber":{"shape":"VersionNumber"}
+      }
+    },
+    "UpdateThemeAliasResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeAlias":{"shape":"ThemeAlias"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
+    "UpdateThemePermissionsRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "GrantPermissions":{"shape":"UpdateResourcePermissionList"},
+        "RevokePermissions":{"shape":"UpdateResourcePermissionList"}
+      }
+    },
+    "UpdateThemePermissionsResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeId":{"shape":"RestrictiveResourceId"},
+        "ThemeArn":{"shape":"Arn"},
+        "Permissions":{"shape":"ResourcePermissionList"},
+        "RequestId":{"shape":"String"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        }
+      }
+    },
+    "UpdateThemeRequest":{
+      "type":"structure",
+      "required":[
+        "AwsAccountId",
+        "ThemeId",
+        "BaseThemeId"
+      ],
+      "members":{
+        "AwsAccountId":{
+          "shape":"AwsAccountId",
+          "location":"uri",
+          "locationName":"AwsAccountId"
+        },
+        "ThemeId":{
+          "shape":"RestrictiveResourceId",
+          "location":"uri",
+          "locationName":"ThemeId"
+        },
+        "Name":{"shape":"ThemeName"},
+        "BaseThemeId":{"shape":"RestrictiveResourceId"},
+        "VersionDescription":{"shape":"VersionDescription"},
+        "Configuration":{"shape":"ThemeConfiguration"}
+      }
+    },
+    "UpdateThemeResponse":{
+      "type":"structure",
+      "members":{
+        "ThemeId":{"shape":"RestrictiveResourceId"},
+        "Arn":{"shape":"Arn"},
+        "VersionArn":{"shape":"Arn"},
+        "CreationStatus":{"shape":"ResourceStatus"},
+        "Status":{
+          "shape":"StatusCode",
+          "location":"statusCode"
+        },
+        "RequestId":{"shape":"String"}
+      }
+    },
     "UpdateUserRequest":{
       "type":"structure",
       "required":[
@@ -5460,7 +7024,9 @@
           "locationName":"Namespace"
         },
         "Email":{"shape":"String"},
-        "Role":{"shape":"UserRole"}
+        "Role":{"shape":"UserRole"},
+        "CustomPermissionsName":{"shape":"RoleName"},
+        "UnapplyCustomPermissions":{"shape":"Boolean"}
       }
     },
     "UpdateUserResponse":{
@@ -5499,7 +7065,8 @@
         "Role":{"shape":"UserRole"},
         "IdentityType":{"shape":"IdentityType"},
         "Active":{"shape":"Boolean"},
-        "PrincipalId":{"shape":"String"}
+        "PrincipalId":{"shape":"String"},
+        "CustomPermissionsName":{"shape":"RoleName"}
       }
     },
     "UserList":{

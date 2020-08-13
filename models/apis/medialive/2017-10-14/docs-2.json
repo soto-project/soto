@@ -20,6 +20,7 @@
     "DescribeChannel": "Gets details about a channel",
     "DescribeInput": "Produces details about an input",
     "DescribeInputDevice": "Gets the details for the input device",
+    "DescribeInputDeviceThumbnail": "Get the latest thumbnail data for the input device.",
     "DescribeInputSecurityGroup": "Produces a summary of an Input Security Group",
     "DescribeMultiplex": "Gets details about a multiplex.",
     "DescribeMultiplexProgram": "Get the details for a program in a multiplex.",
@@ -134,10 +135,13 @@
         "AudioCodecSettings$Ac3Settings": null
       }
     },
+    "AcceptHeader": {
+      "base": "Accept Header",
+      "refs": {}
+    },
     "AccessDenied": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "AfdSignaling": {
       "base": "Afd Signaling",
@@ -328,13 +332,11 @@
     },
     "BadGatewayException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "BadRequestException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "BatchScheduleActionCreateRequest": {
       "base": "A list of schedule actions to create (in a request) or that have been created (in a response).",
@@ -362,13 +364,11 @@
     },
     "BatchUpdateScheduleRequest": {
       "base": "A request to create actions (add actions to the schedule), delete actions (remove actions from the schedule), or both create and delete actions.",
-      "refs": {
-      }
+      "refs": {}
     },
     "BatchUpdateScheduleResult": {
       "base": "Results of a batch schedule update.",
-      "refs": {
-      }
+      "refs": {}
     },
     "BlackoutSlate": {
       "base": "Blackout Slate",
@@ -479,8 +479,7 @@
     },
     "ChannelConfigurationValidationError": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ChannelEgressEndpoint": {
       "base": null,
@@ -510,53 +509,43 @@
     },
     "ConflictException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateChannel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateChannelResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateInput": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateInputResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateInputSecurityGroupResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateMultiplex": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateMultiplexProgram": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateMultiplexProgramResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "CreateMultiplexResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "DeviceSettingsSyncState": {
       "base": "The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.",
@@ -727,6 +716,24 @@
         "Eac3Settings$SurroundMode": "When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels."
       }
     },
+    "EbuTtDDestinationSettings": {
+      "base": "Ebu Tt DDestination Settings",
+      "refs": {
+        "CaptionDestinationSettings$EbuTtDDestinationSettings": null
+      }
+    },
+    "EbuTtDDestinationStyleControl": {
+      "base": "Ebu Tt DDestination Style Control",
+      "refs": {
+        "EbuTtDDestinationSettings$StyleControl": "Specifies the style information (font color, font position, and so on) to include in the font data that is attached to the EBU-TT captions.\n\n- include: Take the style information (font color, font position, and so on) from the source captions and include that information in the font data attached to the EBU-TT captions. This option is valid only if the source captions are Embedded or Teletext.\n- exclude: In the font data attached to the EBU-TT captions, set the font family to \"monospaced\". Do not include any other style information."
+      }
+    },
+    "EbuTtDFillLineGapControl": {
+      "base": "Ebu Tt DFill Line Gap Control",
+      "refs": {
+        "EbuTtDDestinationSettings$FillLineGap": "Specifies how to handle the gap between the lines (in multi-line captions).\n\n- enabled: Fill with the captions background color (as specified in the input captions).\n- disabled: Leave the gap unfilled."
+      }
+    },
     "EmbeddedConvert608To708": {
       "base": "Embedded Convert608 To708",
       "refs": {
@@ -759,8 +766,7 @@
     },
     "Empty": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "EncoderSettings": {
       "base": "Encoder Settings",
@@ -768,6 +774,18 @@
         "Channel$EncoderSettings": null,
         "CreateChannel$EncoderSettings": null,
         "UpdateChannel$EncoderSettings": "The encoder settings for this channel."
+      }
+    },
+    "FeatureActivations": {
+      "base": "Feature Activations",
+      "refs": {
+        "EncoderSettings$FeatureActivations": "Feature Activations"
+      }
+    },
+    "FeatureActivationsInputPrepareScheduleActions": {
+      "base": "Feature Activations Input Prepare Schedule Actions",
+      "refs": {
+        "FeatureActivations$InputPrepareScheduleActions": "Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled.\nIf you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule."
       }
     },
     "FecOutputIncludeFec": {
@@ -827,8 +845,7 @@
     },
     "ForbiddenException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "FrameCaptureGroupSettings": {
       "base": "Frame Capture Group Settings",
@@ -856,8 +873,7 @@
     },
     "GatewayTimeoutException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "GlobalConfiguration": {
       "base": "Global Configuration",
@@ -1057,6 +1073,12 @@
         "H265Settings$ColorSpaceSettings": "Color Space settings"
       }
     },
+    "H265FilterSettings": {
+      "base": "H265 Filter Settings",
+      "refs": {
+        "H265Settings$FilterSettings": "Optional filters that you can apply to an encode."
+      }
+    },
     "H265FlickerAq": {
       "base": "H265 Flicker Aq",
       "refs": {
@@ -1090,7 +1112,7 @@
     "H265RateControlMode": {
       "base": "H265 Rate Control Mode",
       "refs": {
-        "H265Settings$RateControlMode": "Rate control mode.\n\nQVBR: Quality will match the specified quality level except when it is constrained by the\nmaximum bitrate.  Recommended if you or your viewers pay for bandwidth.\n\nCBR: Quality varies, depending on the video complexity. Recommended only if you distribute\nyour assets to devices that cannot handle variable bitrates."
+        "H265Settings$RateControlMode": "Rate control mode.\n\nQVBR: Quality will match the specified quality level except when it is constrained by the\nmaximum bitrate.  Recommended if you or your viewers pay for bandwidth.\n\nCBR: Quality varies, depending on the video complexity. Recommended only if you distribute\nyour assets to devices that cannot handle variable bitrates.\n\nMultiplex: This rate control mode is only supported (and is required) when the video is being\ndelivered to a MediaLive Multiplex in which case the rate control configuration is controlled\nby the properties within the Multiplex Program."
       }
     },
     "H265ScanType": {
@@ -1374,6 +1396,7 @@
     "InputClippingSettings": {
       "base": "Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.",
       "refs": {
+        "InputPrepareScheduleActionSettings$InputClippingSettings": "Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.",
         "InputSwitchScheduleActionSettings$InputClippingSettings": "Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file."
       }
     },
@@ -1415,8 +1438,7 @@
     },
     "InputDevice": {
       "base": "An input device.",
-      "refs": {
-      }
+      "refs": {}
     },
     "InputDeviceActiveInput": {
       "base": "The source at the input device that is currently active.",
@@ -1432,8 +1454,7 @@
     },
     "InputDeviceConfigurationValidationError": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "InputDeviceConfiguredInput": {
       "base": "The source to activate (use) from the input device.",
@@ -1574,6 +1595,12 @@
         "AutomaticInputFailoverSettings$InputPreference": "Input preference when deciding which input to make active when a previously failed input has recovered."
       }
     },
+    "InputPrepareScheduleActionSettings": {
+      "base": "Action to prepare an input for a future immediate input switch.",
+      "refs": {
+        "ScheduleActionSettings$InputPrepareSettings": "Action to prepare an input for a future immediate input switch"
+      }
+    },
     "InputResolution": {
       "base": "Input resolution based on lines of vertical resolution in the input; SD is less than 720 lines, HD is 720 to 1080 lines, UHD is greater than 1080 lines\n",
       "refs": {
@@ -1596,8 +1623,7 @@
     },
     "InputSecurityGroupWhitelistRequest": {
       "base": "Request of IPv4 CIDR addresses to whitelist in a security group.",
-      "refs": {
-      }
+      "refs": {}
     },
     "InputSettings": {
       "base": "Live Event input parameters. There can be multiple inputs in a single Live Event.",
@@ -1683,18 +1709,15 @@
     },
     "InternalServerErrorException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "InternalServiceError": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "InvalidRequest": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "KeyProviderSettings": {
       "base": "Key Provider Settings",
@@ -1710,48 +1733,39 @@
     },
     "LimitExceeded": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ListChannelsResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ListInputDevicesResultModel": {
       "base": "The list of input devices owned by the AWS account.",
-      "refs": {
-      }
+      "refs": {}
     },
     "ListInputSecurityGroupsResultModel": {
       "base": "Result of input security group list request",
-      "refs": {
-      }
+      "refs": {}
     },
     "ListInputsResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ListMultiplexProgramsResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ListMultiplexesResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ListOfferingsResultModel": {
       "base": "ListOfferings response",
-      "refs": {
-      }
+      "refs": {}
     },
     "ListReservationsResultModel": {
       "base": "ListReservations response",
-      "refs": {
-      }
+      "refs": {}
     },
     "LogLevel": {
       "base": "The log level the user wants for their channel.",
@@ -1982,8 +1996,7 @@
     },
     "MultiplexConfigurationValidationError": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "MultiplexGroupSettings": {
       "base": "Multiplex Group Settings",
@@ -2113,8 +2126,7 @@
     },
     "NotFoundException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "Offering": {
       "base": "Reserved resources available for purchase",
@@ -2223,13 +2235,11 @@
     },
     "PurchaseOffering": {
       "base": "PurchaseOffering request",
-      "refs": {
-      }
+      "refs": {}
     },
     "PurchaseOfferingResultModel": {
       "base": "PurchaseOffering response",
-      "refs": {
-      }
+      "refs": {}
     },
     "Rec601Settings": {
       "base": "Rec601 Settings",
@@ -2316,13 +2326,11 @@
     },
     "ResourceConflict": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "ResourceNotFound": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "RtmpCacheFullBehavior": {
       "base": "Rtmp Cache Full Behavior",
@@ -2380,13 +2388,11 @@
     },
     "ScheduleDeleteResultModel": {
       "base": "Result of a schedule deletion.",
-      "refs": {
-      }
+      "refs": {}
     },
     "ScheduleDescribeResultModel": {
       "base": "Results of a schedule describe.",
-      "refs": {
-      }
+      "refs": {}
     },
     "Scte20Convert608To708": {
       "base": "Scte20 Convert608 To708",
@@ -2642,8 +2648,7 @@
     },
     "TagsModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "TeletextDestinationSettings": {
       "base": "Teletext Destination Settings",
@@ -2666,7 +2671,8 @@
     "TemporalFilterSettings": {
       "base": "Temporal Filter Settings",
       "refs": {
-        "H264FilterSettings$TemporalFilterSettings": null
+        "H264FilterSettings$TemporalFilterSettings": null,
+        "H265FilterSettings$TemporalFilterSettings": null
       }
     },
     "TemporalFilterStrength": {
@@ -2689,8 +2695,7 @@
     },
     "TooManyRequestsException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "TtmlDestinationSettings": {
       "base": "Ttml Destination Settings",
@@ -2730,73 +2735,59 @@
     },
     "UnprocessableEntityException": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateChannel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateChannelClass": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateChannelResultModel": {
       "base": "The updated channel's description.",
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateInput": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateInputDevice": {
       "base": "Updates an input device.",
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateInputResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateInputSecurityGroupResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateMultiplex": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateMultiplexProgram": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateMultiplexProgramResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateMultiplexResultModel": {
       "base": null,
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateReservation": {
       "base": "UpdateReservation request",
-      "refs": {
-      }
+      "refs": {}
     },
     "UpdateReservationResultModel": {
       "base": "UpdateReservation response",
-      "refs": {
-      }
+      "refs": {}
     },
     "ValidationError": {
       "base": null,
@@ -2920,7 +2911,6 @@
         "ChannelSummary$PipelinesRunningCount": "The number of currently healthy pipelines.",
         "DvbSubDestinationSettings$ShadowXOffset": "Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.",
         "DvbSubDestinationSettings$ShadowYOffset": "Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.",
-        "H264Settings$ParNumerator": "Pixel Aspect Ratio numerator.",
         "InputDeviceConfigurableSettings$MaxBitrate": "The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.",
         "InputDeviceHdSettings$Height": "The height of the video source, in pixels.",
         "InputDeviceHdSettings$MaxBitrate": "The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.",
@@ -3146,6 +3136,7 @@
         "H264Settings$FramerateDenominator": "Framerate denominator.",
         "H264Settings$FramerateNumerator": "Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.",
         "H264Settings$ParDenominator": "Pixel Aspect Ratio denominator.",
+        "H264Settings$ParNumerator": "Pixel Aspect Ratio numerator.",
         "H265Settings$FramerateNumerator": "Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.",
         "H265Settings$ParDenominator": "Pixel Aspect Ratio denominator.",
         "H265Settings$ParNumerator": "Pixel Aspect Ratio numerator.",
@@ -3622,6 +3613,7 @@
         "Input$AttachedChannels": "A list of channel IDs that that input is attached to (currently an input can only be attached to one channel).",
         "Input$SecurityGroups": "A list of IDs for all the Input Security Groups attached to the input.",
         "InputDeviceNetworkSettings$DnsAddresses": "The DNS addresses of the input device.",
+        "InputPrepareScheduleActionSettings$UrlPath": "The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.",
         "InputSecurityGroup$Inputs": "The list of inputs currently using this Input Security Group.",
         "InputSwitchScheduleActionSettings$UrlPath": "The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.",
         "InputVpcRequest$SecurityGroupIds": "A list of up to 5 EC2 VPC security group IDs to attach to the Input VPC network interfaces.\nRequires subnetIds. If none are specified then the VPC default security group will be used.\n",
@@ -3694,6 +3686,7 @@
         "CreateMultiplexProgram$ProgramName": "Name of multiplex program.",
         "CreateMultiplexProgram$RequestId": "Unique request ID. This prevents retries from creating multiple\nresources.\n",
         "DvbSubDestinationSettings$FontSize": "When set to auto fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.",
+        "EbuTtDDestinationSettings$FontFamily": "Specifies the font family to include in the font data attached to the EBU-TT captions. Valid only if styleControl is set to include. If you leave this field empty, the font family is set to \"monospaced\". (If styleControl is set to exclude, the font family is always set to \"monospaced\".)\n\nYou specify only the font family. All other style information (color, bold, position and so on) is copied from the input captions. The size is always set to 100% to allow the downstream player to choose the size.\n\n- Enter a list of font families, as a comma-separated list of font names, in order of preference. The name can be a font family (such as “Arial”), or a generic font family (such as “serif”), or “default” (to let the downstream player choose the font).\n- Leave blank to set the family to “monospace”.",
         "FixedModeScheduleActionStartSettings$Time": "Start time for the action to start in the channel. (Not the time for the action to be added to the schedule: actions are always added to the schedule immediately.) UTC format: yyyy-mm-ddThh:mm:ss.nnnZ. All the letters are digits (for example, mm might be 01) except for the two constants \"T\" for time and \"Z\" for \"UTC format\".",
         "Fmp4HlsSettings$AudioRenditionSets": "List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.",
         "FollowModeScheduleActionStartSettings$ReferenceActionName": "The action name of another action that this one refers to.",
@@ -3741,6 +3734,7 @@
         "InputLocation$PasswordParam": "key used to extract the password from EC2 Parameter store",
         "InputLocation$Uri": "Uniform Resource Identifier - This should be a path to a file accessible to the Live system (eg. a http:// URI) depending on the output type. For example, a RTMP destination should have a uri simliar to: \"rtmp://fmsserver/live\".",
         "InputLocation$Username": "Username if credentials are required to access a file or publishing point.  This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved.  AWS Parameter store format: \"ssm://<parameter name>\"",
+        "InputPrepareScheduleActionSettings$InputAttachmentNameReference": "The name of the input attachment that should be prepared by this action. If no name is provided, the action will stop the most recent prepare (if any) when activated.",
         "InputSecurityGroup$Arn": "Unique ARN of Input Security Group",
         "InputSecurityGroup$Id": "The Id of the Input Security Group",
         "InputSource$PasswordParam": "The key used to extract the password from EC2 Parameter store.",
@@ -3784,6 +3778,7 @@
         "M3u8Settings$Scte35Pid": "Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.",
         "M3u8Settings$TimedMetadataPid": "Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).",
         "M3u8Settings$VideoPid": "Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.",
+        "InputDeviceThumbnail$Body": "The binary data for the thumbnail that the Link device has most recently sent to MediaLive.",
         "MediaConnectFlow$FlowArn": "The unique ARN of the MediaConnect Flow being used as a source.",
         "MediaConnectFlowRequest$FlowArn": "The ARN of the MediaConnect Flow that you want to use as a source.",
         "MsSmoothGroupSettings$AcquisitionPointId": "The ID to include in each message in the sparse track. Ignored if sparseTrackType is NONE.",
@@ -3892,6 +3887,12 @@
         "DvbSdtSettings$ServiceProviderName": "The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters."
       }
     },
+    "__stringMin1Max35": {
+      "base": null,
+      "refs": {
+        "AudioDescription$LanguageCode": "RFC 5646 language code representing the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input."
+      }
+    },
     "__stringMin32Max32": {
       "base": null,
       "refs": {
@@ -3908,7 +3909,6 @@
     "__stringMin3Max3": {
       "base": null,
       "refs": {
-        "AudioDescription$LanguageCode": "Indicates the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input.",
         "CaptionLanguageMapping$LanguageCode": "Three character ISO 639-2 language code (see http://www.loc.gov/standards/iso639-2)"
       }
     },

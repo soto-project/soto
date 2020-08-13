@@ -675,6 +675,43 @@
         }
       ]
     },
+    "DescribeInputDeviceThumbnail": {
+      "name": "DescribeInputDeviceThumbnail",
+      "http": {
+        "method": "GET",
+        "requestUri": "/prod/inputDevices/{inputDeviceId}/thumbnailData",
+        "responseCode": 200
+      },
+      "input": {
+        "shape": "DescribeInputDeviceThumbnailRequest"
+      },
+      "output": {
+        "shape": "DescribeInputDeviceThumbnailResponse"
+      },
+      "errors": [
+        {
+          "shape": "BadRequestException"
+        },
+        {
+          "shape": "InternalServerErrorException"
+        },
+        {
+          "shape": "ForbiddenException"
+        },
+        {
+          "shape": "BadGatewayException"
+        },
+        {
+          "shape": "NotFoundException"
+        },
+        {
+          "shape": "GatewayTimeoutException"
+        },
+        {
+          "shape": "TooManyRequestsException"
+        }
+      ]
+    },
     "DescribeInputSecurityGroup": {
       "name": "DescribeInputSecurityGroup",
       "http": {
@@ -1952,13 +1989,11 @@
     },
     "AribDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "AribSourceSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "AudioChannelMapping": {
       "type": "structure",
@@ -2026,7 +2061,7 @@
           "locationName": "codecSettings"
         },
         "LanguageCode": {
-          "shape": "__stringMin3Max3",
+          "shape": "__stringMin1Max35",
           "locationName": "languageCode"
         },
         "LanguageCodeControl": {
@@ -2628,6 +2663,10 @@
           "shape": "DvbSubDestinationSettings",
           "locationName": "dvbSubDestinationSettings"
         },
+        "EbuTtDDestinationSettings": {
+          "shape": "EbuTtDDestinationSettings",
+          "locationName": "ebuTtDDestinationSettings"
+        },
         "EmbeddedDestinationSettings": {
           "shape": "EmbeddedDestinationSettings",
           "locationName": "embeddedDestinationSettings"
@@ -2906,8 +2945,7 @@
     },
     "ColorSpacePassthroughSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "ConflictException": {
       "type": "structure",
@@ -3453,8 +3491,7 @@
     },
     "DeleteInputResponse": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "DeleteInputSecurityGroupRequest": {
       "type": "structure",
@@ -3471,8 +3508,7 @@
     },
     "DeleteInputSecurityGroupResponse": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "DeleteMultiplexProgramRequest": {
       "type": "structure",
@@ -3677,8 +3713,7 @@
     },
     "DeleteScheduleResponse": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "DeleteTagsRequest": {
       "type": "structure",
@@ -3834,6 +3869,55 @@
           "locationName": "type"
         }
       }
+    },
+    "DescribeInputDeviceThumbnailRequest": {
+      "type": "structure",
+      "members": {
+        "InputDeviceId": {
+          "shape": "__string",
+          "location": "uri",
+          "locationName": "inputDeviceId"
+        },
+        "Accept": {
+          "shape": "AcceptHeader",
+          "location": "header",
+          "locationName": "accept"
+        }
+      },
+      "required": [
+        "InputDeviceId",
+        "Accept"
+      ]
+    },
+    "DescribeInputDeviceThumbnailResponse": {
+      "type": "structure",
+      "members": {
+        "Body": {
+          "shape": "InputDeviceThumbnail",
+          "locationName": "body"
+        },
+        "ContentType": {
+          "shape": "ContentType",
+          "location": "header",
+          "locationName": "Content-Type"
+        },
+        "ContentLength": {
+          "shape": "__long",
+          "location": "header",
+          "locationName": "Content-Length"
+        },
+        "ETag": {
+          "shape": "__string",
+          "location": "header",
+          "locationName": "ETag"
+        },
+        "LastModified": {
+          "shape": "__timestamp",
+          "location": "header",
+          "locationName": "Last-Modified"
+        }
+      },
+      "payload": "Body"
     },
     "DescribeInputRequest": {
       "type": "structure",
@@ -4642,6 +4726,37 @@
         "NOT_INDICATED"
       ]
     },
+    "EbuTtDDestinationSettings": {
+      "type": "structure",
+      "members": {
+        "FillLineGap": {
+          "shape": "EbuTtDFillLineGapControl",
+          "locationName": "fillLineGap"
+        },
+        "FontFamily": {
+          "shape": "__string",
+          "locationName": "fontFamily"
+        },
+        "StyleControl": {
+          "shape": "EbuTtDDestinationStyleControl",
+          "locationName": "styleControl"
+        }
+      }
+    },
+    "EbuTtDDestinationStyleControl": {
+      "type": "string",
+      "enum": [
+        "EXCLUDE",
+        "INCLUDE"
+      ]
+    },
+    "EbuTtDFillLineGapControl": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
+      ]
+    },
     "EmbeddedConvert608To708": {
       "type": "string",
       "enum": [
@@ -4651,13 +4766,11 @@
     },
     "EmbeddedDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "EmbeddedPlusScte20DestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "EmbeddedScte20Detection": {
       "type": "string",
@@ -4689,8 +4802,7 @@
     },
     "Empty": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "EncoderSettings": {
       "type": "structure",
@@ -4714,6 +4826,10 @@
         "CaptionDescriptions": {
           "shape": "__listOfCaptionDescription",
           "locationName": "captionDescriptions"
+        },
+        "FeatureActivations": {
+          "shape": "FeatureActivations",
+          "locationName": "featureActivations"
         },
         "GlobalConfiguration": {
           "shape": "GlobalConfiguration",
@@ -4741,6 +4857,22 @@
         "AudioDescriptions",
         "OutputGroups",
         "TimecodeConfig"
+      ]
+    },
+    "FeatureActivations": {
+      "type": "structure",
+      "members": {
+        "InputPrepareScheduleActions": {
+          "shape": "FeatureActivationsInputPrepareScheduleActions",
+          "locationName": "inputPrepareScheduleActions"
+        }
+      }
+    },
+    "FeatureActivationsInputPrepareScheduleActions": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
       ]
     },
     "FecOutputIncludeFec": {
@@ -5253,7 +5385,7 @@
           "locationName": "parDenominator"
         },
         "ParNumerator": {
-          "shape": "__integer",
+          "shape": "__integerMin1",
           "locationName": "parNumerator"
         },
         "Profile": {
@@ -5391,6 +5523,15 @@
         }
       }
     },
+    "H265FilterSettings": {
+      "type": "structure",
+      "members": {
+        "TemporalFilterSettings": {
+          "shape": "TemporalFilterSettings",
+          "locationName": "temporalFilterSettings"
+        }
+      }
+    },
     "H265FlickerAq": {
       "type": "string",
       "enum": [
@@ -5450,6 +5591,7 @@
     "H265ScanType": {
       "type": "string",
       "enum": [
+        "INTERLACED",
         "PROGRESSIVE"
       ]
     },
@@ -5490,6 +5632,10 @@
         "ColorSpaceSettings": {
           "shape": "H265ColorSpaceSettings",
           "locationName": "colorSpaceSettings"
+        },
+        "FilterSettings": {
+          "shape": "H265FilterSettings",
+          "locationName": "filterSettings"
         },
         "FixedAfd": {
           "shape": "FixedAfd",
@@ -6019,7 +6165,8 @@
       "type": "string",
       "enum": [
         "MANIFESTS_AND_SEGMENTS",
-        "SEGMENTS_ONLY"
+        "SEGMENTS_ONLY",
+        "VARIANT_MANIFESTS_AND_SEGMENTS"
       ]
     },
     "HlsOutputSettings": {
@@ -6159,8 +6306,7 @@
     },
     "ImmediateModeScheduleActionStartSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "Input": {
       "type": "structure",
@@ -6705,6 +6851,23 @@
         "EQUAL_INPUT_PREFERENCE",
         "PRIMARY_INPUT_PREFERRED"
       ]
+    },
+    "InputPrepareScheduleActionSettings": {
+      "type": "structure",
+      "members": {
+        "InputAttachmentNameReference": {
+          "shape": "__string",
+          "locationName": "inputAttachmentNameReference"
+        },
+        "InputClippingSettings": {
+          "shape": "InputClippingSettings",
+          "locationName": "inputClippingSettings"
+        },
+        "UrlPath": {
+          "shape": "__listOf__string",
+          "locationName": "urlPath"
+        }
+      }
     },
     "InputResolution": {
       "type": "string",
@@ -7950,8 +8113,7 @@
     },
     "MediaPackageOutputSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "Mp2CodingMode": {
       "type": "string",
@@ -8141,8 +8303,7 @@
     },
     "MultiplexGroupSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "MultiplexMediaConnectOutputDestinationSettings": {
       "type": "structure",
@@ -8724,8 +8885,7 @@
     },
     "PassThroughSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "PauseStateScheduleActionSettings": {
       "type": "structure",
@@ -8864,13 +9024,11 @@
     },
     "Rec601Settings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "Rec709Settings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "RemixSettings": {
       "type": "structure",
@@ -9107,8 +9265,7 @@
     },
     "RtmpCaptionInfoDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "RtmpGroupSettings": {
       "type": "structure",
@@ -9203,6 +9360,10 @@
           "shape": "HlsTimedMetadataScheduleActionSettings",
           "locationName": "hlsTimedMetadataSettings"
         },
+        "InputPrepareSettings": {
+          "shape": "InputPrepareScheduleActionSettings",
+          "locationName": "inputPrepareSettings"
+        },
         "InputSwitchSettings": {
           "shape": "InputSwitchScheduleActionSettings",
           "locationName": "inputSwitchSettings"
@@ -9252,8 +9413,7 @@
     },
     "ScheduleDeleteResultModel": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "ScheduleDescribeResultModel": {
       "type": "structure",
@@ -9280,8 +9440,7 @@
     },
     "Scte20PlusEmbeddedDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "Scte20SourceSettings": {
       "type": "structure",
@@ -9298,8 +9457,7 @@
     },
     "Scte27DestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "Scte27SourceSettings": {
       "type": "structure",
@@ -9620,8 +9778,7 @@
     },
     "SmpteTtDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "StandardHlsSettings": {
       "type": "structure",
@@ -10030,8 +10187,7 @@
     },
     "TeletextDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
     },
     "TeletextSourceSettings": {
       "type": "structure",
@@ -10855,8 +11011,23 @@
     },
     "WebvttDestinationSettings": {
       "type": "structure",
-      "members": {
-      }
+      "members": {}
+    },
+    "AcceptHeader": {
+      "type": "string",
+      "enum": [
+        "image/jpeg"
+      ]
+    },
+    "ContentType": {
+      "type": "string",
+      "enum": [
+        "image/jpeg"
+      ]
+    },
+    "InputDeviceThumbnail": {
+      "type": "blob",
+      "streaming": true
     },
     "__boolean": {
       "type": "boolean"
@@ -11412,6 +11583,11 @@
       "min": 1,
       "max": 256
     },
+    "__stringMin1Max35": {
+      "type": "string",
+      "min": 1,
+      "max": 35
+    },
     "__stringMin32Max32": {
       "type": "string",
       "min": 32,
@@ -11439,6 +11615,9 @@
     "__timestampUnix": {
       "type": "timestamp",
       "timestampFormat": "unixTimestamp"
+    },
+    "__timestamp": {
+      "type": "timestamp"
     }
   }
 }
