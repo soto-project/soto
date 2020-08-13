@@ -43,6 +43,7 @@
     "UpdateActionTarget": "<p>Updates the name and description of a custom action target in Security Hub.</p>",
     "UpdateFindings": "<p> <code>UpdateFindings</code> is deprecated. Instead of <code>UpdateFindings</code>, use <code>BatchUpdateFindings</code>.</p> <p>Updates the <code>Note</code> and <code>RecordState</code> of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.</p>",
     "UpdateInsight": "<p>Updates the Security Hub insight identified by the specified insight ARN.</p>",
+    "UpdateSecurityHubConfiguration": "<p>Updates configuration options for Security Hub.</p>",
     "UpdateStandardsControl": "<p>Used to control whether an individual security standard control is enabled or disabled.</p>"
   },
   "shapes": {
@@ -122,6 +123,12 @@
       "base": null,
       "refs": {
         "AwsElbv2LoadBalancerDetails$AvailabilityZones": "<p>The Availability Zones for the load balancer.</p>"
+      }
+    },
+    "AwsAutoScalingAutoScalingGroupDetails": {
+      "base": "<p>Provides details about an auto scaling group.</p>",
+      "refs": {
+        "ResourceDetails$AwsAutoScalingAutoScalingGroup": "<p>Details for an autoscaling group.</p>"
       }
     },
     "AwsCloudFrontDistributionDetails": {
@@ -279,6 +286,30 @@
       "base": null,
       "refs": {
         "AwsEc2SecurityGroupIpPermission$UserIdGroupPairs": "<p>The security group and AWS account ID pairs.</p>"
+      }
+    },
+    "AwsEc2VolumeAttachment": {
+      "base": "<p>An attachment to an AWS EC2 volume.</p>",
+      "refs": {
+        "AwsEc2VolumeAttachmentList$member": null
+      }
+    },
+    "AwsEc2VolumeAttachmentList": {
+      "base": null,
+      "refs": {
+        "AwsEc2VolumeDetails$Attachments": "<p>The volume attachments.</p>"
+      }
+    },
+    "AwsEc2VolumeDetails": {
+      "base": "<p>Details about an EC2 volume.</p>",
+      "refs": {
+        "ResourceDetails$AwsEc2Volume": "<p>Details for an EC2 volume.</p>"
+      }
+    },
+    "AwsEc2VpcDetails": {
+      "base": "<p>Details about an EC2 VPC.</p>",
+      "refs": {
+        "ResourceDetails$AwsEc2Vpc": "<p>Details for an EC2 VPC.</p>"
       }
     },
     "AwsElasticsearchDomainDetails": {
@@ -495,7 +526,7 @@
       "base": "<p>A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight.</p>",
       "refs": {
         "CreateInsightRequest$Filters": "<p>One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.</p>",
-        "GetFindingsRequest$Filters": "<p>The finding attributes used to define a condition to filter the returned findings.</p>",
+        "GetFindingsRequest$Filters": "<p>The finding attributes used to define a condition to filter the returned findings.</p> <p>Note that in the available filter fields, <code>WorkflowState</code> is deprecated. To search for a finding based on its workflow status, use <code>WorkflowStatus</code>.</p>",
         "Insight$Filters": "<p>One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.</p>",
         "UpdateFindingsRequest$Filters": "<p>A collection of attributes that specify which findings you want to update.</p>",
         "UpdateInsightRequest$Filters": "<p>The updated filters that define this insight.</p>"
@@ -624,6 +655,8 @@
         "AwsCodeBuildProjectSource$InsecureSsl": "<p>Whether to ignore SSL warnings while connecting to the project source code.</p>",
         "AwsEc2NetworkInterfaceAttachment$DeleteOnTermination": "<p>Indicates whether the network interface is deleted when the instance is terminated.</p>",
         "AwsEc2NetworkInterfaceDetails$SourceDestCheck": "<p>Indicates whether traffic to or from the instance is validated.</p>",
+        "AwsEc2VolumeAttachment$DeleteOnTermination": "<p>Whether the EBS volume is deleted when the EC2 instance is terminated.</p>",
+        "AwsEc2VolumeDetails$Encrypted": "<p>Whether the volume is encrypted.</p>",
         "AwsElasticsearchDomainDomainEndpointOptions$EnforceHTTPS": "<p>Whether to require that all traffic to the domain arrive over HTTPS.</p>",
         "AwsElasticsearchDomainEncryptionAtRestOptions$Enabled": "<p>Whether encryption at rest is enabled.</p>",
         "AwsElasticsearchDomainNodeToNodeEncryptionOptions$Enabled": "<p>Whether node-to-node encryption is enabled.</p>",
@@ -631,15 +664,29 @@
         "AwsRdsDbInstanceDetails$IAMDatabaseAuthenticationEnabled": "<p>True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.</p> <p>IAM database authentication can be enabled for the following database engines.</p> <ul> <li> <p>For MySQL 5.6, minor version 5.6.34 or higher</p> </li> <li> <p>For MySQL 5.7, minor version 5.7.16 or higher</p> </li> <li> <p>Aurora 5.6 or higher</p> </li> </ul>",
         "AwsRdsDbInstanceDetails$PubliclyAccessible": "<p>Specifies the accessibility options for the DB instance.</p> <p>A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address.</p> <p>A value of false specifies an internal instance with a DNS name that resolves to a private IP address. </p>",
         "AwsRdsDbInstanceDetails$StorageEncrypted": "<p>Specifies whether the DB instance is encrypted.</p>",
+        "DescribeHubResponse$AutoEnableControls": "<p>Whether to automatically enable new controls when they are added to standards that are enabled.</p> <p>If set to <code>true</code>, then new controls for enabled standards are enabled automatically. If set to <code>false</code>, then new controls are not enabled.</p>",
         "EnableSecurityHubRequest$EnableDefaultStandards": "<p>Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for <code>EnableDefaultStandards</code>, it is set to <code>true</code>. To not enable the automatically enabled standards, set <code>EnableDefaultStandards</code> to <code>false</code>.</p>",
         "ListMembersRequest$OnlyAssociated": "<p>Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is <code>TRUE</code>.</p> <p>If <code>OnlyAssociated</code> is set to <code>TRUE</code>, the response includes member accounts whose relationship status with the master is set to <code>ENABLED</code> or <code>DISABLED</code>.</p> <p>If <code>OnlyAssociated</code> is set to <code>FALSE</code>, the response includes all existing member accounts. </p>",
-        "Standard$EnabledByDefault": "<p>Whether the standard is enabled by default. When Security Hub is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default.</p> <p>When Security Hub is enabled using the <code>EnableSecurityHub</code> API operation, the standard is enabled by default unless <code>EnableDefaultStandards</code> is set to <code>false</code>.</p>"
+        "Standard$EnabledByDefault": "<p>Whether the standard is enabled by default. When Security Hub is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default.</p> <p>When Security Hub is enabled using the <code>EnableSecurityHub</code> API operation, the standard is enabled by default unless <code>EnableDefaultStandards</code> is set to <code>false</code>.</p>",
+        "UpdateSecurityHubConfigurationRequest$AutoEnableControls": "<p>Whether to automatically enable new controls when they are added to standards that are enabled.</p> <p>By default, this is set to <code>true</code>, and new controls are enabled automatically. To not automatically enable new controls, set this to <code>false</code>. </p>"
       }
     },
     "CategoryList": {
       "base": null,
       "refs": {
         "Product$Categories": "<p>The categories assigned to the product.</p>"
+      }
+    },
+    "CidrBlockAssociation": {
+      "base": "<p>An IPv4 CIDR block association.</p>",
+      "refs": {
+        "CidrBlockAssociationList$member": null
+      }
+    },
+    "CidrBlockAssociationList": {
+      "base": null,
+      "refs": {
+        "AwsEc2VpcDetails$CidrBlockAssociationSet": "<p>Information about the IPv4 CIDR blocks associated with the VPC.</p>"
       }
     },
     "Compliance": {
@@ -695,6 +742,18 @@
     "CreateMembersResponse": {
       "base": null,
       "refs": {
+      }
+    },
+    "Cvss": {
+      "base": "<p>CVSS scores from the advisory related to the vulnerability.</p>",
+      "refs": {
+        "CvssList$member": null
+      }
+    },
+    "CvssList": {
+      "base": null,
+      "refs": {
+        "Vulnerability$Cvss": "<p>CVSS scores from the advisory related to the vulnerability.</p>"
       }
     },
     "DateFilter": {
@@ -875,6 +934,7 @@
       "base": null,
       "refs": {
         "AwsKmsKeyDetails$CreationDate": "<p>The date and time when the CMK was created.</p>",
+        "Cvss$BaseScore": "<p>The base CVSS score.</p>",
         "NumberFilter$Gte": "<p>The greater-than-equal condition to be applied to a single field when querying for findings. </p>",
         "NumberFilter$Lte": "<p>The less-than-equal condition to be applied to a single field when querying for findings. </p>",
         "NumberFilter$Eq": "<p>The equal-to condition to be applied to a single field when querying for findings.</p>",
@@ -1029,10 +1089,12 @@
     "Integer": {
       "base": null,
       "refs": {
+        "AwsAutoScalingAutoScalingGroupDetails$HealthCheckGracePeriod": "<p>The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.</p>",
         "AwsCodeBuildProjectSource$GitCloneDepth": "<p>Information about the Git clone depth for the build project.</p>",
         "AwsEc2NetworkInterfaceAttachment$DeviceIndex": "<p>The device index of the network interface attachment on the instance.</p>",
         "AwsEc2SecurityGroupIpPermission$FromPort": "<p>The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number.</p> <p>A value of -1 indicates all ICMP/ICMPv6 types. If you specify all ICMP/ICMPv6 types, you must specify all codes. </p>",
         "AwsEc2SecurityGroupIpPermission$ToPort": "<p>The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.</p> <p>A value of -1 indicates all ICMP/ICMPv6 codes. If you specify all ICMP/ICMPv6 types, you must specify all codes.</p>",
+        "AwsEc2VolumeDetails$Size": "<p>The size of the volume, in GiBs.</p>",
         "AwsIamRoleDetails$MaxSessionDuration": "<p>The maximum session duration (in seconds) that you want to set for the specified role.</p>",
         "AwsLambdaFunctionDetails$MemorySize": "<p>The memory that's allocated to the function.</p>",
         "AwsLambdaFunctionDetails$Timeout": "<p>The amount of time that Lambda allows a function to run before stopping it.</p>",
@@ -1050,9 +1112,11 @@
         "InsightResultValue$Count": "<p>The number of findings returned for each <code>GroupByAttributeValue</code>.</p>",
         "Network$SourcePort": "<p>The source port of network-related information about a finding.</p>",
         "Network$DestinationPort": "<p>The destination port of network-related information about a finding.</p>",
+        "PortRange$Begin": "<p>The first port in the port range.</p>",
+        "PortRange$End": "<p>The last port in the port range.</p>",
         "ProcessDetails$Pid": "<p>The process ID.</p>",
         "ProcessDetails$ParentPid": "<p>The parent process ID.</p>",
-        "Severity$Normalized": "<p>Deprecated. This attribute is being deprecated. Instead of providing <code>Normalized</code>, provide <code>Label</code>.</p> <p>If you provide <code>Normalized</code> and do not provide <code>Label</code>, <code>Label</code> is set automatically as follows. </p> <ul> <li> <p>0 - <code>INFORMATIONAL</code> </p> </li> <li> <p>1–39 - <code>LOW</code> </p> </li> <li> <p>40–69 - <code>MEDIUM</code> </p> </li> <li> <p>70–89 - <code>HIGH</code> </p> </li> <li> <p>90–100 - <code>CRITICAL</code> </p> </li> </ul>"
+        "Severity$Normalized": "<p>Deprecated. The normalized severity of a finding. This attribute is being deprecated. Instead of providing <code>Normalized</code>, provide <code>Label</code>.</p> <p>If you provide <code>Label</code> and do not provide <code>Normalized</code>, then <code>Normalized</code> is set automatically as follows.</p> <ul> <li> <p> <code>INFORMATIONAL</code> - 0</p> </li> <li> <p> <code>LOW</code> - 1</p> </li> <li> <p> <code>MEDIUM</code> - 40</p> </li> <li> <p> <code>HIGH</code> - 70</p> </li> <li> <p> <code>CRITICAL</code> - 90</p> </li> </ul>"
       }
     },
     "IntegrationType": {
@@ -1120,6 +1184,18 @@
         "AwsSecurityFindingFilters$NetworkDestinationIpV6": "<p>The destination IPv6 address of network-related information about a finding.</p>",
         "AwsSecurityFindingFilters$ResourceAwsEc2InstanceIpV4Addresses": "<p>The IPv4 addresses associated with the instance.</p>",
         "AwsSecurityFindingFilters$ResourceAwsEc2InstanceIpV6Addresses": "<p>The IPv6 addresses associated with the instance.</p>"
+      }
+    },
+    "Ipv6CidrBlockAssociation": {
+      "base": "<p>An IPV6 CIDR block association.</p>",
+      "refs": {
+        "Ipv6CidrBlockAssociationList$member": null
+      }
+    },
+    "Ipv6CidrBlockAssociationList": {
+      "base": null,
+      "refs": {
+        "AwsEc2VpcDetails$Ipv6CidrBlockAssociationSet": "<p>Information about the IPv6 CIDR blocks associated with the VPC.</p>"
       }
     },
     "KeywordFilter": {
@@ -1270,6 +1346,32 @@
         "Network$Direction": "<p>The direction of network traffic associated with a finding.</p>"
       }
     },
+    "NetworkHeader": {
+      "base": "<p>Details about a network path component that occurs before or after the current component.</p>",
+      "refs": {
+        "NetworkPathComponent$Egress": "<p>Information about the component that comes after the current component in the network path.</p>",
+        "NetworkPathComponent$Ingress": "<p>Information about the component that comes before the current node in the network path.</p>"
+      }
+    },
+    "NetworkPathComponent": {
+      "base": "<p>Information about a network path component.</p>",
+      "refs": {
+        "NetworkPathList$member": null
+      }
+    },
+    "NetworkPathComponentDetails": {
+      "base": "<p>Information about the destination of the next component in the network path.</p>",
+      "refs": {
+        "NetworkHeader$Destination": "<p>Information about the destination of the component.</p>",
+        "NetworkHeader$Source": "<p>Information about the origin of the component.</p>"
+      }
+    },
+    "NetworkPathList": {
+      "base": null,
+      "refs": {
+        "AwsSecurityFinding$NetworkPath": "<p>Provides information about a network path that is relevant to a finding. Each entry under <code>NetworkPath</code> represents a component of that path.</p>"
+      }
+    },
     "NextToken": {
       "base": null,
       "refs": {
@@ -1308,6 +1410,9 @@
         "ArnList$member": null,
         "AvailabilityZone$ZoneName": "<p>The name of the Availability Zone.</p>",
         "AvailabilityZone$SubnetId": "<p>The ID of the subnet. You can specify one subnet per Availability Zone.</p>",
+        "AwsAutoScalingAutoScalingGroupDetails$LaunchConfigurationName": "<p>The name of the launch configuration.</p>",
+        "AwsAutoScalingAutoScalingGroupDetails$HealthCheckType": "<p>The service to use for the health checks.</p>",
+        "AwsAutoScalingAutoScalingGroupDetails$CreatedTime": "<p>The datetime when the auto scaling group was created.</p>",
         "AwsCloudFrontDistributionDetails$DomainName": "<p>The domain name corresponding to the distribution.</p>",
         "AwsCloudFrontDistributionDetails$ETag": "<p>The entity tag is a hash of the object.</p>",
         "AwsCloudFrontDistributionDetails$LastModifiedTime": "<p>The date and time that the distribution was last modified.</p>",
@@ -1358,6 +1463,15 @@
         "AwsEc2SecurityGroupUserIdGroupPair$UserId": "<p>The ID of an AWS account.</p> <p>For a referenced security group in another VPC, the account ID of the referenced security group is returned in the response. If the referenced security group is deleted, this value is not returned.</p> <p>[EC2-Classic] Required when adding or removing rules that reference a security group in another AWS. </p>",
         "AwsEc2SecurityGroupUserIdGroupPair$VpcId": "<p>The ID of the VPC for the referenced security group, if applicable.</p>",
         "AwsEc2SecurityGroupUserIdGroupPair$VpcPeeringConnectionId": "<p>The ID of the VPC peering connection, if applicable.</p>",
+        "AwsEc2VolumeAttachment$AttachTime": "<p>The datetime when the attachment initiated.</p>",
+        "AwsEc2VolumeAttachment$InstanceId": "<p>The identifier of the EC2 instance.</p>",
+        "AwsEc2VolumeAttachment$Status": "<p>The attachment state of the volume.</p>",
+        "AwsEc2VolumeDetails$CreateTime": "<p>The datetime when the volume was created.</p>",
+        "AwsEc2VolumeDetails$SnapshotId": "<p>The snapshot from which the volume was created.</p>",
+        "AwsEc2VolumeDetails$Status": "<p>The volume state.</p>",
+        "AwsEc2VolumeDetails$KmsKeyId": "<p>The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.</p>",
+        "AwsEc2VpcDetails$DhcpOptionsId": "<p>The identifier of the set of Dynamic Host Configuration Protocol (DHCP) options that are associated with the VPC. If the default options are associated with the VPC, then this is default.</p>",
+        "AwsEc2VpcDetails$State": "<p>The current state of the VPC.</p>",
         "AwsElasticsearchDomainDetails$AccessPolicies": "<p>IAM policy document specifying the access policies for the new Amazon ES domain.</p>",
         "AwsElasticsearchDomainDetails$DomainId": "<p>Unique identifier for an Amazon ES domain.</p>",
         "AwsElasticsearchDomainDetails$DomainName": "<p>Name of an Amazon ES domain.</p> <p>Domain names are unique across all domains owned by the same account within an AWS Region.</p> <p>Domain names must start with a lowercase letter and must be between 3 and 28 characters.</p> <p>Valid characters are a-z (lowercase only), 0-9, and – (hyphen). </p>",
@@ -1467,6 +1581,9 @@
         "BatchUpdateFindingsUnprocessedFinding$ErrorCode": "<p>The code associated with the error.</p>",
         "BatchUpdateFindingsUnprocessedFinding$ErrorMessage": "<p>The message associated with the error.</p>",
         "CategoryList$member": null,
+        "CidrBlockAssociation$AssociationId": "<p>The association ID for the IPv4 CIDR block.</p>",
+        "CidrBlockAssociation$CidrBlock": "<p>The IPv4 CIDR block.</p>",
+        "CidrBlockAssociation$CidrBlockState": "<p>Information about the state of the IPv4 CIDR block.</p>",
         "ContainerDetails$Name": "<p>The name of the container related to a finding.</p>",
         "ContainerDetails$ImageId": "<p>The identifier of the image related to a finding.</p>",
         "ContainerDetails$ImageName": "<p>The name of the image related to a finding.</p>",
@@ -1478,6 +1595,8 @@
         "CreateInsightRequest$Name": "<p>The name of the custom insight to create.</p>",
         "CreateInsightRequest$GroupByAttribute": "<p>The attribute used to group the findings for the insight. The grouping attribute identifies the type of item that the insight applies to. For example, if an insight is grouped by resource identifier, then the insight produces a list of resource identifiers.</p>",
         "CreateInsightResponse$InsightArn": "<p>The ARN of the insight created.</p>",
+        "Cvss$Version": "<p>The version of CVSS for the CVSS score.</p>",
+        "Cvss$BaseVector": "<p>The base scoring vector for the CVSS score.</p>",
         "DateFilter$Start": "<p>A start date for the date filter.</p>",
         "DateFilter$End": "<p>An end date for the date filter.</p>",
         "DeleteActionTargetRequest$ActionTargetArn": "<p>The ARN of the custom action target to delete.</p>",
@@ -1512,6 +1631,9 @@
         "Invitation$InvitationId": "<p>The ID of the invitation sent to the member account.</p>",
         "Invitation$MemberStatus": "<p>The current status of the association between the member and master accounts.</p>",
         "IpFilter$Cidr": "<p>A finding's CIDR value.</p>",
+        "Ipv6CidrBlockAssociation$AssociationId": "<p>The association ID for the IPv6 CIDR block.</p>",
+        "Ipv6CidrBlockAssociation$Ipv6CidrBlock": "<p>The IPv6 CIDR block.</p>",
+        "Ipv6CidrBlockAssociation$CidrBlockState": "<p>Information about the state of the CIDR block.</p>",
         "KeywordFilter$Value": "<p>A value for the keyword.</p>",
         "LimitExceededException$Message": null,
         "LimitExceededException$Code": null,
@@ -1534,6 +1656,9 @@
         "Network$DestinationIpV4": "<p>The destination IPv4 address of network-related information about a finding.</p>",
         "Network$DestinationIpV6": "<p>The destination IPv6 address of network-related information about a finding.</p>",
         "Network$DestinationDomain": "<p>The destination domain of network-related information about a finding.</p>",
+        "NetworkHeader$Protocol": "<p>The protocol used for the component.</p>",
+        "NetworkPathComponent$ComponentId": "<p>The identifier of a component in the network path.</p>",
+        "NetworkPathComponent$ComponentType": "<p>The type of component.</p>",
         "NonEmptyStringList$member": null,
         "Note$Text": "<p>The text of a note.</p>",
         "Note$UpdatedBy": "<p>The principal that created a note.</p>",
@@ -1567,6 +1692,11 @@
         "Result$ProcessingResult": "<p>The reason that the account was not processed.</p>",
         "SecurityGroups$member": null,
         "Severity$Original": "<p>The native severity from the finding product that generated the finding.</p>",
+        "SoftwarePackage$Name": "<p>The name of the software package.</p>",
+        "SoftwarePackage$Version": "<p>The version of the software package.</p>",
+        "SoftwarePackage$Epoch": "<p>The epoch of the software package.</p>",
+        "SoftwarePackage$Release": "<p>The release of the software package.</p>",
+        "SoftwarePackage$Architecture": "<p>The architecture used for the software package.</p>",
         "SortCriterion$Field": "<p>The finding attribute used to sort findings.</p>",
         "Standard$StandardsArn": "<p>The ARN of a standard.</p>",
         "Standard$Name": "<p>The name of the standard.</p>",
@@ -1599,7 +1729,13 @@
         "UpdateInsightRequest$Name": "<p>The updated name for the insight.</p>",
         "UpdateInsightRequest$GroupByAttribute": "<p>The updated <code>GroupBy</code> attribute that defines this insight.</p>",
         "UpdateStandardsControlRequest$StandardsControlArn": "<p>The ARN of the security standard control to enable or disable.</p>",
-        "UpdateStandardsControlRequest$DisabledReason": "<p>A description of the reason why you are disabling a security standard control.</p>",
+        "UpdateStandardsControlRequest$DisabledReason": "<p>A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.</p>",
+        "Vulnerability$Id": "<p>The identifier of the vulnerability.</p>",
+        "VulnerabilityVendor$Name": "<p>The name of the vendor.</p>",
+        "VulnerabilityVendor$Url": "<p>The URL of the vulnerability advisory.</p>",
+        "VulnerabilityVendor$VendorSeverity": "<p>The severity that the vendor assigned to the vulnerability.</p>",
+        "VulnerabilityVendor$VendorCreatedAt": "<p>The datetime when the vulnerability advisory was created.</p>",
+        "VulnerabilityVendor$VendorUpdatedAt": "<p>The datetime when the vulnerability advisory was last updated.</p>",
         "WafAction$Type": "<p>Specifies how you want AWS WAF to respond to requests that match the settings in a rule.</p> <p>Valid settings include the following:</p> <ul> <li> <p> <code>ALLOW</code> - AWS WAF allows requests</p> </li> <li> <p> <code>BLOCK</code> - AWS WAF blocks requests</p> </li> <li> <p> <code>COUNT</code> - AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify <code>COUNT</code> for the default action for a WebACL.</p> </li> </ul>",
         "WafExcludedRule$RuleId": "<p>The unique identifier for the rule to exclude from the rule group.</p>",
         "WafOverrideAction$Type": "<p> <code>COUNT</code> overrides the action specified by the individual rule within a <code>RuleGroup</code> .</p> <p>If set to <code>NONE</code>, the rule's action takes place.</p>"
@@ -1654,6 +1790,19 @@
       "base": null,
       "refs": {
         "Resource$Partition": "<p>The canonical AWS partition name that the Region is assigned to.</p>"
+      }
+    },
+    "PortRange": {
+      "base": "<p>A range of ports.</p>",
+      "refs": {
+        "Network$OpenPortRange": "<p>The range of open ports that is present on the network.</p>",
+        "PortRangeList$member": null
+      }
+    },
+    "PortRangeList": {
+      "base": null,
+      "refs": {
+        "NetworkPathComponentDetails$PortRanges": "<p>A list of port ranges for the destination.</p>"
       }
     },
     "ProcessDetails": {
@@ -1787,7 +1936,7 @@
       }
     },
     "Severity": {
-      "base": "<p>The severity of the finding.</p>",
+      "base": "<p>The severity of the finding.</p> <p>The finding provider can provide the initial severity, but cannot update it after that. The severity can only be updated by a master account. It cannot be updated by a member account.</p> <p>The finding must have either <code>Label</code> or <code>Normalized</code> populated. If only one of these attributes is populated, then Security Hub automatically populates the other one. If neither attribute is populated, then the finding is invalid. <code>Label</code> is the preferred attribute.</p>",
       "refs": {
         "AwsSecurityFinding$Severity": "<p>A finding's severity.</p>"
       }
@@ -1795,7 +1944,7 @@
     "SeverityLabel": {
       "base": null,
       "refs": {
-        "Severity$Label": "<p>The severity value of the finding. The allowed values are the following.</p> <ul> <li> <p> <code>INFORMATIONAL</code> - No issue was found.</p> </li> <li> <p> <code>LOW</code> - The issue does not require action on its own.</p> </li> <li> <p> <code>MEDIUM</code> - The issue must be addressed but not urgently.</p> </li> <li> <p> <code>HIGH</code> - The issue must be addressed as a priority.</p> </li> <li> <p> <code>CRITICAL</code> - The issue must be remediated immediately to avoid it escalating.</p> </li> </ul>",
+        "Severity$Label": "<p>The severity value of the finding. The allowed values are the following.</p> <ul> <li> <p> <code>INFORMATIONAL</code> - No issue was found.</p> </li> <li> <p> <code>LOW</code> - The issue does not require action on its own.</p> </li> <li> <p> <code>MEDIUM</code> - The issue must be addressed but not urgently.</p> </li> <li> <p> <code>HIGH</code> - The issue must be addressed as a priority.</p> </li> <li> <p> <code>CRITICAL</code> - The issue must be remediated immediately to avoid it escalating.</p> </li> </ul> <p>If you provide <code>Normalized</code> and do not provide <code>Label</code>, then <code>Label</code> is set automatically as follows. </p> <ul> <li> <p>0 - <code>INFORMATIONAL</code> </p> </li> <li> <p>1–39 - <code>LOW</code> </p> </li> <li> <p>40–69 - <code>MEDIUM</code> </p> </li> <li> <p>70–89 - <code>HIGH</code> </p> </li> <li> <p>90–100 - <code>CRITICAL</code> </p> </li> </ul>",
         "SeverityUpdate$Label": "<p>The severity value of the finding. The allowed values are the following.</p> <ul> <li> <p> <code>INFORMATIONAL</code> - No issue was found.</p> </li> <li> <p> <code>LOW</code> - The issue does not require action on its own.</p> </li> <li> <p> <code>MEDIUM</code> - The issue must be addressed but not urgently.</p> </li> <li> <p> <code>HIGH</code> - The issue must be addressed as a priority.</p> </li> <li> <p> <code>CRITICAL</code> - The issue must be remediated immediately to avoid it escalating.</p> </li> </ul>"
       }
     },
@@ -1809,6 +1958,18 @@
       "base": "<p>Updates to the severity information for a finding.</p>",
       "refs": {
         "BatchUpdateFindingsRequest$Severity": "<p>Used to update the finding severity.</p>"
+      }
+    },
+    "SoftwarePackage": {
+      "base": "<p>Information about a software package.</p>",
+      "refs": {
+        "SoftwarePackageList$member": null
+      }
+    },
+    "SoftwarePackageList": {
+      "base": null,
+      "refs": {
+        "Vulnerability$VulnerablePackages": "<p>List of software packages that have the vulnerability.</p>"
       }
     },
     "SortCriteria": {
@@ -1973,7 +2134,7 @@
         "AwsSecurityFindingFilters$ResourceContainerImageName": "<p>The name of the image related to a finding.</p>",
         "AwsSecurityFindingFilters$ComplianceStatus": "<p>Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard, such as CIS AWS Foundations. Contains security standard-related finding details.</p>",
         "AwsSecurityFindingFilters$VerificationState": "<p>The veracity of a finding.</p>",
-        "AwsSecurityFindingFilters$WorkflowState": "<p>The workflow state of a finding.</p>",
+        "AwsSecurityFindingFilters$WorkflowState": "<p>The workflow state of a finding.</p> <p>Note that this field is deprecated. To search for a finding based on its workflow status, use <code>WorkflowStatus</code>.</p>",
         "AwsSecurityFindingFilters$WorkflowStatus": "<p>The status of the investigation into a finding. Allowed values are the following.</p> <ul> <li> <p> <code>NEW</code> - The initial state of a finding, before it is reviewed.</p> </li> <li> <p> <code>NOTIFIED</code> - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.</p> </li> <li> <p> <code>SUPPRESSED</code> - The finding will not be reviewed again and will not be acted upon.</p> </li> <li> <p> <code>RESOLVED</code> - The finding was reviewed and remediated and is now considered resolved. </p> </li> </ul>",
         "AwsSecurityFindingFilters$RecordState": "<p>The updated record state for the finding.</p>",
         "AwsSecurityFindingFilters$RelatedFindingsProductArn": "<p>The ARN of the solution that generated a related finding.</p>",
@@ -1985,8 +2146,12 @@
     "StringList": {
       "base": null,
       "refs": {
+        "AwsAutoScalingAutoScalingGroupDetails$LoadBalancerNames": "<p>The list of load balancers associated with the group.</p>",
         "AwsEc2InstanceDetails$IpV4Addresses": "<p>The IPv4 addresses associated with the instance.</p>",
-        "AwsEc2InstanceDetails$IpV6Addresses": "<p>The IPv6 addresses associated with the instance.</p>"
+        "AwsEc2InstanceDetails$IpV6Addresses": "<p>The IPv6 addresses associated with the instance.</p>",
+        "NetworkPathComponentDetails$Address": "<p>The IP addresses of the destination.</p>",
+        "Vulnerability$RelatedVulnerabilities": "<p>List of vulnerabilities that are related to this vulnerability.</p>",
+        "Vulnerability$ReferenceUrls": "<p>A list of URLs that provide additional information about the vulnerability.</p>"
       }
     },
     "TagKey": {
@@ -2106,6 +2271,16 @@
       "refs": {
       }
     },
+    "UpdateSecurityHubConfigurationRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UpdateSecurityHubConfigurationResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
     "UpdateStandardsControlRequest": {
       "base": null,
       "refs": {
@@ -2121,6 +2296,24 @@
       "refs": {
         "AwsSecurityFinding$VerificationState": "<p>Indicates the veracity of a finding. </p>",
         "BatchUpdateFindingsRequest$VerificationState": "<p>Indicates the veracity of a finding.</p> <p>The available values for <code>VerificationState</code> are as follows.</p> <ul> <li> <p> <code>UNKNOWN</code> – The default disposition of a security finding</p> </li> <li> <p> <code>TRUE_POSITIVE</code> – The security finding is confirmed</p> </li> <li> <p> <code>FALSE_POSITIVE</code> – The security finding was determined to be a false alarm</p> </li> <li> <p> <code>BENIGN_POSITIVE</code> – A special case of <code>TRUE_POSITIVE</code> where the finding doesn't pose any threat, is expected, or both</p> </li> </ul>"
+      }
+    },
+    "Vulnerability": {
+      "base": "<p>A vulnerability associated with a finding.</p>",
+      "refs": {
+        "VulnerabilityList$member": null
+      }
+    },
+    "VulnerabilityList": {
+      "base": null,
+      "refs": {
+        "AwsSecurityFinding$Vulnerabilities": "<p>Provides a list of vulnerabilities associated with the findings.</p>"
+      }
+    },
+    "VulnerabilityVendor": {
+      "base": "<p>A vendor that generates a vulnerability report.</p>",
+      "refs": {
+        "Vulnerability$Vendor": "<p>Information about the vendor that generates the vulnerability report.</p>"
       }
     },
     "WafAction": {

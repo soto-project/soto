@@ -102,6 +102,7 @@
         {"shape":"ActiveDirectoryError"},
         {"shape":"IncompatibleParameterError"},
         {"shape":"InvalidNetworkSettings"},
+        {"shape":"InvalidPerUnitStorageThroughput"},
         {"shape":"ServiceLimitExceeded"},
         {"shape":"BackupNotFound"},
         {"shape":"InternalServerError"},
@@ -293,7 +294,7 @@
       "type":"string",
       "max":255,
       "min":1,
-      "pattern":"^.{1,255}$"
+      "pattern":"^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$"
     },
     "AdministrativeAction":{
       "type":"structure",
@@ -328,11 +329,19 @@
       "type":"string",
       "max":900,
       "min":3,
-      "pattern":"^.{3,900}$"
+      "pattern":"^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$"
+    },
+    "AutoImportPolicyType":{
+      "type":"string",
+      "enum":[
+        "NONE",
+        "NEW",
+        "NEW_CHANGED"
+      ]
     },
     "AutomaticBackupRetentionDays":{
       "type":"integer",
-      "max":35,
+      "max":90,
       "min":0
     },
     "Backup":{
@@ -387,6 +396,7 @@
       "enum":[
         "AVAILABLE",
         "CREATING",
+        "TRANSFERRING",
         "DELETED",
         "FAILED"
       ]
@@ -514,6 +524,7 @@
         "SecurityGroupIds":{"shape":"SecurityGroupIds"},
         "Tags":{"shape":"Tags"},
         "WindowsConfiguration":{"shape":"CreateFileSystemWindowsConfiguration"},
+        "LustreConfiguration":{"shape":"CreateFileSystemLustreConfiguration"},
         "StorageType":{"shape":"StorageType"}
       }
     },
@@ -531,7 +542,12 @@
         "ExportPath":{"shape":"ArchivePath"},
         "ImportedFileChunkSize":{"shape":"Megabytes"},
         "DeploymentType":{"shape":"LustreDeploymentType"},
-        "PerUnitStorageThroughput":{"shape":"PerUnitStorageThroughput"}
+        "AutoImportPolicy":{"shape":"AutoImportPolicyType"},
+        "PerUnitStorageThroughput":{"shape":"PerUnitStorageThroughput"},
+        "DailyAutomaticBackupStartTime":{"shape":"DailyTime"},
+        "AutomaticBackupRetentionDays":{"shape":"AutomaticBackupRetentionDays"},
+        "CopyTagsToBackups":{"shape":"Flag"},
+        "DriveCacheType":{"shape":"DriveCacheType"}
       }
     },
     "CreateFileSystemRequest":{
@@ -594,10 +610,29 @@
     "DataRepositoryConfiguration":{
       "type":"structure",
       "members":{
+        "Lifecycle":{"shape":"DataRepositoryLifecycle"},
         "ImportPath":{"shape":"ArchivePath"},
         "ExportPath":{"shape":"ArchivePath"},
-        "ImportedFileChunkSize":{"shape":"Megabytes"}
+        "ImportedFileChunkSize":{"shape":"Megabytes"},
+        "AutoImportPolicy":{"shape":"AutoImportPolicyType"},
+        "FailureDetails":{"shape":"DataRepositoryFailureDetails"}
       }
+    },
+    "DataRepositoryFailureDetails":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"}
+      }
+    },
+    "DataRepositoryLifecycle":{
+      "type":"string",
+      "enum":[
+        "CREATING",
+        "AVAILABLE",
+        "MISCONFIGURED",
+        "UPDATING",
+        "DELETING"
+      ]
     },
     "DataRepositoryTask":{
       "type":"structure",
@@ -696,7 +731,7 @@
       "type":"string",
       "max":4096,
       "min":0,
-      "pattern":"^.{0,4096}$"
+      "pattern":"^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{0,4096}$"
     },
     "DataRepositoryTaskPaths":{
       "type":"list",
@@ -739,6 +774,20 @@
         "Lifecycle":{"shape":"BackupLifecycle"}
       }
     },
+    "DeleteFileSystemLustreConfiguration":{
+      "type":"structure",
+      "members":{
+        "SkipFinalBackup":{"shape":"Flag"},
+        "FinalBackupTags":{"shape":"Tags"}
+      }
+    },
+    "DeleteFileSystemLustreResponse":{
+      "type":"structure",
+      "members":{
+        "FinalBackupId":{"shape":"BackupId"},
+        "FinalBackupTags":{"shape":"Tags"}
+      }
+    },
     "DeleteFileSystemRequest":{
       "type":"structure",
       "required":["FileSystemId"],
@@ -748,7 +797,8 @@
           "shape":"ClientRequestToken",
           "idempotencyToken":true
         },
-        "WindowsConfiguration":{"shape":"DeleteFileSystemWindowsConfiguration"}
+        "WindowsConfiguration":{"shape":"DeleteFileSystemWindowsConfiguration"},
+        "LustreConfiguration":{"shape":"DeleteFileSystemLustreConfiguration"}
       }
     },
     "DeleteFileSystemResponse":{
@@ -756,7 +806,8 @@
       "members":{
         "FileSystemId":{"shape":"FileSystemId"},
         "Lifecycle":{"shape":"FileSystemLifecycle"},
-        "WindowsResponse":{"shape":"DeleteFileSystemWindowsResponse"}
+        "WindowsResponse":{"shape":"DeleteFileSystemWindowsResponse"},
+        "LustreResponse":{"shape":"DeleteFileSystemLustreResponse"}
       }
     },
     "DeleteFileSystemWindowsConfiguration":{
@@ -837,13 +888,20 @@
       "type":"string",
       "max":256,
       "min":1,
-      "pattern":"^.{1,256}$"
+      "pattern":"^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$"
     },
     "DnsIps":{
       "type":"list",
       "member":{"shape":"IpAddress"},
       "max":2,
       "min":1
+    },
+    "DriveCacheType":{
+      "type":"string",
+      "enum":[
+        "NONE",
+        "READ"
+      ]
     },
     "EndTime":{"type":"timestamp"},
     "ErrorMessage":{
@@ -879,7 +937,7 @@
       "type":"string",
       "max":256,
       "min":1,
-      "pattern":"^.{1,256}$"
+      "pattern":"^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$"
     },
     "FileSystemFailureDetails":{
       "type":"structure",
@@ -951,7 +1009,8 @@
       "type":"string",
       "enum":[
         "file-system-id",
-        "backup-type"
+        "backup-type",
+        "file-system-type"
       ]
     },
     "FilterValue":{
@@ -1062,7 +1121,11 @@
         "DataRepositoryConfiguration":{"shape":"DataRepositoryConfiguration"},
         "DeploymentType":{"shape":"LustreDeploymentType"},
         "PerUnitStorageThroughput":{"shape":"PerUnitStorageThroughput"},
-        "MountName":{"shape":"LustreFileSystemMountName"}
+        "MountName":{"shape":"LustreFileSystemMountName"},
+        "DailyAutomaticBackupStartTime":{"shape":"DailyTime"},
+        "AutomaticBackupRetentionDays":{"shape":"AutomaticBackupRetentionDays"},
+        "CopyTagsToBackups":{"shape":"Flag"},
+        "DriveCacheType":{"shape":"DriveCacheType"}
       }
     },
     "LustreFileSystemMountName":{
@@ -1123,7 +1186,7 @@
       "type":"string",
       "max":2000,
       "min":1,
-      "pattern":"^.{1,2000}$"
+      "pattern":"^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,2000}$"
     },
     "Parameter":{
       "type":"string",
@@ -1132,7 +1195,7 @@
     "PerUnitStorageThroughput":{
       "type":"integer",
       "max":200,
-      "min":50
+      "min":12
     },
     "ProgressPercent":{
       "type":"integer",
@@ -1273,6 +1336,10 @@
     "SucceededCount":{"type":"long"},
     "Tag":{
       "type":"structure",
+      "required":[
+        "Key",
+        "Value"
+      ],
       "members":{
         "Key":{"shape":"TagKey"},
         "Value":{"shape":"TagValue"}
@@ -1356,7 +1423,10 @@
     "UpdateFileSystemLustreConfiguration":{
       "type":"structure",
       "members":{
-        "WeeklyMaintenanceStartTime":{"shape":"WeeklyTime"}
+        "WeeklyMaintenanceStartTime":{"shape":"WeeklyTime"},
+        "DailyAutomaticBackupStartTime":{"shape":"DailyTime"},
+        "AutomaticBackupRetentionDays":{"shape":"AutomaticBackupRetentionDays"},
+        "AutoImportPolicy":{"shape":"AutoImportPolicyType"}
       }
     },
     "UpdateFileSystemRequest":{
