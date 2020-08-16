@@ -12,6 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import AWSS3
+import AWSSNS
 @testable import AWSSTS
 import XCTest
 
@@ -63,5 +65,39 @@ class STSTests: XCTestCase {
     func testSTSCredentialProviderShutdown() {
         let client = AWSClient(credentialProvider: .stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2), httpClientProvider: .createNew)
         XCTAssertNoThrow(try client.syncShutdown())
+    }
+
+    func testFederationToken() {
+        // create a role with this policy
+        let policyDocument = """
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:*",
+                        "sqs:*"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        """
+        let name = TestEnvironment.generateResourceName()
+        let federationRequest = STS.GetFederationTokenRequest(name: name, policy: policyDocument)
+        let client = AWSClient(credentialProvider: .federationToken(request: federationRequest, region: .useast1), httpClientProvider: .createNew)
+        defer { XCTAssertNoThrow(try client.syncShutdown()) }
+        let s3 = S3(client: client, region: .euwest1)
+        XCTAssertNoThrow(try s3.listBuckets().wait())
+        let sns = SNS(client: client)
+        XCTAssertThrowsError(try sns.listTopics(.init()).wait()) { error in
+            switch error {
+            case SNSErrorType.authorizationErrorException(_):
+                break
+            default:
+                XCTFail("Wrong error \(error)")
+            }
+        }
     }
 }
