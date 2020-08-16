@@ -111,6 +111,9 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         if case .xml(let element) = response.body {
             // GetBucketLocation comes back without a containing xml element
             if element.name == "LocationConstraint" {
+                if element.stringValue == "" {
+                    element.addChild(.text(stringValue: "us-east-1"))
+                }
                 let parentElement = XML.Element(name: "BucketLocation")
                 parentElement.addChild(element)
                 response.body = .xml(parentElement)
