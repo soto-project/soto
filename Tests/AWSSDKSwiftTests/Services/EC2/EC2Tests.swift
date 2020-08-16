@@ -42,15 +42,9 @@ class EC2Tests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func testRunInstances() {
-        let imageRequest = EC2.DescribeImagesRequest(filters: .init([EC2.Filter(name: "name", values: ["*ubuntu*"]), EC2.Filter(name: "state", values: ["available"])]))
+    func testDescribeImages() {
+        let imageRequest = EC2.DescribeImagesRequest(filters: .init([EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]), EC2.Filter(name: "state", values: ["available"])]))
         let response = Self.ec2.describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
-    }
-
-    static var allTests: [(String, (EC2Tests) -> () throws -> Void)] {
-        return [
-            ("testRunInstances", testRunInstances),
-        ]
     }
 }
