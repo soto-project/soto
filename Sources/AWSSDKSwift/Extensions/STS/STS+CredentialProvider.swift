@@ -219,7 +219,7 @@ extension CredentialProviderFactory {
     ///   - request: AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetFederationToken operation
     ///   - region: Region to run request in
-    public static func federationToken(
+    public static func stsFederationToken(
         request: STS.GetFederationTokenRequest,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region
@@ -240,7 +240,7 @@ extension CredentialProviderFactory {
     ///   - request: AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
-    public static func sessionToken(
+    public static func stsSessionToken(
         request: STS.GetSessionTokenRequest,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region
