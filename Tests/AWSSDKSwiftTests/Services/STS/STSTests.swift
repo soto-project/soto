@@ -68,6 +68,8 @@ class STSTests: XCTestCase {
     }
 
     func testFederationToken() {
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
         // create a role with this policy
         let policyDocument = """
         {
@@ -86,7 +88,14 @@ class STSTests: XCTestCase {
         """
         let name = TestEnvironment.generateResourceName()
         let federationRequest = STS.GetFederationTokenRequest(name: name, policy: policyDocument)
-        let client = AWSClient(credentialProvider: .stsFederationToken(request: federationRequest, region: .useast1), httpClientProvider: .createNew)
+        let client = AWSClient(
+            credentialProvider: .stsFederationToken(
+                request: federationRequest,
+                credentialProvider: TestEnvironment.credentialProvider,
+                region: .useast1
+            ),
+            httpClientProvider: .createNew
+        )
         defer { XCTAssertNoThrow(try client.syncShutdown()) }
         let s3 = S3(client: client, region: .euwest1)
         XCTAssertNoThrow(try s3.listBuckets().wait())
