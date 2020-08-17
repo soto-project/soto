@@ -59,6 +59,11 @@ public struct RoboMaker {
     
     //MARK: API Calls
 
+    ///  Deletes one or more worlds in a batch operation.
+    public func batchDeleteWorlds(_ input: BatchDeleteWorldsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeleteWorldsResponse> {
+        return client.execute(operation: "BatchDeleteWorlds", path: "/batchDeleteWorlds", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Describes one or more simulation jobs.
     public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDescribeSimulationJobResponse> {
         return client.execute(operation: "BatchDescribeSimulationJob", path: "/batchDescribeSimulationJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -77,6 +82,16 @@ public struct RoboMaker {
     ///  Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch. 
     public func cancelSimulationJobBatch(_ input: CancelSimulationJobBatchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelSimulationJobBatchResponse> {
         return client.execute(operation: "CancelSimulationJobBatch", path: "/cancelSimulationJobBatch", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Cancels the specified export job.
+    public func cancelWorldExportJob(_ input: CancelWorldExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelWorldExportJobResponse> {
+        return client.execute(operation: "CancelWorldExportJob", path: "/cancelWorldExportJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Cancels the specified world generator job.
+    public func cancelWorldGenerationJob(_ input: CancelWorldGenerationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelWorldGenerationJobResponse> {
+        return client.execute(operation: "CancelWorldGenerationJob", path: "/cancelWorldGenerationJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
@@ -119,6 +134,21 @@ public struct RoboMaker {
         return client.execute(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Creates a world export job.
+    public func createWorldExportJob(_ input: CreateWorldExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorldExportJobResponse> {
+        return client.execute(operation: "CreateWorldExportJob", path: "/createWorldExportJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Creates worlds using the specified template.
+    public func createWorldGenerationJob(_ input: CreateWorldGenerationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorldGenerationJobResponse> {
+        return client.execute(operation: "CreateWorldGenerationJob", path: "/createWorldGenerationJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Creates a world template.
+    public func createWorldTemplate(_ input: CreateWorldTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorldTemplateResponse> {
+        return client.execute(operation: "CreateWorldTemplate", path: "/createWorldTemplate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Deletes a fleet.
     public func deleteFleet(_ input: DeleteFleetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteFleetResponse> {
         return client.execute(operation: "DeleteFleet", path: "/deleteFleet", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -137,6 +167,11 @@ public struct RoboMaker {
     ///  Deletes a simulation application.
     public func deleteSimulationApplication(_ input: DeleteSimulationApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSimulationApplicationResponse> {
         return client.execute(operation: "DeleteSimulationApplication", path: "/deleteSimulationApplication", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes a world template.
+    public func deleteWorldTemplate(_ input: DeleteWorldTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWorldTemplateResponse> {
+        return client.execute(operation: "DeleteWorldTemplate", path: "/deleteWorldTemplate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deregisters a robot.
@@ -179,6 +214,31 @@ public struct RoboMaker {
         return client.execute(operation: "DescribeSimulationJobBatch", path: "/describeSimulationJobBatch", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Describes a world.
+    public func describeWorld(_ input: DescribeWorldRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorldResponse> {
+        return client.execute(operation: "DescribeWorld", path: "/describeWorld", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Describes a world export job.
+    public func describeWorldExportJob(_ input: DescribeWorldExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorldExportJobResponse> {
+        return client.execute(operation: "DescribeWorldExportJob", path: "/describeWorldExportJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Describes a world generation job.
+    public func describeWorldGenerationJob(_ input: DescribeWorldGenerationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorldGenerationJobResponse> {
+        return client.execute(operation: "DescribeWorldGenerationJob", path: "/describeWorldGenerationJob", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Describes a world template.
+    public func describeWorldTemplate(_ input: DescribeWorldTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorldTemplateResponse> {
+        return client.execute(operation: "DescribeWorldTemplate", path: "/describeWorldTemplate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Gets the world template body.
+    public func getWorldTemplateBody(_ input: GetWorldTemplateBodyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetWorldTemplateBodyResponse> {
+        return client.execute(operation: "GetWorldTemplateBody", path: "/getWorldTemplateBody", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
     public func listDeploymentJobs(_ input: ListDeploymentJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentJobsResponse> {
         return client.execute(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -219,6 +279,26 @@ public struct RoboMaker {
         return client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Lists world export jobs.
+    public func listWorldExportJobs(_ input: ListWorldExportJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWorldExportJobsResponse> {
+        return client.execute(operation: "ListWorldExportJobs", path: "/listWorldExportJobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Lists world generator jobs.
+    public func listWorldGenerationJobs(_ input: ListWorldGenerationJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWorldGenerationJobsResponse> {
+        return client.execute(operation: "ListWorldGenerationJobs", path: "/listWorldGenerationJobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Lists world templates.
+    public func listWorldTemplates(_ input: ListWorldTemplatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWorldTemplatesResponse> {
+        return client.execute(operation: "ListWorldTemplates", path: "/listWorldTemplates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Lists worlds.
+    public func listWorlds(_ input: ListWorldsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListWorldsResponse> {
+        return client.execute(operation: "ListWorlds", path: "/listWorlds", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Registers a robot with a fleet.
     public func registerRobot(_ input: RegisterRobotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterRobotResponse> {
         return client.execute(operation: "RegisterRobot", path: "/registerRobot", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -257,5 +337,10 @@ public struct RoboMaker {
     ///  Updates a simulation application.
     public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSimulationApplicationResponse> {
         return client.execute(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Updates a world template.
+    public func updateWorldTemplate(_ input: UpdateWorldTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateWorldTemplateResponse> {
+        return client.execute(operation: "UpdateWorldTemplate", path: "/updateWorldTemplate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

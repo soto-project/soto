@@ -363,7 +363,6 @@ extension CodeGuruProfiler {
         public func validate(name: String) throws {
             try validate(self.fleetInstanceId, name: "fleetInstanceId", parent: name, max: 255)
             try validate(self.fleetInstanceId, name: "fleetInstanceId", parent: name, min: 1)
-            try validate(self.fleetInstanceId, name: "fleetInstanceId", parent: name, pattern: "^[\\w-.:/]+$")
             try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -404,12 +403,15 @@ extension CodeGuruProfiler {
         public let computePlatform: ComputePlatform?
         /// The name of the profiling group to create.
         public let profilingGroupName: String
+        ///  A list of tags to add to the created profiling group. 
+        public let tags: [String: String]?
 
-        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, clientToken: String = CreateProfilingGroupRequest.idempotencyToken(), computePlatform: ComputePlatform? = nil, profilingGroupName: String) {
+        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, clientToken: String = CreateProfilingGroupRequest.idempotencyToken(), computePlatform: ComputePlatform? = nil, profilingGroupName: String, tags: [String: String]? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.clientToken = clientToken
             self.computePlatform = computePlatform
             self.profilingGroupName = profilingGroupName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -425,6 +427,7 @@ extension CodeGuruProfiler {
             case agentOrchestrationConfig = "agentOrchestrationConfig"
             case computePlatform = "computePlatform"
             case profilingGroupName = "profilingGroupName"
+            case tags = "tags"
         }
     }
 
@@ -1028,6 +1031,35 @@ extension CodeGuruProfiler {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the resource that contains the tags to return. 
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+
+        ///  The list of tags assigned to the specified resource. This is the list of tags returned in the response. 
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct Match: AWSDecodableShape {
 
         /// The location in the profiling graph that contains a recommendation found during analysis.
@@ -1200,17 +1232,20 @@ extension CodeGuruProfiler {
         public let name: String?
         ///  A  ProfilingStatus  object that includes information about the last time a profile agent pinged back, the last time a profile was received, and the aggregation period and start time for the most recent aggregated profile. 
         public let profilingStatus: ProfilingStatus?
+        ///  A list of the tags that belong to this profiling group. 
+        public let tags: [String: String]?
         ///  The date and time when the profiling group was last updated. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
         @OptionalCoding<ISO8601TimeStampCoder>
         public var updatedAt: TimeStamp?
 
-        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, computePlatform: ComputePlatform? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, computePlatform: ComputePlatform? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.arn = arn
             self.computePlatform = computePlatform
             self.createdAt = createdAt
             self.name = name
             self.profilingStatus = profilingStatus
+            self.tags = tags
             self.updatedAt = updatedAt
         }
 
@@ -1221,6 +1256,7 @@ extension CodeGuruProfiler {
             case createdAt = "createdAt"
             case name = "name"
             case profilingStatus = "profilingStatus"
+            case tags = "tags"
             case updatedAt = "updatedAt"
         }
     }
@@ -1471,6 +1507,34 @@ extension CodeGuruProfiler {
 
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the resource that the tags are added to. 
+        public let resourceArn: String
+        ///  The list of tags that are added to the specified resource. 
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct TimestampStructure: AWSDecodableShape {
 
         ///  A Timestamp. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
@@ -1484,6 +1548,33 @@ extension CodeGuruProfiler {
         private enum CodingKeys: String, CodingKey {
             case value = "value"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the resource that contains the tags to remove. 
+        public let resourceArn: String
+        ///  A list of tag keys. Existing tags of resources with keys in this list are removed from the specified resource. 
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateProfilingGroupRequest: AWSEncodableShape {

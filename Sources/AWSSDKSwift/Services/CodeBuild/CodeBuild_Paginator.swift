@@ -20,6 +20,16 @@ import AWSSDKSwiftCore
 
 extension CodeBuild {
 
+    ///  Retrieves one or more code coverage reports.
+    public func describeCodeCoveragesPaginator(
+        _ input: DescribeCodeCoveragesInput,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (DescribeCodeCoveragesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCodeCoverages, tokenKey: \DescribeCodeCoveragesOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///   Returns a list of details about test cases for a report. 
     public func describeTestCasesPaginator(
         _ input: DescribeTestCasesInput,
@@ -28,6 +38,26 @@ extension CodeBuild {
         onPage: @escaping (DescribeTestCasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTestCases, tokenKey: \DescribeTestCasesOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Retrieves the identifiers of your build batches in the current region.
+    public func listBuildBatchesPaginator(
+        _ input: ListBuildBatchesInput,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListBuildBatchesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBuildBatches, tokenKey: \ListBuildBatchesOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Retrieves the identifiers of the build batches for a specific project.
+    public func listBuildBatchesForProjectPaginator(
+        _ input: ListBuildBatchesForProjectInput,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListBuildBatchesForProjectOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBuildBatchesForProject, tokenKey: \ListBuildBatchesForProjectOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
@@ -112,6 +142,21 @@ extension CodeBuild {
 
 }
 
+extension CodeBuild.DescribeCodeCoveragesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.DescribeCodeCoveragesInput {
+        return .init(
+            maxLineCoveragePercentage: self.maxLineCoveragePercentage,
+            maxResults: self.maxResults,
+            minLineCoveragePercentage: self.minLineCoveragePercentage,
+            nextToken: token,
+            reportArn: self.reportArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+
+    }
+}
+
 extension CodeBuild.DescribeTestCasesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeBuild.DescribeTestCasesInput {
         return .init(
@@ -119,6 +164,31 @@ extension CodeBuild.DescribeTestCasesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             reportArn: self.reportArn
+        )
+
+    }
+}
+
+extension CodeBuild.ListBuildBatchesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildBatchesInput {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder
+        )
+
+    }
+}
+
+extension CodeBuild.ListBuildBatchesForProjectInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildBatchesForProjectInput {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectName: self.projectName,
+            sortOrder: self.sortOrder
         )
 
     }

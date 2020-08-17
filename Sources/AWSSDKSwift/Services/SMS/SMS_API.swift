@@ -19,7 +19,7 @@
 /**
 Client object for interacting with AWS SMS service.
 
-AAWS Sever Migration Service This is the AWS Sever Migration Service API Reference. It provides descriptions, syntax, and usage examples for each of the actions and data types for the AWS Sever Migration Service (AWS SMS). The topic for each action shows the Query API request parameters and the XML response. You can also view the XML request elements in the WSDL. Alternatively, you can use one of the AWS SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see AWS SDKs. To learn more about the Server Migration Service, see the following resources:    AWS Sever Migration Service product page     AWS Sever Migration Service User Guide   
+AWS Server Migration Service AWS Server Migration Service (AWS SMS) makes it easier and faster for you to migrate your on-premises workloads to AWS. To learn more about AWS SMS, see the following resources:    AWS Server Migration Service product page     AWS Server Migration Service User Guide   
 */
 public struct SMS {
 
@@ -70,19 +70,24 @@ public struct SMS {
         return client.execute(operation: "CreateReplicationJob", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes an existing application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
+    ///  Deletes the specified application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
     public func deleteApp(_ input: DeleteAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAppResponse> {
         return client.execute(operation: "DeleteApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes existing launch configuration for an application.
+    ///  Deletes the launch configuration for the specified application.
     public func deleteAppLaunchConfiguration(_ input: DeleteAppLaunchConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAppLaunchConfigurationResponse> {
         return client.execute(operation: "DeleteAppLaunchConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes existing replication configuration for an application.
+    ///  Deletes the replication configuration for the specified application.
     public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAppReplicationConfigurationResponse> {
         return client.execute(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes the validation configuration for the specified application.
+    public func deleteAppValidationConfiguration(_ input: DeleteAppValidationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAppValidationConfigurationResponse> {
+        return client.execute(operation: "DeleteAppValidationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
@@ -105,24 +110,34 @@ public struct SMS {
         return client.execute(operation: "GenerateChangeSet", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Generates an Amazon CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    ///  Generates an AWS CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     public func generateTemplate(_ input: GenerateTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GenerateTemplateResponse> {
         return client.execute(operation: "GenerateTemplate", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Retrieve information about an application.
+    ///  Retrieve information about the specified application.
     public func getApp(_ input: GetAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAppResponse> {
         return client.execute(operation: "GetApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Retrieves the application launch configuration associated with an application.
+    ///  Retrieves the application launch configuration associated with the specified application.
     public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAppLaunchConfigurationResponse> {
         return client.execute(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Retrieves an application replication configuration associatd with an application.
+    ///  Retrieves the application replication configuration associated with the specified application.
     public func getAppReplicationConfiguration(_ input: GetAppReplicationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAppReplicationConfigurationResponse> {
         return client.execute(operation: "GetAppReplicationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves information about a configuration for validating an application.
+    public func getAppValidationConfiguration(_ input: GetAppValidationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAppValidationConfigurationResponse> {
+        return client.execute(operation: "GetAppValidationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves output from validating an application.
+    public func getAppValidationOutput(_ input: GetAppValidationOutputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAppValidationOutputResponse> {
+        return client.execute(operation: "GetAppValidationOutput", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Describes the connectors registered with the AWS SMS.
@@ -145,52 +160,72 @@ public struct SMS {
         return client.execute(operation: "GetServers", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers that you want to import. This call returns immediately, but might take additional time to retrieve all the servers.
+    ///  Allows application import from AWS Migration Hub.
+    public func importAppCatalog(_ input: ImportAppCatalogRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportAppCatalogResponse> {
+        return client.execute(operation: "ImportAppCatalog", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
     public func importServerCatalog(_ input: ImportServerCatalogRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportServerCatalogResponse> {
         return client.execute(operation: "ImportServerCatalog", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Launches an application stack.
+    ///  Launches the specified application as a stack in AWS CloudFormation.
     public func launchApp(_ input: LaunchAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<LaunchAppResponse> {
         return client.execute(operation: "LaunchApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of summaries for all applications.
+    ///  Retrieves summaries for all applications.
     public func listApps(_ input: ListAppsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAppsResponse> {
         return client.execute(operation: "ListApps", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a launch configuration for an application.
+    ///  Provides information to AWS SMS about whether application validation is successful.
+    public func notifyAppValidationOutput(_ input: NotifyAppValidationOutputRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<NotifyAppValidationOutputResponse> {
+        return client.execute(operation: "NotifyAppValidationOutput", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Creates or updates the launch configuration for the specified application.
     public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutAppLaunchConfigurationResponse> {
         return client.execute(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates or updates a replication configuration for an application.
+    ///  Creates or updates the replication configuration for the specified application.
     public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutAppReplicationConfigurationResponse> {
         return client.execute(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts replicating an application.
+    ///  Creates or updates a validation configuration for the specified application.
+    public func putAppValidationConfiguration(_ input: PutAppValidationConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutAppValidationConfigurationResponse> {
+        return client.execute(operation: "PutAppValidationConfiguration", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Starts replicating the specified application by creating replication jobs for each server in the application.
     public func startAppReplication(_ input: StartAppReplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartAppReplicationResponse> {
         return client.execute(operation: "StartAppReplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs you can request in a 24-hour period.
+    ///  Starts an on-demand replication run for the specified application.
+    public func startOnDemandAppReplication(_ input: StartOnDemandAppReplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartOnDemandAppReplicationResponse> {
+        return client.execute(operation: "StartOnDemandAppReplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs that you can request in a 24-hour period.
     public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartOnDemandReplicationRunResponse> {
         return client.execute(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Stops replicating an application.
+    ///  Stops replicating the specified application by deleting the replication job for each server in the application.
     public func stopAppReplication(_ input: StopAppReplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopAppReplicationResponse> {
         return client.execute(operation: "StopAppReplication", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Terminates the stack for an application.
+    ///  Terminates the stack for the specified application.
     public func terminateApp(_ input: TerminateAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TerminateAppResponse> {
         return client.execute(operation: "TerminateApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Updates an application.
+    ///  Updates the specified application.
     public func updateApp(_ input: UpdateAppRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAppResponse> {
         return client.execute(operation: "UpdateApp", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }

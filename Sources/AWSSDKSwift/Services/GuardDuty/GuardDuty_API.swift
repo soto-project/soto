@@ -69,7 +69,7 @@ public struct GuardDuty {
         return client.execute(operation: "ArchiveFindings", path: "/detector/{detectorId}/findings/archive", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region.
+    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
     public func createDetector(_ input: CreateDetectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDetectorResponse> {
         return client.execute(operation: "CreateDetector", path: "/detector", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -84,7 +84,7 @@ public struct GuardDuty {
         return client.execute(operation: "CreateIPSet", path: "/detector/{detectorId}/ipset", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates member accounts of the current AWS account by specifying a list of AWS account IDs. The current AWS account can then invite these members to manage GuardDuty in their accounts.
+    ///  Creates member accounts of the current AWS account by specifying a list of AWS account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization master account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using  Invite Members .
     public func createMembers(_ input: CreateMembersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMembersResponse> {
         return client.execute(operation: "CreateMembers", path: "/detector/{detectorId}/member", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -209,6 +209,11 @@ public struct GuardDuty {
         return client.execute(operation: "GetMasterAccount", path: "/detector/{detectorId}/master", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Describes which data sources are enabled for the member account's detector.
+    public func getMemberDetectors(_ input: GetMemberDetectorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMemberDetectorsResponse> {
+        return client.execute(operation: "GetMemberDetectors", path: "/detector/{detectorId}/member/detector/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Retrieves GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
     public func getMembers(_ input: GetMembersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMembersResponse> {
         return client.execute(operation: "GetMembers", path: "/detector/{detectorId}/member/get", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -217,6 +222,11 @@ public struct GuardDuty {
     ///  Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     public func getThreatIntelSet(_ input: GetThreatIntelSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetThreatIntelSetResponse> {
         return client.execute(operation: "GetThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
+    public func getUsageStatistics(_ input: GetUsageStatisticsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUsageStatisticsResponse> {
+        return client.execute(operation: "GetUsageStatistics", path: "/detector/{detectorId}/usage/statistics", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' GuardDuty findings on their behalf as the master account.
@@ -317,6 +327,11 @@ public struct GuardDuty {
     ///  Updates the IPSet specified by the IPSet ID.
     public func updateIPSet(_ input: UpdateIPSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateIPSetResponse> {
         return client.execute(operation: "UpdateIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Contains information on member accounts to be updated.
+    public func updateMemberDetectors(_ input: UpdateMemberDetectorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMemberDetectorsResponse> {
+        return client.execute(operation: "UpdateMemberDetectors", path: "/detector/{detectorId}/member/detector/update", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the delegated administrator account with the values provided.

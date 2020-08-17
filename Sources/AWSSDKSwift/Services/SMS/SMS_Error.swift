@@ -18,6 +18,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for SMS
 public enum SMSErrorType: AWSErrorType {
+    case dryRunOperationException(message: String?)
     case internalError(message: String?)
     case invalidParameterException(message: String?)
     case missingRequiredParameterException(message: String?)
@@ -38,6 +39,8 @@ extension SMSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "DryRunOperationException":
+            self = .dryRunOperationException(message: message)
         case "InternalError":
             self = .internalError(message: message)
         case "InvalidParameterException":
@@ -69,6 +72,8 @@ extension SMSErrorType {
 extension SMSErrorType: CustomStringConvertible {
     public var description: String {
         switch self {
+        case .dryRunOperationException(let message):
+            return "DryRunOperationException: \(message ?? "")"
         case .internalError(let message):
             return "InternalError: \(message ?? "")"
         case .invalidParameterException(let message):

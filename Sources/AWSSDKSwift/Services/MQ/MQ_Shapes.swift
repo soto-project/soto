@@ -20,6 +20,12 @@ import Foundation
 extension MQ {
     //MARK: Enums
 
+    public enum AuthenticationStrategy: String, CustomStringConvertible, Codable {
+        case simple = "SIMPLE"
+        case ldap = "LDAP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BrokerState: String, CustomStringConvertible, Codable {
         case creationInProgress = "CREATION_IN_PROGRESS"
         case creationFailed = "CREATION_FAILED"
@@ -204,6 +210,8 @@ extension MQ {
 
         /// Required. The ARN of the configuration.
         public let arn: String?
+        /// The authentication strategy associated with the configuration.
+        public let authenticationStrategy: AuthenticationStrategy?
         /// Required. The date and time of the configuration revision.
         @OptionalCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
@@ -222,8 +230,9 @@ extension MQ {
         /// The list of all tags associated with this configuration.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authenticationStrategy = authenticationStrategy
             self.created = created
             self.description = description
             self.engineType = engineType
@@ -236,6 +245,7 @@ extension MQ {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authenticationStrategy = "authenticationStrategy"
             case created = "created"
             case description = "description"
             case engineType = "engineType"
@@ -312,6 +322,7 @@ extension MQ {
 
     public struct CreateBrokerRequest: AWSEncodableShape {
 
+        public let authenticationStrategy: AuthenticationStrategy?
         public let autoMinorVersionUpgrade: Bool?
         public let brokerName: String?
         public let configuration: ConfigurationId?
@@ -321,6 +332,7 @@ extension MQ {
         public let engineType: EngineType?
         public let engineVersion: String?
         public let hostInstanceType: String?
+        public let ldapServerMetadata: LdapServerMetadataInput?
         public let logs: Logs?
         public let maintenanceWindowStartTime: WeeklyStartTime?
         public let publiclyAccessible: Bool?
@@ -330,7 +342,8 @@ extension MQ {
         public let tags: [String: String]?
         public let users: [User]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+            self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
@@ -340,6 +353,7 @@ extension MQ {
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
+            self.ldapServerMetadata = ldapServerMetadata
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.publiclyAccessible = publiclyAccessible
@@ -351,6 +365,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationStrategy = "authenticationStrategy"
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
             case brokerName = "brokerName"
             case configuration = "configuration"
@@ -360,6 +375,7 @@ extension MQ {
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case publiclyAccessible = "publiclyAccessible"
@@ -389,12 +405,14 @@ extension MQ {
 
     public struct CreateConfigurationRequest: AWSEncodableShape {
 
+        public let authenticationStrategy: AuthenticationStrategy?
         public let engineType: EngineType?
         public let engineVersion: String?
         public let name: String?
         public let tags: [String: String]?
 
-        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.authenticationStrategy = authenticationStrategy
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.name = name
@@ -402,6 +420,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationStrategy = "authenticationStrategy"
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case name = "name"
@@ -412,14 +431,16 @@ extension MQ {
     public struct CreateConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
+        public let authenticationStrategy: AuthenticationStrategy?
         @OptionalCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
+            self.authenticationStrategy = authenticationStrategy
             self.created = created
             self.id = id
             self.latestRevision = latestRevision
@@ -428,6 +449,7 @@ extension MQ {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authenticationStrategy = "authenticationStrategy"
             case created = "created"
             case id = "id"
             case latestRevision = "latestRevision"
@@ -667,6 +689,7 @@ extension MQ {
 
     public struct DescribeBrokerResponse: AWSDecodableShape {
 
+        public let authenticationStrategy: AuthenticationStrategy?
         public let autoMinorVersionUpgrade: Bool?
         public let brokerArn: String?
         public let brokerId: String?
@@ -681,10 +704,13 @@ extension MQ {
         public let engineType: EngineType?
         public let engineVersion: String?
         public let hostInstanceType: String?
+        public let ldapServerMetadata: LdapServerMetadataOutput?
         public let logs: LogsSummary?
         public let maintenanceWindowStartTime: WeeklyStartTime?
+        public let pendingAuthenticationStrategy: AuthenticationStrategy?
         public let pendingEngineVersion: String?
         public let pendingHostInstanceType: String?
+        public let pendingLdapServerMetadata: LdapServerMetadataOutput?
         public let pendingSecurityGroups: [String]?
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
@@ -693,7 +719,8 @@ extension MQ {
         public let tags: [String: String]?
         public let users: [UserSummary]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+            self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -707,10 +734,13 @@ extension MQ {
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
+            self.ldapServerMetadata = ldapServerMetadata
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.pendingAuthenticationStrategy = pendingAuthenticationStrategy
             self.pendingEngineVersion = pendingEngineVersion
             self.pendingHostInstanceType = pendingHostInstanceType
+            self.pendingLdapServerMetadata = pendingLdapServerMetadata
             self.pendingSecurityGroups = pendingSecurityGroups
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
@@ -721,6 +751,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationStrategy = "authenticationStrategy"
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
             case brokerArn = "brokerArn"
             case brokerId = "brokerId"
@@ -734,10 +765,13 @@ extension MQ {
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case pendingAuthenticationStrategy = "pendingAuthenticationStrategy"
             case pendingEngineVersion = "pendingEngineVersion"
             case pendingHostInstanceType = "pendingHostInstanceType"
+            case pendingLdapServerMetadata = "pendingLdapServerMetadata"
             case pendingSecurityGroups = "pendingSecurityGroups"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
@@ -765,6 +799,7 @@ extension MQ {
     public struct DescribeConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
+        public let authenticationStrategy: AuthenticationStrategy?
         @OptionalCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let description: String?
@@ -775,8 +810,9 @@ extension MQ {
         public let name: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authenticationStrategy = authenticationStrategy
             self.created = created
             self.description = description
             self.engineType = engineType
@@ -789,6 +825,7 @@ extension MQ {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authenticationStrategy = "authenticationStrategy"
             case created = "created"
             case description = "description"
             case engineType = "engineType"
@@ -884,7 +921,7 @@ extension MQ {
 
     public struct EncryptionOptions: AWSEncodableShape & AWSDecodableShape {
 
-        /// The customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
+        /// The symmetric customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
         public let kmsKeyId: String?
         /// Enables the use of an AWS owned CMK using AWS Key Management Service (KMS).
         public let useAwsOwnedKey: Bool
@@ -911,6 +948,110 @@ extension MQ {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+        }
+    }
+
+    public struct LdapServerMetadataInput: AWSEncodableShape {
+
+        /// Fully qualified domain name of the LDAP server. Optional failover server.
+        public let hosts: [String]?
+        /// Fully qualified name of the directory to search for a user’s groups.
+        public let roleBase: String?
+        /// Specifies the LDAP attribute that identifies the group name attribute in the object returned from the group membership query.
+        public let roleName: String?
+        /// The search criteria for groups.
+        public let roleSearchMatching: String?
+        /// The directory search scope for the role. If set to true, scope is to search the entire sub-tree.
+        public let roleSearchSubtree: Bool?
+        /// Service account password.
+        public let serviceAccountPassword: String?
+        /// Service account username.
+        public let serviceAccountUsername: String?
+        /// Fully qualified name of the directory where you want to search for users.
+        public let userBase: String?
+        /// Specifies the name of the LDAP attribute for the user group membership.
+        public let userRoleName: String?
+        /// The search criteria for users.
+        public let userSearchMatching: String?
+        /// The directory search scope for the user. If set to true, scope is to search the entire sub-tree.
+        public let userSearchSubtree: Bool?
+
+        public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountPassword: String? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
+            self.hosts = hosts
+            self.roleBase = roleBase
+            self.roleName = roleName
+            self.roleSearchMatching = roleSearchMatching
+            self.roleSearchSubtree = roleSearchSubtree
+            self.serviceAccountPassword = serviceAccountPassword
+            self.serviceAccountUsername = serviceAccountUsername
+            self.userBase = userBase
+            self.userRoleName = userRoleName
+            self.userSearchMatching = userSearchMatching
+            self.userSearchSubtree = userSearchSubtree
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hosts = "hosts"
+            case roleBase = "roleBase"
+            case roleName = "roleName"
+            case roleSearchMatching = "roleSearchMatching"
+            case roleSearchSubtree = "roleSearchSubtree"
+            case serviceAccountPassword = "serviceAccountPassword"
+            case serviceAccountUsername = "serviceAccountUsername"
+            case userBase = "userBase"
+            case userRoleName = "userRoleName"
+            case userSearchMatching = "userSearchMatching"
+            case userSearchSubtree = "userSearchSubtree"
+        }
+    }
+
+    public struct LdapServerMetadataOutput: AWSDecodableShape {
+
+        /// Fully qualified domain name of the LDAP server. Optional failover server.
+        public let hosts: [String]?
+        /// Fully qualified name of the directory to search for a user’s groups.
+        public let roleBase: String?
+        /// Specifies the LDAP attribute that identifies the group name attribute in the object returned from the group membership query.
+        public let roleName: String?
+        /// The search criteria for groups.
+        public let roleSearchMatching: String?
+        /// The directory search scope for the role. If set to true, scope is to search the entire sub-tree.
+        public let roleSearchSubtree: Bool?
+        /// Service account username.
+        public let serviceAccountUsername: String?
+        /// Fully qualified name of the directory where you want to search for users.
+        public let userBase: String?
+        /// Specifies the name of the LDAP attribute for the user group membership.
+        public let userRoleName: String?
+        /// The search criteria for users.
+        public let userSearchMatching: String?
+        /// The directory search scope for the user. If set to true, scope is to search the entire sub-tree.
+        public let userSearchSubtree: Bool?
+
+        public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
+            self.hosts = hosts
+            self.roleBase = roleBase
+            self.roleName = roleName
+            self.roleSearchMatching = roleSearchMatching
+            self.roleSearchSubtree = roleSearchSubtree
+            self.serviceAccountUsername = serviceAccountUsername
+            self.userBase = userBase
+            self.userRoleName = userRoleName
+            self.userSearchMatching = userSearchMatching
+            self.userSearchSubtree = userSearchSubtree
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hosts = "hosts"
+            case roleBase = "roleBase"
+            case roleName = "roleName"
+            case roleSearchMatching = "roleSearchMatching"
+            case roleSearchSubtree = "roleSearchSubtree"
+            case serviceAccountUsername = "serviceAccountUsername"
+            case userBase = "userBase"
+            case userRoleName = "userRoleName"
+            case userSearchMatching = "userSearchMatching"
+            case userSearchSubtree = "userSearchSubtree"
         }
     }
 
@@ -1229,29 +1370,35 @@ extension MQ {
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
 
+        public let authenticationStrategy: AuthenticationStrategy?
         public let autoMinorVersionUpgrade: Bool?
         public let brokerId: String
         public let configuration: ConfigurationId?
         public let engineVersion: String?
         public let hostInstanceType: String?
+        public let ldapServerMetadata: LdapServerMetadataInput?
         public let logs: Logs?
         public let securityGroups: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
+            self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
+            self.ldapServerMetadata = ldapServerMetadata
             self.logs = logs
             self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationStrategy = "authenticationStrategy"
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
             case configuration = "configuration"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
             case logs = "logs"
             case securityGroups = "securityGroups"
         }
@@ -1259,30 +1406,36 @@ extension MQ {
 
     public struct UpdateBrokerResponse: AWSDecodableShape {
 
+        public let authenticationStrategy: AuthenticationStrategy?
         public let autoMinorVersionUpgrade: Bool?
         public let brokerId: String?
         public let configuration: ConfigurationId?
         public let engineVersion: String?
         public let hostInstanceType: String?
+        public let ldapServerMetadata: LdapServerMetadataOutput?
         public let logs: Logs?
         public let securityGroups: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
+            self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
+            self.ldapServerMetadata = ldapServerMetadata
             self.logs = logs
             self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationStrategy = "authenticationStrategy"
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
             case brokerId = "brokerId"
             case configuration = "configuration"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
             case logs = "logs"
             case securityGroups = "securityGroups"
         }

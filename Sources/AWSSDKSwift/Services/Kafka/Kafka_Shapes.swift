@@ -1477,6 +1477,43 @@ extension Kafka {
         }
     }
 
+    public struct RebootBrokerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        /// The list of broker ids to be rebooted.
+        public let brokerIds: [String]
+        public let clusterArn: String
+
+        public init(brokerIds: [String], clusterArn: String) {
+            self.brokerIds = brokerIds
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerIds = "brokerIds"
+        }
+    }
+
+    public struct RebootBrokerResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
     public struct S3: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the S3 bucket that is the destination for broker logs.

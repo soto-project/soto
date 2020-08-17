@@ -26,9 +26,17 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoImportPolicyType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case new = "NEW"
+        case newChanged = "NEW_CHANGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BackupLifecycle: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
+        case transferring = "TRANSFERRING"
         case deleted = "DELETED"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
@@ -37,6 +45,15 @@ extension FSx {
     public enum BackupType: String, CustomStringConvertible, Codable {
         case automatic = "AUTOMATIC"
         case userInitiated = "USER_INITIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRepositoryLifecycle: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case available = "AVAILABLE"
+        case misconfigured = "MISCONFIGURED"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -58,6 +75,12 @@ extension FSx {
 
     public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable {
         case exportToRepository = "EXPORT_TO_REPOSITORY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DriveCacheType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case read = "READ"
         public var description: String { return self.rawValue }
     }
 
@@ -216,7 +239,7 @@ extension FSx {
         public let resourceARN: String?
         /// Tags associated with a particular file system.
         public let tags: [Tag]?
-        /// The type of the backup.
+        /// The type of the file system backup.
         public let `type`: BackupType
 
         public init(backupId: String, creationTime: TimeStamp, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
@@ -532,28 +555,34 @@ extension FSx {
 
     public struct CreateFileSystemLustreConfiguration: AWSEncodableShape {
 
+        ///  (Optional) Use this property to configure the AutoImport feature on the file system's linked Amazon S3 data repository. You use AutoImport to update the contents of your FSx for Lustre file system automatically with changes that occur in the linked S3 data repository. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Changes in the linked data repository are not reflected on the FSx file system.    NEW - AutoImport is on. New files in the linked data repository that do not currently exist in the FSx file system are automatically imported. Updates to existing FSx files are not imported to the FSx file system. Files deleted from the linked data repository are not deleted from the FSx file system.    NEW_CHANGED - AutoImport is on. New files in the linked S3 data repository that do not currently exist in the FSx file system are automatically imported. Changes to existing FSx files in the linked repository are also automatically imported to the FSx file system. Files deleted from the linked data repository are not deleted from the FSx file system.    For more information, see Automatically import updates from your S3 bucket.
+        public let autoImportPolicy: AutoImportPolicyType?
         public let automaticBackupRetentionDays: Int?
-        /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
+        /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. For more information, see Working with backups.
         public let copyTagsToBackups: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        ///  Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1.  This option can only be set for for PERSISTENT_1 deployments types.  Choose PERSISTENT_1 deployment type for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. Encryption of data in-transit is automatically enabled when you access a SCRATCH_2 or PERSISTENT_1 file system from Amazon EC2 instances that support this feature. (Default = SCRATCH_1)  Encryption of data in-transit for SCRATCH_2 and PERSISTENT_1 deployment types is supported when accessed from supported instance types in supported AWS Regions. To learn more, Encrypting Data in Transit.
+        ///  Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 deployment type for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. Encryption of data in-transit is automatically enabled when you access a SCRATCH_2 or PERSISTENT_1 file system from Amazon EC2 instances that support this feature. (Default = SCRATCH_1)  Encryption of data in-transit for SCRATCH_2 and PERSISTENT_1 deployment types is supported when accessed from supported instance types in supported AWS Regions. To learn more, Encrypting Data in Transit.
         public let deploymentType: LustreDeploymentType?
+        /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set to READ, improve the performance for frequently accessed files and allows 20% of the total storage capacity of the file system to be cached.  This parameter is required when StorageType is set to HDD.
+        public let driveCacheType: DriveCacheType?
         /// (Optional) The path in Amazon S3 where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you only specify a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket.
         public let exportPath: String?
         /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
         /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
-        ///  Required for the PERSISTENT_1 deployment type, describes the amount of read and write throughput for each 1 tebibyte of storage, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4 TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 117 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values are 50, 100, 200.
+        ///  Required for the PERSISTENT_1 deployment type, describes the amount of read and write throughput for each 1 tebibyte of storage, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4 TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 117 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage: 12, 40.
         public let perUnitStorageThroughput: Int?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: LustreDeploymentType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
+            self.driveCacheType = driveCacheType
             self.exportPath = exportPath
             self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
@@ -562,7 +591,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 35)
+            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
@@ -576,17 +605,19 @@ extension FSx {
             try validate(self.importPath, name: "importPath", parent: name, min: 3)
             try validate(self.importPath, name: "importPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
             try validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, max: 200)
-            try validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, min: 50)
+            try validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, min: 12)
             try validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoImportPolicy = "AutoImportPolicy"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
+            case driveCacheType = "DriveCacheType"
             case exportPath = "ExportPath"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case importPath = "ImportPath"
@@ -691,7 +722,7 @@ extension FSx {
 
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
-        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 35 days.
+        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public let copyTagsToBackups: Bool?
@@ -723,7 +754,7 @@ extension FSx {
             try validate(self.activeDirectoryId, name: "activeDirectoryId", parent: name, max: 12)
             try validate(self.activeDirectoryId, name: "activeDirectoryId", parent: name, min: 12)
             try validate(self.activeDirectoryId, name: "activeDirectoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 35)
+            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
@@ -754,23 +785,47 @@ extension FSx {
 
     public struct DataRepositoryConfiguration: AWSDecodableShape {
 
+        /// Describes the file system's linked S3 data repository's AutoImportPolicy. The AutoImportPolicy configures how your FSx for Lustre file system automatically updates its contents with changes that occur in the linked S3 data repository. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Changes in the linked data repository are not reflected on the FSx file system.    NEW - AutoImport is on. New files in the linked data repository that do not currently exist in the FSx file system are automatically imported. Updates to existing FSx files are not imported to the FSx file system. Files deleted from the linked data repository are not deleted from the FSx file system.    NEW_CHANGED - AutoImport is on. New files in the linked S3 data repository that do not currently exist in the FSx file system are automatically imported. Changes to existing FSx files in the linked repository are also automatically imported to the FSx file system. Files deleted from the linked data repository are not deleted from the FSx file system.    For more information, see Automatically import updates from your S3 bucket.
+        public let autoImportPolicy: AutoImportPolicyType?
         /// The export path to the Amazon S3 bucket (and prefix) that you are using to store new and changed Lustre file system files in S3.
         public let exportPath: String?
+        public let failureDetails: DataRepositoryFailureDetails?
         /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
         /// The import path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If a prefix is specified after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
+        /// Describes the state of the file system's S3 durable data repository, if it is configured with an S3 repository. The lifecycle can have the following values:    CREATING - The data repository configuration between the FSx file system and the linked S3 data repository is being created. The data repository is unavailable.    AVAILABLE - The data repository is available for use.    MISCONFIGURED - Amazon FSx cannot automatically import updates from the S3 bucket until the data repository configuration is corrected. For more information, see Troubleshooting a Misconfigured linked S3 bucket.     UPDATING - The data repository is undergoing a customer initiated update and availability may be impacted.  
+        public let lifecycle: DataRepositoryLifecycle?
 
-        public init(exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, exportPath: String? = nil, failureDetails: DataRepositoryFailureDetails? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, lifecycle: DataRepositoryLifecycle? = nil) {
+            self.autoImportPolicy = autoImportPolicy
             self.exportPath = exportPath
+            self.failureDetails = failureDetails
             self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
+            self.lifecycle = lifecycle
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoImportPolicy = "AutoImportPolicy"
             case exportPath = "ExportPath"
+            case failureDetails = "FailureDetails"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case importPath = "ImportPath"
+            case lifecycle = "Lifecycle"
+        }
+    }
+
+    public struct DataRepositoryFailureDetails: AWSDecodableShape {
+
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -1445,19 +1500,22 @@ extension FSx {
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
         /// The deployment type of the FSX for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 deployment type is used for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. (Default = SCRATCH_1)
         public let deploymentType: LustreDeploymentType?
+        /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set to READ, improve the performance for frequently accessed files and allows 20% of the total storage capacity of the file system to be cached.  This parameter is required when StorageType is set to HDD.
+        public let driveCacheType: DriveCacheType?
         /// You use the MountName value when mounting the file system. For the SCRATCH_1 deployment type, this value is always "fsx". For SCRATCH_2 and PERSISTENT_1 deployment types, this value is a string that is unique within an AWS Region. 
         public let mountName: String?
-        ///  Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. File system throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). This option is only valid for PERSISTENT_1 deployment types. Valid values are 50, 100, 200. 
+        ///  Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. File system throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). This option is only valid for PERSISTENT_1 deployment types.  Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage: 12, 40. 
         public let perUnitStorageThroughput: Int?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
+            self.driveCacheType = driveCacheType
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -1469,6 +1527,7 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case deploymentType = "DeploymentType"
+            case driveCacheType = "DriveCacheType"
             case mountName = "MountName"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -1605,11 +1664,11 @@ extension FSx {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
-        public let key: String?
+        public let key: String
         /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
-        public let value: String?
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -1707,19 +1766,22 @@ extension FSx {
 
     public struct UpdateFileSystemLustreConfiguration: AWSEncodableShape {
 
+        ///  (Optional) Use this property to configure the AutoImport feature on the file system's linked Amazon S3 data repository. You use AutoImport to update the contents of your FSx for Lustre file system automatically with changes that occur in the linked S3 data repository. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Changes in the linked data repository are not reflected on the FSx file system.    NEW - AutoImport is on. New files in the linked data repository that do not currently exist in the FSx file system are automatically imported. Updates to existing FSx files are not imported to the FSx file system. Files deleted from the linked data repository are not deleted from the FSx file system.    NEW_CHANGED - AutoImport is on. New files in the linked S3 data repository that do not currently exist in the FSx file system are automatically imported. Changes to existing FSx files in the linked repository are also automatically imported to the FSx file system. Files deleted from the linked data repository are not deleted from the FSx file system.    For more information, see Automatically import updates from your S3 bucket.
+        public let autoImportPolicy: AutoImportPolicyType?
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         public func validate(name: String) throws {
-            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 35)
+            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
@@ -1730,6 +1792,7 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoImportPolicy = "AutoImportPolicy"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -1794,7 +1857,7 @@ extension FSx {
 
     public struct UpdateFileSystemWindowsConfiguration: AWSEncodableShape {
 
-        /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 35 days. For more information, see Working with Automatic Daily Backups.
+        /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 90 days. For more information, see Working with Automatic Daily Backups.
         public let automaticBackupRetentionDays: Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00 
         public let dailyAutomaticBackupStartTime: String?
@@ -1814,7 +1877,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 35)
+            try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
@@ -1840,7 +1903,7 @@ extension FSx {
 
         /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
         public let activeDirectoryId: String?
-        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
+        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public let copyTagsToBackups: Bool?

@@ -20,6 +20,25 @@ import Foundation
 extension QuickSight {
     //MARK: Enums
 
+    public enum AnalysisErrorType: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case sourceNotFound = "SOURCE_NOT_FOUND"
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
+        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
+        case parameterNotFound = "PARAMETER_NOT_FOUND"
+        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
+        case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
+        case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisFilterAttribute: String, CustomStringConvertible, Codable {
+        case quicksightUser = "QUICKSIGHT_USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssignmentStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case draft = "DRAFT"
@@ -109,6 +128,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum Edition: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case enterprise = "ENTERPRISE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case tsv = "TSV"
@@ -137,6 +162,11 @@ extension QuickSight {
         case postcode = "POSTCODE"
         case longitude = "LONGITUDE"
         case latitude = "LATITUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityStore: String, CustomStringConvertible, Codable {
+        case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
     }
 
@@ -233,6 +263,21 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum NamespaceErrorType: String, CustomStringConvertible, Codable {
+        case permissionDenied = "PERMISSION_DENIED"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case retryableFailure = "RETRYABLE_FAILURE"
+        case nonRetryableFailure = "NON_RETRYABLE_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceStatus: String, CustomStringConvertible, Codable {
         case creationInProgress = "CREATION_IN_PROGRESS"
         case creationSuccessful = "CREATION_SUCCESSFUL"
@@ -240,6 +285,7 @@ extension QuickSight {
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateSuccessful = "UPDATE_SUCCESSFUL"
         case updateFailed = "UPDATE_FAILED"
+        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
@@ -253,12 +299,25 @@ extension QuickSight {
         case sourceNotFound = "SOURCE_NOT_FOUND"
         case dataSetNotFound = "DATA_SET_NOT_FOUND"
         case internalFailure = "INTERNAL_FAILURE"
+        case accessDenied = "ACCESS_DENIED"
         public var description: String { return self.rawValue }
     }
 
     public enum TextQualifier: String, CustomStringConvertible, Codable {
         case doubleQuote = "DOUBLE_QUOTE"
         case singleQuote = "SINGLE_QUOTE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThemeErrorType: String, CustomStringConvertible, Codable {
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThemeType: String, CustomStringConvertible, Codable {
+        case quicksight = "QUICKSIGHT"
+        case custom = "CUSTOM"
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -272,6 +331,46 @@ extension QuickSight {
     }
 
     //MARK: Shapes
+
+    public struct AccountCustomization: AWSEncodableShape & AWSDecodableShape {
+
+        /// The default theme for this QuickSight subscription.
+        public let defaultTheme: String?
+
+        public init(defaultTheme: String? = nil) {
+            self.defaultTheme = defaultTheme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultTheme = "DefaultTheme"
+        }
+    }
+
+    public struct AccountSettings: AWSDecodableShape {
+
+        /// The "account name" you provided for the QuickSight subscription in your AWS account. You create this name when you sign up for QuickSight. It is unique in all of AWS and it appears only in the console when users sign in.
+        public let accountName: String?
+        /// The default QuickSight namespace for your AWS account. 
+        public let defaultNamespace: String?
+        /// The edition of QuickSight that you're currently subscribed to: Enterprise edition or Standard edition.
+        public let edition: Edition?
+        /// The main notification email for your QuickSight subscription.
+        public let notificationEmail: String?
+
+        public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil) {
+            self.accountName = accountName
+            self.defaultNamespace = defaultNamespace
+            self.edition = edition
+            self.notificationEmail = notificationEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case defaultNamespace = "DefaultNamespace"
+            case edition = "Edition"
+            case notificationEmail = "NotificationEmail"
+        }
+    }
 
     public struct ActiveIAMPolicyAssignment: AWSDecodableShape {
 
@@ -321,6 +420,169 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
+        }
+    }
+
+    public struct Analysis: AWSDecodableShape {
+
+        /// The ID of the analysis.
+        public let analysisId: String?
+        /// The Amazon Resource Name (ARN) of the analysis.
+        public let arn: String?
+        /// The time that the analysis was created.
+        public let createdTime: TimeStamp?
+        /// The ARNs of the datasets of the analysis.
+        public let dataSetArns: [String]?
+        /// Errors associated with the analysis.
+        public let errors: [AnalysisError]?
+        /// The time that the analysis was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The descriptive name of the analysis.
+        public let name: String?
+        /// Status associated with the analysis.
+        public let status: ResourceStatus?
+        /// The ARN of the theme of the analysis.
+        public let themeArn: String?
+
+        public init(analysisId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
+            self.analysisId = analysisId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSetArns = dataSetArns
+            self.errors = errors
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.status = status
+            self.themeArn = themeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dataSetArns = "DataSetArns"
+            case errors = "Errors"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case status = "Status"
+            case themeArn = "ThemeArn"
+        }
+    }
+
+    public struct AnalysisError: AWSDecodableShape {
+
+        /// The message associated with the analysis error.
+        public let message: String?
+        /// The type of the analysis error.
+        public let `type`: AnalysisErrorType?
+
+        public init(message: String? = nil, type: AnalysisErrorType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public struct AnalysisSearchFilter: AWSEncodableShape {
+
+        /// The name of the value that you want to use as a filter, for example "Name": "QUICKSIGHT_USER".
+        public let name: AnalysisFilterAttribute?
+        /// The comparison operator that you want to use as a filter, for example "Operator": "StringEquals".
+        public let `operator`: FilterOperator?
+        /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter, for example "Value". An example is "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
+        public let value: String?
+
+        public init(name: AnalysisFilterAttribute? = nil, operator: FilterOperator? = nil, value: String? = nil) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct AnalysisSourceEntity: AWSEncodableShape {
+
+        /// The source template for the source entity of the analysis.
+        public let sourceTemplate: AnalysisSourceTemplate?
+
+        public init(sourceTemplate: AnalysisSourceTemplate? = nil) {
+            self.sourceTemplate = sourceTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceTemplate?.validate(name: "\(name).sourceTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceTemplate = "SourceTemplate"
+        }
+    }
+
+    public struct AnalysisSourceTemplate: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the source template of an analysis.
+        public let arn: String
+        /// The dataset references of the source template of an analysis.
+        public let dataSetReferences: [DataSetReference]
+
+        public init(arn: String, dataSetReferences: [DataSetReference]) {
+            self.arn = arn
+            self.dataSetReferences = dataSetReferences
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSetReferences.forEach {
+                try $0.validate(name: "\(name).dataSetReferences[]")
+            }
+            try validate(self.dataSetReferences, name: "dataSetReferences", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSetReferences = "DataSetReferences"
+        }
+    }
+
+    public struct AnalysisSummary: AWSDecodableShape {
+
+        /// The ID of the analysis. This ID displays in the URL.
+        public let analysisId: String?
+        /// The Amazon Resource Name (ARN) for the analysis.
+        public let arn: String?
+        /// The time that the analysis was created.
+        public let createdTime: TimeStamp?
+        /// The time that the analysis was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The name of the analysis. This name is displayed in the QuickSight console. 
+        public let name: String?
+        /// The last known status for the analysis.
+        public let status: ResourceStatus?
+
+        public init(analysisId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, status: ResourceStatus? = nil) {
+            self.analysisId = analysisId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case status = "Status"
         }
     }
 
@@ -421,6 +683,20 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dataSetName = "DataSetName"
+        }
+    }
+
+    public struct BorderStyle: AWSEncodableShape & AWSDecodableShape {
+
+        /// The option to enable display of borders for visuals.
+        public let show: Bool?
+
+        public init(show: Bool? = nil) {
+            self.show = show
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case show = "Show"
         }
     }
 
@@ -630,6 +906,172 @@ extension QuickSight {
         }
     }
 
+    public struct CreateAccountCustomizationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
+        ]
+
+        /// The QuickSight customizations you're adding in the current AWS Region. You can add these to an AWS account and a QuickSight namespace.  For example, you could add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. . Or, you could add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }. 
+        public let accountCustomization: AccountCustomization
+        /// The ID for the AWS account that you want to customize QuickSight for.
+        public let awsAccountId: String
+        /// The QuickSight namespace that you want to add customizations to.
+        public let namespace: String?
+
+        public init(accountCustomization: AccountCustomization, awsAccountId: String, namespace: String? = nil) {
+            self.accountCustomization = accountCustomization
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountCustomization = "AccountCustomization"
+        }
+    }
+
+    public struct CreateAccountCustomizationResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The QuickSight customizations you're adding in the current AWS Region. 
+        public let accountCustomization: AccountCustomization?
+        /// The ID for the AWS account that you want to customize QuickSight for.
+        public let awsAccountId: String?
+        /// The namespace associated with the customization you're creating. 
+        public let namespace: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(accountCustomization: AccountCustomization? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.accountCustomization = accountCustomization
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountCustomization = "AccountCustomization"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
+        public let analysisId: String
+        /// The ID of the AWS account where you are creating an analysis.
+        public let awsAccountId: String
+        /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the QuickSight console. 
+        public let name: String
+        /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values. 
+        public let parameters: Parameters?
+        /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of AWS Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
+        public let permissions: [ResourcePermission]?
+        /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets.
+        public let sourceEntity: AnalysisSourceEntity
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
+        public let tags: [Tag]?
+        /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the QuickSight console, make sure that you have access to it.
+        public let themeArn: String?
+
+        public init(analysisId: String, awsAccountId: String, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: AnalysisSourceEntity, tags: [Tag]? = nil, themeArn: String? = nil) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+            self.name = name
+            self.parameters = parameters
+            self.permissions = permissions
+            self.sourceEntity = sourceEntity
+            self.tags = tags
+            self.themeArn = themeArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.name, name: "name", parent: name, max: 2048)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.parameters?.validate(name: "\(name).parameters")
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try validate(self.permissions, name: "permissions", parent: name, max: 64)
+            try validate(self.permissions, name: "permissions", parent: name, min: 1)
+            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case parameters = "Parameters"
+            case permissions = "Permissions"
+            case sourceEntity = "SourceEntity"
+            case tags = "Tags"
+            case themeArn = "ThemeArn"
+        }
+    }
+
+    public struct CreateAnalysisResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ID of the analysis.
+        public let analysisId: String?
+        /// The ARN for the analysis.
+        public let arn: String?
+        /// The status of the creation of the analysis. 
+        public let creationStatus: ResourceStatus?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisId: String? = nil, arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisId = analysisId
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct CreateColumnsOperation: AWSEncodableShape & AWSDecodableShape {
 
         /// Calculated columns to create.
@@ -662,22 +1104,24 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
-        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.  
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.   
         public let dashboardPublishOptions: DashboardPublishOptions?
         /// The display name of the dashboard.
         public let name: String
-        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values. 
+        /// The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values. 
         public let parameters: Parameters?
-        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions with principal and action information.
+        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
         public let permissions: [ResourcePermission]?
         /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. 
         public let sourceEntity: DashboardSourceEntity
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same AWS account where you create the dashboard.
+        public let themeArn: String?
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
 
-        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: DashboardSourceEntity, tags: [Tag]? = nil, versionDescription: String? = nil) {
+        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: DashboardSourceEntity, tags: [Tag]? = nil, themeArn: String? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.dashboardPublishOptions = dashboardPublishOptions
@@ -686,6 +1130,7 @@ extension QuickSight {
             self.permissions = permissions
             self.sourceEntity = sourceEntity
             self.tags = tags
+            self.themeArn = themeArn
             self.versionDescription = versionDescription
         }
 
@@ -722,6 +1167,7 @@ extension QuickSight {
             case permissions = "Permissions"
             case sourceEntity = "SourceEntity"
             case tags = "Tags"
+            case themeArn = "ThemeArn"
             case versionDescription = "VersionDescription"
         }
     }
@@ -731,7 +1177,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The Amazon Resource Name (ARN) of the dashboard.
+        /// The ARN of the dashboard.
         public let arn: String?
         /// The status of the dashboard creation request.
         public let creationStatus: ResourceStatus?
@@ -830,6 +1276,7 @@ extension QuickSight {
                 try validate($0.key, name: "physicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
                 try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
             }
+            try self.rowLevelPermissionDataSet?.validate(name: "\(name).rowLevelPermissionDataSet")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1274,6 +1721,88 @@ extension QuickSight {
         }
     }
 
+    public struct CreateNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID for the AWS account that you want to create the QuickSight namespace in.
+        public let awsAccountId: String
+        /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
+        public let identityStore: IdentityStore
+        /// The name that you want to use to describe the new namespace.
+        public let namespace: String
+        /// The tags that you want to associate with the namespace that you're creating.
+        public let tags: [Tag]?
+
+        public init(awsAccountId: String, identityStore: IdentityStore, namespace: String, tags: [Tag]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.identityStore = identityStore
+            self.namespace = namespace
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStore = "IdentityStore"
+            case namespace = "Namespace"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateNamespaceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ARN of the QuickSight namespace you created. 
+        public let arn: String?
+        /// The AWS Region that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in. 
+        public let capacityRegion: String?
+        /// The status of the creation of the namespace. This is an asynchronous process. A status of CREATED means that your namespace is ready to use. If an error occurs, it indicates if the process is retryable or non-retryable. In the case of a non-retryable error, refer to the error message for follow-up tasks.
+        public let creationStatus: NamespaceStatus?
+        /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
+        public let identityStore: IdentityStore?
+        /// The name of the new namespace that you created.
+        public let name: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, capacityRegion: String? = nil, creationStatus: NamespaceStatus? = nil, identityStore: IdentityStore? = nil, name: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.capacityRegion = capacityRegion
+            self.creationStatus = creationStatus
+            self.identityStore = identityStore
+            self.name = name
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case capacityRegion = "CapacityRegion"
+            case creationStatus = "CreationStatus"
+            case identityStore = "IdentityStore"
+            case name = "Name"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct CreateTemplateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
@@ -1442,9 +1971,183 @@ extension QuickSight {
         }
     }
 
+    public struct CreateThemeAliasRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The name that you want to give to the theme alias that you are creating. The alias name can't begin with a $. Alias names that start with $ are reserved by Amazon QuickSight. 
+        public let aliasName: String
+        /// The ID of the AWS account that contains the theme for the new theme alias.
+        public let awsAccountId: String
+        /// An ID for the theme alias.
+        public let themeId: String
+        /// The version number of the theme.
+        public let themeVersionNumber: Int64
+
+        public init(aliasName: String, awsAccountId: String, themeId: String, themeVersionNumber: Int64) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+            self.themeVersionNumber = themeVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.themeVersionNumber, name: "themeVersionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case themeVersionNumber = "ThemeVersionNumber"
+        }
+    }
+
+    public struct CreateThemeAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Information about the theme alias.
+        public let themeAlias: ThemeAlias?
+
+        public init(requestId: String? = nil, status: Int? = nil, themeAlias: ThemeAlias? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.themeAlias = themeAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeAlias = "ThemeAlias"
+        }
+    }
+
+    public struct CreateThemeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The ID of the AWS account where you want to store the new theme. 
+        public let awsAccountId: String
+        /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of the starting themes defined by Amazon QuickSight. For a list of the starting themes, use ListThemes or choose Themes from within a QuickSight analysis. 
+        public let baseThemeId: String
+        /// The theme configuration, which contains the theme display properties.
+        public let configuration: ThemeConfiguration
+        /// A display name for the theme.
+        public let name: String
+        /// A valid grouping of resource permissions to apply to the new theme. 
+        public let permissions: [ResourcePermission]?
+        /// A map of the key-value pairs for the resource tag or tags that you want to add to the resource.
+        public let tags: [Tag]?
+        /// An ID for the theme that you want to create. The theme ID is unique per AWS Region in each AWS account.
+        public let themeId: String
+        /// A description of the first version of the theme that you're creating. Every time UpdateTheme is called, a new version is created. Each version of the theme has a description of the version in the VersionDescription field.
+        public let versionDescription: String?
+
+        public init(awsAccountId: String, baseThemeId: String, configuration: ThemeConfiguration, name: String, permissions: [ResourcePermission]? = nil, tags: [Tag]? = nil, themeId: String, versionDescription: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.baseThemeId = baseThemeId
+            self.configuration = configuration
+            self.name = name
+            self.permissions = permissions
+            self.tags = tags
+            self.themeId = themeId
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 2048)
+            try validate(self.baseThemeId, name: "baseThemeId", parent: name, min: 1)
+            try validate(self.baseThemeId, name: "baseThemeId", parent: name, pattern: "[\\w\\-]+")
+            try self.configuration.validate(name: "\(name).configuration")
+            try validate(self.name, name: "name", parent: name, max: 2048)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try validate(self.permissions, name: "permissions", parent: name, max: 64)
+            try validate(self.permissions, name: "permissions", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
+            try validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseThemeId = "BaseThemeId"
+            case configuration = "Configuration"
+            case name = "Name"
+            case permissions = "Permissions"
+            case tags = "Tags"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct CreateThemeResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the theme.
+        public let arn: String?
+        /// The theme creation status.
+        public let creationStatus: ResourceStatus?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ID of the theme.
+        public let themeId: String?
+        /// The Amazon Resource Name (ARN) for the new theme.
+        public let versionArn: String?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil, versionArn: String? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.requestId = requestId
+            self.status = status
+            self.themeId = themeId
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeId = "ThemeId"
+            case versionArn = "VersionArn"
+        }
+    }
+
     public struct CredentialPair: AWSEncodableShape {
 
-        /// A set of alternate data source parameters that you want to share for these credentials. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the new data source with the existing credentials. If the AlternateDataSourceParameters list is null, the DataSourceParameters originally used with these Credentials is automatically allowed.
+        /// A set of alternate data source parameters that you want to share for these credentials. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the new data source with the existing credentials. If the AlternateDataSourceParameters list is null, the DataSourceParameters originally used with these Credentials is automatically allowed.
         public let alternateDataSourceParameters: [DataSourceParameters]?
         /// Password.
         public let password: String
@@ -1701,20 +2404,22 @@ extension QuickSight {
         public let arn: String?
         /// The time that this dashboard version was created.
         public let createdTime: TimeStamp?
-        /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with a version of the dashboard.
+        /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with this version of the dashboard.
         public let dataSetArns: [String]?
         /// Description.
         public let description: String?
-        /// Errors.
+        /// Errors associated with this dashboard version.
         public let errors: [DashboardError]?
         /// Source entity ARN.
         public let sourceEntityArn: String?
         /// The HTTP status of the request.
         public let status: ResourceStatus?
-        /// Version number.
+        /// The ARN of the theme associated with a version of the dashboard.
+        public let themeArn: String?
+        /// Version number for this version of the dashboard.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSetArns = dataSetArns
@@ -1722,6 +2427,7 @@ extension QuickSight {
             self.errors = errors
             self.sourceEntityArn = sourceEntityArn
             self.status = status
+            self.themeArn = themeArn
             self.versionNumber = versionNumber
         }
 
@@ -1733,6 +2439,7 @@ extension QuickSight {
             case errors = "Errors"
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
+            case themeArn = "ThemeArn"
             case versionNumber = "VersionNumber"
         }
     }
@@ -1768,6 +2475,40 @@ extension QuickSight {
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
             case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DataColorPalette: AWSEncodableShape & AWSDecodableShape {
+
+        /// The hexadecimal codes for the colors.
+        public let colors: [String]?
+        /// The hexadecimal code of a color that applies to charts where a lack of data is highlighted.
+        public let emptyFillColor: String?
+        /// The minimum and maximum hexadecimal codes that describe a color gradient. 
+        public let minMaxGradient: [String]?
+
+        public init(colors: [String]? = nil, emptyFillColor: String? = nil, minMaxGradient: [String]? = nil) {
+            self.colors = colors
+            self.emptyFillColor = emptyFillColor
+            self.minMaxGradient = minMaxGradient
+        }
+
+        public func validate(name: String) throws {
+            try self.colors?.forEach {
+                try validate($0, name: "colors[]", parent: name, pattern: "^#[A-F0-9]{6}$")
+            }
+            try validate(self.colors, name: "colors", parent: name, max: 100)
+            try validate(self.emptyFillColor, name: "emptyFillColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.minMaxGradient?.forEach {
+                try validate($0, name: "minMaxGradient[]", parent: name, pattern: "^#[A-F0-9]{6}$")
+            }
+            try validate(self.minMaxGradient, name: "minMaxGradient", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colors = "Colors"
+            case emptyFillColor = "EmptyFillColor"
+            case minMaxGradient = "MinMaxGradient"
         }
     }
 
@@ -1927,7 +2668,7 @@ extension QuickSight {
 
     public struct DataSource: AWSDecodableShape {
 
-        /// A set of alternate data source parameters that you want to share for the credentials stored with this data source. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the credentials from this existing data source. If the AlternateDataSourceParameters list is null, the Credentials originally used with this DataSourceParameters are automatically allowed.
+        /// A set of alternate data source parameters that you want to share for the credentials stored with this data source. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the credentials from this existing data source. If the AlternateDataSourceParameters list is null, the Credentials originally used with this DataSourceParameters are automatically allowed.
         public let alternateDataSourceParameters: [DataSourceParameters]?
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -2134,9 +2875,9 @@ extension QuickSight {
 
     public struct DateTimeParameter: AWSEncodableShape {
 
-        /// A display name for the dataset.
+        /// A display name for the date-time parameter.
         public let name: String
-        /// Values.
+        /// The values for the date-time parameter.
         public let values: [TimeStamp]
 
         public init(name: String, values: [TimeStamp]) {
@@ -2156,9 +2897,9 @@ extension QuickSight {
 
     public struct DecimalParameter: AWSEncodableShape {
 
-        /// A display name for the dataset.
+        /// A display name for the decimal parameter.
         public let name: String
-        /// Values.
+        /// The values for the decimal parameter.
         public let values: [Double]
 
         public init(name: String, values: [Double]) {
@@ -2173,6 +2914,125 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct DeleteAccountCustomizationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
+        ]
+
+        /// The ID for the AWS account that you want to delete QuickSight customizations from in this AWS Region.
+        public let awsAccountId: String
+        /// The QuickSight namespace that you're deleting the customizations from.
+        public let namespace: String?
+
+        public init(awsAccountId: String, namespace: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccountCustomizationResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "forceDeleteWithoutRecovery", location: .querystring(locationName: "force-delete-without-recovery")), 
+            AWSMemberEncoding(label: "recoveryWindowInDays", location: .querystring(locationName: "recovery-window-in-days"))
+        ]
+
+        /// The ID of the analysis that you're deleting.
+        public let analysisId: String
+        /// The ID of the AWS account where you want to delete an analysis.
+        public let awsAccountId: String
+        /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted. 
+        public let forceDeleteWithoutRecovery: Bool?
+        /// A value that specifies the number of days that QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
+        public let recoveryWindowInDays: Int64?
+
+        public init(analysisId: String, awsAccountId: String, forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+            self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
+            self.recoveryWindowInDays = recoveryWindowInDays
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.recoveryWindowInDays, name: "recoveryWindowInDays", parent: name, max: 30)
+            try validate(self.recoveryWindowInDays, name: "recoveryWindowInDays", parent: name, min: 7)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAnalysisResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ID of the deleted analysis.
+        public let analysisId: String?
+        /// The Amazon Resource Name (ARN) of the deleted analysis.
+        public let arn: String?
+        /// The date and time that the analysis is scheduled to be deleted.
+        public let deletionTime: TimeStamp?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisId: String? = nil, arn: String? = nil, deletionTime: TimeStamp? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisId = analysisId
+            self.arn = arn
+            self.deletionTime = deletionTime
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case arn = "Arn"
+            case deletionTime = "DeletionTime"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 
@@ -2519,6 +3379,54 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
+        ]
+
+        /// The ID for the AWS account that you want to delete the QuickSight namespace from.
+        public let awsAccountId: String
+        /// The namespace that you want to delete.
+        public let namespace: String
+
+        public init(awsAccountId: String, namespace: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteNamespaceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteTemplateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
@@ -2649,6 +3557,136 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteThemeAliasRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The unique name for the theme alias to delete.
+        public let aliasName: String
+        /// The ID of the AWS account that contains the theme alias to delete.
+        public let awsAccountId: String
+        /// The ID for the theme that the specified alias is for.
+        public let themeId: String
+
+        public init(aliasName: String, awsAccountId: String, themeId: String) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteThemeAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The name for the theme alias.
+        public let aliasName: String?
+        /// The Amazon Resource Name (ARN) of the theme resource using the deleted alias.
+        public let arn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// An ID for the theme associated with the deletion.
+        public let themeId: String?
+
+        public init(aliasName: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil) {
+            self.aliasName = aliasName
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+            self.themeId = themeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeId = "ThemeId"
+        }
+    }
+
+    public struct DeleteThemeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
+        ]
+
+        /// The ID of the AWS account that contains the theme that you're deleting.
+        public let awsAccountId: String
+        /// An ID for the theme that you want to delete.
+        public let themeId: String
+        /// The version of the theme that you want to delete.   Note: If you don't provide a version number, you're using this call to DeleteTheme to delete all versions of the theme.
+        public let versionNumber: Int64?
+
+        public init(awsAccountId: String, themeId: String, versionNumber: Int64? = nil) {
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteThemeResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// An ID for the theme.
+        public let themeId: String?
+
+        public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+            self.themeId = themeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeId = "ThemeId"
+        }
+    }
+
     public struct DeleteUserByPrincipalIdRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -2750,6 +3788,230 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeAccountCustomizationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "resolved", location: .querystring(locationName: "resolved"))
+        ]
+
+        /// The ID for the AWS account that you want to describe QuickSight customizations for.
+        public let awsAccountId: String
+        /// The QuickSight namespace that you want to describe QuickSight customizations for.
+        public let namespace: String?
+        /// The Resolved flag works with the other parameters to determine which view of QuickSight customizations is returned. You can add this flag to your command to use the same view that QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels. 
+        public let resolved: Bool?
+
+        public init(awsAccountId: String, namespace: String? = nil, resolved: Bool? = nil) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.resolved = resolved
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAccountCustomizationResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The QuickSight customizations that exist in the current AWS Region. 
+        public let accountCustomization: AccountCustomization?
+        /// The ID for the AWS account that you're describing.
+        public let awsAccountId: String?
+        /// The QuickSight namespace that you're describing. 
+        public let namespace: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(accountCustomization: AccountCustomization? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.accountCustomization = accountCustomization
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountCustomization = "AccountCustomization"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeAccountSettingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID for the AWS account that contains the settings that you want to list.
+        public let awsAccountId: String
+
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAccountSettingsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The QuickSight settings for this AWS account. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. The QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your AWS account. The edition that you subscribe to applies to QuickSight in every AWS Region where you use it. 
+        public let accountSettings: AccountSettings?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(accountSettings: AccountSettings? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.accountSettings = accountSettings
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSettings = "AccountSettings"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeAnalysisPermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID of the analysis whose permissions you're describing. The ID is part of the analysis URL.
+        public let analysisId: String
+        /// The ID of the AWS account that contains the analysis whose permissions you're describing. You must be using the AWS account that the analysis is in.
+        public let awsAccountId: String
+
+        public init(analysisId: String, awsAccountId: String) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAnalysisPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the analysis whose permissions you're describing.
+        public let analysisArn: String?
+        /// The ID of the analysis whose permissions you're describing.
+        public let analysisId: String?
+        /// A structure that describes the principals and the resource-level permissions on an analysis.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisArn: String? = nil, analysisId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisArn = analysisArn
+            self.analysisId = analysisId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisArn = "AnalysisArn"
+            case analysisId = "AnalysisId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
+        public let analysisId: String
+        /// The ID of the AWS account that contains the analysis. You must be using the AWS account that the analysis is in.
+        public let awsAccountId: String
+
+        public init(analysisId: String, awsAccountId: String) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAnalysisResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A metadata structure that contains summary information for the analysis that you're describing.
+        public let analysis: Analysis?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysis: Analysis? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysis = analysis
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysis = "Analysis"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -3270,6 +4532,58 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
+        ]
+
+        /// The ID for the AWS account that contains the QuickSight namespace that you want to describe.
+        public let awsAccountId: String
+        /// The namespace that you want to describe.
+        public let namespace: String
+
+        public init(awsAccountId: String, namespace: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeNamespaceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The information about the namespace that you're describing. The response includes the namespace ARN, name, AWS Region, creation status, and identity store. DescribeNamespace also works for namespaces that are in the process of being created. For incomplete namespaces, this API operation lists the namespace error types and messages associated with the creation process.
+        public let namespace: NamespaceInfoV2?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(namespace: NamespaceInfoV2? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.namespace = namespace
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeTemplateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
@@ -3436,19 +4750,207 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
+        /// The AWS request ID for this operation.
+        public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
         /// The template structure for the object you want to describe.
         public let template: Template?
 
-        public init(status: Int? = nil, template: Template? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil, template: Template? = nil) {
+            self.requestId = requestId
             self.status = status
             self.template = template
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
             case status = "Status"
             case template = "Template"
+        }
+    }
+
+    public struct DescribeThemeAliasRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The name of the theme alias that you want to describe.
+        public let aliasName: String
+        /// The ID of the AWS account that contains the theme alias that you're describing.
+        public let awsAccountId: String
+        /// The ID for the theme.
+        public let themeId: String
+
+        public init(aliasName: String, awsAccountId: String, themeId: String) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeThemeAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Information about the theme alias.
+        public let themeAlias: ThemeAlias?
+
+        public init(requestId: String? = nil, status: Int? = nil, themeAlias: ThemeAlias? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.themeAlias = themeAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeAlias = "ThemeAlias"
+        }
+    }
+
+    public struct DescribeThemePermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The ID of the AWS account that contains the theme that you're describing.
+        public let awsAccountId: String
+        /// The ID for the theme that you want to describe permissions for.
+        public let themeId: String
+
+        public init(awsAccountId: String, themeId: String) {
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeThemePermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A list of resource permissions set on the theme. 
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The Amazon Resource Name (ARN) of the theme.
+        public let themeArn: String?
+        /// The ID for the theme.
+        public let themeId: String?
+
+        public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, themeArn: String? = nil, themeId: String? = nil) {
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+            self.themeArn = themeArn
+            self.themeId = themeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeArn = "ThemeArn"
+            case themeId = "ThemeId"
+        }
+    }
+
+    public struct DescribeThemeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .querystring(locationName: "alias-name")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
+        ]
+
+        /// The alias of the theme that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to themes.
+        public let aliasName: String?
+        /// The ID of the AWS account that contains the theme that you're describing.
+        public let awsAccountId: String
+        /// The ID for the theme.
+        public let themeId: String
+        /// The version number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the theme is described.
+        public let versionNumber: Int64?
+
+        public init(aliasName: String? = nil, awsAccountId: String, themeId: String, versionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^(aws|[0-9]{12})$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeThemeResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The information about the theme that you are describing.
+        public let theme: Theme?
+
+        public init(requestId: String? = nil, status: Int? = nil, theme: Theme? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.theme = theme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case theme = "Theme"
         }
     }
 
@@ -3617,7 +5119,7 @@ extension QuickSight {
         public let sessionLifetimeInMinutes: Int64?
         /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
-        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.  
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
@@ -3649,7 +5151,69 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// A single-use URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes. The API provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours. 
+        /// A single-use URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours. 
+        public let embedUrl: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(embedUrl: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.embedUrl = embedUrl
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embedUrl = "EmbedUrl"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct GetSessionEmbedUrlRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "entryPoint", location: .querystring(locationName: "entry-point")), 
+            AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime")), 
+            AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
+        ]
+
+        /// The ID for the AWS account associated with your QuickSight subscription.
+        public let awsAccountId: String
+        /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId  - where DashboardId is the actual ID key from the QuickSight console URL of the dashboard    /analyses/AnalysisId  - where AnalysisId is the actual ID key from the QuickSight console URL of the analysis  
+        public let entryPoint: String?
+        /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
+        public let sessionLifetimeInMinutes: Int64?
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
+        public let userArn: String?
+
+        public init(awsAccountId: String, entryPoint: String? = nil, sessionLifetimeInMinutes: Int64? = nil, userArn: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.entryPoint = entryPoint
+            self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+            self.userArn = userArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.entryPoint, name: "entryPoint", parent: name, max: 1000)
+            try validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
+            try validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
+            try validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSessionEmbedUrlResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A single-use URL that you can put into your server-side web page to embed your QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours. 
         public let embedUrl: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3710,6 +5274,20 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case memberName = "MemberName"
+        }
+    }
+
+    public struct GutterStyle: AWSEncodableShape & AWSDecodableShape {
+
+        /// This Boolean value controls whether to display a gutter space between sheet tiles. 
+        public let show: Bool?
+
+        public init(show: Bool? = nil) {
+            self.show = show
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case show = "Show"
         }
     }
 
@@ -3842,9 +5420,9 @@ extension QuickSight {
 
     public struct IntegerParameter: AWSEncodableShape {
 
-        /// A display name for the dataset.
+        /// The name of the integer parameter.
         public let name: String
-        /// Values.
+        /// The values for the integer parameter.
         public let values: [Int64]
 
         public init(name: String, values: [Int64]) {
@@ -3915,6 +5493,66 @@ extension QuickSight {
             case onClause = "OnClause"
             case rightOperand = "RightOperand"
             case `type` = "Type"
+        }
+    }
+
+    public struct ListAnalysesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The ID of the AWS account that contains the analyses.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAnalysesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// Metadata describing each of the analyses that are listed.
+        public let analysisSummaryList: [AnalysisSummary]?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisSummaryList: [AnalysisSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisSummaryList = analysisSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisSummaryList = "AnalysisSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 
@@ -4510,6 +6148,66 @@ extension QuickSight {
         }
     }
 
+    public struct ListNamespacesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The ID for the AWS account that contains the QuickSight namespaces that you want to list.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListNamespacesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The information about the namespaces in this AWS account. The response includes the namespace ARN, name, AWS Region, notification email address, creation status, and identity store.
+        public let namespaces: [NamespaceInfoV2]?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(namespaces: [NamespaceInfoV2]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.namespaces = namespaces
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaces = "Namespaces"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
@@ -4744,6 +6442,204 @@ extension QuickSight {
         }
     }
 
+    public struct ListThemeAliasesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The ID of the AWS account that contains the theme aliases that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The ID for the theme.
+        public let themeId: String
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, themeId: String) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.themeId = themeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListThemeAliasesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// A structure containing the list of the theme's aliases.
+        public let themeAliasList: [ThemeAlias]?
+
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, themeAliasList: [ThemeAlias]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.themeAliasList = themeAliasList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeAliasList = "ThemeAliasList"
+        }
+    }
+
+    public struct ListThemeVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The ID of the AWS account that contains the themes that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The ID for the theme.
+        public let themeId: String
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, themeId: String) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.themeId = themeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListThemeVersionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// A structure containing a list of all the versions of the specified theme.
+        public let themeVersionSummaryList: [ThemeVersionSummary]?
+
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, themeVersionSummaryList: [ThemeVersionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.themeVersionSummaryList = themeVersionSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeVersionSummaryList = "ThemeVersionSummaryList"
+        }
+    }
+
+    public struct ListThemesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+        ]
+
+        /// The ID of the AWS account that contains the themes that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by QuickSight.  
+        public let `type`: ThemeType?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, type: ThemeType? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListThemesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Information about the themes in the list.
+        public let themeSummaryList: [ThemeSummary]?
+
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, themeSummaryList: [ThemeSummary]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.themeSummaryList = themeSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeSummaryList = "ThemeSummaryList"
+        }
+    }
+
     public struct ListUserGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -4965,6 +6861,20 @@ extension QuickSight {
         }
     }
 
+    public struct MarginStyle: AWSEncodableShape & AWSDecodableShape {
+
+        /// This Boolean value controls whether to display sheet margins.
+        public let show: Bool?
+
+        public init(show: Bool? = nil) {
+            self.show = show
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case show = "Show"
+        }
+    }
+
     public struct MariaDbParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// Database.
@@ -5027,6 +6937,58 @@ extension QuickSight {
         }
     }
 
+    public struct NamespaceError: AWSDecodableShape {
+
+        /// The message for the error.
+        public let message: String?
+        /// The error type.
+        public let `type`: NamespaceErrorType?
+
+        public init(message: String? = nil, type: NamespaceErrorType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public struct NamespaceInfoV2: AWSDecodableShape {
+
+        /// The namespace ARN.
+        public let arn: String?
+        /// The namespace AWS Region.
+        public let capacityRegion: String?
+        /// The creation status of a namespace that is not yet completely created.
+        public let creationStatus: NamespaceStatus?
+        /// The identity store used for the namespace.
+        public let identityStore: IdentityStore?
+        /// The name of the error.
+        public let name: String?
+        /// An error that occurred when the namespace was created.
+        public let namespaceError: NamespaceError?
+
+        public init(arn: String? = nil, capacityRegion: String? = nil, creationStatus: NamespaceStatus? = nil, identityStore: IdentityStore? = nil, name: String? = nil, namespaceError: NamespaceError? = nil) {
+            self.arn = arn
+            self.capacityRegion = capacityRegion
+            self.creationStatus = creationStatus
+            self.identityStore = identityStore
+            self.name = name
+            self.namespaceError = namespaceError
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case capacityRegion = "CapacityRegion"
+            case creationStatus = "CreationStatus"
+            case identityStore = "IdentityStore"
+            case name = "Name"
+            case namespaceError = "NamespaceError"
+        }
+    }
+
     public struct OutputColumn: AWSDecodableShape {
 
         /// A display name for the dataset.
@@ -5047,7 +7009,7 @@ extension QuickSight {
 
     public struct Parameters: AWSEncodableShape {
 
-        /// DateTime parameters.
+        /// Date-time parameters.
         public let dateTimeParameters: [DateTimeParameter]?
         /// Decimal parameters.
         public let decimalParameters: [DecimalParameter]?
@@ -5286,6 +7248,8 @@ extension QuickSight {
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser  instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+        public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
         /// The ARN of the IAM user or role that you are registering with Amazon QuickSight. 
@@ -5301,8 +7265,9 @@ extension QuickSight {
         /// The Amazon QuickSight role for the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.  
         public let userRole: UserRole
 
-        public init(awsAccountId: String, email: String, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
+        public init(awsAccountId: String, customPermissionsName: String? = nil, email: String, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
             self.awsAccountId = awsAccountId
+            self.customPermissionsName = customPermissionsName
             self.email = email
             self.iamArn = iamArn
             self.identityType = identityType
@@ -5316,6 +7281,9 @@ extension QuickSight {
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
             try validate(self.namespace, name: "namespace", parent: name, max: 64)
             try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.sessionName, name: "sessionName", parent: name, max: 64)
@@ -5326,6 +7294,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
             case iamArn = "IamArn"
             case identityType = "IdentityType"
@@ -5344,7 +7313,7 @@ extension QuickSight {
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
-        /// The user name.
+        /// The user's user name.
         public let user: User?
         /// The URL the user visits to complete registration and provide a password. This is returned only for users with an identity type of QUICKSIGHT.
         public let userInvitationUrl: String?
@@ -5428,9 +7397,9 @@ extension QuickSight {
 
     public struct ResourcePermission: AWSEncodableShape & AWSDecodableShape {
 
-        /// The action to grant or revoke permissions on, for example "quicksight:DescribeDashboard".
+        /// The IAM action to grant or revoke permissions on, for example "quicksight:DescribeDashboard".
         public let actions: [String]
-        /// The Amazon Resource Name (ARN) of an Amazon QuickSight user or group, or an IAM ARN. If you are using cross-account resource sharing, this is the IAM ARN of an account root. Otherwise, it is the ARN of a QuickSight user or group. .
+        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user, group, or namespace. (This is most common.)   The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across AWS accounts. (This is less common.)   
         public let principal: String
 
         public init(actions: [String], principal: String) {
@@ -5448,6 +7417,63 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case principal = "Principal"
+        }
+    }
+
+    public struct RestoreAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID of the analysis that you're restoring.
+        public let analysisId: String
+        /// The ID of the AWS account that contains the analysis.
+        public let awsAccountId: String
+
+        public init(analysisId: String, awsAccountId: String) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RestoreAnalysisResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ID of the analysis that you're restoring. 
+        public let analysisId: String?
+        /// The Amazon Resource Name (ARN) of the analysis that you're restoring.
+        public let arn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisId = analysisId
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 
@@ -5473,16 +7499,25 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the permission dataset.
         public let arn: String
+        /// The namespace associated with the row-level permissions dataset.
+        public let namespace: String?
         /// Permission policy.
         public let permissionPolicy: RowLevelPermissionPolicy
 
-        public init(arn: String, permissionPolicy: RowLevelPermissionPolicy) {
+        public init(arn: String, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
             self.arn = arn
+            self.namespace = namespace
             self.permissionPolicy = permissionPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case namespace = "Namespace"
             case permissionPolicy = "PermissionPolicy"
         }
     }
@@ -5533,6 +7568,72 @@ extension QuickSight {
             case dataSourceArn = "DataSourceArn"
             case inputColumns = "InputColumns"
             case uploadSettings = "UploadSettings"
+        }
+    }
+
+    public struct SearchAnalysesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID of the AWS account that contains the analyses that you're searching for.
+        public let awsAccountId: String
+        /// The structure for the search filters that you want to apply to your search. 
+        public let filters: [AnalysisSearchFilter]
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, filters: [AnalysisSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.filters, name: "filters", parent: name, max: 1)
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchAnalysesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// Metadata describing the analyses that you searched for.
+        public let analysisSummaryList: [AnalysisSummary]?
+        /// A pagination token that can be used in a subsequent request. 
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisSummaryList: [AnalysisSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisSummaryList = analysisSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisSummaryList = "AnalysisSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 
@@ -5632,6 +7733,24 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case visibilityState = "VisibilityState"
+        }
+    }
+
+    public struct SheetStyle: AWSEncodableShape & AWSDecodableShape {
+
+        /// The display options for tiles.
+        public let tile: TileStyle?
+        /// The layout options for tiles.
+        public let tileLayout: TileLayoutStyle?
+
+        public init(tile: TileStyle? = nil, tileLayout: TileLayoutStyle? = nil) {
+            self.tile = tile
+            self.tileLayout = tileLayout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tile = "Tile"
+            case tileLayout = "TileLayout"
         }
     }
 
@@ -5737,9 +7856,9 @@ extension QuickSight {
 
     public struct StringParameter: AWSEncodableShape {
 
-        /// A display name for the dataset.
+        /// A display name for a string parameter.
         public let name: String
-        /// Values.
+        /// The values of a string parameter.
         public let values: [String]
 
         public init(name: String, values: [String]) {
@@ -6029,26 +8148,29 @@ extension QuickSight {
 
         /// The time that this template version was created.
         public let createdTime: TimeStamp?
-        /// Schema of the dataset identified by the placeholder. The idea is that any dashboard created from the template should be bound to new datasets matching the same schema described through this API. .
+        /// Schema of the dataset identified by the placeholder. Any dashboard created from this template should be bound to new datasets matching the same schema described through this API operation.
         public let dataSetConfigurations: [DataSetConfiguration]?
         /// The description of the template.
         public let description: String?
-        /// Errors associated with the template.
+        /// Errors associated with this template version.
         public let errors: [TemplateError]?
-        /// The Amazon Resource Name (ARN) of the analysis or template which was used to create this template.
+        /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
         public let sourceEntityArn: String?
         /// The HTTP status of the request.
         public let status: ResourceStatus?
-        /// The version number of the template.
+        /// The ARN of the theme associated with this version of the template.
+        public let themeArn: String?
+        /// The version number of the template version.
         public let versionNumber: Int64?
 
-        public init(createdTime: TimeStamp? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(createdTime: TimeStamp? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
             self.errors = errors
             self.sourceEntityArn = sourceEntityArn
             self.status = status
+            self.themeArn = themeArn
             self.versionNumber = versionNumber
         }
 
@@ -6059,6 +8181,7 @@ extension QuickSight {
             case errors = "Errors"
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
+            case themeArn = "ThemeArn"
             case versionNumber = "VersionNumber"
         }
     }
@@ -6121,6 +8244,248 @@ extension QuickSight {
             case database = "Database"
             case host = "Host"
             case port = "Port"
+        }
+    }
+
+    public struct Theme: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the theme.
+        public let arn: String?
+        /// The date and time that the theme was created.
+        public let createdTime: TimeStamp?
+        /// The date and time that the theme was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The name that the user gives to the theme.
+        public let name: String?
+        /// The identifier that the user gives to the theme.
+        public let themeId: String?
+        /// The type of theme, based on how it was created. Valid values include: QUICKSIGHT and CUSTOM.
+        public let `type`: ThemeType?
+        public let version: ThemeVersion?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, themeId: String? = nil, type: ThemeType? = nil, version: ThemeVersion? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.themeId = themeId
+            self.`type` = `type`
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case themeId = "ThemeId"
+            case `type` = "Type"
+            case version = "Version"
+        }
+    }
+
+    public struct ThemeAlias: AWSDecodableShape {
+
+        /// The display name of the theme alias.
+        public let aliasName: String?
+        /// The Amazon Resource Name (ARN) of the theme alias.
+        public let arn: String?
+        /// The version number of the theme alias.
+        public let themeVersionNumber: Int64?
+
+        public init(aliasName: String? = nil, arn: String? = nil, themeVersionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.arn = arn
+            self.themeVersionNumber = themeVersionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case arn = "Arn"
+            case themeVersionNumber = "ThemeVersionNumber"
+        }
+    }
+
+    public struct ThemeConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// Color properties that apply to chart data colors.
+        public let dataColorPalette: DataColorPalette?
+        /// Display options related to sheets.
+        public let sheet: SheetStyle?
+        /// Color properties that apply to the UI and to charts, excluding the colors that apply to data. 
+        public let uIColorPalette: UIColorPalette?
+
+        public init(dataColorPalette: DataColorPalette? = nil, sheet: SheetStyle? = nil, uIColorPalette: UIColorPalette? = nil) {
+            self.dataColorPalette = dataColorPalette
+            self.sheet = sheet
+            self.uIColorPalette = uIColorPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.dataColorPalette?.validate(name: "\(name).dataColorPalette")
+            try self.uIColorPalette?.validate(name: "\(name).uIColorPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataColorPalette = "DataColorPalette"
+            case sheet = "Sheet"
+            case uIColorPalette = "UIColorPalette"
+        }
+    }
+
+    public struct ThemeError: AWSDecodableShape {
+
+        /// The error message.
+        public let message: String?
+        /// The type of error.
+        public let `type`: ThemeErrorType?
+
+        public init(message: String? = nil, type: ThemeErrorType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ThemeSummary: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The date and time that this theme was created.
+        public let createdTime: TimeStamp?
+        /// The last date and time that this theme was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The latest version number for the theme. 
+        public let latestVersionNumber: Int64?
+        /// the display name for the theme.
+        public let name: String?
+        /// The ID of the theme. This ID is unique per AWS Region for each AWS account.
+        public let themeId: String?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, themeId: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.latestVersionNumber = latestVersionNumber
+            self.name = name
+            self.themeId = themeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case latestVersionNumber = "LatestVersionNumber"
+            case name = "Name"
+            case themeId = "ThemeId"
+        }
+    }
+
+    public struct ThemeVersion: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The Amazon QuickSight-defined ID of the theme that a custom theme inherits from. All themes initially inherit from a default QuickSight theme.
+        public let baseThemeId: String?
+        /// The theme configuration, which contains all the theme display properties.
+        public let configuration: ThemeConfiguration?
+        /// The date and time that this theme version was created.
+        public let createdTime: TimeStamp?
+        /// The description of the theme.
+        public let description: String?
+        /// Errors associated with the theme.
+        public let errors: [ThemeError]?
+        /// The status of the theme version.
+        public let status: ResourceStatus?
+        /// The version number of the theme.
+        public let versionNumber: Int64?
+
+        public init(arn: String? = nil, baseThemeId: String? = nil, configuration: ThemeConfiguration? = nil, createdTime: TimeStamp? = nil, description: String? = nil, errors: [ThemeError]? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+            self.arn = arn
+            self.baseThemeId = baseThemeId
+            self.configuration = configuration
+            self.createdTime = createdTime
+            self.description = description
+            self.errors = errors
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case baseThemeId = "BaseThemeId"
+            case configuration = "Configuration"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case errors = "Errors"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct ThemeVersionSummary: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the theme version.
+        public let arn: String?
+        /// The date and time that this theme version was created.
+        public let createdTime: TimeStamp?
+        /// The description of the theme version.
+        public let description: String?
+        /// The status of the theme version.
+        public let status: ResourceStatus?
+        /// The version number of the theme version.
+        public let versionNumber: Int64?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct TileLayoutStyle: AWSEncodableShape & AWSDecodableShape {
+
+        /// The gutter settings that apply between tiles. 
+        public let gutter: GutterStyle?
+        /// The margin settings that apply around the outside edge of sheets.
+        public let margin: MarginStyle?
+
+        public init(gutter: GutterStyle? = nil, margin: MarginStyle? = nil) {
+            self.gutter = gutter
+            self.margin = margin
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gutter = "Gutter"
+            case margin = "Margin"
+        }
+    }
+
+    public struct TileStyle: AWSEncodableShape & AWSDecodableShape {
+
+        /// The border around a tile.
+        public let border: BorderStyle?
+
+        public init(border: BorderStyle? = nil) {
+            self.border = border
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case border = "Border"
         }
     }
 
@@ -6191,6 +8556,99 @@ extension QuickSight {
         }
     }
 
+    public struct UIColorPalette: AWSEncodableShape & AWSDecodableShape {
+
+        /// This color is that applies to selected states and buttons.
+        public let accent: String?
+        /// The foreground color that applies to any text or other elements that appear over the accent color.
+        public let accentForeground: String?
+        /// The color that applies to error messages.
+        public let danger: String?
+        /// The foreground color that applies to any text or other elements that appear over the error color.
+        public let dangerForeground: String?
+        /// The color that applies to the names of fields that are identified as dimensions.
+        public let dimension: String?
+        /// The foreground color that applies to any text or other elements that appear over the dimension color.
+        public let dimensionForeground: String?
+        /// The color that applies to the names of fields that are identified as measures.
+        public let measure: String?
+        /// The foreground color that applies to any text or other elements that appear over the measure color.
+        public let measureForeground: String?
+        /// The background color that applies to visuals and other high emphasis UI.
+        public let primaryBackground: String?
+        /// The color of text and other foreground elements that appear over the primary background regions, such as grid lines, borders, table banding, icons, and so on.
+        public let primaryForeground: String?
+        /// The background color that applies to the sheet background and sheet controls.
+        public let secondaryBackground: String?
+        /// The foreground color that applies to any sheet title, sheet control text, or UI that appears over the secondary background.
+        public let secondaryForeground: String?
+        /// The color that applies to success messages, for example the check mark for a successful download.
+        public let success: String?
+        /// The foreground color that applies to any text or other elements that appear over the success color.
+        public let successForeground: String?
+        /// This color that applies to warning and informational messages.
+        public let warning: String?
+        /// The foreground color that applies to any text or other elements that appear over the warning color.
+        public let warningForeground: String?
+
+        public init(accent: String? = nil, accentForeground: String? = nil, danger: String? = nil, dangerForeground: String? = nil, dimension: String? = nil, dimensionForeground: String? = nil, measure: String? = nil, measureForeground: String? = nil, primaryBackground: String? = nil, primaryForeground: String? = nil, secondaryBackground: String? = nil, secondaryForeground: String? = nil, success: String? = nil, successForeground: String? = nil, warning: String? = nil, warningForeground: String? = nil) {
+            self.accent = accent
+            self.accentForeground = accentForeground
+            self.danger = danger
+            self.dangerForeground = dangerForeground
+            self.dimension = dimension
+            self.dimensionForeground = dimensionForeground
+            self.measure = measure
+            self.measureForeground = measureForeground
+            self.primaryBackground = primaryBackground
+            self.primaryForeground = primaryForeground
+            self.secondaryBackground = secondaryBackground
+            self.secondaryForeground = secondaryForeground
+            self.success = success
+            self.successForeground = successForeground
+            self.warning = warning
+            self.warningForeground = warningForeground
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accent, name: "accent", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.accentForeground, name: "accentForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.danger, name: "danger", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.dangerForeground, name: "dangerForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.dimension, name: "dimension", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.dimensionForeground, name: "dimensionForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.measure, name: "measure", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.measureForeground, name: "measureForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.primaryBackground, name: "primaryBackground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.primaryForeground, name: "primaryForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.secondaryBackground, name: "secondaryBackground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.secondaryForeground, name: "secondaryForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.success, name: "success", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.successForeground, name: "successForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.warning, name: "warning", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try validate(self.warningForeground, name: "warningForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accent = "Accent"
+            case accentForeground = "AccentForeground"
+            case danger = "Danger"
+            case dangerForeground = "DangerForeground"
+            case dimension = "Dimension"
+            case dimensionForeground = "DimensionForeground"
+            case measure = "Measure"
+            case measureForeground = "MeasureForeground"
+            case primaryBackground = "PrimaryBackground"
+            case primaryForeground = "PrimaryForeground"
+            case secondaryBackground = "SecondaryBackground"
+            case secondaryForeground = "SecondaryForeground"
+            case success = "Success"
+            case successForeground = "SuccessForeground"
+            case warning = "Warning"
+            case warningForeground = "WarningForeground"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
@@ -6240,6 +8698,285 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateAccountCustomizationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
+        ]
+
+        /// The QuickSight customizations you're updating in the current AWS Region. 
+        public let accountCustomization: AccountCustomization
+        /// The ID for the AWS account that you want to update QuickSight customizations for.
+        public let awsAccountId: String
+        /// The namespace that you want to update QuickSight customizations for.
+        public let namespace: String?
+
+        public init(accountCustomization: AccountCustomization, awsAccountId: String, namespace: String? = nil) {
+            self.accountCustomization = accountCustomization
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountCustomization = "AccountCustomization"
+        }
+    }
+
+    public struct UpdateAccountCustomizationResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The QuickSight customizations you're updating in the current AWS Region. 
+        public let accountCustomization: AccountCustomization?
+        /// The ID for the AWS account that you want to update QuickSight customizations for.
+        public let awsAccountId: String?
+        /// The namespace associated with the customization that you're updating.
+        public let namespace: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(accountCustomization: AccountCustomization? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.accountCustomization = accountCustomization
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountCustomization = "AccountCustomization"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateAccountSettingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID for the AWS account that contains the QuickSight settings that you want to list.
+        public let awsAccountId: String
+        /// The default namespace for this AWS Account. Currently, the default is default. IAM users who register for the first time with QuickSight provide an email that becomes associated with the default namespace.
+        public let defaultNamespace: String
+        /// The email address that you want QuickSight to send notifications to regarding your AWS account or QuickSight subscription.
+        public let notificationEmail: String?
+
+        public init(awsAccountId: String, defaultNamespace: String, notificationEmail: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.defaultNamespace = defaultNamespace
+            self.notificationEmail = notificationEmail
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.defaultNamespace, name: "defaultNamespace", parent: name, max: 64)
+            try validate(self.defaultNamespace, name: "defaultNamespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultNamespace = "DefaultNamespace"
+            case notificationEmail = "NotificationEmail"
+        }
+    }
+
+    public struct UpdateAccountSettingsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateAnalysisPermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID of the analysis whose permissions you're updating. The ID is part of the analysis URL.
+        public let analysisId: String
+        /// The ID of the AWS account that contains the analysis whose permissions you're updating. You must be using the AWS account that the analysis is in.
+        public let awsAccountId: String
+        /// A structure that describes the permissions to add and the principal to add them to.
+        public let grantPermissions: [ResourcePermission]?
+        /// A structure that describes the permissions to remove and the principal to remove them from.
+        public let revokePermissions: [ResourcePermission]?
+
+        public init(analysisId: String, awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateAnalysisPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the analysis that you updated.
+        public let analysisArn: String?
+        /// The ID of the analysis that you updated permissions for.
+        public let analysisId: String?
+        /// A structure that describes the principals and the resource-level permissions on an analysis.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(analysisArn: String? = nil, analysisId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.analysisArn = analysisArn
+            self.analysisId = analysisId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisArn = "AnalysisArn"
+            case analysisId = "AnalysisId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "AnalysisId")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
+        public let analysisId: String
+        /// The ID of the AWS account that contains the analysis that you're updating.
+        public let awsAccountId: String
+        /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the QuickSight console.
+        public let name: String
+        /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values. 
+        public let parameters: Parameters?
+        /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
+        public let sourceEntity: AnalysisSourceEntity
+        /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the QuickSight console, make sure that you have access to it.
+        public let themeArn: String?
+
+        public init(analysisId: String, awsAccountId: String, name: String, parameters: Parameters? = nil, sourceEntity: AnalysisSourceEntity, themeArn: String? = nil) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+            self.name = name
+            self.parameters = parameters
+            self.sourceEntity = sourceEntity
+            self.themeArn = themeArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.name, name: "name", parent: name, max: 2048)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.parameters?.validate(name: "\(name).parameters")
+            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case parameters = "Parameters"
+            case sourceEntity = "SourceEntity"
+            case themeArn = "ThemeArn"
+        }
+    }
+
+    public struct UpdateAnalysisResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ID of the analysis.
+        public let analysisId: String?
+        /// The ARN of the analysis that you're updating.
+        public let arn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The update status of the last update that was made to the analysis.
+        public let updateStatus: ResourceStatus?
+
+        public init(analysisId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: ResourceStatus? = nil) {
+            self.analysisId = analysisId
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+            self.updateStatus = updateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+            case updateStatus = "UpdateStatus"
+        }
+    }
+
     public struct UpdateDashboardPermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -6273,12 +9010,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
             try validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
-            try validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
             try validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
-            try validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6392,24 +9127,27 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
-        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.   
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.   
         public let dashboardPublishOptions: DashboardPublishOptions?
         /// The display name of the dashboard.
         public let name: String
-        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values. 
+        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
         /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. 
         public let sourceEntity: DashboardSourceEntity
+        /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same AWS account where you create the dashboard.
+        public let themeArn: String?
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
 
-        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, sourceEntity: DashboardSourceEntity, versionDescription: String? = nil) {
+        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, sourceEntity: DashboardSourceEntity, themeArn: String? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.dashboardPublishOptions = dashboardPublishOptions
             self.name = name
             self.parameters = parameters
             self.sourceEntity = sourceEntity
+            self.themeArn = themeArn
             self.versionDescription = versionDescription
         }
 
@@ -6434,6 +9172,7 @@ extension QuickSight {
             case name = "Name"
             case parameters = "Parameters"
             case sourceEntity = "SourceEntity"
+            case themeArn = "ThemeArn"
             case versionDescription = "VersionDescription"
         }
     }
@@ -6602,6 +9341,7 @@ extension QuickSight {
                 try validate($0.key, name: "physicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
                 try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
             }
+            try self.rowLevelPermissionDataSet?.validate(name: "\(name).rowLevelPermissionDataSet")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7055,12 +9795,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
             try validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
-            try validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
             try validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
-            try validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
             try validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try validate(self.templateId, name: "templateId", parent: name, min: 1)
             try validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -7189,6 +9927,240 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateThemeAliasRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The name of the theme alias that you want to update.
+        public let aliasName: String
+        /// The ID of the AWS account that contains the theme alias that you're updating.
+        public let awsAccountId: String
+        /// The ID for the theme.
+        public let themeId: String
+        /// The version number of the theme that the alias should reference.
+        public let themeVersionNumber: Int64
+
+        public init(aliasName: String, awsAccountId: String, themeId: String, themeVersionNumber: Int64) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.themeId = themeId
+            self.themeVersionNumber = themeVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.themeVersionNumber, name: "themeVersionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case themeVersionNumber = "ThemeVersionNumber"
+        }
+    }
+
+    public struct UpdateThemeAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Information about the theme alias.
+        public let themeAlias: ThemeAlias?
+
+        public init(requestId: String? = nil, status: Int? = nil, themeAlias: ThemeAlias? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.themeAlias = themeAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeAlias = "ThemeAlias"
+        }
+    }
+
+    public struct UpdateThemePermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The ID of the AWS account that contains the theme.
+        public let awsAccountId: String
+        /// A list of resource permissions to be granted for the theme.
+        public let grantPermissions: [ResourcePermission]?
+        /// A list of resource permissions to be revoked from the theme.
+        public let revokePermissions: [ResourcePermission]?
+        /// The ID for the theme.
+        public let themeId: String
+
+        public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil, themeId: String) {
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+            self.themeId = themeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateThemePermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The resulting list of resource permissions for the theme.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The Amazon Resource Name (ARN) of the theme.
+        public let themeArn: String?
+        /// The ID for the theme.
+        public let themeId: String?
+
+        public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, themeArn: String? = nil, themeId: String? = nil) {
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+            self.themeArn = themeArn
+            self.themeId = themeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeArn = "ThemeArn"
+            case themeId = "ThemeId"
+        }
+    }
+
+    public struct UpdateThemeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
+        ]
+
+        /// The ID of the AWS account that contains the theme that you're updating.
+        public let awsAccountId: String
+        /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits from. All themes initially inherit from a default QuickSight theme.
+        public let baseThemeId: String
+        /// The theme configuration, which contains the theme display properties.
+        public let configuration: ThemeConfiguration?
+        /// The name for the theme.
+        public let name: String?
+        /// The ID for the theme.
+        public let themeId: String
+        /// A description of the theme version that you're updating Every time that you call UpdateTheme, you create a new version of the theme. Each version of the theme maintains a description of the version in VersionDescription.
+        public let versionDescription: String?
+
+        public init(awsAccountId: String, baseThemeId: String, configuration: ThemeConfiguration? = nil, name: String? = nil, themeId: String, versionDescription: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.baseThemeId = baseThemeId
+            self.configuration = configuration
+            self.name = name
+            self.themeId = themeId
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 2048)
+            try validate(self.baseThemeId, name: "baseThemeId", parent: name, min: 1)
+            try validate(self.baseThemeId, name: "baseThemeId", parent: name, pattern: "[\\w\\-]+")
+            try self.configuration?.validate(name: "\(name).configuration")
+            try validate(self.name, name: "name", parent: name, max: 2048)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try validate(self.themeId, name: "themeId", parent: name, min: 1)
+            try validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
+            try validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseThemeId = "BaseThemeId"
+            case configuration = "Configuration"
+            case name = "Name"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct UpdateThemeResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the theme.
+        public let arn: String?
+        /// The creation status of the theme.
+        public let creationStatus: ResourceStatus?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ID for the theme.
+        public let themeId: String?
+        /// The Amazon Resource Name (ARN) for the new version of the theme.
+        public let versionArn: String?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil, versionArn: String? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.requestId = requestId
+            self.status = status
+            self.themeId = themeId
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case requestId = "RequestId"
+            case status = "Status"
+            case themeId = "ThemeId"
+            case versionArn = "VersionArn"
+        }
+    }
+
     public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -7198,20 +10170,26 @@ extension QuickSight {
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+        public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
-        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
+        /// The Amazon QuickSight role of the user. The role can be one of the following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.   The name of the QuickSight role is invisible to the user except for the console screens dealing with permissions.
         public let role: UserRole
+        /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
+        public let unapplyCustomPermissions: Bool?
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
 
-        public init(awsAccountId: String, email: String, namespace: String, role: UserRole, userName: String) {
+        public init(awsAccountId: String, customPermissionsName: String? = nil, email: String, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
             self.awsAccountId = awsAccountId
+            self.customPermissionsName = customPermissionsName
             self.email = email
             self.namespace = namespace
             self.role = role
+            self.unapplyCustomPermissions = unapplyCustomPermissions
             self.userName = userName
         }
 
@@ -7219,6 +10197,9 @@ extension QuickSight {
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
             try validate(self.namespace, name: "namespace", parent: name, max: 64)
             try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.userName, name: "userName", parent: name, min: 1)
@@ -7226,8 +10207,10 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
             case role = "Role"
+            case unapplyCustomPermissions = "UnapplyCustomPermissions"
         }
     }
 
@@ -7298,6 +10281,8 @@ extension QuickSight {
         public let active: Bool?
         /// The Amazon Resource Name (ARN) for the user.
         public let arn: String?
+        /// The custom permissions profile associated with this user.
+        public let customPermissionsName: String?
         /// The user's email address.
         public let email: String?
         /// The type of identity authentication used by the user.
@@ -7309,9 +10294,10 @@ extension QuickSight {
         /// The user's user name.
         public let userName: String?
 
-        public init(active: Bool? = nil, arn: String? = nil, email: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
+        public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
             self.active = active
             self.arn = arn
+            self.customPermissionsName = customPermissionsName
             self.email = email
             self.identityType = identityType
             self.principalId = principalId
@@ -7322,6 +10308,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case active = "Active"
             case arn = "Arn"
+            case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
             case identityType = "IdentityType"
             case principalId = "PrincipalId"

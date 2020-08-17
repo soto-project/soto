@@ -264,6 +264,11 @@ public struct SecurityHub {
         return client.execute(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Updates configuration options for Security Hub.
+    public func updateSecurityHubConfiguration(_ input: UpdateSecurityHubConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSecurityHubConfigurationResponse> {
+        return client.execute(operation: "UpdateSecurityHubConfiguration", path: "/accounts", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Used to control whether an individual security standard control is enabled or disabled.
     public func updateStandardsControl(_ input: UpdateStandardsControlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStandardsControlResponse> {
         return client.execute(operation: "UpdateStandardsControl", path: "/standards/control/{StandardsControlArn+}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)

@@ -65,7 +65,7 @@ public struct Organizations {
         return client.execute(operation: "AcceptHandshake", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the AWS Organizations User Guide for information about each policy type:    BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY    This operation can be called only from the organization's master account.
+    ///  Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the AWS Organizations User Guide for information about each policy type:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY    This operation can be called only from the organization's master account.
     @discardableResult public func attachPolicy(_ input: AttachPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "AttachPolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -120,7 +120,7 @@ public struct Organizations {
         return client.execute(operation: "DeletePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Removes the specified member AWS account as a delegated administrator for the specified AWS service. You can run this action only for AWS services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at AWS Services that you can use with AWS Organizations in the AWS Organizations User Guide.  This operation can be called only from the organization's master account.
+    ///  Removes the specified member AWS account as a delegated administrator for the specified AWS service.  Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled AWS service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts.  You can run this action only for AWS services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at AWS Services that you can use with AWS Organizations in the AWS Organizations User Guide.  This operation can be called only from the organization's master account.
     @discardableResult public func deregisterDelegatedAdministrator(_ input: DeregisterDelegatedAdministratorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "DeregisterDelegatedAdministrator", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -235,7 +235,7 @@ public struct Organizations {
         return client.execute(operation: "ListDelegatedServicesForAccount", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called from any account in the organization.
     public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHandshakesForAccountResponse> {
         return client.execute(operation: "ListHandshakesForAccount", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }

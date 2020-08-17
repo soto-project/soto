@@ -503,7 +503,7 @@ extension Comprehend {
         public let evaluationMetrics: ClassifierEvaluationMetrics?
         /// The number of labels in the input data. 
         public let numberOfLabels: Int?
-        /// The number of documents in the input data that were used to test the classifier. Typically this is 10 to 20 percent of the input documents.
+        /// The number of documents in the input data that were used to test the classifier. Typically this is 10 to 20 percent of the input documents, up to 10,000 documents.
         public let numberOfTestDocuments: Int?
         /// The number of documents in the input data that were used to train the classifier. Typically this is 80 to 90 percent of the input documents.
         public let numberOfTrainedDocuments: Int?
@@ -676,7 +676,7 @@ extension Comprehend {
             try validate(self.endpointName, name: "endpointName", parent: name, max: 40)
             try validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try validate(self.modelArn, name: "modelArn", parent: name, max: 256)
-            try validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -713,7 +713,7 @@ extension Comprehend {
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created. 
         public let inputDataConfig: EntityRecognizerInputDataConfig
-        ///  The language of the input documents. All documents must be in the same language. Only English ("en") is currently supported. 
+        ///  You can specify any of the following languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
         public let recognizerName: String
@@ -816,7 +816,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
-            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -971,7 +971,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
-            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1196,21 +1196,27 @@ extension Comprehend {
 
     public struct DetectEntitiesRequest: AWSEncodableShape {
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
-        public let languageCode: LanguageCode
+        /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request.
+        public let endpointArn: String?
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here.
+        public let languageCode: LanguageCode?
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
 
-        public init(languageCode: LanguageCode, text: String) {
+        public init(endpointArn: String? = nil, languageCode: LanguageCode? = nil, text: String) {
+            self.endpointArn = endpointArn
             self.languageCode = languageCode
             self.text = text
         }
 
         public func validate(name: String) throws {
+            try validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
+            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(self.text, name: "text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
             case languageCode = "LanguageCode"
             case text = "Text"
         }
@@ -1218,7 +1224,7 @@ extension Comprehend {
 
     public struct DetectEntitiesResponse: AWSDecodableShape {
 
-        /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection. For a list of entity types, see how-entities. 
+        /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.  If your request uses a custom entity recognition model, Amazon Comprehend detects the entities that the model is trained to recognize. Otherwise, it detects the default entity types. For a list of default entity types, see how-entities.
         public let entities: [Entity]?
 
         public init(entities: [Entity]? = nil) {
@@ -1366,9 +1372,9 @@ extension Comprehend {
         public let jobName: String?
         /// Filters the list based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
         public let submitTimeAfter: TimeStamp?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: TimeStamp?
 
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
@@ -1734,7 +1740,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try validate(self.modelArn, name: "modelArn", parent: name, max: 256)
-            try validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2020,7 +2026,7 @@ extension Comprehend {
         public let documents: EntityRecognizerDocuments
         /// S3 location of the entity list for an entity recognizer.
         public let entityList: EntityRecognizerEntityList?
-        /// The entity types in the input data for an entity recognizer. A maximum of 12 entity types can be used at one time to train an entity recognizer.
+        /// The entity types in the input data for an entity recognizer. A maximum of 25 entity types can be used at one time to train an entity recognizer.
         public let entityTypes: [EntityTypesListItem]
 
         public init(annotations: EntityRecognizerAnnotations? = nil, documents: EntityRecognizerDocuments, entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem]) {
@@ -3849,7 +3855,7 @@ extension Comprehend {
         public func validate(name: String) throws {
             try validate(self.desiredInferenceUnits, name: "desiredInferenceUnits", parent: name, min: 1)
             try validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
-            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {

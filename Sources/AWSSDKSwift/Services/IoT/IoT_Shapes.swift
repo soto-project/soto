@@ -1095,15 +1095,18 @@ extension IoT {
         public let message: String?
         /// The number of resources that were found noncompliant during the check.
         public let nonCompliantResourcesCount: Int64?
+        ///  Describes how many of the non-compliant resources created during the evaluation of an audit check were marked as suppressed. 
+        public let suppressedNonCompliantResourcesCount: Int64?
         /// The number of resources on which the check was performed.
         public let totalResourcesCount: Int64?
 
-        public init(checkCompliant: Bool? = nil, checkRunStatus: AuditCheckRunStatus? = nil, errorCode: String? = nil, message: String? = nil, nonCompliantResourcesCount: Int64? = nil, totalResourcesCount: Int64? = nil) {
+        public init(checkCompliant: Bool? = nil, checkRunStatus: AuditCheckRunStatus? = nil, errorCode: String? = nil, message: String? = nil, nonCompliantResourcesCount: Int64? = nil, suppressedNonCompliantResourcesCount: Int64? = nil, totalResourcesCount: Int64? = nil) {
             self.checkCompliant = checkCompliant
             self.checkRunStatus = checkRunStatus
             self.errorCode = errorCode
             self.message = message
             self.nonCompliantResourcesCount = nonCompliantResourcesCount
+            self.suppressedNonCompliantResourcesCount = suppressedNonCompliantResourcesCount
             self.totalResourcesCount = totalResourcesCount
         }
 
@@ -1113,6 +1116,7 @@ extension IoT {
             case errorCode = "errorCode"
             case message = "message"
             case nonCompliantResourcesCount = "nonCompliantResourcesCount"
+            case suppressedNonCompliantResourcesCount = "suppressedNonCompliantResourcesCount"
             case totalResourcesCount = "totalResourcesCount"
         }
     }
@@ -1125,6 +1129,8 @@ extension IoT {
         public let findingId: String?
         /// The time the result (finding) was discovered.
         public let findingTime: TimeStamp?
+        ///  Indicates whether the audit finding was suppressed or not during reporting. 
+        public let isSuppressed: Bool?
         /// The resource that was found to be noncompliant with the audit check.
         public let nonCompliantResource: NonCompliantResource?
         /// The reason the resource was noncompliant.
@@ -1140,10 +1146,11 @@ extension IoT {
         /// The time the audit started.
         public let taskStartTime: TimeStamp?
 
-        public init(checkName: String? = nil, findingId: String? = nil, findingTime: TimeStamp? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
+        public init(checkName: String? = nil, findingId: String? = nil, findingTime: TimeStamp? = nil, isSuppressed: Bool? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
             self.checkName = checkName
             self.findingId = findingId
             self.findingTime = findingTime
+            self.isSuppressed = isSuppressed
             self.nonCompliantResource = nonCompliantResource
             self.reasonForNonCompliance = reasonForNonCompliance
             self.reasonForNonComplianceCode = reasonForNonComplianceCode
@@ -1157,6 +1164,7 @@ extension IoT {
             case checkName = "checkName"
             case findingId = "findingId"
             case findingTime = "findingTime"
+            case isSuppressed = "isSuppressed"
             case nonCompliantResource = "nonCompliantResource"
             case reasonForNonCompliance = "reasonForNonCompliance"
             case reasonForNonComplianceCode = "reasonForNonComplianceCode"
@@ -1299,6 +1307,34 @@ extension IoT {
             case enabled = "enabled"
             case roleArn = "roleArn"
             case targetArn = "targetArn"
+        }
+    }
+
+    public struct AuditSuppression: AWSDecodableShape {
+
+        public let checkName: String
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
         }
     }
 
@@ -2294,6 +2330,55 @@ extension IoT {
     }
 
     public struct ConfirmTopicRuleDestinationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateAuditSuppressionRequest: AWSEncodableShape {
+
+        public let checkName: String
+        ///  The epoch timestamp in seconds at which this suppression expires. 
+        public let clientRequestToken: String
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The epoch timestamp in seconds at which this suppression expires. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String, clientRequestToken: String = CreateAuditSuppressionRequest.idempotencyToken(), description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(self.description, name: "description", parent: name, max: 1000)
+            try validate(self.description, name: "description", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
+        }
+    }
+
+    public struct CreateAuditSuppressionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3884,6 +3969,34 @@ extension IoT {
 
     }
 
+    public struct DeleteAuditSuppressionRequest: AWSEncodableShape {
+
+        public let checkName: String
+        public let resourceIdentifier: ResourceIdentifier
+
+        public init(checkName: String, resourceIdentifier: ResourceIdentifier) {
+            self.checkName = checkName
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct DeleteAuditSuppressionResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
@@ -4792,6 +4905,54 @@ extension IoT {
             case target = "target"
             case taskStatistics = "taskStatistics"
             case taskStatus = "taskStatus"
+        }
+    }
+
+    public struct DescribeAuditSuppressionRequest: AWSEncodableShape {
+
+        public let checkName: String
+        public let resourceIdentifier: ResourceIdentifier
+
+        public init(checkName: String, resourceIdentifier: ResourceIdentifier) {
+            self.checkName = checkName
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct DescribeAuditSuppressionResponse: AWSDecodableShape {
+
+        public let checkName: String?
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The epoch timestamp in seconds at which this suppression expires. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier?
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier? = nil, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
         }
     }
 
@@ -6035,7 +6196,7 @@ extension IoT {
 
         /// The name of the policy to detach.
         public let policyName: String
-        /// The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String
 
         public init(policyName: String, principal: String) {
@@ -6513,7 +6674,7 @@ extension IoT {
 
         /// The Cognito identity pool ID.
         public let cognitoIdentityPoolId: String?
-        /// The principal.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String?
         /// The thing name.
         public let thingName: String?
@@ -7725,7 +7886,7 @@ extension IoT {
         public let pageSize: Int?
         /// When true, recursively list attached policies.
         public let recursive: Bool?
-        /// The group or principal for which the policies will be listed.
+        /// The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let target: String
 
         public init(marker: String? = nil, pageSize: Int? = nil, recursive: Bool? = nil, target: String) {
@@ -7768,6 +7929,8 @@ extension IoT {
         public let checkName: String?
         /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
         public let endTime: TimeStamp?
+        ///  Boolean flag indicating whether only the suppressed findings or the unsuppressed findings should be listed. If this parameter isn't provided, the response will list both suppressed and unsuppressed findings. 
+        public let listSuppressedFindings: Bool?
         /// The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -7779,9 +7942,10 @@ extension IoT {
         /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
         public let taskId: String?
 
-        public init(checkName: String? = nil, endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
+        public init(checkName: String? = nil, endTime: TimeStamp? = nil, listSuppressedFindings: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
             self.checkName = checkName
             self.endTime = endTime
+            self.listSuppressedFindings = listSuppressedFindings
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceIdentifier = resourceIdentifier
@@ -7801,6 +7965,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case checkName = "checkName"
             case endTime = "endTime"
+            case listSuppressedFindings = "listSuppressedFindings"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case resourceIdentifier = "resourceIdentifier"
@@ -7952,6 +8117,58 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tasks = "tasks"
+        }
+    }
+
+    public struct ListAuditSuppressionsRequest: AWSEncodableShape {
+
+        ///  Determines whether suppressions are listed in ascending order by expiration date or not. If parameter isn't provided, ascendingOrder=true. 
+        public let ascendingOrder: Bool?
+        public let checkName: String?
+        ///  The maximum number of results to return at one time. The default is 25. 
+        public let maxResults: Int?
+        ///  The token for the next set of results. 
+        public let nextToken: String?
+        public let resourceIdentifier: ResourceIdentifier?
+
+        public init(ascendingOrder: Bool? = nil, checkName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
+            self.ascendingOrder = ascendingOrder
+            self.checkName = checkName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.resourceIdentifier?.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ascendingOrder = "ascendingOrder"
+            case checkName = "checkName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct ListAuditSuppressionsResponse: AWSDecodableShape {
+
+        ///  A token that can be used to retrieve the next set of results, or null if there are no additional results. 
+        public let nextToken: String?
+        ///  List of audit suppressions. 
+        public let suppressions: [AuditSuppression]?
+
+        public init(nextToken: String? = nil, suppressions: [AuditSuppression]? = nil) {
+            self.nextToken = nextToken
+            self.suppressions = suppressions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case suppressions = "suppressions"
         }
     }
 
@@ -8851,7 +9068,7 @@ extension IoT {
         public let marker: String?
         /// The result page size.
         public let pageSize: Int?
-        /// The principal.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String
 
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, principal: String) {
@@ -9488,7 +9705,7 @@ extension IoT {
 
     public struct ListThingGroupsResponse: AWSDecodableShape {
 
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The thing groups.
         public let thingGroups: [GroupNameAndArn]?
@@ -9673,7 +9890,7 @@ extension IoT {
 
     public struct ListThingTypesResponse: AWSDecodableShape {
 
-        /// The token for the next set of results, or null if there are no additional results.
+        /// The token for the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The thing types.
         public let thingTypes: [ThingTypeDefinition]?
@@ -9722,7 +9939,7 @@ extension IoT {
 
     public struct ListThingsInBillingGroupResponse: AWSDecodableShape {
 
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// A list of things in the billing group.
         public let things: [String]?
@@ -9836,7 +10053,7 @@ extension IoT {
 
     public struct ListThingsResponse: AWSDecodableShape {
 
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The things.
         public let things: [ThingAttribute]?
@@ -12290,7 +12507,7 @@ extension IoT {
         public let policyNamesToAdd: [String]?
         /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
         public let policyNamesToSkip: [String]?
-        /// The principal.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String?
 
         public init(authInfos: [AuthInfo], clientId: String? = nil, cognitoIdentityPoolId: String? = nil, policyNamesToAdd: [String]? = nil, policyNamesToSkip: [String]? = nil, principal: String? = nil) {
@@ -13066,6 +13283,48 @@ extension IoT {
     }
 
     public struct UpdateAccountAuditConfigurationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateAuditSuppressionRequest: AWSEncodableShape {
+
+        public let checkName: String
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 1000)
+            try validate(self.description, name: "description", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
+        }
+    }
+
+    public struct UpdateAuditSuppressionResponse: AWSDecodableShape {
 
 
         public init() {

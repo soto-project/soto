@@ -255,7 +255,7 @@ extension AppSync {
 
     public struct CachingConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.identity and $context.arguments maps.
+        /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.arguments, $context.source, and $context.identity maps.
         public let cachingKeys: [String]?
         /// The TTL in seconds for a resolver that has caching enabled. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64?
@@ -469,11 +469,11 @@ extension AppSync {
         /// The Function name. The function name does not have to be unique.
         public let name: String
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String
+        public let requestMappingTemplate: String?
         /// The Function response mapping template. 
         public let responseMappingTemplate: String?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String, responseMappingTemplate: String? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
@@ -603,8 +603,8 @@ extension AppSync {
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
-        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL).
-        public let requestMappingTemplate: String
+        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+        public let requestMappingTemplate: String?
         /// The mapping template to be used for responses from the data source.
         public let responseMappingTemplate: String?
         /// The SyncConfig for a resolver attached to a versioned datasource.
@@ -612,7 +612,7 @@ extension AppSync {
         /// The name of the Type.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
@@ -2387,11 +2387,11 @@ extension AppSync {
         /// The Function name.
         public let name: String
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String
+        public let requestMappingTemplate: String?
         /// The Function request mapping template. 
         public let responseMappingTemplate: String?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String, responseMappingTemplate: String? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
@@ -2519,8 +2519,8 @@ extension AppSync {
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
-        /// The new request mapping template.
-        public let requestMappingTemplate: String
+        /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+        public let requestMappingTemplate: String?
         /// The new response mapping template.
         public let responseMappingTemplate: String?
         /// The SyncConfig for a resolver attached to a versioned datasource.
@@ -2528,7 +2528,7 @@ extension AppSync {
         /// The new type name.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName

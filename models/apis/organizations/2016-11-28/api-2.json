@@ -1208,7 +1208,9 @@
         "INVALID_EMAIL",
         "CONCURRENT_ACCOUNT_MODIFICATION",
         "INTERNAL_FAILURE",
-        "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
+        "GOVCLOUD_ACCOUNT_ALREADY_EXISTS",
+        "MISSING_BUSINESS_VALIDATION",
+        "MISSING_PAYMENT_INSTRUMENT"
       ]
     },
     "CreateAccountRequest":{
@@ -1588,7 +1590,8 @@
       "type":"string",
       "enum":[
         "TAG_POLICY",
-        "BACKUP_POLICY"
+        "BACKUP_POLICY",
+        "AISERVICES_OPT_OUT_POLICY"
       ]
     },
     "Email":{
@@ -2359,7 +2362,8 @@
       "enum":[
         "SERVICE_CONTROL_POLICY",
         "TAG_POLICY",
-        "BACKUP_POLICY"
+        "BACKUP_POLICY",
+        "AISERVICES_OPT_OUT_POLICY"
       ]
     },
     "PolicyTypeAlreadyEnabledException":{

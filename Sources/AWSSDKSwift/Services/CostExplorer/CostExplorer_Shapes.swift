@@ -431,6 +431,8 @@ extension CostExplorer {
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
+        /// The name you've given an instance. This field will show as blank if you haven't given the instance a name.
+        public let instanceName: String?
         ///  Current On Demand cost of operating this instance on a monthly basis.
         public let monthlyCost: String?
         ///  Number of hours during the lookback period billed at On Demand rates.
@@ -450,8 +452,9 @@ extension CostExplorer {
         ///  The total number of hours the instance ran during the lookback period.
         public let totalRunningHoursInLookbackPeriod: String?
 
-        public init(currencyCode: String? = nil, monthlyCost: String? = nil, onDemandHoursInLookbackPeriod: String? = nil, reservationCoveredHoursInLookbackPeriod: String? = nil, resourceDetails: ResourceDetails? = nil, resourceId: String? = nil, resourceUtilization: ResourceUtilization? = nil, savingsPlansCoveredHoursInLookbackPeriod: String? = nil, tags: [TagValues]? = nil, totalRunningHoursInLookbackPeriod: String? = nil) {
+        public init(currencyCode: String? = nil, instanceName: String? = nil, monthlyCost: String? = nil, onDemandHoursInLookbackPeriod: String? = nil, reservationCoveredHoursInLookbackPeriod: String? = nil, resourceDetails: ResourceDetails? = nil, resourceId: String? = nil, resourceUtilization: ResourceUtilization? = nil, savingsPlansCoveredHoursInLookbackPeriod: String? = nil, tags: [TagValues]? = nil, totalRunningHoursInLookbackPeriod: String? = nil) {
             self.currencyCode = currencyCode
+            self.instanceName = instanceName
             self.monthlyCost = monthlyCost
             self.onDemandHoursInLookbackPeriod = onDemandHoursInLookbackPeriod
             self.reservationCoveredHoursInLookbackPeriod = reservationCoveredHoursInLookbackPeriod
@@ -465,6 +468,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case currencyCode = "CurrencyCode"
+            case instanceName = "InstanceName"
             case monthlyCost = "MonthlyCost"
             case onDemandHoursInLookbackPeriod = "OnDemandHoursInLookbackPeriod"
             case reservationCoveredHoursInLookbackPeriod = "ReservationCoveredHoursInLookbackPeriod"
@@ -1374,7 +1378,7 @@ extension CostExplorer {
 
     public struct GetRightsizingRecommendationRequest: AWSEncodableShape {
 
-        ///  Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or niether. 
+        ///  Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither. 
         public let configuration: RightsizingRecommendationConfiguration?
         public let filter: Expression?
         /// The pagination token that indicates the next set of results that you want to retrieve.
@@ -1414,7 +1418,7 @@ extension CostExplorer {
 
     public struct GetRightsizingRecommendationResponse: AWSDecodableShape {
 
-        /// Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or niether. 
+        ///  Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither. 
         public let configuration: RightsizingRecommendationConfiguration?
         /// Information regarding this specific recommendation set.
         public let metadata: RightsizingRecommendationMetadata?
@@ -1531,7 +1535,7 @@ extension CostExplorer {
         public let paymentOption: PaymentOption
         /// The Savings Plans recommendation type requested.
         public let savingsPlansType: SupportedSavingsPlansType
-        /// The savings plan recommendation term used to generated these recommendations.
+        /// The savings plan recommendation term used to generate these recommendations.
         public let termInYears: TermInYears
 
         public init(accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
@@ -2421,7 +2425,7 @@ extension CostExplorer {
 
     public struct RightsizingRecommendationMetadata: AWSDecodableShape {
 
-        ///  The time stamp for when Amazon Web Services made this recommendation.
+        ///  The timestamp for when Amazon Web Services made this recommendation.
         public let generationTimestamp: String?
         ///  How many days of previous usage that Amazon Web Services considers when making this recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -2447,7 +2451,7 @@ extension CostExplorer {
         public let estimatedTotalMonthlySavingsAmount: String?
         ///  The currency code that Amazon Web Services used to calculate the savings.
         public let savingsCurrencyCode: String?
-        ///  Savings percentage based on the recommended modifications, relative to the total On Demand costs associated with these instances.
+        ///  Savings percentage based on the recommended modifications, relative to the total On-Demand costs associated with these instances.
         public let savingsPercentage: String?
         ///  Total number of instance recommendations.
         public let totalRecommendationCount: String?

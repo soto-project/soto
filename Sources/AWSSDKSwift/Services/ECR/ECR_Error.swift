@@ -27,6 +27,7 @@ public enum ECRErrorType: AWSErrorType {
     case invalidLayerPartException(message: String?)
     case invalidParameterException(message: String?)
     case invalidTagParameterException(message: String?)
+    case kmsException(message: String?)
     case layerAlreadyExistsException(message: String?)
     case layerInaccessibleException(message: String?)
     case layerPartTooSmallException(message: String?)
@@ -72,6 +73,8 @@ extension ECRErrorType {
             self = .invalidParameterException(message: message)
         case "InvalidTagParameterException":
             self = .invalidTagParameterException(message: message)
+        case "KmsException":
+            self = .kmsException(message: message)
         case "LayerAlreadyExistsException":
             self = .layerAlreadyExistsException(message: message)
         case "LayerInaccessibleException":
@@ -135,6 +138,8 @@ extension ECRErrorType: CustomStringConvertible {
             return "InvalidParameterException: \(message ?? "")"
         case .invalidTagParameterException(let message):
             return "InvalidTagParameterException: \(message ?? "")"
+        case .kmsException(let message):
+            return "KmsException: \(message ?? "")"
         case .layerAlreadyExistsException(let message):
             return "LayerAlreadyExistsException: \(message ?? "")"
         case .layerInaccessibleException(let message):

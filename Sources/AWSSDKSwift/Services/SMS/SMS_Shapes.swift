@@ -20,6 +20,12 @@ import Foundation
 extension SMS {
     //MARK: Enums
 
+    public enum AppLaunchConfigurationStatus: String, CustomStringConvertible, Codable {
+        case notConfigured = "NOT_CONFIGURED"
+        case configured = "CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppLaunchStatus: String, CustomStringConvertible, Codable {
         case readyForConfiguration = "READY_FOR_CONFIGURATION"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
@@ -29,12 +35,19 @@ extension SMS {
         case launchPending = "LAUNCH_PENDING"
         case launchInProgress = "LAUNCH_IN_PROGRESS"
         case launched = "LAUNCHED"
+        case partiallyLaunched = "PARTIALLY_LAUNCHED"
         case deltaLaunchInProgress = "DELTA_LAUNCH_IN_PROGRESS"
         case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
         case launchFailed = "LAUNCH_FAILED"
         case terminateInProgress = "TERMINATE_IN_PROGRESS"
         case terminateFailed = "TERMINATE_FAILED"
         case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppReplicationConfigurationStatus: String, CustomStringConvertible, Codable {
+        case notConfigured = "NOT_CONFIGURED"
+        case configured = "CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
@@ -47,6 +60,7 @@ extension SMS {
         case replicationPending = "REPLICATION_PENDING"
         case replicationInProgress = "REPLICATION_IN_PROGRESS"
         case replicated = "REPLICATED"
+        case partiallyReplicated = "PARTIALLY_REPLICATED"
         case deltaReplicationInProgress = "DELTA_REPLICATION_IN_PROGRESS"
         case deltaReplicated = "DELTA_REPLICATED"
         case deltaReplicationFailed = "DELTA_REPLICATION_FAILED"
@@ -67,11 +81,17 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppValidationStrategy: String, CustomStringConvertible, Codable {
+        case ssm = "SSM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectorCapability: String, CustomStringConvertible, Codable {
         case vsphere = "VSPHERE"
         case scvmm = "SCVMM"
         case hypervManager = "HYPERV-MANAGER"
         case snapshotBatching = "SNAPSHOT_BATCHING"
+        case smsOptimized = "SMS_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
 
@@ -122,6 +142,12 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScriptType: String, CustomStringConvertible, Codable {
+        case shellScript = "SHELL_SCRIPT"
+        case powershellScript = "POWERSHELL_SCRIPT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
         case notImported = "NOT_IMPORTED"
         case importing = "IMPORTING"
@@ -136,6 +162,20 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServerValidationStrategy: String, CustomStringConvertible, Codable {
+        case userdata = "USERDATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationStatus: String, CustomStringConvertible, Codable {
+        case readyForValidation = "READY_FOR_VALIDATION"
+        case pending = "PENDING"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VmManagerType: String, CustomStringConvertible, Codable {
         case vsphere = "VSPHERE"
         case scvmm = "SCVMM"
@@ -147,49 +187,58 @@ extension SMS {
 
     public struct AppSummary: AWSDecodableShape {
 
-        /// Unique ID of the application.
+        /// The unique ID of the application.
         public let appId: String?
-        /// Time of creation of this application.
+        /// The creation time of the application.
         public let creationTime: TimeStamp?
-        /// Description of the application.
+        /// The description of the application.
         public let description: String?
-        /// Timestamp of the application's creation.
+        /// The ID of the application.
+        public let importedAppId: String?
+        /// The last modified time of the application.
         public let lastModified: TimeStamp?
-        /// Timestamp of the application's most recent successful replication.
+        /// The timestamp of the application's most recent successful replication.
         public let latestReplicationTime: TimeStamp?
+        /// Status of the launch configuration.
+        public let launchConfigurationStatus: AppLaunchConfigurationStatus?
         /// Details about the latest launch of the application.
         public let launchDetails: LaunchDetails?
-        /// Launch status of the application.
+        /// The launch status of the application.
         public let launchStatus: AppLaunchStatus?
         /// A message related to the launch status of the application.
         public let launchStatusMessage: String?
-        /// Name of the application.
+        /// The name of the application.
         public let name: String?
-        /// Replication status of the application.
+        /// Status of the replication configuration.
+        public let replicationConfigurationStatus: AppReplicationConfigurationStatus?
+        /// The replication status of the application.
         public let replicationStatus: AppReplicationStatus?
         /// A message related to the replication status of the application.
         public let replicationStatusMessage: String?
-        /// Name of the service role in the customer's account used by AWS SMS.
+        /// The name of the service role in the customer's account used by AWS SMS.
         public let roleName: String?
         /// Status of the application.
         public let status: AppStatus?
         /// A message related to the status of the application
         public let statusMessage: String?
-        /// Number of server groups present in the application.
+        /// The number of server groups present in the application.
         public let totalServerGroups: Int?
-        /// Number of servers present in the application.
+        /// The number of servers present in the application.
         public let totalServers: Int?
 
-        public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int? = nil, totalServers: Int? = nil) {
+        public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, importedAppId: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchConfigurationStatus: AppLaunchConfigurationStatus? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationConfigurationStatus: AppReplicationConfigurationStatus? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int? = nil, totalServers: Int? = nil) {
             self.appId = appId
             self.creationTime = creationTime
             self.description = description
+            self.importedAppId = importedAppId
             self.lastModified = lastModified
             self.latestReplicationTime = latestReplicationTime
+            self.launchConfigurationStatus = launchConfigurationStatus
             self.launchDetails = launchDetails
             self.launchStatus = launchStatus
             self.launchStatusMessage = launchStatusMessage
             self.name = name
+            self.replicationConfigurationStatus = replicationConfigurationStatus
             self.replicationStatus = replicationStatus
             self.replicationStatusMessage = replicationStatusMessage
             self.roleName = roleName
@@ -203,12 +252,15 @@ extension SMS {
             case appId = "appId"
             case creationTime = "creationTime"
             case description = "description"
+            case importedAppId = "importedAppId"
             case lastModified = "lastModified"
             case latestReplicationTime = "latestReplicationTime"
+            case launchConfigurationStatus = "launchConfigurationStatus"
             case launchDetails = "launchDetails"
             case launchStatus = "launchStatus"
             case launchStatusMessage = "launchStatusMessage"
             case name = "name"
+            case replicationConfigurationStatus = "replicationConfigurationStatus"
             case replicationStatus = "replicationStatus"
             case replicationStatusMessage = "replicationStatusMessage"
             case roleName = "roleName"
@@ -219,13 +271,61 @@ extension SMS {
         }
     }
 
+    public struct AppValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The validation strategy.
+        public let appValidationStrategy: AppValidationStrategy?
+        /// The name of the configuration.
+        public let name: String?
+        /// The validation parameters.
+        public let ssmValidationParameters: SSMValidationParameters?
+        /// The ID of the validation.
+        public let validationId: String?
+
+        public init(appValidationStrategy: AppValidationStrategy? = nil, name: String? = nil, ssmValidationParameters: SSMValidationParameters? = nil, validationId: String? = nil) {
+            self.appValidationStrategy = appValidationStrategy
+            self.name = name
+            self.ssmValidationParameters = ssmValidationParameters
+            self.validationId = validationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 255)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[\\S]+$")
+            try self.ssmValidationParameters?.validate(name: "\(name).ssmValidationParameters")
+            try validate(self.validationId, name: "validationId", parent: name, pattern: "^val-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appValidationStrategy = "appValidationStrategy"
+            case name = "name"
+            case ssmValidationParameters = "ssmValidationParameters"
+            case validationId = "validationId"
+        }
+    }
+
+    public struct AppValidationOutput: AWSDecodableShape {
+
+        /// Output from using SSM to validate the application.
+        public let ssmOutput: SSMOutput?
+
+        public init(ssmOutput: SSMOutput? = nil) {
+            self.ssmOutput = ssmOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssmOutput = "ssmOutput"
+        }
+    }
+
     public struct Connector: AWSDecodableShape {
 
         /// The time the connector was associated.
         public let associatedOn: TimeStamp?
         /// The capabilities of the connector.
         public let capabilityList: [ConnectorCapability]?
-        /// The identifier of the connector.
+        /// The ID of the connector.
         public let connectorId: String?
         /// The IP address of the connector.
         public let ipAddress: String?
@@ -235,7 +335,7 @@ extension SMS {
         public let status: ConnectorStatus?
         /// The connector version.
         public let version: String?
-        /// The identifier of the VM manager.
+        /// The ID of the VM manager.
         public let vmManagerId: String?
         /// The name of the VM manager.
         public let vmManagerName: String?
@@ -271,17 +371,17 @@ extension SMS {
 
     public struct CreateAppRequest: AWSEncodableShape {
 
-        /// A unique, case-sensitive identifier you provide to ensure idempotency of application creation.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of application creation.
         public let clientToken: String?
-        /// Description of the new application
+        /// The description of the new application
         public let description: String?
-        /// Name of the new application.
+        /// The name of the new application.
         public let name: String?
-        /// Name of service role in customer's account to be used by AWS SMS.
+        /// The name of the service role in the customer's account to be used by AWS SMS.
         public let roleName: String?
-        /// List of server groups to include in the application.
+        /// The server groups to include in the application.
         public let serverGroups: [ServerGroup]?
-        /// List of tags to be associated with the application.
+        /// The tags to be associated with the application.
         public let tags: [Tag]?
 
         public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
@@ -305,11 +405,11 @@ extension SMS {
 
     public struct CreateAppResponse: AWSDecodableShape {
 
-        /// Summary description of the application.
+        /// A summary description of the application.
         public let appSummary: AppSummary?
-        /// List of server groups included in the application.
+        /// The server groups included in the application.
         public let serverGroups: [ServerGroup]?
-        /// List of taags associated with the application.
+        /// The tags associated with the application.
         public let tags: [Tag]?
 
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
@@ -329,22 +429,23 @@ extension SMS {
 
         /// The description of the replication job.
         public let description: String?
-        /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
+        /// Indicates whether the replication job produces encrypted AMIs.
         public let encrypted: Bool?
         /// The time between consecutive replication runs, in hours.
         public let frequency: Int?
-        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the KMS key ID   ARN referring to the KMS key alias    If encrypted is true but a KMS key ID is not specified, the customer's default KMS key for Amazon EBS is used. 
         public let kmsKeyId: String?
         /// The license type to be used for the AMI created by a successful replication run.
         public let licenseType: LicenseType?
-        /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
+        /// The maximum number of SMS-created AMIs to retain. The oldest is deleted after the maximum number is reached and a new AMI is created.
         public let numberOfRecentAmisToKeep: Int?
         /// The name of the IAM role to be used by the AWS SMS.
         public let roleName: String?
+        /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
         /// The seed replication time.
         public let seedReplicationTime: TimeStamp
-        /// The identifier of the server.
+        /// The ID of the server.
         public let serverId: String
 
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp, serverId: String) {
@@ -390,7 +491,7 @@ extension SMS {
 
     public struct DeleteAppLaunchConfigurationRequest: AWSEncodableShape {
 
-        /// ID of the application associated with the launch configuration.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -412,7 +513,7 @@ extension SMS {
 
     public struct DeleteAppReplicationConfigurationRequest: AWSEncodableShape {
 
-        /// ID of the application associated with the replication configuration.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -434,11 +535,11 @@ extension SMS {
 
     public struct DeleteAppRequest: AWSEncodableShape {
 
-        /// ID of the application to delete.
+        /// The ID of the application.
         public let appId: String?
-        /// While deleting the application, stop all replication jobs corresponding to the servers in the application.
+        /// Indicates whether to stop all replication jobs corresponding to the servers in the application while deleting the application.
         public let forceStopAppReplication: Bool?
-        /// While deleting the application, terminate the stack corresponding to the application.
+        /// Indicates whether to terminate the stack corresponding to the application while deleting the application.
         public let forceTerminateApp: Bool?
 
         public init(appId: String? = nil, forceStopAppReplication: Bool? = nil, forceTerminateApp: Bool? = nil) {
@@ -462,9 +563,35 @@ extension SMS {
 
     }
 
+    public struct DeleteAppValidationConfigurationRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String
+
+        public init(appId: String) {
+            self.appId = appId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct DeleteAppValidationConfigurationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteReplicationJobRequest: AWSEncodableShape {
 
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String
 
         public init(replicationJobId: String) {
@@ -502,7 +629,7 @@ extension SMS {
 
     public struct DisassociateConnectorRequest: AWSEncodableShape {
 
-        /// The identifier of the connector.
+        /// The ID of the connector.
         public let connectorId: String
 
         public init(connectorId: String) {
@@ -524,9 +651,9 @@ extension SMS {
 
     public struct GenerateChangeSetRequest: AWSEncodableShape {
 
-        /// ID of the application associated with the change set.
+        /// The ID of the application associated with the change set.
         public let appId: String?
-        /// Format for the change set.
+        /// The format for the change set.
         public let changesetFormat: OutputFormat?
 
         public init(appId: String? = nil, changesetFormat: OutputFormat? = nil) {
@@ -542,7 +669,7 @@ extension SMS {
 
     public struct GenerateChangeSetResponse: AWSDecodableShape {
 
-        /// Location of the Amazon S3 object.
+        /// The location of the Amazon S3 object.
         public let s3Location: S3Location?
 
         public init(s3Location: S3Location? = nil) {
@@ -556,9 +683,9 @@ extension SMS {
 
     public struct GenerateTemplateRequest: AWSEncodableShape {
 
-        /// ID of the application associated with the Amazon CloudFormation template.
+        /// The ID of the application associated with the AWS CloudFormation template.
         public let appId: String?
-        /// Format for generating the Amazon CloudFormation template.
+        /// The format for generating the AWS CloudFormation template.
         public let templateFormat: OutputFormat?
 
         public init(appId: String? = nil, templateFormat: OutputFormat? = nil) {
@@ -574,7 +701,7 @@ extension SMS {
 
     public struct GenerateTemplateResponse: AWSDecodableShape {
 
-        /// Location of the Amazon S3 object.
+        /// The location of the Amazon S3 object.
         public let s3Location: S3Location?
 
         public init(s3Location: S3Location? = nil) {
@@ -588,7 +715,7 @@ extension SMS {
 
     public struct GetAppLaunchConfigurationRequest: AWSEncodableShape {
 
-        /// ID of the application launch configuration.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -602,21 +729,25 @@ extension SMS {
 
     public struct GetAppLaunchConfigurationResponse: AWSDecodableShape {
 
-        /// ID of the application associated with the launch configuration.
+        /// The ID of the application.
         public let appId: String?
-        /// Name of the service role in the customer's account that Amazon CloudFormation uses to launch the application.
+        /// Indicates whether the application is configured to launch automatically after replication is complete.
+        public let autoLaunch: Bool?
+        /// The name of the service role in the customer's account that AWS CloudFormation uses to launch the application.
         public let roleName: String?
-        /// List of launch configurations for server groups in this application.
+        /// The launch configurations for server groups in this application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
 
-        public init(appId: String? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
+        public init(appId: String? = nil, autoLaunch: Bool? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
             self.appId = appId
+            self.autoLaunch = autoLaunch
             self.roleName = roleName
             self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
+            case autoLaunch = "autoLaunch"
             case roleName = "roleName"
             case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
@@ -624,7 +755,7 @@ extension SMS {
 
     public struct GetAppReplicationConfigurationRequest: AWSEncodableShape {
 
-        /// ID of the application associated with the replication configuration.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -638,7 +769,7 @@ extension SMS {
 
     public struct GetAppReplicationConfigurationResponse: AWSDecodableShape {
 
-        /// Replication configurations associated with server groups in this application.
+        /// The replication configurations associated with server groups in this application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
         public init(serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
@@ -652,7 +783,7 @@ extension SMS {
 
     public struct GetAppRequest: AWSEncodableShape {
 
-        /// ID of the application whose information is being retrieved.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -668,9 +799,9 @@ extension SMS {
 
         /// Information about the application.
         public let appSummary: AppSummary?
-        /// List of server groups belonging to the application.
+        /// The server groups that belong to the application.
         public let serverGroups: [ServerGroup]?
-        /// List of tags associated with the application.
+        /// The tags associated with the application.
         public let tags: [Tag]?
 
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
@@ -683,6 +814,74 @@ extension SMS {
             case appSummary = "appSummary"
             case serverGroups = "serverGroups"
             case tags = "tags"
+        }
+    }
+
+    public struct GetAppValidationConfigurationRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String
+
+        public init(appId: String) {
+            self.appId = appId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct GetAppValidationConfigurationResponse: AWSDecodableShape {
+
+        /// The configuration for application validation.
+        public let appValidationConfigurations: [AppValidationConfiguration]?
+        /// The configuration for instance validation.
+        public let serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]?
+
+        public init(appValidationConfigurations: [AppValidationConfiguration]? = nil, serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]? = nil) {
+            self.appValidationConfigurations = appValidationConfigurations
+            self.serverGroupValidationConfigurations = serverGroupValidationConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appValidationConfigurations = "appValidationConfigurations"
+            case serverGroupValidationConfigurations = "serverGroupValidationConfigurations"
+        }
+    }
+
+    public struct GetAppValidationOutputRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String
+
+        public init(appId: String) {
+            self.appId = appId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct GetAppValidationOutputResponse: AWSDecodableShape {
+
+        /// The validation output.
+        public let validationOutputList: [ValidationOutput]?
+
+        public init(validationOutputList: [ValidationOutput]? = nil) {
+            self.validationOutputList = validationOutputList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationOutputList = "validationOutputList"
         }
     }
 
@@ -728,7 +927,7 @@ extension SMS {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicationJobId: String? = nil) {
@@ -768,7 +967,7 @@ extension SMS {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicationJobId: String) {
@@ -812,7 +1011,7 @@ extension SMS {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// List of VmServerAddress objects
+        /// The server addresses.
         public let vmServerAddressList: [VmServerAddress]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
@@ -854,6 +1053,28 @@ extension SMS {
         }
     }
 
+    public struct ImportAppCatalogRequest: AWSEncodableShape {
+
+        /// The name of the service role. If you omit this parameter, we create a service-linked role for AWS Migration Hub in your account. Otherwise, the role that you provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
+        public let roleName: String?
+
+        public init(roleName: String? = nil) {
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "roleName"
+        }
+    }
+
+    public struct ImportAppCatalogResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct ImportServerCatalogRequest: AWSEncodableShape {
 
 
@@ -872,7 +1093,7 @@ extension SMS {
 
     public struct LaunchAppRequest: AWSEncodableShape {
 
-        /// ID of the application to launch.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -894,11 +1115,11 @@ extension SMS {
 
     public struct LaunchDetails: AWSDecodableShape {
 
-        /// Latest time this application was launched successfully.
+        /// The latest time that this application was launched successfully.
         public let latestLaunchTime: TimeStamp?
-        /// Identifier of the latest stack launched for this application.
+        /// The ID of the latest stack launched for this application.
         public let stackId: String?
-        /// Name of the latest stack launched for this application.
+        /// The name of the latest stack launched for this application.
         public let stackName: String?
 
         public init(latestLaunchTime: TimeStamp? = nil, stackId: String? = nil, stackName: String? = nil) {
@@ -916,8 +1137,9 @@ extension SMS {
 
     public struct ListAppsRequest: AWSEncodableShape {
 
+        /// The unique application IDs.
         public let appIds: [String]?
-        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value. 
+        /// The maximum number of results to return in a single call. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value. 
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
@@ -937,7 +1159,7 @@ extension SMS {
 
     public struct ListAppsResponse: AWSDecodableShape {
 
-        /// A list of application summaries.
+        /// The application summaries.
         public let apps: [AppSummary]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -953,23 +1175,91 @@ extension SMS {
         }
     }
 
-    public struct PutAppLaunchConfigurationRequest: AWSEncodableShape {
+    public struct NotificationContext: AWSEncodableShape {
 
-        /// ID of the application associated with the launch configuration.
-        public let appId: String?
-        /// Name of service role in the customer's account that Amazon CloudFormation uses to launch the application.
-        public let roleName: String?
-        /// Launch configurations for server groups in the application.
-        public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
+        /// The status of the validation.
+        public let status: ValidationStatus?
+        /// The status message.
+        public let statusMessage: String?
+        /// The ID of the validation.
+        public let validationId: String?
 
-        public init(appId: String? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
+        public init(status: ValidationStatus? = nil, statusMessage: String? = nil, validationId: String? = nil) {
+            self.status = status
+            self.statusMessage = statusMessage
+            self.validationId = validationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.statusMessage, name: "statusMessage", parent: name, max: 2500)
+            try validate(self.validationId, name: "validationId", parent: name, pattern: "^val-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case validationId = "validationId"
+        }
+    }
+
+    public struct NotifyAppValidationOutputRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String
+        /// The notification information.
+        public let notificationContext: NotificationContext?
+
+        public init(appId: String, notificationContext: NotificationContext? = nil) {
             self.appId = appId
-            self.roleName = roleName
-            self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
+            self.notificationContext = notificationContext
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
+            try self.notificationContext?.validate(name: "\(name).notificationContext")
         }
 
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
+            case notificationContext = "notificationContext"
+        }
+    }
+
+    public struct NotifyAppValidationOutputResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct PutAppLaunchConfigurationRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String?
+        /// Indicates whether the application is configured to launch automatically after replication is complete.
+        public let autoLaunch: Bool?
+        /// The name of service role in the customer's account that AWS CloudFormation uses to launch the application.
+        public let roleName: String?
+        /// Information about the launch configurations for server groups in the application.
+        public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
+
+        public init(appId: String? = nil, autoLaunch: Bool? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
+            self.appId = appId
+            self.autoLaunch = autoLaunch
+            self.roleName = roleName
+            self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.serverGroupLaunchConfigurations?.forEach {
+                try $0.validate(name: "\(name).serverGroupLaunchConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case autoLaunch = "autoLaunch"
             case roleName = "roleName"
             case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
@@ -985,9 +1275,9 @@ extension SMS {
 
     public struct PutAppReplicationConfigurationRequest: AWSEncodableShape {
 
-        /// ID of the application tassociated with the replication configuration.
+        /// The ID of the application.
         public let appId: String?
-        /// Replication configurations for server groups in the application.
+        /// Information about the replication configurations for server groups in the application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
         public init(appId: String? = nil, serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
@@ -1009,15 +1299,55 @@ extension SMS {
 
     }
 
+    public struct PutAppValidationConfigurationRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String
+        /// The configuration for application validation.
+        public let appValidationConfigurations: [AppValidationConfiguration]?
+        /// The configuration for instance validation.
+        public let serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]?
+
+        public init(appId: String, appValidationConfigurations: [AppValidationConfiguration]? = nil, serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]? = nil) {
+            self.appId = appId
+            self.appValidationConfigurations = appValidationConfigurations
+            self.serverGroupValidationConfigurations = serverGroupValidationConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
+            try self.appValidationConfigurations?.forEach {
+                try $0.validate(name: "\(name).appValidationConfigurations[]")
+            }
+            try self.serverGroupValidationConfigurations?.forEach {
+                try $0.validate(name: "\(name).serverGroupValidationConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case appValidationConfigurations = "appValidationConfigurations"
+            case serverGroupValidationConfigurations = "serverGroupValidationConfigurations"
+        }
+    }
+
+    public struct PutAppValidationConfigurationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct ReplicationJob: AWSDecodableShape {
 
         /// The description of the replication job.
         public let description: String?
-        /// Whether the replication job should produce encrypted AMIs or not. See also KmsKeyId below.
+        /// Indicates whether the replication job should produce encrypted AMIs.
         public let encrypted: Bool?
         /// The time between consecutive replication runs, in hours.
         public let frequency: Int?
-        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This value can be any of the following:    KMS key ID   KMS key alias   ARN referring to the KMS key ID   ARN referring to the KMS key alias   If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS key for Amazon EBS is used.
         public let kmsKeyId: String?
         /// The ID of the latest Amazon Machine Image (AMI).
         public let latestAmiId: String?
@@ -1025,18 +1355,19 @@ extension SMS {
         public let licenseType: LicenseType?
         /// The start time of the next replication run.
         public let nextReplicationRunStartTime: TimeStamp?
-        /// Number of recent AMIs to keep in the customer's account for a replication job. By default the value is set to zero, meaning that all AMIs are kept.
+        /// The number of recent AMIs to keep in the customer's account for a replication job. By default, the value is set to zero, meaning that all AMIs are kept.
         public let numberOfRecentAmisToKeep: Int?
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String?
         /// Information about the replication runs.
         public let replicationRunList: [ReplicationRun]?
-        /// The name of the IAM role to be used by the Server Migration Service.
+        /// The name of the IAM role to be used by AWS SMS.
         public let roleName: String?
+        /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
         /// The seed replication time.
         public let seedReplicationTime: TimeStamp?
-        /// The identifier of the server.
+        /// The ID of the server.
         public let serverId: String?
         /// The type of server.
         public let serverType: ServerType?
@@ -1092,21 +1423,21 @@ extension SMS {
 
     public struct ReplicationRun: AWSDecodableShape {
 
-        /// The identifier of the Amazon Machine Image (AMI) from the replication run.
+        /// The ID of the Amazon Machine Image (AMI) from the replication run.
         public let amiId: String?
         /// The completion time of the last replication run.
         public let completedTime: TimeStamp?
         /// The description of the replication run.
         public let description: String?
-        /// Whether the replication run should produce encrypted AMI or not. See also KmsKeyId below.
+        /// Indicates whether the replication run should produce an encrypted AMI.
         public let encrypted: Bool?
-        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the KMS key ID   ARN referring to the KMS key alias    If encrypted is true but a KMS key ID is not specified, the customer's default KMS key for Amazon EBS is used. 
         public let kmsKeyId: String?
-        /// The identifier of the replication run.
+        /// The ID of the replication run.
         public let replicationRunId: String?
         /// The start time of the next replication run.
         public let scheduledStartTime: TimeStamp?
-        /// Details of the current stage of the replication run.
+        /// Details about the current stage of the replication run.
         public let stageDetails: ReplicationRunStageDetails?
         /// The state of the replication run.
         public let state: ReplicationRunState?
@@ -1146,9 +1477,9 @@ extension SMS {
 
     public struct ReplicationRunStageDetails: AWSDecodableShape {
 
-        /// String describing the current stage of a replication run.
+        /// The current stage of a replication run.
         public let stage: String?
-        /// String describing the progress of the current stage of a replication run.
+        /// The progress of the current stage of a replication run.
         public let stageProgress: String?
 
         public init(stage: String? = nil, stageProgress: String? = nil) {
@@ -1164,14 +1495,20 @@ extension SMS {
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
 
-        /// Amazon S3 bucket name.
+        /// The Amazon S3 bucket name.
         public let bucket: String?
-        /// Amazon S3 bucket key.
+        /// The Amazon S3 bucket key.
         public let key: String?
 
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try validate(self.key, name: "key", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1180,13 +1517,69 @@ extension SMS {
         }
     }
 
+    public struct SSMOutput: AWSDecodableShape {
+
+        public let s3Location: S3Location?
+
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
+    public struct SSMValidationParameters: AWSEncodableShape & AWSDecodableShape {
+
+        /// The command to run the validation script
+        public let command: String?
+        /// The timeout interval, in seconds.
+        public let executionTimeoutSeconds: Int?
+        /// The ID of the instance. The instance must have the following tag: UserForSMSApplicationValidation=true.
+        public let instanceId: String?
+        /// The name of the S3 bucket for output.
+        public let outputS3BucketName: String?
+        /// The type of validation script.
+        public let scriptType: ScriptType?
+        /// The location of the validation script.
+        public let source: Source?
+
+        public init(command: String? = nil, executionTimeoutSeconds: Int? = nil, instanceId: String? = nil, outputS3BucketName: String? = nil, scriptType: ScriptType? = nil, source: Source? = nil) {
+            self.command = command
+            self.executionTimeoutSeconds = executionTimeoutSeconds
+            self.instanceId = instanceId
+            self.outputS3BucketName = outputS3BucketName
+            self.scriptType = scriptType
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.command, name: "command", parent: name, max: 64000)
+            try validate(self.command, name: "command", parent: name, min: 1)
+            try validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, max: 28800)
+            try validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, min: 60)
+            try validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.source?.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "command"
+            case executionTimeoutSeconds = "executionTimeoutSeconds"
+            case instanceId = "instanceId"
+            case outputS3BucketName = "outputS3BucketName"
+            case scriptType = "scriptType"
+            case source = "source"
+        }
+    }
+
     public struct Server: AWSEncodableShape & AWSDecodableShape {
 
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String?
         /// Indicates whether the replication job is deleted or failed.
         public let replicationJobTerminated: Bool?
-        /// The identifier of the server.
+        /// The ID of the server.
         public let serverId: String?
         /// The type of server.
         public let serverType: ServerType?
@@ -1212,11 +1605,11 @@ extension SMS {
 
     public struct ServerGroup: AWSEncodableShape & AWSDecodableShape {
 
-        /// Name of a server group.
+        /// The name of a server group.
         public let name: String?
-        /// Identifier of a server group.
+        /// The ID of a server group.
         public let serverGroupId: String?
-        /// List of servers belonging to a server group.
+        /// The servers that belong to a server group.
         public let serverList: [Server]?
 
         public init(name: String? = nil, serverGroupId: String? = nil, serverList: [Server]? = nil) {
@@ -1234,17 +1627,23 @@ extension SMS {
 
     public struct ServerGroupLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// Launch order of servers in the server group.
+        /// The launch order of servers in the server group.
         public let launchOrder: Int?
-        /// Identifier of the server group the launch configuration is associated with.
+        /// The ID of the server group with which the launch configuration is associated.
         public let serverGroupId: String?
-        /// Launch configuration for servers in the server group.
+        /// The launch configuration for servers in the server group.
         public let serverLaunchConfigurations: [ServerLaunchConfiguration]?
 
         public init(launchOrder: Int? = nil, serverGroupId: String? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
             self.launchOrder = launchOrder
             self.serverGroupId = serverGroupId
             self.serverLaunchConfigurations = serverLaunchConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.serverLaunchConfigurations?.forEach {
+                try $0.validate(name: "\(name).serverLaunchConfigurations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1256,9 +1655,9 @@ extension SMS {
 
     public struct ServerGroupReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// Identifier of the server group this replication configuration is associated with.
+        /// The ID of the server group with which this replication configuration is associated.
         public let serverGroupId: String?
-        /// Replication configuration for servers in the server group.
+        /// The replication configuration for servers in the server group.
         public let serverReplicationConfigurations: [ServerReplicationConfiguration]?
 
         public init(serverGroupId: String? = nil, serverReplicationConfigurations: [ServerReplicationConfiguration]? = nil) {
@@ -1272,30 +1671,62 @@ extension SMS {
         }
     }
 
+    public struct ServerGroupValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ID of the server group.
+        public let serverGroupId: String?
+        /// The validation configuration.
+        public let serverValidationConfigurations: [ServerValidationConfiguration]?
+
+        public init(serverGroupId: String? = nil, serverValidationConfigurations: [ServerValidationConfiguration]? = nil) {
+            self.serverGroupId = serverGroupId
+            self.serverValidationConfigurations = serverValidationConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.serverValidationConfigurations?.forEach {
+                try $0.validate(name: "\(name).serverValidationConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverGroupId = "serverGroupId"
+            case serverValidationConfigurations = "serverValidationConfigurations"
+        }
+    }
+
     public struct ServerLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// If true, a publicly accessible IP address is created when launching the server.
+        /// Indicates whether a publicly accessible IP address is created when launching the server.
         public let associatePublicIpAddress: Bool?
-        /// Name of the EC2 SSH Key to be used for connecting to the launched server.
+        public let configureScript: S3Location?
+        /// The type of configuration script.
+        public let configureScriptType: ScriptType?
+        /// The name of the Amazon EC2 SSH key to be used for connecting to the launched server.
         public let ec2KeyName: String?
-        /// Instance type to be used for launching the server.
+        /// The name of the IAM instance profile.
+        public let iamInstanceProfileName: String?
+        /// The instance type to use when launching the server.
         public let instanceType: String?
-        /// Logical ID of the server in the Amazon CloudFormation template.
+        /// The logical ID of the server in the AWS CloudFormation template.
         public let logicalId: String?
-        /// Identifier of the security group that applies to the launched server.
+        /// The ID of the security group that applies to the launched server.
         public let securityGroup: String?
-        /// Identifier of the server the launch configuration is associated with.
+        /// The ID of the server with which the launch configuration is associated.
         public let server: Server?
-        /// Identifier of the subnet the server should be launched into.
+        /// The ID of the subnet the server should be launched into.
         public let subnet: String?
         /// Location of the user-data script to be executed when launching the server.
         public let userData: UserData?
-        /// Identifier of the VPC the server should be launched into.
+        /// The ID of the VPC into which the server should be launched.
         public let vpc: String?
 
-        public init(associatePublicIpAddress: Bool? = nil, ec2KeyName: String? = nil, instanceType: String? = nil, logicalId: String? = nil, securityGroup: String? = nil, server: Server? = nil, subnet: String? = nil, userData: UserData? = nil, vpc: String? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, configureScript: S3Location? = nil, configureScriptType: ScriptType? = nil, ec2KeyName: String? = nil, iamInstanceProfileName: String? = nil, instanceType: String? = nil, logicalId: String? = nil, securityGroup: String? = nil, server: Server? = nil, subnet: String? = nil, userData: UserData? = nil, vpc: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
+            self.configureScript = configureScript
+            self.configureScriptType = configureScriptType
             self.ec2KeyName = ec2KeyName
+            self.iamInstanceProfileName = iamInstanceProfileName
             self.instanceType = instanceType
             self.logicalId = logicalId
             self.securityGroup = securityGroup
@@ -1305,9 +1736,17 @@ extension SMS {
             self.vpc = vpc
         }
 
+        public func validate(name: String) throws {
+            try self.configureScript?.validate(name: "\(name).configureScript")
+            try self.userData?.validate(name: "\(name).userData")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case associatePublicIpAddress = "associatePublicIpAddress"
+            case configureScript = "configureScript"
+            case configureScriptType = "configureScriptType"
             case ec2KeyName = "ec2KeyName"
+            case iamInstanceProfileName = "iamInstanceProfileName"
             case instanceType = "instanceType"
             case logicalId = "logicalId"
             case securityGroup = "securityGroup"
@@ -1320,9 +1759,9 @@ extension SMS {
 
     public struct ServerReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// Identifier of the server this replication configuration is associated with.
+        /// The ID of the server with which this replication configuration is associated.
         public let server: Server?
-        /// Parameters for replicating the server.
+        /// The parameters for replicating the server.
         public let serverReplicationParameters: ServerReplicationParameters?
 
         public init(server: Server? = nil, serverReplicationParameters: ServerReplicationParameters? = nil) {
@@ -1338,18 +1777,19 @@ extension SMS {
 
     public struct ServerReplicationParameters: AWSEncodableShape & AWSDecodableShape {
 
-        /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
+        /// Indicates whether the replication job produces encrypted AMIs.
         public let encrypted: Bool?
-        /// Frequency of creating replication jobs for the server.
+        /// The frequency of creating replication jobs for the server.
         public let frequency: Int?
-        ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the KMS key ID   ARN referring to the KMS key alias   If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS key for Amazon EBS is used.
         public let kmsKeyId: String?
-        /// License type for creating a replication job for the server.
+        /// The license type for creating a replication job for the server.
         public let licenseType: LicenseType?
-        /// Number of recent AMIs to keep when creating a replication job for this server.
+        /// The number of recent AMIs to keep when creating a replication job for this server.
         public let numberOfRecentAmisToKeep: Int?
+        /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
-        /// Seed time for creating a replication job for the server.
+        /// The seed time for creating a replication job for the server.
         public let seedTime: TimeStamp?
 
         public init(encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, runOnce: Bool? = nil, seedTime: TimeStamp? = nil) {
@@ -1373,9 +1813,76 @@ extension SMS {
         }
     }
 
+    public struct ServerValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the configuration.
+        public let name: String?
+        public let server: Server?
+        /// The validation strategy.
+        public let serverValidationStrategy: ServerValidationStrategy?
+        /// The validation parameters.
+        public let userDataValidationParameters: UserDataValidationParameters?
+        /// The ID of the validation.
+        public let validationId: String?
+
+        public init(name: String? = nil, server: Server? = nil, serverValidationStrategy: ServerValidationStrategy? = nil, userDataValidationParameters: UserDataValidationParameters? = nil, validationId: String? = nil) {
+            self.name = name
+            self.server = server
+            self.serverValidationStrategy = serverValidationStrategy
+            self.userDataValidationParameters = userDataValidationParameters
+            self.validationId = validationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 255)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[\\S]+$")
+            try self.userDataValidationParameters?.validate(name: "\(name).userDataValidationParameters")
+            try validate(self.validationId, name: "validationId", parent: name, pattern: "^val-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case server = "server"
+            case serverValidationStrategy = "serverValidationStrategy"
+            case userDataValidationParameters = "userDataValidationParameters"
+            case validationId = "validationId"
+        }
+    }
+
+    public struct ServerValidationOutput: AWSDecodableShape {
+
+        public let server: Server?
+
+        public init(server: Server? = nil) {
+            self.server = server
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case server = "server"
+        }
+    }
+
+    public struct Source: AWSEncodableShape & AWSDecodableShape {
+
+        public let s3Location: S3Location?
+
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
     public struct StartAppReplicationRequest: AWSEncodableShape {
 
-        /// ID of the application to replicate.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -1395,11 +1902,37 @@ extension SMS {
 
     }
 
+    public struct StartOnDemandAppReplicationRequest: AWSEncodableShape {
+
+        /// The ID of the application.
+        public let appId: String
+        /// The description of the replication run.
+        public let description: String?
+
+        public init(appId: String, description: String? = nil) {
+            self.appId = appId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case description = "description"
+        }
+    }
+
+    public struct StartOnDemandAppReplicationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct StartOnDemandReplicationRunRequest: AWSEncodableShape {
 
         /// The description of the replication run.
         public let description: String?
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String
 
         public init(description: String? = nil, replicationJobId: String) {
@@ -1415,7 +1948,7 @@ extension SMS {
 
     public struct StartOnDemandReplicationRunResponse: AWSDecodableShape {
 
-        /// The identifier of the replication run.
+        /// The ID of the replication run.
         public let replicationRunId: String?
 
         public init(replicationRunId: String? = nil) {
@@ -1429,7 +1962,7 @@ extension SMS {
 
     public struct StopAppReplicationRequest: AWSEncodableShape {
 
-        /// ID of the application to stop replicating.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -1451,9 +1984,9 @@ extension SMS {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
-        /// Tag key.
+        /// The tag key.
         public let key: String?
-        /// Tag value.
+        /// The tag value.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -1469,7 +2002,7 @@ extension SMS {
 
     public struct TerminateAppRequest: AWSEncodableShape {
 
-        /// ID of the application to terminate.
+        /// The ID of the application.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -1491,17 +2024,17 @@ extension SMS {
 
     public struct UpdateAppRequest: AWSEncodableShape {
 
-        /// ID of the application to update.
+        /// The ID of the application.
         public let appId: String?
-        /// New description of the application.
+        /// The new description of the application.
         public let description: String?
-        /// New name of the application.
+        /// The new name of the application.
         public let name: String?
-        /// Name of the service role in the customer's account used by AWS SMS.
+        /// The name of the service role in the customer's account used by AWS SMS.
         public let roleName: String?
-        /// List of server groups in the application to update.
+        /// The server groups in the application to update.
         public let serverGroups: [ServerGroup]?
-        /// List of tags to associate with the application.
+        /// The tags to associate with the application.
         public let tags: [Tag]?
 
         public init(appId: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
@@ -1525,11 +2058,11 @@ extension SMS {
 
     public struct UpdateAppResponse: AWSDecodableShape {
 
-        /// Summary description of the application.
+        /// A summary description of the application.
         public let appSummary: AppSummary?
-        /// List of updated server groups in the application.
+        /// The updated server groups in the application.
         public let serverGroups: [ServerGroup]?
-        /// List of tags associated with the application.
+        /// The tags associated with the application.
         public let tags: [Tag]?
 
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
@@ -1549,19 +2082,19 @@ extension SMS {
 
         /// The description of the replication job.
         public let description: String?
-        /// When true, the replication job produces encrypted AMIs . See also KmsKeyId below.
+        /// When true, the replication job produces encrypted AMIs. For more information, KmsKeyId.
         public let encrypted: Bool?
         /// The time between consecutive replication runs, in hours.
         public let frequency: Int?
-        ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the KMS key ID   ARN referring to the KMS key alias   If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS key for Amazon EBS is used.
         public let kmsKeyId: String?
         /// The license type to be used for the AMI created by a successful replication run.
         public let licenseType: LicenseType?
         /// The start time of the next replication run.
         public let nextReplicationRunStartTime: TimeStamp?
-        /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
+        /// The maximum number of SMS-created AMIs to retain. The oldest is deleted after the maximum number is reached and a new AMI is created.
         public let numberOfRecentAmisToKeep: Int?
-        /// The identifier of the replication job.
+        /// The ID of the replication job.
         public let replicationJobId: String
         /// The name of the IAM role to be used by AWS SMS.
         public let roleName: String?
@@ -1608,8 +2141,72 @@ extension SMS {
             self.s3Location = s3Location
         }
 
+        public func validate(name: String) throws {
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case s3Location = "s3Location"
+        }
+    }
+
+    public struct UserDataValidationParameters: AWSEncodableShape & AWSDecodableShape {
+
+        /// The type of validation script.
+        public let scriptType: ScriptType?
+        /// The location of the validation script.
+        public let source: Source?
+
+        public init(scriptType: ScriptType? = nil, source: Source? = nil) {
+            self.scriptType = scriptType
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source?.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptType = "scriptType"
+            case source = "source"
+        }
+    }
+
+    public struct ValidationOutput: AWSDecodableShape {
+
+        /// The output from validating an application.
+        public let appValidationOutput: AppValidationOutput?
+        /// The latest time that the validation was performed.
+        public let latestValidationTime: TimeStamp?
+        /// The name of the validation.
+        public let name: String?
+        /// The output from validation an instance.
+        public let serverValidationOutput: ServerValidationOutput?
+        /// The status of the validation.
+        public let status: ValidationStatus?
+        /// The status message.
+        public let statusMessage: String?
+        /// The ID of the validation.
+        public let validationId: String?
+
+        public init(appValidationOutput: AppValidationOutput? = nil, latestValidationTime: TimeStamp? = nil, name: String? = nil, serverValidationOutput: ServerValidationOutput? = nil, status: ValidationStatus? = nil, statusMessage: String? = nil, validationId: String? = nil) {
+            self.appValidationOutput = appValidationOutput
+            self.latestValidationTime = latestValidationTime
+            self.name = name
+            self.serverValidationOutput = serverValidationOutput
+            self.status = status
+            self.statusMessage = statusMessage
+            self.validationId = validationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appValidationOutput = "appValidationOutput"
+            case latestValidationTime = "latestValidationTime"
+            case name = "name"
+            case serverValidationOutput = "serverValidationOutput"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case validationId = "validationId"
         }
     }
 
@@ -1623,7 +2220,7 @@ extension SMS {
         public let vmName: String?
         /// The VM folder path in the vCenter Server virtual machine inventory tree.
         public let vmPath: String?
-        /// Information about the VM server location.
+        /// The VM server location.
         public let vmServerAddress: VmServerAddress?
 
         public init(vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil, vmName: String? = nil, vmPath: String? = nil, vmServerAddress: VmServerAddress? = nil) {
@@ -1645,9 +2242,9 @@ extension SMS {
 
     public struct VmServerAddress: AWSEncodableShape & AWSDecodableShape {
 
-        /// The identifier of the VM.
+        /// The ID of the VM.
         public let vmId: String?
-        /// The identifier of the VM manager.
+        /// The ID of the VM manager.
         public let vmManagerId: String?
 
         public init(vmId: String? = nil, vmManagerId: String? = nil) {

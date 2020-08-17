@@ -283,6 +283,19 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FallbackBehavior: String, CustomStringConvertible, Codable {
+        case match = "MATCH"
+        case noMatch = "NO_MATCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ForwardedIPPosition: String, CustomStringConvertible, Codable {
+        case first = "FIRST"
+        case last = "LAST"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IPAddressVersion: String, CustomStringConvertible, Codable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
@@ -300,6 +313,7 @@ extension WAFV2 {
 
     public enum RateBasedStatementAggregateKeyType: String, CustomStringConvertible, Codable {
         case ip = "IP"
+        case forwardedIp = "FORWARDED_IP"
         public var description: String { return self.rawValue }
     }
 
@@ -1241,21 +1255,50 @@ extension WAFV2 {
         }
     }
 
+    public struct ForwardedIPConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  You can specify the following fallback behaviors:   MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.   NO_MATCH - Treat the web request as not matching the rule statement.  
+        public let fallbackBehavior: FallbackBehavior
+        /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all. 
+        public let headerName: String
+
+        public init(fallbackBehavior: FallbackBehavior, headerName: String) {
+            self.fallbackBehavior = fallbackBehavior
+            self.headerName = headerName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.headerName, name: "headerName", parent: name, max: 255)
+            try validate(self.headerName, name: "headerName", parent: name, min: 1)
+            try validate(self.headerName, name: "headerName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
+            case headerName = "HeaderName"
+        }
+    }
+
     public struct GeoMatchStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of two-character country codes, for example, [ "US", "CN" ], from the alpha-2 country ISO codes of the ISO 3166 international standard. 
         public let countryCodes: [CountryCode]?
+        /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.   If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all. 
+        public let forwardedIPConfig: ForwardedIPConfig?
 
-        public init(countryCodes: [CountryCode]? = nil) {
+        public init(countryCodes: [CountryCode]? = nil, forwardedIPConfig: ForwardedIPConfig? = nil) {
             self.countryCodes = countryCodes
+            self.forwardedIPConfig = forwardedIPConfig
         }
 
         public func validate(name: String) throws {
             try validate(self.countryCodes, name: "countryCodes", parent: name, min: 1)
+            try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case countryCodes = "CountryCodes"
+            case forwardedIPConfig = "ForwardedIPConfig"
         }
     }
 
@@ -1535,7 +1578,7 @@ extension WAFV2 {
         public let ruleMetricName: String
         /// Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
         public let scope: Scope
-        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let timeWindow: TimeWindow
         /// The Amazon resource name (ARN) of the WebACL for which you want a sample of requests.
         public let webAclArn: String
@@ -1574,7 +1617,7 @@ extension WAFV2 {
         public let populationSize: Int64?
         /// A complex type that contains detailed information about each of the requests in the sample.
         public let sampledRequests: [SampledHTTPRequest]?
-        /// Usually, TimeWindow is the time range that you specified in the GetSampledRequests request. However, if your AWS resource received more than 5,000 requests during the time range that you specified in the request, GetSampledRequests returns the time range for the first 5,000 requests.
+        /// Usually, TimeWindow is the time range that you specified in the GetSampledRequests request. However, if your AWS resource received more than 5,000 requests during the time range that you specified in the request, GetSampledRequests returns the time range for the first 5,000 requests. Times are in Coordinated Universal Time (UTC) format.
         public let timeWindow: TimeWindow?
 
         public init(populationSize: Int64? = nil, sampledRequests: [SampledHTTPRequest]? = nil, timeWindow: TimeWindow? = nil) {
@@ -1759,23 +1802,56 @@ extension WAFV2 {
         }
     }
 
+    public struct IPSetForwardedIPConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  You can specify the following fallback behaviors:   MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.   NO_MATCH - Treat the web request as not matching the rule statement.  
+        public let fallbackBehavior: FallbackBehavior
+        /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all. 
+        public let headerName: String
+        /// The position in the header to search for the IP address. The header can contain IP addresses of the original client and also of proxies. For example, the header value could be 10.1.1.1, 127.0.0.0, 10.10.10.10 where the first IP address identifies the original client and the rest identify proxies that the request went through.  The options for this setting are the following:    FIRST - Inspect the first IP address in the list of IP addresses in the header. This is usually the client's original IP.   LAST - Inspect the last IP address in the list of IP addresses in the header.   ANY - Inspect all IP addresses in the header for a match. If the header contains more than 10 IP addresses, AWS WAF inspects the last 10.  
+        public let position: ForwardedIPPosition
+
+        public init(fallbackBehavior: FallbackBehavior, headerName: String, position: ForwardedIPPosition) {
+            self.fallbackBehavior = fallbackBehavior
+            self.headerName = headerName
+            self.position = position
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.headerName, name: "headerName", parent: name, max: 255)
+            try validate(self.headerName, name: "headerName", parent: name, min: 1)
+            try validate(self.headerName, name: "headerName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
+            case headerName = "HeaderName"
+            case position = "Position"
+        }
+    }
+
     public struct IPSetReferenceStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the IPSet that this statement references.
         public let arn: String
+        /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.   If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all. 
+        public let iPSetForwardedIPConfig: IPSetForwardedIPConfig?
 
-        public init(arn: String) {
+        public init(arn: String, iPSetForwardedIPConfig: IPSetForwardedIPConfig? = nil) {
             self.arn = arn
+            self.iPSetForwardedIPConfig = iPSetForwardedIPConfig
         }
 
         public func validate(name: String) throws {
             try validate(self.arn, name: "arn", parent: name, max: 2048)
             try validate(self.arn, name: "arn", parent: name, min: 20)
             try validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
+            try self.iPSetForwardedIPConfig?.validate(name: "\(name).iPSetForwardedIPConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+            case iPSetForwardedIPConfig = "IPSetForwardedIPConfig"
         }
     }
 
@@ -2185,13 +2261,16 @@ extension WAFV2 {
 
         /// The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL.
         public let logDestinationConfigs: [String]
-        /// The parts of the request that you want to keep out of the logs. For example, if you redact the cookie field, the cookie field in the firehose will be xxx. 
+        /// Indicates whether the logging configuration was created by AWS Firewall Manager, as part of an AWS WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration. 
+        public let managedByFirewallManager: Bool?
+        /// The parts of the request that you want to keep out of the logs. For example, if you redact the HEADER field, the HEADER field in the firehose will be xxx.   You must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD. 
         public let redactedFields: [FieldToMatch]?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         public let resourceArn: String
 
-        public init(logDestinationConfigs: [String], redactedFields: [FieldToMatch]? = nil, resourceArn: String) {
+        public init(logDestinationConfigs: [String], managedByFirewallManager: Bool? = nil, redactedFields: [FieldToMatch]? = nil, resourceArn: String) {
             self.logDestinationConfigs = logDestinationConfigs
+            self.managedByFirewallManager = managedByFirewallManager
             self.redactedFields = redactedFields
             self.resourceArn = resourceArn
         }
@@ -2215,6 +2294,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case logDestinationConfigs = "LogDestinationConfigs"
+            case managedByFirewallManager = "ManagedByFirewallManager"
             case redactedFields = "RedactedFields"
             case resourceArn = "ResourceArn"
         }
@@ -2421,20 +2501,24 @@ extension WAFV2 {
 
     public class RateBasedStatement: AWSEncodableShape & AWSDecodableShape {
 
-        /// Setting that indicates how to aggregate the request counts. Currently, you must set this to IP. The request counts are aggregated on IP addresses. 
+        /// Setting that indicates how to aggregate the request counts. The options are the following:   IP - Aggregate the request counts on the IP address from the web request origin.   FORWARDED_IP - Aggregate the request counts on the first IP address in an HTTP header. If you use this, configure the ForwardedIPConfig, to specify the header to use.   
         public let aggregateKeyType: RateBasedStatementAggregateKeyType
-        /// The limit on requests per 5-minute period for a single originating IP address. If the statement includes a ScopDownStatement, this limit is applied only to the requests that match the statement.
+        /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.   If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  This is required if AggregateKeyType is set to FORWARDED_IP.
+        public let forwardedIPConfig: ForwardedIPConfig?
+        /// The limit on requests per 5-minute period for a single originating IP address. If the statement includes a ScopeDownStatement, this limit is applied only to the requests that match the statement.
         public let limit: Int64
         /// An optional nested statement that narrows the scope of the rate-based statement to matching web requests. This can be any nestable statement, and you can nest statements at any level below this scope-down statement.
         public let scopeDownStatement: Statement?
 
-        public init(aggregateKeyType: RateBasedStatementAggregateKeyType, limit: Int64, scopeDownStatement: Statement? = nil) {
+        public init(aggregateKeyType: RateBasedStatementAggregateKeyType, forwardedIPConfig: ForwardedIPConfig? = nil, limit: Int64, scopeDownStatement: Statement? = nil) {
             self.aggregateKeyType = aggregateKeyType
+            self.forwardedIPConfig = forwardedIPConfig
             self.limit = limit
             self.scopeDownStatement = scopeDownStatement
         }
 
         public func validate(name: String) throws {
+            try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
             try validate(self.limit, name: "limit", parent: name, max: 2000000000)
             try validate(self.limit, name: "limit", parent: name, min: 100)
             try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
@@ -2442,6 +2526,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case aggregateKeyType = "AggregateKeyType"
+            case forwardedIPConfig = "ForwardedIPConfig"
             case limit = "Limit"
             case scopeDownStatement = "ScopeDownStatement"
         }
@@ -2760,7 +2845,7 @@ extension WAFV2 {
         public let action: String?
         /// A complex type that contains detailed information about the request.
         public let request: HTTPRequest
-        /// The name of the Rule that the request matched. For managed rule groups, the format for this name is &lt;vendor name&gt;#&lt;managed rule group name&gt;#&lt;rule name&gt;. For your own rule groups, the format for this name is &lt;rule group name&gt;#&lt;rule name&gt;. If the rule is not in a rule group, the format is &lt;rule name&gt;. 
+        /// The name of the Rule that the request matched. For managed rule groups, the format for this name is &lt;vendor name&gt;#&lt;managed rule group name&gt;#&lt;rule name&gt;. For your own rule groups, the format for this name is &lt;rule group name&gt;#&lt;rule name&gt;. If the rule is not in a rule group, this field is absent. 
         public let ruleNameWithinRuleGroup: String?
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
         public let timestamp: TimeStamp?
@@ -2979,10 +3064,10 @@ extension WAFV2 {
         public func validate(name: String) throws {
             try validate(self.key, name: "key", parent: name, max: 128)
             try validate(self.key, name: "key", parent: name, min: 1)
-            try validate(self.key, name: "key", parent: name, pattern: ".*\\S.*")
+            try validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try validate(self.value, name: "value", parent: name, max: 256)
             try validate(self.value, name: "value", parent: name, min: 0)
-            try validate(self.value, name: "value", parent: name, pattern: ".*")
+            try validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3069,9 +3154,9 @@ extension WAFV2 {
 
     public struct TimeWindow: AWSEncodableShape & AWSDecodableShape {
 
-        /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: TimeStamp
-        /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let startTime: TimeStamp
 
         public init(endTime: TimeStamp, startTime: TimeStamp) {
@@ -3104,7 +3189,7 @@ extension WAFV2 {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: ".*\\S.*")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -3414,7 +3499,7 @@ extension WAFV2 {
 
         /// A boolean indicating whether the associated resource sends metrics to CloudWatch. For the list of available metrics, see AWS WAF Metrics.
         public let cloudWatchMetricsEnabled: Bool
-        /// A name of the CloudWatch metric. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with length from one to 128 characters. It can't contain whitespace or metric names reserved for AWS WAF, for example "All" and "Default_Action." You can't change a MetricName after you create a VisibilityConfig.
+        /// A name of the CloudWatch metric. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names reserved for AWS WAF, for example "All" and "Default_Action." 
         public let metricName: String
         /// A boolean indicating whether AWS WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the AWS WAF console. 
         public let sampledRequestsEnabled: Bool

@@ -104,7 +104,7 @@ public struct Macie2 {
         return client.execute(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a custom data identifier.
+    ///  Soft deletes a custom data identifier.
     public func deleteCustomDataIdentifier(_ input: DeleteCustomDataIdentifierRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteCustomDataIdentifierResponse> {
         return client.execute(operation: "DeleteCustomDataIdentifier", path: "/custom-data-identifiers/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -229,7 +229,7 @@ public struct Macie2 {
         return client.execute(operation: "GetUsageTotals", path: "/usage", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Retrieves information about the status and settings for one or more classification jobs.
+    ///  Retrieves a subset of information about one or more classification jobs.
     public func listClassificationJobs(_ input: ListClassificationJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListClassificationJobsResponse> {
         return client.execute(operation: "ListClassificationJobs", path: "/jobs/list", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }

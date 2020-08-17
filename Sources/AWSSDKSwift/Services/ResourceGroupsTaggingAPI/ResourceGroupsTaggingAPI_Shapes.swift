@@ -171,7 +171,7 @@ extension ResourceGroupsTaggingAPI {
             try self.targetIdFilters?.forEach {
                 try validate($0, name: "targetIdFilters[]", parent: name, max: 68)
                 try validate($0, name: "targetIdFilters[]", parent: name, min: 6)
-                try validate($0, name: "targetIdFilters[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "targetIdFilters[]", parent: name, pattern: "[a-zA-Z0-9-]*")
             }
             try validate(self.targetIdFilters, name: "targetIdFilters", parent: name, max: 100)
             try validate(self.targetIdFilters, name: "targetIdFilters", parent: name, min: 1)
@@ -395,7 +395,7 @@ extension ResourceGroupsTaggingAPI {
         public func validate(name: String) throws {
             try validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
-            try validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9.-]*")
         }
 
         private enum CodingKeys: String, CodingKey {

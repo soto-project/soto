@@ -44,6 +44,7 @@ public enum EFSErrorType: AWSErrorType {
     case throughputLimitExceeded(message: String?)
     case tooManyRequests(message: String?)
     case unsupportedAvailabilityZone(message: String?)
+    case validationException(message: String?)
 }
 
 extension EFSErrorType {
@@ -105,6 +106,8 @@ extension EFSErrorType {
             self = .tooManyRequests(message: message)
         case "UnsupportedAvailabilityZone":
             self = .unsupportedAvailabilityZone(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         default:
             return nil
         }
@@ -166,6 +169,8 @@ extension EFSErrorType: CustomStringConvertible {
             return "TooManyRequests: \(message ?? "")"
         case .unsupportedAvailabilityZone(let message):
             return "UnsupportedAvailabilityZone: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
         }
     }
 }

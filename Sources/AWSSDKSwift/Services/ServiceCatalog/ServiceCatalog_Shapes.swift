@@ -2118,18 +2118,27 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
         public let pathId: String?
-        /// The product identifier.
-        public let productId: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        /// The name of the path. You must provide the name or ID, but not both.
+        public let pathName: String?
+        /// The product identifier. You must provide the product name or ID, but not both.
+        public let productId: String?
+        /// The name of the product. You must provide the name or ID, but not both.
+        public let productName: String?
+        /// The identifier of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactName: String?
 
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String, provisioningArtifactId: String) {
+        public init(acceptLanguage: String? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
+            self.pathName = pathName
             self.productId = productId
+            self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
         }
 
         public func validate(name: String) throws {
@@ -2137,19 +2146,26 @@ extension ServiceCatalog {
             try validate(self.pathId, name: "pathId", parent: name, max: 100)
             try validate(self.pathId, name: "pathId", parent: name, min: 1)
             try validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pathName, name: "pathName", parent: name, max: 100)
+            try validate(self.pathName, name: "pathName", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, max: 100)
             try validate(self.productId, name: "productId", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name: "productName", parent: name, max: 8191)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pathId = "PathId"
+            case pathName = "PathName"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
         }
     }
 
@@ -2157,6 +2173,8 @@ extension ServiceCatalog {
 
         /// Information about the constraints used to provision the product.
         public let constraintSummaries: [ConstraintSummary]?
+        /// The output of the provisioning artifact.
+        public let provisioningArtifactOutputs: [ProvisioningArtifactOutput]?
         /// Information about the parameters used to provision the product.
         public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
         /// An object that contains information about preferences, such as regions and accounts, for the provisioning artifact.
@@ -2166,8 +2184,9 @@ extension ServiceCatalog {
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
 
-        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
+        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputs: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
             self.constraintSummaries = constraintSummaries
+            self.provisioningArtifactOutputs = provisioningArtifactOutputs
             self.provisioningArtifactParameters = provisioningArtifactParameters
             self.provisioningArtifactPreferences = provisioningArtifactPreferences
             self.tagOptions = tagOptions
@@ -2176,6 +2195,7 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case constraintSummaries = "ConstraintSummaries"
+            case provisioningArtifactOutputs = "ProvisioningArtifactOutputs"
             case provisioningArtifactParameters = "ProvisioningArtifactParameters"
             case provisioningArtifactPreferences = "ProvisioningArtifactPreferences"
             case tagOptions = "TagOptions"
@@ -4033,14 +4053,20 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
         public let pathId: String?
-        /// The product identifier.
-        public let productId: String
+        /// The name of the path. You must provide the name or ID, but not both.
+        public let pathName: String?
+        /// The product identifier. You must provide the name or ID, but not both.
+        public let productId: String?
+        /// The name of the product. You must provide the name or ID, but not both.
+        public let productName: String?
         /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
         public let provisionedProductName: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        /// The identifier of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactName: String?
         /// Parameters specified by the administrator that are required for provisioning the product.
         public let provisioningParameters: [ProvisioningParameter]?
         /// An object that contains information about the provisioning preferences for a stack set.
@@ -4050,13 +4076,16 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
 
-        public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisionedProductName: String, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.notificationArns = notificationArns
             self.pathId = pathId
+            self.pathName = pathName
             self.productId = productId
+            self.productName = productName
             self.provisionedProductName = provisionedProductName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.provisioningParameters = provisioningParameters
             self.provisioningPreferences = provisioningPreferences
             self.provisionToken = provisionToken
@@ -4074,15 +4103,19 @@ extension ServiceCatalog {
             try validate(self.pathId, name: "pathId", parent: name, max: 100)
             try validate(self.pathId, name: "pathId", parent: name, min: 1)
             try validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pathName, name: "pathName", parent: name, max: 100)
+            try validate(self.pathName, name: "pathName", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, max: 100)
             try validate(self.productId, name: "productId", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name: "productName", parent: name, max: 8191)
             try validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 128)
             try validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
@@ -4100,9 +4133,12 @@ extension ServiceCatalog {
             case acceptLanguage = "AcceptLanguage"
             case notificationArns = "NotificationArns"
             case pathId = "PathId"
+            case pathName = "PathName"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisionedProductName = "ProvisionedProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case provisioningParameters = "ProvisioningParameters"
             case provisioningPreferences = "ProvisioningPreferences"
             case provisionToken = "ProvisionToken"
@@ -4417,6 +4453,24 @@ extension ServiceCatalog {
             case id = "Id"
             case name = "Name"
             case `type` = "Type"
+        }
+    }
+
+    public struct ProvisioningArtifactOutput: AWSDecodableShape {
+
+        /// Description of the provisioning artifact output key.
+        public let description: String?
+        /// The provisioning artifact output key.
+        public let key: String?
+
+        public init(description: String? = nil, key: String? = nil) {
+            self.description = description
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case key = "Key"
         }
     }
 
@@ -5649,16 +5703,22 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The new path identifier. This value is optional if the product has a default path, and required if the product has more than one path.
+        /// The path identifier. This value is optional if the product has a default path, and required if the product has more than one path. You must provide the name or ID, but not both.
         public let pathId: String?
-        /// The identifier of the product.
+        /// The name of the path. You must provide the name or ID, but not both.
+        public let pathName: String?
+        /// The identifier of the product. You must provide the name or ID, but not both.
         public let productId: String?
-        /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
+        /// The name of the product. You must provide the name or ID, but not both.
+        public let productName: String?
+        /// The identifier of the provisioned product. You must provide the name or ID, but not both.
         public let provisionedProductId: String?
         /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactName: String?
         /// The new parameters.
         public let provisioningParameters: [UpdateProvisioningParameter]?
         /// An object that contains information about the provisioning preferences for a stack set.
@@ -5668,13 +5728,16 @@ extension ServiceCatalog {
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
 
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
+        public init(acceptLanguage: String? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
+            self.pathName = pathName
             self.productId = productId
+            self.productName = productName
             self.provisionedProductId = provisionedProductId
             self.provisionedProductName = provisionedProductName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.provisioningParameters = provisioningParameters
             self.provisioningPreferences = provisioningPreferences
             self.tags = tags
@@ -5686,9 +5749,12 @@ extension ServiceCatalog {
             try validate(self.pathId, name: "pathId", parent: name, max: 100)
             try validate(self.pathId, name: "pathId", parent: name, min: 1)
             try validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pathName, name: "pathName", parent: name, max: 100)
+            try validate(self.pathName, name: "pathName", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, max: 100)
             try validate(self.productId, name: "productId", parent: name, min: 1)
             try validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name: "productName", parent: name, max: 8191)
             try validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5698,6 +5764,7 @@ extension ServiceCatalog {
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
@@ -5714,10 +5781,13 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pathId = "PathId"
+            case pathName = "PathName"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisionedProductId = "ProvisionedProductId"
             case provisionedProductName = "ProvisionedProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case provisioningParameters = "ProvisioningParameters"
             case provisioningPreferences = "ProvisioningPreferences"
             case tags = "Tags"

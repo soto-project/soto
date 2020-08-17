@@ -23,6 +23,7 @@ extension EKS {
     public enum AMITypes: String, CustomStringConvertible, Codable {
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
+        case al2Arm64 = "AL2_ARM_64"
         public var description: String { return self.rawValue }
     }
 
@@ -244,7 +245,7 @@ extension EKS {
         public let name: String
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups, but we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
-        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for Amazon EKS to make calls to other AWS API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
         /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
@@ -367,42 +368,45 @@ extension EKS {
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
 
-        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI.
+        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let amiType: AMITypes?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the cluster to create the node group in.
         public let clusterName: String
-        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB.
+        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB. If you specify launchTemplate, then don't specify diskSize, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let diskSize: Int?
-        /// The instance type to use for your node group. Currently, you can specify a single instance type for a node group. The default value for this parameter is t3.medium. If you choose a GPU instance type, be sure to specify the AL2_x86_64_GPU with the amiType parameter.
+        /// The instance type to use for your node group. You can specify a single instance type for a node group. The default value for instanceTypes is t3.medium. If you choose a GPU instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify launchTemplate, then don't specify instanceTypes, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let instanceTypes: [String]?
         /// The Kubernetes labels to be applied to the nodes in the node group when they are created.
         public let labels: [String: String]?
+        /// An object representing a node group's launch template specification. If specified, then do not specify instanceTypes, diskSize, or remoteAccess. If specified, make sure that the launch template meets the requirements in launchTemplateSpecification.
+        public let launchTemplate: LaunchTemplateSpecification?
         /// The unique name to give your node group.
         public let nodegroupName: String
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let nodeRole: String
-        /// The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide.
+        /// The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let releaseVersion: String?
-        /// The remote access (SSH) configuration to use with your node group.
+        /// The remote access (SSH) configuration to use with your node group. If you specify launchTemplate, then don't specify remoteAccess, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let remoteAccess: RemoteAccessConfig?
         /// The scaling configuration details for the Auto Scaling group that is created for your node group.
         public let scalingConfig: NodegroupScalingConfig?
-        /// The subnets to use for the Auto Scaling group that is created for your node group. These subnets must have the tag key kubernetes.io/cluster/CLUSTER_NAME with a value of shared, where CLUSTER_NAME is replaced with the name of your cluster.
+        /// The subnets to use for the Auto Scaling group that is created for your node group. These subnets must have the tag key kubernetes.io/cluster/CLUSTER_NAME with a value of shared, where CLUSTER_NAME is replaced with the name of your cluster. If you specify launchTemplate, then don't specify  SubnetId  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let subnets: [String]
         /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
-        /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value.
+        /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, version: String? = nil) {
             self.amiType = amiType
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.diskSize = diskSize
             self.instanceTypes = instanceTypes
             self.labels = labels
+            self.launchTemplate = launchTemplate
             self.nodegroupName = nodegroupName
             self.nodeRole = nodeRole
             self.releaseVersion = releaseVersion
@@ -434,6 +438,7 @@ extension EKS {
             case diskSize = "diskSize"
             case instanceTypes = "instanceTypes"
             case labels = "labels"
+            case launchTemplate = "launchTemplate"
             case nodegroupName = "nodegroupName"
             case nodeRole = "nodeRole"
             case releaseVersion = "releaseVersion"
@@ -806,7 +811,7 @@ extension EKS {
 
     public struct Issue: AWSDecodableShape {
 
-        /// A brief description of the error.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.     InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    AccessDenied: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.  
+        /// A brief description of the error.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.     InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    AccessDenied: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.  
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -823,6 +828,28 @@ extension EKS {
             case code = "code"
             case message = "message"
             case resourceIds = "resourceIds"
+        }
+    }
+
+    public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ID of the launch template.
+        public let id: String?
+        /// The name of the launch template.
+        public let name: String?
+        /// The version of the launch template to use. If no version is specified, then the template's default version is used.
+        public let version: String?
+
+        public init(id: String? = nil, name: String? = nil, version: String? = nil) {
+            self.id = id
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -1073,31 +1100,33 @@ extension EKS {
 
     public struct Nodegroup: AWSDecodableShape {
 
-        /// The AMI type associated with your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI.
+        /// If the node group was deployed using a launch template with a custom AMI, then this is CUSTOM. For node groups that weren't deployed using a launch template, this is the AMI type that was specified in the node group configuration.
         public let amiType: AMITypes?
         /// The name of the cluster that the managed node group resides in.
         public let clusterName: String?
         /// The Unix epoch timestamp in seconds for when the managed node group was created.
         public let createdAt: TimeStamp?
-        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB.
+        /// If the node group wasn't deployed with a launch template, then this is the disk size in the node group configuration. If the node group was deployed with a launch template, then diskSize is null.
         public let diskSize: Int?
         /// The health status of the node group. If there are issues with your node group's health, they are listed here.
         public let health: NodegroupHealth?
-        /// The instance types associated with your node group.
+        /// If the node group wasn't deployed with a launch template, then this is the instance type that is associated with the node group. If the node group was deployed with a launch template, then instanceTypes is null.
         public let instanceTypes: [String]?
         /// The Kubernetes labels applied to the nodes in the node group.  Only labels that are applied with the Amazon EKS API are shown here. There may be other Kubernetes labels applied to the nodes in this group. 
         public let labels: [String: String]?
+        /// If a launch template was used to create the node group, then this is the launch template that was used.
+        public let launchTemplate: LaunchTemplateSpecification?
         /// The Unix epoch timestamp in seconds for when the managed node group was last modified.
         public let modifiedAt: TimeStamp?
         /// The Amazon Resource Name (ARN) associated with the managed node group.
         public let nodegroupArn: String?
         /// The name associated with an Amazon EKS managed node group.
         public let nodegroupName: String?
-        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
+        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies.
         public let nodeRole: String?
-        /// The AMI version of the managed node group. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide.
+        /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS-optimized AMI that the node group was deployed with.
         public let releaseVersion: String?
-        /// The remote access (SSH) configuration that is associated with the node group.
+        /// If the node group wasn't deployed with a launch template, then this is the remote access configuration that is associated with the node group. If the node group was deployed with a launch template, then remoteAccess is null.
         public let remoteAccess: RemoteAccessConfig?
         /// The resources associated with the node group, such as Auto Scaling groups and security groups for remote access.
         public let resources: NodegroupResources?
@@ -1105,14 +1134,14 @@ extension EKS {
         public let scalingConfig: NodegroupScalingConfig?
         /// The current status of the managed node group.
         public let status: NodegroupStatus?
-        /// The subnets allowed for the Auto Scaling group that is associated with your node group. These subnets must have the following tag: kubernetes.io/cluster/CLUSTER_NAME, where CLUSTER_NAME is replaced with the name of your cluster.
+        /// The subnets that were specified for the Auto Scaling group that is associated with your node group.
         public let subnets: [String]?
         /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets. 
         public let tags: [String: String]?
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, clusterName: String? = nil, createdAt: TimeStamp? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, modifiedAt: TimeStamp? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, clusterName: String? = nil, createdAt: TimeStamp? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: TimeStamp? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.amiType = amiType
             self.clusterName = clusterName
             self.createdAt = createdAt
@@ -1120,6 +1149,7 @@ extension EKS {
             self.health = health
             self.instanceTypes = instanceTypes
             self.labels = labels
+            self.launchTemplate = launchTemplate
             self.modifiedAt = modifiedAt
             self.nodegroupArn = nodegroupArn
             self.nodegroupName = nodegroupName
@@ -1142,6 +1172,7 @@ extension EKS {
             case health = "health"
             case instanceTypes = "instanceTypes"
             case labels = "labels"
+            case launchTemplate = "launchTemplate"
             case modifiedAt = "modifiedAt"
             case nodegroupArn = "nodegroupArn"
             case nodegroupName = "nodegroupName"
@@ -1536,17 +1567,20 @@ extension EKS {
         public let clusterName: String
         /// Force the update if the existing node group's pods are unable to be drained due to a pod disruption budget issue. If an update fails because pods could not be drained, you can force the update after it fails to terminate the old node whether or not any pods are running on the node.
         public let force: Bool?
+        /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template.
+        public let launchTemplate: LaunchTemplateSpecification?
         /// The name of the managed node group to update.
         public let nodegroupName: String
-        /// The AMI version of the Amazon EKS-optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide.
+        /// The AMI version of the Amazon EKS-optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let releaseVersion: String?
-        /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version.
+        /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
 
-        public init(clientRequestToken: String? = UpdateNodegroupVersionRequest.idempotencyToken(), clusterName: String, force: Bool? = nil, nodegroupName: String, releaseVersion: String? = nil, version: String? = nil) {
+        public init(clientRequestToken: String? = UpdateNodegroupVersionRequest.idempotencyToken(), clusterName: String, force: Bool? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, releaseVersion: String? = nil, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.force = force
+            self.launchTemplate = launchTemplate
             self.nodegroupName = nodegroupName
             self.releaseVersion = releaseVersion
             self.version = version
@@ -1555,6 +1589,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case force = "force"
+            case launchTemplate = "launchTemplate"
             case releaseVersion = "releaseVersion"
             case version = "version"
         }

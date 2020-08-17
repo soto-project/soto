@@ -46,9 +46,26 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum BehaviorEnum: String, CustomStringConvertible, Codable {
+        case dontCache = "dont-cache"
+        case cache = "cache"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BlueprintType: String, CustomStringConvertible, Codable {
         case os = "os"
         case app = "app"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case issued = "ISSUED"
+        case inactive = "INACTIVE"
+        case expired = "EXPIRED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
+        case revoked = "REVOKED"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -100,9 +117,45 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum DistributionMetricName: String, CustomStringConvertible, Codable {
+        case requests = "Requests"
+        case bytesdownloaded = "BytesDownloaded"
+        case bytesuploaded = "BytesUploaded"
+        case totalerrorrate = "TotalErrorRate"
+        case http4xxerrorrate = "Http4xxErrorRate"
+        case http5xxerrorrate = "Http5xxErrorRate"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable {
         case instancesnapshot = "InstanceSnapshot"
         case disksnapshot = "DiskSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ForwardValues: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case allowList = "allow-list"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HeaderEnum: String, CustomStringConvertible, Codable {
+        case accept = "Accept"
+        case acceptCharset = "Accept-Charset"
+        case acceptDatetime = "Accept-Datetime"
+        case acceptEncoding = "Accept-Encoding"
+        case acceptLanguage = "Accept-Language"
+        case authorization = "Authorization"
+        case cloudfrontForwardedProto = "CloudFront-Forwarded-Proto"
+        case cloudfrontIsDesktopViewer = "CloudFront-Is-Desktop-Viewer"
+        case cloudfrontIsMobileViewer = "CloudFront-Is-Mobile-Viewer"
+        case cloudfrontIsSmarttvViewer = "CloudFront-Is-SmartTV-Viewer"
+        case cloudfrontIsTabletViewer = "CloudFront-Is-Tablet-Viewer"
+        case cloudfrontViewerCountry = "CloudFront-Viewer-Country"
+        case host = "Host"
+        case origin = "Origin"
+        case referer = "Referer"
         public var description: String { return self.rawValue }
     }
 
@@ -392,6 +445,21 @@ extension Lightsail {
         case getcontactmethods = "GetContactMethods"
         case sendcontactmethodverification = "SendContactMethodVerification"
         case deletecontactmethod = "DeleteContactMethod"
+        case createdistribution = "CreateDistribution"
+        case updatedistribution = "UpdateDistribution"
+        case deletedistribution = "DeleteDistribution"
+        case resetdistributioncache = "ResetDistributionCache"
+        case attachcertificatetodistribution = "AttachCertificateToDistribution"
+        case detachcertificatefromdistribution = "DetachCertificateFromDistribution"
+        case updatedistributionbundle = "UpdateDistributionBundle"
+        case createcertificate = "CreateCertificate"
+        case deletecertificate = "DeleteCertificate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginProtocolPolicyEnum: String, CustomStringConvertible, Codable {
+        case httpOnly = "http-only"
+        case httpsOnly = "https-only"
         public var description: String { return self.rawValue }
     }
 
@@ -462,6 +530,14 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum RenewalStatus: String, CustomStringConvertible, Codable {
+        case pendingautorenewal = "PendingAutoRenewal"
+        case pendingvalidation = "PendingValidation"
+        case success = "Success"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case instance = "Instance"
         case staticip = "StaticIp"
@@ -479,6 +555,8 @@ extension Lightsail {
         case cloudformationstackrecord = "CloudFormationStackRecord"
         case alarm = "Alarm"
         case contactmethod = "ContactMethod"
+        case distribution = "Distribution"
+        case certificate = "Certificate"
         public var description: String { return self.rawValue }
     }
 
@@ -659,6 +737,43 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct AttachCertificateToDistributionRequest: AWSEncodableShape {
+
+        /// The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify.  This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For example, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com. 
+        public let certificateName: String
+        /// The name of the distribution that the certificate will be attached to. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String
+
+        public init(certificateName: String, distributionName: String) {
+            self.certificateName = certificateName
+            self.distributionName = distributionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateName = "certificateName"
+            case distributionName = "distributionName"
+        }
+    }
+
+    public struct AttachCertificateToDistributionResult: AWSDecodableShape {
+
+        /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
@@ -1009,6 +1124,209 @@ extension Lightsail {
         }
     }
 
+    public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
+
+        /// The cache behavior of the distribution. The following cache behaviors can be specified:     cache  - This option is best for static sites. When specified, your distribution caches and serves your entire website as static content. This behavior is ideal for websites with static content that doesn't change depending on who views it, or for websites that don't use cookies, headers, or query strings to personalize content.     dont-cache  - This option is best for sites that serve a mix of static and dynamic content. When specified, your distribution caches and serve only the content that is specified in the distribution's CacheBehaviorPerPath parameter. This behavior is ideal for websites or web applications that use cookies, headers, and query strings to personalize content for individual users.  
+        public let behavior: BehaviorEnum?
+
+        public init(behavior: BehaviorEnum? = nil) {
+            self.behavior = behavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+        }
+    }
+
+    public struct CacheBehaviorPerPath: AWSEncodableShape & AWSDecodableShape {
+
+        /// The cache behavior for the specified path. You can specify one of the following per-path cache behaviors:     cache  - This behavior caches the specified path.      dont-cache  - This behavior doesn't cache the specified path.   
+        public let behavior: BehaviorEnum?
+        /// The path to a directory or file to cached, or not cache. Use an asterisk symbol to specify wildcard directories (path/to/assets/*), and file types (*.html, *jpg, *js). Directories and file paths are case-sensitive. Examples:   Specify the following to cache all files in the document root of an Apache web server running on a Lightsail instance.  var/www/html/    Specify the following file to cache only the index page in the document root of an Apache web server.  var/www/html/index.html    Specify the following to cache only the .html files in the document root of an Apache web server.  var/www/html/*.html    Specify the following to cache only the .jpg, .png, and .gif files in the images sub-directory of the document root of an Apache web server.  var/www/html/images/*.jpg   var/www/html/images/*.png   var/www/html/images/*.gif  Specify the following to cache all files in the images sub-directory of the document root of an Apache web server.  var/www/html/images/   
+        public let path: String?
+
+        public init(behavior: BehaviorEnum? = nil, path: String? = nil) {
+            self.behavior = behavior
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+            case path = "path"
+        }
+    }
+
+    public struct CacheSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// The HTTP methods that are processed and forwarded to the distribution's origin. You can specify the following options:    GET,HEAD - The distribution forwards the GET and HEAD methods.    GET,HEAD,OPTIONS - The distribution forwards the GET, HEAD, and OPTIONS methods.    GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE - The distribution forwards the GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE methods.   If you specify the third option, you might need to restrict access to your distribution's origin so users can't perform operations that you don't want them to. For example, you might not want users to have permission to delete objects from your origin.
+        public let allowedHTTPMethods: String?
+        /// The HTTP method responses that are cached by your distribution. You can specify the following options:    GET,HEAD - The distribution caches responses to the GET and HEAD methods.    GET,HEAD,OPTIONS - The distribution caches responses to the GET, HEAD, and OPTIONS methods.  
+        public let cachedHTTPMethods: String?
+        /// The default amount of time that objects stay in the distribution's cache before the distribution forwards another request to the origin to determine whether the content has been updated.  The value specified applies only when the origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. 
+        public let defaultTTL: Int64?
+        /// An object that describes the cookies that are forwarded to the origin. Your content is cached based on the cookies that are forwarded.
+        public let forwardedCookies: CookieObject?
+        /// An object that describes the headers that are forwarded to the origin. Your content is cached based on the headers that are forwarded.
+        public let forwardedHeaders: HeaderObject?
+        /// An object that describes the query strings that are forwarded to the origin. Your content is cached based on the query strings that are forwarded.
+        public let forwardedQueryStrings: QueryStringObject?
+        /// The maximum amount of time that objects stay in the distribution's cache before the distribution forwards another request to the origin to determine whether the object has been updated. The value specified applies only when the origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects.
+        public let maximumTTL: Int64?
+        /// The minimum amount of time that objects stay in the distribution's cache before the distribution forwards another request to the origin to determine whether the object has been updated. A value of 0 must be specified for minimumTTL if the distribution is configured to forward all headers to the origin.
+        public let minimumTTL: Int64?
+
+        public init(allowedHTTPMethods: String? = nil, cachedHTTPMethods: String? = nil, defaultTTL: Int64? = nil, forwardedCookies: CookieObject? = nil, forwardedHeaders: HeaderObject? = nil, forwardedQueryStrings: QueryStringObject? = nil, maximumTTL: Int64? = nil, minimumTTL: Int64? = nil) {
+            self.allowedHTTPMethods = allowedHTTPMethods
+            self.cachedHTTPMethods = cachedHTTPMethods
+            self.defaultTTL = defaultTTL
+            self.forwardedCookies = forwardedCookies
+            self.forwardedHeaders = forwardedHeaders
+            self.forwardedQueryStrings = forwardedQueryStrings
+            self.maximumTTL = maximumTTL
+            self.minimumTTL = minimumTTL
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.allowedHTTPMethods, name: "allowedHTTPMethods", parent: name, pattern: ".*\\S.*")
+            try validate(self.cachedHTTPMethods, name: "cachedHTTPMethods", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedHTTPMethods = "allowedHTTPMethods"
+            case cachedHTTPMethods = "cachedHTTPMethods"
+            case defaultTTL = "defaultTTL"
+            case forwardedCookies = "forwardedCookies"
+            case forwardedHeaders = "forwardedHeaders"
+            case forwardedQueryStrings = "forwardedQueryStrings"
+            case maximumTTL = "maximumTTL"
+            case minimumTTL = "minimumTTL"
+        }
+    }
+
+    public struct Certificate: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public let arn: String?
+        /// The timestamp when the certificate was created.
+        public let createdAt: TimeStamp?
+        /// The domain name of the certificate.
+        public let domainName: String?
+        /// An array of objects that describe the domain validation records of the certificate.
+        public let domainValidationRecords: [DomainValidationRecord]?
+        /// The renewal eligibility of the certificate.
+        public let eligibleToRenew: String?
+        /// The number of Lightsail resources that the certificate is attached to.
+        public let inUseResourceCount: Int?
+        /// The timestamp when the certificate was issued.
+        public let issuedAt: TimeStamp?
+        /// The certificate authority that issued the certificate.
+        public let issuerCA: String?
+        /// The algorithm used to generate the key pair (the public and private key) of the certificate.
+        public let keyAlgorithm: String?
+        /// The name of the certificate (e.g., my-certificate).
+        public let name: String?
+        /// The timestamp when the certificate expires.
+        public let notAfter: TimeStamp?
+        /// The timestamp when the certificate is first valid.
+        public let notBefore: TimeStamp?
+        /// An object that describes the status of the certificate renewal managed by Lightsail.
+        public let renewalSummary: RenewalSummary?
+        /// The validation failure reason, if any, of the certificate. The following failure reasons are possible:     NO_AVAILABLE_CONTACTS  - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED  - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the AWS Support Center to contact AWS Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED  - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the AWS Support Center and create a case.     INVALID_PUBLIC_DOMAIN  - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER  - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.   
+        public let requestFailureReason: String?
+        /// The reason the certificate was revoked. This value is present only when the certificate status is REVOKED.
+        public let revocationReason: String?
+        /// The timestamp when the certificate was revoked. This value is present only when the certificate status is REVOKED.
+        public let revokedAt: TimeStamp?
+        /// The serial number of the certificate.
+        public let serialNumber: String?
+        /// The validation status of the certificate.
+        public let status: CertificateStatus?
+        /// An array of strings that specify the alternate domains (e.g., example2.com) and subdomains (e.g., blog.example.com) of the certificate.
+        public let subjectAlternativeNames: [String]?
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail certificate. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, domainName: String? = nil, domainValidationRecords: [DomainValidationRecord]? = nil, eligibleToRenew: String? = nil, inUseResourceCount: Int? = nil, issuedAt: TimeStamp? = nil, issuerCA: String? = nil, keyAlgorithm: String? = nil, name: String? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, renewalSummary: RenewalSummary? = nil, requestFailureReason: String? = nil, revocationReason: String? = nil, revokedAt: TimeStamp? = nil, serialNumber: String? = nil, status: CertificateStatus? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.domainValidationRecords = domainValidationRecords
+            self.eligibleToRenew = eligibleToRenew
+            self.inUseResourceCount = inUseResourceCount
+            self.issuedAt = issuedAt
+            self.issuerCA = issuerCA
+            self.keyAlgorithm = keyAlgorithm
+            self.name = name
+            self.notAfter = notAfter
+            self.notBefore = notBefore
+            self.renewalSummary = renewalSummary
+            self.requestFailureReason = requestFailureReason
+            self.revocationReason = revocationReason
+            self.revokedAt = revokedAt
+            self.serialNumber = serialNumber
+            self.status = status
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.supportCode = supportCode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case domainValidationRecords = "domainValidationRecords"
+            case eligibleToRenew = "eligibleToRenew"
+            case inUseResourceCount = "inUseResourceCount"
+            case issuedAt = "issuedAt"
+            case issuerCA = "issuerCA"
+            case keyAlgorithm = "keyAlgorithm"
+            case name = "name"
+            case notAfter = "notAfter"
+            case notBefore = "notBefore"
+            case renewalSummary = "renewalSummary"
+            case requestFailureReason = "requestFailureReason"
+            case revocationReason = "revocationReason"
+            case revokedAt = "revokedAt"
+            case serialNumber = "serialNumber"
+            case status = "status"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case supportCode = "supportCode"
+            case tags = "tags"
+        }
+    }
+
+    public struct CertificateSummary: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public let certificateArn: String?
+        /// An object that describes a certificate in detail.
+        public let certificateDetail: Certificate?
+        /// The name of the certificate.
+        public let certificateName: String?
+        /// The domain name of the certificate.
+        public let domainName: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+
+        public init(certificateArn: String? = nil, certificateDetail: Certificate? = nil, certificateName: String? = nil, domainName: String? = nil, tags: [Tag]? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateDetail = certificateDetail
+            self.certificateName = certificateName
+            self.domainName = domainName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case certificateDetail = "certificateDetail"
+            case certificateName = "certificateName"
+            case domainName = "domainName"
+            case tags = "tags"
+        }
+    }
+
     public struct CloseInstancePublicPortsRequest: AWSEncodableShape {
 
         /// The name of the instance for which to close ports.
@@ -1155,6 +1473,24 @@ extension Lightsail {
         }
     }
 
+    public struct CookieObject: AWSEncodableShape & AWSDecodableShape {
+
+        /// The specific cookies to forward to your distribution's origin.
+        public let cookiesAllowList: [String]?
+        /// Specifies which cookies to forward to the distribution's origin for a cache behavior: all, none, or allow-list to forward only the cookies specified in the cookiesAllowList parameter.
+        public let option: ForwardValues?
+
+        public init(cookiesAllowList: [String]? = nil, option: ForwardValues? = nil) {
+            self.cookiesAllowList = cookiesAllowList
+            self.option = option
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cookiesAllowList = "cookiesAllowList"
+            case option = "option"
+        }
+    }
+
     public struct CopySnapshotRequest: AWSEncodableShape {
 
         /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
@@ -1204,6 +1540,50 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateCertificateRequest: AWSEncodableShape {
+
+        /// The name for the certificate.
+        public let certificateName: String
+        /// The domain name (e.g., example.com) for the certificate.
+        public let domainName: String
+        /// An array of strings that specify the alternate domains (e.g., example2.com) and subdomains (e.g., blog.example.com) for the certificate. You can specify a maximum of nine alternate domains (in addition to the primary domain name). Wildcard domain entries (e.g., *.example.com) are not supported.
+        public let subjectAlternativeNames: [String]?
+        /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created.
+        public let tags: [Tag]?
+
+        public init(certificateName: String, domainName: String, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil) {
+            self.certificateName = certificateName
+            self.domainName = domainName
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateName = "certificateName"
+            case domainName = "domainName"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCertificateResult: AWSDecodableShape {
+
+        /// An object that describes the certificate created.
+        public let certificate: CertificateSummary?
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(certificate: CertificateSummary? = nil, operations: [Operation]? = nil) {
+            self.certificate = certificate
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "certificate"
             case operations = "operations"
         }
     }
@@ -1295,7 +1675,7 @@ extension Lightsail {
         public let sizeInGb: Int
         /// The name of the source disk from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let sourceDiskName: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
         /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let useLatestRestorableAutoSnapshot: Bool?
@@ -1358,7 +1738,7 @@ extension Lightsail {
         public let diskName: String
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, diskName: String, sizeInGb: Int, tags: [Tag]? = nil) {
@@ -1408,7 +1788,7 @@ extension Lightsail {
         public let diskSnapshotName: String
         /// The unique name of the source instance (e.g., Amazon_Linux-512MB-Virginia-1). When this is defined, a snapshot of the instance's system volume is created.  This parameter cannot be defined together with the disk name parameter. The instance name and disk name parameters are mutually exclusive. 
         public let instanceName: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(diskName: String? = nil, diskSnapshotName: String, instanceName: String? = nil, tags: [Tag]? = nil) {
@@ -1443,6 +1823,68 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct CreateDistributionRequest: AWSEncodableShape {
+
+        /// The bundle ID to use for the distribution. A distribution bundle describes the specifications of your distribution, such as the monthly cost and monthly network transfer quota. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
+        public let bundleId: String
+        /// An array of objects that describe the per-path cache behavior for the distribution.
+        public let cacheBehaviors: [CacheBehaviorPerPath]?
+        /// An object that describes the cache behavior settings for the distribution.
+        public let cacheBehaviorSettings: CacheSettings?
+        /// An object that describes the default cache behavior for the distribution.
+        public let defaultCacheBehavior: CacheBehavior
+        /// The name for the distribution.
+        public let distributionName: String
+        /// An object that describes the origin resource for the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
+        public let origin: InputOrigin
+        /// The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
+        public let tags: [Tag]?
+
+        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior, distributionName: String, origin: InputOrigin, tags: [Tag]? = nil) {
+            self.bundleId = bundleId
+            self.cacheBehaviors = cacheBehaviors
+            self.cacheBehaviorSettings = cacheBehaviorSettings
+            self.defaultCacheBehavior = defaultCacheBehavior
+            self.distributionName = distributionName
+            self.origin = origin
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.cacheBehaviorSettings?.validate(name: "\(name).cacheBehaviorSettings")
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try self.origin.validate(name: "\(name).origin")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case distributionName = "distributionName"
+            case origin = "origin"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDistributionResult: AWSDecodableShape {
+
+        /// An object that describes the distribution created.
+        public let distribution: LightsailDistribution?
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operation: Operation?
+
+        public init(distribution: LightsailDistribution? = nil, operation: Operation? = nil) {
+            self.distribution = distribution
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distribution = "distribution"
+            case operation = "operation"
         }
     }
 
@@ -1486,7 +1928,7 @@ extension Lightsail {
 
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
         public let domainName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(domainName: String, tags: [Tag]? = nil) {
@@ -1520,7 +1962,7 @@ extension Lightsail {
         public let instanceName: String
         /// The name for your new snapshot.
         public let instanceSnapshotName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(instanceName: String, instanceSnapshotName: String, tags: [Tag]? = nil) {
@@ -1575,7 +2017,7 @@ extension Lightsail {
         public let restoreDate: String?
         /// The name of the source instance from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let sourceInstanceName: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
         /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let useLatestRestorableAutoSnapshot: Bool?
@@ -1653,7 +2095,7 @@ extension Lightsail {
         public let instanceNames: [String]
         /// The name of your key pair.
         public let keyPairName: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
@@ -1708,7 +2150,7 @@ extension Lightsail {
 
         /// The name for your new key pair.
         public let keyPairName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(keyPairName: String, tags: [Tag]? = nil) {
@@ -1766,7 +2208,7 @@ extension Lightsail {
         public let instancePort: Int
         /// The name of your load balancer.
         public let loadBalancerName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, loadBalancerName: String, tags: [Tag]? = nil) {
@@ -1821,7 +2263,7 @@ extension Lightsail {
         public let certificateName: String
         /// The load balancer name where you want to create the SSL/TLS certificate.
         public let loadBalancerName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String, certificateName: String, loadBalancerName: String, tags: [Tag]? = nil) {
@@ -1876,7 +2318,7 @@ extension Lightsail {
         public let restoreTime: TimeStamp?
         /// The name of the source database.
         public let sourceRelationalDatabaseName: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
         /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time.  Default: false  Constraints: Cannot be specified if the restore time parameter is provided.
         public let useLatestRestorableTime: Bool?
@@ -1948,7 +2390,7 @@ extension Lightsail {
         public let relationalDatabaseBundleId: String
         /// The name to use for your new database. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
         public let relationalDatabaseName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(availabilityZone: String? = nil, masterDatabaseName: String, masterUsername: String, masterUserPassword: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String, relationalDatabaseBundleId: String, relationalDatabaseName: String, tags: [Tag]? = nil) {
@@ -2004,7 +2446,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// The name for your new database snapshot. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
         public let relationalDatabaseSnapshotName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
         public init(relationalDatabaseName: String, relationalDatabaseSnapshotName: String, tags: [Tag]? = nil) {
@@ -2095,6 +2537,34 @@ extension Lightsail {
     }
 
     public struct DeleteAutoSnapshotResult: AWSDecodableShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DeleteCertificateRequest: AWSEncodableShape {
+
+        /// The name of the certificate to delete. Use the GetCertificates action to get a list of certificate names that you can specify.
+        public let certificateName: String
+
+        public init(certificateName: String) {
+            self.certificateName = certificateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateName = "certificateName"
+        }
+    }
+
+    public struct DeleteCertificateResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2201,6 +2671,38 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct DeleteDistributionRequest: AWSEncodableShape {
+
+        /// The name of the distribution to delete. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String?
+
+        public init(distributionName: String? = nil) {
+            self.distributionName = distributionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionName = "distributionName"
+        }
+    }
+
+    public struct DeleteDistributionResult: AWSDecodableShape {
+
+        /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
@@ -2564,6 +3066,38 @@ extension Lightsail {
         }
     }
 
+    public struct DetachCertificateFromDistributionRequest: AWSEncodableShape {
+
+        /// The name of the distribution from which to detach the certificate. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String
+
+        public init(distributionName: String) {
+            self.distributionName = distributionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionName = "distributionName"
+        }
+    }
+
+    public struct DetachCertificateFromDistributionResult: AWSDecodableShape {
+
+        /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
     public struct DetachDiskRequest: AWSEncodableShape {
 
         /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
@@ -2906,6 +3440,36 @@ extension Lightsail {
         }
     }
 
+    public struct DistributionBundle: AWSDecodableShape {
+
+        /// The ID of the bundle.
+        public let bundleId: String?
+        /// Indicates whether the bundle is active, and can be specified for a new distribution.
+        public let isActive: Bool?
+        /// The name of the distribution bundle.
+        public let name: String?
+        /// The monthly price, in US dollars, of the bundle.
+        public let price: Float?
+        /// The monthly network transfer quota of the bundle.
+        public let transferPerMonthInGb: Int?
+
+        public init(bundleId: String? = nil, isActive: Bool? = nil, name: String? = nil, price: Float? = nil, transferPerMonthInGb: Int? = nil) {
+            self.bundleId = bundleId
+            self.isActive = isActive
+            self.name = name
+            self.price = price
+            self.transferPerMonthInGb = transferPerMonthInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+            case isActive = "isActive"
+            case name = "name"
+            case price = "price"
+            case transferPerMonthInGb = "transferPerMonthInGb"
+        }
+    }
+
     public struct Domain: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
@@ -2979,6 +3543,24 @@ extension Lightsail {
             case name = "name"
             case target = "target"
             case `type` = "type"
+        }
+    }
+
+    public struct DomainValidationRecord: AWSDecodableShape {
+
+        /// The domain name of the certificate validation record. For example, example.com or www.example.com.
+        public let domainName: String?
+        /// An object that describes the DNS records to add to your domain's DNS to validate it for the certificate.
+        public let resourceRecord: ResourceRecord?
+
+        public init(domainName: String? = nil, resourceRecord: ResourceRecord? = nil) {
+            self.domainName = domainName
+            self.resourceRecord = resourceRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case resourceRecord = "resourceRecord"
         }
     }
 
@@ -3350,6 +3932,42 @@ extension Lightsail {
         }
     }
 
+    public struct GetCertificatesRequest: AWSEncodableShape {
+
+        /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS region where the request is made.
+        public let certificateName: String?
+        /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS region where the request is made, regardless of their current status.
+        public let certificateStatuses: [CertificateStatus]?
+        /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
+        public let includeCertificateDetails: Bool?
+
+        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool? = nil) {
+            self.certificateName = certificateName
+            self.certificateStatuses = certificateStatuses
+            self.includeCertificateDetails = includeCertificateDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateName = "certificateName"
+            case certificateStatuses = "certificateStatuses"
+            case includeCertificateDetails = "includeCertificateDetails"
+        }
+    }
+
+    public struct GetCertificatesResult: AWSDecodableShape {
+
+        /// An object that describes certificates.
+        public let certificates: [CertificateSummary]?
+
+        public init(certificates: [CertificateSummary]? = nil) {
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "certificates"
+        }
+    }
+
     public struct GetCloudFormationStackRecordsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetClouFormationStackRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -3534,6 +4152,166 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case disks = "disks"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct GetDistributionBundlesRequest: AWSEncodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct GetDistributionBundlesResult: AWSDecodableShape {
+
+        /// An object that describes a distribution bundle.
+        public let bundles: [DistributionBundle]?
+
+        public init(bundles: [DistributionBundle]? = nil) {
+            self.bundles = bundles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundles = "bundles"
+        }
+    }
+
+    public struct GetDistributionLatestCacheResetRequest: AWSEncodableShape {
+
+        /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions.
+        public let distributionName: String?
+
+        public init(distributionName: String? = nil) {
+            self.distributionName = distributionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionName = "distributionName"
+        }
+    }
+
+    public struct GetDistributionLatestCacheResetResult: AWSDecodableShape {
+
+        /// The timestamp of the last cache reset (e.g., 1479734909.17) in Unix time format.
+        public let createTime: TimeStamp?
+        /// The status of the last cache reset.
+        public let status: String?
+
+        public init(createTime: TimeStamp? = nil, status: String? = nil) {
+            self.createTime = createTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case status = "status"
+        }
+    }
+
+    public struct GetDistributionMetricDataRequest: AWSEncodableShape {
+
+        /// The name of the distribution for which to get metric data. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String
+        /// The end of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        public let endTime: TimeStamp
+        /// The metric for which you want to return information. Valid distribution metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     Requests  - The total number of viewer requests received by your Lightsail distribution, for all HTTP methods, and for both HTTP and HTTPS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesDownloaded  - The number of bytes downloaded by viewers for GET, HEAD, and OPTIONS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesUploaded   - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     TotalErrorRate  - The percentage of all viewer requests for which the response's HTTP status code was 4xx or 5xx.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     4xxErrorRate  - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     5xxErrorRate  - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.  
+        public let metricName: DistributionMetricName
+        /// The granularity, in seconds, for the metric data points that will be returned.
+        public let period: Int
+        /// The start of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        public let startTime: TimeStamp
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.  
+        public let statistics: [MetricStatistic]
+        /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
+        public let unit: MetricUnit
+
+        public init(distributionName: String, endTime: TimeStamp, metricName: DistributionMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+            self.distributionName = distributionName
+            self.endTime = endTime
+            self.metricName = metricName
+            self.period = period
+            self.startTime = startTime
+            self.statistics = statistics
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(self.period, name: "period", parent: name, max: 86400)
+            try validate(self.period, name: "period", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionName = "distributionName"
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
+        }
+    }
+
+    public struct GetDistributionMetricDataResult: AWSDecodableShape {
+
+        /// An array of objects that describe the metric data returned.
+        public let metricData: [MetricDatapoint]?
+        /// The name of the metric returned.
+        public let metricName: DistributionMetricName?
+
+        public init(metricData: [MetricDatapoint]? = nil, metricName: DistributionMetricName? = nil) {
+            self.metricData = metricData
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricData = "metricData"
+            case metricName = "metricName"
+        }
+    }
+
+    public struct GetDistributionsRequest: AWSEncodableShape {
+
+        /// The name of the distribution for which to return information. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes all of your distributions in the AWS Region where the request is made.
+        public let distributionName: String?
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
+
+        public init(distributionName: String? = nil, pageToken: String? = nil) {
+            self.distributionName = distributionName
+            self.pageToken = pageToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionName = "distributionName"
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetDistributionsResult: AWSDecodableShape {
+
+        /// An array of objects that describe your distributions.
+        public let distributions: [LightsailDistribution]?
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDistributions request and specify the next page token using the pageToken parameter.
+        public let nextPageToken: String?
+
+        public init(distributions: [LightsailDistribution]? = nil, nextPageToken: String? = nil) {
+            self.distributions = distributions
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributions = "distributions"
             case nextPageToken = "nextPageToken"
         }
     }
@@ -4812,6 +5590,24 @@ extension Lightsail {
         }
     }
 
+    public struct HeaderObject: AWSEncodableShape & AWSDecodableShape {
+
+        /// The specific headers to forward to your distribution's origin.
+        public let headersAllowList: [HeaderEnum]?
+        /// The headers that you want your distribution to forward to your origin and base caching on. You can configure your distribution to do one of the following:     all  - Forward all headers to your origin.     none  - Forward only the default headers.     allow-list  - Forward only the headers you specify using the headersAllowList parameter.  
+        public let option: ForwardValues?
+
+        public init(headersAllowList: [HeaderEnum]? = nil, option: ForwardValues? = nil) {
+            self.headersAllowList = headersAllowList
+            self.option = option
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headersAllowList = "headersAllowList"
+            case option = "option"
+        }
+    }
+
     public struct HostKeyAttributes: AWSDecodableShape {
 
         /// The SSH host key algorithm or the RDP certificate format. For SSH host keys, the algorithm may be ssh-rsa, ecdsa-sha2-nistp256, ssh-ed25519, etc. For RDP certificates, the algorithm is always x509-cert.
@@ -4886,6 +5682,32 @@ extension Lightsail {
         }
     }
 
+    public struct InputOrigin: AWSEncodableShape {
+
+        /// The name of the origin resource.
+        public let name: String?
+        /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
+        public let protocolPolicy: OriginProtocolPolicyEnum?
+        /// The AWS Region name of the origin resource.
+        public let regionName: RegionName?
+
+        public init(name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil) {
+            self.name = name
+            self.protocolPolicy = protocolPolicy
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case protocolPolicy = "protocolPolicy"
+            case regionName = "regionName"
+        }
+    }
+
     public struct Instance: AWSDecodableShape {
 
         /// An array of objects representing the add-ons enabled on the instance.
@@ -4898,7 +5720,7 @@ extension Lightsail {
         public let blueprintName: String?
         /// The bundle for the instance (e.g., micro_1_0).
         public let bundleId: String?
-        /// The timestamp when the instance was created (e.g., 1479734909.17).
+        /// The timestamp when the instance was created (e.g., 1479734909.17) in Unix time format.
         public let createdAt: TimeStamp?
         /// The size of the vCPU and the amount of RAM for the instance.
         public let hardware: InstanceHardware?
@@ -5381,6 +6203,92 @@ extension Lightsail {
         }
     }
 
+    public struct LightsailDistribution: AWSDecodableShape {
+
+        /// Indicates whether the bundle that is currently applied to your distribution, specified using the distributionName parameter, can be changed to another bundle. Use the UpdateDistributionBundle action to change your distribution's bundle.
+        public let ableToUpdateBundle: Bool?
+        /// The alternate domain names of the distribution.
+        public let alternativeDomainNames: [String]?
+        /// The Amazon Resource Name (ARN) of the distribution.
+        public let arn: String?
+        /// The ID of the bundle currently applied to the distribution.
+        public let bundleId: String?
+        /// An array of objects that describe the per-path cache behavior of the distribution.
+        public let cacheBehaviors: [CacheBehaviorPerPath]?
+        /// An object that describes the cache behavior settings of the distribution.
+        public let cacheBehaviorSettings: CacheSettings?
+        /// The name of the SSL/TLS certificate attached to the distribution, if any.
+        public let certificateName: String?
+        /// The timestamp when the distribution was created.
+        public let createdAt: TimeStamp?
+        /// An object that describes the default cache behavior of the distribution.
+        public let defaultCacheBehavior: CacheBehavior?
+        /// The domain name of the distribution.
+        public let domainName: String?
+        /// Indicates whether the distribution is enabled.
+        public let isEnabled: Bool?
+        /// An object that describes the location of the distribution, such as the AWS Region and Availability Zone.  Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region. 
+        public let location: ResourceLocation?
+        /// The name of the distribution.
+        public let name: String?
+        /// An object that describes the origin resource of the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
+        public let origin: Origin?
+        /// The public DNS of the origin.
+        public let originPublicDNS: String?
+        /// The Lightsail resource type (e.g., Distribution).
+        public let resourceType: ResourceType?
+        /// The status of the distribution.
+        public let status: String?
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail distribution. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+
+        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: TimeStamp? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+            self.ableToUpdateBundle = ableToUpdateBundle
+            self.alternativeDomainNames = alternativeDomainNames
+            self.arn = arn
+            self.bundleId = bundleId
+            self.cacheBehaviors = cacheBehaviors
+            self.cacheBehaviorSettings = cacheBehaviorSettings
+            self.certificateName = certificateName
+            self.createdAt = createdAt
+            self.defaultCacheBehavior = defaultCacheBehavior
+            self.domainName = domainName
+            self.isEnabled = isEnabled
+            self.location = location
+            self.name = name
+            self.origin = origin
+            self.originPublicDNS = originPublicDNS
+            self.resourceType = resourceType
+            self.status = status
+            self.supportCode = supportCode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ableToUpdateBundle = "ableToUpdateBundle"
+            case alternativeDomainNames = "alternativeDomainNames"
+            case arn = "arn"
+            case bundleId = "bundleId"
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case certificateName = "certificateName"
+            case createdAt = "createdAt"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case domainName = "domainName"
+            case isEnabled = "isEnabled"
+            case location = "location"
+            case name = "name"
+            case origin = "origin"
+            case originPublicDNS = "originPublicDNS"
+            case resourceType = "resourceType"
+            case status = "status"
+            case supportCode = "supportCode"
+            case tags = "tags"
+        }
+    }
+
     public struct LoadBalancer: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -5465,7 +6373,7 @@ extension Lightsail {
         public let domainName: String?
         /// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing the records.
         public let domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]?
-        /// The reason for the SSL/TLS certificate validation failure.
+        /// The validation failure reason, if any, of the certificate. The following failure reasons are possible:     NO_AVAILABLE_CONTACTS  - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED  - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the AWS Support Center to contact AWS Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED  - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the AWS Support Center and create a case.     INVALID_PUBLIC_DOMAIN  - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER  - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.   
         public let failureReason: LoadBalancerTlsCertificateFailureReason?
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
@@ -5473,7 +6381,7 @@ extension Lightsail {
         public let issuedAt: TimeStamp?
         /// The issuer of the certificate.
         public let issuer: String?
-        /// The algorithm that was used to generate the key pair (the public and private key).
+        /// The algorithm used to generate the key pair (the public and private key).
         public let keyAlgorithm: String?
         /// The load balancer name where your SSL/TLS certificate is attached.
         public let loadBalancerName: String?
@@ -5485,13 +6393,13 @@ extension Lightsail {
         public let notAfter: TimeStamp?
         /// The timestamp when the SSL/TLS certificate is first valid.
         public let notBefore: TimeStamp?
-        /// An object containing information about the status of Lightsail's managed renewal for the certificate.
+        /// An object that describes the status of the certificate renewal managed by Lightsail.
         public let renewalSummary: LoadBalancerTlsCertificateRenewalSummary?
         /// The resource type (e.g., LoadBalancerTlsCertificate).     Instance  - A Lightsail instance (a virtual private server)     StaticIp  - A static IP address     KeyPair  - The key pair used to connect to a Lightsail instance     InstanceSnapshot  - A Lightsail instance snapshot     Domain  - A DNS zone     PeeredVpc  - A peered VPC     LoadBalancer  - A Lightsail load balancer     LoadBalancerTlsCertificate  - An SSL/TLS certificate associated with a Lightsail load balancer     Disk  - A Lightsail block storage disk     DiskSnapshot  - A block storage disk snapshot  
         public let resourceType: ResourceType?
-        /// The reason the certificate was revoked. Valid values are below.
+        /// The reason the certificate was revoked. This value is present only when the certificate status is REVOKED.
         public let revocationReason: LoadBalancerTlsCertificateRevocationReason?
-        /// The timestamp when the SSL/TLS certificate was revoked.
+        /// The timestamp when the certificate was revoked. This value is present only when the certificate status is REVOKED.
         public let revokedAt: TimeStamp?
         /// The serial number of the certificate.
         public let serial: String?
@@ -5501,7 +6409,7 @@ extension Lightsail {
         public let status: LoadBalancerTlsCertificateStatus?
         /// The name of the entity that is associated with the public key contained in the certificate.
         public let subject: String?
-        /// One or more domains or subdomains included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CNAME) of the certificate and additional domain names that can be used to connect to the website, such as example.com, www.example.com, or m.example.com.
+        /// An array of strings that specify the alternate domains (e.g., example2.com) and subdomains (e.g., blog.example.com) for the certificate.
         public let subjectAlternativeNames: [String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
@@ -5617,7 +6525,7 @@ extension Lightsail {
 
         /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
         public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
-        /// The status of Lightsail's managed renewal of the certificate. Valid values are listed below.
+        /// The renewal status of the certificate. The following renewal status are possible:     PendingAutoRenewal  - Lightsail is attempting to automatically validate the domain names of the certificate. No further action is required.      PendingValidation  - Lightsail couldn't automatically validate one or more domain names of the certificate. You must take action to validate these domain names or the certificate won't be renewed. Check to make sure your certificate's domain validation records exist in your domain's DNS, and that your certificate remains in use.     Success  - All domain names in the certificate are validated, and Lightsail renewed the certificate. No further action is required.      Failed  - One or more domain names were not validated before the certificate expired, and Lightsail did not renew the certificate. You can request a new certificate using the CreateCertificate action.  
         public let renewalStatus: LoadBalancerTlsCertificateRenewalStatus?
 
         public init(domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]? = nil, renewalStatus: LoadBalancerTlsCertificateRenewalStatus? = nil) {
@@ -5833,6 +6741,32 @@ extension Lightsail {
             case resourceType = "resourceType"
             case status = "status"
             case statusChangedAt = "statusChangedAt"
+        }
+    }
+
+    public struct Origin: AWSDecodableShape {
+
+        /// The name of the origin resource.
+        public let name: String?
+        /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
+        public let protocolPolicy: OriginProtocolPolicyEnum?
+        /// The AWS Region name of the origin resource.
+        public let regionName: RegionName?
+        /// The resource type of the origin resource (e.g., Instance).
+        public let resourceType: ResourceType?
+
+        public init(name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, resourceType: ResourceType? = nil) {
+            self.name = name
+            self.protocolPolicy = protocolPolicy
+            self.regionName = regionName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case protocolPolicy = "protocolPolicy"
+            case regionName = "regionName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -6066,6 +7000,24 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
+        }
+    }
+
+    public struct QueryStringObject: AWSEncodableShape & AWSDecodableShape {
+
+        /// Indicates whether the distribution forwards and caches based on query strings.
+        public let option: Bool?
+        /// The specific query strings that the distribution forwards to the origin. Your distribution will cache content based on the specified query strings. If the option parameter is true, then your distribution forwards all query strings, regardless of what you specify using the queryStringsAllowList parameter.
+        public let queryStringsAllowList: [String]?
+
+        public init(option: Bool? = nil, queryStringsAllowList: [String]? = nil) {
+            self.option = option
+            self.queryStringsAllowList = queryStringsAllowList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case option = "option"
+            case queryStringsAllowList = "queryStringsAllowList"
         }
     }
 
@@ -6571,6 +7523,72 @@ extension Lightsail {
         }
     }
 
+    public struct RenewalSummary: AWSDecodableShape {
+
+        /// An array of objects that describe the domain validation records of the certificate.
+        public let domainValidationRecords: [DomainValidationRecord]?
+        /// The renewal status of the certificate. The following renewal status are possible:     PendingAutoRenewal  - Lightsail is attempting to automatically validate the domain names of the certificate. No further action is required.      PendingValidation  - Lightsail couldn't automatically validate one or more domain names of the certificate. You must take action to validate these domain names or the certificate won't be renewed. Check to make sure your certificate's domain validation records exist in your domain's DNS, and that your certificate remains in use.     Success  - All domain names in the certificate are validated, and Lightsail renewed the certificate. No further action is required.      Failed  - One or more domain names were not validated before the certificate expired, and Lightsail did not renew the certificate. You can request a new certificate using the CreateCertificate action.  
+        public let renewalStatus: RenewalStatus?
+        /// The reason for the renewal status of the certificate.
+        public let renewalStatusReason: String?
+        /// The timestamp when the certificate was last updated.
+        public let updatedAt: TimeStamp?
+
+        public init(domainValidationRecords: [DomainValidationRecord]? = nil, renewalStatus: RenewalStatus? = nil, renewalStatusReason: String? = nil, updatedAt: TimeStamp? = nil) {
+            self.domainValidationRecords = domainValidationRecords
+            self.renewalStatus = renewalStatus
+            self.renewalStatusReason = renewalStatusReason
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainValidationRecords = "domainValidationRecords"
+            case renewalStatus = "renewalStatus"
+            case renewalStatusReason = "renewalStatusReason"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ResetDistributionCacheRequest: AWSEncodableShape {
+
+        /// The name of the distribution for which to reset cache. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String?
+
+        public init(distributionName: String? = nil) {
+            self.distributionName = distributionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionName = "distributionName"
+        }
+    }
+
+    public struct ResetDistributionCacheResult: AWSDecodableShape {
+
+        /// The timestamp of the reset cache request (e.g., 1479734909.17) in Unix time format.
+        public let createTime: TimeStamp?
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operation: Operation?
+        /// The status of the reset cache request.
+        public let status: String?
+
+        public init(createTime: TimeStamp? = nil, operation: Operation? = nil, status: String? = nil) {
+            self.createTime = createTime
+            self.operation = operation
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case operation = "operation"
+            case status = "status"
+        }
+    }
+
     public struct ResourceLocation: AWSDecodableShape {
 
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
@@ -6586,6 +7604,28 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
             case regionName = "regionName"
+        }
+    }
+
+    public struct ResourceRecord: AWSDecodableShape {
+
+        /// The name of the record.
+        public let name: String?
+        /// The DNS record type.
+        public let `type`: String?
+        /// The value for the DNS record.
+        public let value: String?
+
+        public init(name: String? = nil, type: String? = nil, value: String? = nil) {
+            self.name = name
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+            case value = "value"
         }
     }
 
@@ -6955,6 +7995,95 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct UpdateDistributionBundleRequest: AWSEncodableShape {
+
+        /// The bundle ID of the new bundle to apply to your distribution. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
+        public let bundleId: String?
+        /// The name of the distribution for which to update the bundle. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String?
+
+        public init(bundleId: String? = nil, distributionName: String? = nil) {
+            self.bundleId = bundleId
+            self.distributionName = distributionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+            case distributionName = "distributionName"
+        }
+    }
+
+    public struct UpdateDistributionBundleResult: AWSDecodableShape {
+
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct UpdateDistributionRequest: AWSEncodableShape {
+
+        /// An array of objects that describe the per-path cache behavior for the distribution.
+        public let cacheBehaviors: [CacheBehaviorPerPath]?
+        /// An object that describes the cache behavior settings for the distribution.  The cacheBehaviorSettings specified in your UpdateDistributionRequest will replace your distribution's existing settings. 
+        public let cacheBehaviorSettings: CacheSettings?
+        /// An object that describes the default cache behavior for the distribution.
+        public let defaultCacheBehavior: CacheBehavior?
+        /// The name of the distribution to update. Use the GetDistributions action to get a list of distribution names that you can specify.
+        public let distributionName: String
+        /// Indicates whether to enable the distribution.
+        public let isEnabled: Bool?
+        /// An object that describes the origin resource for the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
+        public let origin: InputOrigin?
+
+        public init(cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior? = nil, distributionName: String, isEnabled: Bool? = nil, origin: InputOrigin? = nil) {
+            self.cacheBehaviors = cacheBehaviors
+            self.cacheBehaviorSettings = cacheBehaviorSettings
+            self.defaultCacheBehavior = defaultCacheBehavior
+            self.distributionName = distributionName
+            self.isEnabled = isEnabled
+            self.origin = origin
+        }
+
+        public func validate(name: String) throws {
+            try self.cacheBehaviorSettings?.validate(name: "\(name).cacheBehaviorSettings")
+            try validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try self.origin?.validate(name: "\(name).origin")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case distributionName = "distributionName"
+            case isEnabled = "isEnabled"
+            case origin = "origin"
+        }
+    }
+
+    public struct UpdateDistributionResult: AWSDecodableShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 

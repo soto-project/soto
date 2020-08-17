@@ -28,14 +28,17 @@ extension PersonalizeRuntime {
         public let campaignArn: String
         /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
-        /// A list of items (itemId's) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. The maximum is 500.
+        /// The Amazon Resource Name (ARN) of a filter you created to include or exclude items from recommendations for a given user.
+        public let filterArn: String?
+        /// A list of items (by itemId) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. The maximum is 500.
         public let inputList: [String]
         /// The user for which you want the campaign to provide a personalized ranking.
         public let userId: String
 
-        public init(campaignArn: String, context: [String: String]? = nil, inputList: [String], userId: String) {
+        public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, inputList: [String], userId: String) {
             self.campaignArn = campaignArn
             self.context = context
+            self.filterArn = filterArn
             self.inputList = inputList
             self.userId = userId
         }
@@ -48,6 +51,8 @@ extension PersonalizeRuntime {
                 try validate($0.key, name: "context.key", parent: name, pattern: "[A-Za-z\\d_]+")
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try validate(self.filterArn, name: "filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.inputList.forEach {
                 try validate($0, name: "inputList[]", parent: name, max: 256)
             }
@@ -57,6 +62,7 @@ extension PersonalizeRuntime {
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
             case context = "context"
+            case filterArn = "filterArn"
             case inputList = "inputList"
             case userId = "userId"
         }
@@ -66,13 +72,17 @@ extension PersonalizeRuntime {
 
         /// A list of items in order of most likely interest to the user. The maximum is 500.
         public let personalizedRanking: [PredictedItem]?
+        /// The ID of the recommendation.
+        public let recommendationId: String?
 
-        public init(personalizedRanking: [PredictedItem]? = nil) {
+        public init(personalizedRanking: [PredictedItem]? = nil, recommendationId: String? = nil) {
             self.personalizedRanking = personalizedRanking
+            self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case personalizedRanking = "personalizedRanking"
+            case recommendationId = "recommendationId"
         }
     }
 
@@ -82,7 +92,7 @@ extension PersonalizeRuntime {
         public let campaignArn: String
         /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
-        /// The ARN of the filter to apply to the returned recommendations. For more information, see Using Filters with Amazon Personalize.
+        /// The ARN of the filter to apply to the returned recommendations. For more information, see Using Filters with Amazon Personalize. When using this parameter, be sure the filter resource is ACTIVE.
         public let filterArn: String?
         /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
         public let itemId: String?
@@ -129,13 +139,17 @@ extension PersonalizeRuntime {
 
         /// A list of recommendations sorted in ascending order by prediction score. There can be a maximum of 500 items in the list.
         public let itemList: [PredictedItem]?
+        /// The ID of the recommendation.
+        public let recommendationId: String?
 
-        public init(itemList: [PredictedItem]? = nil) {
+        public init(itemList: [PredictedItem]? = nil, recommendationId: String? = nil) {
             self.itemList = itemList
+            self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case itemList = "itemList"
+            case recommendationId = "recommendationId"
         }
     }
 

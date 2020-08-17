@@ -136,6 +136,11 @@ public struct IoT {
         return client.execute(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///   Creates a Device Defender audit suppression. 
+    public func createAuditSuppression(_ input: CreateAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAuditSuppressionResponse> {
+        return client.execute(operation: "CreateAuditSuppression", path: "/audit/suppressions/create", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Creates an authorizer.
     public func createAuthorizer(_ input: CreateAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAuthorizerResponse> {
         return client.execute(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -176,7 +181,7 @@ public struct IoT {
         return client.execute(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Each mitigation action can apply only one type of change.
+    ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see Mitigation actions. Each mitigation action can apply only one type of change.
     public func createMitigationAction(_ input: CreateMitigationActionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMitigationActionResponse> {
         return client.execute(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -259,6 +264,11 @@ public struct IoT {
     ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
     public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
         return client.execute(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///   Deletes a Device Defender audit suppression. 
+    public func deleteAuditSuppression(_ input: DeleteAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAuditSuppressionResponse> {
+        return client.execute(operation: "DeleteAuditSuppression", path: "/audit/suppressions/delete", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an authorizer.
@@ -409,6 +419,11 @@ public struct IoT {
     ///  Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
     public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuditMitigationActionsTaskResponse> {
         return client.execute(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///   Gets information about a Device Defender audit suppression. 
+    public func describeAuditSuppression(_ input: DescribeAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuditSuppressionResponse> {
+        return client.execute(operation: "DescribeAuditSuppression", path: "/audit/suppressions/describe", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a Device Defender audit.
@@ -657,6 +672,11 @@ public struct IoT {
         return client.execute(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///   Lists your Device Defender audit listings. 
+    public func listAuditSuppressions(_ input: ListAuditSuppressionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditSuppressionsResponse> {
+        return client.execute(operation: "ListAuditSuppressions", path: "/audit/suppressions/list", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Lists the Device Defender audits that have been performed during a given time period.
     public func listAuditTasks(_ input: ListAuditTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditTasksResponse> {
         return client.execute(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -839,7 +859,7 @@ public struct IoT {
         return client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned. 
     public func listThings(_ input: ListThingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingsResponse> {
         return client.execute(operation: "ListThings", path: "/things", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -994,6 +1014,11 @@ public struct IoT {
         return client.execute(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///   Updates a Device Defender audit suppression. 
+    public func updateAuditSuppression(_ input: UpdateAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAuditSuppressionResponse> {
+        return client.execute(operation: "UpdateAuditSuppression", path: "/audit/suppressions/update", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Updates an authorizer.
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAuthorizerResponse> {
         return client.execute(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -1009,7 +1034,7 @@ public struct IoT {
         return client.execute(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
+    ///  Updates the status of the specified certificate. This operation is idempotent. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to AWS IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, AWS IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }

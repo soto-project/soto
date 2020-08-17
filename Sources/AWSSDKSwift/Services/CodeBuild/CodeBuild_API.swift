@@ -65,6 +65,11 @@ public struct CodeBuild {
         return client.execute(operation: "BatchDeleteBuilds", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Retrieves information about one or more batch builds.
+    public func batchGetBuildBatches(_ input: BatchGetBuildBatchesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetBuildBatchesOutput> {
+        return client.execute(operation: "BatchGetBuildBatches", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Gets information about one or more builds.
     public func batchGetBuilds(_ input: BatchGetBuildsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetBuildsOutput> {
         return client.execute(operation: "BatchGetBuilds", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -100,6 +105,11 @@ public struct CodeBuild {
         return client.execute(operation: "CreateWebhook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Deletes a batch build.
+    public func deleteBuildBatch(_ input: DeleteBuildBatchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBuildBatchOutput> {
+        return client.execute(operation: "DeleteBuildBatch", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///   Deletes a build project. When you delete a project, its builds are not deleted. 
     public func deleteProject(_ input: DeleteProjectInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProjectOutput> {
         return client.execute(operation: "DeleteProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -130,6 +140,11 @@ public struct CodeBuild {
         return client.execute(operation: "DeleteWebhook", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Retrieves one or more code coverage reports.
+    public func describeCodeCoverages(_ input: DescribeCodeCoveragesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCodeCoveragesOutput> {
+        return client.execute(operation: "DescribeCodeCoverages", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///   Returns a list of details about test cases for a report. 
     public func describeTestCases(_ input: DescribeTestCasesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeTestCasesOutput> {
         return client.execute(operation: "DescribeTestCases", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -148,6 +163,16 @@ public struct CodeBuild {
     ///  Resets the cache for a project.
     public func invalidateProjectCache(_ input: InvalidateProjectCacheInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InvalidateProjectCacheOutput> {
         return client.execute(operation: "InvalidateProjectCache", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves the identifiers of your build batches in the current region.
+    public func listBuildBatches(_ input: ListBuildBatchesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBuildBatchesOutput> {
+        return client.execute(operation: "ListBuildBatches", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves the identifiers of the build batches for a specific project.
+    public func listBuildBatchesForProject(_ input: ListBuildBatchesForProjectInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBuildBatchesForProjectOutput> {
+        return client.execute(operation: "ListBuildBatchesForProject", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
@@ -205,14 +230,34 @@ public struct CodeBuild {
         return client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Restarts a build.
+    public func retryBuild(_ input: RetryBuildInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RetryBuildOutput> {
+        return client.execute(operation: "RetryBuild", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Restarts a batch build.
+    public func retryBuildBatch(_ input: RetryBuildBatchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RetryBuildBatchOutput> {
+        return client.execute(operation: "RetryBuildBatch", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Starts running a build.
     public func startBuild(_ input: StartBuildInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartBuildOutput> {
         return client.execute(operation: "StartBuild", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Starts a batch build for a project.
+    public func startBuildBatch(_ input: StartBuildBatchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartBuildBatchOutput> {
+        return client.execute(operation: "StartBuildBatch", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Attempts to stop running a build.
     public func stopBuild(_ input: StopBuildInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopBuildOutput> {
         return client.execute(operation: "StopBuild", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Stops a running batch build.
+    public func stopBuildBatch(_ input: StopBuildBatchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopBuildBatchOutput> {
+        return client.execute(operation: "StopBuildBatch", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Changes the settings of a build project.

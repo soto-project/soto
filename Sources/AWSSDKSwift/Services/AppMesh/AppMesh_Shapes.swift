@@ -32,6 +32,13 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
+    public enum GatewayRouteStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable {
         case cancelled = "cancelled"
         case deadlineExceeded = "deadline-exceeded"
@@ -91,6 +98,27 @@ extension AppMesh {
 
     public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable {
         case connectionError = "connection-error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualGatewayListenerTlsMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case permissive = "PERMISSIVE"
+        case strict = "STRICT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualGatewayPortProtocol: String, CustomStringConvertible, Codable {
+        case grpc = "grpc"
+        case http = "http"
+        case http2 = "http2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualGatewayStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -285,6 +313,87 @@ extension AppMesh {
         }
     }
 
+    public struct CreateGatewayRouteInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name to use for the gateway route.
+        public let gatewayRouteName: String
+        /// The name of the service mesh to create the gateway route in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
+        ///                the account that you specify must share the mesh with your account before you can create 
+        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The gateway route specification to apply.
+        public let spec: GatewayRouteSpec
+        /// Optional metadata that you can apply to the gateway route to assist with categorization
+        ///          and organization. Each tag consists of a key and an optional value, both of which you
+        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
+        /// The name of the virtual gateway to associate the gateway route with. If the virtual
+        ///          gateway is in a shared mesh, then you must be the owner of the virtual gateway
+        ///          resource.
+        public let virtualGatewayName: String
+
+        public init(clientToken: String? = CreateGatewayRouteInput.idempotencyToken(), gatewayRouteName: String, meshName: String, meshOwner: String? = nil, spec: GatewayRouteSpec, tags: [TagRef]? = nil, virtualGatewayName: String) {
+            self.clientToken = clientToken
+            self.gatewayRouteName = gatewayRouteName
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.spec = spec
+            self.tags = tags
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, max: 255)
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, min: 1)
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try self.spec.validate(name: "\(name).spec")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case gatewayRouteName = "gatewayRouteName"
+            case spec = "spec"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "gatewayRoute"
+
+        /// The full description of your gateway route following the create call.
+        public let gatewayRoute: GatewayRouteData
+
+        public init(gatewayRoute: GatewayRouteData) {
+            self.gatewayRoute = gatewayRoute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoute = "gatewayRoute"
+        }
+    }
+
     public struct CreateMeshInput: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -418,6 +527,79 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case route = "route"
+        }
+    }
+
+    public struct CreateVirtualGatewayInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name of the service mesh to create the virtual gateway in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
+        ///                the account that you specify must share the mesh with your account before you can create 
+        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The virtual gateway specification to apply.
+        public let spec: VirtualGatewaySpec
+        /// Optional metadata that you can apply to the virtual gateway to assist with
+        ///          categorization and organization. Each tag consists of a key and an optional value, both of
+        ///          which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
+        /// The name to use for the virtual gateway.
+        public let virtualGatewayName: String
+
+        public init(clientToken: String? = CreateVirtualGatewayInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualGatewaySpec, tags: [TagRef]? = nil, virtualGatewayName: String) {
+            self.clientToken = clientToken
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.spec = spec
+            self.tags = tags
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try self.spec.validate(name: "\(name).spec")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case spec = "spec"
+            case tags = "tags"
+            case virtualGatewayName = "virtualGatewayName"
+        }
+    }
+
+    public struct CreateVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "virtualGateway"
+
+        /// The full description of your virtual gateway following the create call.
+        public let virtualGateway: VirtualGatewayData
+
+        public init(virtualGateway: VirtualGatewayData) {
+            self.virtualGateway = virtualGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -638,6 +820,61 @@ extension AppMesh {
         }
     }
 
+    public struct DeleteGatewayRouteInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayRouteName", location: .uri(locationName: "gatewayRouteName")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// The name of the gateway route to delete.
+        public let gatewayRouteName: String
+        /// The name of the service mesh to delete the gateway route from.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The name of the virtual gateway to delete the route from.
+        public let virtualGatewayName: String
+
+        public init(gatewayRouteName: String, meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
+            self.gatewayRouteName = gatewayRouteName
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, max: 255)
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, min: 1)
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "gatewayRoute"
+
+        /// The gateway route that was deleted.
+        public let gatewayRoute: GatewayRouteData
+
+        public init(gatewayRoute: GatewayRouteData) {
+            self.gatewayRoute = gatewayRoute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoute = "gatewayRoute"
+        }
+    }
+
     public struct DeleteMeshInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
@@ -726,6 +963,55 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case route = "route"
+        }
+    }
+
+    public struct DeleteVirtualGatewayInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// The name of the service mesh to delete the virtual gateway from.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The name of the virtual gateway to delete.
+        public let virtualGatewayName: String
+
+        public init(meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "virtualGateway"
+
+        /// The virtual gateway that was deleted.
+        public let virtualGateway: VirtualGatewayData
+
+        public init(virtualGateway: VirtualGatewayData) {
+            self.virtualGateway = virtualGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -874,6 +1160,61 @@ extension AppMesh {
         }
     }
 
+    public struct DescribeGatewayRouteInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayRouteName", location: .uri(locationName: "gatewayRouteName")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// The name of the gateway route to describe.
+        public let gatewayRouteName: String
+        /// The name of the service mesh that the gateway route resides in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The name of the virtual gateway that the gateway route is associated with.
+        public let virtualGatewayName: String
+
+        public init(gatewayRouteName: String, meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
+            self.gatewayRouteName = gatewayRouteName
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, max: 255)
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, min: 1)
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "gatewayRoute"
+
+        /// The full description of your gateway route.
+        public let gatewayRoute: GatewayRouteData
+
+        public init(gatewayRoute: GatewayRouteData) {
+            self.gatewayRoute = gatewayRoute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoute = "gatewayRoute"
+        }
+    }
+
     public struct DescribeMeshInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
@@ -969,6 +1310,55 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case route = "route"
+        }
+    }
+
+    public struct DescribeVirtualGatewayInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// The name of the service mesh that the gateway route resides in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The name of the virtual gateway to describe.
+        public let virtualGatewayName: String
+
+        public init(meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "virtualGateway"
+
+        /// The full description of your virtual gateway.
+        public let virtualGateway: VirtualGatewayData
+
+        public init(virtualGateway: VirtualGatewayData) {
+            self.virtualGateway = virtualGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -1198,6 +1588,220 @@ extension AppMesh {
         }
     }
 
+    public struct GatewayRouteData: AWSDecodableShape {
+
+        /// The name of the gateway route.
+        public let gatewayRouteName: String
+        /// The name of the service mesh that the resource resides in. 
+        public let meshName: String
+        public let metadata: ResourceMetadata
+        /// The specifications of the gateway route.
+        public let spec: GatewayRouteSpec
+        /// The status of the gateway route.
+        public let status: GatewayRouteStatus
+        /// The virtual gateway that the gateway route is associated with.
+        public let virtualGatewayName: String
+
+        public init(gatewayRouteName: String, meshName: String, metadata: ResourceMetadata, spec: GatewayRouteSpec, status: GatewayRouteStatus, virtualGatewayName: String) {
+            self.gatewayRouteName = gatewayRouteName
+            self.meshName = meshName
+            self.metadata = metadata
+            self.spec = spec
+            self.status = status
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRouteName = "gatewayRouteName"
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualGatewayName = "virtualGatewayName"
+        }
+    }
+
+    public struct GatewayRouteRef: AWSDecodableShape {
+
+        /// The full Amazon Resource Name (ARN) for the gateway route.
+        public let arn: String
+        /// The Unix epoch timestamp in seconds for when the resource was created.
+        public let createdAt: TimeStamp
+        /// The name of the gateway route.
+        public let gatewayRouteName: String
+        /// The Unix epoch timestamp in seconds for when the resource was last updated.
+        public let lastUpdatedAt: TimeStamp
+        /// The name of the service mesh that the resource resides in. 
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        public let resourceOwner: String
+        /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
+        public let version: Int64
+        /// The virtual gateway that the gateway route is associated with.
+        public let virtualGatewayName: String
+
+        public init(arn: String, createdAt: TimeStamp, gatewayRouteName: String, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.gatewayRouteName = gatewayRouteName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
+            self.version = version
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case gatewayRouteName = "gatewayRouteName"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualGatewayName = "virtualGatewayName"
+        }
+    }
+
+    public struct GatewayRouteSpec: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents the specification of a gRPC gateway route.
+        public let grpcRoute: GrpcGatewayRoute?
+        /// An object that represents the specification of an HTTP/2 gateway route.
+        public let http2Route: HttpGatewayRoute?
+        /// An object that represents the specification of an HTTP gateway route.
+        public let httpRoute: HttpGatewayRoute?
+
+        public init(grpcRoute: GrpcGatewayRoute? = nil, http2Route: HttpGatewayRoute? = nil, httpRoute: HttpGatewayRoute? = nil) {
+            self.grpcRoute = grpcRoute
+            self.http2Route = http2Route
+            self.httpRoute = httpRoute
+        }
+
+        public func validate(name: String) throws {
+            try self.grpcRoute?.validate(name: "\(name).grpcRoute")
+            try self.http2Route?.validate(name: "\(name).http2Route")
+            try self.httpRoute?.validate(name: "\(name).httpRoute")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grpcRoute = "grpcRoute"
+            case http2Route = "http2Route"
+            case httpRoute = "httpRoute"
+        }
+    }
+
+    public struct GatewayRouteStatus: AWSDecodableShape {
+
+        /// The current status for the gateway route.
+        public let status: GatewayRouteStatusCode
+
+        public init(status: GatewayRouteStatusCode) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct GatewayRouteTarget: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents a virtual service gateway route target.
+        public let virtualService: GatewayRouteVirtualService
+
+        public init(virtualService: GatewayRouteVirtualService) {
+            self.virtualService = virtualService
+        }
+
+        public func validate(name: String) throws {
+            try self.virtualService.validate(name: "\(name).virtualService")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualService = "virtualService"
+        }
+    }
+
+    public struct GatewayRouteVirtualService: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the virtual service that traffic is routed to.
+        public let virtualServiceName: String
+
+        public init(virtualServiceName: String) {
+            self.virtualServiceName = virtualServiceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.virtualServiceName, name: "virtualServiceName", parent: name, max: 255)
+            try validate(self.virtualServiceName, name: "virtualServiceName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct GrpcGatewayRoute: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents the action to take if a match is determined.
+        public let action: GrpcGatewayRouteAction
+        /// An object that represents the criteria for determining a request match.
+        public let match: GrpcGatewayRouteMatch
+
+        public init(action: GrpcGatewayRouteAction, match: GrpcGatewayRouteMatch) {
+            self.action = action
+            self.match = match
+        }
+
+        public func validate(name: String) throws {
+            try self.action.validate(name: "\(name).action")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+        }
+    }
+
+    public struct GrpcGatewayRouteAction: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents the target that traffic is routed to when a request matches the gateway route.
+        public let target: GatewayRouteTarget
+
+        public init(target: GatewayRouteTarget) {
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.target.validate(name: "\(name).target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "target"
+        }
+    }
+
+    public struct GrpcGatewayRouteMatch: AWSEncodableShape & AWSDecodableShape {
+
+        /// The fully qualified domain name for the service to match from the request.
+        public let serviceName: String?
+
+        public init(serviceName: String? = nil) {
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "serviceName"
+        }
+    }
+
     public struct GrpcRetryPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify at least one of the valid values.
@@ -1272,6 +1876,7 @@ extension AppMesh {
         public let match: GrpcRouteMatch
         /// An object that represents a retry policy.
         public let retryPolicy: GrpcRetryPolicy?
+        /// An object that represents types of timeouts. 
         public let timeout: GrpcTimeout?
 
         public init(action: GrpcRouteAction, match: GrpcRouteMatch, retryPolicy: GrpcRetryPolicy? = nil, timeout: GrpcTimeout? = nil) {
@@ -1422,7 +2027,9 @@ extension AppMesh {
 
     public struct GrpcTimeout: AWSEncodableShape & AWSDecodableShape {
 
+        /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public let idle: Duration?
+        /// An object that represents a per request timeout. The default value is 15 seconds. If you set a higher timeout, then make sure that the higher value is set for each App Mesh resource in a conversation. For example, if a virtual node backend uses a virtual router provider to route to another virtual node, then the timeout should be greater than 15 seconds for the source and destination virtual node and the route.
         public let perRequest: Duration?
 
         public init(idle: Duration? = nil, perRequest: Duration? = nil) {
@@ -1540,6 +2147,65 @@ extension AppMesh {
         }
     }
 
+    public struct HttpGatewayRoute: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents the action to take if a match is determined.
+        public let action: HttpGatewayRouteAction
+        /// An object that represents the criteria for determining a request match.
+        public let match: HttpGatewayRouteMatch
+
+        public init(action: HttpGatewayRouteAction, match: HttpGatewayRouteMatch) {
+            self.action = action
+            self.match = match
+        }
+
+        public func validate(name: String) throws {
+            try self.action.validate(name: "\(name).action")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+        }
+    }
+
+    public struct HttpGatewayRouteAction: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents the target that traffic is routed to when a request matches the gateway route.
+        public let target: GatewayRouteTarget
+
+        public init(target: GatewayRouteTarget) {
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.target.validate(name: "\(name).target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "target"
+        }
+    }
+
+    public struct HttpGatewayRouteMatch: AWSEncodableShape & AWSDecodableShape {
+
+        /// Specifies the path to match requests with. This parameter must always start with
+        ///             /, which by itself matches all requests to the virtual service name. You
+        ///          can also match for path-based routing of requests. For example, if your virtual service
+        ///          name is my-service.local and you want the route to match requests to
+        ///             my-service.local/metrics, your prefix should be
+        ///          /metrics.
+        public let prefix: String
+
+        public init(prefix: String) {
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "prefix"
+        }
+    }
+
     public struct HttpRetryPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify at least one of the following values. 
@@ -1608,6 +2274,7 @@ extension AppMesh {
         public let match: HttpRouteMatch
         /// An object that represents a retry policy.
         public let retryPolicy: HttpRetryPolicy?
+        /// An object that represents types of timeouts. 
         public let timeout: HttpTimeout?
 
         public init(action: HttpRouteAction, match: HttpRouteMatch, retryPolicy: HttpRetryPolicy? = nil, timeout: HttpTimeout? = nil) {
@@ -1739,6 +2406,81 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case idle = "idle"
             case perRequest = "perRequest"
+        }
+    }
+
+    public struct ListGatewayRoutesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// The maximum number of results returned by ListGatewayRoutes in paginated
+        ///          output. When you use this parameter, ListGatewayRoutes returns only
+        ///             limit results in a single page along with a nextToken response
+        ///          element. You can see the remaining results of the initial request by sending another
+        ///             ListGatewayRoutes request with the returned nextToken value.
+        ///          This value can be between 1 and 100. If you don't use this
+        ///          parameter, ListGatewayRoutes returns up to 100 results and a
+        ///             nextToken value if applicable.
+        public let limit: Int?
+        /// The name of the service mesh to list gateway routes in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The nextToken value returned from a previous paginated
+        ///             ListGatewayRoutes request where limit was used and the results
+        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
+        ///          results that returned the nextToken value.
+        public let nextToken: String?
+        /// The name of the virtual gateway to list gateway routes in.
+        public let virtualGatewayName: String
+
+        public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil, virtualGatewayName: String) {
+            self.limit = limit
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.nextToken = nextToken
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name: "limit", parent: name, max: 100)
+            try validate(self.limit, name: "limit", parent: name, min: 1)
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGatewayRoutesOutput: AWSDecodableShape {
+
+        /// The list of existing gateway routes for the specified service mesh and virtual
+        ///          gateway.
+        public let gatewayRoutes: [GatewayRouteRef]
+        /// The nextToken value to include in a future ListGatewayRoutes
+        ///          request. When the results of a ListGatewayRoutes request exceed
+        ///             limit, you can use this value to retrieve the next page of results. This
+        ///          value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(gatewayRoutes: [GatewayRouteRef], nextToken: String? = nil) {
+            self.gatewayRoutes = gatewayRoutes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoutes = "gatewayRoutes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1931,6 +2673,74 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tags = "tags"
+        }
+    }
+
+    public struct ListVirtualGatewaysInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results returned by ListVirtualGateways in paginated
+        ///          output. When you use this parameter, ListVirtualGateways returns only
+        ///             limit results in a single page along with a nextToken response
+        ///          element. You can see the remaining results of the initial request by sending another
+        ///             ListVirtualGateways request with the returned nextToken value.
+        ///          This value can be between 1 and 100. If you don't use this
+        ///          parameter, ListVirtualGateways returns up to 100 results and
+        ///          a nextToken value if applicable.
+        public let limit: Int?
+        /// The name of the service mesh to list virtual gateways in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The nextToken value returned from a previous paginated
+        ///             ListVirtualGateways request where limit was used and the
+        ///          results exceeded the value of that parameter. Pagination continues from the end of the
+        ///          previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name: "limit", parent: name, max: 100)
+            try validate(self.limit, name: "limit", parent: name, min: 1)
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVirtualGatewaysOutput: AWSDecodableShape {
+
+        /// The nextToken value to include in a future ListVirtualGateways
+        ///          request. When the results of a ListVirtualGateways request exceed
+        ///             limit, you can use this value to retrieve the next page of results. This
+        ///          value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The list of existing virtual gateways for the specified service mesh.
+        public let virtualGateways: [VirtualGatewayRef]
+
+        public init(nextToken: String? = nil, virtualGateways: [VirtualGatewayRef]) {
+            self.nextToken = nextToken
+            self.virtualGateways = virtualGateways
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case virtualGateways = "virtualGateways"
         }
     }
 
@@ -2144,6 +2954,7 @@ extension AppMesh {
         public let healthCheck: HealthCheckPolicy?
         /// The port mapping information for the listener.
         public let portMapping: PortMapping
+        /// An object that represents timeouts for different protocols.
         public let timeout: ListenerTimeout?
         /// A reference to an object that represents the Transport Layer Security (TLS) properties for a listener.
         public let tls: ListenerTls?
@@ -2173,8 +2984,11 @@ extension AppMesh {
     public struct ListenerTimeout: AWSEncodableShape & AWSDecodableShape {
 
         public let grpc: GrpcTimeout?
+        /// An object that represents types of timeouts. 
         public let http: HttpTimeout?
+        /// An object that represents types of timeouts. 
         public let http2: HttpTimeout?
+        /// An object that represents types of timeouts. 
         public let tcp: TcpTimeout?
 
         public init(grpc: GrpcTimeout? = nil, http: HttpTimeout? = nil, http2: HttpTimeout? = nil, tcp: TcpTimeout? = nil) {
@@ -2469,8 +3283,7 @@ extension AppMesh {
         public let resourceOwner: String
         /// The unique identifier for the resource.
         public let uid: String
-        /// The version of the resource. Resources are created at version 1, and this version is
-        ///          incremented each time that they're updated.
+        /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
 
         public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshOwner: String, resourceOwner: String, uid: String, version: Int64) {
@@ -2721,6 +3534,7 @@ extension AppMesh {
 
         /// The action to take if a match is determined.
         public let action: TcpRouteAction
+        /// An object that represents types of timeouts. 
         public let timeout: TcpTimeout?
 
         public init(action: TcpRouteAction, timeout: TcpTimeout? = nil) {
@@ -2896,6 +3710,72 @@ extension AppMesh {
 
     }
 
+    public struct UpdateGatewayRouteInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayRouteName", location: .uri(locationName: "gatewayRouteName")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name of the gateway route to update.
+        public let gatewayRouteName: String
+        /// The name of the service mesh that the gateway route resides in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The new gateway route specification to apply. This overwrites the existing data.
+        public let spec: GatewayRouteSpec
+        /// The name of the virtual gateway that the gateway route is associated with.
+        public let virtualGatewayName: String
+
+        public init(clientToken: String? = UpdateGatewayRouteInput.idempotencyToken(), gatewayRouteName: String, meshName: String, meshOwner: String? = nil, spec: GatewayRouteSpec, virtualGatewayName: String) {
+            self.clientToken = clientToken
+            self.gatewayRouteName = gatewayRouteName
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.spec = spec
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, max: 255)
+            try validate(self.gatewayRouteName, name: "gatewayRouteName", parent: name, min: 1)
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try self.spec.validate(name: "\(name).spec")
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case spec = "spec"
+        }
+    }
+
+    public struct UpdateGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "gatewayRoute"
+
+        /// A full description of the gateway route that was updated.
+        public let gatewayRoute: GatewayRouteData
+
+        public init(gatewayRoute: GatewayRouteData) {
+            self.gatewayRoute = gatewayRoute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoute = "gatewayRoute"
+        }
+    }
+
     public struct UpdateMeshInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
@@ -3004,6 +3884,67 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case route = "route"
+        }
+    }
+
+    public struct UpdateVirtualGatewayInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name of the service mesh that the virtual gateway resides in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String?
+        /// The new virtual gateway specification to apply. This overwrites the existing
+        ///          data.
+        public let spec: VirtualGatewaySpec
+        /// The name of the virtual gateway to update.
+        public let virtualGatewayName: String
+
+        public init(clientToken: String? = UpdateVirtualGatewayInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualGatewaySpec, virtualGatewayName: String) {
+            self.clientToken = clientToken
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.spec = spec
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meshName, name: "meshName", parent: name, max: 255)
+            try validate(self.meshName, name: "meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name: "meshOwner", parent: name, min: 12)
+            try self.spec.validate(name: "\(name).spec")
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, max: 255)
+            try validate(self.virtualGatewayName, name: "virtualGatewayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case spec = "spec"
+        }
+    }
+
+    public struct UpdateVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "virtualGateway"
+
+        /// A full description of the virtual gateway that was updated.
+        public let virtualGateway: VirtualGatewayData
+
+        public init(virtualGateway: VirtualGatewayData) {
+            self.virtualGateway = virtualGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -3183,6 +4124,542 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case virtualService = "virtualService"
+        }
+    }
+
+    public struct VirtualGatewayAccessLog: AWSEncodableShape & AWSDecodableShape {
+
+        /// The file object to send virtual gateway access logs to.
+        public let file: VirtualGatewayFileAccessLog?
+
+        public init(file: VirtualGatewayFileAccessLog? = nil) {
+            self.file = file
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file = "file"
+        }
+    }
+
+    public struct VirtualGatewayBackendDefaults: AWSEncodableShape & AWSDecodableShape {
+
+        /// A reference to an object that represents a client policy.
+        public let clientPolicy: VirtualGatewayClientPolicy?
+
+        public init(clientPolicy: VirtualGatewayClientPolicy? = nil) {
+            self.clientPolicy = clientPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.clientPolicy?.validate(name: "\(name).clientPolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientPolicy = "clientPolicy"
+        }
+    }
+
+    public struct VirtualGatewayClientPolicy: AWSEncodableShape & AWSDecodableShape {
+
+        /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
+        public let tls: VirtualGatewayClientPolicyTls?
+
+        public init(tls: VirtualGatewayClientPolicyTls? = nil) {
+            self.tls = tls
+        }
+
+        public func validate(name: String) throws {
+            try self.tls?.validate(name: "\(name).tls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tls = "tls"
+        }
+    }
+
+    public struct VirtualGatewayClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
+
+        /// Whether the policy is enforced. The default is True, if a value isn't
+        ///          specified.
+        public let enforce: Bool?
+        /// One or more ports that the policy is enforced for.
+        public let ports: [Int]?
+        /// A reference to an object that represents a TLS validation context.
+        public let validation: VirtualGatewayTlsValidationContext
+
+        public init(enforce: Bool? = nil, ports: [Int]? = nil, validation: VirtualGatewayTlsValidationContext) {
+            self.enforce = enforce
+            self.ports = ports
+            self.validation = validation
+        }
+
+        public func validate(name: String) throws {
+            try self.ports?.forEach {
+                try validate($0, name: "ports[]", parent: name, max: 65535)
+                try validate($0, name: "ports[]", parent: name, min: 1)
+            }
+            try self.validation.validate(name: "\(name).validation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforce = "enforce"
+            case ports = "ports"
+            case validation = "validation"
+        }
+    }
+
+    public struct VirtualGatewayData: AWSDecodableShape {
+
+        /// The name of the service mesh that the virtual gateway resides in.
+        public let meshName: String
+        public let metadata: ResourceMetadata
+        /// The specifications of the virtual gateway.
+        public let spec: VirtualGatewaySpec
+        /// The current status of the virtual gateway.
+        public let status: VirtualGatewayStatus
+        /// The name of the virtual gateway.
+        public let virtualGatewayName: String
+
+        public init(meshName: String, metadata: ResourceMetadata, spec: VirtualGatewaySpec, status: VirtualGatewayStatus, virtualGatewayName: String) {
+            self.meshName = meshName
+            self.metadata = metadata
+            self.spec = spec
+            self.status = status
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualGatewayName = "virtualGatewayName"
+        }
+    }
+
+    public struct VirtualGatewayFileAccessLog: AWSEncodableShape & AWSDecodableShape {
+
+        /// The file path to write access logs to. You can use /dev/stdout to send
+        ///          access logs to standard out and configure your Envoy container to use a log driver, such as
+        ///             awslogs, to export the access logs to a log storage service such as Amazon
+        ///          CloudWatch Logs. You can also specify a path in the Envoy container's file system to write
+        ///          the files to disk.
+        public let path: String
+
+        public init(path: String) {
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.path, name: "path", parent: name, max: 255)
+            try validate(self.path, name: "path", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "path"
+        }
+    }
+
+    public struct VirtualGatewayHealthCheckPolicy: AWSEncodableShape & AWSDecodableShape {
+
+        /// The number of consecutive successful health checks that must occur before declaring the
+        ///          listener healthy.
+        public let healthyThreshold: Int
+        /// The time period in milliseconds between each health check execution.
+        public let intervalMillis: Int64
+        /// The destination path for the health check request. This value is only used if the
+        ///          specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
+        public let path: String?
+        /// The destination port for the health check request. This port must match the port defined
+        ///          in the PortMapping for the listener.
+        public let port: Int?
+        /// The protocol for the health check request. If you specify grpc, then your
+        ///          service must conform to the GRPC Health
+        ///             Checking Protocol.
+        public let `protocol`: VirtualGatewayPortProtocol
+        /// The amount of time to wait when receiving a response from the health check, in
+        ///          milliseconds.
+        public let timeoutMillis: Int64
+        /// The number of consecutive failed health checks that must occur before declaring a
+        ///          virtual gateway unhealthy.
+        public let unhealthyThreshold: Int
+
+        public init(healthyThreshold: Int, intervalMillis: Int64, path: String? = nil, port: Int? = nil, protocol: VirtualGatewayPortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int) {
+            self.healthyThreshold = healthyThreshold
+            self.intervalMillis = intervalMillis
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.timeoutMillis = timeoutMillis
+            self.unhealthyThreshold = unhealthyThreshold
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.healthyThreshold, name: "healthyThreshold", parent: name, max: 10)
+            try validate(self.healthyThreshold, name: "healthyThreshold", parent: name, min: 2)
+            try validate(self.intervalMillis, name: "intervalMillis", parent: name, max: 300000)
+            try validate(self.intervalMillis, name: "intervalMillis", parent: name, min: 5000)
+            try validate(self.port, name: "port", parent: name, max: 65535)
+            try validate(self.port, name: "port", parent: name, min: 1)
+            try validate(self.timeoutMillis, name: "timeoutMillis", parent: name, max: 60000)
+            try validate(self.timeoutMillis, name: "timeoutMillis", parent: name, min: 2000)
+            try validate(self.unhealthyThreshold, name: "unhealthyThreshold", parent: name, max: 10)
+            try validate(self.unhealthyThreshold, name: "unhealthyThreshold", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthyThreshold = "healthyThreshold"
+            case intervalMillis = "intervalMillis"
+            case path = "path"
+            case port = "port"
+            case `protocol` = "protocol"
+            case timeoutMillis = "timeoutMillis"
+            case unhealthyThreshold = "unhealthyThreshold"
+        }
+    }
+
+    public struct VirtualGatewayListener: AWSEncodableShape & AWSDecodableShape {
+
+        /// The health check information for the listener.
+        public let healthCheck: VirtualGatewayHealthCheckPolicy?
+        /// The port mapping information for the listener.
+        public let portMapping: VirtualGatewayPortMapping
+        /// A reference to an object that represents the Transport Layer Security (TLS) properties for the listener.
+        public let tls: VirtualGatewayListenerTls?
+
+        public init(healthCheck: VirtualGatewayHealthCheckPolicy? = nil, portMapping: VirtualGatewayPortMapping, tls: VirtualGatewayListenerTls? = nil) {
+            self.healthCheck = healthCheck
+            self.portMapping = portMapping
+            self.tls = tls
+        }
+
+        public func validate(name: String) throws {
+            try self.healthCheck?.validate(name: "\(name).healthCheck")
+            try self.portMapping.validate(name: "\(name).portMapping")
+            try self.tls?.validate(name: "\(name).tls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "healthCheck"
+            case portMapping = "portMapping"
+            case tls = "tls"
+        }
+    }
+
+    public struct VirtualGatewayListenerTls: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that represents a Transport Layer Security (TLS) certificate.
+        public let certificate: VirtualGatewayListenerTlsCertificate
+        /// Specify one of the following modes.
+        ///          
+        ///             
+        ///                
+        ///                   STRICT – Listener only accepts connections with TLS
+        ///                enabled. 
+        ///             
+        ///             
+        ///                
+        ///                   PERMISSIVE – Listener accepts connections with or
+        ///                without TLS enabled.
+        ///             
+        ///             
+        ///                
+        ///                   DISABLED – Listener only accepts connections without
+        ///                TLS. 
+        ///             
+        ///          
+        public let mode: VirtualGatewayListenerTlsMode
+
+        public init(certificate: VirtualGatewayListenerTlsCertificate, mode: VirtualGatewayListenerTlsMode) {
+            self.certificate = certificate
+            self.mode = mode
+        }
+
+        public func validate(name: String) throws {
+            try self.certificate.validate(name: "\(name).certificate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "certificate"
+            case mode = "mode"
+        }
+    }
+
+    public struct VirtualGatewayListenerTlsAcmCertificate: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+        }
+    }
+
+    public struct VirtualGatewayListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape {
+
+        /// A reference to an object that represents an AWS Certicate Manager (ACM) certificate.
+        public let acm: VirtualGatewayListenerTlsAcmCertificate?
+        /// A reference to an object that represents a local file certificate.
+        public let file: VirtualGatewayListenerTlsFileCertificate?
+
+        public init(acm: VirtualGatewayListenerTlsAcmCertificate? = nil, file: VirtualGatewayListenerTlsFileCertificate? = nil) {
+            self.acm = acm
+            self.file = file
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acm = "acm"
+            case file = "file"
+        }
+    }
+
+    public struct VirtualGatewayListenerTlsFileCertificate: AWSEncodableShape & AWSDecodableShape {
+
+        /// The certificate chain for the certificate.
+        public let certificateChain: String
+        /// The private key for a certificate stored on the file system of the mesh endpoint that
+        ///          the proxy is running on.
+        public let privateKey: String
+
+        public init(certificateChain: String, privateKey: String) {
+            self.certificateChain = certificateChain
+            self.privateKey = privateKey
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateChain, name: "certificateChain", parent: name, max: 255)
+            try validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
+            try validate(self.privateKey, name: "privateKey", parent: name, max: 255)
+            try validate(self.privateKey, name: "privateKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateChain = "certificateChain"
+            case privateKey = "privateKey"
+        }
+    }
+
+    public struct VirtualGatewayLogging: AWSEncodableShape & AWSDecodableShape {
+
+        /// The access log configuration.
+        public let accessLog: VirtualGatewayAccessLog?
+
+        public init(accessLog: VirtualGatewayAccessLog? = nil) {
+            self.accessLog = accessLog
+        }
+
+        public func validate(name: String) throws {
+            try self.accessLog?.validate(name: "\(name).accessLog")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLog = "accessLog"
+        }
+    }
+
+    public struct VirtualGatewayPortMapping: AWSEncodableShape & AWSDecodableShape {
+
+        /// The port used for the port mapping. Specify one protocol.
+        public let port: Int
+        /// The protocol used for the port mapping.
+        public let `protocol`: VirtualGatewayPortProtocol
+
+        public init(port: Int, protocol: VirtualGatewayPortProtocol) {
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.port, name: "port", parent: name, max: 65535)
+            try validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "port"
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct VirtualGatewayRef: AWSDecodableShape {
+
+        /// The full Amazon Resource Name (ARN) for the resource.
+        public let arn: String
+        /// The Unix epoch timestamp in seconds for when the resource was created.
+        public let createdAt: TimeStamp
+        /// The Unix epoch timestamp in seconds for when the resource was last updated.
+        public let lastUpdatedAt: TimeStamp
+        /// The name of the service mesh that the resource resides in.
+        public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        public let resourceOwner: String
+        /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
+        public let version: Int64
+        /// The name of the resource.
+        public let virtualGatewayName: String
+
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
+            self.version = version
+            self.virtualGatewayName = virtualGatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualGatewayName = "virtualGatewayName"
+        }
+    }
+
+    public struct VirtualGatewaySpec: AWSEncodableShape & AWSDecodableShape {
+
+        /// A reference to an object that represents the defaults for backends.
+        public let backendDefaults: VirtualGatewayBackendDefaults?
+        /// The listeners that the mesh endpoint is expected to receive inbound traffic from. You
+        ///          can specify one listener.
+        public let listeners: [VirtualGatewayListener]
+        public let logging: VirtualGatewayLogging?
+
+        public init(backendDefaults: VirtualGatewayBackendDefaults? = nil, listeners: [VirtualGatewayListener], logging: VirtualGatewayLogging? = nil) {
+            self.backendDefaults = backendDefaults
+            self.listeners = listeners
+            self.logging = logging
+        }
+
+        public func validate(name: String) throws {
+            try self.backendDefaults?.validate(name: "\(name).backendDefaults")
+            try self.listeners.forEach {
+                try $0.validate(name: "\(name).listeners[]")
+            }
+            try validate(self.listeners, name: "listeners", parent: name, max: 1)
+            try validate(self.listeners, name: "listeners", parent: name, min: 0)
+            try self.logging?.validate(name: "\(name).logging")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendDefaults = "backendDefaults"
+            case listeners = "listeners"
+            case logging = "logging"
+        }
+    }
+
+    public struct VirtualGatewayStatus: AWSDecodableShape {
+
+        /// The current status.
+        public let status: VirtualGatewayStatusCode
+
+        public init(status: VirtualGatewayStatusCode) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct VirtualGatewayTlsValidationContext: AWSEncodableShape & AWSDecodableShape {
+
+        /// A reference to an object that represents a TLS validation context trust.
+        public let trust: VirtualGatewayTlsValidationContextTrust
+
+        public init(trust: VirtualGatewayTlsValidationContextTrust) {
+            self.trust = trust
+        }
+
+        public func validate(name: String) throws {
+            try self.trust.validate(name: "\(name).trust")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trust = "trust"
+        }
+    }
+
+    public struct VirtualGatewayTlsValidationContextAcmTrust: AWSEncodableShape & AWSDecodableShape {
+
+        /// One or more ACM Amazon Resource Name (ARN)s.
+        public let certificateAuthorityArns: [String]
+
+        public init(certificateAuthorityArns: [String]) {
+            self.certificateAuthorityArns = certificateAuthorityArns
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateAuthorityArns, name: "certificateAuthorityArns", parent: name, max: 3)
+            try validate(self.certificateAuthorityArns, name: "certificateAuthorityArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArns = "certificateAuthorityArns"
+        }
+    }
+
+    public struct VirtualGatewayTlsValidationContextFileTrust: AWSEncodableShape & AWSDecodableShape {
+
+        /// The certificate trust chain for a certificate stored on the file system of the virtual
+        ///          node that the proxy is running on.
+        public let certificateChain: String
+
+        public init(certificateChain: String) {
+            self.certificateChain = certificateChain
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateChain, name: "certificateChain", parent: name, max: 255)
+            try validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateChain = "certificateChain"
+        }
+    }
+
+    public struct VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+
+        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM)
+        ///          certificate.
+        public let acm: VirtualGatewayTlsValidationContextAcmTrust?
+        /// An object that represents a TLS validation context trust for a local file.
+        public let file: VirtualGatewayTlsValidationContextFileTrust?
+
+        public init(acm: VirtualGatewayTlsValidationContextAcmTrust? = nil, file: VirtualGatewayTlsValidationContextFileTrust? = nil) {
+            self.acm = acm
+            self.file = file
+        }
+
+        public func validate(name: String) throws {
+            try self.acm?.validate(name: "\(name).acm")
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acm = "acm"
+            case file = "file"
         }
     }
 

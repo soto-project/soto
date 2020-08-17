@@ -4757,7 +4757,7 @@ extension SSM {
 
     public struct DescribePatchGroupsRequest: AWSEncodableShape {
 
-        /// One or more filters. Use a filter to return a more specific list of results.
+        /// One or more filters. Use a filter to return a more specific list of results. For DescribePatchGroups,valid filter keys include the following:    NAME_PREFIX: The name of the patch group. Wildcards (*) are accepted.    OPERATING_SYSTEM: The supported operating system type to return results for. For valid operating system values, see GetDefaultPatchBaselineRequest$OperatingSystem in CreatePatchBaseline. Examples:    --filters Key=NAME_PREFIX,Values=MyPatchGroup*     --filters Key=OPERATING_SYSTEM,Values=AMAZON_LINUX_2     
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patch groups to return (per page).
         public let maxResults: Int?
@@ -5367,7 +5367,7 @@ extension SSM {
         public let commandId: String
         /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String
-        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned.
+        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned. Plugin names are also referred to as step names in Systems Manager documents.
         public let pluginName: String?
 
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
@@ -6826,7 +6826,7 @@ extension SSM {
         public let associationStatus: String?
         /// The fully qualified host name of the managed instance.
         public let computerName: String?
-        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instances. This call does not return the IAM role for EC2 instances. 
+        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instance. This call does not return the IAM role for EC2 instances. To retrieve the IAM role for an EC2 instance, use the Amazon EC2 DescribeInstances action. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the AWS CLI Command Reference.
         public let iamRole: String?
         /// The instance ID. 
         public let instanceId: String?
@@ -6840,7 +6840,7 @@ extension SSM {
         public let lastPingDateTime: TimeStamp?
         /// The last date the association was successfully run.
         public let lastSuccessfulAssociationExecutionDate: TimeStamp?
-        /// The name of the managed instance.
+        /// The name assigned to an on-premises server or virtual machine (VM) when it is activated as a Systems Manager managed instance. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed instance by specifying the Activation Code and Activation ID when you install SSM Agent on the instance, as explained in Install SSM Agent for a hybrid environment (Linux) and Install SSM Agent for a hybrid environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances action. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the AWS CLI Command Reference.
         public let name: String?
         /// Connection status of SSM Agent. 
         public let pingStatus: PingStatus?
@@ -7604,7 +7604,7 @@ extension SSM {
         public let commandId: String?
         /// (Optional) One or more filters. Use a filter to return a more specific list of results. 
         public let filters: [CommandFilter]?
-        /// (Optional) Lists commands issued against this instance ID.
+        /// (Optional) Lists commands issued against this instance ID.  You can't specify an instance ID in the same command that you specify Status = Pending. This is because the command has not reached the instance yet. 
         public let instanceId: String?
         /// (Optional) The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -10721,7 +10721,7 @@ extension SSM {
         public let documentName: String
         /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
-        /// The instance IDs where the command should run. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the AWS Systems Manager User Guide.
+        /// The IDs of the instances where the command should run. Specifying instance IDs is most useful when you are targeting a limited number of instances, though you can specify up to 50 IDs. To target a larger number of instances, or if you prefer not to list individual instance IDs, we recommend using the Targets option instead. Using Targets, which accepts tag key-value pairs to identify the instances to send commands to, you can a send command to tens, hundreds, or thousands of instances at once. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the AWS Systems Manager User Guide.
         public let instanceIds: [String]?
         /// (Optional) The maximum number of instances that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using concurrency controls in the AWS Systems Manager User Guide.
         public let maxConcurrency: String?
@@ -10739,7 +10739,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands.
         public let serviceRoleArn: String?
-        /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use targets, see Sending commands to a fleet in the AWS Systems Manager User Guide.
+        /// An array of search criteria that targets instances using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of instances at once. Using Targets, which accepts tag key-value pairs to identify instances, you can send a command to tens, hundreds, or thousands of instances at once. To send a command to a smaller number of instances, you can use the InstanceIds option instead. For more information about how to use targets, see Sending commands to a fleet in the AWS Systems Manager User Guide.
         public let targets: [Target]?
         /// If this time is reached and the command has not already started running, it will not run.
         public let timeoutSeconds: Int?

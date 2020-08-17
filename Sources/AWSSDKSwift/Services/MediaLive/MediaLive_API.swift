@@ -149,6 +149,11 @@ public struct MediaLive {
         return client.execute(operation: "DescribeInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Get the latest thumbnail data for the input device.
+    public func describeInputDeviceThumbnail(_ input: DescribeInputDeviceThumbnailRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
+        return client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{inputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Produces a summary of an Input Security Group
     public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInputSecurityGroupResponse> {
         return client.execute(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -287,5 +292,12 @@ public struct MediaLive {
     ///  Update reservation.
     public func updateReservation(_ input: UpdateReservationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateReservationResponse> {
         return client.execute(operation: "UpdateReservation", path: "/prod/reservations/{reservationId}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    //MARK: Streaming API Calls
+
+    ///  Get the latest thumbnail data for the input device.
+    public func describeInputDeviceThumbnailStreaming(_ input: DescribeInputDeviceThumbnailRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
+        return client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{inputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }

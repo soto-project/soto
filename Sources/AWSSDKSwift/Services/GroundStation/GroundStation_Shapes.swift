@@ -96,6 +96,20 @@ extension GroundStation {
 
     //MARK: Shapes
 
+    public struct AntennaDemodDecodeDetails: AWSDecodableShape {
+
+        /// Name of an antenna demod decode output node used in a contact.
+        public let outputNode: String?
+
+        public init(outputNode: String? = nil) {
+            self.outputNode = outputNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputNode = "outputNode"
+        }
+    }
+
     public struct AntennaDownlinkConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Object that describes a spectral Config.
@@ -143,15 +157,19 @@ extension GroundStation {
         public let spectrumConfig: UplinkSpectrumConfig
         /// EIRP of the target.
         public let targetEirp: Eirp
+        /// Whether or not uplink transmit is disabled.
+        public let transmitDisabled: Bool?
 
-        public init(spectrumConfig: UplinkSpectrumConfig, targetEirp: Eirp) {
+        public init(spectrumConfig: UplinkSpectrumConfig, targetEirp: Eirp, transmitDisabled: Bool? = nil) {
             self.spectrumConfig = spectrumConfig
             self.targetEirp = targetEirp
+            self.transmitDisabled = transmitDisabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case spectrumConfig = "spectrumConfig"
             case targetEirp = "targetEirp"
+            case transmitDisabled = "transmitDisabled"
         }
     }
 
@@ -168,6 +186,23 @@ extension GroundStation {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ConfigDetails: AWSDecodableShape {
+
+        /// Details for antenna demod decode Config in a contact.
+        public let antennaDemodDecodeDetails: AntennaDemodDecodeDetails?
+        public let endpointDetails: EndpointDetails?
+
+        public init(antennaDemodDecodeDetails: AntennaDemodDecodeDetails? = nil, endpointDetails: EndpointDetails? = nil) {
+            self.antennaDemodDecodeDetails = antennaDemodDecodeDetails
+            self.endpointDetails = endpointDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case antennaDemodDecodeDetails = "antennaDemodDecodeDetails"
+            case endpointDetails = "endpointDetails"
+        }
     }
 
     public struct ConfigIdResponse: AWSDecodableShape {
@@ -439,22 +474,43 @@ extension GroundStation {
         }
     }
 
+    public struct DataflowDetail: AWSDecodableShape {
+
+        public let destination: Destination?
+        public let source: Source?
+
+        public init(destination: Destination? = nil, source: Source? = nil) {
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case source = "source"
+        }
+    }
+
     public struct DataflowEndpoint: AWSEncodableShape & AWSDecodableShape {
 
         /// Socket address of a dataflow endpoint.
         public let address: SocketAddress?
+        /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+        public let mtu: Int?
         /// Name of a dataflow endpoint.
         public let name: String?
         /// Status of a dataflow endpoint.
         public let status: EndpointStatus?
 
-        public init(address: SocketAddress? = nil, name: String? = nil, status: EndpointStatus? = nil) {
+        public init(address: SocketAddress? = nil, mtu: Int? = nil, name: String? = nil, status: EndpointStatus? = nil) {
             self.address = address
+            self.mtu = mtu
             self.name = name
             self.status = status
         }
 
         public func validate(name: String) throws {
+            try validate(self.mtu, name: "mtu", parent: name, max: 1500)
+            try validate(self.mtu, name: "mtu", parent: name, min: 1400)
             try validate(self.name, name: "name", parent: name, max: 256)
             try validate(self.name, name: "name", parent: name, min: 1)
             try validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
@@ -462,6 +518,7 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case address = "address"
+            case mtu = "mtu"
             case name = "name"
             case status = "status"
         }
@@ -627,6 +684,8 @@ extension GroundStation {
         public let contactId: String?
         /// Status of a contact.
         public let contactStatus: ContactStatus?
+        /// List describing source and destination details for each dataflow edge.
+        public let dataflowList: [DataflowDetail]?
         /// End time of a contact.
         public let endTime: TimeStamp?
         /// Error message for a contact.
@@ -650,9 +709,10 @@ extension GroundStation {
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
+            self.dataflowList = dataflowList
             self.endTime = endTime
             self.errorMessage = errorMessage
             self.groundStation = groundStation
@@ -669,6 +729,7 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case contactId = "contactId"
             case contactStatus = "contactStatus"
+            case dataflowList = "dataflowList"
             case endTime = "endTime"
             case errorMessage = "errorMessage"
             case groundStation = "groundStation"
@@ -683,11 +744,37 @@ extension GroundStation {
         }
     }
 
+    public struct Destination: AWSDecodableShape {
+
+        /// Additional details for a Config, if type is dataflow endpoint or antenna demod decode.
+        public let configDetails: ConfigDetails?
+        /// UUID of a Config.
+        public let configId: String?
+        /// Type of a Config.
+        public let configType: ConfigCapabilityType?
+        /// Region of a dataflow destination.
+        public let dataflowDestinationRegion: String?
+
+        public init(configDetails: ConfigDetails? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil, dataflowDestinationRegion: String? = nil) {
+            self.configDetails = configDetails
+            self.configId = configId
+            self.configType = configType
+            self.dataflowDestinationRegion = dataflowDestinationRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configDetails = "configDetails"
+            case configId = "configId"
+            case configType = "configType"
+            case dataflowDestinationRegion = "dataflowDestinationRegion"
+        }
+    }
+
     public struct Eirp: AWSEncodableShape & AWSDecodableShape {
 
         /// Units of an EIRP.
         public let units: EirpUnits
-        /// Value of an EIRP.
+        /// Value of an EIRP. Valid values are between 20.0 to 50.0 dBW.
         public let value: Double
 
         public init(units: EirpUnits, value: Double) {
@@ -745,7 +832,7 @@ extension GroundStation {
 
         /// Frequency units.
         public let units: FrequencyUnits
-        /// Frequency value.
+        /// Frequency value. Valid values are between 2200 to 2300 MHz and 7750 to 8400 MHz for downlink and 2025 to 2120 MHz for uplink.
         public let value: Double
 
         public init(units: FrequencyUnits, value: Double) {
@@ -763,7 +850,7 @@ extension GroundStation {
 
         /// Frequency bandwidth units.
         public let units: BandwidthUnits
-        /// Frequency bandwidth value.
+        /// Frequency bandwidth value. AWS Ground Station currently has the following bandwidth limitations:   For AntennaDownlinkDemodDecodeconfig, valid values are between 125 kHz to 650 MHz.   For AntennaDownlinkconfig, valid values are between 10 kHz to 54 MHz.   For AntennaUplinkConfig, valid values are between 10 kHz to 54 MHz.  
         public let value: Double
 
         public init(units: BandwidthUnits, value: Double) {
@@ -1465,13 +1552,39 @@ extension GroundStation {
         }
     }
 
+    public struct Source: AWSDecodableShape {
+
+        /// Additional details for a Config, if type is dataflow endpoint or antenna demod decode.
+        public let configDetails: ConfigDetails?
+        /// UUID of a Config.
+        public let configId: String?
+        /// Type of a Config.
+        public let configType: ConfigCapabilityType?
+        /// Region of a dataflow source.
+        public let dataflowSourceRegion: String?
+
+        public init(configDetails: ConfigDetails? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil, dataflowSourceRegion: String? = nil) {
+            self.configDetails = configDetails
+            self.configId = configId
+            self.configType = configType
+            self.dataflowSourceRegion = dataflowSourceRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configDetails = "configDetails"
+            case configId = "configId"
+            case configType = "configType"
+            case dataflowSourceRegion = "dataflowSourceRegion"
+        }
+    }
+
     public struct SpectrumConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// Bandwidth of a spectral Config.
+        /// Bandwidth of a spectral Config. AWS Ground Station currently has the following bandwidth limitations:   For AntennaDownlinkDemodDecodeconfig, valid values are between 125 kHz to 650 MHz.   For AntennaDownlinkconfig valid values are between 10 kHz to 54 MHz.   For AntennaUplinkConfig, valid values are between 10 kHz to 54 MHz.  
         public let bandwidth: FrequencyBandwidth
-        /// Center frequency of a spectral Config.
+        /// Center frequency of a spectral Config. Valid values are between 2200 to 2300 MHz and 7750 to 8400 MHz for downlink and 2025 to 2120 MHz for uplink.
         public let centerFrequency: Frequency
-        /// Polarization of a spectral Config.
+        /// Polarization of a spectral Config. Capturing both "RIGHT_HAND" and "LEFT_HAND" polarization requires two separate configs.
         public let polarization: Polarization?
 
         public init(bandwidth: FrequencyBandwidth, centerFrequency: Frequency, polarization: Polarization? = nil) {
@@ -1667,9 +1780,9 @@ extension GroundStation {
 
     public struct UplinkSpectrumConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// Center frequency of an uplink spectral Config.
+        /// Center frequency of an uplink spectral Config. Valid values are between 2025 to 2120 MHz.
         public let centerFrequency: Frequency
-        /// Polarization of an uplink spectral Config.
+        /// Polarization of an uplink spectral Config. Capturing both "RIGHT_HAND" and "LEFT_HAND" polarization requires two separate configs.
         public let polarization: Polarization?
 
         public init(centerFrequency: Frequency, polarization: Polarization? = nil) {

@@ -369,6 +369,13 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum VoiceRecordingTrack: String, CustomStringConvertible, Codable {
+        case fromAgent = "FROM_AGENT"
+        case toAgent = "TO_AGENT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct ChatMessage: AWSEncodableShape {
@@ -811,7 +818,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability   
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT  
         public let currentMetrics: [CurrentMetric]
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
         public let filters: Filters
@@ -1722,6 +1729,45 @@ extension Connect {
         }
     }
 
+    public struct ResumeContactRecordingRequest: AWSEncodableShape {
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactId: String, initialContactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct ResumeContactRecordingResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct RoutingProfileSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the routing profile.
@@ -1772,7 +1818,7 @@ extension Connect {
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx 
+        /// The identifier of the contact flow for the chat.
         public let contactFlowId: String
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
@@ -1837,13 +1883,56 @@ extension Connect {
         }
     }
 
+    public struct StartContactRecordingRequest: AWSEncodableShape {
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// Who is being recorded.
+        public let voiceRecordingConfiguration: VoiceRecordingConfiguration
+
+        public init(contactId: String, initialContactId: String, instanceId: String, voiceRecordingConfiguration: VoiceRecordingConfiguration) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+            self.voiceRecordingConfiguration = voiceRecordingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+            case voiceRecordingConfiguration = "VoiceRecordingConfiguration"
+        }
+    }
+
+    public struct StartContactRecordingResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
 
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. If the contact is disconnected, a new contact is started.
         public let clientToken: String?
-        /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx 
+        /// The identifier of the contact flow for the outbound call.
         public let contactFlowId: String
         /// The phone number of the customer, in E.164 format.
         public let destinationPhoneNumber: String
@@ -1902,6 +1991,45 @@ extension Connect {
         }
     }
 
+    public struct StopContactRecordingRequest: AWSEncodableShape {
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactId: String, initialContactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StopContactRecordingResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct StopContactRequest: AWSEncodableShape {
 
         /// The ID of the contact.
@@ -1928,6 +2056,45 @@ extension Connect {
     }
 
     public struct StopContactResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct SuspendContactRecordingRequest: AWSEncodableShape {
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactId: String, initialContactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct SuspendContactRecordingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2331,6 +2498,20 @@ extension Connect {
             case arn = "Arn"
             case id = "Id"
             case username = "Username"
+        }
+    }
+
+    public struct VoiceRecordingConfiguration: AWSEncodableShape {
+
+        /// Identifies which track is being recorded.
+        public let voiceRecordingTrack: VoiceRecordingTrack?
+
+        public init(voiceRecordingTrack: VoiceRecordingTrack? = nil) {
+            self.voiceRecordingTrack = voiceRecordingTrack
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceRecordingTrack = "VoiceRecordingTrack"
         }
     }
 }

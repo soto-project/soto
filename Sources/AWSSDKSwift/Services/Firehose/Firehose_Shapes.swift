@@ -29,6 +29,12 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContentEncoding: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case gzip = "GZIP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case enabling = "ENABLING"
@@ -91,6 +97,12 @@ extension Firehose {
     public enum HECEndpointType: String, CustomStringConvertible, Codable {
         case raw = "Raw"
         case event = "Event"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpEndpointS3BackupMode: String, CustomStringConvertible, Codable {
+        case faileddataonly = "FailedDataOnly"
+        case alldata = "AllData"
         public var description: String { return self.rawValue }
     }
 
@@ -267,6 +279,8 @@ extension Firehose {
         public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
         /// The destination in Amazon S3. You can specify only one destination.
         public let extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration?
+        /// Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint destination. You can specify only one destination.
+        public let httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration?
         /// When a Kinesis data stream is used as the source for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
         public let kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration?
         /// The destination in Amazon Redshift. You can specify only one destination.
@@ -276,12 +290,13 @@ extension Firehose {
         /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to AWS resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
 
-        public init(deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
+            self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
             self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
             self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
             self.splunkDestinationConfiguration = splunkDestinationConfiguration
@@ -295,6 +310,7 @@ extension Firehose {
             try validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.elasticsearchDestinationConfiguration?.validate(name: "\(name).elasticsearchDestinationConfiguration")
             try self.extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
+            try self.httpEndpointDestinationConfiguration?.validate(name: "\(name).httpEndpointDestinationConfiguration")
             try self.kinesisStreamSourceConfiguration?.validate(name: "\(name).kinesisStreamSourceConfiguration")
             try self.redshiftDestinationConfiguration?.validate(name: "\(name).redshiftDestinationConfiguration")
             try self.splunkDestinationConfiguration?.validate(name: "\(name).splunkDestinationConfiguration")
@@ -311,6 +327,7 @@ extension Firehose {
             case deliveryStreamType = "DeliveryStreamType"
             case elasticsearchDestinationConfiguration = "ElasticsearchDestinationConfiguration"
             case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
+            case httpEndpointDestinationConfiguration = "HttpEndpointDestinationConfiguration"
             case kinesisStreamSourceConfiguration = "KinesisStreamSourceConfiguration"
             case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
             case splunkDestinationConfiguration = "SplunkDestinationConfiguration"
@@ -582,6 +599,8 @@ extension Firehose {
         public let elasticsearchDestinationDescription: ElasticsearchDestinationDescription?
         /// The destination in Amazon S3.
         public let extendedS3DestinationDescription: ExtendedS3DestinationDescription?
+        /// Describes the specified HTTP endpoint destination.
+        public let httpEndpointDestinationDescription: HttpEndpointDestinationDescription?
         /// The destination in Amazon Redshift.
         public let redshiftDestinationDescription: RedshiftDestinationDescription?
         /// [Deprecated] The destination in Amazon S3.
@@ -589,10 +608,11 @@ extension Firehose {
         /// The destination in Splunk.
         public let splunkDestinationDescription: SplunkDestinationDescription?
 
-        public init(destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
+        public init(destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
             self.destinationId = destinationId
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
             self.extendedS3DestinationDescription = extendedS3DestinationDescription
+            self.httpEndpointDestinationDescription = httpEndpointDestinationDescription
             self.redshiftDestinationDescription = redshiftDestinationDescription
             self.s3DestinationDescription = s3DestinationDescription
             self.splunkDestinationDescription = splunkDestinationDescription
@@ -602,6 +622,7 @@ extension Firehose {
             case destinationId = "DestinationId"
             case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
             case extendedS3DestinationDescription = "ExtendedS3DestinationDescription"
+            case httpEndpointDestinationDescription = "HttpEndpointDestinationDescription"
             case redshiftDestinationDescription = "RedshiftDestinationDescription"
             case s3DestinationDescription = "S3DestinationDescription"
             case splunkDestinationDescription = "SplunkDestinationDescription"
@@ -653,7 +674,7 @@ extension Firehose {
         public let retryOptions: ElasticsearchRetryOptions?
         /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
-        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly.
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the delivery stream. 
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
@@ -923,7 +944,7 @@ extension Firehose {
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupConfiguration: S3DestinationConfiguration?
-        /// The Amazon S3 backup mode.
+        /// The Amazon S3 backup mode. After you create a delivery stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it. 
         public let s3BackupMode: S3BackupMode?
 
         public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: S3BackupMode? = nil) {
@@ -1058,7 +1079,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
-        /// Enables or disables Amazon S3 backup mode.
+        /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it. 
         public let s3BackupMode: S3BackupMode?
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
@@ -1152,6 +1173,310 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case timestampFormats = "TimestampFormats"
+        }
+    }
+
+    public struct HttpEndpointBufferingHints: AWSEncodableShape & AWSDecodableShape {
+
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes). 
+        public let intervalInSeconds: Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.  We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher. 
+        public let sizeInMBs: Int?
+
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 900)
+            try validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, min: 60)
+            try validate(self.sizeInMBs, name: "sizeInMBs", parent: name, max: 64)
+            try validate(self.sizeInMBs, name: "sizeInMBs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalInSeconds = "IntervalInSeconds"
+            case sizeInMBs = "SizeInMBs"
+        }
+    }
+
+    public struct HttpEndpointCommonAttribute: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the HTTP endpoint common attribute.
+        public let attributeName: String
+        /// The value of the HTTP endpoint common attribute.
+        public let attributeValue: String
+
+        public init(attributeName: String, attributeValue: String) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attributeName, name: "attributeName", parent: name, max: 256)
+            try validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try validate(self.attributeName, name: "attributeName", parent: name, pattern: "^(?!\\s*$).+")
+            try validate(self.attributeValue, name: "attributeValue", parent: name, max: 1024)
+            try validate(self.attributeValue, name: "attributeValue", parent: name, min: 0)
+            try validate(self.attributeValue, name: "attributeValue", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+        }
+    }
+
+    public struct HttpEndpointConfiguration: AWSEncodableShape {
+
+        /// The access key required for Kinesis Firehose to authenticate with the HTTP endpoint selected as the destination.
+        public let accessKey: String?
+        /// The name of the HTTP endpoint selected as the destination.
+        public let name: String?
+        /// The URL of the HTTP endpoint selected as the destination.
+        public let url: String
+
+        public init(accessKey: String? = nil, name: String? = nil, url: String) {
+            self.accessKey = accessKey
+            self.name = name
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accessKey, name: "accessKey", parent: name, max: 4096)
+            try validate(self.accessKey, name: "accessKey", parent: name, min: 0)
+            try validate(self.accessKey, name: "accessKey", parent: name, pattern: ".*")
+            try validate(self.name, name: "name", parent: name, max: 256)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$).+")
+            try validate(self.url, name: "url", parent: name, max: 1000)
+            try validate(self.url, name: "url", parent: name, min: 1)
+            try validate(self.url, name: "url", parent: name, pattern: "https://.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "AccessKey"
+            case name = "Name"
+            case url = "Url"
+        }
+    }
+
+    public struct HttpEndpointDescription: AWSDecodableShape {
+
+        /// The name of the HTTP endpoint selected as the destination.
+        public let name: String?
+        /// The URL of the HTTP endpoint selected as the destination.
+        public let url: String?
+
+        public init(name: String? = nil, url: String? = nil) {
+            self.name = name
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case url = "Url"
+        }
+    }
+
+    public struct HttpEndpointDestinationConfiguration: AWSEncodableShape {
+
+        /// The buffering options that can be used before data is delivered to the specified destination. Kinesis Data Firehose treats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if you specify a value for one of them, you must also provide a value for the other. 
+        public let bufferingHints: HttpEndpointBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The configuration of the HTTP endpoint selected as the destination.
+        public let endpointConfiguration: HttpEndpointConfiguration
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The configuration of the requeste sent to the HTTP endpoint specified as the destination.
+        public let requestConfiguration: HttpEndpointRequestConfiguration?
+        /// Describes the retry behavior in case Kinesis Data Firehose is unable to deliver data to the specified HTTP endpoint destination, or if it doesn't receive a valid acknowledgment of receipt from the specified HTTP endpoint destination.
+        public let retryOptions: HttpEndpointRetryOptions?
+        /// Kinesis Data Firehose uses this IAM role for all the permissions that the delivery stream needs.
+        public let roleARN: String?
+        /// Describes the S3 bucket backup options for the data that Kinesis Data Firehose delivers to the HTTP endpoint destination. You can back up all documents (AllData) or only the documents that Kinesis Data Firehose could not deliver to the specified HTTP endpoint destination (FailedDataOnly).
+        public let s3BackupMode: HttpEndpointS3BackupMode?
+        public let s3Configuration: S3DestinationConfiguration
+
+        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointConfiguration, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.endpointConfiguration = endpointConfiguration
+            self.processingConfiguration = processingConfiguration
+            self.requestConfiguration = requestConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.endpointConfiguration.validate(name: "\(name).endpointConfiguration")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.requestConfiguration?.validate(name: "\(name).requestConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case endpointConfiguration = "EndpointConfiguration"
+            case processingConfiguration = "ProcessingConfiguration"
+            case requestConfiguration = "RequestConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3Configuration = "S3Configuration"
+        }
+    }
+
+    public struct HttpEndpointDestinationDescription: AWSDecodableShape {
+
+        /// Describes buffering options that can be applied to the data before it is delivered to the HTTPS endpoint destination. Kinesis Data Firehose teats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if specify a value for one of them, you must also provide a value for the other. 
+        public let bufferingHints: HttpEndpointBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The configuration of the specified HTTP endpoint destination.
+        public let endpointConfiguration: HttpEndpointDescription?
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The configuration of request sent to the HTTP endpoint specified as the destination.
+        public let requestConfiguration: HttpEndpointRequestConfiguration?
+        /// Describes the retry behavior in case Kinesis Data Firehose is unable to deliver data to the specified HTTP endpoint destination, or if it doesn't receive a valid acknowledgment of receipt from the specified HTTP endpoint destination.
+        public let retryOptions: HttpEndpointRetryOptions?
+        /// Kinesis Data Firehose uses this IAM role for all the permissions that the delivery stream needs.
+        public let roleARN: String?
+        /// Describes the S3 bucket backup options for the data that Kinesis Firehose delivers to the HTTP endpoint destination. You can back up all documents (AllData) or only the documents that Kinesis Data Firehose could not deliver to the specified HTTP endpoint destination (FailedDataOnly).
+        public let s3BackupMode: HttpEndpointS3BackupMode?
+        public let s3DestinationDescription: S3DestinationDescription?
+
+        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointDescription? = nil, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.endpointConfiguration = endpointConfiguration
+            self.processingConfiguration = processingConfiguration
+            self.requestConfiguration = requestConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3DestinationDescription = s3DestinationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case endpointConfiguration = "EndpointConfiguration"
+            case processingConfiguration = "ProcessingConfiguration"
+            case requestConfiguration = "RequestConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3DestinationDescription = "S3DestinationDescription"
+        }
+    }
+
+    public struct HttpEndpointDestinationUpdate: AWSEncodableShape {
+
+        /// Describes buffering options that can be applied to the data before it is delivered to the HTTPS endpoint destination. Kinesis Data Firehose teats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if specify a value for one of them, you must also provide a value for the other. 
+        public let bufferingHints: HttpEndpointBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// Describes the configuration of the HTTP endpoint destination.
+        public let endpointConfiguration: HttpEndpointConfiguration?
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The configuration of the request sent to the HTTP endpoint specified as the destination.
+        public let requestConfiguration: HttpEndpointRequestConfiguration?
+        /// Describes the retry behavior in case Kinesis Data Firehose is unable to deliver data to the specified HTTP endpoint destination, or if it doesn't receive a valid acknowledgment of receipt from the specified HTTP endpoint destination.
+        public let retryOptions: HttpEndpointRetryOptions?
+        /// Kinesis Data Firehose uses this IAM role for all the permissions that the delivery stream needs.
+        public let roleARN: String?
+        /// Describes the S3 bucket backup options for the data that Kinesis Firehose delivers to the HTTP endpoint destination. You can back up all documents (AllData) or only the documents that Kinesis Data Firehose could not deliver to the specified HTTP endpoint destination (FailedDataOnly).
+        public let s3BackupMode: HttpEndpointS3BackupMode?
+        public let s3Update: S3DestinationUpdate?
+
+        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.endpointConfiguration = endpointConfiguration
+            self.processingConfiguration = processingConfiguration
+            self.requestConfiguration = requestConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Update = s3Update
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.endpointConfiguration?.validate(name: "\(name).endpointConfiguration")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.requestConfiguration?.validate(name: "\(name).requestConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
+            try self.s3Update?.validate(name: "\(name).s3Update")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case endpointConfiguration = "EndpointConfiguration"
+            case processingConfiguration = "ProcessingConfiguration"
+            case requestConfiguration = "RequestConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3Update = "S3Update"
+        }
+    }
+
+    public struct HttpEndpointRequestConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// Describes the metadata sent to the HTTP endpoint destination.
+        public let commonAttributes: [HttpEndpointCommonAttribute]?
+        /// Kinesis Data Firehose uses the content encoding to compress the body of a request before sending the request to the destination. For more information, see Content-Encoding in MDN Web Docs, the official Mozilla documentation.
+        public let contentEncoding: ContentEncoding?
+
+        public init(commonAttributes: [HttpEndpointCommonAttribute]? = nil, contentEncoding: ContentEncoding? = nil) {
+            self.commonAttributes = commonAttributes
+            self.contentEncoding = contentEncoding
+        }
+
+        public func validate(name: String) throws {
+            try self.commonAttributes?.forEach {
+                try $0.validate(name: "\(name).commonAttributes[]")
+            }
+            try validate(self.commonAttributes, name: "commonAttributes", parent: name, max: 50)
+            try validate(self.commonAttributes, name: "commonAttributes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonAttributes = "CommonAttributes"
+            case contentEncoding = "ContentEncoding"
+        }
+    }
+
+    public struct HttpEndpointRetryOptions: AWSEncodableShape & AWSDecodableShape {
+
+        /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to the custom destination via HTTPS endpoint fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from the specified destination after each attempt. 
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
+            self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 7200)
+            try validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
         }
     }
 
@@ -1724,7 +2049,7 @@ extension Firehose {
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupConfiguration: S3DestinationConfiguration?
-        /// The Amazon S3 backup mode.
+        /// The Amazon S3 backup mode. After you create a delivery stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it. 
         public let s3BackupMode: RedshiftS3BackupMode?
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public let s3Configuration: S3DestinationConfiguration
@@ -1847,7 +2172,7 @@ extension Firehose {
         public let retryOptions: RedshiftRetryOptions?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
-        /// The Amazon S3 backup mode.
+        /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it. 
         public let s3BackupMode: RedshiftS3BackupMode?
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
@@ -2195,7 +2520,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk, or if it doesn't receive an acknowledgment of receipt from Splunk.
         public let retryOptions: SplunkRetryOptions?
-        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
+        /// Defines how documents should be delivered to Amazon S3. When set to FailedEventsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllEvents, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. The default value is FailedEventsOnly. You can update this backup mode from FailedEventsOnly to AllEvents. You can't update it from AllEvents to FailedEventsOnly.
         public let s3BackupMode: SplunkS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
@@ -2302,7 +2627,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
         public let retryOptions: SplunkRetryOptions?
-        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
+        /// Specifies how you want Kinesis Data Firehose to back up documents to Amazon S3. When set to FailedDocumentsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllEvents, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. The default value is FailedEventsOnly. You can update this backup mode from FailedEventsOnly to AllEvents. You can't update it from AllEvents to FailedEventsOnly.
         public let s3BackupMode: SplunkS3BackupMode?
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
@@ -2542,17 +2867,20 @@ extension Firehose {
         public let elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate?
         /// Describes an update for a destination in Amazon S3.
         public let extendedS3DestinationUpdate: ExtendedS3DestinationUpdate?
+        /// Describes an update to the specified HTTP endpoint destination.
+        public let httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate?
         /// Describes an update for a destination in Amazon Redshift.
         public let redshiftDestinationUpdate: RedshiftDestinationUpdate?
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?
 
-        public init(currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+        public init(currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
             self.deliveryStreamName = deliveryStreamName
             self.destinationId = destinationId
             self.elasticsearchDestinationUpdate = elasticsearchDestinationUpdate
             self.extendedS3DestinationUpdate = extendedS3DestinationUpdate
+            self.httpEndpointDestinationUpdate = httpEndpointDestinationUpdate
             self.redshiftDestinationUpdate = redshiftDestinationUpdate
             self.splunkDestinationUpdate = splunkDestinationUpdate
         }
@@ -2569,6 +2897,7 @@ extension Firehose {
             try validate(self.destinationId, name: "destinationId", parent: name, pattern: "[a-zA-Z0-9-]+")
             try self.elasticsearchDestinationUpdate?.validate(name: "\(name).elasticsearchDestinationUpdate")
             try self.extendedS3DestinationUpdate?.validate(name: "\(name).extendedS3DestinationUpdate")
+            try self.httpEndpointDestinationUpdate?.validate(name: "\(name).httpEndpointDestinationUpdate")
             try self.redshiftDestinationUpdate?.validate(name: "\(name).redshiftDestinationUpdate")
             try self.splunkDestinationUpdate?.validate(name: "\(name).splunkDestinationUpdate")
         }
@@ -2579,6 +2908,7 @@ extension Firehose {
             case destinationId = "DestinationId"
             case elasticsearchDestinationUpdate = "ElasticsearchDestinationUpdate"
             case extendedS3DestinationUpdate = "ExtendedS3DestinationUpdate"
+            case httpEndpointDestinationUpdate = "HttpEndpointDestinationUpdate"
             case redshiftDestinationUpdate = "RedshiftDestinationUpdate"
             case splunkDestinationUpdate = "SplunkDestinationUpdate"
         }
@@ -2594,9 +2924,9 @@ extension Firehose {
 
     public struct VpcConfiguration: AWSEncodableShape {
 
-        /// The ARN of the IAM role that you want the delivery stream to use to create endpoints in the destination VPC.
+        /// The ARN of the IAM role that you want the delivery stream to use to create endpoints in the destination VPC. You can use your existing Kinesis Data Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Kinesis Data Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface    If you revoke these permissions after you create the delivery stream, Kinesis Data Firehose can't scale out by creating more ENIs when necessary. You might therefore see a degradation in performance.
         public let roleARN: String
-        /// The IDs of the security groups that you want Kinesis Data Firehose to use when it creates ENIs in the VPC of the Amazon ES destination.
+        /// The IDs of the security groups that you want Kinesis Data Firehose to use when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups here, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your delivery stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
         public let securityGroupIds: [String]
         /// The IDs of the subnets that you want Kinesis Data Firehose to use to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Kinesis Data Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Kinesis Data Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Kinesis Data Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Kinesis Data Firehose can create up to three ENIs for this delivery stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces  in the Amazon VPC Quotas topic.
         public let subnetIds: [String]
@@ -2636,9 +2966,9 @@ extension Firehose {
 
     public struct VpcConfigurationDescription: AWSDecodableShape {
 
-        /// The ARN of the IAM role that you want the delivery stream uses to create endpoints in the destination VPC.
+        /// The ARN of the IAM role that the delivery stream uses to create endpoints in the destination VPC. You can use your existing Kinesis Data Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Kinesis Data Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface    If you revoke these permissions after you create the delivery stream, Kinesis Data Firehose can't scale out by creating more ENIs when necessary. You might therefore see a degradation in performance.
         public let roleARN: String
-        /// The IDs of the security groups that Kinesis Data Firehose uses when it creates ENIs in the VPC of the Amazon ES destination.
+        /// The IDs of the security groups that Kinesis Data Firehose uses when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your delivery stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
         public let securityGroupIds: [String]
         /// The IDs of the subnets that Kinesis Data Firehose uses to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Kinesis Data Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Kinesis Data Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Kinesis Data Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Kinesis Data Firehose can create up to three ENIs for this delivery stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces  in the Amazon VPC Quotas topic.
         public let subnetIds: [String]

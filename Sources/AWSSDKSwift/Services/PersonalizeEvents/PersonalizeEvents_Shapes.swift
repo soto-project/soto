@@ -28,15 +28,27 @@ extension PersonalizeEvents {
         public let eventId: String?
         /// The type of event. This property corresponds to the EVENT_TYPE field of the Interactions schema.
         public let eventType: String
-        /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, you might send the movie ID and rating, and the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example,  {"itemId": "movie1"}   {"itemId": "movie2", "eventValue": "4.5"}   {"itemId": "movie3", "eventValue": "3", "numberOfRatings": "12"}  The keys use camel case names that match the fields in the Interactions schema. The itemId and eventValue keys correspond to the ITEM_ID and EVENT_VALUE fields. In the above example, the eventType might be 'MovieRating' with eventValue being the rating. The numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Interactions schema.
-        public let properties: String
-        /// The timestamp on the client side when the event occurred.
+        /// The event value that corresponds to the EVENT_VALUE field of the Interactions schema.
+        public let eventValue: Float?
+        /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"].
+        public let impression: [String]?
+        /// The item ID key that corresponds to the ITEM_ID field of the Interactions schema.
+        public let itemId: String?
+        /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example,  {"numberOfRatings": "12"}  The keys use camel case names that match the fields in the Interactions schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Interactions schema.
+        public let properties: String?
+        /// The ID of the recommendation.
+        public let recommendationId: String?
+        /// The timestamp (in Unix time) on the client side when the event occurred.
         public let sentAt: TimeStamp
 
-        public init(eventId: String? = nil, eventType: String, properties: String, sentAt: TimeStamp) {
+        public init(eventId: String? = nil, eventType: String, eventValue: Float? = nil, impression: [String]? = nil, itemId: String? = nil, properties: String? = nil, recommendationId: String? = nil, sentAt: TimeStamp) {
             self.eventId = eventId
             self.eventType = eventType
+            self.eventValue = eventValue
+            self.impression = impression
+            self.itemId = itemId
             self.properties = properties
+            self.recommendationId = recommendationId
             self.sentAt = sentAt
         }
 
@@ -45,14 +57,28 @@ extension PersonalizeEvents {
             try validate(self.eventId, name: "eventId", parent: name, min: 1)
             try validate(self.eventType, name: "eventType", parent: name, max: 256)
             try validate(self.eventType, name: "eventType", parent: name, min: 1)
+            try self.impression?.forEach {
+                try validate($0, name: "impression[]", parent: name, max: 256)
+                try validate($0, name: "impression[]", parent: name, min: 1)
+            }
+            try validate(self.impression, name: "impression", parent: name, max: 25)
+            try validate(self.impression, name: "impression", parent: name, min: 1)
+            try validate(self.itemId, name: "itemId", parent: name, max: 256)
+            try validate(self.itemId, name: "itemId", parent: name, min: 1)
             try validate(self.properties, name: "properties", parent: name, max: 1024)
             try validate(self.properties, name: "properties", parent: name, min: 1)
+            try validate(self.recommendationId, name: "recommendationId", parent: name, max: 40)
+            try validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventId = "eventId"
             case eventType = "eventType"
+            case eventValue = "eventValue"
+            case impression = "impression"
+            case itemId = "itemId"
             case properties = "properties"
+            case recommendationId = "recommendationId"
             case sentAt = "sentAt"
         }
     }
@@ -61,7 +87,7 @@ extension PersonalizeEvents {
 
         /// A list of event data from the session.
         public let eventList: [Event]
-        /// The session ID associated with the user's visit.
+        /// The session ID associated with the user's visit. Your application generates the sessionId when a user first visits your website or uses your application. Amazon Personalize uses the sessionId to associate events with the user before they log in. For more information see event-record-api.
         public let sessionId: String
         /// The tracking ID for the event. The ID is generated by a call to the CreateEventTracker API.
         public let trackingId: String

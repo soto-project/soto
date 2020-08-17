@@ -100,7 +100,7 @@ public struct WorkSpaces {
         return client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and un-share the image if it is shared with other accounts. 
+    ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and unshare the image if it is shared with other accounts. 
     public func deleteWorkspaceImage(_ input: DeleteWorkspaceImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteWorkspaceImageResult> {
         return client.execute(operation: "DeleteWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -143,6 +143,11 @@ public struct WorkSpaces {
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
     public func describeWorkspaceDirectories(_ input: DescribeWorkspaceDirectoriesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspaceDirectoriesResult> {
         return client.execute(operation: "DescribeWorkspaceDirectories", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Describes the permissions that the owner of an image has granted to other AWS accounts for an image.
+    public func describeWorkspaceImagePermissions(_ input: DescribeWorkspaceImagePermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeWorkspaceImagePermissionsResult> {
+        return client.execute(operation: "DescribeWorkspaceImagePermissions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves a list that describes one or more specified images, if the image identifiers are provided. Otherwise, all images in the account are described. 
@@ -210,7 +215,7 @@ public struct WorkSpaces {
         return client.execute(operation: "ModifyWorkspaceCreationProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Modifies the specified WorkSpace properties.
+    ///  Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace. 
     public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyWorkspacePropertiesResult> {
         return client.execute(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -225,7 +230,7 @@ public struct WorkSpaces {
         return client.execute(operation: "RebootWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
+    ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, STOPPED, or REBOOTING. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     public func rebuildWorkspaces(_ input: RebuildWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RebuildWorkspacesResult> {
         return client.execute(operation: "RebuildWorkspaces", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
@@ -263,5 +268,10 @@ public struct WorkSpaces {
     ///  Replaces the current rules of the specified IP access control group with the specified rules.
     public func updateRulesOfIpGroup(_ input: UpdateRulesOfIpGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRulesOfIpGroupResult> {
         return client.execute(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Shares or unshares an image with one account by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud (US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West) Region, contact AWS Support.   
+    public func updateWorkspaceImagePermission(_ input: UpdateWorkspaceImagePermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateWorkspaceImagePermissionResult> {
+        return client.execute(operation: "UpdateWorkspaceImagePermission", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

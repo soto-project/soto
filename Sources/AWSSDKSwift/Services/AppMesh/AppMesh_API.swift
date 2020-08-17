@@ -71,6 +71,14 @@ public struct AppMesh {
     
     //MARK: API Calls
 
+    ///  Creates a gateway route.
+    ///           A gateway route is attached to a virtual gateway and routes traffic to an existing
+    ///           virtual service. If a route matches a request, it can distribute traffic to a target virtual service.
+    ///           For more information about gateway routes, see Gateway routes.
+    public func createGatewayRoute(_ input: CreateGatewayRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateGatewayRouteOutput> {
+        return client.execute(operation: "CreateGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Creates a service mesh.
     ///            A service mesh is a logical boundary for network traffic between services that are
     ///           represented by resources within the mesh. After you create your service mesh, you can
@@ -87,6 +95,16 @@ public struct AppMesh {
     ///           For more information about routes, see Routes.
     public func createRoute(_ input: CreateRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRouteOutput> {
         return client.execute(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Creates a virtual gateway.
+    ///           A virtual gateway allows resources outside your mesh to communicate to resources that
+    ///           are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS
+    ///           task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which
+    ///           represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself.
+    ///           For more information about virtual gateways, see Virtual gateways.
+    public func createVirtualGateway(_ input: CreateVirtualGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVirtualGatewayOutput> {
+        return client.execute(operation: "CreateVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a virtual node within a service mesh.
@@ -136,6 +154,11 @@ public struct AppMesh {
         return client.execute(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Deletes an existing gateway route.
+    public func deleteGatewayRoute(_ input: DeleteGatewayRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteGatewayRouteOutput> {
+        return client.execute(operation: "DeleteGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Deletes an existing service mesh.
     ///           You must delete all resources (virtual services, routes, virtual routers, and virtual
     ///           nodes) in the service mesh before you can delete the mesh itself.
@@ -146,6 +169,12 @@ public struct AppMesh {
     ///  Deletes an existing route.
     public func deleteRoute(_ input: DeleteRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRouteOutput> {
         return client.execute(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
+    ///           routes are associated to it.
+    public func deleteVirtualGateway(_ input: DeleteVirtualGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteVirtualGatewayOutput> {
+        return client.execute(operation: "DeleteVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an existing virtual node.
@@ -167,6 +196,11 @@ public struct AppMesh {
         return client.execute(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Describes an existing gateway route.
+    public func describeGatewayRoute(_ input: DescribeGatewayRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeGatewayRouteOutput> {
+        return client.execute(operation: "DescribeGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Describes an existing service mesh.
     public func describeMesh(_ input: DescribeMeshInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMeshOutput> {
         return client.execute(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -175,6 +209,11 @@ public struct AppMesh {
     ///  Describes an existing route.
     public func describeRoute(_ input: DescribeRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRouteOutput> {
         return client.execute(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Describes an existing virtual gateway.
+    public func describeVirtualGateway(_ input: DescribeVirtualGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeVirtualGatewayOutput> {
+        return client.execute(operation: "DescribeVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Describes an existing virtual node.
@@ -192,6 +231,12 @@ public struct AppMesh {
         return client.execute(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Returns a list of existing gateway routes that are associated to a virtual
+    ///           gateway.
+    public func listGatewayRoutes(_ input: ListGatewayRoutesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGatewayRoutesOutput> {
+        return client.execute(operation: "ListGatewayRoutes", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Returns a list of existing service meshes.
     public func listMeshes(_ input: ListMeshesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMeshesOutput> {
         return client.execute(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -205,6 +250,11 @@ public struct AppMesh {
     ///  List the tags for an App Mesh resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.execute(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Returns a list of existing virtual gateways in a service mesh.
+    public func listVirtualGateways(_ input: ListVirtualGatewaysInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVirtualGatewaysOutput> {
+        return client.execute(operation: "ListVirtualGateways", path: "/v20190125/meshes/{meshName}/virtualGateways", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of existing virtual nodes.
@@ -235,6 +285,12 @@ public struct AppMesh {
         return client.execute(operation: "UntagResource", path: "/v20190125/untag", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Updates an existing gateway route that is associated to a specified virtual gateway in a
+    ///           service mesh.
+    public func updateGatewayRoute(_ input: UpdateGatewayRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateGatewayRouteOutput> {
+        return client.execute(operation: "UpdateGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Updates an existing service mesh.
     public func updateMesh(_ input: UpdateMeshInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMeshOutput> {
         return client.execute(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -243,6 +299,11 @@ public struct AppMesh {
     ///  Updates an existing route for a specified service mesh and virtual router.
     public func updateRoute(_ input: UpdateRouteInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRouteOutput> {
         return client.execute(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Updates an existing virtual gateway in a specified service mesh.
+    public func updateVirtualGateway(_ input: UpdateVirtualGatewayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVirtualGatewayOutput> {
+        return client.execute(operation: "UpdateVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing virtual node in a specified service mesh.

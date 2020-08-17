@@ -73,10 +73,11 @@ extension CloudHSMV2 {
         public let deleteTimestamp: TimeStamp?
         /// The identifier (ID) of the source backup from which the new backup was copied.
         public let sourceBackup: String?
-        /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied. .
+        /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied.
         public let sourceCluster: String?
-        /// The AWS region that contains the source backup from which the new backup was copied.
+        /// The AWS Region that contains the source backup from which the new backup was copied.
         public let sourceRegion: String?
+        /// The list of tags for the backup.
         public let tagList: [Tag]?
 
         public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: TimeStamp? = nil, createTimestamp: TimeStamp? = nil, deleteTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
@@ -162,6 +163,7 @@ extension CloudHSMV2 {
         public let stateMessage: String?
         /// A map from availability zone to the cluster’s subnet in that availability zone.
         public let subnetMapping: [String: String]?
+        /// The list of tags for the cluster.
         public let tagList: [Tag]?
         /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
         public let vpcId: String?
@@ -207,6 +209,7 @@ extension CloudHSMV2 {
         public let backupId: String
         /// The AWS region that will contain your copied CloudHSM cluster backup.
         public let destinationRegion: String
+        /// Tags to apply to the destination backup during creation. If you specify tags, only these tags will be applied to the destination backup. If you do not specify tags, the service copies tags from the source backup to the destination backup.
         public let tagList: [Tag]?
 
         public init(backupId: String, destinationRegion: String, tagList: [Tag]? = nil) {
@@ -254,6 +257,7 @@ extension CloudHSMV2 {
         public let sourceBackupId: String?
         /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.  
         public let subnetIds: [String]
+        /// Tags to apply to the CloudHSM cluster during creation.
         public let tagList: [Tag]?
 
         public init(hsmType: String, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {

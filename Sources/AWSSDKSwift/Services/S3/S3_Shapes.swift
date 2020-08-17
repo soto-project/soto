@@ -40,29 +40,32 @@ extension S3 {
     }
 
     public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case eu = "EU"
-        case euWest1 = "eu-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
+        case afSouth1 = "af-south-1"
+        case apEast1 = "ap-east-1"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
+        case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case eu = "EU"
         case euCentral1 = "eu-central-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
+        case euNorth1 = "eu-north-1"
+        case euSouth1 = "eu-south-1"
+        case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
-        case euNorth1 = "eu-north-1"
-        case apEast1 = "ap-east-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case caCentral1 = "ca-central-1"
-        case cnNorthwest1 = "cn-northwest-1"
         case meSouth1 = "me-south-1"
-        case afSouth1 = "af-south-1"
+        case saEast1 = "sa-east-1"
+        case usEast2 = "us-east-2"
+        case usGovEast1 = "us-gov-east-1"
+        case usGovWest1 = "us-gov-west-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case usEast1 = "us-east-1"
         public var description: String { return self.rawValue }
     }
 
@@ -1858,7 +1861,7 @@ extension S3 {
 
         /// The bucket name containing the objects from which to remove the tags.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Name of the tag.
+        /// Name of the object key.
         public let key: String
         /// The versionId of the object that the tag-set will be removed from.
         public let versionId: String?
@@ -4360,7 +4363,7 @@ extension S3 {
         public let maxKeys: Int?
         /// Bucket name.
         public let name: String?
-        /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
+        /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMarker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
         public let nextMarker: String?
         /// Keys that begin with the indicated prefix.
         public let prefix: String?
@@ -4904,7 +4907,7 @@ extension S3 {
 
     public struct Object: AWSDecodableShape {
 
-        /// The entity tag is an MD5 hash of the object. ETag reflects only changes to the contents of an object, not its metadata.
+        /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata. The ETag may or may not be an MD5 digest of the object data. Whether or not it is depends on how the object was created and how it is encrypted as described below:   Objects created by the PUT Object, POST Object, or Copy operation, or through the AWS Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.   Objects created by the PUT Object, POST Object, or Copy operation, or through the AWS Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object data.   If an object is created by either the Multipart Upload or Part Copy operation, the ETag is not an MD5 digest, regardless of the method of encryption.  
         public let eTag: String?
         /// The name that you assign to an object. You use the object key to retrieve the object.
         public let key: String?
@@ -6171,7 +6174,7 @@ extension S3 {
 
         /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Name of the tag.
+        /// Name of the object key.
         public let key: String
         /// Container for the TagSet and Tag elements
         public let tagging: Tagging
@@ -7047,7 +7050,7 @@ extension S3 {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
-        /// Name of the tag.
+        /// Name of the object key.
         public let key: String
         /// Value of the tag.
         public let value: String

@@ -111,6 +111,11 @@ public struct EFS {
         return client.execute(operation: "DescribeAccessPoints", path: "/2015-02-01/access-points", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Returns the backup policy for the specified EFS file system.
+    public func describeBackupPolicy(_ input: DescribeBackupPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BackupPolicyDescription> {
+        return client.execute(operation: "DescribeBackupPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/backup-policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Returns the FileSystemPolicy for the specified EFS file system. This operation requires permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
     public func describeFileSystemPolicy(_ input: DescribeFileSystemPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<FileSystemPolicyDescription> {
         return client.execute(operation: "DescribeFileSystemPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
@@ -150,6 +155,11 @@ public struct EFS {
     ///  Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget. This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted.  The operation requires permissions for the following actions:    elasticfilesystem:ModifyMountTargetSecurityGroups action on the mount target's file system.     ec2:ModifyNetworkInterfaceAttribute action on the mount target's network interface.   
     @discardableResult public func modifyMountTargetSecurityGroups(_ input: ModifyMountTargetSecurityGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return client.execute(operation: "ModifyMountTargetSecurityGroups", path: "/2015-02-01/mount-targets/{MountTargetId}/security-groups", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system. 
+    public func putBackupPolicy(_ input: PutBackupPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BackupPolicyDescription> {
+        return client.execute(operation: "PutBackupPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/backup-policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see Default EFS File System Policy.  This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.

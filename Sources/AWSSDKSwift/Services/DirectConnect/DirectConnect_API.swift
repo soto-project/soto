@@ -147,7 +147,7 @@ public struct DirectConnect {
         return client.execute(operation: "CreateDirectConnectGatewayAssociation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can only associate a Direct Connect gateway and virtual private gateway or transit gateway when the account that owns the Direct Connect gateway and the account that owns the virtual private gateway or transit gateway have the same AWS Payer ID.
+    ///  Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any AWS account. 
     public func createDirectConnectGatewayAssociationProposal(_ input: CreateDirectConnectGatewayAssociationProposalRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDirectConnectGatewayAssociationProposalResult> {
         return client.execute(operation: "CreateDirectConnectGatewayAssociationProposal", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }

@@ -51,8 +51,8 @@ public struct CostExplorer {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-25",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "ce.us-east-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
+            serviceEndpoints: ["aws-cn-global": "ce.cn-northwest-1.amazonaws.com.cn", "aws-global": "ce.us-east-1.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
             possibleErrorTypes: [CostExplorerErrorType.self],
             timeout: timeout
         )
@@ -110,7 +110,7 @@ public struct CostExplorer {
         return client.execute(operation: "GetReservationUtilization", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates recommendations that helps you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see Optimizing Your Cost with Rightsizing Recommendations.
+    ///  Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the AWS Billing and Cost Management User Guide.
     public func getRightsizingRecommendation(_ input: GetRightsizingRecommendationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRightsizingRecommendationResponse> {
         return client.execute(operation: "GetRightsizingRecommendation", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }

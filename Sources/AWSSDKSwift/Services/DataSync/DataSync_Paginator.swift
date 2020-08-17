@@ -30,7 +30,7 @@ extension DataSync {
         return client.paginate(input: input, command: listAgents, tokenKey: \ListAgentsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns a lists of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
+    ///  Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     public func listLocationsPaginator(
         _ input: ListLocationsRequest,
         on eventLoop: EventLoop? = nil,
@@ -40,7 +40,7 @@ extension DataSync {
         return client.paginate(input: input, command: listLocations, tokenKey: \ListLocationsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns all the tags associated with a specified resources. 
+    ///  Returns all the tags associated with a specified resource. 
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         on eventLoop: EventLoop? = nil,

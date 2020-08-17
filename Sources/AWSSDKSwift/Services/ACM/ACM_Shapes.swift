@@ -83,6 +83,7 @@ extension ACM {
         case pcaInvalidArgs = "PCA_INVALID_ARGS"
         case pcaInvalidDuration = "PCA_INVALID_DURATION"
         case pcaAccessDenied = "PCA_ACCESS_DENIED"
+        case slrNotFound = "SLR_NOT_FOUND"
         case other = "OTHER"
         public var description: String { return self.rawValue }
     }

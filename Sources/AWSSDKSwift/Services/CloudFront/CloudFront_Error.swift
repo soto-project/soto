@@ -21,6 +21,8 @@ public enum CloudFrontErrorType: AWSErrorType {
     case accessDenied(message: String?)
     case batchTooLarge(message: String?)
     case cNAMEAlreadyExists(message: String?)
+    case cachePolicyAlreadyExists(message: String?)
+    case cachePolicyInUse(message: String?)
     case cannotChangeImmutablePublicKeyFields(message: String?)
     case cloudFrontOriginAccessIdentityAlreadyExists(message: String?)
     case cloudFrontOriginAccessIdentityInUse(message: String?)
@@ -31,6 +33,7 @@ public enum CloudFrontErrorType: AWSErrorType {
     case fieldLevelEncryptionProfileAlreadyExists(message: String?)
     case fieldLevelEncryptionProfileInUse(message: String?)
     case fieldLevelEncryptionProfileSizeExceeded(message: String?)
+    case illegalDelete(message: String?)
     case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(message: String?)
     case illegalUpdate(message: String?)
     case inconsistentQuantities(message: String?)
@@ -58,15 +61,19 @@ public enum CloudFrontErrorType: AWSErrorType {
     case invalidViewerCertificate(message: String?)
     case invalidWebACLId(message: String?)
     case missingBody(message: String?)
+    case noSuchCachePolicy(message: String?)
     case noSuchCloudFrontOriginAccessIdentity(message: String?)
     case noSuchDistribution(message: String?)
     case noSuchFieldLevelEncryptionConfig(message: String?)
     case noSuchFieldLevelEncryptionProfile(message: String?)
     case noSuchInvalidation(message: String?)
     case noSuchOrigin(message: String?)
+    case noSuchOriginRequestPolicy(message: String?)
     case noSuchPublicKey(message: String?)
     case noSuchResource(message: String?)
     case noSuchStreamingDistribution(message: String?)
+    case originRequestPolicyAlreadyExists(message: String?)
+    case originRequestPolicyInUse(message: String?)
     case preconditionFailed(message: String?)
     case publicKeyAlreadyExists(message: String?)
     case publicKeyInUse(message: String?)
@@ -74,27 +81,38 @@ public enum CloudFrontErrorType: AWSErrorType {
     case streamingDistributionAlreadyExists(message: String?)
     case streamingDistributionNotDisabled(message: String?)
     case tooManyCacheBehaviors(message: String?)
+    case tooManyCachePolicies(message: String?)
     case tooManyCertificates(message: String?)
     case tooManyCloudFrontOriginAccessIdentities(message: String?)
     case tooManyCookieNamesInWhiteList(message: String?)
+    case tooManyCookiesInCachePolicy(message: String?)
+    case tooManyCookiesInOriginRequestPolicy(message: String?)
     case tooManyDistributionCNAMEs(message: String?)
     case tooManyDistributions(message: String?)
+    case tooManyDistributionsAssociatedToCachePolicy(message: String?)
     case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(message: String?)
+    case tooManyDistributionsAssociatedToOriginRequestPolicy(message: String?)
     case tooManyDistributionsWithLambdaAssociations(message: String?)
+    case tooManyDistributionsWithSingleFunctionARN(message: String?)
     case tooManyFieldLevelEncryptionConfigs(message: String?)
     case tooManyFieldLevelEncryptionContentTypeProfiles(message: String?)
     case tooManyFieldLevelEncryptionEncryptionEntities(message: String?)
     case tooManyFieldLevelEncryptionFieldPatterns(message: String?)
     case tooManyFieldLevelEncryptionProfiles(message: String?)
     case tooManyFieldLevelEncryptionQueryArgProfiles(message: String?)
+    case tooManyHeadersInCachePolicy(message: String?)
     case tooManyHeadersInForwardedValues(message: String?)
+    case tooManyHeadersInOriginRequestPolicy(message: String?)
     case tooManyInvalidationsInProgress(message: String?)
     case tooManyLambdaFunctionAssociations(message: String?)
     case tooManyOriginCustomHeaders(message: String?)
     case tooManyOriginGroupsPerDistribution(message: String?)
+    case tooManyOriginRequestPolicies(message: String?)
     case tooManyOrigins(message: String?)
     case tooManyPublicKeys(message: String?)
     case tooManyQueryStringParameters(message: String?)
+    case tooManyQueryStringsInCachePolicy(message: String?)
+    case tooManyQueryStringsInOriginRequestPolicy(message: String?)
     case tooManyStreamingDistributionCNAMEs(message: String?)
     case tooManyStreamingDistributions(message: String?)
     case tooManyTrustedSigners(message: String?)
@@ -114,6 +132,10 @@ extension CloudFrontErrorType {
             self = .batchTooLarge(message: message)
         case "CNAMEAlreadyExists":
             self = .cNAMEAlreadyExists(message: message)
+        case "CachePolicyAlreadyExists":
+            self = .cachePolicyAlreadyExists(message: message)
+        case "CachePolicyInUse":
+            self = .cachePolicyInUse(message: message)
         case "CannotChangeImmutablePublicKeyFields":
             self = .cannotChangeImmutablePublicKeyFields(message: message)
         case "CloudFrontOriginAccessIdentityAlreadyExists":
@@ -134,6 +156,8 @@ extension CloudFrontErrorType {
             self = .fieldLevelEncryptionProfileInUse(message: message)
         case "FieldLevelEncryptionProfileSizeExceeded":
             self = .fieldLevelEncryptionProfileSizeExceeded(message: message)
+        case "IllegalDelete":
+            self = .illegalDelete(message: message)
         case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior":
             self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(message: message)
         case "IllegalUpdate":
@@ -188,6 +212,8 @@ extension CloudFrontErrorType {
             self = .invalidWebACLId(message: message)
         case "MissingBody":
             self = .missingBody(message: message)
+        case "NoSuchCachePolicy":
+            self = .noSuchCachePolicy(message: message)
         case "NoSuchCloudFrontOriginAccessIdentity":
             self = .noSuchCloudFrontOriginAccessIdentity(message: message)
         case "NoSuchDistribution":
@@ -200,12 +226,18 @@ extension CloudFrontErrorType {
             self = .noSuchInvalidation(message: message)
         case "NoSuchOrigin":
             self = .noSuchOrigin(message: message)
+        case "NoSuchOriginRequestPolicy":
+            self = .noSuchOriginRequestPolicy(message: message)
         case "NoSuchPublicKey":
             self = .noSuchPublicKey(message: message)
         case "NoSuchResource":
             self = .noSuchResource(message: message)
         case "NoSuchStreamingDistribution":
             self = .noSuchStreamingDistribution(message: message)
+        case "OriginRequestPolicyAlreadyExists":
+            self = .originRequestPolicyAlreadyExists(message: message)
+        case "OriginRequestPolicyInUse":
+            self = .originRequestPolicyInUse(message: message)
         case "PreconditionFailed":
             self = .preconditionFailed(message: message)
         case "PublicKeyAlreadyExists":
@@ -220,20 +252,32 @@ extension CloudFrontErrorType {
             self = .streamingDistributionNotDisabled(message: message)
         case "TooManyCacheBehaviors":
             self = .tooManyCacheBehaviors(message: message)
+        case "TooManyCachePolicies":
+            self = .tooManyCachePolicies(message: message)
         case "TooManyCertificates":
             self = .tooManyCertificates(message: message)
         case "TooManyCloudFrontOriginAccessIdentities":
             self = .tooManyCloudFrontOriginAccessIdentities(message: message)
         case "TooManyCookieNamesInWhiteList":
             self = .tooManyCookieNamesInWhiteList(message: message)
+        case "TooManyCookiesInCachePolicy":
+            self = .tooManyCookiesInCachePolicy(message: message)
+        case "TooManyCookiesInOriginRequestPolicy":
+            self = .tooManyCookiesInOriginRequestPolicy(message: message)
         case "TooManyDistributionCNAMEs":
             self = .tooManyDistributionCNAMEs(message: message)
         case "TooManyDistributions":
             self = .tooManyDistributions(message: message)
+        case "TooManyDistributionsAssociatedToCachePolicy":
+            self = .tooManyDistributionsAssociatedToCachePolicy(message: message)
         case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig":
             self = .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(message: message)
+        case "TooManyDistributionsAssociatedToOriginRequestPolicy":
+            self = .tooManyDistributionsAssociatedToOriginRequestPolicy(message: message)
         case "TooManyDistributionsWithLambdaAssociations":
             self = .tooManyDistributionsWithLambdaAssociations(message: message)
+        case "TooManyDistributionsWithSingleFunctionARN":
+            self = .tooManyDistributionsWithSingleFunctionARN(message: message)
         case "TooManyFieldLevelEncryptionConfigs":
             self = .tooManyFieldLevelEncryptionConfigs(message: message)
         case "TooManyFieldLevelEncryptionContentTypeProfiles":
@@ -246,8 +290,12 @@ extension CloudFrontErrorType {
             self = .tooManyFieldLevelEncryptionProfiles(message: message)
         case "TooManyFieldLevelEncryptionQueryArgProfiles":
             self = .tooManyFieldLevelEncryptionQueryArgProfiles(message: message)
+        case "TooManyHeadersInCachePolicy":
+            self = .tooManyHeadersInCachePolicy(message: message)
         case "TooManyHeadersInForwardedValues":
             self = .tooManyHeadersInForwardedValues(message: message)
+        case "TooManyHeadersInOriginRequestPolicy":
+            self = .tooManyHeadersInOriginRequestPolicy(message: message)
         case "TooManyInvalidationsInProgress":
             self = .tooManyInvalidationsInProgress(message: message)
         case "TooManyLambdaFunctionAssociations":
@@ -256,12 +304,18 @@ extension CloudFrontErrorType {
             self = .tooManyOriginCustomHeaders(message: message)
         case "TooManyOriginGroupsPerDistribution":
             self = .tooManyOriginGroupsPerDistribution(message: message)
+        case "TooManyOriginRequestPolicies":
+            self = .tooManyOriginRequestPolicies(message: message)
         case "TooManyOrigins":
             self = .tooManyOrigins(message: message)
         case "TooManyPublicKeys":
             self = .tooManyPublicKeys(message: message)
         case "TooManyQueryStringParameters":
             self = .tooManyQueryStringParameters(message: message)
+        case "TooManyQueryStringsInCachePolicy":
+            self = .tooManyQueryStringsInCachePolicy(message: message)
+        case "TooManyQueryStringsInOriginRequestPolicy":
+            self = .tooManyQueryStringsInOriginRequestPolicy(message: message)
         case "TooManyStreamingDistributionCNAMEs":
             self = .tooManyStreamingDistributionCNAMEs(message: message)
         case "TooManyStreamingDistributions":
@@ -285,6 +339,10 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "BatchTooLarge: \(message ?? "")"
         case .cNAMEAlreadyExists(let message):
             return "CNAMEAlreadyExists: \(message ?? "")"
+        case .cachePolicyAlreadyExists(let message):
+            return "CachePolicyAlreadyExists: \(message ?? "")"
+        case .cachePolicyInUse(let message):
+            return "CachePolicyInUse: \(message ?? "")"
         case .cannotChangeImmutablePublicKeyFields(let message):
             return "CannotChangeImmutablePublicKeyFields: \(message ?? "")"
         case .cloudFrontOriginAccessIdentityAlreadyExists(let message):
@@ -305,6 +363,8 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "FieldLevelEncryptionProfileInUse: \(message ?? "")"
         case .fieldLevelEncryptionProfileSizeExceeded(let message):
             return "FieldLevelEncryptionProfileSizeExceeded: \(message ?? "")"
+        case .illegalDelete(let message):
+            return "IllegalDelete: \(message ?? "")"
         case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let message):
             return "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: \(message ?? "")"
         case .illegalUpdate(let message):
@@ -359,6 +419,8 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "InvalidWebACLId: \(message ?? "")"
         case .missingBody(let message):
             return "MissingBody: \(message ?? "")"
+        case .noSuchCachePolicy(let message):
+            return "NoSuchCachePolicy: \(message ?? "")"
         case .noSuchCloudFrontOriginAccessIdentity(let message):
             return "NoSuchCloudFrontOriginAccessIdentity: \(message ?? "")"
         case .noSuchDistribution(let message):
@@ -371,12 +433,18 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "NoSuchInvalidation: \(message ?? "")"
         case .noSuchOrigin(let message):
             return "NoSuchOrigin: \(message ?? "")"
+        case .noSuchOriginRequestPolicy(let message):
+            return "NoSuchOriginRequestPolicy: \(message ?? "")"
         case .noSuchPublicKey(let message):
             return "NoSuchPublicKey: \(message ?? "")"
         case .noSuchResource(let message):
             return "NoSuchResource: \(message ?? "")"
         case .noSuchStreamingDistribution(let message):
             return "NoSuchStreamingDistribution: \(message ?? "")"
+        case .originRequestPolicyAlreadyExists(let message):
+            return "OriginRequestPolicyAlreadyExists: \(message ?? "")"
+        case .originRequestPolicyInUse(let message):
+            return "OriginRequestPolicyInUse: \(message ?? "")"
         case .preconditionFailed(let message):
             return "PreconditionFailed: \(message ?? "")"
         case .publicKeyAlreadyExists(let message):
@@ -391,20 +459,32 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "StreamingDistributionNotDisabled: \(message ?? "")"
         case .tooManyCacheBehaviors(let message):
             return "TooManyCacheBehaviors: \(message ?? "")"
+        case .tooManyCachePolicies(let message):
+            return "TooManyCachePolicies: \(message ?? "")"
         case .tooManyCertificates(let message):
             return "TooManyCertificates: \(message ?? "")"
         case .tooManyCloudFrontOriginAccessIdentities(let message):
             return "TooManyCloudFrontOriginAccessIdentities: \(message ?? "")"
         case .tooManyCookieNamesInWhiteList(let message):
             return "TooManyCookieNamesInWhiteList: \(message ?? "")"
+        case .tooManyCookiesInCachePolicy(let message):
+            return "TooManyCookiesInCachePolicy: \(message ?? "")"
+        case .tooManyCookiesInOriginRequestPolicy(let message):
+            return "TooManyCookiesInOriginRequestPolicy: \(message ?? "")"
         case .tooManyDistributionCNAMEs(let message):
             return "TooManyDistributionCNAMEs: \(message ?? "")"
         case .tooManyDistributions(let message):
             return "TooManyDistributions: \(message ?? "")"
+        case .tooManyDistributionsAssociatedToCachePolicy(let message):
+            return "TooManyDistributionsAssociatedToCachePolicy: \(message ?? "")"
         case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let message):
             return "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: \(message ?? "")"
+        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let message):
+            return "TooManyDistributionsAssociatedToOriginRequestPolicy: \(message ?? "")"
         case .tooManyDistributionsWithLambdaAssociations(let message):
             return "TooManyDistributionsWithLambdaAssociations: \(message ?? "")"
+        case .tooManyDistributionsWithSingleFunctionARN(let message):
+            return "TooManyDistributionsWithSingleFunctionARN: \(message ?? "")"
         case .tooManyFieldLevelEncryptionConfigs(let message):
             return "TooManyFieldLevelEncryptionConfigs: \(message ?? "")"
         case .tooManyFieldLevelEncryptionContentTypeProfiles(let message):
@@ -417,8 +497,12 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "TooManyFieldLevelEncryptionProfiles: \(message ?? "")"
         case .tooManyFieldLevelEncryptionQueryArgProfiles(let message):
             return "TooManyFieldLevelEncryptionQueryArgProfiles: \(message ?? "")"
+        case .tooManyHeadersInCachePolicy(let message):
+            return "TooManyHeadersInCachePolicy: \(message ?? "")"
         case .tooManyHeadersInForwardedValues(let message):
             return "TooManyHeadersInForwardedValues: \(message ?? "")"
+        case .tooManyHeadersInOriginRequestPolicy(let message):
+            return "TooManyHeadersInOriginRequestPolicy: \(message ?? "")"
         case .tooManyInvalidationsInProgress(let message):
             return "TooManyInvalidationsInProgress: \(message ?? "")"
         case .tooManyLambdaFunctionAssociations(let message):
@@ -427,12 +511,18 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "TooManyOriginCustomHeaders: \(message ?? "")"
         case .tooManyOriginGroupsPerDistribution(let message):
             return "TooManyOriginGroupsPerDistribution: \(message ?? "")"
+        case .tooManyOriginRequestPolicies(let message):
+            return "TooManyOriginRequestPolicies: \(message ?? "")"
         case .tooManyOrigins(let message):
             return "TooManyOrigins: \(message ?? "")"
         case .tooManyPublicKeys(let message):
             return "TooManyPublicKeys: \(message ?? "")"
         case .tooManyQueryStringParameters(let message):
             return "TooManyQueryStringParameters: \(message ?? "")"
+        case .tooManyQueryStringsInCachePolicy(let message):
+            return "TooManyQueryStringsInCachePolicy: \(message ?? "")"
+        case .tooManyQueryStringsInOriginRequestPolicy(let message):
+            return "TooManyQueryStringsInOriginRequestPolicy: \(message ?? "")"
         case .tooManyStreamingDistributionCNAMEs(let message):
             return "TooManyStreamingDistributionCNAMEs: \(message ?? "")"
         case .tooManyStreamingDistributions(let message):

@@ -227,6 +227,34 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct CancelReplicationTaskAssessmentRunMessage: AWSEncodableShape {
+
+        /// Amazon Resource Name (ARN) of the premigration assessment run to be canceled.
+        public let replicationTaskAssessmentRunArn: String
+
+        public init(replicationTaskAssessmentRunArn: String) {
+            self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskAssessmentRunArn = "ReplicationTaskAssessmentRunArn"
+        }
+    }
+
+    public struct CancelReplicationTaskAssessmentRunResponse: AWSDecodableShape {
+
+        /// The ReplicationTaskAssessmentRun object for the canceled assessment run.
+        public let replicationTaskAssessmentRun: ReplicationTaskAssessmentRun?
+
+        public init(replicationTaskAssessmentRun: ReplicationTaskAssessmentRun? = nil) {
+            self.replicationTaskAssessmentRun = replicationTaskAssessmentRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskAssessmentRun = "ReplicationTaskAssessmentRun"
+        }
+    }
+
     public struct Certificate: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the certificate.
@@ -333,20 +361,30 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with AWS DMS Endpoints in the AWS Database Migration Service User Guide. 
         public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let iBMDb2Settings: IBMDb2Settings?
         /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kafkaSettings: KafkaSettings?
         /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kinesisSettings: KinesisSettings?
         /// An AWS KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
+        /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for AWS DMS and  Extra connection attributes when using SQL Server as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
+        /// Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes when using MySQL as a source for AWS DMS and Extra connection attributes when using a MySQL-compatible database as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let mySQLSettings: MySQLSettings?
         /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying Endpoint Settings for Amazon Neptune as a Target in the AWS Database Migration Service User Guide. 
         public let neptuneSettings: NeptuneSettings?
+        /// Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes when using Oracle as a source for AWS DMS and  Extra connection attributes when using Oracle as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let oracleSettings: OracleSettings?
         /// The password to be used to log in to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int?
+        /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for AWS DMS and  Extra connection attributes when using PostgreSQL as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let postgreSQLSettings: PostgreSQLSettings?
         public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let s3Settings: S3Settings?
@@ -356,12 +394,14 @@ extension DatabaseMigrationService {
         public let serviceAccessRoleArn: String?
         /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The default is none 
         public let sslMode: DmsSslModeValue?
+        /// Settings in JSON format for the source and target SAP ASE endpoint. For information about other available settings, see Extra connection attributes when using SAP ASE as a source for AWS DMS and Extra connection attributes when using SAP ASE as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let sybaseSettings: SybaseSettings?
         /// One or more tags to be assigned to the endpoint.
         public let tags: [Tag]?
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, neptuneSettings: NeptuneSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -372,18 +412,24 @@ extension DatabaseMigrationService {
             self.engineName = engineName
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
+            self.iBMDb2Settings = iBMDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
+            self.microsoftSQLServerSettings = microsoftSQLServerSettings
             self.mongoDbSettings = mongoDbSettings
+            self.mySQLSettings = mySQLSettings
             self.neptuneSettings = neptuneSettings
+            self.oracleSettings = oracleSettings
             self.password = password
             self.port = port
+            self.postgreSQLSettings = postgreSQLSettings
             self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sslMode = sslMode
+            self.sybaseSettings = sybaseSettings
             self.tags = tags
             self.username = username
         }
@@ -399,18 +445,24 @@ extension DatabaseMigrationService {
             case engineName = "EngineName"
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case iBMDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
+            case microsoftSQLServerSettings = "MicrosoftSQLServerSettings"
             case mongoDbSettings = "MongoDbSettings"
+            case mySQLSettings = "MySQLSettings"
             case neptuneSettings = "NeptuneSettings"
+            case oracleSettings = "OracleSettings"
             case password = "Password"
             case port = "Port"
+            case postgreSQLSettings = "PostgreSQLSettings"
             case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case sslMode = "SslMode"
+            case sybaseSettings = "SybaseSettings"
             case tags = "Tags"
             case username = "Username"
         }
@@ -840,6 +892,34 @@ extension DatabaseMigrationService {
 
     }
 
+    public struct DeleteReplicationTaskAssessmentRunMessage: AWSEncodableShape {
+
+        /// Amazon Resource Name (ARN) of the premigration assessment run to be deleted.
+        public let replicationTaskAssessmentRunArn: String
+
+        public init(replicationTaskAssessmentRunArn: String) {
+            self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskAssessmentRunArn = "ReplicationTaskAssessmentRunArn"
+        }
+    }
+
+    public struct DeleteReplicationTaskAssessmentRunResponse: AWSDecodableShape {
+
+        /// The ReplicationTaskAssessmentRun object for the deleted assessment run.
+        public let replicationTaskAssessmentRun: ReplicationTaskAssessmentRun?
+
+        public init(replicationTaskAssessmentRun: ReplicationTaskAssessmentRun? = nil) {
+            self.replicationTaskAssessmentRun = replicationTaskAssessmentRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskAssessmentRun = "ReplicationTaskAssessmentRun"
+        }
+    }
+
     public struct DeleteReplicationTaskMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
@@ -894,9 +974,65 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DescribeApplicableIndividualAssessmentsMessage: AWSEncodableShape {
+
+        /// Optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// Maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+        public let maxRecords: Int?
+        /// Name of the migration type that each provided individual assessment must support.
+        public let migrationType: MigrationTypeValue?
+        /// ARN of a replication instance on which you want to base the default list of individual assessments.
+        public let replicationInstanceArn: String?
+        /// Amazon Resource Name (ARN) of a migration task on which you want to base the default list of individual assessments.
+        public let replicationTaskArn: String?
+        /// Name of a database engine that the specified replication instance supports as a source.
+        public let sourceEngineName: String?
+        /// Name of a database engine that the specified replication instance supports as a target.
+        public let targetEngineName: String?
+
+        public init(marker: String? = nil, maxRecords: Int? = nil, migrationType: MigrationTypeValue? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, sourceEngineName: String? = nil, targetEngineName: String? = nil) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.migrationType = migrationType
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationTaskArn = replicationTaskArn
+            self.sourceEngineName = sourceEngineName
+            self.targetEngineName = targetEngineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case migrationType = "MigrationType"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case sourceEngineName = "SourceEngineName"
+            case targetEngineName = "TargetEngineName"
+        }
+    }
+
+    public struct DescribeApplicableIndividualAssessmentsResponse: AWSDecodableShape {
+
+        /// List of names for the individual assessments supported by the premigration assessment run that you start based on the specified request parameters. For more information on the available individual assessments, including compatibility with different migration task configurations, see Working with premigration assessment runs in the AWS Database Migration Service User Guide. 
+        public let individualAssessmentNames: [String]?
+        /// Pagination token returned for you to pass to a subsequent request. If you pass this token as the Marker value in a subsequent request, the response includes only records beyond the marker, up to the value specified in the request by MaxRecords.
+        public let marker: String?
+
+        public init(individualAssessmentNames: [String]? = nil, marker: String? = nil) {
+            self.individualAssessmentNames = individualAssessmentNames
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case individualAssessmentNames = "IndividualAssessmentNames"
+            case marker = "Marker"
+        }
+    }
+
     public struct DescribeCertificatesMessage: AWSEncodableShape {
 
-        /// Filters applied to the certificate described in the form of key-value pairs.
+        /// Filters applied to the certificates described in the form of key-value pairs.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -976,7 +1112,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeEndpointTypesMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
+        /// Filters applied to the endpoint types. Valid filter names: engine-name | endpoint-type
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1016,7 +1152,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeEndpointsMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
+        /// Filters applied to the endpoints. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1056,7 +1192,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeEventCategoriesMessage: AWSEncodableShape {
 
-        /// Filters applied to the action.
+        /// Filters applied to the event categories.
         public let filters: [Filter]?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-task
         public let sourceType: String?
@@ -1088,7 +1224,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
 
-        /// Filters applied to the action.
+        /// Filters applied to event subscriptions.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1138,7 +1274,7 @@ extension DatabaseMigrationService {
         public let endTime: TimeStamp?
         /// A list of event categories for the source type that you've chosen.
         public let eventCategories: [String]?
-        /// Filters applied to the action.
+        /// Filters applied to events.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1347,7 +1483,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeReplicationInstancesMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
+        /// Filters applied to replication instances. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1387,7 +1523,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeReplicationSubnetGroupsMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe action. Valid filter names: replication-subnet-group-id
+        /// Filters applied to replication subnet groups. Valid filter names: replication-subnet-group-id
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1469,9 +1605,89 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DescribeReplicationTaskAssessmentRunsMessage: AWSEncodableShape {
+
+        /// Filters applied to the premigration assessment runs described in the form of key-value pairs. Valid filter names: replication-task-assessment-run-arn, replication-task-arn, replication-instance-arn, status 
+        public let filters: [Filter]?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+        public let maxRecords: Int?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeReplicationTaskAssessmentRunsResponse: AWSDecodableShape {
+
+        /// A pagination token returned for you to pass to a subsequent request. If you pass this token as the Marker value in a subsequent request, the response includes only records beyond the marker, up to the value specified in the request by MaxRecords.
+        public let marker: String?
+        /// One or more premigration assessment runs as specified by Filters.
+        public let replicationTaskAssessmentRuns: [ReplicationTaskAssessmentRun]?
+
+        public init(marker: String? = nil, replicationTaskAssessmentRuns: [ReplicationTaskAssessmentRun]? = nil) {
+            self.marker = marker
+            self.replicationTaskAssessmentRuns = replicationTaskAssessmentRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationTaskAssessmentRuns = "ReplicationTaskAssessmentRuns"
+        }
+    }
+
+    public struct DescribeReplicationTaskIndividualAssessmentsMessage: AWSEncodableShape {
+
+        /// Filters applied to the individual assessments described in the form of key-value pairs. Valid filter names: replication-task-assessment-run-arn, replication-task-arn, status 
+        public let filters: [Filter]?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+        public let maxRecords: Int?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeReplicationTaskIndividualAssessmentsResponse: AWSDecodableShape {
+
+        /// A pagination token returned for you to pass to a subsequent request. If you pass this token as the Marker value in a subsequent request, the response includes only records beyond the marker, up to the value specified in the request by MaxRecords.
+        public let marker: String?
+        /// One or more individual assessments as specified by Filters.
+        public let replicationTaskIndividualAssessments: [ReplicationTaskIndividualAssessment]?
+
+        public init(marker: String? = nil, replicationTaskIndividualAssessments: [ReplicationTaskIndividualAssessment]? = nil) {
+            self.marker = marker
+            self.replicationTaskIndividualAssessments = replicationTaskIndividualAssessments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationTaskIndividualAssessments = "ReplicationTaskIndividualAssessments"
+        }
+    }
+
     public struct DescribeReplicationTasksMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
+        /// Filters applied to replication tasks. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1555,7 +1771,7 @@ extension DatabaseMigrationService {
 
     public struct DescribeTableStatisticsMessage: AWSEncodableShape {
 
-        /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
+        /// Filters applied to table statistics. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1667,7 +1883,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    BucketName - The name of the S3 bucket to use.    CompressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
         public let dmsTransferSettings: DmsTransferSettings?
-        /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
+        /// The settings for the DynamoDB target endpoint. For more information, see the DynamoDBSettings structure.
         public let dynamoDbSettings: DynamoDbSettings?
         /// The settings for the Elasticsearch source endpoint. For more information, see the ElasticsearchSettings structure.
         public let elasticsearchSettings: ElasticsearchSettings?
@@ -1687,18 +1903,28 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional connection attributes used to connect to the endpoint.
         public let extraConnectionAttributes: String?
+        /// The settings for the IBM Db2 LUW source endpoint. For more information, see the IBMDb2Settings structure. 
+        public let iBMDb2Settings: IBMDb2Settings?
         /// The settings for the Apache Kafka target endpoint. For more information, see the KafkaSettings structure.
         public let kafkaSettings: KafkaSettings?
         /// The settings for the Amazon Kinesis target endpoint. For more information, see the KinesisSettings structure.
         public let kinesisSettings: KinesisSettings?
         /// An AWS KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
+        /// The settings for the Microsoft SQL Server source and target endpoint. For more information, see the MicrosoftSQLServerSettings structure.
+        public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
         public let mongoDbSettings: MongoDbSettings?
+        /// The settings for the MySQL source and target endpoint. For more information, see the MySQLSettings structure.
+        public let mySQLSettings: MySQLSettings?
         /// The settings for the Amazon Neptune target endpoint. For more information, see the NeptuneSettings structure.
         public let neptuneSettings: NeptuneSettings?
+        /// The settings for the Oracle source and target endpoint. For more information, see the OracleSettings structure.
+        public let oracleSettings: OracleSettings?
         /// The port value used to access the endpoint.
         public let port: Int?
+        /// The settings for the PostgreSQL source and target endpoint. For more information, see the PostgreSQLSettings structure.
+        public let postgreSQLSettings: PostgreSQLSettings?
         /// Settings for the Amazon Redshift endpoint.
         public let redshiftSettings: RedshiftSettings?
         /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
@@ -1711,10 +1937,12 @@ extension DatabaseMigrationService {
         public let sslMode: DmsSslModeValue?
         /// The status of the endpoint.
         public let status: String?
+        /// The settings for the SAP ASE source and target endpoint. For more information, see the SybaseSettings structure.
+        public let sybaseSettings: SybaseSettings?
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, neptuneSettings: NeptuneSettings? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -1728,18 +1956,24 @@ extension DatabaseMigrationService {
             self.externalId = externalId
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
+            self.iBMDb2Settings = iBMDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
+            self.microsoftSQLServerSettings = microsoftSQLServerSettings
             self.mongoDbSettings = mongoDbSettings
+            self.mySQLSettings = mySQLSettings
             self.neptuneSettings = neptuneSettings
+            self.oracleSettings = oracleSettings
             self.port = port
+            self.postgreSQLSettings = postgreSQLSettings
             self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sslMode = sslMode
             self.status = status
+            self.sybaseSettings = sybaseSettings
             self.username = username
         }
 
@@ -1757,18 +1991,24 @@ extension DatabaseMigrationService {
             case externalId = "ExternalId"
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case iBMDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
+            case microsoftSQLServerSettings = "MicrosoftSQLServerSettings"
             case mongoDbSettings = "MongoDbSettings"
+            case mySQLSettings = "MySQLSettings"
             case neptuneSettings = "NeptuneSettings"
+            case oracleSettings = "OracleSettings"
             case port = "Port"
+            case postgreSQLSettings = "PostgreSQLSettings"
             case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case sslMode = "SslMode"
             case status = "Status"
+            case sybaseSettings = "SybaseSettings"
             case username = "Username"
         }
     }
@@ -1869,9 +2109,9 @@ extension DatabaseMigrationService {
 
     public struct Filter: AWSEncodableShape {
 
-        /// The name of the filter.
+        /// The name of the filter as specified for a Describe* or similar operation.
         public let name: String
-        /// The filter value.
+        /// The filter value, which can specify one or more values used to narrow the returned results.
         public let values: [String]
 
         public init(name: String, values: [String]) {
@@ -1882,6 +2122,36 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct IBMDb2Settings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Database name for the endpoint.
+        public let databaseName: String?
+        /// Endpoint connection password.
+        public let password: String?
+        /// Endpoint TCP port.
+        public let port: Int?
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+            self.databaseName = databaseName
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case password = "Password"
+            case port = "Port"
+            case serverName = "ServerName"
+            case username = "Username"
         }
     }
 
@@ -1929,16 +2199,40 @@ extension DatabaseMigrationService {
 
         /// The broker location and port of the Kafka broker that hosts your Kafka instance. Specify the broker in the form  broker-hostname-or-ip:port . For example, "ec2-12-345-678-901.compute-1.amazonaws.com:2345".
         public let broker: String?
+        /// Shows detailed control information for table definition, column definition, and table and column changes in the Kafka message output. The default is False.
+        public let includeControlDetails: Bool?
+        /// Shows the partition value within the Kafka message output, unless the partition type is schema-table-type. The default is False.
+        public let includePartitionValue: Bool?
+        /// Includes any data definition language (DDL) operations that change the table in the control data, such as rename-table, drop-table, add-column, drop-column, and rename-column. The default is False.
+        public let includeTableAlterOperations: Bool?
+        /// Provides detailed transaction information from the source database. This information includes a commit timestamp, a log position, and values for transaction_id, previous transaction_id, and transaction_record_id (the record offset within a transaction). The default is False.
+        public let includeTransactionDetails: Bool?
+        /// The output format for the records created on the endpoint. The message format is JSON (default) or JSON_UNFORMATTED (a single line with no tab).
+        public let messageFormat: MessageFormatValue?
+        /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is False.
+        public let partitionIncludeSchemaTable: Bool?
         /// The topic to which you migrate the data. If you don't specify a topic, AWS DMS specifies "kafka-default-topic" as the migration topic.
         public let topic: String?
 
-        public init(broker: String? = nil, topic: String? = nil) {
+        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, partitionIncludeSchemaTable: Bool? = nil, topic: String? = nil) {
             self.broker = broker
+            self.includeControlDetails = includeControlDetails
+            self.includePartitionValue = includePartitionValue
+            self.includeTableAlterOperations = includeTableAlterOperations
+            self.includeTransactionDetails = includeTransactionDetails
+            self.messageFormat = messageFormat
+            self.partitionIncludeSchemaTable = partitionIncludeSchemaTable
             self.topic = topic
         }
 
         private enum CodingKeys: String, CodingKey {
             case broker = "Broker"
+            case includeControlDetails = "IncludeControlDetails"
+            case includePartitionValue = "IncludePartitionValue"
+            case includeTableAlterOperations = "IncludeTableAlterOperations"
+            case includeTransactionDetails = "IncludeTransactionDetails"
+            case messageFormat = "MessageFormat"
+            case partitionIncludeSchemaTable = "PartitionIncludeSchemaTable"
             case topic = "Topic"
         }
     }
@@ -2013,6 +2307,36 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct MicrosoftSQLServerSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Database name for the endpoint.
+        public let databaseName: String?
+        /// Endpoint connection password.
+        public let password: String?
+        /// Endpoint TCP port.
+        public let port: Int?
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+            self.databaseName = databaseName
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case password = "Password"
+            case port = "Port"
+            case serverName = "ServerName"
+            case username = "Username"
+        }
+    }
+
     public struct ModifyEndpointMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
@@ -2037,18 +2361,28 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
         public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let iBMDb2Settings: IBMDb2Settings?
         /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using Apache Kafka as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kafkaSettings: KafkaSettings?
         /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using Amazon Kinesis Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let kinesisSettings: KinesisSettings?
+        /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for AWS DMS and  Extra connection attributes when using SQL Server as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
+        /// Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes when using MySQL as a source for AWS DMS and Extra connection attributes when using a MySQL-compatible database as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let mySQLSettings: MySQLSettings?
         /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying Endpoint Settings for Amazon Neptune as a Target in the AWS Database Migration Service User Guide. 
         public let neptuneSettings: NeptuneSettings?
+        /// Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes when using Oracle as a source for AWS DMS and  Extra connection attributes when using Oracle as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let oracleSettings: OracleSettings?
         /// The password to be used to login to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int?
+        /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for AWS DMS and  Extra connection attributes when using PostgreSQL as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let postgreSQLSettings: PostgreSQLSettings?
         public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let s3Settings: S3Settings?
@@ -2058,10 +2392,12 @@ extension DatabaseMigrationService {
         public let serviceAccessRoleArn: String?
         /// The SSL mode used to connect to the endpoint. The default value is none.
         public let sslMode: DmsSslModeValue?
+        /// Settings in JSON format for the source and target SAP ASE endpoint. For information about other available settings, see Extra connection attributes when using SAP ASE as a source for AWS DMS and Extra connection attributes when using SAP ASE as a target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let sybaseSettings: SybaseSettings?
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, neptuneSettings: NeptuneSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2073,17 +2409,23 @@ extension DatabaseMigrationService {
             self.engineName = engineName
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
+            self.iBMDb2Settings = iBMDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
+            self.microsoftSQLServerSettings = microsoftSQLServerSettings
             self.mongoDbSettings = mongoDbSettings
+            self.mySQLSettings = mySQLSettings
             self.neptuneSettings = neptuneSettings
+            self.oracleSettings = oracleSettings
             self.password = password
             self.port = port
+            self.postgreSQLSettings = postgreSQLSettings
             self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sslMode = sslMode
+            self.sybaseSettings = sybaseSettings
             self.username = username
         }
 
@@ -2099,17 +2441,23 @@ extension DatabaseMigrationService {
             case engineName = "EngineName"
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case iBMDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
+            case microsoftSQLServerSettings = "MicrosoftSQLServerSettings"
             case mongoDbSettings = "MongoDbSettings"
+            case mySQLSettings = "MySQLSettings"
             case neptuneSettings = "NeptuneSettings"
+            case oracleSettings = "OracleSettings"
             case password = "Password"
             case port = "Port"
+            case postgreSQLSettings = "PostgreSQLSettings"
             case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case sslMode = "SslMode"
+            case sybaseSettings = "SybaseSettings"
             case username = "Username"
         }
     }
@@ -2394,6 +2742,36 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct MySQLSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Database name for the endpoint.
+        public let databaseName: String?
+        /// Endpoint connection password.
+        public let password: String?
+        /// Endpoint TCP port.
+        public let port: Int?
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+            self.databaseName = databaseName
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case password = "Password"
+            case port = "Port"
+            case serverName = "ServerName"
+            case username = "Username"
+        }
+    }
+
     public struct NeptuneSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of milliseconds for AWS DMS to wait to retry a bulk-load of migrated graph data to the Neptune target database before raising an error. The default is 250.
@@ -2429,6 +2807,56 @@ extension DatabaseMigrationService {
             case s3BucketFolder = "S3BucketFolder"
             case s3BucketName = "S3BucketName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
+        }
+    }
+
+    public struct OracleSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// For an Oracle source endpoint, your Oracle Automatic Storage Management (ASM) password. You can set this value from the  asm_user_password  value. You set this value as part of the comma-separated value that you set to the Password request parameter when you create the endpoint to access transaction logs using Binary Reader. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
+        public let asmPassword: String?
+        /// For an Oracle source endpoint, your ASM server address. You can set this value from the asm_server value. You set asm_server as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
+        public let asmServer: String?
+        /// For an Oracle source endpoint, your ASM user name. You can set this value from the asm_user value. You set asm_user as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
+        public let asmUser: String?
+        /// Database name for the endpoint.
+        public let databaseName: String?
+        /// Endpoint connection password.
+        public let password: String?
+        /// Endpoint TCP port.
+        public let port: Int?
+        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password  part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryptian setting is related to this SecurityDbEncryptionName setting. For more information, see  Supported encryption methods for using Oracle as a source for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let securityDbEncryption: String?
+        /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in  Supported encryption methods for using Oracle as a source for AWS DMS in the AWS Database Migration Service User Guide.
+        public let securityDbEncryptionName: String?
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, username: String? = nil) {
+            self.asmPassword = asmPassword
+            self.asmServer = asmServer
+            self.asmUser = asmUser
+            self.databaseName = databaseName
+            self.password = password
+            self.port = port
+            self.securityDbEncryption = securityDbEncryption
+            self.securityDbEncryptionName = securityDbEncryptionName
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asmPassword = "AsmPassword"
+            case asmServer = "AsmServer"
+            case asmUser = "AsmUser"
+            case databaseName = "DatabaseName"
+            case password = "Password"
+            case port = "Port"
+            case securityDbEncryption = "SecurityDbEncryption"
+            case securityDbEncryptionName = "SecurityDbEncryptionName"
+            case serverName = "ServerName"
+            case username = "Username"
         }
     }
 
@@ -2509,6 +2937,36 @@ extension DatabaseMigrationService {
             case description = "Description"
             case forcedApplyDate = "ForcedApplyDate"
             case optInStatus = "OptInStatus"
+        }
+    }
+
+    public struct PostgreSQLSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Database name for the endpoint.
+        public let databaseName: String?
+        /// Endpoint connection password.
+        public let password: String?
+        /// Endpoint TCP port.
+        public let port: Int?
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+            self.databaseName = databaseName
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case password = "Password"
+            case port = "Port"
+            case serverName = "ServerName"
+            case username = "Username"
         }
     }
 
@@ -3070,6 +3528,112 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct ReplicationTaskAssessmentRun: AWSDecodableShape {
+
+        /// Indication of the completion progress for the individual assessments specified to run.
+        public let assessmentProgress: ReplicationTaskAssessmentRunProgress?
+        /// Unique name of the assessment run.
+        public let assessmentRunName: String?
+        /// Last message generated by an individual assessment failure.
+        public let lastFailureMessage: String?
+        /// ARN of the migration task associated with this premigration assessment run.
+        public let replicationTaskArn: String?
+        /// Amazon Resource Name (ARN) of this assessment run.
+        public let replicationTaskAssessmentRunArn: String?
+        /// Date on which the assessment run was created using the StartReplicationTaskAssessmentRun operation.
+        public let replicationTaskAssessmentRunCreationDate: TimeStamp?
+        /// Encryption mode used to encrypt the assessment run results.
+        public let resultEncryptionMode: String?
+        /// ARN of the AWS KMS encryption key used to encrypt the assessment run results.
+        public let resultKmsKeyArn: String?
+        /// Amazon S3 bucket where AWS DMS stores the results of this assessment run.
+        public let resultLocationBucket: String?
+        /// Folder in an Amazon S3 bucket where AWS DMS stores the results of this assessment run.
+        public let resultLocationFolder: String?
+        /// ARN of the service role used to start the assessment run using the StartReplicationTaskAssessmentRun operation.
+        public let serviceAccessRoleArn: String?
+        /// Assessment run status.  This status can have one of the following values:    "cancelling" – The assessment run was canceled by the CancelReplicationTaskAssessmentRun operation.    "deleting" – The assessment run was deleted by the DeleteReplicationTaskAssessmentRun operation.    "failed" – At least one individual assessment completed with a failed status.    "error-provisioning" – An internal error occurred while resources were provisioned (during provisioning status).    "error-executing" – An internal error occurred while individual assessments ran (during running status).    "invalid state" – The assessment run is in an unknown state.    "passed" – All individual assessments have completed, and none has a failed status.    "provisioning" – Resources required to run individual assessments are being provisioned.    "running" – Individual assessments are being run.    "starting" – The assessment run is starting, but resources are not yet being provisioned for individual assessments.  
+        public let status: String?
+
+        public init(assessmentProgress: ReplicationTaskAssessmentRunProgress? = nil, assessmentRunName: String? = nil, lastFailureMessage: String? = nil, replicationTaskArn: String? = nil, replicationTaskAssessmentRunArn: String? = nil, replicationTaskAssessmentRunCreationDate: TimeStamp? = nil, resultEncryptionMode: String? = nil, resultKmsKeyArn: String? = nil, resultLocationBucket: String? = nil, resultLocationFolder: String? = nil, serviceAccessRoleArn: String? = nil, status: String? = nil) {
+            self.assessmentProgress = assessmentProgress
+            self.assessmentRunName = assessmentRunName
+            self.lastFailureMessage = lastFailureMessage
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
+            self.replicationTaskAssessmentRunCreationDate = replicationTaskAssessmentRunCreationDate
+            self.resultEncryptionMode = resultEncryptionMode
+            self.resultKmsKeyArn = resultKmsKeyArn
+            self.resultLocationBucket = resultLocationBucket
+            self.resultLocationFolder = resultLocationFolder
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentProgress = "AssessmentProgress"
+            case assessmentRunName = "AssessmentRunName"
+            case lastFailureMessage = "LastFailureMessage"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskAssessmentRunArn = "ReplicationTaskAssessmentRunArn"
+            case replicationTaskAssessmentRunCreationDate = "ReplicationTaskAssessmentRunCreationDate"
+            case resultEncryptionMode = "ResultEncryptionMode"
+            case resultKmsKeyArn = "ResultKmsKeyArn"
+            case resultLocationBucket = "ResultLocationBucket"
+            case resultLocationFolder = "ResultLocationFolder"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case status = "Status"
+        }
+    }
+
+    public struct ReplicationTaskAssessmentRunProgress: AWSDecodableShape {
+
+        /// The number of individual assessments that have completed, successfully or not.
+        public let individualAssessmentCompletedCount: Int?
+        /// The number of individual assessments that are specified to run.
+        public let individualAssessmentCount: Int?
+
+        public init(individualAssessmentCompletedCount: Int? = nil, individualAssessmentCount: Int? = nil) {
+            self.individualAssessmentCompletedCount = individualAssessmentCompletedCount
+            self.individualAssessmentCount = individualAssessmentCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case individualAssessmentCompletedCount = "IndividualAssessmentCompletedCount"
+            case individualAssessmentCount = "IndividualAssessmentCount"
+        }
+    }
+
+    public struct ReplicationTaskIndividualAssessment: AWSDecodableShape {
+
+        /// Name of this individual assessment.
+        public let individualAssessmentName: String?
+        /// ARN of the premigration assessment run that is created to run this individual assessment.
+        public let replicationTaskAssessmentRunArn: String?
+        /// Amazon Resource Name (ARN) of this individual assessment.
+        public let replicationTaskIndividualAssessmentArn: String?
+        /// Date when this individual assessment was started as part of running the StartReplicationTaskAssessmentRun operation.
+        public let replicationTaskIndividualAssessmentStartDate: TimeStamp?
+        /// Individual assessment status. This status can have one of the following values:    "cancelled"     "error"     "failed"     "passed"     "pending"     "running"   
+        public let status: String?
+
+        public init(individualAssessmentName: String? = nil, replicationTaskAssessmentRunArn: String? = nil, replicationTaskIndividualAssessmentArn: String? = nil, replicationTaskIndividualAssessmentStartDate: TimeStamp? = nil, status: String? = nil) {
+            self.individualAssessmentName = individualAssessmentName
+            self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
+            self.replicationTaskIndividualAssessmentArn = replicationTaskIndividualAssessmentArn
+            self.replicationTaskIndividualAssessmentStartDate = replicationTaskIndividualAssessmentStartDate
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case individualAssessmentName = "IndividualAssessmentName"
+            case replicationTaskAssessmentRunArn = "ReplicationTaskAssessmentRunArn"
+            case replicationTaskIndividualAssessmentArn = "ReplicationTaskIndividualAssessmentArn"
+            case replicationTaskIndividualAssessmentStartDate = "ReplicationTaskIndividualAssessmentStartDate"
+            case status = "Status"
+        }
+    }
+
     public struct ReplicationTaskStats: AWSDecodableShape {
 
         /// The elapsed time of the task, in milliseconds.
@@ -3264,6 +3828,66 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct StartReplicationTaskAssessmentRunMessage: AWSEncodableShape {
+
+        /// Unique name to identify the assessment run.
+        public let assessmentRunName: String
+        /// Space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that AWS DMS supports for the associated migration task. This task is specified by ReplicationTaskArn.  You can't set a value for Exclude if you also set a value for IncludeOnly in the API operation. To identify the names of the default individual assessments that AWS DMS supports for the associated migration task, run the DescribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. 
+        public let exclude: [String]?
+        /// Space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that AWS DMS supports for the associated migration task. This task is specified by ReplicationTaskArn.  You can't set a value for IncludeOnly if you also set a value for Exclude in the API operation.  To identify the names of the default individual assessments that AWS DMS supports for the associated migration task, run the DescribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. 
+        public let includeOnly: [String]?
+        /// Amazon Resource Name (ARN) of the migration task associated with the premigration assessment run that you want to start.
+        public let replicationTaskArn: String
+        /// Encryption mode that you can specify to encrypt the results of this assessment run. If you don't specify this request parameter, AWS DMS stores the assessment run results without encryption. You can specify one of the options following:    "SSE_S3" – The server-side encryption provided as a default by Amazon S3.    "SSE_KMS" – AWS Key Management Service (AWS KMS) encryption. This encryption can use either a custom KMS encryption key that you specify or the default KMS encryption key that DMS provides.  
+        public let resultEncryptionMode: String?
+        /// ARN of a custom KMS encryption key that you specify when you set ResultEncryptionMode to "SSE_KMS".
+        public let resultKmsKeyArn: String?
+        /// Amazon S3 bucket where you want AWS DMS to store the results of this assessment run.
+        public let resultLocationBucket: String
+        /// Folder within an Amazon S3 bucket where you want AWS DMS to store the results of this assessment run.
+        public let resultLocationFolder: String?
+        /// ARN of a service role needed to start the assessment run.
+        public let serviceAccessRoleArn: String
+
+        public init(assessmentRunName: String, exclude: [String]? = nil, includeOnly: [String]? = nil, replicationTaskArn: String, resultEncryptionMode: String? = nil, resultKmsKeyArn: String? = nil, resultLocationBucket: String, resultLocationFolder: String? = nil, serviceAccessRoleArn: String) {
+            self.assessmentRunName = assessmentRunName
+            self.exclude = exclude
+            self.includeOnly = includeOnly
+            self.replicationTaskArn = replicationTaskArn
+            self.resultEncryptionMode = resultEncryptionMode
+            self.resultKmsKeyArn = resultKmsKeyArn
+            self.resultLocationBucket = resultLocationBucket
+            self.resultLocationFolder = resultLocationFolder
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunName = "AssessmentRunName"
+            case exclude = "Exclude"
+            case includeOnly = "IncludeOnly"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case resultEncryptionMode = "ResultEncryptionMode"
+            case resultKmsKeyArn = "ResultKmsKeyArn"
+            case resultLocationBucket = "ResultLocationBucket"
+            case resultLocationFolder = "ResultLocationFolder"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+        }
+    }
+
+    public struct StartReplicationTaskAssessmentRunResponse: AWSDecodableShape {
+
+        /// The premigration assessment run that was started.
+        public let replicationTaskAssessmentRun: ReplicationTaskAssessmentRun?
+
+        public init(replicationTaskAssessmentRun: ReplicationTaskAssessmentRun? = nil) {
+            self.replicationTaskAssessmentRun = replicationTaskAssessmentRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskAssessmentRun = "ReplicationTaskAssessmentRun"
+        }
+    }
+
     public struct StartReplicationTaskMessage: AWSEncodableShape {
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
@@ -3388,6 +4012,36 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct SybaseSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Database name for the endpoint.
+        public let databaseName: String?
+        /// Endpoint connection password.
+        public let password: String?
+        /// Endpoint TCP port.
+        public let port: Int?
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+            self.databaseName = databaseName
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case password = "Password"
+            case port = "Port"
+            case serverName = "ServerName"
+            case username = "Username"
+        }
+    }
+
     public struct TableStatistics: AWSDecodableShape {
 
         /// The data definition language (DDL) used to build and modify the structure of your tables.
@@ -3477,11 +4131,11 @@ extension DatabaseMigrationService {
     public struct TableToReload: AWSEncodableShape {
 
         /// The schema name of the table to be reloaded.
-        public let schemaName: String?
+        public let schemaName: String
         /// The table name of the table to be reloaded.
-        public let tableName: String?
+        public let tableName: String
 
-        public init(schemaName: String? = nil, tableName: String? = nil) {
+        public init(schemaName: String, tableName: String) {
             self.schemaName = schemaName
             self.tableName = tableName
         }
