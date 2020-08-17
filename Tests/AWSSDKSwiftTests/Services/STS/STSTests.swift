@@ -102,7 +102,7 @@ class STSTests: XCTestCase {
         let sns = SNS(client: client)
         XCTAssertThrowsError(try sns.listTopics(.init()).wait()) { error in
             switch error {
-            case SNSErrorType.authorizationErrorException(_):
+            case SNSErrorType.authorizationErrorException:
                 break
             default:
                 XCTFail("Wrong error \(error)")
