@@ -140,14 +140,10 @@ class AWSRequestTests: XCTestCase {
     func testCloudFrontCreateDistribution() {
         let cloudFront = CloudFront(client: Self.client)
         let expectedResult =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2019-03-26/\"><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><ForwardedValues><Cookies><Forward>all</Forward></Cookies><QueryString>true</QueryString></ForwardedValues><MinTTL>1024</MinTTL><TargetOriginId>AWSRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2020-05-31/\"><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><TargetOriginId>AWSRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
 
-        let cookiePreference = CloudFront.CookiePreference(forward: .all)
-        let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
         let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
         let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(
-            forwardedValues: forwardedValues,
-            minTTL: 1024,
             targetOriginId: "AWSRequestTests",
             trustedSigners: trustedSigners,
             viewerProtocolPolicy: .httpsOnly
@@ -277,12 +273,8 @@ class AWSRequestTests: XCTestCase {
     }
 
     func testCloudFrontCreateDistributionValidate() {
-        let cookiePreference = CloudFront.CookiePreference(forward: .all)
-        let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
         let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
         let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(
-            forwardedValues: forwardedValues,
-            minTTL: 1024,
             targetOriginId: "AWSRequestTests",
             trustedSigners: trustedSigners,
             viewerProtocolPolicy: .httpsOnly
