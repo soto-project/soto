@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AccessAnalyzer {
 
@@ -108,5 +108,4 @@ extension AccessAnalyzer.ListFindingsRequest: AWSPaginateToken {
 
     }
 }
-
 

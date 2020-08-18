@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ConnectParticipant {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChatItemType: String, CustomStringConvertible, Codable {
         case message = "MESSAGE"
@@ -52,7 +52,7 @@ extension ConnectParticipant {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ConnectionCredentials: AWSDecodableShape {
 

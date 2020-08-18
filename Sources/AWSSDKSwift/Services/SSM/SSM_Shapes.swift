@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SSM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AssociationComplianceSeverity: String, CustomStringConvertible, Codable {
         case critical = "CRITICAL"
@@ -619,7 +619,7 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountSharingInfo: AWSDecodableShape {
 

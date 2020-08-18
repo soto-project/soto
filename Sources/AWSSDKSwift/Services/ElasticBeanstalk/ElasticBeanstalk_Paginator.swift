@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ElasticBeanstalk {
 
@@ -115,5 +115,4 @@ extension ElasticBeanstalk.ListPlatformVersionsRequest: AWSPaginateToken {
 
     }
 }
-
 

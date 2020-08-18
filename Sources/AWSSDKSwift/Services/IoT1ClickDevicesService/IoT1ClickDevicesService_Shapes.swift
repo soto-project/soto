@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoT1ClickDevicesService {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Attributes: AWSDecodableShape {
 

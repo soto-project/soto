@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension StorageGateway {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
@@ -77,7 +77,7 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivateGatewayInput: AWSEncodableShape {
 

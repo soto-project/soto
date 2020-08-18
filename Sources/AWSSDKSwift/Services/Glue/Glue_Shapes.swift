@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Glue {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
@@ -325,7 +325,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
 

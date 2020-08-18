@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IVS {
 
@@ -104,5 +104,4 @@ extension IVS.ListTagsForResourceRequest: AWSPaginateToken {
 
     }
 }
-
 

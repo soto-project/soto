@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ResourceGroups {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum GroupConfigurationStatus: String, CustomStringConvertible, Codable {
         case updating = "UPDATING"
@@ -50,7 +50,7 @@ extension ResourceGroups {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateGroupInput: AWSEncodableShape {
 

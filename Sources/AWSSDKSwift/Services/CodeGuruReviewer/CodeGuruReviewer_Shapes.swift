@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeGuruReviewer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum JobState: String, CustomStringConvertible, Codable {
         case completed = "Completed"
@@ -55,7 +55,7 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateRepositoryRequest: AWSEncodableShape {
 

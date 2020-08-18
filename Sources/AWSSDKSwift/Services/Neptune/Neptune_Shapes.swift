@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Neptune {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable {
         case immediate = "immediate"
@@ -36,7 +36,7 @@ extension Neptune {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddRoleToDBClusterMessage: AWSEncodableShape {
 

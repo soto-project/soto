@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CostExplorer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountScope: String, CustomStringConvertible, Codable {
         case payer = "PAYER"
@@ -153,7 +153,7 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CostCategory: AWSDecodableShape {
 

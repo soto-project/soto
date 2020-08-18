@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension EC2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountAttributeName: String, CustomStringConvertible, Codable {
         case supportedPlatforms = "supported-platforms"
@@ -1868,7 +1868,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSEncodableShape {
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstanceId" }

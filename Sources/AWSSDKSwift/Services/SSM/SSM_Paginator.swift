@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SSM {
 
@@ -965,5 +965,4 @@ extension SSM.ListResourceDataSyncRequest: AWSPaginateToken {
 
     }
 }
-
 

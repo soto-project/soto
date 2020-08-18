@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MediaConvert {
 
@@ -133,5 +133,4 @@ extension MediaConvert.ListQueuesRequest: AWSPaginateToken {
 
     }
 }
-
 

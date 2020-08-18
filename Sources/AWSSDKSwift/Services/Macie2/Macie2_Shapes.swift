@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Macie2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdminStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -277,7 +277,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
 

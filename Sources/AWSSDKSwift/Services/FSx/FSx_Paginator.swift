@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension FSx {
 
@@ -86,5 +86,4 @@ extension FSx.DescribeFileSystemsRequest: AWSPaginateToken {
 
     }
 }
-
 

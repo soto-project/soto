@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DocDB {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable {
         case immediate = "immediate"
@@ -36,7 +36,7 @@ extension DocDB {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToResourceMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }

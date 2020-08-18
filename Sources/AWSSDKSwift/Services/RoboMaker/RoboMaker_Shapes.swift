@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension RoboMaker {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Architecture: String, CustomStringConvertible, Codable {
         case x8664 = "X86_64"
@@ -217,7 +217,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchDeleteWorldsRequest: AWSEncodableShape {
 

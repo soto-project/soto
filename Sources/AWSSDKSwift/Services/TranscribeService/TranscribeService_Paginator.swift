@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension TranscribeService {
 
@@ -152,5 +152,4 @@ extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateToken {
 
     }
 }
-
 

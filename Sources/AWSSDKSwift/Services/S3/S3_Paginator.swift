@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension S3 {
 
@@ -147,5 +147,4 @@ extension S3.ListPartsRequest: AWSPaginateToken {
 
     }
 }
-
 

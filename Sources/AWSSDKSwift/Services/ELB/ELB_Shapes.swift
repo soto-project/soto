@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ELB {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessLog: AWSEncodableShape & AWSDecodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Connect {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Channel: String, CustomStringConvertible, Codable {
         case voice = "VOICE"
@@ -376,7 +376,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ChatMessage: AWSEncodableShape {
 

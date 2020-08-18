@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension StorageGateway {
 
@@ -211,5 +211,4 @@ extension StorageGateway.ListVolumesInput: AWSPaginateToken {
 
     }
 }
-
 

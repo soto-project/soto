@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension LexModelBuildingService {
 
@@ -236,5 +236,4 @@ extension LexModelBuildingService.GetSlotTypesRequest: AWSPaginateToken {
 
     }
 }
-
 

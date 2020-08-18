@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SageMaker {
 
@@ -868,5 +868,4 @@ extension SageMaker.SearchRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension RDS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
         case sync = "sync"
@@ -117,7 +117,7 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountAttributesMessage: AWSDecodableShape {
         public struct _AccountQuotasEncoding: ArrayCoderProperties { static public let member = "AccountQuota" }

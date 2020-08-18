@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DLM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -57,7 +57,7 @@ extension DLM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
 

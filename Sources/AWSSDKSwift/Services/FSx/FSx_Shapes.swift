@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension FSx {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdministrativeActionType: String, CustomStringConvertible, Codable {
         case fileSystemUpdate = "FILE_SYSTEM_UPDATE"
@@ -152,7 +152,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActiveDirectoryBackupAttributes: AWSDecodableShape {
 

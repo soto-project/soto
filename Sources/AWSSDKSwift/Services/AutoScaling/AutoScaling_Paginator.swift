@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AutoScaling {
 
@@ -195,5 +195,4 @@ extension AutoScaling.DescribeTagsType: AWSPaginateToken {
 
     }
 }
-
 

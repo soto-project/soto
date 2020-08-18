@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension GroundStation {
 
@@ -148,5 +148,4 @@ extension GroundStation.ListSatellitesRequest: AWSPaginateToken {
 
     }
 }
-
 

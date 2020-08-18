@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AutoScaling {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
         case disabled = "disabled"
@@ -97,7 +97,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivitiesType: AWSDecodableShape {
 

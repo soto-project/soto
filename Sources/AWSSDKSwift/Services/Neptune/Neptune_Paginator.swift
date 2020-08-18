@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Neptune {
 
@@ -234,5 +234,4 @@ extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
 
     }
 }
-
 

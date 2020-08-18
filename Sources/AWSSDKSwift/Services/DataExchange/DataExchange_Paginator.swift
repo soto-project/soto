@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DataExchange {
 
@@ -107,5 +107,4 @@ extension DataExchange.ListRevisionAssetsRequest: AWSPaginateToken {
 
     }
 }
-
 

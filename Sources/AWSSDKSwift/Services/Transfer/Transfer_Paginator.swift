@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Transfer {
 
@@ -103,5 +103,4 @@ extension Transfer.ListUsersRequest: AWSPaginateToken {
 
     }
 }
-
 

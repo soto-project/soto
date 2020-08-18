@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension EC2 {
 
@@ -2101,5 +2101,4 @@ extension EC2.SearchTransitGatewayMulticastGroupsRequest: AWSPaginateToken {
 
     }
 }
-
 

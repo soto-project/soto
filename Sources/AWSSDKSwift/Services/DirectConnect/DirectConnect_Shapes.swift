@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DirectConnect {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AddressFamily: String, CustomStringConvertible, Codable {
         case ipv4 = "ipv4"
@@ -146,7 +146,7 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
 

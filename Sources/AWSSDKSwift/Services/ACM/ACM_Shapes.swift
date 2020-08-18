@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ACM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CertificateStatus: String, CustomStringConvertible, Codable {
         case pendingValidation = "PENDING_VALIDATION"
@@ -152,7 +152,7 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToCertificateRequest: AWSEncodableShape {
 

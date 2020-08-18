@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Route53Resolver {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum IpAddressStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
@@ -81,7 +81,7 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateResolverEndpointIpAddressRequest: AWSEncodableShape {
 

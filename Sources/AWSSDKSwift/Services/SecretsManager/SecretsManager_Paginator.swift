@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SecretsManager {
 
@@ -65,5 +65,4 @@ extension SecretsManager.ListSecretsRequest: AWSPaginateToken {
 
     }
 }
-
 

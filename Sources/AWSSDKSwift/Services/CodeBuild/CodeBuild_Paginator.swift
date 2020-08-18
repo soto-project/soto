@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodeBuild {
 
@@ -286,5 +286,4 @@ extension CodeBuild.ListSharedReportGroupsInput: AWSPaginateToken {
 
     }
 }
-
 

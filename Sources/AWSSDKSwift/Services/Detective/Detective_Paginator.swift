@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Detective {
 
@@ -82,5 +82,4 @@ extension Detective.ListMembersRequest: AWSPaginateToken {
 
     }
 }
-
 

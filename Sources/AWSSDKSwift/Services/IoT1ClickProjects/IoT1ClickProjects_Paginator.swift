@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IoT1ClickProjects {
 
@@ -62,5 +62,4 @@ extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateToken {
 
     }
 }
-
 

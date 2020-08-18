@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SESV2 {
 
@@ -208,5 +208,4 @@ extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateToken {
 
     }
 }
-
 

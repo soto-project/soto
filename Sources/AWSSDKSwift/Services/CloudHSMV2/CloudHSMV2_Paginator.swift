@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudHSMV2 {
 
@@ -85,5 +85,4 @@ extension CloudHSMV2.ListTagsRequest: AWSPaginateToken {
 
     }
 }
-
 

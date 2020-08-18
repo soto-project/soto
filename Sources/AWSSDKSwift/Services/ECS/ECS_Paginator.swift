@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ECS {
 
@@ -207,5 +207,4 @@ extension ECS.ListTasksRequest: AWSPaginateToken {
 
     }
 }
-
 

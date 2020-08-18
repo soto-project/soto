@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SFN {
 
@@ -105,5 +105,4 @@ extension SFN.ListStateMachinesInput: AWSPaginateToken {
 
     }
 }
-
 

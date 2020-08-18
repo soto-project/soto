@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension LicenseManager {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum InventoryFilterCondition: String, CustomStringConvertible, Codable {
         case equals = "EQUALS"
@@ -51,7 +51,7 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AutomatedDiscoveryInformation: AWSDecodableShape {
 

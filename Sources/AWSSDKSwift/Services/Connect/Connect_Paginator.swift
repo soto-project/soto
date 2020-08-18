@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Connect {
 
@@ -243,5 +243,4 @@ extension Connect.ListUsersRequest: AWSPaginateToken {
 
     }
 }
-
 

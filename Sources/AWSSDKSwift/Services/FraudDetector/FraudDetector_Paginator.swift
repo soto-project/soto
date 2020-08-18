@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension FraudDetector {
 
@@ -257,5 +257,4 @@ extension FraudDetector.ListTagsForResourceRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension RAM {
 
@@ -186,5 +186,4 @@ extension RAM.ListResourcesRequest: AWSPaginateToken {
 
     }
 }
-
 

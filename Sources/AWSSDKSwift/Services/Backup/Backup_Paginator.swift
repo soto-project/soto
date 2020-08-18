@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Backup {
 
@@ -290,5 +290,4 @@ extension Backup.ListTagsInput: AWSPaginateToken {
 
     }
 }
-
 

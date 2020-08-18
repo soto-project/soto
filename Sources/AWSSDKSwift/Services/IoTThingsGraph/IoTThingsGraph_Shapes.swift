@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTThingsGraph {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DefinitionLanguage: String, CustomStringConvertible, Codable {
         case graphql = "GRAPHQL"
@@ -130,7 +130,7 @@ extension IoTThingsGraph {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateEntityToThingRequest: AWSEncodableShape {
 

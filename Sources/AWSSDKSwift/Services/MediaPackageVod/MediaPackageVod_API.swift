@@ -16,19 +16,19 @@
 
 @_exported import AWSSDKSwiftCore
 
-/**
+/*
 Client object for interacting with AWS MediaPackageVod service.
 
 AWS Elemental MediaPackage VOD
 */
 public struct MediaPackageVod {
 
-    //MARK: Member variables
+    // MARK: Member variables
 
     public let client: AWSClient
     public let serviceConfig: AWSServiceConfig
 
-    //MARK: Initialization
+    // MARK: Initialization
 
     /// Initialize the MediaPackageVod client
     /// - parameters:
@@ -57,85 +57,85 @@ public struct MediaPackageVod {
         )
     }
     
-    //MARK: API Calls
+    // MARK: API Calls
 
     ///  Creates a new MediaPackage VOD Asset resource.
     public func createAsset(_ input: CreateAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAssetResponse> {
-        return client.execute(operation: "CreateAsset", path: "/assets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateAsset", path: "/assets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new MediaPackage VOD PackagingConfiguration resource.
     public func createPackagingConfiguration(_ input: CreatePackagingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePackagingConfigurationResponse> {
-        return client.execute(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new MediaPackage VOD PackagingGroup resource.
     public func createPackagingGroup(_ input: CreatePackagingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePackagingGroupResponse> {
-        return client.execute(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an existing MediaPackage VOD Asset resource.
     public func deleteAsset(_ input: DeleteAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAssetResponse> {
-        return client.execute(operation: "DeleteAsset", path: "/assets/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteAsset", path: "/assets/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a MediaPackage VOD PackagingConfiguration resource.
     public func deletePackagingConfiguration(_ input: DeletePackagingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePackagingConfigurationResponse> {
-        return client.execute(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a MediaPackage VOD PackagingGroup resource.
     public func deletePackagingGroup(_ input: DeletePackagingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePackagingGroupResponse> {
-        return client.execute(operation: "DeletePackagingGroup", path: "/packaging_groups/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeletePackagingGroup", path: "/packaging_groups/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of a MediaPackage VOD Asset resource.
     public func describeAsset(_ input: DescribeAssetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAssetResponse> {
-        return client.execute(operation: "DescribeAsset", path: "/assets/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeAsset", path: "/assets/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of a MediaPackage VOD PackagingConfiguration resource.
     public func describePackagingConfiguration(_ input: DescribePackagingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePackagingConfigurationResponse> {
-        return client.execute(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a description of a MediaPackage VOD PackagingGroup resource.
     public func describePackagingGroup(_ input: DescribePackagingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePackagingGroupResponse> {
-        return client.execute(operation: "DescribePackagingGroup", path: "/packaging_groups/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribePackagingGroup", path: "/packaging_groups/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
     public func listAssets(_ input: ListAssetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAssetsResponse> {
-        return client.execute(operation: "ListAssets", path: "/assets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListAssets", path: "/assets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
     public func listPackagingConfigurations(_ input: ListPackagingConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackagingConfigurationsResponse> {
-        return client.execute(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
     public func listPackagingGroups(_ input: ListPackagingGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPackagingGroupsResponse> {
-        return client.execute(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of the tags assigned to the specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds tags to the specified resource. You can specify one or more tags to add.
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes tags from the specified resource. You can specify one or more tags to remove.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
     public func updatePackagingGroup(_ input: UpdatePackagingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePackagingGroupResponse> {
-        return client.execute(operation: "UpdatePackagingGroup", path: "/packaging_groups/{id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdatePackagingGroup", path: "/packaging_groups/{id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

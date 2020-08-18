@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ImportExport {
 
@@ -42,5 +42,4 @@ extension ImportExport.ListJobsInput: AWSPaginateToken {
 
     }
 }
-
 

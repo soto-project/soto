@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension QuickSight {
 
@@ -279,5 +279,4 @@ extension QuickSight.SearchDashboardsRequest: AWSPaginateToken {
 
     }
 }
-
 

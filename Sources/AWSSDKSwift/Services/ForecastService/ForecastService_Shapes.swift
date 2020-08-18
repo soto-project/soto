@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ForecastService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
         case string = "string"
@@ -71,7 +71,7 @@ extension ForecastService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CategoricalParameterRange: AWSEncodableShape & AWSDecodableShape {
 

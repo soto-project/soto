@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DataSync {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AgentStatus: String, CustomStringConvertible, Codable {
         case online = "ONLINE"
@@ -174,7 +174,7 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AgentListEntry: AWSDecodableShape {
 

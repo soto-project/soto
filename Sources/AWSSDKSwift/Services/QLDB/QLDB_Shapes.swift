@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension QLDB {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ErrorCause: String, CustomStringConvertible, Codable {
         case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
@@ -62,7 +62,7 @@ extension QLDB {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CancelJournalKinesisStreamRequest: AWSEncodableShape {
         public static var _encoding = [

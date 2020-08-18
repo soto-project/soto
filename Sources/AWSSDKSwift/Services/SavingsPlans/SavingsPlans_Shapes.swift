@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SavingsPlans {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CurrencyCode: String, CustomStringConvertible, Codable {
         case cny = "CNY"
@@ -125,7 +125,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateSavingsPlanRequest: AWSEncodableShape {
 

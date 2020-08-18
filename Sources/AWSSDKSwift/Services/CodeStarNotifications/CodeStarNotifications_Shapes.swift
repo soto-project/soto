@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeStarNotifications {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DetailType: String, CustomStringConvertible, Codable {
         case basic = "BASIC"
@@ -62,7 +62,7 @@ extension CodeStarNotifications {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateNotificationRuleRequest: AWSEncodableShape {
 

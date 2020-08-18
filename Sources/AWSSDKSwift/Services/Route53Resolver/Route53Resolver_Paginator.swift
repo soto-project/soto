@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Route53Resolver {
 
@@ -105,5 +105,4 @@ extension Route53Resolver.ListResolverRulesRequest: AWSPaginateToken {
 
     }
 }
-
 

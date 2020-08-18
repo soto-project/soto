@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ConfigService {
 
@@ -113,5 +113,4 @@ extension ConfigService.SelectAggregateResourceConfigRequest: AWSPaginateToken {
 
     }
 }
-
 

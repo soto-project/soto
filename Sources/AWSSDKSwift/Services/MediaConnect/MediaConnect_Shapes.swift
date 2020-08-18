@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaConnect {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Algorithm: String, CustomStringConvertible, Codable {
         case aes128 = "aes128"
@@ -71,7 +71,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddFlowOutputsRequest: AWSEncodableShape {
         public static var _encoding = [

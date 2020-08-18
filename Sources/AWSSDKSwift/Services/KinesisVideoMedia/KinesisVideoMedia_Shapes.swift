@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KinesisVideoMedia {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum StartSelectorType: String, CustomStringConvertible, Codable {
         case fragmentNumber = "FRAGMENT_NUMBER"
@@ -30,7 +30,7 @@ extension KinesisVideoMedia {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct GetMediaInput: AWSEncodableShape {
 

@@ -16,19 +16,19 @@
 
 @_exported import AWSSDKSwiftCore
 
-/**
+/*
 Client object for interacting with AWS MediaConvert service.
 
 AWS Elemental MediaConvert
 */
 public struct MediaConvert {
 
-    //MARK: Member variables
+    // MARK: Member variables
 
     public let client: AWSClient
     public let serviceConfig: AWSServiceConfig
 
-    //MARK: Initialization
+    // MARK: Initialization
 
     /// Initialize the MediaConvert client
     /// - parameters:
@@ -58,130 +58,130 @@ public struct MediaConvert {
         )
     }
     
-    //MARK: API Calls
+    // MARK: API Calls
 
     ///  Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
     public func associateCertificate(_ input: AssociateCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateCertificateResponse> {
-        return client.execute(operation: "AssociateCertificate", path: "/2017-08-29/certificates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "AssociateCertificate", path: "/2017-08-29/certificates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Permanently cancel a job. Once you have canceled a job, you can't start it again.
     public func cancelJob(_ input: CancelJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelJobResponse> {
-        return client.execute(operation: "CancelJob", path: "/2017-08-29/jobs/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CancelJob", path: "/2017-08-29/jobs/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public func createJob(_ input: CreateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateJobResponse> {
-        return client.execute(operation: "CreateJob", path: "/2017-08-29/jobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateJob", path: "/2017-08-29/jobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public func createJobTemplate(_ input: CreateJobTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateJobTemplateResponse> {
-        return client.execute(operation: "CreateJobTemplate", path: "/2017-08-29/jobTemplates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateJobTemplate", path: "/2017-08-29/jobTemplates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public func createPreset(_ input: CreatePresetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePresetResponse> {
-        return client.execute(operation: "CreatePreset", path: "/2017-08-29/presets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreatePreset", path: "/2017-08-29/presets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     public func createQueue(_ input: CreateQueueRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateQueueResponse> {
-        return client.execute(operation: "CreateQueue", path: "/2017-08-29/queues", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateQueue", path: "/2017-08-29/queues", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Permanently delete a job template you have created.
     public func deleteJobTemplate(_ input: DeleteJobTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteJobTemplateResponse> {
-        return client.execute(operation: "DeleteJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Permanently delete a preset you have created.
     public func deletePreset(_ input: DeletePresetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePresetResponse> {
-        return client.execute(operation: "DeletePreset", path: "/2017-08-29/presets/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeletePreset", path: "/2017-08-29/presets/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Permanently delete a queue you have created.
     public func deleteQueue(_ input: DeleteQueueRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteQueueResponse> {
-        return client.execute(operation: "DeleteQueue", path: "/2017-08-29/queues/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteQueue", path: "/2017-08-29/queues/{name}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Send an request with an empty body to the regional API endpoint to get your account API endpoint.
     public func describeEndpoints(_ input: DescribeEndpointsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEndpointsResponse> {
-        return client.execute(operation: "DescribeEndpoints", path: "/2017-08-29/endpoints", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeEndpoints", path: "/2017-08-29/endpoints", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     public func disassociateCertificate(_ input: DisassociateCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateCertificateResponse> {
-        return client.execute(operation: "DisassociateCertificate", path: "/2017-08-29/certificates/{arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DisassociateCertificate", path: "/2017-08-29/certificates/{arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve the JSON for a specific completed transcoding job.
     public func getJob(_ input: GetJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobResponse> {
-        return client.execute(operation: "GetJob", path: "/2017-08-29/jobs/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetJob", path: "/2017-08-29/jobs/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve the JSON for a specific job template.
     public func getJobTemplate(_ input: GetJobTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetJobTemplateResponse> {
-        return client.execute(operation: "GetJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve the JSON for a specific preset.
     public func getPreset(_ input: GetPresetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPresetResponse> {
-        return client.execute(operation: "GetPreset", path: "/2017-08-29/presets/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetPreset", path: "/2017-08-29/presets/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve the JSON for a specific queue.
     public func getQueue(_ input: GetQueueRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetQueueResponse> {
-        return client.execute(operation: "GetQueue", path: "/2017-08-29/queues/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetQueue", path: "/2017-08-29/queues/{name}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     public func listJobTemplates(_ input: ListJobTemplatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobTemplatesResponse> {
-        return client.execute(operation: "ListJobTemplates", path: "/2017-08-29/jobTemplates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListJobTemplates", path: "/2017-08-29/jobTemplates", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     public func listJobs(_ input: ListJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListJobsResponse> {
-        return client.execute(operation: "ListJobs", path: "/2017-08-29/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListJobs", path: "/2017-08-29/jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     public func listPresets(_ input: ListPresetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPresetsResponse> {
-        return client.execute(operation: "ListPresets", path: "/2017-08-29/presets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListPresets", path: "/2017-08-29/presets", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     public func listQueues(_ input: ListQueuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListQueuesResponse> {
-        return client.execute(operation: "ListQueues", path: "/2017-08-29/queues", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListQueues", path: "/2017-08-29/queues", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieve the tags for a MediaConvert resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return client.execute(operation: "ListTagsForResource", path: "/2017-08-29/tags/{arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListTagsForResource", path: "/2017-08-29/tags/{arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return client.execute(operation: "TagResource", path: "/2017-08-29/tags", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "TagResource", path: "/2017-08-29/tags", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return client.execute(operation: "UntagResource", path: "/2017-08-29/tags/{arn}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UntagResource", path: "/2017-08-29/tags/{arn}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Modify one of your existing job templates.
     public func updateJobTemplate(_ input: UpdateJobTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateJobTemplateResponse> {
-        return client.execute(operation: "UpdateJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Modify one of your existing presets.
     public func updatePreset(_ input: UpdatePresetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePresetResponse> {
-        return client.execute(operation: "UpdatePreset", path: "/2017-08-29/presets/{name}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdatePreset", path: "/2017-08-29/presets/{name}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Modify one of your existing queues.
     public func updateQueue(_ input: UpdateQueueRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateQueueResponse> {
-        return client.execute(operation: "UpdateQueue", path: "/2017-08-29/queues/{name}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateQueue", path: "/2017-08-29/queues/{name}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
     }
 }

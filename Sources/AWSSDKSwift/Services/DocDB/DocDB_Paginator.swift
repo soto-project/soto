@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DocDB {
 
@@ -167,5 +167,4 @@ extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SESV2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
         case useDefaultValue = "USE_DEFAULT_VALUE"
@@ -145,7 +145,7 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountDetails: AWSDecodableShape {
 

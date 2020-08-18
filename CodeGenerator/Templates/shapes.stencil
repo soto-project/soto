@@ -4,7 +4,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension {{name}} {
-    //MARK: Enums
+    // MARK: Enums
 {%for shape in shapes%}
 {%if shape.enum %}
 
@@ -18,7 +18,7 @@ extension {{name}} {
 {%endif %}
 {%endfor %}
 
-    //MARK: Shapes
+    // MARK: Shapes
 {%for shape in shapes%}
 {%if shape.struct %}
 

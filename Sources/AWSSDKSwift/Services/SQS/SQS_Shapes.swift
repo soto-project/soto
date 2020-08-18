@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SQS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
         case senderid = "SenderId"
@@ -59,7 +59,7 @@ extension SQS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddPermissionRequest: AWSEncodableShape {
 

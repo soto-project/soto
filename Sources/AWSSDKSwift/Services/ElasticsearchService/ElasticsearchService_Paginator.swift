@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ElasticsearchService {
 
@@ -231,5 +231,4 @@ extension ElasticsearchService.ListPackagesForDomainRequest: AWSPaginateToken {
 
     }
 }
-
 

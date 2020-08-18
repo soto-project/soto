@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodeArtifact {
 
@@ -167,5 +167,4 @@ extension CodeArtifact.ListRepositoriesInDomainRequest: AWSPaginateToken {
 
     }
 }
-
 

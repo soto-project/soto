@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudFront {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable {
         case none = "none"
@@ -165,7 +165,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActiveTrustedSigners: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { static public let member = "Signer" }

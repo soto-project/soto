@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Route53Domains {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ContactType: String, CustomStringConvertible, Codable {
         case person = "PERSON"
@@ -352,7 +352,7 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptDomainTransferFromAnotherAwsAccountRequest: AWSEncodableShape {
 

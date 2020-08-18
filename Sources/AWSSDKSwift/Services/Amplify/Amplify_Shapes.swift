@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Amplify {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
         case pendingVerification = "PENDING_VERIFICATION"
@@ -65,7 +65,7 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct App: AWSDecodableShape {
 

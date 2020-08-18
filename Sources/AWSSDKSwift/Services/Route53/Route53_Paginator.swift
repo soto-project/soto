@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Route53 {
 
@@ -106,5 +106,4 @@ extension Route53.ListResourceRecordSetsRequest: AWSPaginateToken {
 
     }
 }
-
 

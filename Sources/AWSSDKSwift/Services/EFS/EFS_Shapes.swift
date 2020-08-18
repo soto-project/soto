@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension EFS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum LifeCycleState: String, CustomStringConvertible, Codable {
         case creating = "creating"
@@ -58,7 +58,7 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessPointDescription: AWSDecodableShape {
 

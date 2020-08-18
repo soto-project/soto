@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension QLDB {
 
@@ -103,5 +103,4 @@ extension QLDB.ListLedgersRequest: AWSPaginateToken {
 
     }
 }
-
 

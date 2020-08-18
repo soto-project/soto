@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Health {
 
@@ -174,5 +174,4 @@ extension Health.DescribeEventsForOrganizationRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CognitoIdentityProvider {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountTakeoverEventActionType: String, CustomStringConvertible, Codable {
         case block = "BLOCK"
@@ -276,7 +276,7 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountRecoverySettingType: AWSEncodableShape & AWSDecodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension GuardDuty {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdminStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -139,7 +139,7 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
         public static var _encoding = [

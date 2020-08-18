@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodeCommit {
 
@@ -317,5 +317,4 @@ extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateTo
 
     }
 }
-
 

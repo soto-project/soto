@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Macie {
 
@@ -62,5 +62,4 @@ extension Macie.ListS3ResourcesRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SMS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AppLaunchConfigurationStatus: String, CustomStringConvertible, Codable {
         case notConfigured = "NOT_CONFIGURED"
@@ -183,7 +183,7 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AppSummary: AWSDecodableShape {
 

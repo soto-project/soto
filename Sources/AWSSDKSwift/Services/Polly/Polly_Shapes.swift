@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Polly {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Engine: String, CustomStringConvertible, Codable {
         case standard = "standard"
@@ -160,7 +160,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DeleteLexiconInput: AWSEncodableShape {
         public static var _encoding = [

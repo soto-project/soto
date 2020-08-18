@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ResourceGroupsTaggingAPI {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case internalserviceexception = "InternalServiceException"
@@ -40,7 +40,7 @@ extension ResourceGroupsTaggingAPI {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ComplianceDetails: AWSDecodableShape {
 

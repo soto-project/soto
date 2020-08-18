@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Schemas {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CodeGenerationStatus: String, CustomStringConvertible, Codable {
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -38,7 +38,7 @@ extension Schemas {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateDiscovererRequest: AWSEncodableShape {
 

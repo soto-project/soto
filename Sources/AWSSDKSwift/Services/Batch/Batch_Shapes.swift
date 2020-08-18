@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Batch {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ArrayJobDependency: String, CustomStringConvertible, Codable {
         case nToN = "N_TO_N"
@@ -106,7 +106,7 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ArrayProperties: AWSEncodableShape {
 

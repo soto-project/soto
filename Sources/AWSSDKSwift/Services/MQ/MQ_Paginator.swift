@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MQ {
 
@@ -41,5 +41,4 @@ extension MQ.ListBrokersRequest: AWSPaginateToken {
 
     }
 }
-
 

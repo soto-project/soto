@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudSearch {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
         case none = "none"
@@ -115,7 +115,7 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessPoliciesStatus: AWSDecodableShape {
 

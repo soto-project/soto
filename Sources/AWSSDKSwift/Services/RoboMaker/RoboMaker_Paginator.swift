@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension RoboMaker {
 
@@ -253,5 +253,4 @@ extension RoboMaker.ListWorldsRequest: AWSPaginateToken {
 
     }
 }
-
 

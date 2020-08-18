@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaLive {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AacCodingMode: String, CustomStringConvertible, Codable {
         case adReceiverMix = "AD_RECEIVER_MIX"
@@ -1579,7 +1579,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
 

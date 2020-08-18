@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ServerlessApplicationRepository {
 
@@ -84,5 +84,4 @@ extension ServerlessApplicationRepository.ListApplicationsRequest: AWSPaginateTo
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Firehose {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CompressionFormat: String, CustomStringConvertible, Codable {
         case uncompressed = "UNCOMPRESSED"
@@ -175,7 +175,7 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BufferingHints: AWSEncodableShape & AWSDecodableShape {
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension RDS {
 
@@ -821,5 +821,4 @@ extension RDS.DownloadDBLogFilePortionMessage: AWSPaginateToken {
 
     }
 }
-
 

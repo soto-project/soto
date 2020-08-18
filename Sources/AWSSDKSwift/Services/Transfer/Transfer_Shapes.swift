@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Transfer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EndpointType: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
@@ -56,7 +56,7 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateServerRequest: AWSEncodableShape {
 

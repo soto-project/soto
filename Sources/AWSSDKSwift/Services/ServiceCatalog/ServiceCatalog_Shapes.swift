@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ServiceCatalog {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable {
         case account = "Account"
@@ -247,7 +247,7 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptPortfolioShareInput: AWSEncodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension EBS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChecksumAggregationMethod: String, CustomStringConvertible, Codable {
         case linear = "LINEAR"
@@ -37,7 +37,7 @@ extension EBS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Block: AWSDecodableShape {
 

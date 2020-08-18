@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CostandUsageReportService {
 
@@ -41,5 +41,4 @@ extension CostandUsageReportService.DescribeReportDefinitionsRequest: AWSPaginat
 
     }
 }
-
 

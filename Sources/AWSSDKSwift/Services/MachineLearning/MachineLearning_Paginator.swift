@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MachineLearning {
 
@@ -137,5 +137,4 @@ extension MachineLearning.DescribeMLModelsInput: AWSPaginateToken {
 
     }
 }
-
 

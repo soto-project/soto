@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Chime {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountType: String, CustomStringConvertible, Codable {
         case team = "Team"
@@ -199,7 +199,7 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Account: AWSDecodableShape {
 

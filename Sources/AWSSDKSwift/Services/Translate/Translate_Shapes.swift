@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Translate {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
         case kms = "KMS"
@@ -47,7 +47,7 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AppliedTerminology: AWSDecodableShape {
 

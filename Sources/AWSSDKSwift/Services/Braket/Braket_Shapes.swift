@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Braket {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CancellationStatus: String, CustomStringConvertible, Codable {
         case cancelled = "CANCELLED"
@@ -59,7 +59,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CancelQuantumTaskRequest: AWSEncodableShape {
         public static var _encoding = [

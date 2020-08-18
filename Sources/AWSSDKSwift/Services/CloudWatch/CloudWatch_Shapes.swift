@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudWatch {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AlarmType: String, CustomStringConvertible, Codable {
         case compositealarm = "CompositeAlarm"
@@ -116,7 +116,7 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AlarmHistoryItem: AWSDecodableShape {
 

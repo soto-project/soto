@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Kendra {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdditionalResultAttributeValueType: String, CustomStringConvertible, Codable {
         case textWithHighlightsValue = "TEXT_WITH_HIGHLIGHTS_VALUE"
@@ -199,7 +199,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessControlListConfiguration: AWSEncodableShape & AWSDecodableShape {
 

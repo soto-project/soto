@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SQS {
 
@@ -63,5 +63,4 @@ extension SQS.ListQueuesRequest: AWSPaginateToken {
 
     }
 }
-
 

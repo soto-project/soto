@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ElasticBeanstalk {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionHistoryStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
@@ -182,7 +182,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AbortEnvironmentUpdateMessage: AWSEncodableShape {
 

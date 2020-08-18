@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension EKS {
 
@@ -105,5 +105,4 @@ extension EKS.ListUpdatesRequest: AWSPaginateToken {
 
     }
 }
-
 

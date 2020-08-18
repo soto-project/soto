@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaStore {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ContainerLevelMetrics: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -41,7 +41,7 @@ extension MediaStore {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Container: AWSDecodableShape {
 

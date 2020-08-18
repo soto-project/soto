@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Imagebuilder {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ComponentFormat: String, CustomStringConvertible, Codable {
         case shell = "SHELL"
@@ -80,7 +80,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Ami: AWSDecodableShape {
 

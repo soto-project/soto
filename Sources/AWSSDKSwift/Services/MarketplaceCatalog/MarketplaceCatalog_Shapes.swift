@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MarketplaceCatalog {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChangeStatus: String, CustomStringConvertible, Codable {
         case preparing = "PREPARING"
@@ -35,7 +35,7 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CancelChangeSetRequest: AWSEncodableShape {
         public static var _encoding = [

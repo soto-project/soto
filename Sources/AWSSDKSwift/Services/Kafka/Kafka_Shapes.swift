@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Kafka {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BrokerAZDistribution: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
@@ -59,7 +59,7 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BrokerEBSVolumeInfo: AWSEncodableShape & AWSDecodableShape {
 

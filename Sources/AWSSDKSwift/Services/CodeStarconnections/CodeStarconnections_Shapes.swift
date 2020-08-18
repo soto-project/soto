@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeStarconnections {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ConnectionStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
@@ -33,7 +33,7 @@ extension CodeStarconnections {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Connection: AWSDecodableShape {
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension S3Control {
 
@@ -65,5 +65,4 @@ extension S3Control.ListJobsRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AppStream {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessEndpointType: String, CustomStringConvertible, Codable {
         case streaming = "STREAMING"
@@ -223,7 +223,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessEndpoint: AWSEncodableShape & AWSDecodableShape {
 

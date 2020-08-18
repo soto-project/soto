@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DatabaseMigrationService {
 
@@ -412,5 +412,4 @@ extension DatabaseMigrationService.DescribeTableStatisticsMessage: AWSPaginateTo
 
     }
 }
-
 

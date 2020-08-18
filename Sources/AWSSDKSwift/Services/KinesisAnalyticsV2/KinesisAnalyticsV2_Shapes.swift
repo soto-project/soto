@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KinesisAnalyticsV2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApplicationRestoreType: String, CustomStringConvertible, Codable {
         case skipRestoreFromSnapshot = "SKIP_RESTORE_FROM_SNAPSHOT"
@@ -93,7 +93,7 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
 

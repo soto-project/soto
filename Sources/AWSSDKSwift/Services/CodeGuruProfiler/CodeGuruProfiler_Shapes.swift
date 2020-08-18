@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeGuruProfiler {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionGroup: String, CustomStringConvertible, Codable {
         case agentpermissions = "agentPermissions"
@@ -82,7 +82,7 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddNotificationChannelsRequest: AWSEncodableShape {
         public static var _encoding = [

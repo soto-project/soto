@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudFormation {
 
@@ -360,5 +360,4 @@ extension CloudFormation.ListTypesInput: AWSPaginateToken {
 
     }
 }
-
 

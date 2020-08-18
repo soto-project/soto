@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodeGuruProfiler {
 
@@ -112,5 +112,4 @@ extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateToken {
 
     }
 }
-
 

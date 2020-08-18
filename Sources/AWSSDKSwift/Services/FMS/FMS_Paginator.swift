@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension FMS {
 
@@ -82,5 +82,4 @@ extension FMS.ListPoliciesRequest: AWSPaginateToken {
 
     }
 }
-
 

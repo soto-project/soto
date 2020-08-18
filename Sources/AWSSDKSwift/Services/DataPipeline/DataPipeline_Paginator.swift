@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DataPipeline {
 
@@ -85,5 +85,4 @@ extension DataPipeline.QueryObjectsInput: AWSPaginateToken {
 
     }
 }
-
 

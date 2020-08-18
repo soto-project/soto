@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WAF {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChangeAction: String, CustomStringConvertible, Codable {
         case insert = "INSERT"
@@ -373,7 +373,7 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivatedRule: AWSEncodableShape & AWSDecodableShape {
 

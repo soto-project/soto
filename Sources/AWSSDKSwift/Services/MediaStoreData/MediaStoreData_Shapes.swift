@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaStoreData {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ItemType: String, CustomStringConvertible, Codable {
         case object = "OBJECT"
@@ -37,7 +37,7 @@ extension MediaStoreData {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DeleteObjectRequest: AWSEncodableShape {
         public static var _encoding = [

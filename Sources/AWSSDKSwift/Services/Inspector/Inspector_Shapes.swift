@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Inspector {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AgentHealth: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
@@ -137,7 +137,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddAttributesToFindingsRequest: AWSEncodableShape {
 

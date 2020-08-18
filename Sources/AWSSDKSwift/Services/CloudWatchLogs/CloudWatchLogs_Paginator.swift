@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudWatchLogs {
 
@@ -184,5 +184,4 @@ extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Comprehend {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DocumentClassifierMode: String, CustomStringConvertible, Codable {
         case multiClass = "MULTI_CLASS"
@@ -131,7 +131,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchDetectDominantLanguageItemResult: AWSDecodableShape {
 

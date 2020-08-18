@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension GroundStation {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AngleUnits: String, CustomStringConvertible, Codable {
         case degreeAngle = "DEGREE_ANGLE"
@@ -94,7 +94,7 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AntennaDemodDecodeDetails: AWSDecodableShape {
 

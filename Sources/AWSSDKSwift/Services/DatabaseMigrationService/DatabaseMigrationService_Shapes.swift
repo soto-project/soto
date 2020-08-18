@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DatabaseMigrationService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
         case `default` = "default"
@@ -127,7 +127,7 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountQuota: AWSDecodableShape {
 

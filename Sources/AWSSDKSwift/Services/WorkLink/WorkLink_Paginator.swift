@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension WorkLink {
 
@@ -125,5 +125,4 @@ extension WorkLink.ListWebsiteCertificateAuthoritiesRequest: AWSPaginateToken {
 
     }
 }
-
 

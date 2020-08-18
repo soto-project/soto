@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Redshift {
 
@@ -442,5 +442,4 @@ extension Redshift.DescribeUsageLimitsMessage: AWSPaginateToken {
 
     }
 }
-
 

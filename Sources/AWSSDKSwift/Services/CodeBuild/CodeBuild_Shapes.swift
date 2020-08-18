@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeBuild {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ArtifactNamespace: String, CustomStringConvertible, Codable {
         case none = "NONE"
@@ -268,7 +268,7 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchDeleteBuildsInput: AWSEncodableShape {
 

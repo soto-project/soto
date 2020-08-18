@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoT1ClickProjects {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateDeviceWithPlacementRequest: AWSEncodableShape {
         public static var _encoding = [

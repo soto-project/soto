@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Support {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddAttachmentsToSetRequest: AWSEncodableShape {
 

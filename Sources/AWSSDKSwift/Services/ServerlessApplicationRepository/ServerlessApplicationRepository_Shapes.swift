@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ServerlessApplicationRepository {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Capability: String, CustomStringConvertible, Codable {
         case capabilityIam = "CAPABILITY_IAM"
@@ -35,7 +35,7 @@ extension ServerlessApplicationRepository {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ApplicationDependencySummary: AWSDecodableShape {
 

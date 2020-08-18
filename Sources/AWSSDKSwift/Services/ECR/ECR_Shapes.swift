@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ECR {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EncryptionType: String, CustomStringConvertible, Codable {
         case aes256 = "AES256"
@@ -92,7 +92,7 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Attribute: AWSDecodableShape {
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MediaPackage {
 
@@ -84,5 +84,4 @@ extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateToken {
 
     }
 }
-
 

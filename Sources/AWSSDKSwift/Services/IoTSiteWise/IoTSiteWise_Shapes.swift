@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTSiteWise {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AggregateType: String, CustomStringConvertible, Codable {
         case average = "AVERAGE"
@@ -157,7 +157,7 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessPolicySummary: AWSDecodableShape {
 

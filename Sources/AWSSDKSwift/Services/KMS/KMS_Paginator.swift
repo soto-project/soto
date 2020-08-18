@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension KMS {
 
@@ -104,5 +104,4 @@ extension KMS.ListKeysRequest: AWSPaginateToken {
 
     }
 }
-
 

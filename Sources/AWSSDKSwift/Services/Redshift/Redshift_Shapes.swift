@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Redshift {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionType: String, CustomStringConvertible, Codable {
         case restoreCluster = "restore-cluster"
@@ -147,7 +147,7 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptReservedNodeExchangeInputMessage: AWSEncodableShape {
 

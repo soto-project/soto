@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ApiGatewayV2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AuthorizationType: String, CustomStringConvertible, Codable {
         case none = "NONE"
@@ -114,7 +114,7 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessLogSettings: AWSEncodableShape & AWSDecodableShape {
 

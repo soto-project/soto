@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AppConfig {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DeploymentEventType: String, CustomStringConvertible, Codable {
         case percentageUpdated = "PERCENTAGE_UPDATED"
@@ -74,7 +74,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Application: AWSDecodableShape {
 

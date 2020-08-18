@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Lambda {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EventSourcePosition: String, CustomStringConvertible, Codable {
         case trimHorizon = "TRIM_HORIZON"
@@ -125,7 +125,7 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountLimit: AWSDecodableShape {
 

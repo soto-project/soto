@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MQ {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AuthenticationStrategy: String, CustomStringConvertible, Codable {
         case simple = "SIMPLE"
@@ -77,7 +77,7 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AvailabilityZone: AWSDecodableShape {
 

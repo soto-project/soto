@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension EKS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AMITypes: String, CustomStringConvertible, Codable {
         case al2X8664 = "AL2_x86_64"
@@ -133,7 +133,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AutoScalingGroup: AWSDecodableShape {
 

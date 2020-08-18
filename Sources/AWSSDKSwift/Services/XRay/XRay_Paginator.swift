@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension XRay {
 
@@ -191,5 +191,4 @@ extension XRay.GetTraceSummariesRequest: AWSPaginateToken {
 
     }
 }
-
 

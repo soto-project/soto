@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudWatchEvents {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AssignPublicIp: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -45,7 +45,7 @@ extension CloudWatchEvents {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivateEventSourceRequest: AWSEncodableShape {
 

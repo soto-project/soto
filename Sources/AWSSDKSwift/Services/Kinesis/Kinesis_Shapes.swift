@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Kinesis {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ConsumerStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
@@ -77,7 +77,7 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToStreamInput: AWSEncodableShape {
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Schemas {
 
@@ -131,5 +131,4 @@ extension Schemas.SearchSchemasRequest: AWSPaginateToken {
 
     }
 }
-
 

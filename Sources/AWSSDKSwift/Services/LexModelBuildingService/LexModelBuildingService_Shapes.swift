@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension LexModelBuildingService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChannelStatus: String, CustomStringConvertible, Codable {
         case inProgress = "IN_PROGRESS"
@@ -139,7 +139,7 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BotAliasMetadata: AWSDecodableShape {
 

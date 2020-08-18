@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudHSMV2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BackupPolicy: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
@@ -55,7 +55,7 @@ extension CloudHSMV2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Backup: AWSDecodableShape {
 

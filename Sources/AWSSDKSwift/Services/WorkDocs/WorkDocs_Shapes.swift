@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WorkDocs {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActivityType: String, CustomStringConvertible, Codable {
         case documentCheckedIn = "DOCUMENT_CHECKED_IN"
@@ -229,7 +229,7 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AbortDocumentVersionUploadRequest: AWSEncodableShape {
         public static var _encoding = [

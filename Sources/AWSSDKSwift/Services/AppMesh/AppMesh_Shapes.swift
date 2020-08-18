@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AppMesh {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DurationUnit: String, CustomStringConvertible, Codable {
         case ms = "ms"
@@ -143,7 +143,7 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessLog: AWSEncodableShape & AWSDecodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension QuickSight {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AnalysisErrorType: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
@@ -330,7 +330,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountCustomization: AWSEncodableShape & AWSDecodableShape {
 

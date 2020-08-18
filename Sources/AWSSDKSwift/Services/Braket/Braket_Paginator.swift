@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Braket {
 
@@ -63,5 +63,4 @@ extension Braket.SearchQuantumTasksRequest: AWSPaginateToken {
 
     }
 }
-
 

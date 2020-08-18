@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Honeycode {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Format: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
@@ -35,7 +35,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ColumnMetadata: AWSDecodableShape {
 

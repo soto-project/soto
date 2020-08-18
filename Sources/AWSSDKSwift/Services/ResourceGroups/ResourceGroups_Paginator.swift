@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ResourceGroups {
 
@@ -85,5 +85,4 @@ extension ResourceGroups.SearchResourcesInput: AWSPaginateToken {
 
     }
 }
-
 

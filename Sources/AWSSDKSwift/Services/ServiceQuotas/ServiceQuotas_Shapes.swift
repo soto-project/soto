@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ServiceQuotas {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
@@ -54,7 +54,7 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateServiceQuotaTemplateRequest: AWSEncodableShape {
 

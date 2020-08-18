@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension TranscribeService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BaseModelName: String, CustomStringConvertible, Codable {
         case narrowband = "NarrowBand"
@@ -135,7 +135,7 @@ extension TranscribeService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ContentRedaction: AWSEncodableShape & AWSDecodableShape {
 

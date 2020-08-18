@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Glue {
 
@@ -543,5 +543,4 @@ extension Glue.SearchTablesRequest: AWSPaginateToken {
 
     }
 }
-
 

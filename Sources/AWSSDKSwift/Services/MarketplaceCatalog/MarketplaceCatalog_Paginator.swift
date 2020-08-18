@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MarketplaceCatalog {
 
@@ -68,5 +68,4 @@ extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateToken {
 
     }
 }
-
 

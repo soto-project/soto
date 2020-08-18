@@ -18,14 +18,14 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KinesisVideoSignalingChannels {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Service: String, CustomStringConvertible, Codable {
         case turn = "TURN"
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct GetIceServerConfigRequest: AWSEncodableShape {
 

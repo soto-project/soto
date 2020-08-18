@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension S3 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
@@ -389,7 +389,7 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AbortIncompleteMultipartUpload: AWSEncodableShape & AWSDecodableShape {
 

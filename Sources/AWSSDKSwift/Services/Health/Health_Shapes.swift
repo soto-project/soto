@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Health {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EntityStatusCode: String, CustomStringConvertible, Codable {
         case impaired = "IMPAIRED"
@@ -54,7 +54,7 @@ extension Health {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AffectedEntity: AWSDecodableShape {
 

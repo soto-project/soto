@@ -16,19 +16,19 @@
 
 @_exported import AWSSDKSwiftCore
 
-/**
+/*
 Client object for interacting with AWS TranscribeStreamingService service.
 
 Operations and objects for transcribing streaming speech to text.
 */
 public struct TranscribeStreamingService {
 
-    //MARK: Member variables
+    // MARK: Member variables
 
     public let client: AWSClient
     public let serviceConfig: AWSServiceConfig
 
-    //MARK: Initialization
+    // MARK: Initialization
 
     /// Initialize the TranscribeStreamingService client
     /// - parameters:
@@ -58,5 +58,5 @@ public struct TranscribeStreamingService {
         )
     }
     
-    //MARK: API Calls
+    // MARK: API Calls
 }

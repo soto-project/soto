@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension XRay {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EncryptionStatus: String, CustomStringConvertible, Codable {
         case updating = "UPDATING"
@@ -44,7 +44,7 @@ extension XRay {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Alias: AWSDecodableShape {
 

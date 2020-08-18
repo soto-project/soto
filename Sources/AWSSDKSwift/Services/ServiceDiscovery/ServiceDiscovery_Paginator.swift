@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ServiceDiscovery {
 
@@ -127,5 +127,4 @@ extension ServiceDiscovery.ListServicesRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension GuardDuty {
 
@@ -234,5 +234,4 @@ extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateToken {
 
     }
 }
-
 

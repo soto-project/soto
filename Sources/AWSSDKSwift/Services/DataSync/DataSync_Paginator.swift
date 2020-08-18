@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DataSync {
 
@@ -123,5 +123,4 @@ extension DataSync.ListTasksRequest: AWSPaginateToken {
 
     }
 }
-
 

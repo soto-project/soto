@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Personalize {
 
@@ -229,5 +229,4 @@ extension Personalize.ListSolutionsRequest: AWSPaginateToken {
 
     }
 }
-
 

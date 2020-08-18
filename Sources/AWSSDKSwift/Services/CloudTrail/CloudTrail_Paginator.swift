@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudTrail {
 
@@ -105,5 +105,4 @@ extension CloudTrail.LookupEventsRequest: AWSPaginateToken {
 
     }
 }
-
 

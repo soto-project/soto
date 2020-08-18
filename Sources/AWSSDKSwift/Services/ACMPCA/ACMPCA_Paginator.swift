@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ACMPCA {
 
@@ -84,5 +84,4 @@ extension ACMPCA.ListTagsRequest: AWSPaginateToken {
 
     }
 }
-
 

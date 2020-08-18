@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Lightsail {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessDirection: String, CustomStringConvertible, Codable {
         case inbound = "inbound"
@@ -568,7 +568,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddOn: AWSDecodableShape {
 

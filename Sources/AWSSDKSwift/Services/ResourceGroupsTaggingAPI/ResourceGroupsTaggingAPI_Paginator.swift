@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ResourceGroupsTaggingAPI {
 
@@ -110,5 +110,4 @@ extension ResourceGroupsTaggingAPI.GetTagValuesInput: AWSPaginateToken {
 
     }
 }
-
 

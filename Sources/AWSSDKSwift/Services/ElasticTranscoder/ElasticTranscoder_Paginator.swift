@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ElasticTranscoder {
 
@@ -103,5 +103,4 @@ extension ElasticTranscoder.ListPresetsRequest: AWSPaginateToken {
 
     }
 }
-
 

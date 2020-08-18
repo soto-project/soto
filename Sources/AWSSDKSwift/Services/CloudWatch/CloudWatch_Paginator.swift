@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudWatch {
 
@@ -161,5 +161,4 @@ extension CloudWatch.ListMetricsInput: AWSPaginateToken {
 
     }
 }
-
 

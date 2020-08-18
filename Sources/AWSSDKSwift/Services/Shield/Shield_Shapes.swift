@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Shield {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AttackLayer: String, CustomStringConvertible, Codable {
         case network = "NETWORK"
@@ -71,7 +71,7 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateDRTLogBucketRequest: AWSEncodableShape {
 

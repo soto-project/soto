@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudDirectory {
 
@@ -441,5 +441,4 @@ extension CloudDirectory.LookupPolicyRequest: AWSPaginateToken {
 
     }
 }
-
 

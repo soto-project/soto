@@ -18,14 +18,14 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension PI {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ServiceType: String, CustomStringConvertible, Codable {
         case rds = "RDS"
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DataPoint: AWSDecodableShape {
 

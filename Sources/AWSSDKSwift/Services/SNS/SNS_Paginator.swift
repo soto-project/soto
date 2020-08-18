@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SNS {
 
@@ -118,5 +118,4 @@ extension SNS.ListTopicsInput: AWSPaginateToken {
 
     }
 }
-
 

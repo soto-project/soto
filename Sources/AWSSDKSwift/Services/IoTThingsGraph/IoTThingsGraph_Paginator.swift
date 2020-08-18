@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IoTThingsGraph {
 
@@ -237,5 +237,4 @@ extension IoTThingsGraph.SearchThingsRequest: AWSPaginateToken {
 
     }
 }
-
 

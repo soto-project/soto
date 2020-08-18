@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Imagebuilder {
 
@@ -215,5 +215,4 @@ extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateToken
 
     }
 }
-
 

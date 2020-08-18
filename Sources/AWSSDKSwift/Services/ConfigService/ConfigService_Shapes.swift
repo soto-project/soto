@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ConfigService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
@@ -315,7 +315,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountAggregationSource: AWSEncodableShape & AWSDecodableShape {
 

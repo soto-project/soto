@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaPackage {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdMarkers: String, CustomStringConvertible, Codable {
         case none = "NONE"
@@ -105,7 +105,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Authorization: AWSEncodableShape & AWSDecodableShape {
 

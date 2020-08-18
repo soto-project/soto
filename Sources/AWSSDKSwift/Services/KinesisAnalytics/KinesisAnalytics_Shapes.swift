@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KinesisAnalytics {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApplicationStatus: String, CustomStringConvertible, Codable {
         case deleting = "DELETING"
@@ -43,7 +43,7 @@ extension KinesisAnalytics {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
 

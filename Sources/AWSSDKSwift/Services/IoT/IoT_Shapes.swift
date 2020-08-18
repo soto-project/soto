@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoT {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AbortAction: String, CustomStringConvertible, Codable {
         case cancel = "CANCEL"
@@ -424,7 +424,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AbortConfig: AWSEncodableShape & AWSDecodableShape {
 

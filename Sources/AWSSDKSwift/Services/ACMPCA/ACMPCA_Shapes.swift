@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ACMPCA {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionType: String, CustomStringConvertible, Codable {
         case issuecertificate = "IssueCertificate"
@@ -109,7 +109,7 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ASN1Subject: AWSEncodableShape & AWSDecodableShape {
 

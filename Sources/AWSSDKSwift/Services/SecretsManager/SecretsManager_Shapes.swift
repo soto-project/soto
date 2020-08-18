@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SecretsManager {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum FilterNameStringType: String, CustomStringConvertible, Codable {
         case description = "description"
@@ -35,7 +35,7 @@ extension SecretsManager {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CancelRotateSecretRequest: AWSEncodableShape {
 

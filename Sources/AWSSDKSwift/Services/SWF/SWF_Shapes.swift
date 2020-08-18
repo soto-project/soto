@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SWF {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActivityTaskTimeoutType: String, CustomStringConvertible, Codable {
         case startToClose = "START_TO_CLOSE"
@@ -272,7 +272,7 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivityTask: AWSDecodableShape {
 

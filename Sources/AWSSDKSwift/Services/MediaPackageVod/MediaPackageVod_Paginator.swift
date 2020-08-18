@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MediaPackageVod {
 
@@ -83,5 +83,4 @@ extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateToken {
 
     }
 }
-
 

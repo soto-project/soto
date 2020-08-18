@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Signer {
 
@@ -88,5 +88,4 @@ extension Signer.ListSigningProfilesRequest: AWSPaginateToken {
 
     }
 }
-
 

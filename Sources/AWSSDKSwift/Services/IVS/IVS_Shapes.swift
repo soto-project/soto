@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IVS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChannelLatencyMode: String, CustomStringConvertible, Codable {
         case normal = "NORMAL"
@@ -45,7 +45,7 @@ extension IVS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchError: AWSDecodableShape {
 

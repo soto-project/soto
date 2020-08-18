@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Cloud9 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ConnectionType: String, CustomStringConvertible, Codable {
         case connectSsh = "CONNECT_SSH"
@@ -65,7 +65,7 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateEnvironmentEC2Request: AWSEncodableShape {
 

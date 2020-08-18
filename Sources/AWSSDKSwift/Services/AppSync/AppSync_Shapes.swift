@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AppSync {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApiCacheStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
@@ -137,7 +137,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AdditionalAuthenticationProvider: AWSEncodableShape & AWSDecodableShape {
 

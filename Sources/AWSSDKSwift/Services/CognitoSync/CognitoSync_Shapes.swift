@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CognitoSync {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BulkPublishStatus: String, CustomStringConvertible, Codable {
         case notStarted = "NOT_STARTED"
@@ -48,7 +48,7 @@ extension CognitoSync {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BulkPublishRequest: AWSEncodableShape {
         public static var _encoding = [

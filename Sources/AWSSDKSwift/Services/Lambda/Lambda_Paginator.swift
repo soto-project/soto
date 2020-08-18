@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Lambda {
 
@@ -193,5 +193,4 @@ extension Lambda.ListVersionsByFunctionRequest: AWSPaginateToken {
 
     }
 }
-
 

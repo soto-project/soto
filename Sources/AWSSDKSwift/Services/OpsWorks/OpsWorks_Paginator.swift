@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension OpsWorks {
 
@@ -43,5 +43,4 @@ extension OpsWorks.DescribeEcsClustersRequest: AWSPaginateToken {
 
     }
 }
-
 

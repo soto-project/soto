@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DataPipeline {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum OperatorType: String, CustomStringConvertible, Codable {
         case eq = "EQ"
@@ -36,7 +36,7 @@ extension DataPipeline {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivatePipelineInput: AWSEncodableShape {
 

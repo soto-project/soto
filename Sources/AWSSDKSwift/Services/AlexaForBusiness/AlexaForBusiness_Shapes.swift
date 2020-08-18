@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AlexaForBusiness {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
@@ -233,7 +233,7 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddressBook: AWSDecodableShape {
 

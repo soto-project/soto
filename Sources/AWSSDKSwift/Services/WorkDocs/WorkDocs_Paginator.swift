@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension WorkDocs {
 
@@ -99,5 +99,4 @@ extension WorkDocs.DescribeUsersRequest: AWSPaginateToken {
 
     }
 }
-
 

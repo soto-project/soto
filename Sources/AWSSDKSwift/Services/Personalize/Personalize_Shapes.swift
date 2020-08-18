@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Personalize {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum RecipeProvider: String, CustomStringConvertible, Codable {
         case service = "SERVICE"
@@ -31,7 +31,7 @@ extension Personalize {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Algorithm: AWSDecodableShape {
 

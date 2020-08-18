@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ServiceDiscovery {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CustomHealthStatus: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
@@ -118,7 +118,7 @@ extension ServiceDiscovery {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateHttpNamespaceRequest: AWSEncodableShape {
 

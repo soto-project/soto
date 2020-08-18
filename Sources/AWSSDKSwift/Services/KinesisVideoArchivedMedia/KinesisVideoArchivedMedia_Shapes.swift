@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KinesisVideoArchivedMedia {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ClipFragmentSelectorType: String, CustomStringConvertible, Codable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
@@ -89,7 +89,7 @@ extension KinesisVideoArchivedMedia {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ClipFragmentSelector: AWSEncodableShape {
 

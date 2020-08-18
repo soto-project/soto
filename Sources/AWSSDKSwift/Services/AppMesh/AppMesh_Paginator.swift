@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AppMesh {
 
@@ -197,5 +197,4 @@ extension AppMesh.ListVirtualServicesInput: AWSPaginateToken {
 
     }
 }
-
 

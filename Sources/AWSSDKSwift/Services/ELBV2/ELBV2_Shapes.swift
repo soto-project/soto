@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ELBV2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
         case forward = "forward"
@@ -118,7 +118,7 @@ extension ELBV2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
 

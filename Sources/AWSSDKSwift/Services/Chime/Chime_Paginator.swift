@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Chime {
 
@@ -278,5 +278,4 @@ extension Chime.ListVoiceConnectorsRequest: AWSPaginateToken {
 
     }
 }
-
 

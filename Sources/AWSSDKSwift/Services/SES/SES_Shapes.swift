@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SES {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable {
         case usedefaultvalue = "UseDefaultValue"
@@ -149,7 +149,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddHeaderAction: AWSEncodableShape & AWSDecodableShape {
 

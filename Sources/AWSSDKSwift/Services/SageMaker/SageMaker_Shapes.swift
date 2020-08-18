@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SageMaker {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AlgorithmSortBy: String, CustomStringConvertible, Codable {
         case name = "Name"
@@ -1091,7 +1091,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsInput: AWSEncodableShape {
 

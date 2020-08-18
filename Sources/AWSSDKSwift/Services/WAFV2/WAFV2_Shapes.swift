@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WAFV2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case eq = "EQ"
@@ -339,7 +339,7 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AllQueryArguments: AWSEncodableShape & AWSDecodableShape {
 

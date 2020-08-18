@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Kendra {
 
@@ -86,5 +86,4 @@ extension Kendra.ListIndicesRequest: AWSPaginateToken {
 
     }
 }
-
 

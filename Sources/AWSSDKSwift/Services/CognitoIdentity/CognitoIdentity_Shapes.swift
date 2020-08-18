@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CognitoIdentity {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable {
         case authenticatedrole = "AuthenticatedRole"
@@ -46,7 +46,7 @@ extension CognitoIdentity {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CognitoIdentityProvider: AWSEncodableShape & AWSDecodableShape {
 

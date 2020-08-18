@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension PinpointEmail {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
         case useDefaultValue = "USE_DEFAULT_VALUE"
@@ -94,7 +94,7 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BlacklistEntry: AWSDecodableShape {
 

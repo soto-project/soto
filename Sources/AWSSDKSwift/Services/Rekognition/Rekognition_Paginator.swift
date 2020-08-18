@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Rekognition {
 
@@ -297,5 +297,4 @@ extension Rekognition.ListStreamProcessorsRequest: AWSPaginateToken {
 
     }
 }
-
 

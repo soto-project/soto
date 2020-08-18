@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension PinpointEmail {
 
@@ -145,5 +145,4 @@ extension PinpointEmail.ListEmailIdentitiesRequest: AWSPaginateToken {
 
     }
 }
-
 

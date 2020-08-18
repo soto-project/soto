@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Budgets {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BudgetType: String, CustomStringConvertible, Codable {
         case usage = "USAGE"
@@ -69,7 +69,7 @@ extension Budgets {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Budget: AWSEncodableShape & AWSDecodableShape {
 

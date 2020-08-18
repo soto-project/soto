@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension LexRuntimeService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ConfirmationStatus: String, CustomStringConvertible, Codable {
         case none = "None"
@@ -66,7 +66,7 @@ extension LexRuntimeService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Button: AWSDecodableShape {
 

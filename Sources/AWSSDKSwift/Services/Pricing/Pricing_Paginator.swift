@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Pricing {
 
@@ -88,5 +88,4 @@ extension Pricing.GetProductsRequest: AWSPaginateToken {
 
     }
 }
-
 

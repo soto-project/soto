@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Synthetics {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CanaryRunState: String, CustomStringConvertible, Codable {
         case running = "RUNNING"
@@ -51,7 +51,7 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Canary: AWSDecodableShape {
 

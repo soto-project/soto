@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension LakeFormation {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case eq = "EQ"
@@ -64,7 +64,7 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchGrantPermissionsRequest: AWSEncodableShape {
 

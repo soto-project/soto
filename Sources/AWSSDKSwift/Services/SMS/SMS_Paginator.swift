@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SMS {
 
@@ -104,5 +104,4 @@ extension SMS.GetServersRequest: AWSPaginateToken {
 
     }
 }
-
 

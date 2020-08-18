@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudDirectory {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
         case validationexception = "ValidationException"
@@ -103,7 +103,7 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddFacetToObjectRequest: AWSEncodableShape {
         public static var _encoding = [

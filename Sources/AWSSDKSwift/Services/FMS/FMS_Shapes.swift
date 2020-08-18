@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension FMS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountRoleStatus: String, CustomStringConvertible, Codable {
         case ready = "READY"
@@ -78,7 +78,7 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct App: AWSEncodableShape & AWSDecodableShape {
 

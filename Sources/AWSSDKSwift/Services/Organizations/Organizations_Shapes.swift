@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Organizations {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
         case invited = "INVITED"
@@ -142,7 +142,7 @@ extension Organizations {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptHandshakeRequest: AWSEncodableShape {
 

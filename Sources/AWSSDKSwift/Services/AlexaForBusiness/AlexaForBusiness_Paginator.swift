@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AlexaForBusiness {
 
@@ -406,5 +406,4 @@ extension AlexaForBusiness.SearchUsersRequest: AWSPaginateToken {
 
     }
 }
-
 

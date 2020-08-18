@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WorkSpaces {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessPropertyValue: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
@@ -167,7 +167,7 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountModification: AWSDecodableShape {
 

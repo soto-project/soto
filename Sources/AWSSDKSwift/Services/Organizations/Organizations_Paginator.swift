@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Organizations {
 
@@ -355,5 +355,4 @@ extension Organizations.ListTargetsForPolicyRequest: AWSPaginateToken {
 
     }
 }
-
 

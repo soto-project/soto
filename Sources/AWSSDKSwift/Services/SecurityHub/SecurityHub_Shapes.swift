@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SecurityHub {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
@@ -189,7 +189,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
 
